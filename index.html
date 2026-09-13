@@ -568,7 +568,11 @@ let openSubjects = new Set();
 
 // On a phone the topic list is a drawer, not a permanent column: it closes as soon as you
 // pick something, so the reading pane gets the whole screen. Desktop is unaffected.
-const mqMobile = window.matchMedia('(max-width: 760px)');
+// Fall back to a permanently-desktop stub if matchMedia is missing, so a missing API
+// degrades the layout instead of blanking the whole ledger.
+const mqMobile = window.matchMedia
+  ? window.matchMedia('(max-width: 760px)')
+  : { matches: false };
 let mobileListOpen = true;
 
 function isMobile() { return mqMobile.matches; }
@@ -637,6 +641,13 @@ function corpusFor(key, subjectName) {
 
 function hasTuitionMiss(key) { return !!(TUITION_MISSES[key] && TUITION_MISSES[key].length); }
 
+function scrollTo(el) {
+  // Guarded: not every engine ships scrollIntoView, and it must never break selection.
+  if (el && typeof el.scrollIntoView === 'function') {
+    try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { el.scrollIntoView(); }
+  }
+}
+
 function selectTopic(key, subjectId) {
   selectedKey = key;
   openSubjects.add(subjectId);
@@ -645,7 +656,7 @@ function selectTopic(key, subjectId) {
   if (isMobile()) {
     // Let the collapse land before measuring, or the scroll target is still the old height.
     requestAnimationFrame(() => {
-      document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollTo(document.getElementById('detail'));
     });
   }
 }
@@ -789,7 +800,7 @@ document.getElementById('search').addEventListener('input', () => {
 document.getElementById('topicsToggle').addEventListener('click', () => {
   mobileListOpen = !mobileListOpen;
   syncDrawer();
-  if (mobileListOpen) document.getElementById('topicsToggle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (mobileListOpen) scrollTo(document.getElementById('topicsToggle'));
 });
 
 // Rotating the phone (or resizing a desktop window past the breakpoint) must not leave the
