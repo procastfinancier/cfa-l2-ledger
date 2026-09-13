@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="A personal CFA Level II knowledge ledger — 64 topics across 10 subjects, filled in with my own explanations, gaps and tuition misses.">
+<meta name="theme-color" content="#EAEDF1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CFA L2 Ledger">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2317795F'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' fill='%23fff' text-anchor='middle'%3EL2%3C/text%3E%3C/svg%3E">
+<title>CFA Level II — Knowledge Ledger</title>
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  :root {
+    --bg: #EAEDF1;
+    --grid: #DBE0E7;
+    --panel: #FFFFFF;
+    --ink: #1B2130;
+    --ink-soft: #5B6472;
+    --ink-faint: #8A93A3;
+    --line: #DADFE6;
+    --teal: #17795F;
+    --teal-bg: #E1F1EC;
+    --amber: #A86A12;
+    --amber-bg: #FBEEDA;
+    --violet: #6B5CA5;
+    --violet-bg: #EEEBF7;
+    --slate: #7A8394;
+    --slate-bg: #EEF0F3;
+    --rose: #B0384D;
+    --rose-bg: #FBE7EA;
+    --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', 'Roboto Mono', Consolas, monospace;
+  }
+  body { margin: 0; background: var(--bg); }
+  #app {
+    font-family: var(--sans);
+    color: var(--ink);
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+      var(--bg);
+    background-size: 24px 24px;
+    min-height: 100vh;
+    padding: 28px;
+    -webkit-tap-highlight-color: rgba(23,121,95,0.12);
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  header { margin-bottom: 20px; }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 0 0 4px; }
+  .sub { color: var(--ink-soft); font-size: 13px; margin: 0 0 14px; }
+  .coverage {
+    display: flex; gap: 3px; flex-wrap: wrap; max-width: 640px; margin-bottom: 10px;
+  }
+  .tick { width: 11px; height: 11px; border-radius: 2px; background: var(--slate-bg); border: 1px solid var(--line); }
+  .tick.progress { background: var(--amber); border-color: var(--amber); }
+  .tick.mastered { background: var(--teal); border-color: var(--teal); }
+  .stats { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .stats b { color: var(--ink); }
+  .layout { display: flex; gap: 18px; align-items: flex-start; }
+  .sidebar {
+    width: 300px; flex-shrink: 0; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden;
+  }
+  .search { padding: 10px; border-bottom: 1px solid var(--line); }
+  .search input {
+    width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px;
+    font-size: 13px; font-family: var(--sans); color: var(--ink); background: var(--bg);
+    -webkit-appearance: none; appearance: none;
+  }
+  .subj { border-bottom: 1px solid var(--line); }
+  .subj:last-child { border-bottom: none; }
+  .subj-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 9px 10px; cursor: pointer; user-select: none;
+  }
+  .subj-head:hover { background: var(--bg); }
+  .subj-name { font-size: 13px; font-weight: 600; }
+  .subj-strip { display: flex; gap: 2px; }
+  .subj-strip .tick { width: 7px; height: 7px; border-radius: 1px; }
+  .topics { padding: 0 6px 6px; display: none; }
+  .topics.open { display: block; }
+  .topic-row {
+    display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px;
+    cursor: pointer; font-size: 12.5px; color: var(--ink-soft);
+  }
+  .topic-row:hover { background: var(--bg); color: var(--ink); }
+  .topic-row.active { background: var(--slate-bg); color: var(--ink); font-weight: 600; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--slate); flex-shrink: 0; }
+  .dot.progress { background: var(--amber); }
+  .dot.mastered { background: var(--teal); }
+  .detail {
+    flex: 1; min-width: 0; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; padding: 22px 26px; scroll-margin-top: 10px;
+    overflow-wrap: break-word; word-wrap: break-word;
+  }
+  .empty { color: var(--ink-faint); font-size: 14px; padding: 40px 0; text-align: center; }
+  .crumb { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .topic-title { font-family: var(--serif); font-size: 22px; margin: 0 0 4px; }
+  .topic-desc { color: var(--ink-soft); font-size: 13.5px; margin: 0 0 16px; }
+  .status-row { display: flex; gap: 6px; margin-bottom: 20px; }
+  .status-badge {
+    font-family: var(--sans); font-size: 12px; padding: 6px 12px; border-radius: 20px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); font-weight: 600;
+  }
+  .status-badge.st-progress { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .status-badge.st-mastered { background: var(--teal-bg); border-color: var(--teal); color: var(--teal); }
+  section.block { margin-bottom: 22px; }
+  .block-label { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .links-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 5px 10px;
+    border-radius: 20px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; color: var(--ink);
+  }
+  .chip .tag { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+  .caveat { font-size: 11.5px; color: var(--ink-faint); margin-top: 26px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .empty-notes { font-size: 13px; color: var(--ink-faint); font-style: italic; padding: 4px 0 2px; }
+  .compare-caption { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .compare-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .compare-card { flex: 1 1 160px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .compare-head { background: var(--slate-bg); color: var(--slate); font-size: 12.5px; font-weight: 600; padding: 8px 10px; text-align: center; }
+  .compare-row { padding: 8px 10px; border-top: 1px solid var(--line); }
+  .compare-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+  .compare-value { font-size: 12.5px; color: var(--ink); line-height: 1.4; }
+  .note-slate { border-left: 3px solid var(--slate); }
+  .note-violet { border-left: 3px solid var(--violet); }
+  .note-teal { border-left: 3px solid var(--teal); }
+  .note-tag { display: inline-block; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 10px; margin-bottom: 7px; }
+  .note-tag-slate { background: var(--slate-bg); color: var(--slate); }
+  .note-tag-violet { background: var(--violet-bg); color: var(--violet); }
+  .note-tag-teal { background: var(--teal-bg); color: var(--teal); }
+  .branch-wrap { position: relative; padding-left: 22px; }
+  .branch-spine { position: absolute; left: 5px; top: 6px; bottom: 26px; width: 2px; background: var(--line); }
+  .branch-row { position: relative; display: flex; align-items: flex-start; margin-bottom: 16px; }
+  .branch-row:last-child { margin-bottom: 0; }
+  .branch-stub { position: absolute; left: -17px; top: 16px; width: 16px; height: 2px; }
+  .branch-stub-slate { background: var(--slate); }
+  .branch-stub-violet { background: var(--violet); }
+  .branch-stub-teal { background: var(--teal); }
+  .branch-row::before {
+    content: ''; position: absolute; left: -21px; top: 11px; width: 10px; height: 10px; border-radius: 50%;
+    background: var(--panel); border: 2px solid var(--line);
+  }
+  .branch-node { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .branch-term { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .branch-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .note-gap { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; color: var(--amber); background: var(--amber-bg); border-radius: 6px; padding: 6px 8px; margin: 8px 0 0; }
+  .note-gap-label { font-weight: 600; flex-shrink: 0; }
+  .note-rose { border-left: 3px solid var(--rose); }
+  .note-tag-rose { background: var(--rose-bg); color: var(--rose); }
+  .miss-item { border: 1px solid var(--rose); background: var(--rose-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  .miss-tag { display: inline-block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 10px; margin-bottom: 7px; background: var(--rose); color: #fff; }
+  .miss-q { font-weight: 600; font-size: 13px; margin-bottom: 6px; color: var(--ink); }
+  .miss-row { font-size: 12.5px; margin-bottom: 4px; line-height: 1.5; }
+  .miss-row b { color: var(--rose); }
+  .miss-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); flex-shrink: 0; margin-left: 4px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px; color: var(--ink-soft); margin: 4px 0 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend .sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .rules-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 16px; }
+  .rules-panel summary { cursor: pointer; padding: 11px 16px; font-size: 13px; font-weight: 600; color: var(--ink); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .rules-panel summary::-webkit-details-marker { display: none; }
+  .rules-panel summary::after { content: '\25B8'; color: var(--ink-faint); font-size: 11px; transition: transform 0.15s; flex-shrink: 0; }
+  .rules-panel[open] summary::after { transform: rotate(90deg); }
+  .rules-body { padding: 0 16px 16px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
+  .rules-body ol { margin: 0; padding-left: 18px; }
+  .rules-body li { margin-bottom: 8px; }
+  .rules-body .focus-line { font-family: var(--mono); font-size: 11.5px; color: var(--violet); background: var(--violet-bg); display: inline-block; padding: 3px 9px; border-radius: 6px; margin-bottom: 10px; }
+  .focus-badge { font-family: var(--mono); font-size: 11.5px; color: var(--violet); background: var(--violet-bg); display: inline-block; padding: 4px 10px; border-radius: 6px; margin-bottom: 12px; }
+  mark.hit { background: var(--amber-bg); color: var(--ink); padding: 0 2px; border-radius: 2px; }
+
+  /* Mobile-only: the topic list becomes a collapsible drawer instead of a cramped
+     always-open scroller sitting on top of the reading pane. */
+  .topics-toggle { display: none; }
+
+  @media (max-width: 760px) {
+    #app {
+      padding: 14px 12px;
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    h1 { font-size: 20px; line-height: 1.25; }
+    .sub { font-size: 12px; }
+    .coverage { max-width: 100%; gap: 2px; }
+    .tick { width: 9px; height: 9px; }
+    .layout { flex-direction: column; gap: 12px; }
+    .sidebar { width: 100%; max-height: 62vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .sidebar.collapsed-mobile { display: none; }
+    .topics-toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      width: 100%; min-height: 46px; padding: 10px 14px; margin-bottom: 10px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      font-family: var(--sans); font-size: 13.5px; font-weight: 600; color: var(--ink);
+      cursor: pointer; text-align: left;
+    }
+    .topics-toggle .tt-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topics-toggle .tt-icon { color: var(--ink-faint); font-size: 11px; flex-shrink: 0; }
+    .search { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+    /* 16px stops iOS Safari auto-zooming the whole page when the field is focused. */
+    .search input { font-size: 16px; padding: 9px 10px; }
+    .subj-head { min-height: 44px; padding: 10px; }
+    .topic-row { padding: 11px 8px; font-size: 13px; min-height: 44px; }
+    .subj-name { font-size: 13.5px; }
+    .detail { padding: 16px 14px; }
+    .topic-title { font-size: 19px; }
+    .topic-desc { font-size: 13px; }
+    .compare-grid { flex-direction: column; }
+    .compare-card { flex: 1 1 auto; }
+    .branch-wrap { padding-left: 18px; }
+    .branch-stub { left: -14px; width: 13px; }
+    .branch-row::before { left: -18px; }
+    .legend { font-size: 10.5px; gap: 10px; }
+    .rules-panel summary { padding: 13px 14px; min-height: 46px; }
+    .rules-body { font-size: 12px; padding: 0 14px 14px; }
+    .status-badge { font-size: 11px; padding: 5px 10px; }
+    .chip { font-size: 11px; padding: 7px 11px; }
+    .caveat { margin-top: 20px; }
+  }
+  @media (max-width: 420px) {
+    #app { padding: 10px 8px; padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+    h1 { font-size: 18px; }
+    .detail { padding: 14px 10px; }
+    .branch-node { padding: 11px 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <h2 class="sr-only">CFA Level II knowledge ledger: a mind map you fill in with your own explanations, questions, and links across all ten subjects.</h2>
+  <header>
+    <h1>CFA Level II — knowledge ledger</h1>
+    <p class="sub">64 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
+
+    <details class="rules-panel" id="rulesPanel">
+      <summary>How this ledger works — session rules (read this first, every new chat)</summary>
+      <div class="rules-body">
+        <span class="focus-line">Current session focus → Reading 7: Intercorporate Investments (FSA modules 7.1–7.9)</span>
+        <ol>
+          <li><b>One reading per chat.</b> Each chat session focuses on a single CFA reading. This chat's focus is <b>Reading 7</b>. If the user starts a new chat for a different reading, that chat's own rules panel (or the user) will state the new focus — don't assume it carries over.</li>
+          <li><b>Cross-reading questions are fine, but must tie back.</b> Claude can pull in other readings/subjects when quizzing, but every question should connect — even loosely — to the current reading's focus (e.g. linking Reading 7's equity method to Reading 8's pension accounting, or to Equity's residual income model).</li>
+          <li><b>Structure everything.</b> Every explanation the user gives gets converted into structured, visual HTML for the relevant topic — comparison tables (<code>CONTENT[key].compare</code>), branch/mind-map nodes (<code>CONTENT[key].notes</code>) — never left as a plain paragraph dump.</li>
+          <li><b>Grill, don't just record.</b> After the user explains a concept, Claude should push for depth on every sub-point of that reading before marking it understood — follow-up questions, edge cases, "what if" variants — not accept a surface-level answer.</li>
+          <li><b>Built for real revision.</b> This file is the user's actual November exam revision tool. Bias toward exam-relevant distinctions (IFRS vs. US GAAP, exceptions to ownership-% guidelines, ratio effects) over generic summaries.</li>
+          <li><b>Read-only ledger — Claude edits everything.</b> There is no manual-entry UI in this file except the search bar. Explanations happen in chat, not in a textarea; Claude decides status (not started/progress/mastered), writes the structured notes, logs gaps and tuition misses, and sets links between topics — all directly in the file's data. The user never fills in a form here.</li>
+          <li><b>Two distinct flag colors — never mix them:</b>
+            <div class="legend" style="margin:8px 0 0;">
+              <span><span class="sw" style="background:var(--amber);"></span><b style="color:var(--amber);">Amber "Gap"</b> — Claude flagged this during teach-back in this ledger (the user's explanation here was incomplete/wrong)</span>
+              <span><span class="sw" style="background:var(--rose);"></span><b style="color:var(--rose);">Rose "Tuition miss"</b> — the user got this wrong on an external tuition test/quiz and pasted it in for Claude to log and explain</span>
+            </div>
+          </li>
+          <li><b>Tuition-miss workflow.</b> When the user pastes a question they got wrong in tuition, Claude explains the correct answer in chat, then adds it to that topic's <code>TUITION_MISSES</code> entry in the file so it renders as a rose card in the detail view — a permanent, visually distinct weak-spot marker separate from the amber teach-back gaps.</li>
+          <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box. It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
+        </ol>
+      </div>
+    </details>
+
+    <div class="coverage" id="coverage"></div>
+    <div class="stats" id="stats">loading…</div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--amber);"></span>Teach-back gap (Claude flagged)</span>
+      <span><span class="sw" style="background:var(--rose);"></span>Tuition miss (you got it wrong externally)</span>
+      <span><span class="sw" style="background:var(--teal);"></span>Mastered</span>
+    </div>
+  </header>
+
+  <button type="button" class="topics-toggle" id="topicsToggle" aria-expanded="true" aria-controls="sidebar">
+    <span class="tt-label">Browse topics</span>
+    <span class="tt-icon" aria-hidden="true">▴</span>
+  </button>
+
+  <div class="layout">
+    <div class="sidebar" id="sidebar">
+      <div class="search">
+        <input id="search" type="search" inputmode="search" enterkeyhint="search"
+               autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+               aria-label="Search topics, notes, gaps and tuition misses"
+               placeholder="Search everything — topics, notes, gaps…" />
+      </div>
+      <div id="sidebarList"></div>
+    </div>
+    <div class="detail" id="detail">
+      <div class="empty">Pick a topic from the ledger to start recording what you know.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUBJECTS = [
+  { id: 'quant', name: 'Quantitative methods', topics: [
+    { name: 'Basics of multiple regression', desc: 'Assumptions, coefficients, interpretation' },
+    { name: 'Extensions of multiple regression', desc: 'Misspecification, qualitative variables' },
+    { name: 'Time-series analysis', desc: 'AR models, unit roots, ARCH' },
+    { name: 'Machine learning', desc: 'ML techniques applied to investments' },
+  ]},
+  { id: 'econ', name: 'Economics', topics: [
+    { name: 'Currency exchange rates', desc: 'Equilibrium value, parity conditions' },
+    { name: 'Economic growth', desc: 'Growth theory and its sources' },
+  ]},
+  { id: 'fsa', name: 'FSA', topics: [
+    { name: 'Reading 7: Intercorporate Investments', desc: 'R7 · Modules 7.1–7.9 merged into one — classifications through SPEs/VIEs' },
+    { name: '8.1 Share-based compensation', desc: 'R8 · Option/stock grants, dilution, tax effects' },
+    { name: '8.2 Post-employment benefits', desc: 'R8 · PBO, pension cost components' },
+    { name: '9.1 Transaction exposure', desc: 'R9 · FX transaction gains and losses' },
+    { name: '9.2 Translation', desc: 'R9 · Local, functional, presentation currency' },
+    { name: '9.3 Temporal method', desc: 'R9 · Remeasurement, monetary/nonmonetary split' },
+    { name: '9.4 Current rate method', desc: 'R9 · All items at current rate, CTA' },
+    { name: '9.5 Example', desc: 'R9 · Worked translation example' },
+    { name: '9.6 Ratios', desc: 'R9 · Ratio effects of each translation method' },
+    { name: '9.7 Hyperinflation', desc: 'R9 · Restate-then-translate under IFRS' },
+    { name: '9.8 Tax, sales growth, financial results', desc: 'R9 · Effective tax rate, sustainable growth' },
+    { name: '10.1 Financial institutions', desc: 'R10 · How banks differ from other companies' },
+    { name: '10.2 Capital adequacy and asset quality', desc: 'R10 · Basel III, Tier 1/2 capital, RWA' },
+    { name: '10.3 Management capabilities and earnings quality', desc: 'R10 · Fair value hierarchy, estimates' },
+    { name: '10.4 Liquidity position and sensitivity to market risk', desc: 'R10 · LCR, NSFR' },
+    { name: '10.5 Other factors', desc: 'R10 · Government support, culture, competition' },
+    { name: '10.6 Insurance companies', desc: 'R10 · P&C vs L&H, combined ratio' },
+    { name: '11.1 Quality of financial reports', desc: 'R11 · Conceptual framework for assessment' },
+    { name: '11.2 Evaluating earnings quality, part 1', desc: 'R11 · Sustainability, mean reversion, Beneish' },
+    { name: '11.3 Evaluating earnings quality, part 2', desc: 'R11 · Revenue and expense manipulation' },
+    { name: '11.4 Evaluating cash flow quality', desc: 'R11 · Red flags in the cash flow statement' },
+    { name: '11.5 Evaluating balance sheet quality', desc: 'R11 · Completeness, bias, off-balance-sheet items' },
+    { name: '12.1 Framework for analysis', desc: 'R12 · Six-step financial analysis process' },
+    { name: '12.2 Earnings sources and performance', desc: 'R12 · Extended DuPont, segment analysis' },
+    { name: '12.3 Asset base and capital structure', desc: 'R12 · Balance sheet composition over time' },
+    { name: '12.4 Capital allocation', desc: 'R12 · Off-balance-sheet adjustments' },
+    { name: '12.5 Earnings quality and cash flow analysis', desc: 'R12 · Accruals ratio, cash flow confirmation' },
+    { name: '12.6 Market value decomposition', desc: 'R12 · Standalone value, implied P/E' },
+  ]},
+  { id: 'corp', name: 'Corporate issuers', topics: [
+    { name: 'Dividends and share repurchases', desc: 'Payout policy analysis' },
+    { name: 'ESG considerations', desc: 'ESG in investment analysis' },
+    { name: 'Cost of capital: advanced', desc: 'WACC nuances, country risk' },
+    { name: 'Corporate restructuring', desc: 'M&A, divestitures, spin-offs' },
+  ]},
+  { id: 'equity', name: 'Equity', topics: [
+    { name: 'Equity valuation: applications', desc: 'Valuation process overview' },
+    { name: 'Discounted dividend valuation', desc: 'DDM models' },
+    { name: 'Free cash flow valuation', desc: 'FCFF / FCFE models' },
+    { name: 'Market-based valuation', desc: 'Price and EV multiples' },
+    { name: 'Residual income valuation', desc: 'RI model and accounting issues' },
+    { name: 'Private company valuation', desc: 'Adjustments for private firms' },
+  ]},
+  { id: 'fi', name: 'Fixed income', topics: [
+    { name: 'Term structure and rate dynamics', desc: 'Yield curve models' },
+    { name: 'Arbitrage-free valuation', desc: 'Binomial tree valuation' },
+    { name: 'Bonds with embedded options', desc: 'Callable / putable bond valuation' },
+    { name: 'Credit analysis models', desc: 'Structural and reduced-form models' },
+    { name: 'Credit default swaps', desc: 'CDS mechanics and pricing' },
+  ]},
+  { id: 'deriv', name: 'Derivatives', topics: [
+    { name: 'Pricing forward commitments', desc: 'Forwards, futures, swaps' },
+    { name: 'Valuation of contingent claims', desc: 'Option pricing models' },
+  ]},
+  { id: 'alt', name: 'Alt investments', topics: [
+    { name: 'Commodities and derivatives', desc: 'Commodity markets and pricing' },
+    { name: 'Real estate investment types', desc: 'Direct and indirect real estate' },
+    { name: 'Public real estate securities', desc: 'REIT analysis' },
+    { name: 'Hedge fund strategies', desc: 'Strategy classification and analysis' },
+  ]},
+  { id: 'pm', name: 'Portfolio mgmt', topics: [
+    { name: 'ETFs: mechanics and applications', desc: 'ETF structure and use cases' },
+    { name: 'Multifactor models', desc: 'Factor models in practice' },
+    { name: 'Measuring and managing market risk', desc: 'VaR and risk measures' },
+    { name: 'Backtesting and simulation', desc: 'Strategy testing methods' },
+    { name: 'Economics and investment markets', desc: 'Macro overlay for portfolio management' },
+    { name: 'Active portfolio management', desc: 'Active return and risk analysis' },
+  ]},
+  { id: 'ethics', name: 'Ethics', topics: [
+    { name: 'Code and standards', desc: 'Code of ethics overview' },
+    { name: 'Guidance for standards I to VII', desc: 'Standard-by-standard guidance' },
+    { name: 'Application of code and standards', desc: 'Level II case applications' },
+  ]},
+];
+
+const FLAT = [];
+SUBJECTS.forEach(s => s.topics.forEach((t, i) => {
+  const key = s.id + '.' + i;
+  FLAT.push({ key, subjectId: s.id, subjectName: s.name, name: t.name, desc: t.desc });
+}));
+
+// Reference notes: the specific points I ask you to explain for each module, with the correct
+// answer from your notes. This is what makes the file readable as study material on its own —
+// filled in as we go through the teach-back, one module at a time.
+const CONTENT = {
+  'fsa.0': {
+    compares: [
+      {
+        label: '7.1 — How the categories split',
+        caption: 'The three categories are separated by how much control or influence the investor actually has — not by the ownership % alone.',
+        columns: ['Investments in financial assets', 'Investments in associates', 'Business combinations'],
+        rows: [
+          { label: 'Ownership %', values: ['Under 20%', '20%–50%', 'More than 50%'] },
+          { label: 'Influence & control', values: ["Doesn’t have influence or control", 'Has significant influence but not much control', 'Has full control and influence'] },
+        ],
+        gap: null,
+      },
+      {
+        label: '7.2 — IFRS 9 classification buckets',
+        caption: 'IFRS 9 splits financial assets into three buckets by business model + cash flow characteristics (debt) or by election (equity) — not by asset type alone.',
+        columns: ['Amortized cost', 'FVPL', 'FVOCI'],
+        rows: [
+          { label: 'Applies to', values: ['Debt only', 'Debt + equity', 'Debt + equity'] },
+          { label: 'US GAAP equivalent', values: ['Held-to-maturity', 'Trading (held for trading)', 'Available-for-sale'] },
+          { label: 'Balance sheet', values: ['Amortized cost', 'Fair value', 'Fair value'] },
+          { label: 'Interest income (debt) / dividend income (equity)', values: ['Interest income only — no dividend since this bucket is debt-only', 'Income statement', 'Income statement'] },
+          { label: 'Unrealized gain/loss', values: ['Not recognized', 'Income statement', 'OCI (component of equity)'] },
+        ],
+        gap: null,
+      },
+      {
+        label: '7.5 — Acquisition method vs. equity method (balance sheet)',
+        caption: 'Company P acquires 80% of Company S for $8,000 cash — acquisition method vs. equity method on P’s post-acquisition balance sheet.',
+        columns: ['Acquisition method', 'Equity method'],
+        rows: [
+          { label: 'Current assets', values: ['$56,000 (48k P + 16k S − 8k cash)', '$40,000 (48k P − 8k cash)'] },
+          { label: 'Investment in S', values: ['—', '$8,000'] },
+          { label: 'Other assets', values: ['$40,000 (32k P + 8k S)', '$32,000 (P only)'] },
+          { label: 'Total assets', values: ['$96,000', '$80,000'] },
+          { label: 'Current liabilities', values: ['$54,000 (40k P + 14k S)', '$40,000 (P only)'] },
+          { label: 'Noncontrolling interest', values: ['$2,000 (10k S equity × 20%)', '—'] },
+          { label: 'Common stock + retained earnings', values: ['$40,000 (P’s own only — S’s equity fully eliminated)', '$40,000 (P’s own only)'] },
+        ],
+        gap: null,
+      },
+      {
+        label: '7.6 — Acquisition method vs. equity method (income statement)',
+        caption: 'P acquires 80% of S; S reports net income of $5,000 for the year — acquisition method vs. equity method on the income statement.',
+        columns: ['Acquisition method', 'Equity method'],
+        rows: [
+          { label: 'Revenue & expenses', values: ["100% of P's + 100% of S's, added line-by-line", "P's own only — S never appears in revenue/expenses"] },
+          { label: 'Consolidated net income (pre-split)', values: ["P's net income + $5,000 (100% of S)", "P's net income + $4,000 (80% of S, single ‘equity income’ line)"] },
+          { label: 'NCI’s share of net income', values: ['$1,000 (20% × $5,000) — separate line, subtracted out', '— (no NCI concept under equity method)'] },
+          { label: 'Net income attributable to parent', values: ['$4,000', '$4,000 — same final number, different route'] },
+          { label: 'EPS numerator', values: ["Net income attributable to parent (P's own + $4,000)", "Same — P's own income + equity-method pickup"] },
+        ],
+        gap: null,
+      },
+      {
+        label: '7.7 — Partial vs. full goodwill',
+        caption: 'US GAAP requires full goodwill; IFRS allows a choice, elected acquisition-by-acquisition — partial vs. full goodwill.',
+        columns: ['Partial goodwill', 'Full goodwill'],
+        rows: [
+          { label: 'Goodwill recognized', values: ["Parent's share only: purchase price − parent's % of FV of identifiable net assets", 'Total goodwill for 100% of the entity: implied FV of the whole acquiree − 100% of FV of identifiable net assets'] },
+          { label: 'NCI measurement', values: ['Proportionate share of FV of identifiable net assets only — no goodwill included', "Fair value of NCI — inherently includes NCI's proportionate share of goodwill"] },
+          { label: 'Consolidated goodwill balance', values: ["Smaller (parent's share only)", 'Larger (100% of goodwill)'] },
+          { label: 'Goodwill impairment allocation', values: ['100% absorbed by the parent — NCI never held any goodwill to begin with', "Split proportionately between parent and NCI, based on each side's share of the original goodwill"] },
+          { label: 'Which framework allows it', values: ['IFRS option only', 'Required under US GAAP; also permitted as the IFRS alternative'] },
+        ],
+        gap: null,
+      },
+      {
+        label: '7.8 — Equity method vs. proportionate consolidation',
+        caption: 'Equity method vs. proportionate consolidation for a joint venture — same bottom-line net income, very different presentation.',
+        columns: ['Equity method', 'Proportionate consolidation'],
+        rows: [
+          { label: 'Balance sheet', values: ['Single "Investment in JV" line', "Investor's % of every JV asset & liability line item, combined with the investor's own"] },
+          { label: 'Income statement', values: ['Single "share of JV net income" line', "Investor's % of every JV revenue & expense line item — including tax and depreciation, no exceptions — combined with the investor's own"] },
+          { label: 'Net income impact', values: ["Investor's proportionate share of JV profit", 'Identical bottom-line contribution — same number, different route'] },
+          { label: 'Leverage ratios', values: ["JV's debt invisible — understates leverage", "JV's debt explicit — more complete leverage picture"] },
+          { label: 'Margin ratios', values: ['Net income boosted with no matching revenue — inflates margins', 'Both revenue and income grossed up together — more representative margins'] },
+          { label: 'Required under IFRS 11', values: ['Yes — for joint ventures', 'No — only for joint operations (direct-rights structure), not a free election for JVs'] },
+          { label: 'Required under US GAAP', values: ['Yes, generally (ASC 323)', 'No — narrow industry exception only (construction, extractive/oil & gas, certain unincorporated JVs)'] },
+        ],
+        gap: null,
+      },
+    ],
+    notes: [
+      { type: '7.1 · Influence indicator 1/5 — B', color: 'slate', term: 'Board representation', a: "Investor has a representative (often a nominee director) sitting on the investee's board or equivalent governing body. Even a single board seat is treated as strong evidence of significant influence — the nominee doesn't need to be the investor's own employee." },
+      { type: '7.1 · Influence indicator 2/5 — P', color: 'slate', term: 'Involvement in policy-making', a: 'Involvement in decisions on dividends/distributions and other financial or operating policy (budgets, major capex, financing). This matters because participating in financial and operating policy decisions is literally the IAS 28 definition of significant influence.' },
+      { type: '7.1 · Influence indicator 3/5 — T', color: 'slate', term: 'Technological dependency', a: "The investee depends on the investor for essential technical information, patented processes, or technology, making the investee reliant on and harder to separate from the investor." },
+      { type: '7.1 · Influence indicator 4/5 — M', color: 'slate', term: 'Material transactions', a: 'Material/significant intercompany transactions between investor and investee — in either direction (investor to investee, investee to investor, or other dealings), not limited to one direction.' },
+      { type: '7.1 · Influence indicator 5/5 — IT', color: 'slate', term: 'Interchange of managerial personnel', a: "Investor's management personnel serve on, or are seconded to, the investee's management (or vice versa) on an ongoing basis — both entities stay separate, but the investor is operationally embedded in running the investee. E.g. a Marico executive also sits as a manager/director inside a company Marico holds a significant stake in, while both remain separate legal entities." },
+      { type: '7.1 · Ownership exception 1/3 — control despite <50%', color: 'violet', term: 'Control without majority ownership', a: "Voting CONTROL can exceed economic ownership — e.g. a founder holds only 30% of total equity, but a dual-class share structure gives their shares 10x the voting weight of ordinary shares, so they control 60% of votes. Treatment: CONSOLIDATION (business combination / acquisition method), despite <50% economic ownership." },
+      { type: '7.1 · Ownership exception 2/3 — majority ownership, no control', color: 'violet', term: '>50% ownership without control', a: "An investor owns 55%, but the company enters insolvency (e.g. under India's IBC) and a court-appointed resolution professional/committee of creditors takes over decision-making. Actual control has shifted away despite majority ownership. Treatment: STOPS being consolidated, switches to EQUITY METHOD instead." },
+      { type: '7.1 · Ownership exception 3/3 — the 20–50% band can shift both ways', color: 'violet', term: 'Influence can exist below 20%, or be absent within 20–50%', a: "Below 20%, influence present: investor owns 12%, but has a board seat and dividend-decision involvement (per B-T-P-M-IT) — EQUITY METHOD applies despite <20%. Within 20–50%, influence absent: investor owns 35%, but another shareholder holds a controlling 60% and contractually excludes them from the board/policy input — no significant influence exists, so it's a plain FINANCIAL ASSET (FVTPL/FVOCI), not equity method, despite sitting in the 'normal' associate range." },
+      { type: '7.1 · Joint venture 1/4 — structure & control', color: 'teal', term: 'Joint control basics', a: "Two parties (the common case — not '>2') enter a CONTRACTUAL arrangement to share control. Terms are negotiated case-by-case, not standardized. This is specifically JOINT control, not a generic limited/diluted form of control." },
+      { type: '7.1 · Joint venture 2/4 — unanimous consent', color: 'teal', term: 'What requires unanimous consent', a: "Decisions on the arrangement's RELEVANT ACTIVITIES need unanimous consent — e.g. changes to fund policy, investment/deployment decisions, exit criteria, tenure of the agreement. Non-significant decisions (e.g. day-to-day research work, how to hold idle dry powder) do NOT need unanimous consent." },
+      { type: '7.1 · Joint venture 3/4 — JV vs. joint operation (IFRS 11)', color: 'teal', term: 'The real distinction: rights to what?', a: "Joint operation: parties have DIRECT rights to the underlying assets/liabilities (e.g. an AIF real-estate fund where each investor is allotted a specific room/unit) — no separate vehicle sits in between. Joint venture: a separate vehicle (e.g. an SPV) sits between the investor and the asset; the investor's claim runs to the VEHICLE's net assets, not the asset directly — investor only has a claim on the underlying asset in the event of default/liquidation." },
+      { type: '7.1 · Joint venture 4/4 — accounting treatment', color: 'teal', term: 'How each is recorded', a: "Joint operation: NO single 'investment' line. The investor recognizes its proportionate SHARE of the actual assets, liabilities, revenue, cost, and tax line-by-line, directly in its own financials, each year. Joint venture (via SPV): EQUITY METHOD — a single 'Investment in JV' line that grows/shrinks with the investor's share of the JV's net income, exactly like an investment in an associate. Same treatment as associates because both are a stake in a separate entity's net assets, not direct co-ownership of the underlying asset — that's what drives equity-method treatment, not the ownership % or influence type." },
+      { type: '7.2 · Classification test 1/4 — Amortized cost (debt only)', color: 'slate', term: 'Two separate tests, both must pass', a: "Business model test: held to COLLECT contractual cash flows until the contractual claim is complete (doesn't have to be literal maturity — occasional sales are fine if collecting is still the primary intent). Cash flow characteristics test (SPPI): the contractual cash flows must be SOLELY Payments of Principal and Interest — nothing else." },
+      { type: '7.2 · Classification test 2/4 — FVPL (debt + equity)', color: 'slate', term: 'The catch-all bucket', a: "Anything that fails the SPPI test, fails the business-model test, or is genuinely held for trading lands here. For equity specifically, FVPL is MANDATORY when the purpose of holding it is to trade." },
+      { type: '7.2 · Classification test 3/4 — FVOCI debt', color: 'slate', term: "Business model = 'collect + sell'", a: 'Debt is held both to collect contractual cash flows AND to sell when convenient/needed — a hybrid business model between amortized cost (collect only) and FVPL (trade).' },
+      { type: '7.2 · Classification test 4/4 — FVOCI equity', color: 'slate', term: 'An irrevocable election, not sale intent', a: "NOT about the security being 'for sale.' Typically used for strategic, long-term equity stakes the company does NOT intend to trade (e.g. a stake in a supplier/partner). Management makes an IRREVOCABLE election at initial recognition to route fair value changes through OCI instead of the income statement — the choice is about where the volatility shows up in the financials, not about sale intent." },
+      { type: '7.2 · Reclassification 1/3 — headline rule & mechanics', color: 'violet', term: 'Equity never reclassifies; debt only if the business model changes', a: 'Equity: locked in at initial election, forever. Debt: reclassification allowed ONLY if the business model changes. When it happens (e.g. amortized cost → FVPL), the asset is remeasured to fair value on the balance sheet, and the gap between the old amortized cost and new fair value is recognized immediately in the income statement at the reclassification date.' },
+      { type: '7.2 · Reclassification 2/3 — what actually counts as a business model change', color: 'violet', term: 'Must be rare, significant, and externally demonstrable', a: "NOT a distress event like bankruptcy — that's a credit/impairment issue, not a business model change. IFRS 9 expects these to be very infrequent. Standard example: a bank holds a portfolio of commercial loans, originated and held to COLLECT contractual interest and principal (Amortized Cost). The bank then strategically decides to EXIT commercial lending — it stops collecting on these loans and sets up a program to actively SELL the entire portfolio to other institutions. Because the business model shifted from 'hold to collect' to 'hold to sell', the loans reclassify Amortized Cost → FVPL (or FVOCI, if some collection intent remains). The trigger is a portfolio-level, management-decided shift in what the business DOES with a specific set of assets — not a distress event, and not a vague statement like 'expanding into venture capital.'" },
+      { type: '7.2 · Reclassification 3/3 — why equity is locked in but debt is not', color: 'violet', term: 'Prevents earnings manipulation', a: "Debt in FVPL/FVOCI is also at fair value, so 'equity is always at FV' isn't the real reason equity can't reclassify. The actual reason: if companies could freely flip equity between FVPL and FVOCI, they could cherry-pick — routing gains through the income statement to flatter earnings while hiding losses in OCI. Debt reclassification is tied to an objective, rare, externally-verifiable event (an actual business model shift); no such objective trigger exists for equity, so IFRS locks the choice in at initial recognition." },
+      { type: '7.2 · Embedded derivatives', color: 'teal', term: 'Convertible bonds and similar hybrids — no splitting', a: "A hybrid instrument = plain host contract (e.g. a bond) + an embedded derivative feature (e.g. a conversion option into equity). Under IFRS 9, financial-asset hybrids are NOT bifurcated (unlike older standards). The conversion option means cash flows are no longer SOLELY principal and interest — the instrument automatically fails the SPPI test. Failing SPPI rules out Amortized Cost and FVOCI, so the ENTIRE instrument (host + embedded option together) goes to FVPL, with all fair value changes hitting the income statement as one undivided figure." },
+      { type: '7.2 · Loan impairment 1/2 — the three-stage ECL model', color: 'teal', term: 'Replaces the old incurred-loss model; forward-looking', a: "Stage 1 (performing): no significant increase in credit risk since origination — recognize 12-MONTH expected credit losses. Stage 2 (underperforming): a SIGNIFICANT INCREASE IN CREDIT RISK (SICR) since initial recognition — not just 'currently risky', but riskier NOW vs. AT ORIGINATION — recognize LIFETIME expected credit losses. Practical backstop: if a payment is more than 30 days past due, there's a rebuttable presumption of SICR, pushing the loan into Stage 2 unless there's reasonable evidence otherwise. Stage 3 (credit-impaired/non-performing): OBJECTIVE evidence of a loss event (actual default) — still lifetime expected losses." },
+      { type: '7.2 · Loan impairment 2/2 — why Stage 3 changes the interest calculation', color: 'teal', term: 'Gross carrying amount vs. net carrying amount', a: "Stage 1 & 2: still just a probability of default, no loss event confirmed — full contractual repayment still expected, so interest is calculated on the GROSS carrying amount (only the loss allowance provision changes in size). Stage 3: an actual, OBJECTIVE default has occurred — the company no longer expects to collect the full amount, so continuing to accrue interest on the full gross balance would overstate income. Interest is instead calculated on the NET carrying amount (gross amortized cost MINUS the loss allowance) — a more honest reflection of what's still realistically expected to be collected." },
+      { type: '7.3 · Equity method basics 1/2 — initial recording & income', color: 'slate', term: 'Recorded at cost; income increases the investment', a: 'Initial investment recorded at COST as a noncurrent asset (cash/bank decreases, asset increases). Each period, the investor’s proportionate share of the investee’s NET INCOME is recognized in the investor’s own income statement AND increases the investment account on the balance sheet — income is recognized as EARNED, not as distributed.' },
+      { type: '7.3 · Equity method basics 2/2 — dividends are a return of capital', color: 'slate', term: 'Dividends reduce the investment account; never touch the P&L', a: "Dividends received are a RETURN OF CAPITAL, not income: cash increases, investment account (asset) decreases — dividends do NOT appear in the investor's income statement under the equity method. Contrast with FVPL/FVOCI, where dividends DO flow through the P&L. Why: net income already contains the portion that will later be paid out as a dividend. The investor already recognized its full proportionate share of net income when it was EARNED; recognizing the dividend again when it's PAID would double-count the same economic event." },
+      { type: '7.3 · Loss handling & suspension', color: 'violet', term: 'The investment account can’t go negative — and there’s a catch-up rule', a: "Investee losses: proportionate share reduces both the investment account AND investor earnings, same mechanic as profits but in reverse. If losses drive the investment account to ZERO, the investor SUSPENDS the equity method — further losses go unrecognized (tracked off-book, not recorded, since the account can't go negative). Resumption isn't automatic at the first dollar of profit: the investor must first absorb the accumulated UNRECOGNIZED losses from the suspension period. Only once cumulative proportionate profit EXCEEDS the total unrecognized losses does income recognition restart — e.g. $50 unrecognized losses, next year's $30 profit share just closes the gap to $20; nothing is recorded until profits push past the full $50." },
+      { type: '7.3 · Fair value option', color: 'violet', term: 'US GAAP allows it; IFRS restricts it; always irrevocable', a: 'US GAAP: equity-method investments CAN be elected to fair value instead. IFRS: this option is restricted to venture capital firms, mutual funds, and similar entities. The election, once made, is IRREVOCABLE — cannot switch back later. Once elected, BOTH dividends received AND fair value gains/losses flow through the income statement — same treatment as a plain FVPL financial asset, not the equity-method’s single-line, dividend-excluded treatment.' },
+      { type: '7.3 · Excess of purchase price over book value 1/2 — where it goes', color: 'teal', term: 'Fair-value step-up first, goodwill absorbs the rest — no separate account', a: 'Excess = Purchase price − Investor’s proportionate share of investee book value. Step 1: allocate to identifiable assets/liabilities that are UNDERVALUED relative to fair value (e.g. equipment at historical cost but worth more today) — investor’s proportionate share of that fair-value gap. Step 2: whatever remains is GOODWILL — but under the equity method there is NO separate goodwill line, unlike consolidation accounting (no full-vs-partial-goodwill concept here either). Everything — the fair-value step-up AND goodwill — stays bundled inside the single “Investment in Associate” line.' },
+      { type: '7.3 · Excess of purchase price over book value 2/2 — the step-up in later years', color: 'teal', term: 'Incremental depreciation reduces the investor’s income pickup only', a: "The investee keeps depreciating the asset on ITS OWN (lower, historical-cost) book value — its financials never see the step-up the investor paid for. Since the investor paid based on the asset's true (higher) fair value, the investor recognizes ADDITIONAL/INCREMENTAL depreciation on that step-up amount, spread over the asset's remaining useful life. Mechanically: each year this extra depreciation REDUCES the investor's “share of investee net income” pickup on its own income statement, which correspondingly reduces the investment account on the balance sheet — not a re-valuation, a running amortization of the premium paid. Why only on the investor's side: the investee's financials are based on ITS OWN historical cost — they never recorded the investor's purchase price or the step-up, so they have no reason to show any extra depreciation. The premium is a fact about the investor's investment, not the investee's books." },
+      { type: '7.4 · Impairment 1/2 — P&L treatment & reversal', color: 'slate', term: 'US GAAP: no reversal. IFRS: reversal capped at pre-impairment carrying value', a: 'Impairment loss hits the income statement, writing the investment down to fair value. US GAAP: reversal of impairment losses is PROHIBITED once taken. IFRS: reversal IS allowed if the recoverable amount later increases — capped at the CARRYING VALUE THE INVESTMENT WOULD HAVE HAD had the impairment never happened (i.e. pre-impairment carrying value, rolled forward for normal equity-method changes since — NOT literally the original purchase/historical cost, since the investment account moves over time regardless of impairment).' },
+      { type: '7.4 · Impairment 2/2 — the trigger test differs by standard', color: 'slate', term: 'US GAAP: judgment-based. IFRS: evidence-based', a: "US GAAP: fair value falls below carrying value AND the decline is judged 'OTHER-THAN-TEMPORARY' — a qualitative, judgment/duration-based test, no specific event required. IFRS: impairment must be evidenced by an actual, objective LOSS EVENT (e.g. investee financial difficulty, default, disappearance of an active market) — an evidence-based test, not just a judgment call about how long a decline might persist." },
+      { type: '7.4 · Transactions with investee 1/2 — upstream', color: 'violet', term: 'Investee → Investor: investee keeps full profit, investor’s pickup shrinks', a: "Investee sells to investor and books its FULL profit on its own income statement — untouched. The goods themselves stay recorded at full transaction price (this is a PROFIT adjustment, not an inventory-valuation one). If some of those goods are still unsold in the investor's inventory at year-end, that slice of profit is UNCONFIRMED from the group's perspective. The investor reduces its own equity-income pickup by: Total profit × % of goods still unsold × investor's ownership %. Released back into income once the investor finally resells those goods externally." },
+      { type: '7.4 · Transactions with investee 2/2 — downstream', color: 'violet', term: 'Investor → Investee: investor initially books full profit, then defers the unconfirmed slice', a: "Investor sells to investee and initially recognizes the FULL profit on its own income statement, like any normal external sale. If some of those goods are still unsold in the investee's inventory at year-end, the investor must then REDUCE its own reported profit by: Total profit × % of goods still unsold × investor's ownership %. The investee's income statement is not directly involved here — this is purely an adjustment to what the investor reports. Deferred slice releases back into investor income once the investee resells the goods externally. Worked example: Investor owns 30%, sells goods booking $15,000 profit; half still unsold at year-end → unconfirmed = $15,000 × 50% = $7,500; investor's share = $7,500 × 30% = $2,250 reduction this year." },
+      { type: '7.4 · Analytical issues 1/3 — payout ratio inflates earnings', color: 'teal', term: 'Equity method vs. a passive investment', a: "Equity method recognizes the investor's FULL proportionate share of the investee's net income regardless of cash actually distributed. A passive/minority investment (cost or fair value method) only recognizes DIVIDENDS RECEIVED as income. When the investee's payout ratio is under 100% (retains some earnings), equity-method income is HIGHER than what a passive investor would report — the investor is 'claiming' earnings not yet received in cash. Note: NOT a minority-interest/consolidation concept — that's a separate topic (business combinations)." },
+      { type: '7.4 · Analytical issues 2/3 — understated leverage', color: 'teal', term: 'Investee’s debt is invisible on the investor’s balance sheet', a: 'The investee’s assets and liabilities never appear individually on the investor’s balance sheet — only one net line, “Investment in Associate.” The investee’s debt is completely invisible to standard leverage ratios (debt-to-equity, debt-to-assets) computed on the investor’s statements, even though the investor has real indirect economic exposure to that debt. Analysts sometimes manually proportionately consolidate an associate’s debt for credit analysis to correct for this.' },
+      { type: '7.4 · Analytical issues 3/3 — inflated margin ratios', color: 'teal', term: 'Net income rises, revenue doesn’t — margins look better than they should', a: "The investor's revenue line is completely untouched by the investee — none of the investee's sales ever flow onto the investor's income statement. But net income DOES get a boost from the equity-income pickup. Result: ratios like net profit margin (net income ÷ revenue) have a numerator inflated by the investee's earnings sitting over a denominator that has nothing to do with the investee — margins look artificially better than they 'should,' since the investor gets profitability credit without the corresponding revenue." },
+      { type: '7.5 · Control vs. significant influence', color: 'slate', term: 'Two different thresholds, two different methods — applies identically under both US GAAP and IFRS', a: "CONTROL = majority ownership of voting shares (generally >50%) — triggers CONSOLIDATION (acquisition method). SIGNIFICANT INFLUENCE = the B-T-P-M-IT indicators from Module 7.1, typically 20–50% — triggers EQUITY METHOD. These are NOT interchangeable and don't swap depending on framework: IFRS 10's definition of control (power + exposure to variable returns + ability to use that power) and IAS 28's significant influence apply the SAME underlying logic as US GAAP — the split by threshold is universal, not GAAP-specific." },
+      { type: '7.5 · IFRS vs. US GAAP — the actual difference here', color: 'slate', term: 'Only the structural naming differs, not the accounting', a: "US GAAP names three legal outcomes of a business combination: MERGER (target ceases to exist, acquirer absorbs everything), ACQUISITION (both entities survive, parent-subsidiary relationship), CONSOLIDATION (a brand-new entity absorbs both). IFRS does not name or distinguish between these structural outcomes — it applies the SAME acquisition-method accounting regardless of which structural form actually occurred. Both frameworks eliminated pooling-of-interests; both require the acquisition method now." },
+      { type: '7.5 · Why 100% is consolidated regardless of ownership %', color: 'violet', term: 'Control determines WHAT gets consolidated; ownership % only determines the equity SPLIT', a: "Consolidation reflects CONTROL over the economic entity, not ownership %. Once the parent has control, it directs ALL of the subsidiary's operations and resources — 100% of them — regardless of how much equity it legally owns. Ownership % doesn't change HOW MUCH gets consolidated (always 100% of assets/liabilities); it only changes how the subsidiary's EQUITY gets split between the parent's claim and the noncontrolling interest's claim. The subsidiary's own standalone stockholders' equity is fully eliminated/ignored on the consolidated balance sheet — only the NCI figure represents the outside claim." },
+      { type: '7.5 · Noncontrolling interest calculation', color: 'violet', term: 'Subsidiary’s total equity × % not owned by the parent', a: 'NCI = Subsidiary’s total stockholders’ equity (common stock + retained earnings) × unowned %. Worked example: Company S equity = $6,000 common stock + $4,000 retained earnings = $10,000. Company P owns 80%, so unowned = 20%. NCI = $10,000 × 20% = $2,000, reported within stockholders’ equity on the consolidated balance sheet.' },
+      { type: '7.6 · Consolidation of revenue & expenses', color: 'slate', term: '100% line-by-line, regardless of ownership %, from acquisition date forward', a: "Every revenue and expense line item is P's own plus 100% of S's — not scaled by ownership %, exactly like the balance sheet in 7.5 (control means 100% gets consolidated; ownership % only affects the equity split, not the consolidation scope). If the acquisition happens mid-year (e.g. July 1), only S's revenue and expenses from July 1 onward enter the consolidated P&L — the pre-acquisition months were earned by S as an independent, unconsolidated entity and are excluded entirely." },
+      { type: '7.6 · NCI on the income statement vs. the balance sheet', color: 'slate', term: 'Same 20% rate, two completely different bases', a: "Income statement NCI (“net income attributable to NCI”) is a flow figure: S's net income FOR THE PERIOD × unowned % — e.g. S earns $5,000, unowned = 20%, so NCI's share = $1,000, leaving $4,000 attributable to the parent. Balance sheet NCI is a stock figure: S's TOTAL cumulative stockholders' equity × unowned % — e.g. if S's total equity is $30,000, balance sheet NCI = $6,000. Same 20% rate both times, but one measures one year's income and the other measures the whole accumulated equity base — they are not the same number and shouldn't be confused." },
+      { type: '7.6 · Intercompany eliminations', color: 'violet', term: 'Everything that is just the group trading with itself gets stripped out — 100%, not proportionate', a: "Eliminated in full before final consolidated figures: intercompany sales/COGS, intercompany interest income/expense (loans between P and S), intercompany dividends (S's dividend to P would double-count against S's net income already being consolidated), unrealized profit in ending inventory on intercompany sales still unsold at year-end, and excess depreciation/amortization on fair-value step-ups from the acquisition (same idea as the equity method's excess purchase price in 7.3, but here it runs through consolidated expenses and gets split between parent and NCI shares). The elimination is 100% of the intercompany profit regardless of ownership % — contrast with the equity method (7.4), where only the investor's PROPORTIONATE share is deferred, because equity method only ever brings the investor's proportionate slice of the investee's income onto the investor's books in the first place." },
+      { type: '7.6 · EPS impact 1/2 — cash/debt-financed deals', color: 'teal', term: 'No new shares issued — EPS moves with earnings only', a: "If the acquisition is funded with cash or debt, share count doesn't change, so EPS rises as long as S's contribution to net income attributable to the parent (net of any added after-tax interest expense on new acquisition debt) is positive. Straightforward accretion — the denominator is fixed, only the numerator moves." },
+      { type: '7.6 · EPS impact 2/2 — stock-financed deals: accretive vs. dilutive', color: 'teal', term: 'Whether EPS rises or falls depends on the P/E paid for the target vs. the acquirer’s own P/E — not on whether the target is “profitable”', a: "When new shares are issued to pay for the target, both the numerator (combined earnings) and denominator (more shares) move, and the number of new shares issued = purchase price ÷ acquirer's own share price. The deal is ACCRETIVE (EPS rises) if the P/E paid for the target is LOWER than the acquirer's own P/E (equivalently, target's earnings yield > acquirer's earnings yield) — fewer new shares are needed per dollar of earnings acquired than the acquirer's existing shares represent. It's DILUTIVE (EPS falls) if the P/E paid for the target is HIGHER than the acquirer's own P/E — even if the target is genuinely profitable, overpaying (a high P/E) relative to the acquirer's own multiple still drags EPS down. A profitable-but-overpaid-for target and an unprofitable target can both be dilutive; profitability alone doesn't decide it." },
+      { type: '7.7 · Goodwill calculation & the control premium wrinkle', color: 'slate', term: 'Purchase price − FV of identifiable net assets — but "purchase price" isn’t one fixed number', a: "Base formula: Goodwill = Purchase price paid − Fair value of identifiable net assets acquired (FV of identifiable assets − FV of liabilities assumed). But what counts as “purchase price” depends on the goodwill method: under partial goodwill it's simply the price paid for the parent's stake vs. the parent's proportionate share of FV net assets. Under full goodwill it requires estimating the FV of the ENTIRE acquiree (100%) — and that figure is often more than a simple gross-up of the price paid per share, because the price paid for a CONTROLLING stake usually carries a control premium that a single noncontrolling share wouldn't command." },
+      { type: '7.7 · Partial vs. full goodwill — which framework requires what', color: 'slate', term: 'US GAAP: full goodwill only. IFRS: a choice, made deal-by-deal', a: 'Partial goodwill = only the proportion of goodwill attributable to the parent’s ownership % is recognized. Full goodwill = 100% of goodwill is recognized, as if the whole entity (including the NCI slice) were acquired. US GAAP REQUIRES the full goodwill method — no election. IFRS PERMITS A CHOICE between partial and full goodwill, elected separately for each individual acquisition (not a blanket policy across all deals).' },
+      { type: '7.7 · Impairment testing & non-reversal', color: 'violet', term: 'Recognized once at acquisition; tested at least annually thereafter; never amortized, never reversed', a: "Goodwill is recognized ONCE, at the acquisition date — that's initial measurement, not impairment testing. From then on it is tested for impairment AT LEAST ANNUALLY (and immediately upon any triggering event suggesting a decline) for as long as it remains on the books. It is never amortized — the only way its carrying value changes is through impairment write-downs. And impairment losses on goodwill are NEVER REVERSED under either US GAAP or IFRS, even if the reason for the impairment goes away — a useful contrast against 7.3, where IFRS DOES allow reversal of an equity-method investment's impairment (goodwill is the one-way exception)." },
+      { type: '7.7 · NCI and goodwill impairment — the exam-favorite twist', color: 'violet', term: 'NCI is affected by impairment only if the full goodwill method was used', a: "Under PARTIAL goodwill, NCI's balance sheet figure is just its proportionate share of the FV of identifiable net assets — no goodwill sits inside it. So when goodwill is later impaired, NCI never had any to lose: the ENTIRE impairment loss is absorbed by the parent alone. Under FULL goodwill, NCI's figure is fair value, which already includes its proportionate share of goodwill — so when goodwill is impaired, the loss is split between parent and NCI in proportion to their original shares of goodwill. Worked example: total goodwill recognized (full goodwill method) = $10,000, with NCI's 20% share = $2,000 embedded in NCI's balance. Goodwill is later impaired by $1,000 → $800 (80%) hits the parent, $200 (20%) hits NCI. Under partial goodwill, that same $1,000 impairment would be 100% the parent's, since NCI held none of the original goodwill." },
+      { type: '7.8 · Proportionate consolidation mechanics', color: 'slate', term: 'Every line item, no exceptions — balance sheet and income statement both', a: "The investor applies its ownership % to every single asset, liability, revenue, and expense line item of the JV — including tax and depreciation, with no carve-outs — and adds those grossed-up slices directly into its own statements. This applies to BOTH the balance sheet (proportionate share of the JV's assets and liabilities) and the income statement (proportionate share of every revenue and expense line), not just one or the other. Contrast with the equity method's single \"Investment in JV\" balance sheet line and single \"share of JV net income\" income statement line — no individual JV line items ever appear separately there." },
+      { type: '7.8 · IFRS 11 — joint ventures vs. joint operations', color: 'slate', term: 'Equity method is required for JVs; the proportionate-looking treatment is reserved for joint operations only', a: "The old standard (IAS 31) let venturers choose between equity method and proportionate consolidation for jointly controlled entities. IFRS 11 removed that choice: a true joint venture must use the EQUITY METHOD only. The proportionate-looking treatment survives only for JOINT OPERATIONS (the direct-rights-to-assets structure from 7.1, with no separate vehicle in between) — and that's not a policy election, it's simply the operator recognizing rights and obligations it already directly holds." },
+      { type: '7.8 · US GAAP treatment — same surface outcome, different reasoning', color: 'violet', term: 'Equity method required generally; the exception is a narrow industry practice, not a structural test', a: "US GAAP requires the equity method for joint ventures (ASC 323), same general mandate as current IFRS. But its narrow proportionate-consolidation exception (certain unincorporated joint ventures in construction and extractive/oil & gas industries) isn't based on IFRS 11's structural joint-operation-vs-joint-venture test (rights to underlying assets vs. a stake in a vehicle) — it's a separate, practical, industry-specific carve-out that predates IFRS 11's logic entirely. Same surface-level result (mostly equity method, narrow exception), different underlying reasoning — a classic \"looks the same but isn't for the same reason\" exam trap." },
+      { type: '7.8 · Ratio effects — fixes both distortions flagged in 7.3', color: 'teal', term: 'Grosses up revenue AND assets/liabilities, correcting both the leverage and margin issues', a: "Recall from 7.3: the equity method hides investee debt entirely (understated leverage) and inflates margin ratios (net income gets a JV boost with no matching revenue). Proportionate consolidation fixes BOTH: it grosses up the JV's debt onto the investor's balance sheet (more accurate, generally higher, leverage), and it grosses up the JV's revenue alongside its net income (more representative margins, since the numerator and denominator both move together instead of net income rising in isolation). Net income, EPS, and ROE are unaffected by which method is used — the proportionate share of profit is identical either way. It's specifically ratios involving revenue, assets, or liabilities that move." },
+      { type: '7.9 · Why SPEs/VIEs exist', color: 'slate', term: 'Off-balance-sheet financing and risk isolation — historically, also to dodge consolidation', a: "A sponsor sets up a special purpose entity to (a) keep debt off its own balance sheet — protecting its leverage ratios, debt covenants, and credit rating, (b) isolate risk by making the vehicle bankruptcy-remote (the sponsor's creditors can't reach the SPE's assets and vice versa), and, historically, (c) structure around consolidation rules entirely while still keeping the real economic exposure. Enron is the textbook cautionary example of (a) and (c) taken too far — extensive use of SPEs to hide debt while retaining the underlying risk." },
+      { type: '7.9 · Why the old voting-control test broke down', color: 'slate', term: 'Deliberately structured so no one holds a voting majority', a: "The old test (same as 7.4/7.5: majority of voting shares = consolidate) works for ordinary subsidiaries, but SPEs were often deliberately structured with a token outside \"equity\" investor holding just enough of a sliver of capital (historically as little as 3% under old US GAAP guidance) to be the technical legal owner, while the sponsor held 0% or a small minority of voting equity. Under the old test, this meant NOBODY had to consolidate — even though the sponsor created the entity, transferred assets into it, guaranteed its debts, and bore essentially all the real risk and reward. Voting form no longer matched economic substance." },
+      { type: '7.9 · The new test: power + economics', color: 'violet', term: 'Who controls it, and who wins or loses from it', a: "US GAAP's VIE model (ASC 810): an entity is a VIE if its equity investors, as a group, lack either the power to direct the entity's significant activities through voting rights, or the obligation to absorb expected losses, or the right to receive expected residual returns. Whoever holds BOTH (1) the power to direct the activities that most significantly affect the VIE's economic performance and (2) exposure to losses/benefits that could be significant is the \"primary beneficiary\" and must consolidate. IFRS (IFRS 10) doesn't create a separate VIE category at all — it applies the SAME unified control definition (power + exposure to variable returns + the ability to use that power to affect those returns) to every entity, leaning harder on substance when voting rights aren't the dominant factor." },
+      { type: '7.9 · Classic scenario: little or no equity, still consolidates', color: 'violet', term: 'Power can come from being manager/servicer; economics can come from guarantees, not equity', a: "A sponsor doesn't need any equity ownership to end up with both power and economics. Power often comes from being the entity's manager or servicer — e.g. a bank that sold its car loans into a securitization vehicle but keeps collecting payments and chasing late borrowers day-to-day. Economics often comes not from equity but from guarantees, a retained subordinated/first-loss interest, or servicing fees tied to the entity's performance — meaning the sponsor absorbs losses before anyone else would. Own 0% of the shares, but hold both the steering wheel and the risk, and the accounting answer is: consolidate the whole thing anyway — precisely the loophole the old voting-control test couldn't catch." },
+    ],
+  },
+};
+// Gaps I flag after each teach-back round, aligned by index to the points in CONTENT above.
+// null means that point was correct as explained — nothing to flag. Cleared only once the
+// user has re-explained the point correctly and closed the gap through questioning.
+const GAPS = {
+  'fsa.0': [
+    null, null, null, null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null,
+    null, null, null, null, null,
+    null, null, null, null,
+    null, null, null, null,
+    null, null, null, null,
+  ],
+};
+// Questions pasted in from external tuition tests/quizzes that the user got wrong.
+// Rendered as rose "tuition miss" cards — visually distinct from the amber GAPS above,
+// which come from Claude's own teach-back quizzing inside this ledger.
+const TUITION_MISSES = {};
+// Mastery status per topic key: 'not-started' | 'progress' | 'mastered'. Set by Claude
+// directly based on how the teach-back in chat goes — no button in the UI sets this.
+const STATUS = {
+  'fsa.0': 'mastered',
+};
+// Cross-topic links, set by Claude when a genuine connection comes up in conversation
+// (e.g. Reading 7's equity method vs. Reading 8's pension accounting). Read-only chips
+// in the UI — clicking one just navigates, there's no manual add/remove.
+const LINKS = {};
+
+let selectedKey = null;
+let openSubjects = new Set();
+
+// On a phone the topic list is a drawer, not a permanent column: it closes as soon as you
+// pick something, so the reading pane gets the whole screen. Desktop is unaffected.
+const mqMobile = window.matchMedia('(max-width: 760px)');
+let mobileListOpen = true;
+
+function isMobile() { return mqMobile.matches; }
+
+function statusOf(key) { return STATUS[key] || 'not-started'; }
+
+function render() {
+  renderCoverage();
+  renderSidebar();
+  renderDetail();
+  syncDrawer();
+}
+
+function syncDrawer() {
+  const sb = document.getElementById('sidebar');
+  const btn = document.getElementById('topicsToggle');
+  const open = !isMobile() || mobileListOpen;
+  sb.classList.toggle('collapsed-mobile', !open);
+  btn.setAttribute('aria-expanded', String(open));
+  const m = selectedKey ? FLAT.find(t => t.key === selectedKey) : null;
+  btn.querySelector('.tt-label').textContent =
+    open ? 'Hide topic list' : (m ? m.name : 'Browse all ' + FLAT.length + ' topics');
+  btn.querySelector('.tt-icon').textContent = open ? '▴' : '▾';
+}
+
+function renderCoverage() {
+  const cov = document.getElementById('coverage');
+  cov.innerHTML = '';
+  let mastered = 0, progress = 0;
+  FLAT.forEach(t => {
+    const st = statusOf(t.key);
+    if (st === 'mastered') mastered++;
+    else if (st === 'progress') progress++;
+    const d = document.createElement('div');
+    d.className = 'tick' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '');
+    cov.appendChild(d);
+  });
+  document.getElementById('stats').innerHTML =
+    '<b>' + mastered + '</b> / ' + FLAT.length + ' mastered · <b>' + progress + '</b> in progress · ' +
+    (FLAT.length - mastered - progress) + ' not started';
+}
+
+// Builds a lowercase search corpus for one topic key: name, description, structured
+// content (compare table + branch notes), gaps, tuition misses, and the user's own
+// saved notes/Q&A. This is what makes the search bar cover "everything", not just titles.
+function corpusFor(key, subjectName) {
+  const parts = [];
+  const flatMeta = FLAT.find(t => t.key === key);
+  if (flatMeta) parts.push(flatMeta.name, flatMeta.desc, subjectName);
+  const c = CONTENT[key];
+  if (c) {
+    const compareList = c.compares || (c.compare ? [c.compare] : []);
+    compareList.forEach(cmp => {
+      parts.push(cmp.label || '', cmp.caption || '', cmp.gap || '');
+      cmp.columns.forEach(col => parts.push(col));
+      cmp.rows.forEach(row => { parts.push(row.label); row.values.forEach(v => parts.push(v)); });
+    });
+    if (c.notes) c.notes.forEach(n => parts.push(n.type, n.term, n.a));
+  }
+  if (GAPS[key]) GAPS[key].forEach(g => { if (g) parts.push(g); });
+  if (TUITION_MISSES[key]) TUITION_MISSES[key].forEach(m => parts.push(m.q, m.gotWrong, m.correction));
+  parts.push(statusOf(key));
+  if (LINKS[key]) LINKS[key].forEach(lk => { const m = FLAT.find(t => t.key === lk); if (m) parts.push(m.name); });
+  return parts.join(' • ').toLowerCase();
+}
+
+function hasTuitionMiss(key) { return !!(TUITION_MISSES[key] && TUITION_MISSES[key].length); }
+
+function selectTopic(key, subjectId) {
+  selectedKey = key;
+  openSubjects.add(subjectId);
+  if (isMobile()) mobileListOpen = false;
+  render();
+  if (isMobile()) {
+    // Let the collapse land before measuring, or the scroll target is still the old height.
+    requestAnimationFrame(() => {
+      document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+}
+
+function renderSidebar() {
+  const filter = (document.getElementById('search').value || '').toLowerCase().trim();
+  const list = document.getElementById('sidebarList');
+  list.innerHTML = '';
+  SUBJECTS.forEach(s => {
+    const topics = s.topics.map((t, i) => ({ ...t, key: s.id + '.' + i }))
+      .filter(t => !filter || corpusFor(t.key, s.name).includes(filter));
+    if (!topics.length) return;
+    if (filter) openSubjects.add(s.id);
+    const wrap = document.createElement('div');
+    wrap.className = 'subj';
+    const head = document.createElement('div');
+    head.className = 'subj-head';
+    const strip = s.topics.map((t, i) => {
+      const st = statusOf(s.id + '.' + i);
+      return '<div class="tick' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></div>';
+    }).join('');
+    const subjHasMiss = s.topics.some((t, i) => hasTuitionMiss(s.id + '.' + i));
+    head.innerHTML = '<span class="subj-name">' + s.name + (subjHasMiss ? ' <span class="miss-dot" style="display:inline-block;vertical-align:middle;"></span>' : '') + '</span><div class="subj-strip">' + strip + '</div>';
+    head.onclick = () => { openSubjects.has(s.id) ? openSubjects.delete(s.id) : openSubjects.add(s.id); renderSidebar(); };
+    wrap.appendChild(head);
+    const topicsDiv = document.createElement('div');
+    topicsDiv.className = 'topics' + (openSubjects.has(s.id) ? ' open' : '');
+    topics.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'topic-row' + (t.key === selectedKey ? ' active' : '');
+      const st = statusOf(t.key);
+      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '');
+      row.onclick = () => selectTopic(t.key, s.id);
+      topicsDiv.appendChild(row);
+    });
+    wrap.appendChild(topicsDiv);
+    list.appendChild(wrap);
+  });
+  if (filter && !list.children.length) {
+    list.innerHTML = '<div class="empty-notes" style="padding:16px;">No matches for "' + escapeHtml(filter) + '" in topics, notes, gaps, or tuition misses.</div>';
+  }
+}
+
+function renderDetail() {
+  const el = document.getElementById('detail');
+  if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
+  const meta = FLAT.find(t => t.key === selectedKey);
+  const st = statusOf(selectedKey);
+  const statusLabel = st === 'mastered' ? 'Mastered' : st === 'progress' ? 'In progress' : 'Not started';
+  el.innerHTML = `
+    <div class="crumb">${meta.subjectName}</div>
+    <h2 class="topic-title">${meta.name}</h2>
+    <p class="topic-desc">${meta.desc}</p>
+    <div class="status-row"><span class="status-badge${st === 'progress' ? ' st-progress' : st === 'mastered' ? ' st-mastered' : ''}">${statusLabel}</span></div>
+    ${(CONTENT[selectedKey] && ((CONTENT[selectedKey].compares && CONTENT[selectedKey].compares.length) || CONTENT[selectedKey].compare || CONTENT[selectedKey].notes)) ? `
+    ${(CONTENT[selectedKey].compares || (CONTENT[selectedKey].compare ? [CONTENT[selectedKey].compare] : [])).map(cmp => `
+    <section class="block">
+      <div class="block-label">${escapeHtml(cmp.label || 'How the categories split')}</div>
+      <p class="compare-caption">${escapeHtml(cmp.caption)}</p>
+      <div class="compare-grid">
+        ${cmp.columns.map((col, ci) => `
+          <div class="compare-card">
+            <div class="compare-head">${escapeHtml(col)}</div>
+            ${cmp.rows.map(row => `
+              <div class="compare-row">
+                <div class="compare-label">${escapeHtml(row.label)}</div>
+                <div class="compare-value">${escapeHtml(row.values[ci])}</div>
+              </div>`).join('')}
+          </div>`).join('')}
+      </div>
+      ${cmp.gap ? '<div class="note-gap" style="margin-left:0;margin-top:8px;"><span class="note-gap-label">Gap —</span>' + escapeHtml(cmp.gap) + '</div>' : ''}
+    </section>`).join('')}
+    ${(CONTENT[selectedKey].notes && CONTENT[selectedKey].notes.length) ? `
+    <section class="block">
+      <div class="block-label">Branches off this topic</div>
+      <div class="branch-wrap">
+        <div class="branch-spine"></div>
+        ${CONTENT[selectedKey].notes.map((item, i) => `<div class="branch-row">
+          <div class="branch-stub branch-stub-${item.color}"></div>
+          <div class="branch-node note-${item.color}">
+            <span class="note-tag note-tag-${item.color}">${escapeHtml(item.type)}</span>
+            <div class="branch-term">${escapeHtml(item.term)}</div>
+            <div class="branch-desc">${escapeHtml(item.a)}</div>
+            ${(GAPS[selectedKey] && GAPS[selectedKey][i]) ? '<div class="note-gap"><span class="note-gap-label">Gap —</span>' + escapeHtml(GAPS[selectedKey][i]) + '</div>' : ''}
+          </div>
+        </div>`).join('')}
+      </div>
+    </section>` : ''}
+    ` : `
+    <section class="block">
+      <div class="empty-notes">We haven't gone through this module in teach-back yet — this fills in with your own words once we do.</div>
+    </section>`}
+    ${(TUITION_MISSES[selectedKey] && TUITION_MISSES[selectedKey].length) ? `
+    <section class="block">
+      <div class="block-label" style="color:var(--rose);">Tuition misses — got this wrong externally</div>
+      ${TUITION_MISSES[selectedKey].map(m => `
+        <div class="miss-item">
+          <span class="miss-tag">Tuition miss</span>
+          <div class="miss-q">${escapeHtml(m.q)}</div>
+          <div class="miss-row"><b>What I got wrong:</b> ${escapeHtml(m.gotWrong)}</div>
+          <div class="miss-row"><b>Correct answer:</b> ${escapeHtml(m.correction)}</div>
+        </div>`).join('')}
+    </section>` : ''}
+    <section class="block">
+      <div class="block-label">Linked topics</div>
+      <div class="links-wrap">
+        ${(LINKS[selectedKey] && LINKS[selectedKey].length) ? LINKS[selectedKey].map(key => {
+          const m = FLAT.find(t => t.key === key);
+          if (!m) return '';
+          const sameSubject = m.subjectId === selectedKey.split('.')[0];
+          return `<span class="chip" data-key="${key}">${sameSubject ? '' : '<span class="tag">' + escapeHtml(m.subjectName) + '</span>'}<span>${escapeHtml(m.name)}</span></span>`;
+        }).join('') : '<span class="empty-notes">No links yet — Claude adds these as connections come up in conversation.</span>'}
+      </div>
+    </section>
+    <div class="caveat">${meta.subjectId === 'fsa'
+      ? 'Module list pulled from your uploaded Schweser FSA notes (2026 Level II).'
+      : 'Topic list follows the standard CFA Level II reading structure from general knowledge — cross-check reading titles and order against your own curriculum, as providers adjust these between cycles.'}</div>
+  `;
+
+  el.querySelectorAll('.chip[data-key]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const key = chip.getAttribute('data-key');
+      const m = FLAT.find(t => t.key === key);
+      if (!m) return;
+      selectTopic(key, m.subjectId);
+    });
+  });
+}
+
+function escapeHtml(str) {
+  return (str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+document.getElementById('search').addEventListener('input', () => {
+  // Typing implies you want to see results, so re-open the drawer on a phone.
+  if (isMobile() && document.getElementById('search').value.trim()) mobileListOpen = true;
+  renderSidebar();
+  syncDrawer();
+});
+
+document.getElementById('topicsToggle').addEventListener('click', () => {
+  mobileListOpen = !mobileListOpen;
+  syncDrawer();
+  if (mobileListOpen) document.getElementById('topicsToggle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// Rotating the phone (or resizing a desktop window past the breakpoint) must not leave the
+// list hidden with no way back — desktop always shows it, and entering mobile starts open.
+const onBreakpoint = () => { if (!isMobile()) mobileListOpen = true; syncDrawer(); };
+if (mqMobile.addEventListener) mqMobile.addEventListener('change', onBreakpoint);
+else if (mqMobile.addListener) mqMobile.addListener(onBreakpoint);
+
+openSubjects.add('fsa');
+render();
+</script>
+</body>
+</html>
