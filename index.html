@@ -134,21 +134,62 @@
   .note-tag-slate { background: var(--slate-bg); color: var(--slate); }
   .note-tag-violet { background: var(--violet-bg); color: var(--violet); }
   .note-tag-teal { background: var(--teal-bg); color: var(--teal); }
-  .branch-wrap { position: relative; padding-left: 22px; }
-  .branch-spine { position: absolute; left: 5px; top: 6px; bottom: 26px; width: 2px; background: var(--line); }
-  .branch-row { position: relative; display: flex; align-items: flex-start; margin-bottom: 16px; }
-  .branch-row:last-child { margin-bottom: 0; }
-  .branch-stub { position: absolute; left: -17px; top: 16px; width: 16px; height: 2px; }
-  .branch-stub-slate { background: var(--slate); }
-  .branch-stub-violet { background: var(--violet); }
-  .branch-stub-teal { background: var(--teal); }
-  .branch-row::before {
-    content: ''; position: absolute; left: -21px; top: 11px; width: 10px; height: 10px; border-radius: 50%;
-    background: var(--panel); border: 2px solid var(--line);
+  /* Module sections — the chapter's own structure, one <section> each. */
+  .mod { margin: 0 0 30px; }
+  .mod:last-of-type { margin-bottom: 6px; }
+  .mod-head { display: flex; align-items: baseline; gap: 9px; margin-bottom: 5px; padding-bottom: 7px; border-bottom: 2px solid var(--line); }
+  .mod-num {
+    font-family: var(--mono); font-size: 11px; font-weight: 600; color: #fff; background: var(--ink);
+    padding: 3px 7px; border-radius: 5px; flex-shrink: 0; letter-spacing: 0.02em;
   }
-  .branch-node { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
-  .branch-term { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-  .branch-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .mod-name { font-family: var(--serif); font-weight: 400; font-size: 17.5px; margin: 0; color: var(--ink); line-height: 1.3; }
+  .mod-blurb { font-size: 12.5px; color: var(--ink-faint); margin: 0 0 14px; line-height: 1.5; }
+  .mod .compare-caption { margin-top: 4px; }
+  .mod .compare-grid { margin-bottom: 16px; }
+
+  .mod-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-bottom: 12px; }
+  .mod-nav-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-right: 2px; }
+  .mod-chip {
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; cursor: pointer;
+  }
+  .mod-chip:hover { background: var(--slate-bg); color: var(--ink); border-color: var(--slate); }
+
+  .dd-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line);
+  }
+  .dd-count { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-right: auto; }
+  .dd-all {
+    font-family: var(--sans); font-size: 11.5px; font-weight: 600; color: var(--ink-soft);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer;
+  }
+  .dd-all:hover { background: var(--bg); color: var(--ink); }
+  .hit-tally { font-family: var(--mono); font-size: 11px; color: var(--amber); background: var(--amber-bg); padding: 3px 8px; border-radius: 5px; }
+
+  /* One point: tag + term + gist always visible; the full explanation is inside .dd. */
+  .pt { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+  .pt:last-child { margin-bottom: 0; }
+  .pt-term { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; line-height: 1.35; }
+  .pt-gist { font-size: 13px; color: var(--ink-soft); line-height: 1.55; }
+  .pt-full { font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
+
+  details.dd { margin-top: 9px; }
+  details.dd > summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--sans); font-size: 11.5px; font-weight: 600; color: var(--teal);
+    background: var(--teal-bg); border-radius: 20px; padding: 4px 11px; user-select: none;
+  }
+  details.dd > summary::-webkit-details-marker { display: none; }
+  details.dd > summary::after { content: '\25BE'; font-size: 9px; }
+  details.dd[open] > summary::after { content: '\25B4'; }
+  details.dd > summary:hover { background: var(--teal); color: #fff; }
+  details.dd .dd-shut { display: none; }
+  details.dd[open] .dd-open { display: none; }
+  details.dd[open] .dd-shut { display: inline; }
+  details.dd > .pt-full {
+    margin-top: 9px; padding-top: 10px; border-top: 1px dashed var(--line);
+  }
   .note-gap { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; color: var(--amber); background: var(--amber-bg); border-radius: 6px; padding: 6px 8px; margin: 8px 0 0; }
   .note-gap-label { font-weight: 600; flex-shrink: 0; }
   .note-rose { border-left: 3px solid var(--rose); }
@@ -212,9 +253,14 @@
     .topic-desc { font-size: 13px; }
     .compare-grid { flex-direction: column; }
     .compare-card { flex: 1 1 auto; }
-    .branch-wrap { padding-left: 18px; }
-    .branch-stub { left: -14px; width: 13px; }
-    .branch-row::before { left: -18px; }
+    .mod-name { font-size: 16px; }
+    .mod-blurb { font-size: 12px; }
+    .mod-chip { padding: 7px 11px; font-size: 12px; }
+    .dd-all { padding: 8px 12px; font-size: 12px; }
+    .dd-count { width: 100%; margin-right: 0; }
+    details.dd > summary { padding: 8px 14px; font-size: 12px; }
+    .pt-gist { font-size: 13px; }
+    .pt-full { font-size: 12.5px; }
     .legend { font-size: 10.5px; gap: 10px; }
     .rules-panel summary { padding: 13px 14px; min-height: 46px; }
     .rules-body { font-size: 12px; padding: 0 14px 14px; }
@@ -226,7 +272,7 @@
     #app { padding: 10px 8px; padding-bottom: max(18px, env(safe-area-inset-bottom)); }
     h1 { font-size: 18px; }
     .detail { padding: 14px 10px; }
-    .branch-node { padding: 11px 12px; }
+    .pt { padding: 11px 12px; }
   }
   @media (prefers-reduced-motion: reduce) {
     * { scroll-behavior: auto !important; transition: none !important; }
@@ -247,7 +293,7 @@
         <ol>
           <li><b>One reading per chat.</b> Each chat session focuses on a single CFA reading. This chat's focus is <b>Reading 7</b>. If the user starts a new chat for a different reading, that chat's own rules panel (or the user) will state the new focus — don't assume it carries over.</li>
           <li><b>Cross-reading questions are fine, but must tie back.</b> Claude can pull in other readings/subjects when quizzing, but every question should connect — even loosely — to the current reading's focus (e.g. linking Reading 7's equity method to Reading 8's pension accounting, or to Equity's residual income model).</li>
-          <li><b>Structure everything.</b> Every explanation the user gives gets converted into structured, visual HTML for the relevant topic — comparison tables (<code>CONTENT[key].compare</code>), branch/mind-map nodes (<code>CONTENT[key].notes</code>) — never left as a plain paragraph dump.</li>
+          <li><b>Structure everything — glance first, depth on demand.</b> Every explanation the user gives becomes structured HTML, never a paragraph dump. Each point in <code>CONTENT[key].notes</code> carries a <code>module</code> (which section of the reading it sits in, named in <code>MODULES</code>), a <b><code>gist</code></b> — one line, always visible, enough to recall the point cold — and <code>a</code>, the full explanation, which renders behind a "Deep dive" dropdown. <b>Writing a point with no gist is a bug:</b> reading only the module headings and gists must still give a complete working picture of the reading. Comparison tables (<code>compares</code>, each also tagged with its <code>module</code>) render inside their own section.</li>
           <li><b>Grill, don't just record.</b> After the user explains a concept, Claude should push for depth on every sub-point of that reading before marking it understood — follow-up questions, edge cases, "what if" variants — not accept a surface-level answer.</li>
           <li><b>Built for real revision.</b> This file is the user's actual November exam revision tool. Bias toward exam-relevant distinctions (IFRS vs. US GAAP, exceptions to ownership-% guidelines, ratio effects) over generic summaries.</li>
           <li><b>Read-only ledger — Claude edits everything.</b> There is no manual-entry UI in this file except the search bar. Explanations happen in chat, not in a textarea; Claude decides status (not started/progress/mastered), writes the structured notes, logs gaps and tuition misses, and sets links between topics — all directly in the file's data. The user never fills in a form here.</li>
@@ -387,14 +433,43 @@ SUBJECTS.forEach(s => s.topics.forEach((t, i) => {
   FLAT.push({ key, subjectId: s.id, subjectName: s.name, name: t.name, desc: t.desc });
 }));
 
+// The named sections a topic's points group under, keyed by the `module` field carried by
+// each note and compare table. `blurb` is the one-line orientation under the heading — it
+// should say what the module is FOR, not summarise its contents.
+// A module id used by a note but missing here still renders; it falls back to the bare id
+// as its heading, so adding notes for a new module never breaks the page.
+const MODULES = {
+  '7.1': { name: 'Classification and significant influence',
+           blurb: 'Which of the three categories an investment falls into, and the influence indicators that decide it when the ownership % alone cannot.' },
+  '7.2': { name: 'Financial assets under IFRS 9',
+           blurb: 'The three buckets, the two tests that sort debt into them, and the narrow circumstances in which anything is allowed to move.' },
+  '7.3': { name: 'The equity method — mechanics',
+           blurb: 'How the single "Investment in Associate" line is built up, drawn down, suspended, and adjusted for whatever you overpaid.' },
+  '7.4': { name: 'The equity method — impairment, intercompany and analysis',
+           blurb: 'What writes the line down, how trading with the investee is deferred, and the three distortions the method leaves in your ratios.' },
+  '7.5': { name: 'Business combinations and consolidation',
+           blurb: 'When control forces consolidation instead of the equity method, and what that puts on the balance sheet.' },
+  '7.6': { name: 'Consolidated income statement, NCI and EPS',
+           blurb: 'The P&L side of consolidation — what gets added, what gets eliminated, and whether the deal helps or hurts EPS.' },
+  '7.7': { name: 'Goodwill',
+           blurb: 'Partial versus full goodwill, how each is measured, and who absorbs the impairment when it comes.' },
+  '7.8': { name: 'Joint ventures',
+           blurb: 'Equity method versus proportionate consolidation — what each framework requires, and what the choice does to the ratios.' },
+  '7.9': { name: 'SPEs and VIEs',
+           blurb: 'Why the voting-control test failed on structured entities, and the power-plus-economics test that replaced it.' },
+};
+
 // Reference notes: the specific points I ask you to explain for each module, with the correct
 // answer from your notes. This is what makes the file readable as study material on its own —
 // filled in as we go through the teach-back, one module at a time.
+// Each note carries `module` (which MODULES section it belongs to), `gist` (the one-line
+// takeaway shown at a glance) and `a` (the full explanation, behind the deep-dive dropdown).
 const CONTENT = {
   'fsa.0': {
     compares: [
       {
         label: '7.1 — How the categories split',
+        module: '7.1',
         caption: 'The three categories are separated by how much control or influence the investor actually has — not by the ownership % alone.',
         columns: ['Investments in financial assets', 'Investments in associates', 'Business combinations'],
         rows: [
@@ -405,6 +480,7 @@ const CONTENT = {
       },
       {
         label: '7.2 — IFRS 9 classification buckets',
+        module: '7.2',
         caption: 'IFRS 9 splits financial assets into three buckets by business model + cash flow characteristics (debt) or by election (equity) — not by asset type alone.',
         columns: ['Amortized cost', 'FVPL', 'FVOCI'],
         rows: [
@@ -418,6 +494,7 @@ const CONTENT = {
       },
       {
         label: '7.5 — Acquisition method vs. equity method (balance sheet)',
+        module: '7.5',
         caption: 'Company P acquires 80% of Company S for $8,000 cash — acquisition method vs. equity method on P’s post-acquisition balance sheet.',
         columns: ['Acquisition method', 'Equity method'],
         rows: [
@@ -433,6 +510,7 @@ const CONTENT = {
       },
       {
         label: '7.6 — Acquisition method vs. equity method (income statement)',
+        module: '7.6',
         caption: 'P acquires 80% of S; S reports net income of $5,000 for the year — acquisition method vs. equity method on the income statement.',
         columns: ['Acquisition method', 'Equity method'],
         rows: [
@@ -446,6 +524,7 @@ const CONTENT = {
       },
       {
         label: '7.7 — Partial vs. full goodwill',
+        module: '7.7',
         caption: 'US GAAP requires full goodwill; IFRS allows a choice, elected acquisition-by-acquisition — partial vs. full goodwill.',
         columns: ['Partial goodwill', 'Full goodwill'],
         rows: [
@@ -459,6 +538,7 @@ const CONTENT = {
       },
       {
         label: '7.8 — Equity method vs. proportionate consolidation',
+        module: '7.8',
         caption: 'Equity method vs. proportionate consolidation for a joint venture — same bottom-line net income, very different presentation.',
         columns: ['Equity method', 'Proportionate consolidation'],
         rows: [
@@ -474,62 +554,62 @@ const CONTENT = {
       },
     ],
     notes: [
-      { type: '7.1 · Influence indicator 1/5 — B', color: 'slate', term: 'Board representation', a: "Investor has a representative (often a nominee director) sitting on the investee's board or equivalent governing body. Even a single board seat is treated as strong evidence of significant influence — the nominee doesn't need to be the investor's own employee." },
-      { type: '7.1 · Influence indicator 2/5 — P', color: 'slate', term: 'Involvement in policy-making', a: 'Involvement in decisions on dividends/distributions and other financial or operating policy (budgets, major capex, financing). This matters because participating in financial and operating policy decisions is literally the IAS 28 definition of significant influence.' },
-      { type: '7.1 · Influence indicator 3/5 — T', color: 'slate', term: 'Technological dependency', a: "The investee depends on the investor for essential technical information, patented processes, or technology, making the investee reliant on and harder to separate from the investor." },
-      { type: '7.1 · Influence indicator 4/5 — M', color: 'slate', term: 'Material transactions', a: 'Material/significant intercompany transactions between investor and investee — in either direction (investor to investee, investee to investor, or other dealings), not limited to one direction.' },
-      { type: '7.1 · Influence indicator 5/5 — IT', color: 'slate', term: 'Interchange of managerial personnel', a: "Investor's management personnel serve on, or are seconded to, the investee's management (or vice versa) on an ongoing basis — both entities stay separate, but the investor is operationally embedded in running the investee. E.g. a Marico executive also sits as a manager/director inside a company Marico holds a significant stake in, while both remain separate legal entities." },
-      { type: '7.1 · Ownership exception 1/3 — control despite <50%', color: 'violet', term: 'Control without majority ownership', a: "Voting CONTROL can exceed economic ownership — e.g. a founder holds only 30% of total equity, but a dual-class share structure gives their shares 10x the voting weight of ordinary shares, so they control 60% of votes. Treatment: CONSOLIDATION (business combination / acquisition method), despite <50% economic ownership." },
-      { type: '7.1 · Ownership exception 2/3 — majority ownership, no control', color: 'violet', term: '>50% ownership without control', a: "An investor owns 55%, but the company enters insolvency (e.g. under India's IBC) and a court-appointed resolution professional/committee of creditors takes over decision-making. Actual control has shifted away despite majority ownership. Treatment: STOPS being consolidated, switches to EQUITY METHOD instead." },
-      { type: '7.1 · Ownership exception 3/3 — the 20–50% band can shift both ways', color: 'violet', term: 'Influence can exist below 20%, or be absent within 20–50%', a: "Below 20%, influence present: investor owns 12%, but has a board seat and dividend-decision involvement (per B-T-P-M-IT) — EQUITY METHOD applies despite <20%. Within 20–50%, influence absent: investor owns 35%, but another shareholder holds a controlling 60% and contractually excludes them from the board/policy input — no significant influence exists, so it's a plain FINANCIAL ASSET (FVTPL/FVOCI), not equity method, despite sitting in the 'normal' associate range." },
-      { type: '7.1 · Joint venture 1/4 — structure & control', color: 'teal', term: 'Joint control basics', a: "Two parties (the common case — not '>2') enter a CONTRACTUAL arrangement to share control. Terms are negotiated case-by-case, not standardized. This is specifically JOINT control, not a generic limited/diluted form of control." },
-      { type: '7.1 · Joint venture 2/4 — unanimous consent', color: 'teal', term: 'What requires unanimous consent', a: "Decisions on the arrangement's RELEVANT ACTIVITIES need unanimous consent — e.g. changes to fund policy, investment/deployment decisions, exit criteria, tenure of the agreement. Non-significant decisions (e.g. day-to-day research work, how to hold idle dry powder) do NOT need unanimous consent." },
-      { type: '7.1 · Joint venture 3/4 — JV vs. joint operation (IFRS 11)', color: 'teal', term: 'The real distinction: rights to what?', a: "Joint operation: parties have DIRECT rights to the underlying assets/liabilities (e.g. an AIF real-estate fund where each investor is allotted a specific room/unit) — no separate vehicle sits in between. Joint venture: a separate vehicle (e.g. an SPV) sits between the investor and the asset; the investor's claim runs to the VEHICLE's net assets, not the asset directly — investor only has a claim on the underlying asset in the event of default/liquidation." },
-      { type: '7.1 · Joint venture 4/4 — accounting treatment', color: 'teal', term: 'How each is recorded', a: "Joint operation: NO single 'investment' line. The investor recognizes its proportionate SHARE of the actual assets, liabilities, revenue, cost, and tax line-by-line, directly in its own financials, each year. Joint venture (via SPV): EQUITY METHOD — a single 'Investment in JV' line that grows/shrinks with the investor's share of the JV's net income, exactly like an investment in an associate. Same treatment as associates because both are a stake in a separate entity's net assets, not direct co-ownership of the underlying asset — that's what drives equity-method treatment, not the ownership % or influence type." },
-      { type: '7.2 · Classification test 1/4 — Amortized cost (debt only)', color: 'slate', term: 'Two separate tests, both must pass', a: "Business model test: held to COLLECT contractual cash flows until the contractual claim is complete (doesn't have to be literal maturity — occasional sales are fine if collecting is still the primary intent). Cash flow characteristics test (SPPI): the contractual cash flows must be SOLELY Payments of Principal and Interest — nothing else." },
-      { type: '7.2 · Classification test 2/4 — FVPL (debt + equity)', color: 'slate', term: 'The catch-all bucket', a: "Anything that fails the SPPI test, fails the business-model test, or is genuinely held for trading lands here. For equity specifically, FVPL is MANDATORY when the purpose of holding it is to trade." },
-      { type: '7.2 · Classification test 3/4 — FVOCI debt', color: 'slate', term: "Business model = 'collect + sell'", a: 'Debt is held both to collect contractual cash flows AND to sell when convenient/needed — a hybrid business model between amortized cost (collect only) and FVPL (trade).' },
-      { type: '7.2 · Classification test 4/4 — FVOCI equity', color: 'slate', term: 'An irrevocable election, not sale intent', a: "NOT about the security being 'for sale.' Typically used for strategic, long-term equity stakes the company does NOT intend to trade (e.g. a stake in a supplier/partner). Management makes an IRREVOCABLE election at initial recognition to route fair value changes through OCI instead of the income statement — the choice is about where the volatility shows up in the financials, not about sale intent." },
-      { type: '7.2 · Reclassification 1/3 — headline rule & mechanics', color: 'violet', term: 'Equity never reclassifies; debt only if the business model changes', a: 'Equity: locked in at initial election, forever. Debt: reclassification allowed ONLY if the business model changes. When it happens (e.g. amortized cost → FVPL), the asset is remeasured to fair value on the balance sheet, and the gap between the old amortized cost and new fair value is recognized immediately in the income statement at the reclassification date.' },
-      { type: '7.2 · Reclassification 2/3 — what actually counts as a business model change', color: 'violet', term: 'Must be rare, significant, and externally demonstrable', a: "NOT a distress event like bankruptcy — that's a credit/impairment issue, not a business model change. IFRS 9 expects these to be very infrequent. Standard example: a bank holds a portfolio of commercial loans, originated and held to COLLECT contractual interest and principal (Amortized Cost). The bank then strategically decides to EXIT commercial lending — it stops collecting on these loans and sets up a program to actively SELL the entire portfolio to other institutions. Because the business model shifted from 'hold to collect' to 'hold to sell', the loans reclassify Amortized Cost → FVPL (or FVOCI, if some collection intent remains). The trigger is a portfolio-level, management-decided shift in what the business DOES with a specific set of assets — not a distress event, and not a vague statement like 'expanding into venture capital.'" },
-      { type: '7.2 · Reclassification 3/3 — why equity is locked in but debt is not', color: 'violet', term: 'Prevents earnings manipulation', a: "Debt in FVPL/FVOCI is also at fair value, so 'equity is always at FV' isn't the real reason equity can't reclassify. The actual reason: if companies could freely flip equity between FVPL and FVOCI, they could cherry-pick — routing gains through the income statement to flatter earnings while hiding losses in OCI. Debt reclassification is tied to an objective, rare, externally-verifiable event (an actual business model shift); no such objective trigger exists for equity, so IFRS locks the choice in at initial recognition." },
-      { type: '7.2 · Embedded derivatives', color: 'teal', term: 'Convertible bonds and similar hybrids — no splitting', a: "A hybrid instrument = plain host contract (e.g. a bond) + an embedded derivative feature (e.g. a conversion option into equity). Under IFRS 9, financial-asset hybrids are NOT bifurcated (unlike older standards). The conversion option means cash flows are no longer SOLELY principal and interest — the instrument automatically fails the SPPI test. Failing SPPI rules out Amortized Cost and FVOCI, so the ENTIRE instrument (host + embedded option together) goes to FVPL, with all fair value changes hitting the income statement as one undivided figure." },
-      { type: '7.2 · Loan impairment 1/2 — the three-stage ECL model', color: 'teal', term: 'Replaces the old incurred-loss model; forward-looking', a: "Stage 1 (performing): no significant increase in credit risk since origination — recognize 12-MONTH expected credit losses. Stage 2 (underperforming): a SIGNIFICANT INCREASE IN CREDIT RISK (SICR) since initial recognition — not just 'currently risky', but riskier NOW vs. AT ORIGINATION — recognize LIFETIME expected credit losses. Practical backstop: if a payment is more than 30 days past due, there's a rebuttable presumption of SICR, pushing the loan into Stage 2 unless there's reasonable evidence otherwise. Stage 3 (credit-impaired/non-performing): OBJECTIVE evidence of a loss event (actual default) — still lifetime expected losses." },
-      { type: '7.2 · Loan impairment 2/2 — why Stage 3 changes the interest calculation', color: 'teal', term: 'Gross carrying amount vs. net carrying amount', a: "Stage 1 & 2: still just a probability of default, no loss event confirmed — full contractual repayment still expected, so interest is calculated on the GROSS carrying amount (only the loss allowance provision changes in size). Stage 3: an actual, OBJECTIVE default has occurred — the company no longer expects to collect the full amount, so continuing to accrue interest on the full gross balance would overstate income. Interest is instead calculated on the NET carrying amount (gross amortized cost MINUS the loss allowance) — a more honest reflection of what's still realistically expected to be collected." },
-      { type: '7.3 · Equity method basics 1/2 — initial recording & income', color: 'slate', term: 'Recorded at cost; income increases the investment', a: 'Initial investment recorded at COST as a noncurrent asset (cash/bank decreases, asset increases). Each period, the investor’s proportionate share of the investee’s NET INCOME is recognized in the investor’s own income statement AND increases the investment account on the balance sheet — income is recognized as EARNED, not as distributed.' },
-      { type: '7.3 · Equity method basics 2/2 — dividends are a return of capital', color: 'slate', term: 'Dividends reduce the investment account; never touch the P&L', a: "Dividends received are a RETURN OF CAPITAL, not income: cash increases, investment account (asset) decreases — dividends do NOT appear in the investor's income statement under the equity method. Contrast with FVPL/FVOCI, where dividends DO flow through the P&L. Why: net income already contains the portion that will later be paid out as a dividend. The investor already recognized its full proportionate share of net income when it was EARNED; recognizing the dividend again when it's PAID would double-count the same economic event." },
-      { type: '7.3 · Loss handling & suspension', color: 'violet', term: 'The investment account can’t go negative — and there’s a catch-up rule', a: "Investee losses: proportionate share reduces both the investment account AND investor earnings, same mechanic as profits but in reverse. If losses drive the investment account to ZERO, the investor SUSPENDS the equity method — further losses go unrecognized (tracked off-book, not recorded, since the account can't go negative). Resumption isn't automatic at the first dollar of profit: the investor must first absorb the accumulated UNRECOGNIZED losses from the suspension period. Only once cumulative proportionate profit EXCEEDS the total unrecognized losses does income recognition restart — e.g. $50 unrecognized losses, next year's $30 profit share just closes the gap to $20; nothing is recorded until profits push past the full $50." },
-      { type: '7.3 · Fair value option', color: 'violet', term: 'US GAAP allows it; IFRS restricts it; always irrevocable', a: 'US GAAP: equity-method investments CAN be elected to fair value instead. IFRS: this option is restricted to venture capital firms, mutual funds, and similar entities. The election, once made, is IRREVOCABLE — cannot switch back later. Once elected, BOTH dividends received AND fair value gains/losses flow through the income statement — same treatment as a plain FVPL financial asset, not the equity-method’s single-line, dividend-excluded treatment.' },
-      { type: '7.3 · Excess of purchase price over book value 1/2 — where it goes', color: 'teal', term: 'Fair-value step-up first, goodwill absorbs the rest — no separate account', a: 'Excess = Purchase price − Investor’s proportionate share of investee book value. Step 1: allocate to identifiable assets/liabilities that are UNDERVALUED relative to fair value (e.g. equipment at historical cost but worth more today) — investor’s proportionate share of that fair-value gap. Step 2: whatever remains is GOODWILL — but under the equity method there is NO separate goodwill line, unlike consolidation accounting (no full-vs-partial-goodwill concept here either). Everything — the fair-value step-up AND goodwill — stays bundled inside the single “Investment in Associate” line.' },
-      { type: '7.3 · Excess of purchase price over book value 2/2 — the step-up in later years', color: 'teal', term: 'Incremental depreciation reduces the investor’s income pickup only', a: "The investee keeps depreciating the asset on ITS OWN (lower, historical-cost) book value — its financials never see the step-up the investor paid for. Since the investor paid based on the asset's true (higher) fair value, the investor recognizes ADDITIONAL/INCREMENTAL depreciation on that step-up amount, spread over the asset's remaining useful life. Mechanically: each year this extra depreciation REDUCES the investor's “share of investee net income” pickup on its own income statement, which correspondingly reduces the investment account on the balance sheet — not a re-valuation, a running amortization of the premium paid. Why only on the investor's side: the investee's financials are based on ITS OWN historical cost — they never recorded the investor's purchase price or the step-up, so they have no reason to show any extra depreciation. The premium is a fact about the investor's investment, not the investee's books." },
-      { type: '7.4 · Impairment 1/2 — P&L treatment & reversal', color: 'slate', term: 'US GAAP: no reversal. IFRS: reversal capped at pre-impairment carrying value', a: 'Impairment loss hits the income statement, writing the investment down to fair value. US GAAP: reversal of impairment losses is PROHIBITED once taken. IFRS: reversal IS allowed if the recoverable amount later increases — capped at the CARRYING VALUE THE INVESTMENT WOULD HAVE HAD had the impairment never happened (i.e. pre-impairment carrying value, rolled forward for normal equity-method changes since — NOT literally the original purchase/historical cost, since the investment account moves over time regardless of impairment).' },
-      { type: '7.4 · Impairment 2/2 — the trigger test differs by standard', color: 'slate', term: 'US GAAP: judgment-based. IFRS: evidence-based', a: "US GAAP: fair value falls below carrying value AND the decline is judged 'OTHER-THAN-TEMPORARY' — a qualitative, judgment/duration-based test, no specific event required. IFRS: impairment must be evidenced by an actual, objective LOSS EVENT (e.g. investee financial difficulty, default, disappearance of an active market) — an evidence-based test, not just a judgment call about how long a decline might persist." },
-      { type: '7.4 · Transactions with investee 1/2 — upstream', color: 'violet', term: 'Investee → Investor: investee keeps full profit, investor’s pickup shrinks', a: "Investee sells to investor and books its FULL profit on its own income statement — untouched. The goods themselves stay recorded at full transaction price (this is a PROFIT adjustment, not an inventory-valuation one). If some of those goods are still unsold in the investor's inventory at year-end, that slice of profit is UNCONFIRMED from the group's perspective. The investor reduces its own equity-income pickup by: Total profit × % of goods still unsold × investor's ownership %. Released back into income once the investor finally resells those goods externally." },
-      { type: '7.4 · Transactions with investee 2/2 — downstream', color: 'violet', term: 'Investor → Investee: investor initially books full profit, then defers the unconfirmed slice', a: "Investor sells to investee and initially recognizes the FULL profit on its own income statement, like any normal external sale. If some of those goods are still unsold in the investee's inventory at year-end, the investor must then REDUCE its own reported profit by: Total profit × % of goods still unsold × investor's ownership %. The investee's income statement is not directly involved here — this is purely an adjustment to what the investor reports. Deferred slice releases back into investor income once the investee resells the goods externally. Worked example: Investor owns 30%, sells goods booking $15,000 profit; half still unsold at year-end → unconfirmed = $15,000 × 50% = $7,500; investor's share = $7,500 × 30% = $2,250 reduction this year." },
-      { type: '7.4 · Analytical issues 1/3 — payout ratio inflates earnings', color: 'teal', term: 'Equity method vs. a passive investment', a: "Equity method recognizes the investor's FULL proportionate share of the investee's net income regardless of cash actually distributed. A passive/minority investment (cost or fair value method) only recognizes DIVIDENDS RECEIVED as income. When the investee's payout ratio is under 100% (retains some earnings), equity-method income is HIGHER than what a passive investor would report — the investor is 'claiming' earnings not yet received in cash. Note: NOT a minority-interest/consolidation concept — that's a separate topic (business combinations)." },
-      { type: '7.4 · Analytical issues 2/3 — understated leverage', color: 'teal', term: 'Investee’s debt is invisible on the investor’s balance sheet', a: 'The investee’s assets and liabilities never appear individually on the investor’s balance sheet — only one net line, “Investment in Associate.” The investee’s debt is completely invisible to standard leverage ratios (debt-to-equity, debt-to-assets) computed on the investor’s statements, even though the investor has real indirect economic exposure to that debt. Analysts sometimes manually proportionately consolidate an associate’s debt for credit analysis to correct for this.' },
-      { type: '7.4 · Analytical issues 3/3 — inflated margin ratios', color: 'teal', term: 'Net income rises, revenue doesn’t — margins look better than they should', a: "The investor's revenue line is completely untouched by the investee — none of the investee's sales ever flow onto the investor's income statement. But net income DOES get a boost from the equity-income pickup. Result: ratios like net profit margin (net income ÷ revenue) have a numerator inflated by the investee's earnings sitting over a denominator that has nothing to do with the investee — margins look artificially better than they 'should,' since the investor gets profitability credit without the corresponding revenue." },
-      { type: '7.5 · Control vs. significant influence', color: 'slate', term: 'Two different thresholds, two different methods — applies identically under both US GAAP and IFRS', a: "CONTROL = majority ownership of voting shares (generally >50%) — triggers CONSOLIDATION (acquisition method). SIGNIFICANT INFLUENCE = the B-T-P-M-IT indicators from Module 7.1, typically 20–50% — triggers EQUITY METHOD. These are NOT interchangeable and don't swap depending on framework: IFRS 10's definition of control (power + exposure to variable returns + ability to use that power) and IAS 28's significant influence apply the SAME underlying logic as US GAAP — the split by threshold is universal, not GAAP-specific." },
-      { type: '7.5 · IFRS vs. US GAAP — the actual difference here', color: 'slate', term: 'Only the structural naming differs, not the accounting', a: "US GAAP names three legal outcomes of a business combination: MERGER (target ceases to exist, acquirer absorbs everything), ACQUISITION (both entities survive, parent-subsidiary relationship), CONSOLIDATION (a brand-new entity absorbs both). IFRS does not name or distinguish between these structural outcomes — it applies the SAME acquisition-method accounting regardless of which structural form actually occurred. Both frameworks eliminated pooling-of-interests; both require the acquisition method now." },
-      { type: '7.5 · Why 100% is consolidated regardless of ownership %', color: 'violet', term: 'Control determines WHAT gets consolidated; ownership % only determines the equity SPLIT', a: "Consolidation reflects CONTROL over the economic entity, not ownership %. Once the parent has control, it directs ALL of the subsidiary's operations and resources — 100% of them — regardless of how much equity it legally owns. Ownership % doesn't change HOW MUCH gets consolidated (always 100% of assets/liabilities); it only changes how the subsidiary's EQUITY gets split between the parent's claim and the noncontrolling interest's claim. The subsidiary's own standalone stockholders' equity is fully eliminated/ignored on the consolidated balance sheet — only the NCI figure represents the outside claim." },
-      { type: '7.5 · Noncontrolling interest calculation', color: 'violet', term: 'Subsidiary’s total equity × % not owned by the parent', a: 'NCI = Subsidiary’s total stockholders’ equity (common stock + retained earnings) × unowned %. Worked example: Company S equity = $6,000 common stock + $4,000 retained earnings = $10,000. Company P owns 80%, so unowned = 20%. NCI = $10,000 × 20% = $2,000, reported within stockholders’ equity on the consolidated balance sheet.' },
-      { type: '7.6 · Consolidation of revenue & expenses', color: 'slate', term: '100% line-by-line, regardless of ownership %, from acquisition date forward', a: "Every revenue and expense line item is P's own plus 100% of S's — not scaled by ownership %, exactly like the balance sheet in 7.5 (control means 100% gets consolidated; ownership % only affects the equity split, not the consolidation scope). If the acquisition happens mid-year (e.g. July 1), only S's revenue and expenses from July 1 onward enter the consolidated P&L — the pre-acquisition months were earned by S as an independent, unconsolidated entity and are excluded entirely." },
-      { type: '7.6 · NCI on the income statement vs. the balance sheet', color: 'slate', term: 'Same 20% rate, two completely different bases', a: "Income statement NCI (“net income attributable to NCI”) is a flow figure: S's net income FOR THE PERIOD × unowned % — e.g. S earns $5,000, unowned = 20%, so NCI's share = $1,000, leaving $4,000 attributable to the parent. Balance sheet NCI is a stock figure: S's TOTAL cumulative stockholders' equity × unowned % — e.g. if S's total equity is $30,000, balance sheet NCI = $6,000. Same 20% rate both times, but one measures one year's income and the other measures the whole accumulated equity base — they are not the same number and shouldn't be confused." },
-      { type: '7.6 · Intercompany eliminations', color: 'violet', term: 'Everything that is just the group trading with itself gets stripped out — 100%, not proportionate', a: "Eliminated in full before final consolidated figures: intercompany sales/COGS, intercompany interest income/expense (loans between P and S), intercompany dividends (S's dividend to P would double-count against S's net income already being consolidated), unrealized profit in ending inventory on intercompany sales still unsold at year-end, and excess depreciation/amortization on fair-value step-ups from the acquisition (same idea as the equity method's excess purchase price in 7.3, but here it runs through consolidated expenses and gets split between parent and NCI shares). The elimination is 100% of the intercompany profit regardless of ownership % — contrast with the equity method (7.4), where only the investor's PROPORTIONATE share is deferred, because equity method only ever brings the investor's proportionate slice of the investee's income onto the investor's books in the first place." },
-      { type: '7.6 · EPS impact 1/2 — cash/debt-financed deals', color: 'teal', term: 'No new shares issued — EPS moves with earnings only', a: "If the acquisition is funded with cash or debt, share count doesn't change, so EPS rises as long as S's contribution to net income attributable to the parent (net of any added after-tax interest expense on new acquisition debt) is positive. Straightforward accretion — the denominator is fixed, only the numerator moves." },
-      { type: '7.6 · EPS impact 2/2 — stock-financed deals: accretive vs. dilutive', color: 'teal', term: 'Whether EPS rises or falls depends on the P/E paid for the target vs. the acquirer’s own P/E — not on whether the target is “profitable”', a: "When new shares are issued to pay for the target, both the numerator (combined earnings) and denominator (more shares) move, and the number of new shares issued = purchase price ÷ acquirer's own share price. The deal is ACCRETIVE (EPS rises) if the P/E paid for the target is LOWER than the acquirer's own P/E (equivalently, target's earnings yield > acquirer's earnings yield) — fewer new shares are needed per dollar of earnings acquired than the acquirer's existing shares represent. It's DILUTIVE (EPS falls) if the P/E paid for the target is HIGHER than the acquirer's own P/E — even if the target is genuinely profitable, overpaying (a high P/E) relative to the acquirer's own multiple still drags EPS down. A profitable-but-overpaid-for target and an unprofitable target can both be dilutive; profitability alone doesn't decide it." },
-      { type: '7.7 · Goodwill calculation & the control premium wrinkle', color: 'slate', term: 'Purchase price − FV of identifiable net assets — but "purchase price" isn’t one fixed number', a: "Base formula: Goodwill = Purchase price paid − Fair value of identifiable net assets acquired (FV of identifiable assets − FV of liabilities assumed). But what counts as “purchase price” depends on the goodwill method: under partial goodwill it's simply the price paid for the parent's stake vs. the parent's proportionate share of FV net assets. Under full goodwill it requires estimating the FV of the ENTIRE acquiree (100%) — and that figure is often more than a simple gross-up of the price paid per share, because the price paid for a CONTROLLING stake usually carries a control premium that a single noncontrolling share wouldn't command." },
-      { type: '7.7 · Partial vs. full goodwill — which framework requires what', color: 'slate', term: 'US GAAP: full goodwill only. IFRS: a choice, made deal-by-deal', a: 'Partial goodwill = only the proportion of goodwill attributable to the parent’s ownership % is recognized. Full goodwill = 100% of goodwill is recognized, as if the whole entity (including the NCI slice) were acquired. US GAAP REQUIRES the full goodwill method — no election. IFRS PERMITS A CHOICE between partial and full goodwill, elected separately for each individual acquisition (not a blanket policy across all deals).' },
-      { type: '7.7 · Impairment testing & non-reversal', color: 'violet', term: 'Recognized once at acquisition; tested at least annually thereafter; never amortized, never reversed', a: "Goodwill is recognized ONCE, at the acquisition date — that's initial measurement, not impairment testing. From then on it is tested for impairment AT LEAST ANNUALLY (and immediately upon any triggering event suggesting a decline) for as long as it remains on the books. It is never amortized — the only way its carrying value changes is through impairment write-downs. And impairment losses on goodwill are NEVER REVERSED under either US GAAP or IFRS, even if the reason for the impairment goes away — a useful contrast against 7.3, where IFRS DOES allow reversal of an equity-method investment's impairment (goodwill is the one-way exception)." },
-      { type: '7.7 · NCI and goodwill impairment — the exam-favorite twist', color: 'violet', term: 'NCI is affected by impairment only if the full goodwill method was used', a: "Under PARTIAL goodwill, NCI's balance sheet figure is just its proportionate share of the FV of identifiable net assets — no goodwill sits inside it. So when goodwill is later impaired, NCI never had any to lose: the ENTIRE impairment loss is absorbed by the parent alone. Under FULL goodwill, NCI's figure is fair value, which already includes its proportionate share of goodwill — so when goodwill is impaired, the loss is split between parent and NCI in proportion to their original shares of goodwill. Worked example: total goodwill recognized (full goodwill method) = $10,000, with NCI's 20% share = $2,000 embedded in NCI's balance. Goodwill is later impaired by $1,000 → $800 (80%) hits the parent, $200 (20%) hits NCI. Under partial goodwill, that same $1,000 impairment would be 100% the parent's, since NCI held none of the original goodwill." },
-      { type: '7.8 · Proportionate consolidation mechanics', color: 'slate', term: 'Every line item, no exceptions — balance sheet and income statement both', a: "The investor applies its ownership % to every single asset, liability, revenue, and expense line item of the JV — including tax and depreciation, with no carve-outs — and adds those grossed-up slices directly into its own statements. This applies to BOTH the balance sheet (proportionate share of the JV's assets and liabilities) and the income statement (proportionate share of every revenue and expense line), not just one or the other. Contrast with the equity method's single \"Investment in JV\" balance sheet line and single \"share of JV net income\" income statement line — no individual JV line items ever appear separately there." },
-      { type: '7.8 · IFRS 11 — joint ventures vs. joint operations', color: 'slate', term: 'Equity method is required for JVs; the proportionate-looking treatment is reserved for joint operations only', a: "The old standard (IAS 31) let venturers choose between equity method and proportionate consolidation for jointly controlled entities. IFRS 11 removed that choice: a true joint venture must use the EQUITY METHOD only. The proportionate-looking treatment survives only for JOINT OPERATIONS (the direct-rights-to-assets structure from 7.1, with no separate vehicle in between) — and that's not a policy election, it's simply the operator recognizing rights and obligations it already directly holds." },
-      { type: '7.8 · US GAAP treatment — same surface outcome, different reasoning', color: 'violet', term: 'Equity method required generally; the exception is a narrow industry practice, not a structural test', a: "US GAAP requires the equity method for joint ventures (ASC 323), same general mandate as current IFRS. But its narrow proportionate-consolidation exception (certain unincorporated joint ventures in construction and extractive/oil & gas industries) isn't based on IFRS 11's structural joint-operation-vs-joint-venture test (rights to underlying assets vs. a stake in a vehicle) — it's a separate, practical, industry-specific carve-out that predates IFRS 11's logic entirely. Same surface-level result (mostly equity method, narrow exception), different underlying reasoning — a classic \"looks the same but isn't for the same reason\" exam trap." },
-      { type: '7.8 · Ratio effects — fixes both distortions flagged in 7.3', color: 'teal', term: 'Grosses up revenue AND assets/liabilities, correcting both the leverage and margin issues', a: "Recall from 7.3: the equity method hides investee debt entirely (understated leverage) and inflates margin ratios (net income gets a JV boost with no matching revenue). Proportionate consolidation fixes BOTH: it grosses up the JV's debt onto the investor's balance sheet (more accurate, generally higher, leverage), and it grosses up the JV's revenue alongside its net income (more representative margins, since the numerator and denominator both move together instead of net income rising in isolation). Net income, EPS, and ROE are unaffected by which method is used — the proportionate share of profit is identical either way. It's specifically ratios involving revenue, assets, or liabilities that move." },
-      { type: '7.9 · Why SPEs/VIEs exist', color: 'slate', term: 'Off-balance-sheet financing and risk isolation — historically, also to dodge consolidation', a: "A sponsor sets up a special purpose entity to (a) keep debt off its own balance sheet — protecting its leverage ratios, debt covenants, and credit rating, (b) isolate risk by making the vehicle bankruptcy-remote (the sponsor's creditors can't reach the SPE's assets and vice versa), and, historically, (c) structure around consolidation rules entirely while still keeping the real economic exposure. Enron is the textbook cautionary example of (a) and (c) taken too far — extensive use of SPEs to hide debt while retaining the underlying risk." },
-      { type: '7.9 · Why the old voting-control test broke down', color: 'slate', term: 'Deliberately structured so no one holds a voting majority', a: "The old test (same as 7.4/7.5: majority of voting shares = consolidate) works for ordinary subsidiaries, but SPEs were often deliberately structured with a token outside \"equity\" investor holding just enough of a sliver of capital (historically as little as 3% under old US GAAP guidance) to be the technical legal owner, while the sponsor held 0% or a small minority of voting equity. Under the old test, this meant NOBODY had to consolidate — even though the sponsor created the entity, transferred assets into it, guaranteed its debts, and bore essentially all the real risk and reward. Voting form no longer matched economic substance." },
-      { type: '7.9 · The new test: power + economics', color: 'violet', term: 'Who controls it, and who wins or loses from it', a: "US GAAP's VIE model (ASC 810): an entity is a VIE if its equity investors, as a group, lack either the power to direct the entity's significant activities through voting rights, or the obligation to absorb expected losses, or the right to receive expected residual returns. Whoever holds BOTH (1) the power to direct the activities that most significantly affect the VIE's economic performance and (2) exposure to losses/benefits that could be significant is the \"primary beneficiary\" and must consolidate. IFRS (IFRS 10) doesn't create a separate VIE category at all — it applies the SAME unified control definition (power + exposure to variable returns + the ability to use that power to affect those returns) to every entity, leaning harder on substance when voting rights aren't the dominant factor." },
-      { type: '7.9 · Classic scenario: little or no equity, still consolidates', color: 'violet', term: 'Power can come from being manager/servicer; economics can come from guarantees, not equity', a: "A sponsor doesn't need any equity ownership to end up with both power and economics. Power often comes from being the entity's manager or servicer — e.g. a bank that sold its car loans into a securitization vehicle but keeps collecting payments and chasing late borrowers day-to-day. Economics often comes not from equity but from guarantees, a retained subordinated/first-loss interest, or servicing fees tied to the entity's performance — meaning the sponsor absorbs losses before anyone else would. Own 0% of the shares, but hold both the steering wheel and the risk, and the accounting answer is: consolidate the whole thing anyway — precisely the loophole the old voting-control test couldn't catch." },
+      { type: '7.1 · Influence indicator 1/5 — B', module: '7.1', gist: "A seat on the investee's board — even a single one — is strong evidence of significant influence.", color: 'slate', term: 'Board representation', a: "Investor has a representative (often a nominee director) sitting on the investee's board or equivalent governing body. Even a single board seat is treated as strong evidence of significant influence — the nominee doesn't need to be the investor's own employee." },
+      { type: '7.1 · Influence indicator 2/5 — P', module: '7.1', gist: "Voting on dividends, budgets and financing IS the IAS 28 definition of significant influence.", color: 'slate', term: 'Involvement in policy-making', a: 'Involvement in decisions on dividends/distributions and other financial or operating policy (budgets, major capex, financing). This matters because participating in financial and operating policy decisions is literally the IAS 28 definition of significant influence.' },
+      { type: '7.1 · Influence indicator 3/5 — T', module: '7.1', gist: "The investee leans on the investor for essential technology, patents or technical know-how.", color: 'slate', term: 'Technological dependency', a: "The investee depends on the investor for essential technical information, patented processes, or technology, making the investee reliant on and harder to separate from the investor." },
+      { type: '7.1 · Influence indicator 4/5 — M', module: '7.1', gist: "Material intercompany dealings — running in either direction, not just one.", color: 'slate', term: 'Material transactions', a: 'Material/significant intercompany transactions between investor and investee — in either direction (investor to investee, investee to investor, or other dealings), not limited to one direction.' },
+      { type: '7.1 · Influence indicator 5/5 — IT', module: '7.1', gist: "The investor's managers help run the investee, while both stay separate legal entities.", color: 'slate', term: 'Interchange of managerial personnel', a: "Investor's management personnel serve on, or are seconded to, the investee's management (or vice versa) on an ongoing basis — both entities stay separate, but the investor is operationally embedded in running the investee. E.g. a Marico executive also sits as a manager/director inside a company Marico holds a significant stake in, while both remain separate legal entities." },
+      { type: '7.1 · Ownership exception 1/3 — control despite <50%', module: '7.1', gist: "Dual-class shares can turn 30% of the equity into 60% of the votes → consolidate anyway.", color: 'violet', term: 'Control without majority ownership', a: "Voting CONTROL can exceed economic ownership — e.g. a founder holds only 30% of total equity, but a dual-class share structure gives their shares 10x the voting weight of ordinary shares, so they control 60% of votes. Treatment: CONSOLIDATION (business combination / acquisition method), despite <50% economic ownership." },
+      { type: '7.1 · Ownership exception 2/3 — majority ownership, no control', module: '7.1', gist: "Insolvency hands control to a resolution professional → drop to equity method despite owning 55%.", color: 'violet', term: '>50% ownership without control', a: "An investor owns 55%, but the company enters insolvency (e.g. under India's IBC) and a court-appointed resolution professional/committee of creditors takes over decision-making. Actual control has shifted away despite majority ownership. Treatment: STOPS being consolidated, switches to EQUITY METHOD instead." },
+      { type: '7.1 · Ownership exception 3/3 — the 20–50% band can shift both ways', module: '7.1', gist: "12% with a board seat → equity method. 35% locked out of the board → plain financial asset.", color: 'violet', term: 'Influence can exist below 20%, or be absent within 20–50%', a: "Below 20%, influence present: investor owns 12%, but has a board seat and dividend-decision involvement (per B-T-P-M-IT) — EQUITY METHOD applies despite <20%. Within 20–50%, influence absent: investor owns 35%, but another shareholder holds a controlling 60% and contractually excludes them from the board/policy input — no significant influence exists, so it's a plain FINANCIAL ASSET (FVTPL/FVOCI), not equity method, despite sitting in the 'normal' associate range." },
+      { type: '7.1 · Joint venture 1/4 — structure & control', module: '7.1', gist: "Two parties, a contract, terms negotiated case-by-case. Joint control — not a diluted form of control.", color: 'teal', term: 'Joint control basics', a: "Two parties (the common case — not '>2') enter a CONTRACTUAL arrangement to share control. Terms are negotiated case-by-case, not standardized. This is specifically JOINT control, not a generic limited/diluted form of control." },
+      { type: '7.1 · Joint venture 2/4 — unanimous consent', module: '7.1', gist: "Only the relevant activities need unanimous consent; day-to-day decisions don't.", color: 'teal', term: 'What requires unanimous consent', a: "Decisions on the arrangement's RELEVANT ACTIVITIES need unanimous consent — e.g. changes to fund policy, investment/deployment decisions, exit criteria, tenure of the agreement. Non-significant decisions (e.g. day-to-day research work, how to hold idle dry powder) do NOT need unanimous consent." },
+      { type: '7.1 · Joint venture 3/4 — JV vs. joint operation (IFRS 11)', module: '7.1', gist: "Direct rights to the assets = joint operation. A vehicle sitting in between = joint venture.", color: 'teal', term: 'The real distinction: rights to what?', a: "Joint operation: parties have DIRECT rights to the underlying assets/liabilities (e.g. an AIF real-estate fund where each investor is allotted a specific room/unit) — no separate vehicle sits in between. Joint venture: a separate vehicle (e.g. an SPV) sits between the investor and the asset; the investor's claim runs to the VEHICLE's net assets, not the asset directly — investor only has a claim on the underlying asset in the event of default/liquidation." },
+      { type: '7.1 · Joint venture 4/4 — accounting treatment', module: '7.1', gist: "Joint operation: recognise your share of every line. Joint venture: one equity-method line.", color: 'teal', term: 'How each is recorded', a: "Joint operation: NO single 'investment' line. The investor recognizes its proportionate SHARE of the actual assets, liabilities, revenue, cost, and tax line-by-line, directly in its own financials, each year. Joint venture (via SPV): EQUITY METHOD — a single 'Investment in JV' line that grows/shrinks with the investor's share of the JV's net income, exactly like an investment in an associate. Same treatment as associates because both are a stake in a separate entity's net assets, not direct co-ownership of the underlying asset — that's what drives equity-method treatment, not the ownership % or influence type." },
+      { type: '7.2 · Classification test 1/4 — Amortized cost (debt only)', module: '7.2', gist: "Two tests, both must pass — a hold-to-collect business model AND cash flows that are solely principal and interest.", color: 'slate', term: 'Two separate tests, both must pass', a: "Business model test: held to COLLECT contractual cash flows until the contractual claim is complete (doesn't have to be literal maturity — occasional sales are fine if collecting is still the primary intent). Cash flow characteristics test (SPPI): the contractual cash flows must be SOLELY Payments of Principal and Interest — nothing else." },
+      { type: '7.2 · Classification test 2/4 — FVPL (debt + equity)', module: '7.2', gist: "The catch-all: anything failing SPPI or the business-model test. Mandatory for equity held to trade.", color: 'slate', term: 'The catch-all bucket', a: "Anything that fails the SPPI test, fails the business-model test, or is genuinely held for trading lands here. For equity specifically, FVPL is MANDATORY when the purpose of holding it is to trade." },
+      { type: '7.2 · Classification test 3/4 — FVOCI debt', module: '7.2', gist: "Held to collect AND to sell — the hybrid sitting between amortized cost and FVPL.", color: 'slate', term: "Business model = 'collect + sell'", a: 'Debt is held both to collect contractual cash flows AND to sell when convenient/needed — a hybrid business model between amortized cost (collect only) and FVPL (trade).' },
+      { type: '7.2 · Classification test 4/4 — FVOCI equity', module: '7.2', gist: "An irrevocable election at recognition for strategic stakes — about where volatility lands, not sale intent.", color: 'slate', term: 'An irrevocable election, not sale intent', a: "NOT about the security being 'for sale.' Typically used for strategic, long-term equity stakes the company does NOT intend to trade (e.g. a stake in a supplier/partner). Management makes an IRREVOCABLE election at initial recognition to route fair value changes through OCI instead of the income statement — the choice is about where the volatility shows up in the financials, not about sale intent." },
+      { type: '7.2 · Reclassification 1/3 — headline rule & mechanics', module: '7.2', gist: "Equity never reclassifies. Debt only on a business-model change, remeasured through the P&L that day.", color: 'violet', term: 'Equity never reclassifies; debt only if the business model changes', a: 'Equity: locked in at initial election, forever. Debt: reclassification allowed ONLY if the business model changes. When it happens (e.g. amortized cost → FVPL), the asset is remeasured to fair value on the balance sheet, and the gap between the old amortized cost and new fair value is recognized immediately in the income statement at the reclassification date.' },
+      { type: '7.2 · Reclassification 2/3 — what actually counts as a business model change', module: '7.2', gist: "Rare, management-driven and portfolio-level — exiting a lending line, not going bankrupt.", color: 'violet', term: 'Must be rare, significant, and externally demonstrable', a: "NOT a distress event like bankruptcy — that's a credit/impairment issue, not a business model change. IFRS 9 expects these to be very infrequent. Standard example: a bank holds a portfolio of commercial loans, originated and held to COLLECT contractual interest and principal (Amortized Cost). The bank then strategically decides to EXIT commercial lending — it stops collecting on these loans and sets up a program to actively SELL the entire portfolio to other institutions. Because the business model shifted from 'hold to collect' to 'hold to sell', the loans reclassify Amortized Cost → FVPL (or FVOCI, if some collection intent remains). The trigger is a portfolio-level, management-decided shift in what the business DOES with a specific set of assets — not a distress event, and not a vague statement like 'expanding into venture capital.'" },
+      { type: '7.2 · Reclassification 3/3 — why equity is locked in but debt is not', module: '7.2', gist: "Free switching would let firms route gains to the P&L and bury losses in OCI.", color: 'violet', term: 'Prevents earnings manipulation', a: "Debt in FVPL/FVOCI is also at fair value, so 'equity is always at FV' isn't the real reason equity can't reclassify. The actual reason: if companies could freely flip equity between FVPL and FVOCI, they could cherry-pick — routing gains through the income statement to flatter earnings while hiding losses in OCI. Debt reclassification is tied to an objective, rare, externally-verifiable event (an actual business model shift); no such objective trigger exists for equity, so IFRS locks the choice in at initial recognition." },
+      { type: '7.2 · Embedded derivatives', module: '7.2', gist: "A conversion option breaks SPPI, so the entire hybrid goes to FVPL — IFRS 9 never bifurcates.", color: 'teal', term: 'Convertible bonds and similar hybrids — no splitting', a: "A hybrid instrument = plain host contract (e.g. a bond) + an embedded derivative feature (e.g. a conversion option into equity). Under IFRS 9, financial-asset hybrids are NOT bifurcated (unlike older standards). The conversion option means cash flows are no longer SOLELY principal and interest — the instrument automatically fails the SPPI test. Failing SPPI rules out Amortized Cost and FVOCI, so the ENTIRE instrument (host + embedded option together) goes to FVPL, with all fair value changes hitting the income statement as one undivided figure." },
+      { type: '7.2 · Loan impairment 1/2 — the three-stage ECL model', module: '7.2', gist: "Stage 1: 12-month losses. Stage 2 (credit risk up since origination): lifetime. Stage 3 (actual default): lifetime.", color: 'teal', term: 'Replaces the old incurred-loss model; forward-looking', a: "Stage 1 (performing): no significant increase in credit risk since origination — recognize 12-MONTH expected credit losses. Stage 2 (underperforming): a SIGNIFICANT INCREASE IN CREDIT RISK (SICR) since initial recognition — not just 'currently risky', but riskier NOW vs. AT ORIGINATION — recognize LIFETIME expected credit losses. Practical backstop: if a payment is more than 30 days past due, there's a rebuttable presumption of SICR, pushing the loan into Stage 2 unless there's reasonable evidence otherwise. Stage 3 (credit-impaired/non-performing): OBJECTIVE evidence of a loss event (actual default) — still lifetime expected losses." },
+      { type: '7.2 · Loan impairment 2/2 — why Stage 3 changes the interest calculation', module: '7.2', gist: "Stages 1–2 accrue interest on the gross amount; Stage 3 switches to net of the loss allowance.", color: 'teal', term: 'Gross carrying amount vs. net carrying amount', a: "Stage 1 & 2: still just a probability of default, no loss event confirmed — full contractual repayment still expected, so interest is calculated on the GROSS carrying amount (only the loss allowance provision changes in size). Stage 3: an actual, OBJECTIVE default has occurred — the company no longer expects to collect the full amount, so continuing to accrue interest on the full gross balance would overstate income. Interest is instead calculated on the NET carrying amount (gross amortized cost MINUS the loss allowance) — a more honest reflection of what's still realistically expected to be collected." },
+      { type: '7.3 · Equity method basics 1/2 — initial recording & income', module: '7.3', gist: "Booked at cost, then your share of investee net income lifts both earnings and the investment account.", color: 'slate', term: 'Recorded at cost; income increases the investment', a: 'Initial investment recorded at COST as a noncurrent asset (cash/bank decreases, asset increases). Each period, the investor’s proportionate share of the investee’s NET INCOME is recognized in the investor’s own income statement AND increases the investment account on the balance sheet — income is recognized as EARNED, not as distributed.' },
+      { type: '7.3 · Equity method basics 2/2 — dividends are a return of capital', module: '7.3', gist: "Dividends cut the investment account and never touch the P&L — that income was already recognised when earned.", color: 'slate', term: 'Dividends reduce the investment account; never touch the P&L', a: "Dividends received are a RETURN OF CAPITAL, not income: cash increases, investment account (asset) decreases — dividends do NOT appear in the investor's income statement under the equity method. Contrast with FVPL/FVOCI, where dividends DO flow through the P&L. Why: net income already contains the portion that will later be paid out as a dividend. The investor already recognized its full proportionate share of net income when it was EARNED; recognizing the dividend again when it's PAID would double-count the same economic event." },
+      { type: '7.3 · Loss handling & suspension', module: '7.3', gist: "The account stops at zero. Unrecognised losses must be absorbed in full before income recognition restarts.", color: 'violet', term: 'The investment account can’t go negative — and there’s a catch-up rule', a: "Investee losses: proportionate share reduces both the investment account AND investor earnings, same mechanic as profits but in reverse. If losses drive the investment account to ZERO, the investor SUSPENDS the equity method — further losses go unrecognized (tracked off-book, not recorded, since the account can't go negative). Resumption isn't automatic at the first dollar of profit: the investor must first absorb the accumulated UNRECOGNIZED losses from the suspension period. Only once cumulative proportionate profit EXCEEDS the total unrecognized losses does income recognition restart — e.g. $50 unrecognized losses, next year's $30 profit share just closes the gap to $20; nothing is recorded until profits push past the full $50." },
+      { type: '7.3 · Fair value option', module: '7.3', gist: "US GAAP allows it; IFRS limits it to VC funds and similar. Irrevocable — and dividends then DO hit the P&L.", color: 'violet', term: 'US GAAP allows it; IFRS restricts it; always irrevocable', a: 'US GAAP: equity-method investments CAN be elected to fair value instead. IFRS: this option is restricted to venture capital firms, mutual funds, and similar entities. The election, once made, is IRREVOCABLE — cannot switch back later. Once elected, BOTH dividends received AND fair value gains/losses flow through the income statement — same treatment as a plain FVPL financial asset, not the equity-method’s single-line, dividend-excluded treatment.' },
+      { type: '7.3 · Excess of purchase price over book value 1/2 — where it goes', module: '7.3', gist: "Step up undervalued identifiable assets first; whatever remains is goodwill — all buried in the one line.", color: 'teal', term: 'Fair-value step-up first, goodwill absorbs the rest — no separate account', a: 'Excess = Purchase price − Investor’s proportionate share of investee book value. Step 1: allocate to identifiable assets/liabilities that are UNDERVALUED relative to fair value (e.g. equipment at historical cost but worth more today) — investor’s proportionate share of that fair-value gap. Step 2: whatever remains is GOODWILL — but under the equity method there is NO separate goodwill line, unlike consolidation accounting (no full-vs-partial-goodwill concept here either). Everything — the fair-value step-up AND goodwill — stays bundled inside the single “Investment in Associate” line.' },
+      { type: '7.3 · Excess of purchase price over book value 2/2 — the step-up in later years', module: '7.3', gist: "The investor books extra depreciation on the step-up, shrinking its own pickup. The investee never sees it.", color: 'teal', term: 'Incremental depreciation reduces the investor’s income pickup only', a: "The investee keeps depreciating the asset on ITS OWN (lower, historical-cost) book value — its financials never see the step-up the investor paid for. Since the investor paid based on the asset's true (higher) fair value, the investor recognizes ADDITIONAL/INCREMENTAL depreciation on that step-up amount, spread over the asset's remaining useful life. Mechanically: each year this extra depreciation REDUCES the investor's “share of investee net income” pickup on its own income statement, which correspondingly reduces the investment account on the balance sheet — not a re-valuation, a running amortization of the premium paid. Why only on the investor's side: the investee's financials are based on ITS OWN historical cost — they never recorded the investor's purchase price or the step-up, so they have no reason to show any extra depreciation. The premium is a fact about the investor's investment, not the investee's books." },
+      { type: '7.4 · Impairment 1/2 — P&L treatment & reversal', module: '7.4', gist: "US GAAP: never reverse. IFRS: reverse, capped at the carrying value the investment would otherwise have had.", color: 'slate', term: 'US GAAP: no reversal. IFRS: reversal capped at pre-impairment carrying value', a: 'Impairment loss hits the income statement, writing the investment down to fair value. US GAAP: reversal of impairment losses is PROHIBITED once taken. IFRS: reversal IS allowed if the recoverable amount later increases — capped at the CARRYING VALUE THE INVESTMENT WOULD HAVE HAD had the impairment never happened (i.e. pre-impairment carrying value, rolled forward for normal equity-method changes since — NOT literally the original purchase/historical cost, since the investment account moves over time regardless of impairment).' },
+      { type: '7.4 · Impairment 2/2 — the trigger test differs by standard', module: '7.4', gist: "US GAAP: an 'other-than-temporary' judgment call. IFRS: an objective loss event must actually have happened.", color: 'slate', term: 'US GAAP: judgment-based. IFRS: evidence-based', a: "US GAAP: fair value falls below carrying value AND the decline is judged 'OTHER-THAN-TEMPORARY' — a qualitative, judgment/duration-based test, no specific event required. IFRS: impairment must be evidenced by an actual, objective LOSS EVENT (e.g. investee financial difficulty, default, disappearance of an active market) — an evidence-based test, not just a judgment call about how long a decline might persist." },
+      { type: '7.4 · Transactions with investee 1/2 — upstream', module: '7.4', gist: "Investee sells up: it keeps its full profit; the investor trims its own pickup for goods still unsold.", color: 'violet', term: 'Investee → Investor: investee keeps full profit, investor’s pickup shrinks', a: "Investee sells to investor and books its FULL profit on its own income statement — untouched. The goods themselves stay recorded at full transaction price (this is a PROFIT adjustment, not an inventory-valuation one). If some of those goods are still unsold in the investor's inventory at year-end, that slice of profit is UNCONFIRMED from the group's perspective. The investor reduces its own equity-income pickup by: Total profit × % of goods still unsold × investor's ownership %. Released back into income once the investor finally resells those goods externally." },
+      { type: '7.4 · Transactions with investee 2/2 — downstream', module: '7.4', gist: "Investor sells down: books the full profit, then defers its share of whatever the investee hasn't resold.", color: 'violet', term: 'Investor → Investee: investor initially books full profit, then defers the unconfirmed slice', a: "Investor sells to investee and initially recognizes the FULL profit on its own income statement, like any normal external sale. If some of those goods are still unsold in the investee's inventory at year-end, the investor must then REDUCE its own reported profit by: Total profit × % of goods still unsold × investor's ownership %. The investee's income statement is not directly involved here — this is purely an adjustment to what the investor reports. Deferred slice releases back into investor income once the investee resells the goods externally. Worked example: Investor owns 30%, sells goods booking $15,000 profit; half still unsold at year-end → unconfirmed = $15,000 × 50% = $7,500; investor's share = $7,500 × 30% = $2,250 reduction this year." },
+      { type: '7.4 · Analytical issues 1/3 — payout ratio inflates earnings', module: '7.4', gist: "Equity method claims the full share of earnings; a passive holder only books dividends actually received.", color: 'teal', term: 'Equity method vs. a passive investment', a: "Equity method recognizes the investor's FULL proportionate share of the investee's net income regardless of cash actually distributed. A passive/minority investment (cost or fair value method) only recognizes DIVIDENDS RECEIVED as income. When the investee's payout ratio is under 100% (retains some earnings), equity-method income is HIGHER than what a passive investor would report — the investor is 'claiming' earnings not yet received in cash. Note: NOT a minority-interest/consolidation concept — that's a separate topic (business combinations)." },
+      { type: '7.4 · Analytical issues 2/3 — understated leverage', module: '7.4', gist: "The associate's debt never appears — one net line hides it from every leverage ratio.", color: 'teal', term: 'Investee’s debt is invisible on the investor’s balance sheet', a: 'The investee’s assets and liabilities never appear individually on the investor’s balance sheet — only one net line, “Investment in Associate.” The investee’s debt is completely invisible to standard leverage ratios (debt-to-equity, debt-to-assets) computed on the investor’s statements, even though the investor has real indirect economic exposure to that debt. Analysts sometimes manually proportionately consolidate an associate’s debt for credit analysis to correct for this.' },
+      { type: '7.4 · Analytical issues 3/3 — inflated margin ratios', module: '7.4', gist: "Net income gets the pickup, revenue gets nothing — so margins look better than the business is.", color: 'teal', term: 'Net income rises, revenue doesn’t — margins look better than they should', a: "The investor's revenue line is completely untouched by the investee — none of the investee's sales ever flow onto the investor's income statement. But net income DOES get a boost from the equity-income pickup. Result: ratios like net profit margin (net income ÷ revenue) have a numerator inflated by the investee's earnings sitting over a denominator that has nothing to do with the investee — margins look artificially better than they 'should,' since the investor gets profitability credit without the corresponding revenue." },
+      { type: '7.5 · Control vs. significant influence', module: '7.5', gist: "Above 50% → consolidate. The B-T-P-M-IT indicators → equity method. Same logic under IFRS and US GAAP.", color: 'slate', term: 'Two different thresholds, two different methods — applies identically under both US GAAP and IFRS', a: "CONTROL = majority ownership of voting shares (generally >50%) — triggers CONSOLIDATION (acquisition method). SIGNIFICANT INFLUENCE = the B-T-P-M-IT indicators from Module 7.1, typically 20–50% — triggers EQUITY METHOD. These are NOT interchangeable and don't swap depending on framework: IFRS 10's definition of control (power + exposure to variable returns + ability to use that power) and IAS 28's significant influence apply the SAME underlying logic as US GAAP — the split by threshold is universal, not GAAP-specific." },
+      { type: '7.5 · IFRS vs. US GAAP — the actual difference here', module: '7.5', gist: "US GAAP names merger / acquisition / consolidation; IFRS ignores the structure and applies acquisition accounting to all three.", color: 'slate', term: 'Only the structural naming differs, not the accounting', a: "US GAAP names three legal outcomes of a business combination: MERGER (target ceases to exist, acquirer absorbs everything), ACQUISITION (both entities survive, parent-subsidiary relationship), CONSOLIDATION (a brand-new entity absorbs both). IFRS does not name or distinguish between these structural outcomes — it applies the SAME acquisition-method accounting regardless of which structural form actually occurred. Both frameworks eliminated pooling-of-interests; both require the acquisition method now." },
+      { type: '7.5 · Why 100% is consolidated regardless of ownership %', module: '7.5', gist: "Control decides WHAT consolidates — always 100%. Ownership % only decides how the equity splits.", color: 'violet', term: 'Control determines WHAT gets consolidated; ownership % only determines the equity SPLIT', a: "Consolidation reflects CONTROL over the economic entity, not ownership %. Once the parent has control, it directs ALL of the subsidiary's operations and resources — 100% of them — regardless of how much equity it legally owns. Ownership % doesn't change HOW MUCH gets consolidated (always 100% of assets/liabilities); it only changes how the subsidiary's EQUITY gets split between the parent's claim and the noncontrolling interest's claim. The subsidiary's own standalone stockholders' equity is fully eliminated/ignored on the consolidated balance sheet — only the NCI figure represents the outside claim." },
+      { type: '7.5 · Noncontrolling interest calculation', module: '7.5', gist: "NCI = the subsidiary's total equity × the percentage the parent doesn't own.", color: 'violet', term: 'Subsidiary’s total equity × % not owned by the parent', a: 'NCI = Subsidiary’s total stockholders’ equity (common stock + retained earnings) × unowned %. Worked example: Company S equity = $6,000 common stock + $4,000 retained earnings = $10,000. Company P owns 80%, so unowned = 20%. NCI = $10,000 × 20% = $2,000, reported within stockholders’ equity on the consolidated balance sheet.' },
+      { type: '7.6 · Consolidation of revenue & expenses', module: '7.6', gist: "100% of the subsidiary's lines, unscaled by ownership — but only from the acquisition date onward.", color: 'slate', term: '100% line-by-line, regardless of ownership %, from acquisition date forward', a: "Every revenue and expense line item is P's own plus 100% of S's — not scaled by ownership %, exactly like the balance sheet in 7.5 (control means 100% gets consolidated; ownership % only affects the equity split, not the consolidation scope). If the acquisition happens mid-year (e.g. July 1), only S's revenue and expenses from July 1 onward enter the consolidated P&L — the pre-acquisition months were earned by S as an independent, unconsolidated entity and are excluded entirely." },
+      { type: '7.6 · NCI on the income statement vs. the balance sheet', module: '7.6', gist: "Same 20%, two different bases: one year's net income on the P&L, total accumulated equity on the balance sheet.", color: 'slate', term: 'Same 20% rate, two completely different bases', a: "Income statement NCI (“net income attributable to NCI”) is a flow figure: S's net income FOR THE PERIOD × unowned % — e.g. S earns $5,000, unowned = 20%, so NCI's share = $1,000, leaving $4,000 attributable to the parent. Balance sheet NCI is a stock figure: S's TOTAL cumulative stockholders' equity × unowned % — e.g. if S's total equity is $30,000, balance sheet NCI = $6,000. Same 20% rate both times, but one measures one year's income and the other measures the whole accumulated equity base — they are not the same number and shouldn't be confused." },
+      { type: '7.6 · Intercompany eliminations', module: '7.6', gist: "Strip out 100% of intragroup sales, interest, dividends and unrealised profit — not the proportionate share.", color: 'violet', term: 'Everything that is just the group trading with itself gets stripped out — 100%, not proportionate', a: "Eliminated in full before final consolidated figures: intercompany sales/COGS, intercompany interest income/expense (loans between P and S), intercompany dividends (S's dividend to P would double-count against S's net income already being consolidated), unrealized profit in ending inventory on intercompany sales still unsold at year-end, and excess depreciation/amortization on fair-value step-ups from the acquisition (same idea as the equity method's excess purchase price in 7.3, but here it runs through consolidated expenses and gets split between parent and NCI shares). The elimination is 100% of the intercompany profit regardless of ownership % — contrast with the equity method (7.4), where only the investor's PROPORTIONATE share is deferred, because equity method only ever brings the investor's proportionate slice of the investee's income onto the investor's books in the first place." },
+      { type: '7.6 · EPS impact 1/2 — cash/debt-financed deals', module: '7.6', gist: "No new shares, so EPS rises whenever the target adds net income after any acquisition interest.", color: 'teal', term: 'No new shares issued — EPS moves with earnings only', a: "If the acquisition is funded with cash or debt, share count doesn't change, so EPS rises as long as S's contribution to net income attributable to the parent (net of any added after-tax interest expense on new acquisition debt) is positive. Straightforward accretion — the denominator is fixed, only the numerator moves." },
+      { type: '7.6 · EPS impact 2/2 — stock-financed deals: accretive vs. dilutive', module: '7.6', gist: "Accretive if you paid a lower P/E than your own. A genuinely profitable target bought too dear still dilutes.", color: 'teal', term: 'Whether EPS rises or falls depends on the P/E paid for the target vs. the acquirer’s own P/E — not on whether the target is “profitable”', a: "When new shares are issued to pay for the target, both the numerator (combined earnings) and denominator (more shares) move, and the number of new shares issued = purchase price ÷ acquirer's own share price. The deal is ACCRETIVE (EPS rises) if the P/E paid for the target is LOWER than the acquirer's own P/E (equivalently, target's earnings yield > acquirer's earnings yield) — fewer new shares are needed per dollar of earnings acquired than the acquirer's existing shares represent. It's DILUTIVE (EPS falls) if the P/E paid for the target is HIGHER than the acquirer's own P/E — even if the target is genuinely profitable, overpaying (a high P/E) relative to the acquirer's own multiple still drags EPS down. A profitable-but-overpaid-for target and an unprofitable target can both be dilutive; profitability alone doesn't decide it." },
+      { type: '7.7 · Goodwill calculation & the control premium wrinkle', module: '7.7', gist: "Price − fair value of identifiable net assets. But under full goodwill 'price' means valuing 100%, and a control premium doesn't scale.", color: 'slate', term: 'Purchase price − FV of identifiable net assets — but "purchase price" isn’t one fixed number', a: "Base formula: Goodwill = Purchase price paid − Fair value of identifiable net assets acquired (FV of identifiable assets − FV of liabilities assumed). But what counts as “purchase price” depends on the goodwill method: under partial goodwill it's simply the price paid for the parent's stake vs. the parent's proportionate share of FV net assets. Under full goodwill it requires estimating the FV of the ENTIRE acquiree (100%) — and that figure is often more than a simple gross-up of the price paid per share, because the price paid for a CONTROLLING stake usually carries a control premium that a single noncontrolling share wouldn't command." },
+      { type: '7.7 · Partial vs. full goodwill — which framework requires what', module: '7.7', gist: "US GAAP requires full goodwill. IFRS lets you choose, separately for each deal.", color: 'slate', term: 'US GAAP: full goodwill only. IFRS: a choice, made deal-by-deal', a: 'Partial goodwill = only the proportion of goodwill attributable to the parent’s ownership % is recognized. Full goodwill = 100% of goodwill is recognized, as if the whole entity (including the NCI slice) were acquired. US GAAP REQUIRES the full goodwill method — no election. IFRS PERMITS A CHOICE between partial and full goodwill, elected separately for each individual acquisition (not a blanket policy across all deals).' },
+      { type: '7.7 · Impairment testing & non-reversal', module: '7.7', gist: "Recognised once, tested at least annually, never amortised — and never reversed under either framework.", color: 'violet', term: 'Recognized once at acquisition; tested at least annually thereafter; never amortized, never reversed', a: "Goodwill is recognized ONCE, at the acquisition date — that's initial measurement, not impairment testing. From then on it is tested for impairment AT LEAST ANNUALLY (and immediately upon any triggering event suggesting a decline) for as long as it remains on the books. It is never amortized — the only way its carrying value changes is through impairment write-downs. And impairment losses on goodwill are NEVER REVERSED under either US GAAP or IFRS, even if the reason for the impairment goes away — a useful contrast against 7.3, where IFRS DOES allow reversal of an equity-method investment's impairment (goodwill is the one-way exception)." },
+      { type: '7.7 · NCI and goodwill impairment — the exam-favorite twist', module: '7.7', gist: "Full goodwill: the loss splits with NCI. Partial goodwill: the parent absorbs all of it.", color: 'violet', term: 'NCI is affected by impairment only if the full goodwill method was used', a: "Under PARTIAL goodwill, NCI's balance sheet figure is just its proportionate share of the FV of identifiable net assets — no goodwill sits inside it. So when goodwill is later impaired, NCI never had any to lose: the ENTIRE impairment loss is absorbed by the parent alone. Under FULL goodwill, NCI's figure is fair value, which already includes its proportionate share of goodwill — so when goodwill is impaired, the loss is split between parent and NCI in proportion to their original shares of goodwill. Worked example: total goodwill recognized (full goodwill method) = $10,000, with NCI's 20% share = $2,000 embedded in NCI's balance. Goodwill is later impaired by $1,000 → $800 (80%) hits the parent, $200 (20%) hits NCI. Under partial goodwill, that same $1,000 impairment would be 100% the parent's, since NCI held none of the original goodwill." },
+      { type: '7.8 · Proportionate consolidation mechanics', module: '7.8', gist: "Your % of every single line — tax and depreciation included — on both statements.", color: 'slate', term: 'Every line item, no exceptions — balance sheet and income statement both', a: "The investor applies its ownership % to every single asset, liability, revenue, and expense line item of the JV — including tax and depreciation, with no carve-outs — and adds those grossed-up slices directly into its own statements. This applies to BOTH the balance sheet (proportionate share of the JV's assets and liabilities) and the income statement (proportionate share of every revenue and expense line), not just one or the other. Contrast with the equity method's single \"Investment in JV\" balance sheet line and single \"share of JV net income\" income statement line — no individual JV line items ever appear separately there." },
+      { type: '7.8 · IFRS 11 — joint ventures vs. joint operations', module: '7.8', gist: "IAS 31's choice is gone: joint ventures use the equity method; only joint operations look proportionate.", color: 'slate', term: 'Equity method is required for JVs; the proportionate-looking treatment is reserved for joint operations only', a: "The old standard (IAS 31) let venturers choose between equity method and proportionate consolidation for jointly controlled entities. IFRS 11 removed that choice: a true joint venture must use the EQUITY METHOD only. The proportionate-looking treatment survives only for JOINT OPERATIONS (the direct-rights-to-assets structure from 7.1, with no separate vehicle in between) — and that's not a policy election, it's simply the operator recognizing rights and obligations it already directly holds." },
+      { type: '7.8 · US GAAP treatment — same surface outcome, different reasoning', module: '7.8', gist: "Same equity-method mandate, but the carve-out is an old construction / oil-and-gas practice, not IFRS 11's structural test.", color: 'violet', term: 'Equity method required generally; the exception is a narrow industry practice, not a structural test', a: "US GAAP requires the equity method for joint ventures (ASC 323), same general mandate as current IFRS. But its narrow proportionate-consolidation exception (certain unincorporated joint ventures in construction and extractive/oil & gas industries) isn't based on IFRS 11's structural joint-operation-vs-joint-venture test (rights to underlying assets vs. a stake in a vehicle) — it's a separate, practical, industry-specific carve-out that predates IFRS 11's logic entirely. Same surface-level result (mostly equity method, narrow exception), different underlying reasoning — a classic \"looks the same but isn't for the same reason\" exam trap." },
+      { type: '7.8 · Ratio effects — fixes both distortions flagged in 7.3', module: '7.8', gist: "Grossing up revenue and debt together fixes both the hidden leverage and the flattered margins. Net income, EPS and ROE don't move.", color: 'teal', term: 'Grosses up revenue AND assets/liabilities, correcting both the leverage and margin issues', a: "Recall from 7.3: the equity method hides investee debt entirely (understated leverage) and inflates margin ratios (net income gets a JV boost with no matching revenue). Proportionate consolidation fixes BOTH: it grosses up the JV's debt onto the investor's balance sheet (more accurate, generally higher, leverage), and it grosses up the JV's revenue alongside its net income (more representative margins, since the numerator and denominator both move together instead of net income rising in isolation). Net income, EPS, and ROE are unaffected by which method is used — the proportionate share of profit is identical either way. It's specifically ratios involving revenue, assets, or liabilities that move." },
+      { type: '7.9 · Why SPEs/VIEs exist', module: '7.9', gist: "Keep debt off the balance sheet, ring-fence risk and — historically — dodge consolidation entirely. See Enron.", color: 'slate', term: 'Off-balance-sheet financing and risk isolation — historically, also to dodge consolidation', a: "A sponsor sets up a special purpose entity to (a) keep debt off its own balance sheet — protecting its leverage ratios, debt covenants, and credit rating, (b) isolate risk by making the vehicle bankruptcy-remote (the sponsor's creditors can't reach the SPE's assets and vice versa), and, historically, (c) structure around consolidation rules entirely while still keeping the real economic exposure. Enron is the textbook cautionary example of (a) and (c) taken too far — extensive use of SPEs to hide debt while retaining the underlying risk." },
+      { type: '7.9 · Why the old voting-control test broke down', module: '7.9', gist: "A token 3% outside owner meant nobody had to consolidate, while the sponsor kept all the risk.", color: 'slate', term: 'Deliberately structured so no one holds a voting majority', a: "The old test (same as 7.4/7.5: majority of voting shares = consolidate) works for ordinary subsidiaries, but SPEs were often deliberately structured with a token outside \"equity\" investor holding just enough of a sliver of capital (historically as little as 3% under old US GAAP guidance) to be the technical legal owner, while the sponsor held 0% or a small minority of voting equity. Under the old test, this meant NOBODY had to consolidate — even though the sponsor created the entity, transferred assets into it, guaranteed its debts, and bore essentially all the real risk and reward. Voting form no longer matched economic substance." },
+      { type: '7.9 · The new test: power + economics', module: '7.9', gist: "Whoever directs the significant activities AND absorbs the losses consolidates. IFRS 10 just applies its normal control test.", color: 'violet', term: 'Who controls it, and who wins or loses from it', a: "US GAAP's VIE model (ASC 810): an entity is a VIE if its equity investors, as a group, lack either the power to direct the entity's significant activities through voting rights, or the obligation to absorb expected losses, or the right to receive expected residual returns. Whoever holds BOTH (1) the power to direct the activities that most significantly affect the VIE's economic performance and (2) exposure to losses/benefits that could be significant is the \"primary beneficiary\" and must consolidate. IFRS (IFRS 10) doesn't create a separate VIE category at all — it applies the SAME unified control definition (power + exposure to variable returns + the ability to use that power to affect those returns) to every entity, leaning harder on substance when voting rights aren't the dominant factor." },
+      { type: '7.9 · Classic scenario: little or no equity, still consolidates', module: '7.9', gist: "Own 0%, service the loans, guarantee the losses — you consolidate the whole thing anyway.", color: 'violet', term: 'Power can come from being manager/servicer; economics can come from guarantees, not equity', a: "A sponsor doesn't need any equity ownership to end up with both power and economics. Power often comes from being the entity's manager or servicer — e.g. a bank that sold its car loans into a securitization vehicle but keeps collecting payments and chasing late borrowers day-to-day. Economics often comes not from equity but from guarantees, a retained subordinated/first-loss interest, or servicing fees tied to the entity's performance — meaning the sponsor absorbs losses before anyone else would. Own 0% of the shares, but hold both the steering wheel and the risk, and the accounting answer is: consolidate the whole thing anyway — precisely the loophole the old voting-control test couldn't catch." },
     ],
   },
 };
@@ -616,7 +696,7 @@ function renderCoverage() {
 }
 
 // Builds a lowercase search corpus for one topic key: name, description, structured
-// content (compare table + branch notes), gaps, tuition misses, and the user's own
+// content (compare tables, module headings, point gists and deep dives), gaps, tuition
 // saved notes/Q&A. This is what makes the search bar cover "everything", not just titles.
 function corpusFor(key, subjectName) {
   const parts = [];
@@ -630,7 +710,15 @@ function corpusFor(key, subjectName) {
       cmp.columns.forEach(col => parts.push(col));
       cmp.rows.forEach(row => { parts.push(row.label); row.values.forEach(v => parts.push(v)); });
     });
-    if (c.notes) c.notes.forEach(n => parts.push(n.type, n.term, n.a));
+    if (c.notes) c.notes.forEach(n => parts.push(n.type, n.term, n.gist || '', n.a));
+    // Module headings and blurbs are searchable too, so "goodwill" finds section 7.7 itself.
+    const mods = new Set();
+    compareList.forEach(cmp => { if (cmp.module) mods.add(cmp.module); });
+    (c.notes || []).forEach(n => { if (n.module) mods.add(n.module); });
+    mods.forEach(id => {
+      parts.push(id);
+      if (MODULES[id]) parts.push(MODULES[id].name, MODULES[id].blurb || '');
+    });
   }
   if (GAPS[key]) GAPS[key].forEach(g => { if (g) parts.push(g); });
   if (TUITION_MISSES[key]) TUITION_MISSES[key].forEach(m => parts.push(m.q, m.gotWrong, m.correction));
@@ -700,21 +788,28 @@ function renderSidebar() {
   }
 }
 
-function renderDetail() {
-  const el = document.getElementById('detail');
-  if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
-  const meta = FLAT.find(t => t.key === selectedKey);
-  const st = statusOf(selectedKey);
-  const statusLabel = st === 'mastered' ? 'Mastered' : st === 'progress' ? 'In progress' : 'Not started';
-  el.innerHTML = `
-    <div class="crumb">${meta.subjectName}</div>
-    <h2 class="topic-title">${meta.name}</h2>
-    <p class="topic-desc">${meta.desc}</p>
-    <div class="status-row"><span class="status-badge${st === 'progress' ? ' st-progress' : st === 'mastered' ? ' st-mastered' : ''}">${statusLabel}</span></div>
-    ${(CONTENT[selectedKey] && ((CONTENT[selectedKey].compares && CONTENT[selectedKey].compares.length) || CONTENT[selectedKey].compare || CONTENT[selectedKey].notes)) ? `
-    ${(CONTENT[selectedKey].compares || (CONTENT[selectedKey].compare ? [CONTENT[selectedKey].compare] : [])).map(cmp => `
-    <section class="block">
-      <div class="block-label">${escapeHtml(cmp.label || 'How the categories split')}</div>
+// Splits a topic's compares and notes into ordered module sections. Notes keep their
+// original array index in `i` so GAPS stays index-aligned however they are regrouped.
+// Order follows MODULES; any module id not listed there is appended in first-seen order,
+// so a note for a brand-new module shows up rather than vanishing.
+function groupByModule(content) {
+  const compares = content.compares || (content.compare ? [content.compare] : []);
+  const notes = content.notes || [];
+  const seen = [];
+  const bucket = {};
+  const push = (id, kind, val) => {
+    if (!bucket[id]) { bucket[id] = { id, compares: [], notes: [] }; seen.push(id); }
+    bucket[id][kind].push(val);
+  };
+  compares.forEach(c => push(c.module || '', 'compares', c));
+  notes.forEach((n, i) => push(n.module || '', 'notes', { ...n, i }));
+  const ordered = Object.keys(MODULES).filter(id => bucket[id])
+    .concat(seen.filter(id => !MODULES[id]));
+  return ordered.map(id => ({ ...bucket[id], meta: MODULES[id] || null }));
+}
+
+function renderCompare(cmp) {
+  return `
       <p class="compare-caption">${escapeHtml(cmp.caption)}</p>
       <div class="compare-grid">
         ${cmp.columns.map((col, ci) => `
@@ -727,24 +822,75 @@ function renderDetail() {
               </div>`).join('')}
           </div>`).join('')}
       </div>
-      ${cmp.gap ? '<div class="note-gap" style="margin-left:0;margin-top:8px;"><span class="note-gap-label">Gap —</span>' + escapeHtml(cmp.gap) + '</div>' : ''}
-    </section>`).join('')}
-    ${(CONTENT[selectedKey].notes && CONTENT[selectedKey].notes.length) ? `
-    <section class="block">
-      <div class="block-label">Branches off this topic</div>
-      <div class="branch-wrap">
-        <div class="branch-spine"></div>
-        ${CONTENT[selectedKey].notes.map((item, i) => `<div class="branch-row">
-          <div class="branch-stub branch-stub-${item.color}"></div>
-          <div class="branch-node note-${item.color}">
-            <span class="note-tag note-tag-${item.color}">${escapeHtml(item.type)}</span>
-            <div class="branch-term">${escapeHtml(item.term)}</div>
-            <div class="branch-desc">${escapeHtml(item.a)}</div>
-            ${(GAPS[selectedKey] && GAPS[selectedKey][i]) ? '<div class="note-gap"><span class="note-gap-label">Gap —</span>' + escapeHtml(GAPS[selectedKey][i]) + '</div>' : ''}
-          </div>
-        </div>`).join('')}
+      ${cmp.gap ? '<div class="note-gap" style="margin-top:8px;"><span class="note-gap-label">Gap —</span>' + escapeHtml(cmp.gap) + '</div>' : ''}`;
+}
+
+// One point: label + one-line gist always visible, full explanation behind the dropdown.
+// A point with no gist yet shows its full text open, so nothing is ever hidden by accident.
+function renderPoint(item) {
+  const gap = (GAPS[selectedKey] && GAPS[selectedKey][item.i])
+    ? '<div class="note-gap"><span class="note-gap-label">Gap —</span>' + escapeHtml(GAPS[selectedKey][item.i]) + '</div>' : '';
+  // The module number already sits in the section heading — don't repeat it on every tag.
+  const tag = String(item.type || '').replace(/^\s*\d+(\.\d+)?\s*·\s*/, '');
+  if (!item.gist) {
+    return `<div class="pt note-${item.color}">
+      ${tag ? `<span class="note-tag note-tag-${item.color}">${escapeHtml(tag)}</span>` : ''}
+      <div class="pt-term">${escapeHtml(item.term)}</div>
+      <div class="pt-full">${escapeHtml(item.a)}</div>
+      ${gap}
+    </div>`;
+  }
+  return `<div class="pt note-${item.color}">
+    ${tag ? `<span class="note-tag note-tag-${item.color}">${escapeHtml(tag)}</span>` : ''}
+    <div class="pt-term">${escapeHtml(item.term)}</div>
+    <div class="pt-gist">${escapeHtml(item.gist)}</div>
+    ${gap}
+    <details class="dd" data-pt="${item.i}">
+      <summary><span class="dd-open">Deep dive</span><span class="dd-shut">Hide</span></summary>
+      <div class="pt-full">${escapeHtml(item.a)}</div>
+    </details>
+  </div>`;
+}
+
+function renderDetail(preserveOpen) {
+  const el = document.getElementById('detail');
+  const wasOpen = preserveOpen
+    ? new Set([...el.querySelectorAll('details.dd[open]:not([data-auto])')].map(x => x.getAttribute('data-pt')))
+    : null;
+  if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
+  const meta = FLAT.find(t => t.key === selectedKey);
+  const st = statusOf(selectedKey);
+  const statusLabel = st === 'mastered' ? 'Mastered' : st === 'progress' ? 'In progress' : 'Not started';
+  const content = CONTENT[selectedKey];
+  const hasBody = !!(content && ((content.compares && content.compares.length) || content.compare || (content.notes && content.notes.length)));
+  const groups = hasBody ? groupByModule(content) : [];
+  const ddCount = groups.reduce((n, g) => n + g.notes.filter(x => x.gist).length, 0);
+  el.innerHTML = `
+    <div class="crumb">${meta.subjectName}</div>
+    <h2 class="topic-title">${meta.name}</h2>
+    <p class="topic-desc">${meta.desc}</p>
+    <div class="status-row"><span class="status-badge${st === 'progress' ? ' st-progress' : st === 'mastered' ? ' st-mastered' : ''}">${statusLabel}</span></div>
+    ${hasBody ? `
+    ${groups.length > 1 ? `
+    <div class="mod-nav">
+      <span class="mod-nav-label">Jump to</span>
+      ${groups.map(g => `<button type="button" class="mod-chip" data-jump="${escapeHtml(g.id)}">${escapeHtml(g.id || 'Points')}</button>`).join('')}
+    </div>` : ''}
+    ${ddCount ? `<div class="dd-bar">
+      <span class="dd-count">${groups.reduce((n, g) => n + g.notes.length, 0)} points · ${ddCount} deep dives</span>
+      <button type="button" class="dd-all" data-all="open">Expand all</button>
+      <button type="button" class="dd-all" data-all="shut">Collapse all</button>
+    </div>` : ''}
+    ${groups.map(g => `
+    <section class="mod" id="mod-${escapeHtml(g.id)}">
+      <div class="mod-head">
+        ${g.id ? `<span class="mod-num">${escapeHtml(g.id)}</span>` : ''}
+        <h3 class="mod-name">${escapeHtml(g.meta ? g.meta.name : (g.id || 'Points'))}</h3>
       </div>
-    </section>` : ''}
+      ${g.meta && g.meta.blurb ? `<p class="mod-blurb">${escapeHtml(g.meta.blurb)}</p>` : ''}
+      ${g.compares.map(c => renderCompare(c)).join('')}
+      ${g.notes.map(n => renderPoint(n)).join('')}
+    </section>`).join('')}
     ` : `
     <section class="block">
       <div class="empty-notes">We haven't gone through this module in teach-back yet — this fills in with your own words once we do.</div>
@@ -784,6 +930,80 @@ function renderDetail() {
       selectTopic(key, m.subjectId);
     });
   });
+
+  el.querySelectorAll('.mod-chip[data-jump]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      scrollTo(el.querySelector('#mod-' + CSS_escape(btn.getAttribute('data-jump'))));
+    });
+  });
+
+  el.querySelectorAll('.dd-all[data-all]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('data-all') === 'open';
+      el.querySelectorAll('details.dd').forEach(d => { d.open = open; });
+    });
+  });
+
+  if (wasOpen && wasOpen.size) {
+    el.querySelectorAll('details.dd').forEach(x => {
+      if (wasOpen.has(x.getAttribute('data-pt'))) x.open = true;
+    });
+  }
+  applySearchHighlight();
+}
+
+// Module ids contain a dot ('7.1'), which a selector would read as a class.
+function CSS_escape(s) {
+  if (window.CSS && CSS.escape) return CSS.escape(s);
+  return String(s).replace(/[^a-zA-Z0-9_-]/g, ch => '\\' + ch);
+}
+
+// Marks every occurrence of the live search term inside the open topic and springs open
+// any deep dive holding one — so a hit buried in a dropdown is not invisible.
+function applySearchHighlight() {
+  const term = (document.getElementById('search').value || '').trim().toLowerCase();
+  const root = document.getElementById('detail');
+  if (term.length < 2) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+  const targets = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    if (node.nodeValue.toLowerCase().indexOf(term) !== -1) targets.push(node);
+  }
+  targets.forEach(n => {
+    const parent = n.parentNode;
+    if (!parent || parent.nodeName === 'MARK') return;
+    const text = n.nodeValue, low = text.toLowerCase();
+    const frag = document.createDocumentFragment();
+    let pos = 0, at;
+    while ((at = low.indexOf(term, pos)) !== -1) {
+      if (at > pos) frag.appendChild(document.createTextNode(text.slice(pos, at)));
+      const mk = document.createElement('mark');
+      mk.className = 'hit';
+      mk.textContent = text.slice(at, at + term.length);
+      frag.appendChild(mk);
+      pos = at + term.length;
+    }
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    parent.replaceChild(frag, n);
+  });
+  const marks = root.querySelectorAll('mark.hit');
+  marks.forEach(mk => {
+    let p = mk.parentNode;
+    while (p && p !== root) {
+      if (p.tagName === 'DETAILS' && !p.open) { p.open = true; p.setAttribute('data-auto', '1'); }
+      p = p.parentNode;
+    }
+  });
+  if (marks.length) {
+    const bar = root.querySelector('.dd-bar') || root.querySelector('.status-row');
+    if (bar) {
+      const tally = document.createElement('span');
+      tally.className = 'hit-tally';
+      tally.textContent = marks.length + ' match' + (marks.length === 1 ? '' : 'es') + ' below';
+      bar.appendChild(tally);
+    }
+  }
 }
 
 function escapeHtml(str) {
@@ -794,6 +1014,7 @@ document.getElementById('search').addEventListener('input', () => {
   // Typing implies you want to see results, so re-open the drawer on a phone.
   if (isMobile() && document.getElementById('search').value.trim()) mobileListOpen = true;
   renderSidebar();
+  renderDetail(true);
   syncDrawer();
 });
 
