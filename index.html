@@ -146,6 +146,20 @@
   .miss-q { font-weight: 600; font-size: 13px; margin-bottom: 6px; color: var(--ink); }
   .miss-row { font-size: 12.5px; margin-bottom: 4px; line-height: 1.5; }
   .miss-row b { color: var(--rose); }
+  .weak-card { border: 1px solid var(--rose); background: var(--rose-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+  .weak-title { font-size: 13.5px; font-weight: 700; color: var(--ink); margin: 2px 0 4px; line-height: 1.35; }
+  .weak-sec { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--rose); text-transform: uppercase; letter-spacing: 0.05em; margin: 10px 0 4px; }
+  .weak-text { font-size: 12.5px; color: var(--ink); line-height: 1.55; }
+  .weak-text ol { margin: 0; padding-left: 18px; }
+  .weak-text li { margin-bottom: 4px; }
+  .weak-q { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; margin-bottom: 5px; font-size: 12px; color: var(--ink); line-height: 1.45; }
+  .weak-ref { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+  .weak-picked { color: var(--rose); font-weight: 600; margin-right: 8px; }
+  .weak-right { color: var(--teal); font-weight: 600; }
+  .weak-index-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--rose); background: var(--rose-bg); border-radius: 8px; margin-bottom: 6px; cursor: pointer; font-size: 12.5px; color: var(--ink); }
+  .weak-index-mod { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--rose); flex-shrink: 0; }
+  .weak-index-count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft); flex-shrink: 0; }
+  .group-weak-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; background: var(--rose); color: #fff; border-radius: 10px; padding: 1px 7px; margin-left: 8px; }
   .miss-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); flex-shrink: 0; margin-left: 4px; }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px; color: var(--ink-soft); margin: 4px 0 14px; }
   .legend span { display: inline-flex; align-items: center; gap: 5px; }
@@ -268,7 +282,7 @@
               <span><span class="sw" style="background:var(--rose);"></span><b style="color:var(--rose);">Rose "Tuition miss"</b> — the user got this wrong on an external tuition test/quiz and pasted it in for Claude to log and explain</span>
             </div>
           </li>
-          <li><b>Tuition-miss workflow.</b> When the user pastes a question they got wrong in tuition, Claude explains the correct answer in chat, then adds it to that topic's <code>TUITION_MISSES</code> entry in the file so it renders as a rose card in the detail view — a permanent, visually distinct weak-spot marker separate from the amber teach-back gaps.</li>
+          <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
           <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box. It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
         </ol>
       </div>
@@ -598,24 +612,129 @@ const GAPS = {
     null,
   ],
 };
-// Questions pasted in from external tuition tests/quizzes that the user got wrong.
-// Rendered as rose "tuition miss" cards — visually distinct from the amber GAPS above,
-// which come from Claude's own teach-back quizzing inside this ledger.
+// Tuition weak spots: questions the user got wrong in external tuition tests, diagnosed and
+// grouped by the misconception behind them — one entry per concept, not per question. `module`
+// places the card inside that module's group in the notes accordion. Rendered rose, visually
+// distinct from the amber GAPS above, which come from Claude's own teach-back quizzing.
 const TUITION_MISSES = {
   'fsa.0': [
-    { q: "[L2-R7-Q2 #1] SPEs: Statement 1 — the sponsor usually keeps decision-making power and voting control over the SPE. Statement 2 — the SPE's equity owners usually earn a return tied to the SPE's performance. Correct or incorrect?", gotWrong: "Both are correct.", correction: "BOTH INCORRECT. (1) The sponsor usually does NOT hold voting control: the SPE's activities are fixed in advance by its governing documents, so it runs on autopilot and votes barely matter. (2) The structure moves the risks and rewards away from the equity owners to the variable interest holders (guarantors, subordinated lenders), so equity owners usually get a FIXED return. That's why voting equity tells you nothing about who should consolidate." },
-    { q: "[R7 goodwill quiz #4] A pays $100,000 cash for 50% of T (US GAAP, FV = book value). Pre-deal: A has $400k current + $600k fixed assets = $1,000,000; T has $60k + $100k = $160,000, liabilities $30k, equity $130k. Total assets under the equity method and the acquisition method?", gotWrong: "C) $1,060,000 and $1,095,000.", correction: "A) $1,000,000 AND $1,130,000. Equity method: cash −$100k and 'Investment in T' +$100k cancel out, so total assets are unchanged at $1,000,000. None of T's assets are ever added. Acquisition method: US GAAP requires FULL goodwill. Implied FV of all of T = $100k ÷ 50% = $200k; minus T's net assets of $130k = goodwill $70k. Total = A's $900k (after paying cash) + 100% of T's $160k + $70k goodwill = $1,130,000, with NCI = 50% × $200k = $100k. Your $1,095,000 used PARTIAL goodwill ($100k − 50% × $130k = $35k), which is only an IFRS option. Always check which framework the question states. (Note: exactly 50% normally isn't control; the question simply assumes it is.)" },
-    { q: "[R7 goodwill quiz #5] Under US GAAP, goodwill is most likely impaired if the reporting unit's: implied goodwill < book goodwill / carrying value (incl. goodwill) > fair value / acquired tangible assets fall in value?", gotWrong: "Tangible assets acquired in the business combination decrease in value.", correction: "CARRYING VALUE (INCLUDING GOODWILL) > FAIR VALUE of the reporting unit. That comparison is what detects impairment. A drop in tangible assets is an asset-level impairment question, not the goodwill test, which always works at the level of the whole reporting unit. 'Implied goodwill < book goodwill' is how the OLD two-step method MEASURED the loss after detection, not the trigger. See the 7.7 impairment-mechanics note." },
-    { q: "[R7 goodwill quiz #6] Alpha owns 70% of Beta. Compared with the partial goodwill method, Alpha's debt-to-equity under the full goodwill method is most likely: the same / lower / higher?", gotWrong: "The same.", correction: "LOWER. Goodwill method doesn't change consolidated debt. Full goodwill measures NCI at fair value, which includes NCI's share of goodwill, so NCI (part of total equity) is bigger → equity is higher → D/E is lower. Same logic: full goodwill has higher total assets and equity, so ROA and ROE are also LOWER than under partial goodwill, while net income is the same." },
-    { q: "[R7 goodwill quiz #8] Parent bought Sub for $2,000,000; FV of Sub's net assets was $1,700,000. At year end: FV of Sub $1,950,000, FV of Sub's net assets $1,775,000, carrying value of Sub $1,980,000. US GAAP impairment loss?", gotWrong: "$30,000.", correction: "TUITION ANSWER: $125,000, using the OLD two-step US GAAP test. Goodwill at acquisition = $2,000k − $1,700k = $300k. Step 1: carrying value $1,980k > FV $1,950k → impaired. Step 2: implied goodwill = $1,950k − $1,775k = $175k → loss = $300k − $175k = $125,000. HOWEVER, current US GAAP (ASU 2017-04, effective for public companies from 2020) removed Step 2: loss = carrying value − fair value = $1,980k − $1,950k = $30,000, capped at goodwill of $300k. So $30,000 is correct under today's standard. Check which method your Schweser notes use. If a question gives the year-end FV of net assets, it's probably expecting the two-step answer." },
-    { q: "[L2-R7-Q2 #2] Milburne buys 1,000 Marino shares at $20 on Jan 1; they trade at $15 on Dec 31. Dividend yield at year end = 2%. Classified as FVOCI. Income statement impact?", gotWrong: "−$5,000 (put the unrealized loss through the P&L).", correction: "+$300. Under FVOCI the unrealized loss of ($15 − $20) × 1,000 = −$5,000 goes to OCI, not the income statement. Only the dividend hits the P&L: 2% × $15 × 1,000 = $300. (FVPL would be $300 − $5,000 = −$4,700; amortized cost isn't possible for equity.)" },
-    { q: "[L2-R7-Q2 #4] Which statement about SPEs is LEAST accurate? A) US GAAP: a VIE is consolidated only by the primary beneficiary. B) IFRS: an SPE is consolidated by whoever controls it. C) US GAAP: an SPE is a VIE if its at-risk equity IS sufficient to fund its activities without extra support.", gotWrong: "A.", correction: "C is the wrong statement. It's backwards: an SPE is a VIE when its at-risk equity is INSUFFICIENT to fund its activities without additional support (guarantees, subordinated loans). A is accurate: only the primary beneficiary consolidates, never several parties proportionately. B is accurate: IFRS 10 applies one control test to every entity. Tip for 'least accurate' questions: test each option as true or false before you pick." },
-    { q: "[L2-R7-Q2 #5] Maverick forms an SPE to buy and lease a ranch. 95% is debt-financed, 5% is equity from two independent investors, and the lender won't lend without Maverick's guarantee. Maverick is the lessee. Treatment?", gotWrong: "No firm must consolidate the SPE.", correction: "MAVERICK MUST CONSOLIDATE. 5% at-risk equity can't support the SPE without Maverick's guarantee, so it's a VIE. Maverick's guarantee means Maverick absorbs the expected losses, which makes it the primary beneficiary (and as lessee it also directs how the asset is used). The two 5% equity investors are just the token outside owners from the old voting-control loophole. 'No one owns a majority of votes' is exactly the answer the VIE model was built to rule out." },
-    { q: "[L2-R7-Q2 #7] Mustang forms an SPE for R&D. An UNRELATED firm absorbs the SPE's expected losses; the independent shareholders get the expected residual returns. Is it a VIE (FIN 46(R)), and must Mustang consolidate?", gotWrong: "Yes; Yes.", correction: "YES; NO. It's a VIE because the equity holders don't absorb the expected losses. But the primary beneficiary is whoever absorbs those losses: the unrelated firm, not Mustang. Setting up (sponsoring) the SPE doesn't make you the consolidator on its own. Follow the losses (and, under current ASC 810, the power to direct its activities), not whose idea the SPE was." },
-    { q: "[L2-R7-Q3 #1] Under IFRS, which accounting treatment is preferred for joint ventures with shared control? A) Equity method B) Acquisition method C) Proportionate consolidation.", gotWrong: "C) Proportionate consolidation.", correction: "A) EQUITY METHOD. IFRS 11 removed the old IAS 31 choice, so a JV must use the equity method. Proportionate-style (line-by-line) treatment survives only for JOINT OPERATIONS (direct rights to the assets, no separate vehicle), and that isn't the JV answer. US GAAP also uses the equity method, apart from a narrow construction/extractive-industry exception. On exam wording 'joint venture' = equity method." },
-    { q: "[L2-R7-Q3 #5] Which method reports the highest net income: equity method or acquisition method?", gotWrong: "Acquisition method.", correction: "BOTH REPORT THE SAME NET INCOME (attributable to the parent). The acquisition method adds 100% of the subsidiary's revenue and expenses, then subtracts the NCI's share, so it lands at the same parent net income as the equity method's single-line pickup (see the 7.6 table: $4,000 both ways). What's bigger under acquisition is revenue, expenses, assets and liabilities — not the bottom line. The trap: 'consolidated net income before the NCI split' is larger, but that isn't what the question means by net income." },
-    { q: "[L2-R7-Q3 #6] Acme buys 3% of Bandy, becoming its single largest shareholder, and gets a board seat. Accounting method?", gotWrong: "C) Acquisition method.", correction: "A) EQUITY METHOD. The board seat (the B in B-T-P-M-IT) gives significant influence even at 3%. The acquisition method needs CONTROL (power over the investee plus exposure to its variable returns), and one board seat with 3% of the equity isn't control, even if Acme is the largest single holder. Largest shareholder ≠ controlling shareholder." },
-    { q: "[L2-R7-Q3 #7] Barrett (US GAAP) creates an SPE. The SPE borrows $15m from the bank with Barrett's guarantee, buys $15m of Barrett's receivables, and Barrett uses the cash to repay its existing $15m loan. Effect on Barrett's ratios?", gotWrong: "B) Leverage falls and receivables turnover rises.", correction: "A) LEVERAGE AND RECEIVABLES TURNOVER BOTH STAY THE SAME. Barrett's guarantee means Barrett absorbs the SPE's losses, so Barrett is the primary beneficiary and must consolidate the SPE. On consolidation the intercompany receivables sale is eliminated: the receivables stay on the group balance sheet and so does the SPE's $15m loan. You'd get answer B only if the SPE stayed off-balance-sheet, which is exactly what VIE consolidation prevents. Same idea as Maverick: a guarantee to the lender pulls the SPE back onto your books." },
+    {
+      module: '7.1',
+      title: 'Largest shareholder ≠ control — a board seat means significant influence',
+      questions: [
+        { ref: 'L2-R7-Q3 #6', ask: 'Acme buys 3% of Bandy, becomes its single largest shareholder and gets a board seat. Method?', picked: 'Acquisition method', answer: 'Equity method' },
+      ],
+      trap: "'Single largest shareholder' sounds like being in charge, so it pulls you toward the method used for control. But being the biggest of many small holders gives no power over the investee, and one board seat out of many is a sign of influence, not control.",
+      fix: "Ask in order. 1) Is there CONTROL — a voting majority, or power through dual-class votes, contracts or VIE economics? Then consolidate (acquisition method). 2) If not, is there SIGNIFICANT INFLUENCE — any of B-T-P-M-IT (board seat, say in policy, technology dependency, material transactions, shared managers)? Then equity method, even below 20%. 3) Neither → financial asset under IFRS 9.",
+      tackle: [
+        "Park the ownership %: it is only a guideline, and the facts in the question override it.",
+        "Scan for control words first: majority of votes, right to appoint most of the board, dual-class shares, guarantees or first-loss exposure to an SPE.",
+        "If none, scan for B-T-P-M-IT words: 'seat on the board', 'participates in dividend decisions', 'supplies key technology', 'significant intercompany sales', 'shares executives'.",
+        "Let the most specific fact decide: a board seat with a low % → equity method.",
+      ],
+      spot: "A low % plus one qualitative fact (board seat, technology) is the standard setup to test that facts beat the % guideline. Expect the reverse too: 30–40% but shut out of the board by a controlling holder → financial asset, not equity method.",
+    },
+    {
+      module: '7.2',
+      title: 'FVOCI equity: fair value changes skip the income statement',
+      questions: [
+        { ref: 'L2-R7-Q2 #2', ask: 'Milburne buys 1,000 shares at $20; year-end price $15, dividend yield 2%. Classified FVOCI. Income statement impact?', picked: '−$5,000', answer: '+$300' },
+      ],
+      trap: "Under FVPL, price changes on shares DO hit profit, and that habit carries over. −$5,000 makes two slips at once: it puts the unrealized loss in the P&L and it leaves out the dividend.",
+      fix: "Split the holding into separate income items, then send each one where the named bucket sends it. FVOCI equity: dividends → P&L; unrealized gains/losses → OCI; and on sale they stay in equity and are never recycled to the P&L. FVPL: dividends and all fair value changes → P&L. FVOCI debt: interest and credit losses → P&L; fair value changes → OCI, recycled to the P&L on sale.",
+      tackle: [
+        "Underline the classification (FVPL / FVOCI / amortized cost) before touching any numbers.",
+        "List the items: dividend or interest, unrealized gain/loss, realized gain/loss.",
+        "Put each in a P&L column or an OCI column using the bucket rules, then total only the column the question asks for.",
+        "Dividend = yield × the price the yield is quoted on: 2% × $15 × 1,000 = $300.",
+      ],
+      spot: "The same fact pattern is asked three ways: FVPL impact on the P&L (−$4,700), FVOCI impact on the P&L (+$300), FVOCI impact on OCI (−$5,000). All three numbers will be in the options.",
+    },
+    {
+      module: '7.5',
+      title: 'Equity vs. acquisition method: same net income, everything else bigger',
+      questions: [
+        { ref: 'L2-R7-Q3 #5', ask: 'Which method reports the highest net income — equity or acquisition?', picked: 'Acquisition method', answer: 'Both report the same net income' },
+        { ref: 'R7 goodwill quiz #4', ask: 'A pays $100k cash for 50% of T (US GAAP, FV = book). A has $1,000k assets; T has $160k assets, $30k liabilities. Total assets under equity / acquisition method?', picked: '$1,060,000 / $1,095,000', answer: '$1,000,000 / $1,130,000' },
+      ],
+      trap: "Consolidation adds 100% of the subsidiary, so it feels like every number, net income included, must be bigger. On the balance sheet it went the other way: $1,060,000 looks like T's $60k of current assets were added under the equity method, where none of T's assets ever appear. $1,095,000 used partial goodwill, which US GAAP doesn't allow.",
+      fix: "Think in two layers. NET INCOME attributable to the parent is the same under both: the acquisition method adds 100% of revenue and expenses, then takes out the NCI's share. EVERYTHING ELSE is bigger under the acquisition method: revenue, expenses, assets, liabilities, and total equity (because NCI is included). The equity method shows one line on each statement; paying cash just swaps cash for 'Investment in T', so total assets don't change.",
+      tackle: [
+        "Equity method total assets = investor's assets − cash paid + investment at cost (unchanged when paid in cash).",
+        "Acquisition method total assets = investor's assets − cash paid + 100% of the target's assets at FAIR value + goodwill.",
+        "Goodwill: US GAAP → full goodwill only. Implied value of 100% = $100k ÷ 50% = $200k; minus net assets $130k = $70k. Then $900k + $160k + $70k = $1,130k.",
+        "Net income or EPS asked → same under both. Revenue, assets, liabilities, margins, ROA or leverage asked → they differ.",
+      ],
+      spot: "'Which method reports the higher X?' — the answer is 'the same' only for net income attributable to the parent (and EPS). The acquisition method reports higher revenue, assets and liabilities, so net margin and ROA are lower.",
+    },
+    {
+      module: '7.7',
+      title: 'Full vs. partial goodwill: debt stays the same, equity changes',
+      questions: [
+        { ref: 'R7 goodwill quiz #6', ask: "Alpha owns 70% of Beta. Compared with partial goodwill, Alpha's debt-to-equity under full goodwill is:", picked: 'The same', answer: 'Lower' },
+      ],
+      trap: "Goodwill is an asset and debt doesn't move, so it's tempting to call the ratio unchanged. But the extra goodwill under the full method is matched by a bigger NCI, and NCI is part of equity — so the denominator grows.",
+      fix: "Full goodwill adds the NCI's share of goodwill to BOTH sides: assets (more goodwill) and equity (NCI at fair value). Liabilities and net income don't change. So under full goodwill, total assets and equity are higher → debt-to-equity, ROA and ROE are all lower. Partial goodwill gives the reverse.",
+      tackle: [
+        "Write down the entry: + goodwill (asset), + NCI (equity). Nothing hits liabilities or the P&L.",
+        "For each ratio, check whether assets or equity sit in the numerator or the denominator.",
+        "Framework check: US GAAP → full goodwill only; partial is an IFRS-only choice (this also cost you the $1,095k answer in quiz #4).",
+      ],
+      spot: "Asked as 'compared with partial goodwill, X under full goodwill is…': D/E lower, ROA lower, ROE lower, net income the same, total assets higher.",
+    },
+    {
+      module: '7.7',
+      title: 'Goodwill impairment: detect at the reporting unit, then measure the loss',
+      questions: [
+        { ref: 'R7 goodwill quiz #5', ask: 'Under US GAAP, goodwill is most likely impaired if the reporting unit’s…', picked: 'Acquired tangible assets fall in value', answer: 'Carrying value (incl. goodwill) > fair value' },
+        { ref: 'R7 goodwill quiz #8', ask: 'Goodwill $300k ($2,000k − $1,700k). Year end: carrying value $1,980k, FV $1,950k, FV of net assets $1,775k. Loss?', picked: '$30,000', answer: '$125,000 (old two-step); $30,000 under current US GAAP' },
+      ],
+      trap: "#5: 'impairment' makes you think of individual assets losing value, but goodwill can't be valued on its own, so it is tested together with the whole reporting unit. #8: $30,000 is carrying value − fair value, which is the CURRENT one-step rule. The question was written for the old two-step method, and the clue is that it gives the fair value of net assets, which only step 2 uses.",
+      fix: "Detect: the reporting unit's carrying value (including goodwill) > its fair value; if not, the loss is 0. Measure under current US GAAP (ASU 2017-04): loss = carrying value − fair value, capped at goodwill. Old two-step: implied goodwill = FV of the unit − FV of its identifiable net assets; loss = book goodwill − implied goodwill ($300k − $175k = $125k). IFRS: loss = carrying value of the cash-generating unit − recoverable amount, taken from goodwill first. Never reversed under either framework.",
+      tackle: [
+        "Always run the detection test first; 'no impairment / $0' is a common distractor.",
+        "Work out the original goodwill: price paid − FV of net assets at acquisition.",
+        "If the question gives the FV of net assets at the test date → use the two-step: original goodwill − (FV of unit − FV of net assets).",
+        "If it only gives carrying value and fair value → one-step: the difference, capped at goodwill.",
+      ],
+      spot: "Tuition banks still use the two-step answer. Check which method your Schweser notes teach before the exam.",
+    },
+    {
+      module: '7.8',
+      title: 'Joint venture = equity method; line-by-line is only for joint operations',
+      questions: [
+        { ref: 'L2-R7-Q3 #1', ask: 'Under IFRS, the preferred treatment for joint ventures with shared control?', picked: 'Proportionate consolidation', answer: 'Equity method' },
+      ],
+      trap: "Proportionate consolidation looks like a natural fit for shared control (each party takes its share of every line), and the old IAS 31 allowed it. IFRS 11 removed that choice; the line-by-line result survives only for joint operations, where the parties hold the assets directly.",
+      fix: "First classify the arrangement. Separate vehicle, rights to its NET ASSETS → JOINT VENTURE → equity method (IFRS and US GAAP). Direct rights to the assets and obligations for the liabilities, no vehicle → JOINT OPERATION → recognize your share of each asset, liability, revenue and expense.",
+      tackle: [
+        "The question says 'joint venture' → equity method.",
+        "It describes direct ownership of specific assets with no separate entity → joint operation → your share, line by line.",
+        "Treat 'proportionate consolidation' as the trap for IFRS JVs; under US GAAP it is only a narrow industry exception (construction, oil & gas).",
+      ],
+      spot: "Also asked as a ratio comparison: vs. the equity method, proportionate consolidation gives the same net income but higher revenue, assets and liabilities, so net margin is lower and leverage higher.",
+    },
+    {
+      module: '7.9',
+      title: 'SPEs / VIEs: follow the losses, not the votes',
+      questions: [
+        { ref: 'L2-R7-Q2 #1', ask: "True or false: the sponsor usually holds voting control; the equity owners' return is tied to the SPE's performance.", picked: 'Both correct', answer: 'Both incorrect' },
+        { ref: 'L2-R7-Q2 #4', ask: 'Least accurate: (A) only the primary beneficiary consolidates a VIE; (B) IFRS: whoever controls consolidates; (C) an SPE is a VIE if its at-risk equity IS sufficient.', picked: 'A', answer: 'C — the definition is flipped' },
+        { ref: 'L2-R7-Q2 #5', ask: 'Maverick SPE: 5% equity from two outside investors, 95% debt the bank lends only with Maverick’s guarantee; Maverick leases the ranch.', picked: 'No firm consolidates', answer: 'Maverick consolidates' },
+        { ref: 'L2-R7-Q2 #7', ask: "Mustang forms an R&D SPE; an unrelated firm absorbs the expected losses. VIE? Mustang consolidates?", picked: 'Yes; Yes', answer: 'Yes; No' },
+        { ref: 'L2-R7-Q3 #7', ask: "Barrett's SPE borrows $15m with Barrett's guarantee and buys $15m of receivables; Barrett repays its loan. Ratio effect?", picked: 'Leverage down, receivables turnover up', answer: 'Both unchanged' },
+      ],
+      trap: "All five apply ordinary-subsidiary logic: whoever owns the shares or votes is in control, the sponsor runs the SPE, and a separate legal entity keeps its debt off the balance sheet. SPEs are designed to break exactly that logic. The equity is a token slice earning a fixed return, the activities are fixed in the setup documents, and the real risk sits with whoever gives the guarantee or holds the first loss.",
+      fix: "Three steps. 1) IS IT A VIE? Yes if the at-risk equity is too small to fund it without extra support, or the equity holders don't absorb the losses, get the residual returns or direct the activities. 2) WHO CONSOLIDATES? Only the primary beneficiary: the party that absorbs the expected losses (guarantor, first-loss holder) and has power over the key activities. Not whoever set it up, and never split between parties. 3) WHAT HAPPENS? The primary beneficiary consolidates 100% and eliminates its transactions with the SPE, so the SPE's debt and assets come back onto its balance sheet and the off-balance-sheet effect disappears.",
+      tackle: [
+        "Find the guarantee or first-loss piece first; that party is almost always the answer.",
+        "Read a thin outside equity slice (3–5%) as a sign it IS a VIE, not as proof that nobody consolidates.",
+        "'Formed by X' only tells you who sponsored it; if someone else absorbs the losses, X does not consolidate.",
+        "For ratio questions, consolidate first, then calculate. If the sponsor consolidates, leverage and turnover don't change.",
+        "In 'least accurate' questions, mark each option true or false; VIE definitions are often flipped (sufficient vs. insufficient).",
+      ],
+      spot: "The typical story: sponsor + bank loan + guarantee + an asset transfer, then 'who consolidates?' or 'which ratio changes?'. The off-balance-sheet answer is the trap.",
+    },
   ],
 };
 // Mastery status per topic key: 'not-started' | 'progress' | 'mastered'. Set by Claude
@@ -675,13 +794,66 @@ function corpusFor(key, subjectName) {
     if (c.notes) c.notes.forEach(n => parts.push(n.type, n.term, n.a));
   }
   if (GAPS[key]) GAPS[key].forEach(g => { if (g) parts.push(g); });
-  if (TUITION_MISSES[key]) TUITION_MISSES[key].forEach(m => parts.push(m.q, m.gotWrong, m.correction));
+  if (TUITION_MISSES[key]) TUITION_MISSES[key].forEach(m => {
+    parts.push(m.module, m.title, m.trap, m.fix, m.spot || '');
+    (m.tackle || []).forEach(t => parts.push(t));
+    (m.questions || []).forEach(q => parts.push(q.ref, q.ask, q.picked, q.answer));
+  });
   parts.push(statusOf(key));
   if (LINKS[key]) LINKS[key].forEach(lk => { const m = FLAT.find(t => t.key === lk); if (m) parts.push(m.name); });
   return parts.join(' • ').toLowerCase();
 }
 
 function hasTuitionMiss(key) { return !!(TUITION_MISSES[key] && TUITION_MISSES[key].length); }
+
+// One tuition weak spot: the questions it cost, why the wrong pick felt right, the correct
+// logic, and a step-by-step way to tackle that question type.
+function renderWeakCard(m) {
+  return `
+    <div class="weak-card">
+      <span class="miss-tag">Tuition weak spot</span>
+      <div class="weak-title">${escapeHtml(m.title)}</div>
+      <div class="weak-sec">Questions this cost you</div>
+      ${(m.questions || []).map(q => `
+        <div class="weak-q">
+          <span class="weak-ref">${escapeHtml(q.ref)}</span> ${escapeHtml(q.ask)}
+          <div><span class="weak-picked">✗ Picked: ${escapeHtml(q.picked)}</span> <span class="weak-right">✓ Answer: ${escapeHtml(q.answer)}</span></div>
+        </div>`).join('')}
+      <div class="weak-sec">Why the wrong answer felt right</div>
+      <div class="weak-text">${escapeHtml(m.trap)}</div>
+      <div class="weak-sec">The logic that gets it right</div>
+      <div class="weak-text">${escapeHtml(m.fix)}</div>
+      <div class="weak-sec">How to tackle this question type</div>
+      <div class="weak-text"><ol>${(m.tackle || []).map(t => '<li>' + escapeHtml(t) + '</li>').join('')}</ol></div>
+      ${m.spot ? `<div class="weak-sec">How it shows up in the exam</div><div class="weak-text">${escapeHtml(m.spot)}</div>` : ''}
+    </div>`;
+}
+
+function moduleGroupsOf(key) {
+  const notes = (CONTENT[key] && CONTENT[key].notes) || [];
+  return new Set(notes.map(n => (/^(\d+\.\d+)\s*·/.exec(n.type) || [])[1]).filter(Boolean));
+}
+
+// Index of weak spots at the top of a topic. Weak spots whose module has a notes group are
+// shown in full inside that group, so here they're one-line jump links; any without a
+// matching group render in full here instead.
+function renderWeakIndex(key) {
+  const misses = TUITION_MISSES[key] || [];
+  if (!misses.length) return '';
+  const groups = moduleGroupsOf(key);
+  const qCount = misses.reduce((sum, m) => sum + (m.questions || []).length, 0);
+  return `
+    <section class="block">
+      <div class="block-label" style="color:var(--rose);">Tuition weak spots — ${misses.length} concepts behind ${qCount} wrong answers</div>
+      <div class="deepdive-hint">Each one is explained inside its module below. Tap to jump there.</div>
+      ${misses.map(m => groups.has(m.module) ? `
+        <div class="weak-index-row" data-jump="${escapeHtml(m.module)}">
+          <span class="weak-index-mod">${escapeHtml(m.module)}</span>
+          <span>${escapeHtml(m.title)}</span>
+          <span class="weak-index-count">${(m.questions || []).length} Q</span>
+        </div>` : renderWeakCard(m)).join('')}
+    </section>`;
+}
 
 function renderSidebar() {
   const filter = (document.getElementById('search').value || '').toLowerCase().trim();
@@ -765,13 +937,17 @@ function renderNotesAccordion(key) {
     <section class="block">
       <div class="block-label">Branches off this topic — grouped by module</div>
       <div class="deepdive-hint">Expand a module for its points, then expand any point to deep dive.</div>
-      ${groups.map(g => `
-      <details class="note-group">
-        <summary><span>${escapeHtml(g.key)}</span><span class="note-group-count">${g.items.length} points</span></summary>
+      ${groups.map(g => {
+        const weak = (TUITION_MISSES[key] || []).filter(m => m.module === g.key);
+        return `
+      <details class="note-group" data-group="${escapeHtml(g.key)}">
+        <summary><span>${escapeHtml(g.key)}</span><span class="note-group-count">${g.items.length} points${weak.length ? '<span class="group-weak-badge">' + weak.length + ' weak spot' + (weak.length > 1 ? 's' : '') + '</span>' : ''}</span></summary>
         <div class="note-group-body">
+          ${weak.map(renderWeakCard).join('')}
           ${g.items.map(renderItem).join('')}
         </div>
-      </details>`).join('')}
+      </details>`;
+      }).join('')}
     </section>`;
 }
 
@@ -791,6 +967,7 @@ function renderDetail() {
       <div class="overview-title">Big picture — fast revise</div>
       ${CONTENT[selectedKey].overview}
     </div>` : ''}
+    ${renderWeakIndex(selectedKey)}
     ${(CONTENT[selectedKey] && ((CONTENT[selectedKey].compares && CONTENT[selectedKey].compares.length) || CONTENT[selectedKey].compare || CONTENT[selectedKey].notes)) ? `
     ${(CONTENT[selectedKey].compares || (CONTENT[selectedKey].compare ? [CONTENT[selectedKey].compare] : [])).map(cmp => `
     <section class="block">
@@ -814,17 +991,6 @@ function renderDetail() {
     <section class="block">
       <div class="empty-notes">We haven't gone through this module in teach-back yet — this fills in with your own words once we do.</div>
     </section>`}
-    ${(TUITION_MISSES[selectedKey] && TUITION_MISSES[selectedKey].length) ? `
-    <section class="block">
-      <div class="block-label" style="color:var(--rose);">Tuition misses — got this wrong externally</div>
-      ${TUITION_MISSES[selectedKey].map(m => `
-        <div class="miss-item">
-          <span class="miss-tag">Tuition miss</span>
-          <div class="miss-q">${escapeHtml(m.q)}</div>
-          <div class="miss-row"><b>What I got wrong:</b> ${escapeHtml(m.gotWrong)}</div>
-          <div class="miss-row"><b>Correct answer:</b> ${escapeHtml(m.correction)}</div>
-        </div>`).join('')}
-    </section>` : ''}
     <section class="block">
       <div class="block-label">Linked topics</div>
       <div class="links-wrap">
@@ -847,6 +1013,15 @@ function renderDetail() {
       const m = FLAT.find(t => t.key === key);
       if (!m) return;
       selectedKey = key; openSubjects.add(m.subjectId); render();
+    });
+  });
+
+  el.querySelectorAll('[data-jump]').forEach(row => {
+    row.addEventListener('click', () => {
+      const group = el.querySelector('details.note-group[data-group="' + row.getAttribute('data-jump') + '"]');
+      if (!group) return;
+      group.open = true;
+      if (group.scrollIntoView) group.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 }
