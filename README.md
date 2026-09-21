@@ -1,6 +1,6 @@
 # CFA Level II — Knowledge Ledger
 
-A personal revision tool: 64 topics across 10 subjects, filled in with my own
+A personal revision tool: 63 topics across 10 subjects, filled in with my own
 teach-back explanations, flagged gaps, and tuition misses.
 
 Live page: https://procastfinancier.github.io/cfa-l2-ledger/
