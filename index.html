@@ -365,7 +365,7 @@
        content, so a wide table inside would push the page wider than the viewport. */
     .layout { flex-direction: column; gap: 12px; align-items: stretch; }
     .sidebar, .detail { max-width: 100%; }
-    .sidebar { width: 100%; max-height: 42vh; overflow-y: auto; }
+    .sidebar { width: 100%; max-height: 34vh; overflow-y: auto; }
     .search { position: sticky; top: 0; background: var(--panel); z-index: 1; }
     .topic-row { padding: 10px 8px; font-size: 13px; }
     .subj-name { font-size: 13.5px; }
@@ -388,18 +388,56 @@
     .overview-panel { padding: 12px 12px; }
     .nb-session { padding: 14px 13px; }
     .nb-session-pages { margin-left: 0; width: 100%; }
-    .nb-timeline { flex-direction: column; }
+    .nb-timeline, .nb-entry-body, .nb-split-row, .nb-cols, .nb-stacks { flex-direction: column; }
+    /* Every one of these children carries a flex-basis for its desktop row layout (e.g.
+       `flex: 1 1 150px`). Once the parent becomes a column that basis is a MINIMUM HEIGHT,
+       so a 60px box gets padded out to 150px and the panel looks stretched and empty.
+       Reset them to content height. */
+    .nb-tl-step, .nb-stmt, .nb-split-leg, .nb-col, .nb-stack,
+    .flow-box, .flow-branch-box, .compare-card { flex: 0 0 auto; width: 100%; }
     .nb-tl-arrow { transform: rotate(90deg); margin: -2px 0; }
-    .nb-entry-body { flex-direction: column; }
     .nb-stmt { border-right: none; }
     .nb-bs-split { flex-direction: column; }
     .nb-bs-side + .nb-bs-side { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 7px; margin-top: 7px; }
-    table.nb-table tbody th { width: auto; min-width: 118px; }
+    .nb-split-head { max-width: 100%; }
+
+    /* Tables: drop the desktop min-width so two-column tables simply fit. */
+    table.nb-table { min-width: 0; font-size: 12px; }
+    table.nb-table th, table.nb-table td { padding: 7px 8px; overflow-wrap: anywhere; }
+    table.nb-table tbody th { width: auto; min-width: 92px; }
+
+    /* Three or more columns cannot fit honestly at this width, so stack each row into a
+       labelled group. The comparison survives because one attribute's values stay adjacent. */
+    .nb-table.nb-stackable, .nb-table.nb-stackable tbody,
+    .nb-table.nb-stackable tr, .nb-table.nb-stackable th, .nb-table.nb-stackable td { display: block; width: auto; }
+    .nb-table.nb-stackable thead { display: none; }
+    .nb-table.nb-stackable tr { border-bottom: 1px solid var(--line); }
+    .nb-table.nb-stackable tr:last-child { border-bottom: none; }
+    .nb-table.nb-stackable tbody th { background: var(--bg); border: none; font-size: 12.5px; padding: 8px 10px; min-width: 0; }
+    .nb-table.nb-stackable td { border: none; padding: 7px 10px 7px 14px; }
+    .nb-table.nb-stackable td + td { border-top: 1px dotted var(--line); }
+    .nb-table.nb-stackable td::before {
+      content: attr(data-col); display: block; font-family: var(--mono); font-size: 9.5px;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--violet); margin-bottom: 2px;
+    }
+
+    .nb-formula { padding: 9px 10px; }
+    /* Hanging indent so a wrapped continuation is visibly part of the line above rather than
+       reading as a new formula. */
+    .nb-formula-line { font-size: 10.5px; line-height: 1.6; padding-left: 15px; text-indent: -15px; }
+    .nb-stack-line, .nb-stack-head { font-size: 11.5px; }
+    .nb-example-head, .nb-entry-head { font-size: 11.5px; }
   }
   @media (max-width: 420px) {
     #app { padding: 10px 8px; }
     h1 { font-size: 18px; }
     .detail { padding: 14px 10px; }
+    .nb-session { padding: 12px 10px; }
+    table.nb-table { font-size: 11.5px; }
+    table.nb-table th, table.nb-table td { padding: 6px 7px; }
+    table.nb-table tbody th { min-width: 74px; }
+    .nb-stack-line, .nb-stack-head { padding-left: 8px; padding-right: 8px; }
   }
 </style>
 </head>
@@ -408,7 +446,7 @@
   <h2 class="sr-only">CFA Level II knowledge ledger: a mind map you fill in with your own explanations, questions, and links across all ten subjects.</h2>
   <header>
     <h1>CFA Level II — knowledge ledger</h1>
-    <p class="sub">64 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
+    <p class="sub">63 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
 
     <details class="rules-panel" id="rulesPanel">
       <summary>How this ledger works — session rules (read this first, every new chat)</summary>
@@ -1763,12 +1801,16 @@ function renderBlock(b, gaps, refs) {
       body = (b.title ? `<p class="nb-p"><b>${escapeHtml(b.title)}</b></p>` : '') +
         `<ul class="nb-points">${b.items.map(i => `<li>${rt(i)}</li>`).join('')}</ul>`;
       break;
-    case 'table':
-      body = `<div class="nb-tablewrap"><table class="nb-table">
+    case 'table': {
+      // data-col carries the column heading into each cell so that on phones, where three or
+      // more columns get stacked and the <thead> is hidden, each value still says what it is.
+      const stack = b.columns.length >= 3 ? ' nb-stackable' : '';
+      body = `<div class="nb-tablewrap"><table class="nb-table${stack}">
         <thead><tr><th></th>${b.columns.map(c => `<th>${rt(c)}</th>`).join('')}</tr></thead>
-        <tbody>${b.rows.map(r => `<tr><th>${rt(r.label)}</th>${r.values.map(v => `<td>${rt(v)}</td>`).join('')}</tr>`).join('')}</tbody>
+        <tbody>${b.rows.map(r => `<tr><th>${rt(r.label)}</th>${r.values.map((v, ci) => `<td data-col="${escapeHtml(b.columns[ci] || '')}">${rt(v)}</td>`).join('')}</tr>`).join('')}</tbody>
       </table></div>` + (b.caption ? `<div class="nb-caption">${escapeHtml(b.caption)}</div>` : '');
       break;
+    }
     case 'timeline':
       body = `<div class="nb-timeline">${b.steps.map((s, i) => `
         ${i ? '<div class="nb-tl-arrow">→</div>' : ''}
