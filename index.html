@@ -326,12 +326,45 @@
   .nb-flag-body { font-size: 12.5px; color: var(--ink); line-height: 1.6; }
   .nb-flag-body ul { margin: 6px 0 0; padding-left: 18px; }
   .nb-flag-body li { margin-bottom: 4px; }
+
+  /* Question card: pins into the empty left gutter while a solution block that cites a
+     question setup is on screen, so the numbers stay in view without scrolling back up.
+     On narrow screens there is no gutter, so the same content renders inline instead. */
+  .refcard {
+    position: fixed; left: 28px; top: 96px; width: 300px;
+    background: var(--panel); border: 1px solid var(--violet); border-left: 3px solid var(--violet);
+    border-radius: 10px; padding: 12px 14px; z-index: 30;
+    box-shadow: 0 8px 24px rgba(27, 33, 48, 0.12);
+    max-height: 72vh; overflow-y: auto;
+    opacity: 0; transform: translateX(-10px); pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .refcard.show { opacity: 1; transform: none; pointer-events: auto; }
+  .refcard-tag { font-family: var(--mono); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--violet); margin-bottom: 5px; }
+  .refcard-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; line-height: 1.35; }
+  .refcard-list { margin: 0; padding-left: 16px; }
+  .refcard-list li { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 5px; }
+  .refcard-list li b { color: var(--ink); }
+  .nb-refinline { display: none; }
+  .nb-refinline > summary { cursor: pointer; list-style: none; font-size: 12px; font-weight: 600; color: var(--violet); background: var(--violet-bg); border: 1px solid var(--violet); border-radius: 8px; padding: 7px 11px; margin-bottom: 9px; }
+  .nb-refinline > summary::-webkit-details-marker { display: none; }
+  .nb-refinline > summary::after { content: ' ▸'; }
+  .nb-refinline[open] > summary::after { content: ' ▾'; }
+  .nb-refinline ul { margin: 0 0 12px; padding-left: 18px; }
+  .nb-refinline li { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; margin-bottom: 5px; }
+  @media (max-width: 1080px) {
+    .refcard { display: none; }
+    .nb-refinline { display: block; }
+  }
   @media (max-width: 760px) {
     #app { padding: 14px 12px; }
     h1 { font-size: 20px; }
     .sub { font-size: 12px; }
     .coverage { max-width: 100%; }
-    .layout { flex-direction: column; gap: 12px; }
+    /* In column mode the layout's align-items:flex-start would shrink-wrap these to their
+       content, so a wide table inside would push the page wider than the viewport. */
+    .layout { flex-direction: column; gap: 12px; align-items: stretch; }
+    .sidebar, .detail { max-width: 100%; }
     .sidebar { width: 100%; max-height: 42vh; overflow-y: auto; }
     .search { position: sticky; top: 0; background: var(--panel); z-index: 1; }
     .topic-row { padding: 10px 8px; font-size: 13px; }
@@ -417,6 +450,7 @@
       <div class="empty">Pick a topic from the ledger to start recording what you know.</div>
     </div>
   </div>
+  <aside class="refcard" id="refcard" aria-live="polite"></aside>
 </div>
 
 <script>
@@ -706,6 +740,49 @@ const CONTENT = {
     ],
   },
   'fsa.1': {
+    // Question setups that solution blocks further down refer back to. A block citing one by
+    // name gets it pinned in the left gutter while that block is on screen.
+    refs: {
+      zephire: {
+        title: 'Zephire, Inc. — the grant',
+        lines: [
+          'Grant made *1 January 20X1*',
+          '*2 million* at-the-money options, maturing in 5 yrs',
+          'Option fair value *$2.85* → total *$5.70m*',
+          '*1 million* shares, stock price *$23* → total *$23m*',
+          'Both awards vest after *4 years*',
+          'Annual expense = ($5.70m + $23m) ÷ 4 = *$7,175,000*',
+          'Average stock price during 20X1 = *$24.50*',
+        ],
+      },
+      mcelwain: {
+        title: 'John McElwain — the plan',
+        lines: [
+          'Hired *1 January 2016*, only employee of Tranquer Trucking',
+          'Promised *2% of final annual salary per year of service*',
+          'Benefit paid at the *end of each year*, starting one year after retirement',
+          'Starting annual salary *$50,000*',
+          'Discount rate *8%*',
+          'Compensation growth *4% per year*',
+          'Works *25 years*, then lives *15 years* receiving 15 payments',
+          'Final salary = 50,000 × 1.04²⁴ = *128,165*',
+        ],
+      },
+      zenith: {
+        title: 'Zenith Industries — FY 20X5 data',
+        lines: [
+          'Employer contribution *1,200*',
+          'Current service cost *1,850*',
+          'Benefit obligation: *38,870* → *43,619*',
+          'Increase in obligation from actuarial assumptions *619*',
+          'Plan assets: *28,322* → *30,682*',
+          'Actual return on plan assets *1,795*',
+          'Benefits paid *635*',
+          'Unamortised actuarial losses (US GAAP only) *3,150*',
+          'Expected rate of return *6%*  ·  Discount rate *7.5%*',
+        ],
+      },
+    },
     flow: [
       {
         module: '8.S1', title: 'Employee Compensation: Post-Employment & Share-Based', pages: 'pages 65–66',
@@ -921,7 +998,7 @@ const CONTENT = {
             '',
             'shares issued − shares repurchased = dilutive shares',
           ] },
-          { k: 'example', id: 's3-tsm-opt', title: 'Example — Zephire: dilutive shares from the options',
+          { k: 'example', id: 's3-tsm-opt', ref: 'zephire', title: 'Example — Zephire: dilutive shares from the options',
             body: ['Average stock price was *$24.50* during 20X1. Annual recognised cost on the options = $5.70m ÷ 4 = $1.425m, so unrecognised at the end of year one = 5.70 − 1.425 = *$4.275m*.'],
             steps: [
               'Cash proceeds = 2 million options × $23 exercise price = *$46 million*',
@@ -930,7 +1007,7 @@ const CONTENT = {
               'No. of treasury shares = $48.1375m ÷ $24.5 = *1.965 million shares*',
             ],
             result: 'Dilutive shares = 2 million − 1.965 million = 0.035 million, or 35,000 shares' },
-          { k: 'example', id: 's3-tsm-stk', title: 'Example — Zephire: dilutive shares from the stock grant',
+          { k: 'example', id: 's3-tsm-stk', ref: 'zephire', title: 'Example — Zephire: dilutive shares from the stock grant',
             body: ['Annual recognised cost = $23m ÷ 4 = $5.75m, so unrecognised at the end of year one = 23 − 5.75 = *$17.25m*.'],
             steps: [
               'Cash proceeds = *zero* — a stock grant has no exercise price.',
@@ -1004,7 +1081,7 @@ const CONTENT = {
               { label: 'Years McElwain will work', val: '25 years' },
               { label: 'Years he will live after retirement', val: '15 years — receiving 15 annual pension benefits' },
             ] },
-          { k: 'example', id: 's5-mc-y1', title: 'Solution — year 1',
+          { k: 'example', id: 's5-mc-y1', ref: 'mcelwain', title: 'Solution — year 1',
             steps: [
               'Final salary = 50,000 × (1.04)^24 = *128,165*. It is the 24th power, not the 25th, because the $50,000 is already the year-one salary.',
               'After one year of service the employee is entitled to a benefit for 15 years = 2% × 128,165 × 1 = *$2,563* per year.',
@@ -1020,7 +1097,7 @@ const CONTENT = {
           { k: 'entry', id: 's5-e-y1', title: 'Year 1',
             bs: { a: ['—'], le: ['PBO ↑ 3,460', 'Retained earnings ↓ 3,460'] },
             is: ['Current service cost 3,460', 'Net income ↓ 3,460'] },
-          { k: 'example', id: 's5-mc-y2', title: 'Year 2 — splitting the increase',
+          { k: 'example', id: 's5-mc-y2', ref: 'mcelwain', title: 'Year 2 — splitting the increase',
             body: ['After 2 yrs of service the employee is entitled to get benefits after retirement for 15 yrs = 2% × 128,165 × 2 = *5,126*.'],
             steps: [
               'PV at retirement: N = 15, I/Y = 8, PMT = 5,126 → PV = *43,881*',
@@ -1169,7 +1246,7 @@ const CONTENT = {
               { label: 'Discount rate used in estimating benefit obligation', val: '7.5%' },
             ],
             ask: 'Calculate: beginning & ending funded status · pension cost reported under US GAAP · pension cost reported under IFRS.' },
-          { k: 'stacks', id: 's7-trans', items: [
+          { k: 'stacks', id: 's7-trans', ref: 'zenith', items: [
             { title: 'PBO (liability) transition', lines: [
               { op: '', text: 'Beginning of year benefit obligation', val: '38,870' },
               { op: '+', text: 'Current service cost', val: '1,850' },
@@ -1186,17 +1263,17 @@ const CONTENT = {
               { op: '=', text: 'End of year plan assets', val: '30,682', total: true },
             ] },
           ] },
-          { k: 'points', id: 's7-fs', title: 'Funded status', items: [
+          { k: 'points', id: 's7-fs', ref: 'zenith', title: 'Funded status', items: [
             'Beginning funded status = beginning plan assets − beginning PBO = 28,322 − 38,870 = *(10,548)*. The plan was *underfunded* at the start of the year.',
             'Ending funded status = ending plan assets − ending PBO = 30,682 − 43,619 = *(12,937)*. It became *more underfunded* at the end of the year.',
             'Worth pausing on: the employer contributed 1,200 and assets earned 1,795, yet the hole deepened by 2,389 — service cost, interest and the actuarial loss together outran both.',
           ] },
-          { k: 'points', id: 's7-corr', title: 'Corridor approach', items: [
+          { k: 'points', id: 's7-corr', ref: 'zenith', title: 'Corridor approach', items: [
             'Because beginning PBO > beginning plan assets, we take *10% of beginning PBO = 3,887*.',
             'Because unamortised actuarial losses (*3,150*) do not exceed 10% of beginning PBO, *no amortisation is necessary*.',
             'Always run the test before assuming an amortisation line — the 3,150 is given precisely to see whether you check it or just plug it in.',
           ] },
-          { k: 'cols', id: 's7-cost', panes: [
+          { k: 'cols', id: 's7-cost', ref: 'zenith', panes: [
             { title: 'IFRS', tone: 'violet', items: [
               'Current service cost = *1,850*',
               'Net interest cost = *791*  (7.5% × 10,548)',
@@ -1658,7 +1735,20 @@ function renderStack(s) {
     </div>`;
 }
 
-function renderBlock(b, gaps) {
+function refCardHtml(r) {
+  return `<div class="refcard-tag">Refer to the question</div>
+    <div class="refcard-title">${escapeHtml(r.title)}</div>
+    <ul class="refcard-list">${r.lines.map(l => `<li>${rt(l)}</li>`).join('')}</ul>`;
+}
+
+function refInlineHtml(r) {
+  return `<details class="nb-refinline">
+    <summary>Refer to the question — ${escapeHtml(r.title)}</summary>
+    <ul>${r.lines.map(l => `<li>${rt(l)}</li>`).join('')}</ul>
+  </details>`;
+}
+
+function renderBlock(b, gaps, refs) {
   const gap = (b.id && gaps && gaps[b.id])
     ? `<div class="note-gap"><span class="note-gap-label">Gap —</span>${escapeHtml(gaps[b.id])}</div>` : '';
   let body = '';
@@ -1748,6 +1838,8 @@ function renderBlock(b, gaps) {
     default:
       body = '';
   }
+  const ref = b.ref && refs && refs[b.ref];
+  if (ref) return `<div data-ref="${escapeHtml(b.ref)}">${refInlineHtml(ref)}${body}${gap}</div>`;
   return body + gap;
 }
 
@@ -1756,6 +1848,7 @@ function renderFlow(key) {
   if (!flow) return '';
   const gaps = GAPS[key];
   const gapObj = (gaps && !Array.isArray(gaps)) ? gaps : null;
+  const refs = CONTENT[key].refs || {};
   const misses = TUITION_MISSES[key] || [];
   return flow.map(s => `
     <section class="nb-session" data-group="${escapeHtml(s.module)}">
@@ -1765,8 +1858,54 @@ function renderFlow(key) {
         ${s.pages ? `<span class="nb-session-pages">${escapeHtml(s.pages)}</span>` : ''}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
-      ${s.blocks.map(b => renderBlock(b, gapObj)).join('')}
+      ${s.blocks.map(b => renderBlock(b, gapObj, refs)).join('')}
     </section>`).join('');
+}
+
+// Pins the question card into the left gutter while a solution block citing that question is
+// on screen. Skipped when the sidebar is still in that space, and on narrow screens where the
+// card is hidden by CSS and the inline <details> takes over.
+let _refObs = null, _refScroll = null;
+function setupRefCards(el) {
+  if (_refObs) { _refObs.disconnect(); _refObs = null; }
+  if (_refScroll && typeof window !== 'undefined') { window.removeEventListener('scroll', _refScroll); _refScroll = null; }
+  const card = document.getElementById('refcard');
+  if (!card) return;
+  card.className = 'refcard';
+  if (typeof window === 'undefined' || !window.IntersectionObserver) return;
+  const refs = (CONTENT[selectedKey] && CONTENT[selectedKey].refs) || {};
+  const targets = el.querySelectorAll('[data-ref]');
+  if (!targets.length) return;
+  let vis = [];
+  const paint = () => {
+    const sb = document.querySelector('.sidebar');
+    const blocked = sb && sb.getBoundingClientRect && sb.getBoundingClientRect().bottom > 110;
+    if (!vis.length || blocked) { card.className = 'refcard'; return; }
+    const top = vis.slice().sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
+    const name = top.getAttribute('data-ref');
+    const r = refs[name];
+    if (!r) { card.className = 'refcard'; return; }
+    if (card.getAttribute('data-cur') !== name) {
+      card.innerHTML = refCardHtml(r);
+      card.setAttribute('data-cur', name);
+    }
+    card.className = 'refcard show';
+  };
+  _refObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { if (vis.indexOf(e.target) < 0) vis.push(e.target); }
+      else vis = vis.filter(t => t !== e.target);
+    });
+    paint();
+  }, { rootMargin: '-90px 0px -35% 0px' });
+  targets.forEach(t => _refObs.observe(t));
+  let ticking = false;
+  _refScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => { ticking = false; paint(); });
+  };
+  window.addEventListener('scroll', _refScroll, { passive: true });
 }
 function renderDetail() {
   const el = document.getElementById('detail');
@@ -1845,6 +1984,8 @@ function renderDetail() {
       if (group.scrollIntoView) group.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  setupRefCards(el);
 }
 
 function escapeHtml(str) {
