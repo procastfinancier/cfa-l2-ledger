@@ -326,6 +326,15 @@
   .nb-flag-body { font-size: 12.5px; color: var(--ink); line-height: 1.6; }
   .nb-flag-body ul { margin: 6px 0 0; padding-left: 18px; }
   .nb-flag-body li { margin-bottom: 4px; }
+  .nb-vtl { position: relative; margin: 0 0 14px; padding-left: 28px; }
+  .nb-vtl::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 18px; width: 2px; background: var(--violet); opacity: 0.35; }
+  .nb-vtl-step { position: relative; padding-bottom: 10px; }
+  .nb-vtl-dot { position: absolute; left: -26px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--violet); border: 4px solid var(--violet-bg); box-sizing: border-box; }
+  .nb-vtl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 4px; }
+  .nb-vtl-date { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--violet); text-transform: uppercase; letter-spacing: 0.04em; }
+  .nb-vtl-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .nb-vtl-rate { font-family: var(--mono); font-size: 11.5px; font-weight: 600; color: var(--ink); background: var(--violet-bg); border: 1px solid var(--violet); border-radius: 10px; padding: 1px 8px; }
+  .nb-vtl-text { font-size: 12.5px; color: var(--ink-soft, var(--ink)); line-height: 1.55; margin-bottom: 8px; }
   .nb-fix { border-color: var(--violet); background: var(--violet-bg); }
   .nb-fix .nb-flag-tag { background: var(--violet); }
 
@@ -1406,21 +1415,24 @@ const CONTENT = {
           { k: 'p', text: 'My picture of it: a parent company in *India*, a subsidiary in the *USA*, and that subsidiary trading with *Europe*.' },
           { k: 'sub', text: 'Transaction Exposure' },
           { k: 'example', id: 's1-tx', title: 'Example — Indian exporter, US importer',
-            body: ['An exporter from India receives an order worth *$100* from an importer in the USA and immediately ships the goods. The exporter records the sale in rupees.'],
-            given: [
-              { label: 'Deal date — 20 Oct 2019', val: '$1 = ₹70' },
-              { label: 'Year end — 31 Dec 2019', val: '$1 = ₹75' },
-              { label: 'Payment — 15 Jan 2020', val: '$1 = ₹73' },
-            ] },
-          { k: 'entry', id: 's1-tx-oct', title: 'October — deal date',
-            bs: { a: ['A/c receivable ↑ ₹7,000'], le: ['Retained earnings ↑ ₹7,000'] },
-            is: ['Revenue ₹7,000 (100 × 70)'] },
-          { k: 'entry', id: 's1-tx-dec', title: '31 December — balance sheet date, not yet paid',
-            bs: { a: ['A/c receivable ↑ ₹500 → ₹7,500'], le: ['Retained earnings ↑ ₹500'] },
-            is: ['Transaction gain ₹500', 'Net income ↑ ₹500'] },
-          { k: 'entry', id: 's1-tx-jan', title: 'January — settlement',
-            bs: { a: ['A/c receivable ↓ ₹7,500', 'Cash ↑ ₹7,300'], le: ['Retained earnings ↓ ₹200'] },
-            is: ['Transaction loss ₹200'] },
+            body: ['An exporter from India receives an order worth *$100* from an importer in the USA and immediately ships the goods. The exporter reports in rupees, so the dollar receivable is exposed until it is paid.'] },
+          { k: 'vtimeline', id: 's1-tx-tl', steps: [
+            { date: '20 Oct 2019', name: 'Deal date', rate: '$1 = ₹70',
+              text: 'Exporter receives the order worth $100 and immediately ships the goods. The sale is recorded at the spot rate: 100 × 70 = *₹7,000*.',
+              entry: { title: 'October-end BS & IS',
+                bs: { a: ['A/c receivable ↑ ₹7,000'], le: ['Retained earnings ↑ ₹7,000'] },
+                is: ['Revenue ₹7,000 (100 × 70)'] } },
+            { date: '31 Dec 2019', name: 'Year end — not yet paid', rate: '$1 = ₹75',
+              text: 'The open receivable is marked to the closing rate: 100 × 75 = ₹7,500. The ₹500 increase is an unrealised *transaction gain*.',
+              entry: { title: '31st Dec BS & IS',
+                bs: { a: ['A/c receivable ↑ ₹500 → ₹7,500'], le: ['Retained earnings ↑ ₹500'] },
+                is: ['Transaction gain ₹500', 'Net income ↑ ₹500'] } },
+            { date: '15 Jan 2020', name: 'Payment received', rate: '$1 = ₹73',
+              text: 'The $100 is received and converted at 73 = ₹7,300 — ₹200 less than the receivable was carried at, so a *transaction loss* of ₹200.',
+              entry: { title: 'January-end BS & IS',
+                bs: { a: ['A/c receivable ↓ ₹7,500', 'Cash ↑ ₹7,300'], le: ['Retained earnings ↓ ₹200'] },
+                is: ['Transaction loss ₹200'] } },
+          ] },
           { k: 'p', text: 'The gain is booked at the year end even though no cash has moved — the open receivable is marked to the closing rate and the difference goes through the income statement. The ₹500 gain and ₹200 loss net to *₹300 = 100 × (73 − 70)*: one lifetime gain, split across the two reporting periods it straddles.' },
           { k: 'flag', title: 'The payable side, and who has no exposure at all',
             text: 'My example is a receivable. Schweser runs the mirror image and adds the counterparty’s view:',
@@ -1864,21 +1876,62 @@ const CONTENT = {
             'Due to *permanent differences*.',
             'Company operating in *more than one tax jurisdiction*.',
           ] },
-          { k: 'flag', title: 'Reading the reconciliation — the example my page points to (Schweser pp.86–87)',
-            text: 'Changes in the effective rate from foreign operations come from two things: a change in the *mix of profits* across countries, and changes in the *tax rates* themselves. Amco and Bianco show how to read the line:',
+          { k: 'sub', text: 'Analysis of Reconciliation of Effective Tax Rate', tone: 'teal' },
+          { k: 'points', id: 's9-drivers', title: 'Changes in the effective tax rate on account of foreign operations can be due to:', items: [
+            'Changes in the *mix of profits* from different countries (with varying tax rates).',
+            'Changes in the *tax rates* themselves.',
+          ] },
+          { k: 'example', id: 's9-amco', title: 'Example — Amco and Bianco: reconciling statutory to effective (Schweser p.86)',
+            body: ['The reconciliation between the statutory tax rate and the effective tax rate for two companies, Amco and Bianco, for 20X4:'] },
+          { k: 'table', id: 's9-amco-table',
+            columns: ['Amco', 'Bianco'],
+            rows: [
+              { label: 'Statutory tax rate', values: ['25.0%', '30.0%'] },
+              { label: 'Effect of disallowed expenses', values: ['3.0%', '1.0%'] },
+              { label: 'Effect of exempt income', values: ['(2.0%)', '(0.5%)'] },
+              { label: '*Effect of taxes in foreign jurisdictions*', values: ['*3.4%*', '*(1.2%)*'] },
+              { label: 'Effect of recognition of prior losses', values: ['(0.8%)', '(3.0%)'] },
+              { label: '*Effective tax rate*', values: ['*28.6%*', '*26.3%*'] },
+            ],
+            caption: 'Only the “taxes in foreign jurisdictions” line tells you what foreign operations did — the other lines are permanent differences and one-offs.' },
+          { k: 'qa', id: 's9-amco-q1', q: '1. Which company benefited from the lowering of tax expense on account of its foreign operations?',
+            a: '*Bianco.* Foreign operations *increased* Amco’s effective tax rate by 3.4% and *decreased* Bianco’s by 1.2%, so Bianco’s foreign operations reduced its effective tax rate and tax expense.' },
+          { k: 'qa', id: 's9-amco-q2', q: '2. If the mix of foreign operations for both companies is expected to increase over time, which company is most likely to report a lower effective tax rate in the future? (Statutory rates unchanged.)',
+            a: '*Bianco.* More foreign mix pushes Bianco’s effective rate *further down* and Amco’s *further up* — the foreign line scales with the share of profit earned abroad.' },
+          { k: 'qa', id: 's9-suparna', q: 'Module quiz — Suparna: statutory 35.0%, disallowed provisions 2.0%, taxes in foreign jurisdictions (1.9%), other 0.3%, effective 35.4%. Due to its foreign operations, Suparna’s effective tax rate was most likely…',
+            a: '*Lower than its statutory tax rate.* Read the foreign line alone: it took 1.9% off. The total ends above 35.0% only because of the disallowed provisions and “other” — that is the trap in the “higher than statutory” option.' },
+          { k: 'sub', text: 'Analysis of Sales Components', tone: 'teal' },
+          { k: 'points', id: 's9-sales', items: [
+            'Multinationals report sales in the reporting currency even though the sales happened in many currencies, so *currency movements change translated sales*.',
+            'Sales growth from an *increase in volumes or prices* is *more sustainable* than growth from appreciation of the currencies the sales were made in.',
+            '*Organic growth* = growth in sales *excluding* acquisitions/divestitures *and* currency effects.',
+            'Companies often report the currency effect on sales in the *MD&A*; analysts use it to sharpen sales forecasts.',
+          ] },
+          { k: 'example', id: 's9-bcn', title: 'Example — BCN, Inc.: sales growth by region (Schweser p.87)',
+            body: ['BCN, Inc., an American multinational, reported the following in its MD&A for 20X4. Comment on the growth rates observed in its different markets.'] },
+          { k: 'table', id: 's9-bcn-table',
+            columns: ['% change in sales', 'Impact of currency', '% change excluding currency'],
+            rows: [
+              { label: 'North America ex-US', values: ['3%', '−2%', '*5%*'] },
+              { label: 'Asia (incl. Japan)', values: ['2%', '0%', '*2%*'] },
+              { label: 'Europe', values: ['2%', '3%', '*−1%*'] },
+            ],
+            caption: 'Reported growth = underlying (price/volume) growth + currency impact. Read the last column for sustainability.' },
+          { k: 'points', id: 's9-bcn-ans', title: 'Answer', items: [
+            '*North America ex-US* — highest underlying growth. Excluding the translation loss from a depreciating currency, revenue grew *5%* from volume and/or price; reported growth understates it.',
+            '*Europe* — reported +2%, but that came entirely from *appreciating currencies*. Excluding the currency effect, sales actually *fell 1%*. The least sustainable of the three.',
+            '*Asia* — the 2% growth is *solely* from price/volume changes; reported and underlying are the same.',
+          ] },
+          { k: 'qa', id: 's9-ibm', q: 'Module quiz — IBM 2012: total revenue decreased 2.3% as reported and was flat at constant currency. Revenue growth excluding currency movements was most likely…',
+            a: '*Higher than reported.* Flat (0%) at constant currency beats −2.3% as reported — the strong dollar dragged reported revenue down.' },
+          { k: 'flag', title: 'Currency fluctuations and financial results — LOS 9.j',
             items: [
-              'Amco: statutory 25.0%, foreign jurisdictions *+3.4%*, effective 28.6%. Bianco: statutory 30.0%, foreign jurisdictions *(1.2%)*, effective 26.3%.',
-              'Only the “taxes in foreign jurisdictions” line answers “who benefited from foreign operations” — *Bianco*, whose rate it lowered.',
-              'If both firms’ foreign mix grows and rates stay put, Bianco’s effective rate keeps falling and Amco’s keeps rising.',
-              'Module quiz: Suparna’s foreign line is (1.9%), so foreign operations made its effective rate *lower than statutory* on that line — even though the total 35.4% ends above the 35.0% statutory rate for other reasons.',
-            ] },
-          { k: 'flag', title: 'Sales growth and currency — LOS 9.i and 9.j, not in my notes',
-            items: [
-              'Growth from *volume or price* is more *sustainable* than growth from a foreign currency appreciating. *Organic growth* excludes both acquisitions/divestitures and currency effects.',
-              'BCN: North America ex-US reported +3% with a −2% currency hit, so +5% underlying. Europe reported +2%, but +3% was currency, so underlying sales *fell 1%*. Asia’s +2% was all price/volume.',
-              'IBM-style quiz: revenue −2.3% as reported but *flat at constant currency* → growth excluding currency was *higher* than reported.',
-              'For FX risk more broadly, use the MD&A sensitivity disclosures, run your own sensitivity analysis where none is given, and ask what hedging the company uses.',
-            ] },
+              'FX risk hits both the *assets and liabilities* of the business (transaction and translation exposure) and *future sales*.',
+              'Use MD&A disclosures of how currency moves affected profit; where none are given, run your own *sensitivity analysis*, and ask what *hedging* the company uses.',
+              'Walmart’s example: currency swaps and foreign-currency debt designated as *net investment hedges*; a hypothetical 10% FX move changes the swaps’ value by $435m.',
+              'IBM quiz: currency effects net of hedging cut 2012 pre-tax income by about $100m and *raised 2011’s by about $600m*.',
+            ],
+            text: 'The points that get tested:' },
         ],
       },
     ],
@@ -2230,13 +2283,18 @@ function corpusFor(key, subjectName) {
         (b.items || []).forEach(i => parts.push(typeof i === 'string' ? i : ''));
         (b.columns || []).forEach(col => parts.push(col));
         (b.rows || []).forEach(r => { parts.push(r.label); (r.values || []).forEach(v => parts.push(v)); });
-        (b.steps || []).forEach(s2 => parts.push(s2));
+        (b.steps || []).forEach(s2 => {
+          if (typeof s2 === 'string') { parts.push(s2); return; }
+          parts.push(s2.date || '', s2.name || '', s2.rate || '', s2.text || '');
+          const e = s2.entry;
+          if (e) [e.title, ...((e.bs && e.bs.a) || []), ...((e.bs && e.bs.le) || []), ...(e.is || []), ...(e.oci || []), ...(e.cf || [])]
+            .forEach(l => parts.push(l || ''));
+        });
         (b.body || []).forEach(t => parts.push(t));
         (b.given || []).forEach(g => parts.push(g.label, g.val));
         (b.panes || []).forEach(p => { parts.push(p.title); (p.items || []).forEach(i => parts.push(i)); });
         (b.legs || []).forEach(l => parts.push(l.name, l.text || ''));
         (b.lines || []).forEach(l => parts.push(typeof l === 'string' ? l : ''));
-        (b.steps || []).forEach(s2 => parts.push(s2));
       });
     });
   }
@@ -2431,6 +2489,21 @@ function renderStack(s) {
     </div>`;
 }
 
+function renderEntry(b) {
+  const side = (label, lines) => `<div class="nb-bs-side"><div class="nb-bs-side-label">${label}</div>${(lines && lines.length ? lines : ['—']).map(l => `<div class="nb-line${l === '—' ? ' muted' : ''}">${rt(l)}</div>`).join('')}</div>`;
+  return `<div class="nb-entry">
+    <div class="nb-entry-head">${escapeHtml(b.title || 'Statement effects')}</div>
+    <div class="nb-entry-body">
+      ${b.bs ? `<div class="nb-stmt"><div class="nb-stmt-label">Balance sheet</div><div class="nb-bs-split">
+        ${side('Assets', b.bs.a)}${side('Liabilities &amp; equity', b.bs.le)}
+      </div></div>` : ''}
+      ${renderStmtCol('Income statement', b.is)}
+      ${renderStmtCol('OCI', b.oci)}
+      ${renderStmtCol('Cash flow', b.cf)}
+    </div>
+  </div>`;
+}
+
 function refCardHtml(r) {
   return `<div class="refcard-tag">Refer to the question</div>
     <div class="refcard-title">${escapeHtml(r.title)}</div>
@@ -2490,18 +2563,22 @@ function renderBlock(b, gaps, refs) {
         </div>`).join('')}</div>`;
       break;
     case 'entry':
-      body = `<div class="nb-entry">
-        <div class="nb-entry-head">${escapeHtml(b.title || 'Statement effects')}</div>
-        <div class="nb-entry-body">
-          ${(b.bs) ? `<div class="nb-stmt"><div class="nb-stmt-label">Balance sheet</div><div class="nb-bs-split">
-            <div class="nb-bs-side"><div class="nb-bs-side-label">Assets</div>${(b.bs.a && b.bs.a.length ? b.bs.a : ['—']).map(l => `<div class="nb-line${l === '—' ? ' muted' : ''}">${rt(l)}</div>`).join('')}</div>
-            <div class="nb-bs-side"><div class="nb-bs-side-label">Liabilities &amp; equity</div>${(b.bs.le && b.bs.le.length ? b.bs.le : ['—']).map(l => `<div class="nb-line${l === '—' ? ' muted' : ''}">${rt(l)}</div>`).join('')}</div>
-          </div></div>` : ''}
-          ${renderStmtCol('Income statement', b.is)}
-          ${renderStmtCol('OCI', b.oci)}
-          ${renderStmtCol('Cash flow', b.cf)}
-        </div>
-      </div>`;
+      body = renderEntry(b);
+      break;
+    case 'vtimeline':
+      // A dated sequence drawn top to bottom, each stop carrying the entry booked on that date —
+      // the way my pages put the T-accounts directly under each point on the timeline.
+      body = `<div class="nb-vtl">${b.steps.map(s => `
+        <div class="nb-vtl-step">
+          <div class="nb-vtl-dot"></div>
+          <div class="nb-vtl-head">
+            <span class="nb-vtl-date">${escapeHtml(s.date)}</span>
+            <span class="nb-vtl-name">${escapeHtml(s.name)}</span>
+            ${s.rate ? `<span class="nb-vtl-rate">${escapeHtml(s.rate)}</span>` : ''}
+          </div>
+          ${s.text ? `<div class="nb-vtl-text">${rt(s.text)}</div>` : ''}
+          ${s.entry ? renderEntry(s.entry) : ''}
+        </div>`).join('')}</div>`;
       break;
     case 'formula':
       body = `<div class="nb-formula">
