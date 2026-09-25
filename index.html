@@ -326,6 +326,8 @@
   .nb-flag-body { font-size: 12.5px; color: var(--ink); line-height: 1.6; }
   .nb-flag-body ul { margin: 6px 0 0; padding-left: 18px; }
   .nb-flag-body li { margin-bottom: 4px; }
+  .nb-fix { border-color: var(--violet); background: var(--violet-bg); }
+  .nb-fix .nb-flag-tag { background: var(--violet); }
 
   /* Question card: pins into the empty left gutter while a solution block that cites a
      question setup is on screen, so the numbers stay in view without scrolling back up.
@@ -446,7 +448,7 @@
   <h2 class="sr-only">CFA Level II knowledge ledger: a mind map you fill in with your own explanations, questions, and links across all ten subjects.</h2>
   <header>
     <h1>CFA Level II — knowledge ledger</h1>
-    <p class="sub">63 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
+    <p class="sub">56 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
 
     <details class="rules-panel" id="rulesPanel">
       <summary>How this ledger works — session rules (read this first, every new chat)</summary>
@@ -506,14 +508,7 @@ const SUBJECTS = [
   { id: 'fsa', name: 'FSA', topics: [
     { name: 'Reading 7: Intercorporate Investments', desc: 'R7 · Modules 7.1–7.9 merged into one — classifications through SPEs/VIEs' },
     { name: 'Reading 8: Employee Compensation', desc: 'R8 · Modules 8.S1–8.S7, following your written notes — share-based grants through defined benefit pensions' },
-    { name: '9.1 Transaction exposure', desc: 'R9 · FX transaction gains and losses' },
-    { name: '9.2 Translation', desc: 'R9 · Local, functional, presentation currency' },
-    { name: '9.3 Temporal method', desc: 'R9 · Remeasurement, monetary/nonmonetary split' },
-    { name: '9.4 Current rate method', desc: 'R9 · All items at current rate, CTA' },
-    { name: '9.5 Example', desc: 'R9 · Worked translation example' },
-    { name: '9.6 Ratios', desc: 'R9 · Ratio effects of each translation method' },
-    { name: '9.7 Hyperinflation', desc: 'R9 · Restate-then-translate under IFRS' },
-    { name: '9.8 Tax, sales growth, financial results', desc: 'R9 · Effective tax rate, sustainable growth' },
+    { name: 'Reading 9: Multinational Operations', desc: 'R9 · Sessions 9.S1–9.S9, following your written notes — transaction exposure, current rate vs. temporal, ratios, hyperinflation and tax' },
     { name: '10.1 Financial institutions', desc: 'R10 · How banks differ from other companies' },
     { name: '10.2 Capital adequacy and asset quality', desc: 'R10 · Basel III, Tier 1/2 capital, RWA' },
     { name: '10.3 Management capabilities and earnings quality', desc: 'R10 · Fair value hierarchy, estimates' },
@@ -1365,6 +1360,529 @@ const CONTENT = {
       },
     ],
   },
+  'fsa.2': {
+    refs: {
+      vibrant: {
+        title: 'Vibrant, Inc. — the data (Schweser p.68)',
+        lines: [
+          'US parent *FlexCo* reports in *$*; subsidiary *Vibrant* reports in the *loca (LC)*',
+          'Acquired at the end of the prior year, so beginning CTA = *0*',
+          'Current rate *$0.4545* · prior year-end *$0.50* · average *$0.4762*',
+          'Historical: common stock *$0.50* · PP&E and depreciation *$0.4881*',
+          'Inventory: beginning *$0.52* · ending *$0.456*',
+          'Assets: cash 100 · A/R 650 · inventory 1,200 · fixed assets 1,600 − acc. dep. 700 = *LC 2,850*',
+          'Liabilities: A/P 500 · current debt 200 · LT debt 950 = *LC 1,650*',
+          'Equity: common stock 400 · retained earnings 800',
+          'Income: revenue 5,000 − COGS 3,300 − other 400 − depreciation 600 = *LC 700*',
+          'Beginning retained earnings in dollars *$50* · no dividends',
+        ],
+      },
+      inflation: {
+        title: 'Restating for inflation — the data (Schweser p.82)',
+        lines: [
+          'Subsidiary created at the end of the prior year',
+          'Price index: beginning *100* · end *150* · average *125*',
+          'Cash *5,000 → 8,000* · supplies *25,000* both years',
+          'Accounts payable *20,000* · common stock *10,000*',
+          'Retained earnings *0 → 3,000*',
+          'Revenue *15,000* − expenses *12,000* = net income *3,000* · no dividends',
+        ],
+      },
+    },
+    flow: [
+      {
+        module: '9.S1', title: 'Multinational Operations · Types of Currency · Transaction Exposure',
+        blocks: [
+          { k: 'points', id: 's1-ways', title: 'Foreign currency reaches a multinational’s statements in two ways:', items: [
+            '*Business transactions* — denominated in a foreign currency.',
+            '*Subsidiaries* — that maintain their books & records in a foreign currency.',
+          ] },
+          { k: 'sub', text: 'Different Types of Currency' },
+          { k: 'points', id: 's1-ccy', items: [
+            '*Local currency* — the currency of the country being referred to.',
+            '*Functional currency* — determined by management; the currency of the *primary economic environment* in which the entity operates. It can be the local currency or some other currency.',
+            '*Presentation (reporting) currency* — the currency in which the *parent company prepares its financial statements*.',
+          ] },
+          { k: 'p', text: 'My picture of it: a parent company in *India*, a subsidiary in the *USA*, and that subsidiary trading with *Europe*.' },
+          { k: 'sub', text: 'Transaction Exposure' },
+          { k: 'example', id: 's1-tx', title: 'Example — Indian exporter, US importer',
+            body: ['An exporter from India receives an order worth *$100* from an importer in the USA and immediately ships the goods. The exporter records the sale in rupees.'],
+            given: [
+              { label: 'Deal date — 20 Oct 2019', val: '$1 = ₹70' },
+              { label: 'Year end — 31 Dec 2019', val: '$1 = ₹75' },
+              { label: 'Payment — 15 Jan 2020', val: '$1 = ₹73' },
+            ] },
+          { k: 'entry', id: 's1-tx-oct', title: 'October — deal date',
+            bs: { a: ['A/c receivable ↑ ₹7,000'], le: ['Retained earnings ↑ ₹7,000'] },
+            is: ['Revenue ₹7,000 (100 × 70)'] },
+          { k: 'entry', id: 's1-tx-dec', title: '31 December — balance sheet date, not yet paid',
+            bs: { a: ['A/c receivable ↑ ₹500 → ₹7,500'], le: ['Retained earnings ↑ ₹500'] },
+            is: ['Transaction gain ₹500', 'Net income ↑ ₹500'] },
+          { k: 'entry', id: 's1-tx-jan', title: 'January — settlement',
+            bs: { a: ['A/c receivable ↓ ₹7,500', 'Cash ↑ ₹7,300'], le: ['Retained earnings ↓ ₹200'] },
+            is: ['Transaction loss ₹200'] },
+          { k: 'p', text: 'The gain is booked at the year end even though no cash has moved — the open receivable is marked to the closing rate and the difference goes through the income statement. The ₹500 gain and ₹200 loss net to *₹300 = 100 × (73 − 70)*: one lifetime gain, split across the two reporting periods it straddles.' },
+          { k: 'flag', title: 'The payable side, and who has no exposure at all',
+            text: 'My example is a receivable. Schweser runs the mirror image and adds the counterparty’s view:',
+            items: [
+              'Transactions are measured at the *spot rate on the transaction date*; risk exists only because the transaction date and the payment date differ.',
+              'A *payable* in a foreign currency works the other way: if that currency *depreciates*, the firm needs less home currency to settle, so it books a *gain*.',
+              'The party that invoices or pays in *its own* currency has no gain or loss. In my example the US importer owes dollars, so it has no transaction exposure.',
+              'Module quiz trap: a sale just before the year end can produce a *loss in one year and a gain in the next* if the currency reverses after the balance sheet date.',
+            ] },
+          { k: 'sub', text: 'Analyst Issues' },
+          { k: 'p', text: 'Transaction gains & losses can be recognised as part of *operating or non-operating income*. There is no specific requirement in US GAAP or IFRS. As a result, *comparability gets affected*.' },
+          { k: 'flag', title: 'What each standard makes a firm disclose',
+            text: 'IFRS requires the “amount of exchange rate differences recognised in profit or loss”; US GAAP requires “the aggregate transaction gain or loss included in determining net income”. *Neither requires disclosure of where in the income statement it sits* — which is exactly why operating margins stop being comparable across firms.' },
+        ],
+      },
+      {
+        module: '9.S2', title: 'Methods to Bring the Subsidiary’s Statements into the Parent',
+        blocks: [
+          { k: 'points', id: 's2-methods', items: [
+            '*Remeasurement* — converting local currency into functional currency, using the *temporal method*.',
+            '*Translation* — converting functional currency into the parent’s presentation (reporting) currency, using the *current rate method* (the all-current method).',
+          ] },
+          { k: 'p', text: 'The terms remeasurement & translation in this chapter are almost the same and can be used interchangeably.' },
+          { k: 'sub', text: 'Functional Currency' },
+          { k: 'points', id: 's2-fc', title: 'Functional currency is decided by management and may not be completely objective. Factors to be considered in deciding it:', items: [
+            'The currency that influences *sales prices* for goods and services, *labour, material and other costs*.',
+            'The currency from which *funds are generated* and receipts from operating activities are usually *retained*.',
+            'Currency of the country whose *competitive forces and regulations* determine the selling price.',
+          ] },
+          { k: 'flag', title: 'The test that actually decides it in a vignette',
+            text: 'Schweser lists the same factors as five separate bullets, then gives the shortcut the vignettes use:',
+            items: [
+              'A *self-contained, independent* subsidiary — operating, investing and financing decisions made locally — has the *local currency* as its functional currency → *current rate method*.',
+              'A subsidiary *well integrated* with the parent — the parent makes those decisions — has the *parent’s currency* as its functional currency → *temporal method*.',
+              'That is the only thing that changes between the two halves of the Vibrant example in 9.S5.',
+              'Quiz pattern: head-office location sets the *presentation* currency; where the subsidiary generates and spends cash sets the *functional* currency; where it is physically located sets the *local* currency.',
+            ] },
+          { k: 'sub', text: 'Three Methods for Remeasurement / Translation of Local Currencies' },
+          { k: 'table', id: 's2-three',
+            columns: ['1. Translation: current rate method', '2. Remeasurement: temporal method', '3. Current rate / temporal method'],
+            rows: [
+              { label: 'When', values: ['Presentation currency is *different*; functional & local currency are the *same*', 'Presentation & functional currency are the *same*; local currency is *different*', '*All three* currencies are different'] },
+              { label: 'What it does', values: ['Functional → presentation', 'Local → functional', 'Temporal: local → functional, then current rate: functional → presentation'] },
+              { label: 'Example', values: ['Parent reports in *INR*; subsidiary’s LC is *$* and FC is *$*', 'Japanese subsidiary, keeps books in yen, functional currency *$*, US parent', 'German subsidiary, keeps books in euros, functional currency *Swiss franc*, US parent'] },
+            ],
+            caption: 'Only the first example is from my page; the other two are Schweser’s.' },
+          { k: 'flag', title: 'A fourth case that overrides all three — hyperinflation',
+            text: 'If the subsidiary operates in a hyperinflationary economy, *US GAAP* deems the functional currency to be the parent’s presentation currency and uses the *temporal method*, whatever management would otherwise have chosen. *IFRS* instead restates for inflation and then translates at the current rate. My notes reach this in 9.S8; it is also the answer to the quiz question asking which condition is *least* likely to require the temporal method — “the functional currency is the local currency”, because that one leads to the current rate method.' },
+          { k: 'sub', text: 'Types of Exchange Rates' },
+          { k: 'points', id: 's2-rates', items: [
+            '*Current rate* — exchange rate on the balance sheet date.',
+            '*Average rate* — average exchange rate over the reporting period.',
+            '*Historical rate* — past rate when the transaction happened.',
+          ] },
+        ],
+      },
+      {
+        module: '9.S3', title: 'Current Rate Method · Monetary Items · Temporal Method',
+        blocks: [
+          { k: 'sub', text: 'Accounting in Current Rate Method' },
+          { k: 'p', text: 'When the subsidiary needs to be brought into the parent company balance sheet, this is the way it will be done:' },
+          { k: 'table', id: 's3-crm',
+            columns: ['Rate'],
+            rows: [
+              { label: 'Assets', values: ['Current rate'] },
+              { label: 'Liabilities', values: ['Current rate'] },
+              { label: 'Common stock & dividends', values: ['Historical rate'] },
+              { label: 'Income statement', values: ['Average rate'] },
+              { label: 'Cumulative translation adjustment (CTA)', values: ['Created — the balancing figure'] },
+            ] },
+          { k: 'formula', title: 'Translation gain / loss', lines: [
+            'Translation G&L = ending CTA − beginning CTA',
+          ], note: 'It sits in equity (through OCI), not in the income statement.' },
+          { k: 'example', id: 's3-cta', title: 'Example — the ending balance of the CTA',
+            body: ['Given the following balance sheet data, calculate the ending balance of the CTA.'],
+            given: [
+              { label: 'Assets', val: '1,000' },
+              { label: 'Liabilities', val: '600' },
+              { label: 'Common stock', val: '150' },
+              { label: 'Beginning retained earnings', val: '175' },
+              { label: 'Current period net income', val: '50' },
+              { label: 'Dividends paid', val: '25' },
+            ],
+            steps: [
+              'Ending RE = beginning RE + NI − dividends = 175 + 50 − 25 = *200*',
+              'Equity = assets − liabilities = 1,000 − 600 = *400*',
+              'CTA = 400 − common stock 150 − ending RE 200',
+            ],
+            result: 'CTA = 50' },
+          { k: 'flag', title: 'That 50 is a balance, not this year’s gain — and which rate dividends take',
+            text: 'Two lines Schweser adds that are tested directly:',
+            items: [
+              'The CTA is the *accumulated* total of every translation gain and loss to date. If the beginning CTA had been 20, this period’s translation *gain* is only *30*.',
+              'Dividends are translated at the rate on the date they were *declared*. Module quiz: NI £400 at the $1.55 average, a £100 dividend declared at $1.60 → change in retained earnings = 620 − 160 = *$460*.',
+            ] },
+          { k: 'sub', text: 'Monetary v/s Non-Monetary Items' },
+          { k: 'cols', id: 's3-mon', panes: [
+            { title: 'Monetary', tone: 'slate', items: [
+              'Assets or liabilities that have a *fixed value*, such as cash or debt.',
+              'The fixed value holds even though inflation and other macroeconomic factors might affect their *purchasing power*.',
+              'e.g. cash, receivables, ST debt, accounts payable, LT debt.',
+            ] },
+            { title: 'Non-monetary', tone: 'violet', items: [
+              'An item that *changes its value* and does not have a fixed value in currency with the change in time.',
+              'Its purchasing power might remain the same, increase or decrease depending on the situation — but its *value is not fixed*.',
+              'A machine’s value changes with other macroeconomic factors, so it is treated as non-monetary.',
+              'e.g. unearned revenue, land, PP&E, inventory.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Temporal Method — Balance Sheet' },
+          { k: 'table', id: 's3-tm',
+            columns: ['Rate', 'Examples'],
+            rows: [
+              { label: 'Monetary assets', values: ['Current rate', 'Cash, receivables'] },
+              { label: 'Non-monetary assets', values: ['Historical rate', 'Inventory, fixed assets, intangibles'] },
+              { label: 'Monetary liabilities', values: ['Current rate', 'ST & LT debt'] },
+              { label: 'Non-monetary liabilities', values: ['Historical rate', 'Unearned revenue'] },
+              { label: 'Common stock & dividends', values: ['Historical rate', '—'] },
+            ],
+            caption: 'No CTA is reported on the balance sheet.' },
+          { k: 'points', id: 's3-tm-is', title: 'Temporal method — income statement', items: [
+            'Expenses related to *non-monetary assets* (COGS, depreciation, amortisation) are remeasured at the *historical rates prevailing at the time of purchase*.',
+            'Revenue & other expenses are translated at the *average rate*.',
+          ] },
+          { k: 'flag', title: 'Three temporal details my pages leave out',
+            items: [
+              '*Fair-value exception*: a non-monetary item carried at fair value (e.g. inventory at market) is remeasured at the *current* rate, not the historical rate.',
+              '*Inventory follows the cost-flow assumption.* FIFO: ending inventory at recent rates, COGS at older rates. LIFO: the reverse. Weighted average: the weighted-average rate for both.',
+              'The remeasurement gain or loss goes to the *income statement*, so net income is *more volatile* under the temporal method than under the current rate method, where the gain or loss is parked in equity.',
+            ],
+            text: 'Each of these turns up as an answer choice:' },
+          { k: 'flag', title: 'The summary table Schweser says to memorise',
+            text: 'Schweser’s Figure 9.3 lays both methods side by side and flags it as “a must-know for the exam — memorize it!” My pages carry the same content across three places; the table below pulls it together.' },
+          { k: 'table', id: 's3-summary',
+            columns: ['Temporal method', 'Current rate method'],
+            rows: [
+              { label: 'Monetary assets & liabilities', values: ['Current rate', 'Current rate'] },
+              { label: 'Non-monetary assets & liabilities', values: ['Historical rates', 'Current rate'] },
+              { label: 'Common stock', values: ['Historical rates', 'Historical rates'] },
+              { label: 'Equity taken as a whole', values: ['Mixed', 'Current rate'] },
+              { label: 'Revenues and SG&A', values: ['Average rate', 'Average rate'] },
+              { label: 'COGS', values: ['Historical rates', 'Average rate'] },
+              { label: 'Depreciation and amortisation', values: ['Historical rates', 'Average rate'] },
+              { label: 'Net income', values: ['Mixed rate', 'Average rate'] },
+              { label: 'Exposure', values: ['Net monetary assets', 'Net assets'] },
+              { label: 'Exchange rate gain or loss', values: ['Income statement', 'Equity'] },
+            ],
+            caption: 'Schweser Figure 9.3. Net income is a “mixed rate” under temporal because the FX gain or loss is in it and COGS/depreciation use historical rates while revenue uses the average.' },
+        ],
+      },
+      {
+        module: '9.S4', title: 'Exposure',
+        blocks: [
+          { k: 'p', text: '*Exposure*: any asset or liability converted at the current exchange rate will either result in a gain or loss depending on currency appreciation or depreciation.' },
+          { k: 'table', id: 's4-exp',
+            columns: ['Asset', 'Liability', 'Net asset exposure'],
+            rows: [
+              { label: 'Subsidiary currency appreciates', values: ['Gain', 'Loss', 'Gain'] },
+              { label: 'Subsidiary currency depreciates', values: ['Loss', 'Gain', 'Loss'] },
+            ] },
+          { k: 'points', id: 's4-crm', title: 'Under current rate method', items: [
+            'Assets are converted at the current rate, hence we have translation exposure due to *assets*.',
+            'Liabilities are converted at the current rate, hence we have translation exposure due to *liabilities*.',
+            'So the exposure is the two netted: *net assets*, i.e. the subsidiary’s equity.',
+          ] },
+          { k: 'points', id: 's4-tm', title: 'Exposure under temporal method', items: [
+            'Monetary assets could be higher or lower than monetary liabilities.',
+            'Hence under the temporal method either you could have exposure due to *monetary assets* or to *monetary liabilities* — whichever is larger.',
+          ] },
+          { k: 'sub', text: 'Scenario: Net Monetary Liability Exposure, Currency Appreciating' },
+          { k: 'points', id: 's4-scen', items: [
+            'In such a situation the company will report a *loss*. To avoid these losses, what can the company do under the temporal method?',
+            'The company can *sell some non-monetary assets* and convert them into monetary assets, or *pay off monetary liabilities*.',
+            'Net monetary liability will decrease & losses can be avoided.',
+            'Hence the company can change its net monetary liability to *zero net exposure*.',
+          ] },
+          { k: 'p', text: 'Eliminating exposure under the current rate method is *more difficult*, because it is necessary to balance total assets & total liabilities. Balancing assets & liabilities would *eliminate shareholders’ equity*.' },
+          { k: 'flag', title: 'The rest of Schweser’s exposure grid, and the quiz traps',
+            items: [
+              'Most firms carry a *net monetary liability* exposure under the temporal method — very few assets are monetary (mainly cash and receivables), while nearly all liabilities are.',
+              'A net *liability* position under the current rate method is possible but unusual: appreciating → loss, depreciating → gain.',
+              'When total assets exactly equal total liabilities under the current rate method, net assets are zero, so there is *no* gain or loss either way.',
+              'Changing exposure: a one-for-one swap between monetary items (cash to pay payables, receivables to pay debt) leaves net monetary exposure *unchanged*. To protect against a depreciating LC with net monetary assets, *borrow in LC and reduce equity*.',
+              'Gila (temporal): non-monetary assets less non-monetary liabilities = fixed assets 43m − deferred revenue 2m = *41m*. Deferred revenue is non-monetary; equity is irrelevant to the question.',
+            ],
+            text: 'Figure 9.2 matches my table and adds the net-liability rows. Points it adds beyond that:' },
+        ],
+      },
+      {
+        module: '9.S5', title: 'Worked Example — Vibrant: Current Rate v/s Temporal',
+        blocks: [
+          { k: 'example', id: 's5-setup', ref: 'vibrant', title: 'Question — Schweser p.68',
+            body: [
+              'FlexCo International is a US company with a subsidiary, *Vibrant, Inc.*, in Martonia, whose currency is the loca (LC). Most of Vibrant’s operational, financial and investment decisions are made *locally*. Translate Vibrant’s balance sheet and income statement into US dollars.',
+              'Functional currency = *LC* · local currency = *LC* · presentation currency = *$ USD* → use the *current rate method* to translate the subsidiary’s income statement & balance sheet.',
+            ] },
+          { k: 'points', id: 's5-steps', items: [
+            '*Step 1* — convert the income statement.',
+            '*Step 2* — convert the balance sheet (assets & liabilities).',
+            '*Step 3* — convert equity & put the CTA in as the balancing number.',
+            '*Step 4* — calculate the translation G&L using the beginning CTA & the ending CTA.',
+          ] },
+          { k: 'table', id: 's5-crm-is', ref: 'vibrant',
+            columns: ['LC', 'Rate', '$'],
+            rows: [
+              { label: 'Revenue', values: ['5,000', '0.4762', '2,381.0'] },
+              { label: 'COGS', values: ['(3,300)', '0.4762', '(1,571.5)'] },
+              { label: 'Gross margin', values: ['1,700', '', '809.5'] },
+              { label: 'Other expenses', values: ['(400)', '0.4762', '(190.5)'] },
+              { label: 'Depreciation', values: ['(600)', '0.4762', '(285.7)'] },
+              { label: '*Net income*', values: ['*700*', '', '*333.3*'] },
+            ],
+            caption: 'Step 1 — current rate method income statement: every line at the average rate.' },
+          { k: 'table', id: 's5-crm-bs', ref: 'vibrant',
+            columns: ['LC', 'Rate', '$'],
+            rows: [
+              { label: 'Cash', values: ['100', '0.4545', '45.5'] },
+              { label: 'Accounts receivable', values: ['650', '0.4545', '295.4'] },
+              { label: 'Inventory', values: ['1,200', '0.4545', '545.4'] },
+              { label: 'Current assets', values: ['1,950', '', '886.3'] },
+              { label: 'Fixed assets', values: ['1,600', '0.4545', '727.2'] },
+              { label: 'Accumulated depreciation', values: ['(700)', '0.4545', '(318.2)'] },
+              { label: 'Net fixed assets', values: ['900', '', '409.0'] },
+              { label: '*Total assets*', values: ['*2,850*', '', '*1,295.3*'] },
+              { label: 'Accounts payable', values: ['500', '0.4545', '227.2'] },
+              { label: 'Current debt', values: ['200', '0.4545', '90.9'] },
+              { label: 'LT debt', values: ['950', '0.4545', '431.8'] },
+              { label: '*Total liabilities*', values: ['*1,650*', '', '*749.9*'] },
+              { label: 'Common stock', values: ['400', '0.50', '200.0'] },
+              { label: 'Retained earnings', values: ['800', 'step 3', '383.3'] },
+              { label: 'CTA', values: ['—', 'plug', '(37.9)'] },
+              { label: '*Total equity*', values: ['*1,200*', '', '*545.4*'] },
+            ],
+            caption: 'Steps 2 and 3 — assets and liabilities at the current rate, common stock at the historical rate.' },
+          { k: 'points', id: 's5-crm-cta', ref: 'vibrant', items: [
+            'Ending RE = beginning RE + NI − dividends = 50 + 333.3 − 0 = *$383.3*',
+            'Equity = assets − liabilities = 1,295.3 − 749.9 = *$545.4*, which splits into common stock $200 + RE $383.3 + CTA',
+            'CTA = 545.4 − 200 − 383.3 = *−$37.9*',
+            'Step 4 — translation G&L = ending CTA − beginning CTA = −37.9 − 0 = *−$37.9*',
+          ] },
+          { k: 'p', text: 'In the question the LC is *depreciating*, and the current rate method always has *net asset exposure*. Depreciating environment & net asset exposure → *translation loss* (CTA negative).' },
+          { k: 'sub', text: 'Solving the Same Using the Temporal Method' },
+          { k: 'p', text: 'Now suppose most of Vibrant’s decisions are made by FlexCo. The functional currency becomes the *dollar*, the same as the presentation currency, so the LC is remeasured with the temporal method. All other information is the same.' },
+          { k: 'fix', title: '“In temporal method CTA is reported in IS”',
+            text: 'The temporal method has *no CTA at all*. What it produces is a *remeasurement gain or loss*, and that is what goes to the income statement. The CTA exists only under the current rate method, where it sits in equity. The steps below are otherwise exactly as on my page.' },
+          { k: 'points', id: 's5-tm-steps', items: [
+            '*Step 1* — convert the balance sheet (put ending retained earnings in as the plug number).',
+            '*Step 2* — calculate net income from ending retained earnings.',
+            '*Step 3* — convert the income statement.',
+            '*Step 4* — put the remeasurement G/L in as the plug to get to the net income from step 2.',
+          ] },
+          { k: 'points', id: 's5-tm-exp', ref: 'vibrant', items: [
+            'A. Monetary assets = cash & A/R = 100 + 650 = *750*',
+            'B. Monetary liabilities = all liabilities = *1,650*',
+            'B > A → *net monetary liability*.',
+            'Depreciating environment & net monetary liability = *remeasurement gain*.',
+          ] },
+          { k: 'table', id: 's5-tm-bs', ref: 'vibrant',
+            columns: ['LC', 'Rate', '$'],
+            rows: [
+              { label: 'Cash', values: ['100', '0.4545', '45.5'] },
+              { label: 'Accounts receivable', values: ['650', '0.4545', '295.4'] },
+              { label: 'Inventory', values: ['1,200', '0.456', '547.2'] },
+              { label: 'Current assets', values: ['1,950', '', '888.1'] },
+              { label: 'Fixed assets', values: ['1,600', '0.4881', '781.0'] },
+              { label: 'Accumulated depreciation', values: ['(700)', '0.4881', '(341.7)'] },
+              { label: 'Net fixed assets', values: ['900', '', '439.3'] },
+              { label: '*Total assets*', values: ['*2,850*', '', '*1,327.4*'] },
+              { label: 'Accounts payable', values: ['500', '0.4545', '227.3'] },
+              { label: 'Current debt', values: ['200', '0.4545', '90.9'] },
+              { label: 'LT debt', values: ['950', '0.4545', '431.8'] },
+              { label: '*Total liabilities*', values: ['*1,650*', '', '*750.0*'] },
+              { label: 'Common stock', values: ['400', '0.50', '200.0'] },
+              { label: 'Retained earnings', values: ['800', 'plug', '377.4'] },
+              { label: '*Total equity*', values: ['*1,200*', '', '*577.4*'] },
+            ],
+            caption: 'Step 1 — monetary items at the current rate; inventory, fixed assets and common stock at their historical rates.' },
+          { k: 'points', id: 's5-tm-ni', ref: 'vibrant', items: [
+            'Assets = liabilities + equity → 1,327.4 = 750.0 + equity → equity = *$577.4*',
+            'Equity = common stock + RE → RE = 577.4 − 200 = *$377.4*',
+            'Step 2 — ending RE = beginning RE + NI − dividends → NI = 377.4 − 50 = *$327.4*',
+          ] },
+          { k: 'table', id: 's5-tm-is', ref: 'vibrant',
+            columns: ['LC', 'Rate', '$'],
+            rows: [
+              { label: 'Revenue', values: ['5,000', '0.4762', '2,381.0'] },
+              { label: 'COGS', values: ['(3,300)', 'see below', '(1,639.5)'] },
+              { label: 'Gross margin', values: ['1,700', '', '741.5'] },
+              { label: 'Other expenses', values: ['(400)', '0.4762', '(190.5)'] },
+              { label: 'Depreciation', values: ['(600)', '0.4881', '(292.9)'] },
+              { label: 'Income before remeasurement', values: ['700', '', '258.1'] },
+              { label: 'Remeasurement gain', values: ['—', 'plug', '69.3'] },
+              { label: '*Net income*', values: ['*700*', '', '*327.4*'] },
+            ],
+            caption: 'Step 3 — revenue and other expenses at the average rate; depreciation at the PP&E historical rate.' },
+          { k: 'formula', title: 'Temporal COGS — built from purchases', lines: [
+            'Ending inventory = beginning inventory + purchases − COGS',
+            'LC purchases = 3,300 + 1,200 − 1,000 = 3,500   (purchases made evenly → average rate)',
+            '',
+            '$ COGS = (1,000 × 0.52) + (3,500 × 0.4762) − (1,200 × 0.456) = 1,639.5',
+            '',
+            'Step 4 — remeasurement G/L = 327.4 − 258.1 = 69.3',
+          ] },
+          { k: 'p', text: 'The gain or loss differs between the two methods because the exposure under the current rate method was of *assets* (net assets) and under the temporal method it is of *liabilities* (net monetary liabilities). Same depreciating loca, opposite sign.' },
+          { k: 'flag', title: 'Why the two methods give different answers — Schweser’s side-by-side',
+            text: 'Figure 9.4 puts the two results next to each other: income before the gain/loss *$333.3 v/s $258.1*, gain/loss *−$37.9 (balance sheet) v/s +$69.3 (income statement)*, net income *$333.3 v/s $327.4*, total assets *$1,295.3 v/s $1,327.4*. Each difference has one cause:',
+            items: [
+              '*Income before the gain/loss* differs because COGS and depreciation are at the *average* rate under current rate (reflecting the falling loca) but at *historical* rates under temporal (not reflecting it).',
+              '*The gain/loss* differs in *sign* because the exposures differ — net assets v/s net monetary liabilities. Schweser notes this is “NOT an unusual occurrence”.',
+              '*Net income* differs for both reasons above, plus the gain/loss lands in *different statements*.',
+              '*Total assets* differ because inventory and fixed assets are at the current rate under one method and historical rates under the other.',
+            ] },
+        ],
+      },
+      {
+        module: '9.S6', title: 'Ratios', tone: 'teal',
+        blocks: [
+          { k: 'points', id: 's6-pure', items: [
+            '*Pure ratios* will not have any change in value when the currency changes.',
+            'For *mixed ratios*, numerator & denominator are from different financial statements.',
+          ] },
+          { k: 'formula', title: 'If the currency is depreciating: average rate > current rate', lines: [
+            'ROA before translation = net income ÷ total assets',
+            'ROA after translation  = (NI ÷ total assets) × (average rate ÷ current rate)',
+          ], note: 'NI comes across at the higher average rate, ending assets at the lower current rate — so the translated ratio is pushed *up*.' },
+          { k: 'p', text: 'Hence a mixed ratio after translation will be *higher* under the current rate method if the currency is depreciating.' },
+          { k: 'points', id: 's6-assume', title: 'The above conclusion is applicable only under the following 2 assumptions:', items: [
+            'Numerator is from the IS, denominator is from the BS.',
+            '*End-of-year* values are taken, rather than average values, for the BS number.',
+          ] },
+          { k: 'table', id: 's6-dir',
+            columns: ['Currency depreciates', 'Currency appreciates'],
+            rows: [
+              { label: 'Mixed ratio after translation (current rate method)', values: ['Increases', 'Decreases'] },
+            ] },
+          { k: 'p', text: 'For the temporal method, no such conclusion could be drawn.' },
+          { k: 'flag', title: 'The Vibrant ratios, and how to compare temporal with current rate anyway',
+            text: 'Schweser checks the rule on the Vibrant numbers: pure ratios preserved exactly (current ratio 2.79, quick 1.07, gross margin 34.0%, net margin 14.0%), mixed ratios all higher after translation (ROA 24.6% → 25.7%, ROE 58.3% → 61.1%, total asset turnover 1.75 → 1.84). My “no conclusion” for temporal is only true of the one-line rule — Schweser gives a procedure instead:',
+            items: [
+              'Decide whether the foreign currency is appreciating or depreciating.',
+              'For the numerator, then the denominator: which rate converts it under each method, and so is it larger, smaller or the same under temporal?',
+              'Combine the two. Fixed asset turnover with a depreciating LC: revenue at the average rate under both; fixed assets at the (higher) historical rate under temporal → turnover *lower* under temporal.',
+              '*Receivables turnover is the same* under both methods: sales at the average rate and receivables at the current rate in each.',
+              '*Gross margin is lower under temporal* when the LC depreciates, because COGS sits at the higher historical rate.',
+              'A BS-over-IS ratio, such as the receivables collection period, moves the *opposite* way to its turnover.',
+              'Interest coverage (EBIT ÷ interest) is a pure income statement ratio — a favourite “which ratio is unchanged” option alongside the quick ratio. ROA is the one that changes.',
+            ] },
+        ],
+      },
+      {
+        module: '9.S8', title: 'Hyperinflation', tone: 'teal',
+        blocks: [
+          { k: 'points', id: 's8-why', items: [
+            'When the subsidiary company’s country is going through hyperinflation, the translated value reported in the parent company will *disappear or decrease to a minimal value*.',
+            'In general, the value of non-monetary assets increases in an inflationary environment. But adjusting for these changes is *only allowed under IFRS*.',
+          ] },
+          { k: 'sub', text: 'Condition for Hyperinflation', tone: 'teal' },
+          { k: 'table', id: 's8-cond',
+            columns: ['FASB (US GAAP)', 'IASB (IFRS)'],
+            rows: [
+              { label: 'Definition', values: ['Cumulative inflation exceeds *100% over a 3-yr period*. If the annual inflation rate is more than *26%*, cumulative inflation will be more than 100%.', '*Does not specifically define* hyperinflation. However, cumulative inflation over 100% in a 3-yr period is *one indication* that hyperinflation exists.'] },
+              { label: 'Method', values: ['*Temporal method* is used for translation if hyperinflation is present.', 'Financial statements of the subsidiary are *restated for inflation*, then translated using the *current exchange rate*.'] },
+            ] },
+          { k: 'sub', text: 'Restating for Inflation under IFRS', tone: 'teal' },
+          { k: 'points', id: 's8-restate', items: [
+            '1. *Non-monetary* assets & liabilities are adjusted for inflation (e.g. land, PP&E).',
+            '2. *Monetary* assets & liabilities are *not* adjusted for inflation (e.g. cash, A/R, ST & LT debt).',
+            '3. The components of shareholders’ equity (other than retained earnings) are restated by applying the change in the price index from the *beginning of the period*, or the date of contribution if later.',
+            '4. *Retained earnings* is the plug figure that balances the balance sheet.',
+            '5. In the statement of retained earnings, *net income* is the plug figure.',
+            '6. The income statement items are restated by multiplying by the change in the price index from the *date the transactions occur*.',
+            '7. The *net purchasing power gain or loss* is recognised in the IS.',
+          ] },
+          { k: 'sub', text: 'Purchasing Power Gain or Loss', tone: 'teal' },
+          { k: 'fix', title: '“Non-monetary A&L → inflation → purchasing power loss · Monetary A&L in inflation → purchasing power gain”',
+            text: 'The two lines on this page have the split wrong. *Non-monetary* items are restated for inflation, so they are *not exposed* and create no purchasing power gain or loss. The split is *within monetary items*: holding monetary *assets* during inflation gives a purchasing power *loss*, holding monetary *liabilities* gives a *gain*. The next page of my notes, after the worked example, states it correctly — and the example’s own numbers prove it (cash loses 3,100, payables gain 10,000).' },
+          { k: 'points', id: 's8-pp', items: [
+            'Monetary *assets* in inflation → purchasing power *loss*.',
+            'Monetary *liabilities* in inflation → purchasing power *gain*.',
+            'Non-monetary assets & liabilities → restated, so *no* purchasing power gain or loss.',
+          ] },
+          { k: 'example', id: 's8-ex', ref: 'inflation', title: 'Application — only in IFRS (Schweser p.82)',
+            body: [
+              'In the BS, monetary assets & liabilities will *not* be adjusted for inflation, and non-monetary assets & liabilities will be adjusted using the *beginning index* (they were held all year).',
+              'In the IS, revenue & expenses will be adjusted using the *average index* (they occurred through the year).',
+            ] },
+          { k: 'table', id: 's8-bs', ref: 'inflation',
+            columns: ['LC', 'Adjustment factor', 'Inflation adjusted'],
+            rows: [
+              { label: 'Cash', values: ['8,000', '—', '8,000'] },
+              { label: 'Supplies', values: ['25,000', '150 / 100', '37,500'] },
+              { label: '*Total assets*', values: ['*33,000*', '', '*45,500*'] },
+              { label: 'Accounts payable', values: ['20,000', '—', '20,000'] },
+              { label: 'Common stock', values: ['10,000', '150 / 100', '15,000'] },
+              { label: 'Retained earnings', values: ['3,000', 'plug', '10,500'] },
+              { label: '*Liabilities & equity*', values: ['*33,000*', '', '*45,500*'] },
+              { label: 'Revenue', values: ['15,000', '150 / 125', '18,000'] },
+              { label: 'Expenses', values: ['(12,000)', '150 / 125', '(14,400)'] },
+              { label: 'Net purchasing power gain', values: ['—', 'plug', '6,900'] },
+              { label: '*Net income*', values: ['*3,000*', '', '*10,500*'] },
+            ] },
+          { k: 'points', id: 's8-plugs', ref: 'inflation', items: [
+            'Assets = L + E → 45,500 = 20,000 + (15,000 + RE) → RE = *10,500*',
+            'Ending RE = beginning RE + NI − dividends → 10,500 = 0 + NI − 0 → NI = *10,500*',
+            'Purchasing power gain = 10,500 − (18,000 − 14,400) = *6,900*',
+          ] },
+          { k: 'formula', title: 'Checking the 6,900 from the monetary items', lines: [
+            'Inflation during the year          = (150 − 100) ÷ 100 = 50%',
+            'Inflation from the middle of the year = (150 − 125) ÷ 125 = 20%',
+          ] },
+          { k: 'table', id: 's8-pp-check', ref: 'inflation',
+            columns: ['Monetary asset — cash', 'Monetary liability — A/P'],
+            rows: [
+              { label: 'Beginning value', values: ['5,000', '20,000'] },
+              { label: 'Ending value', values: ['8,000', '20,000'] },
+              { label: 'Change during the year', values: ['3,000', '0'] },
+              { label: 'G/L on the beginning value', values: ['−5,000 × 0.5 = *−2,500*', '20,000 × 0.5 = *+10,000*'] },
+              { label: 'G/L on the change during the year', values: ['−3,000 × 0.2 = *−600*', '0 × 0.2 = *0*'] },
+              { label: 'Total', values: ['*−3,100*', '*+10,000*'] },
+            ],
+            caption: 'Total purchasing power gain = −3,100 + 10,000 = 6,900. In an inflationary environment, monetary asset → loss; monetary liability → gain.' },
+          { k: 'flag', title: 'The parallel with the temporal method, and clean-surplus adjustments',
+            items: [
+              'Restating for inflation *mirrors the temporal method*: in both, only monetary items are exposed; a purchasing power gain is the analogue of a remeasurement gain on net monetary liabilities in a depreciating currency; both go through the income statement.',
+              'Module quiz: under US GAAP a hyperinflationary subsidiary’s *intangibles* use the *historical* rate — temporal applies even if the functional currency would otherwise differ.',
+              'Analysing FX disclosure: disclosure is thin, and peers can pick different functional currencies. One fix is to *add the change in the CTA to net income*, which brings a current rate firm closer to a temporal firm. Reporting such gains through equity is *dirty-surplus* accounting; pulling them into income is *clean-surplus*.',
+            ],
+            text: 'Three points from the rest of Schweser’s module:' },
+        ],
+      },
+      {
+        module: '9.S9', title: 'Tax Implications', tone: 'teal',
+        blocks: [
+          { k: 'points', id: 's9-tax', items: [
+            'In the US, for example, the tax code allows a *credit for foreign taxes paid* by US companies, effectively taxing the company at the US tax rate.',
+            '*Effective tax rate* — tax expense in the income statement divided by pretax profit.',
+            '*Statutory tax rate* — provided by the tax code of the home country.',
+            'The *reconciliation disclosure* can be used by the analyst to project future tax expense.',
+          ] },
+          { k: 'points', id: 's9-why', title: '2 reasons why effective tax rate ≠ statutory tax rate:', items: [
+            'Due to *permanent differences*.',
+            'Company operating in *more than one tax jurisdiction*.',
+          ] },
+          { k: 'flag', title: 'Reading the reconciliation — the example my page points to (Schweser pp.86–87)',
+            text: 'Changes in the effective rate from foreign operations come from two things: a change in the *mix of profits* across countries, and changes in the *tax rates* themselves. Amco and Bianco show how to read the line:',
+            items: [
+              'Amco: statutory 25.0%, foreign jurisdictions *+3.4%*, effective 28.6%. Bianco: statutory 30.0%, foreign jurisdictions *(1.2%)*, effective 26.3%.',
+              'Only the “taxes in foreign jurisdictions” line answers “who benefited from foreign operations” — *Bianco*, whose rate it lowered.',
+              'If both firms’ foreign mix grows and rates stay put, Bianco’s effective rate keeps falling and Amco’s keeps rising.',
+              'Module quiz: Suparna’s foreign line is (1.9%), so foreign operations made its effective rate *lower than statutory* on that line — even though the total 35.4% ends above the 35.0% statutory rate for other reasons.',
+            ] },
+          { k: 'flag', title: 'Sales growth and currency — LOS 9.i and 9.j, not in my notes',
+            items: [
+              'Growth from *volume or price* is more *sustainable* than growth from a foreign currency appreciating. *Organic growth* excludes both acquisitions/divestitures and currency effects.',
+              'BCN: North America ex-US reported +3% with a −2% currency hit, so +5% underlying. Europe reported +2%, but +3% was currency, so underlying sales *fell 1%*. Asia’s +2% was all price/volume.',
+              'IBM-style quiz: revenue −2.3% as reported but *flat at constant currency* → growth excluding currency was *higher* than reported.',
+              'For FX risk more broadly, use the MD&A sensitivity disclosures, run your own sensitivity analysis where none is given, and ask what hedging the company uses.',
+            ] },
+        ],
+      },
+    ],
+  },
 };
 // Gaps I flag after each teach-back round, aligned by index to the points in CONTENT above.
 // null means that point was correct as explained — nothing to flag. Cleared only once the
@@ -1383,6 +1901,7 @@ const GAPS = {
     null,
   ],
   'fsa.1': {},
+  'fsa.2': {},
 };
 // Tuition weak spots: questions the user got wrong in external tuition tests, diagnosed and
 // grouped by the misconception behind them — one entry per concept, not per question. `module`
@@ -1652,6 +2171,7 @@ const TUITION_MISSES = {
 const STATUS = {
   'fsa.0': 'mastered',
   'fsa.1': 'progress',
+  'fsa.2': 'progress',
 };
 // Cross-topic links, set by Claude when a genuine connection comes up in conversation
 // (e.g. Reading 7's equity method vs. Reading 8's pension accounting). Read-only chips
@@ -2015,6 +2535,14 @@ function renderBlock(b, gaps, refs) {
         <div class="nb-flag-body">${rt(b.text)}${b.items ? `<ul>${b.items.map(i => `<li>${rt(i)}</li>`).join('')}</ul>` : ''}</div>
       </div>`;
       break;
+    case 'fix':
+      // A line on my page that is wrong. `title` quotes the page; `text` gives the correction.
+      body = `<div class="nb-flag nb-fix">
+        <span class="nb-flag-tag">Check against my page · corrected</span>
+        <div class="nb-flag-title">My page: ${escapeHtml(b.title)}</div>
+        <div class="nb-flag-body">${rt(b.text)}</div>
+      </div>`;
+      break;
     default:
       body = '';
   }
@@ -2140,7 +2668,7 @@ function renderDetail() {
       </div>
     </section>
     <div class="caveat">${(CONTENT[selectedKey] && CONTENT[selectedKey].flow)
-      ? 'Laid out to follow my own written notes page by page. Amber dashed boxes are material Schweser covers that those pages leave out.'
+      ? 'Laid out to follow my own written notes page by page. Amber dashed boxes are material Schweser covers that those pages leave out; violet dashed boxes mark a line on the page that has been corrected.'
       : meta.subjectId === 'fsa'
       ? 'Module list pulled from your uploaded Schweser FSA notes (2026 Level II).'
       : 'Topic list follows the standard CFA Level II reading structure from general knowledge — cross-check reading titles and order against your own curriculum, as providers adjust these between cycles.'}</div>
