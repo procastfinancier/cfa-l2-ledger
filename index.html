@@ -1508,6 +1508,58 @@ const TUITION_MISSES = {
       spot: "The typical story: sponsor + bank loan + guarantee + an asset transfer, then 'who consolidates?' or 'which ratio changes?'. The off-balance-sheet answer is the trap.",
     },
   ],
+  'fsa.1': [
+    {
+      module: '8.S3',
+      title: 'Under IFRS a tax windfall never reaches the income statement — so any statement that says it does is the false one',
+      questions: [
+        { ref: 'MR-R8 Q2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
+      ],
+      trap: 'The option you picked is TRUE. Under US GAAP a windfall does reduce tax expense, which does raise net income — so it cannot be the least accurate statement. The question was asking you to find the one FALSE statement, and the false one is the IFRS option, because under IFRS the windfall is taken straight to equity and never touches tax expense or net income at all. Being sure that a statement is correct is the signal to move past it in a "least accurate" question, not to select it.',
+      fix: 'Settle the routing before you read the options. IFRS sends tax windfalls and shortfalls DIRECTLY TO EQUITY, so IFRS tax expense and net income are untouched by the share price. US GAAP runs them through TAX EXPENSE in the income statement, so a windfall cuts tax expense and lifts net income, and a shortfall does the reverse. With that written down, the IFRS option is false by construction — it claims an income statement effect in the regime that has none.',
+      tackle: [
+        'Underline "least accurate" or "least likely". You are hunting for the single FALSE statement, not the best of three.',
+        'Before reading the options, write the two-line routing: IFRS → equity. US GAAP → tax expense in the income statement.',
+        'Mark each option true or false against that routing rather than ranking them against each other.',
+        'Select the one marked false. If two look false, re-read them for the regime name — swapping IFRS and US GAAP is the usual construction.',
+      ],
+      spot: 'The examiner swaps the two regimes. Any statement that puts an IFRS windfall or shortfall through the income statement is wrong, and so is any statement that takes a US GAAP windfall directly to equity. The same swap also gets used on past service cost, where the routing runs the other way — IFRS to P&L immediately, US GAAP to OCI.',
+    },
+    {
+      module: '8.S7',
+      title: 'Pension cost in P&L uses the EXPECTED return, and an actuarial loss is only amortised once it breaches the corridor',
+      questions: [
+        { ref: 'MR-R8 Q6', ask: 'Beginning PBO 65m, beginning plan assets 60m, service cost 27m, interest cost 3m, unamortised actuarial losses 5m, actual return 7.5m, expected return 8.5m. Periodic pension cost for the year?', picked: '$27,500,000', answer: '$21,500,000' },
+      ],
+      trap: 'The vignette hands you BOTH returns — actual 7.5m and expected 8.5m — and an unamortised actuarial loss of 5m sitting right below the corridor. Neither figure is there to be used. Reaching for the actual return, or adding the actuarial loss as though it were automatically amortised, is exactly what those two numbers are placed to tempt. Using the actual return instead of the expected costs you 1m; adding the loss on top costs you another 5m.',
+      fix: 'US GAAP pension cost in P&L = current service cost + interest cost − EXPECTED return on plan assets, plus any amortisation of past service cost and actuarial losses. So 27m + 3m − 8.5m = 21.5m. The actual return of 7.5m belongs only in the plan asset roll-forward, never in the P&L charge. The 5m loss is amortised only if it exceeds the corridor, which is 10% of the GREATER of beginning PBO (65m) or beginning plan assets (60m) = 6.5m. Since 5m is below 6.5m it stays in OCI and no amortisation enters pension cost.',
+      tackle: [
+        'Write the recipe out first: service cost + interest cost − expected return + amortisation of past service cost + amortisation of actuarial losses.',
+        'If both returns are given, take the EXPECTED one for the P&L charge. Actual return only ever appears in the plan asset roll-forward.',
+        'Before touching any actuarial loss, run the corridor test: 10% × the GREATER of beginning PBO or beginning plan assets.',
+        'Only if the loss exceeds that threshold do you amortise the excess over remaining service life — otherwise the loss contributes nothing this period.',
+        'Sanity-check the regime. Under IFRS there is no separate expected return at all: it would be service cost + past service cost + net interest on the beginning funded status.',
+      ],
+      spot: 'These vignettes nearly always supply both returns and park the actuarial loss just under the corridor, purely to see whether you run the test. Note also that the question said "total periodic pension cost" while the answer is the P&L charge — read what the marking actually wants, because true total periodic pension cost (employer contribution − change in funded status) uses the ACTUAL return and would give a different number.',
+    },
+    {
+      module: '8.S3',
+      title: 'Treasury stock method on a stock grant — average the last two period-end balances, and the provider’s marked answer does not reconcile',
+      questions: [
+        { ref: 'MR-R8 Q7', ask: '25,000-share grant valued at $400,000 vesting over 3 years, average share price $17, plan started in 20X1. Potentially dilutive securities at the end of 20X1?', picked: '16,667', answer: 'Marked 21,078 — but see below; by the stated method it is 17,157, and 16,667 is the closest option' },
+      ],
+      trap: 'The genuine trap in this question type is the averaging. For a stock grant cash proceeds are zero, so the whole assumed-proceeds pot is the average unrecognised compensation expense — and that is the average of the LAST TWO PERIOD-END balances, not the current balance. Because the plan only started in 20X1 the prior year-end balance is nil, which halves the figure once: (266,667 + 0) ÷ 2 = 133,333. Miss that and you divide 266,667 by 17 and get far too many treasury shares.',
+      fix: 'Annual expense = 400,000 ÷ 3 = 133,333, so unrecognised at the end of year one = 400,000 − 133,333 = 266,667. Average unrecognised = (266,667 + 0) ÷ 2 = 133,333. Cash proceeds are zero for a stock grant, so assumed proceeds = 133,333. Treasury shares = 133,333 ÷ 17 = 7,843. Dilutive shares = 25,000 − 7,843 = 17,157. IMPORTANT — the marked answer of 21,078 cannot be reached from this. The provider’s own explanation writes "Assumed proceeds = 0 + 133,333 = 66,667", which is arithmetically false, and then divides that 66,667 by 17 to get 3,922 treasury shares. Every line above that one is right; the slip is at that single step. Of the three options offered, 16,667 is nearest to the correct 17,157, so the answer you chose was the best available and this one should probably not be counted against you. Worth raising with the provider.',
+      tackle: [
+        'Work out the annual expense and subtract it to get the unrecognised balance at THIS period end.',
+        'Average that against the PRIOR period-end balance. If the plan began this year the prior balance is zero, so you are simply halving.',
+        'Add cash proceeds: number of options × exercise price for options, and exactly ZERO for a stock grant or RSU.',
+        'Divide the assumed proceeds by the AVERAGE share price for the period, never the grant price or the closing price.',
+        'Subtract the treasury shares from the shares issued. Then sanity-check the size: a grant with no exercise price should stay heavily dilutive, so a tiny answer means the pot was too big.',
+      ],
+      spot: 'Options and grants get tested side by side precisely because the cash-proceeds line differs. The same vignette will also offer the grant-date price and the closing price next to the average price — only the average is correct. And as here, check that the marked answer reconciles before assuming you were wrong.',
+    },
+  ],
 };
 // Mastery status per topic key: 'not-started' | 'progress' | 'mastered'. Set by Claude
 // directly based on how the teach-back in chat goes — no button in the UI sets this.
