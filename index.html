@@ -1510,10 +1510,28 @@ const TUITION_MISSES = {
   ],
   'fsa.1': [
     {
+      module: '8.S1',
+      title: 'An equity-settled grant creates no liability and no change in total equity — so it moves neither side of a leverage ratio',
+      questions: [
+        { ref: 'MR-R8 · set 2 · Q2', ask: 'Which type of compensation is most likely to increase current liability for a company?', picked: 'Stock-option grants', answer: 'Salary and wages' },
+        { ref: 'MR-R8 · set 2 · Q11', ask: 'A company starts a stock option grant for its senior executives. The most likely impact on the company after the grant is that leverage would be:', picked: 'Lower', answer: 'Unchanged' },
+      ],
+      trap: 'Both picks assume a grant either creates something on the liability side or shifts the capital structure. It does neither. The credit for a share-based grant goes to the share-based compensation reserve, which sits INSIDE EQUITY — it is never a liability, because the firm settles the award in its own shares rather than in cash or any transfer of assets. And because retained earnings falls by exactly what the reserve gains, total equity does not move either. Choosing "lower" for leverage assumes equity went up; choosing stock options for the liability question assumes a payable exists.',
+      fix: 'Run the entry and both answers fall out. Compensation expense reduces net income and therefore retained earnings, and the offsetting credit increases the share-based compensation reserve. Both legs sit inside equity, so TOTAL EQUITY IS UNCHANGED — and debt was never involved at all. Debt ÷ equity therefore does not move: leverage is flat. On the liability question, the only one of the three settled in cash is salary and wages. Short-term compensation is expensed as it vests and whatever is UNPAID at the reporting date is shown as a current liability — which is a point already on page 65 of my own notes. Options and stock grants produce no liability whatsoever.',
+      tackle: [
+        'Ask what the firm will actually hand over to settle the award. Cash or other assets → liability. Its own shares → equity.',
+        'Write the two legs out: retained earnings down, share-based compensation reserve up. Confirm that both sit inside equity.',
+        'For any leverage, gearing or capital-structure question, check debt and total equity separately. An equity-settled grant changes neither, so any ratio built from the two is unchanged.',
+        'For a "which creates a current liability" question, look for the item settled in cash that is still unpaid at the reporting date — normally accrued salary, wages or bonus.',
+        'Do not let the income statement mislead you. Net income and retained earnings genuinely fall; it is the reserve rising by the same amount that keeps the equity total flat.',
+      ],
+      spot: 'The same single fact gets asked as leverage, as debt-to-equity, as total equity and as current liabilities, and the answer is "unchanged" or "none" every time, provided the award is equity-settled. A cash-settled award such as a phantom share or a stock appreciation right WOULD sit in liabilities, but that is outside this reading — every plan here is equity-settled.',
+    },
+    {
       module: '8.S3',
       title: 'Under IFRS a tax windfall never reaches the income statement — so any statement that says it does is the false one',
       questions: [
-        { ref: 'MR-R8 Q2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
+        { ref: 'MR-R8 · set 1 · Q2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
       ],
       trap: 'The option you picked is TRUE. Under US GAAP a windfall does reduce tax expense, which does raise net income — so it cannot be the least accurate statement. The question was asking you to find the one FALSE statement, and the false one is the IFRS option, because under IFRS the windfall is taken straight to equity and never touches tax expense or net income at all. Being sure that a statement is correct is the signal to move past it in a "least accurate" question, not to select it.',
       fix: 'Settle the routing before you read the options. IFRS sends tax windfalls and shortfalls DIRECTLY TO EQUITY, so IFRS tax expense and net income are untouched by the share price. US GAAP runs them through TAX EXPENSE in the income statement, so a windfall cuts tax expense and lifts net income, and a shortfall does the reverse. With that written down, the IFRS option is false by construction — it claims an income statement effect in the regime that has none.',
@@ -1526,27 +1544,10 @@ const TUITION_MISSES = {
       spot: 'The examiner swaps the two regimes. Any statement that puts an IFRS windfall or shortfall through the income statement is wrong, and so is any statement that takes a US GAAP windfall directly to equity. The same swap also gets used on past service cost, where the routing runs the other way — IFRS to P&L immediately, US GAAP to OCI.',
     },
     {
-      module: '8.S7',
-      title: 'Pension cost in P&L uses the EXPECTED return, and an actuarial loss is only amortised once it breaches the corridor',
-      questions: [
-        { ref: 'MR-R8 Q6', ask: 'Beginning PBO 65m, beginning plan assets 60m, service cost 27m, interest cost 3m, unamortised actuarial losses 5m, actual return 7.5m, expected return 8.5m. Periodic pension cost for the year?', picked: '$27,500,000', answer: '$21,500,000' },
-      ],
-      trap: 'The vignette hands you BOTH returns — actual 7.5m and expected 8.5m — and an unamortised actuarial loss of 5m sitting right below the corridor. Neither figure is there to be used. Reaching for the actual return, or adding the actuarial loss as though it were automatically amortised, is exactly what those two numbers are placed to tempt. Using the actual return instead of the expected costs you 1m; adding the loss on top costs you another 5m.',
-      fix: 'US GAAP pension cost in P&L = current service cost + interest cost − EXPECTED return on plan assets, plus any amortisation of past service cost and actuarial losses. So 27m + 3m − 8.5m = 21.5m. The actual return of 7.5m belongs only in the plan asset roll-forward, never in the P&L charge. The 5m loss is amortised only if it exceeds the corridor, which is 10% of the GREATER of beginning PBO (65m) or beginning plan assets (60m) = 6.5m. Since 5m is below 6.5m it stays in OCI and no amortisation enters pension cost.',
-      tackle: [
-        'Write the recipe out first: service cost + interest cost − expected return + amortisation of past service cost + amortisation of actuarial losses.',
-        'If both returns are given, take the EXPECTED one for the P&L charge. Actual return only ever appears in the plan asset roll-forward.',
-        'Before touching any actuarial loss, run the corridor test: 10% × the GREATER of beginning PBO or beginning plan assets.',
-        'Only if the loss exceeds that threshold do you amortise the excess over remaining service life — otherwise the loss contributes nothing this period.',
-        'Sanity-check the regime. Under IFRS there is no separate expected return at all: it would be service cost + past service cost + net interest on the beginning funded status.',
-      ],
-      spot: 'These vignettes nearly always supply both returns and park the actuarial loss just under the corridor, purely to see whether you run the test. Note also that the question said "total periodic pension cost" while the answer is the P&L charge — read what the marking actually wants, because true total periodic pension cost (employer contribution − change in funded status) uses the ACTUAL return and would give a different number.',
-    },
-    {
       module: '8.S3',
       title: 'Treasury stock method on a stock grant — average the last two period-end balances, and the provider’s marked answer does not reconcile',
       questions: [
-        { ref: 'MR-R8 Q7', ask: '25,000-share grant valued at $400,000 vesting over 3 years, average share price $17, plan started in 20X1. Potentially dilutive securities at the end of 20X1?', picked: '16,667', answer: 'Marked 21,078 — but see below; by the stated method it is 17,157, and 16,667 is the closest option' },
+        { ref: 'MR-R8 · set 1 · Q7', ask: '25,000-share grant valued at $400,000 vesting over 3 years, average share price $17, plan started in 20X1. Potentially dilutive securities at the end of 20X1?', picked: '16,667', answer: 'Marked 21,078 — but see below; by the stated method it is 17,157, and 16,667 is the closest option' },
       ],
       trap: 'The genuine trap in this question type is the averaging. For a stock grant cash proceeds are zero, so the whole assumed-proceeds pot is the average unrecognised compensation expense — and that is the average of the LAST TWO PERIOD-END balances, not the current balance. Because the plan only started in 20X1 the prior year-end balance is nil, which halves the figure once: (266,667 + 0) ÷ 2 = 133,333. Miss that and you divide 266,667 by 17 and get far too many treasury shares.',
       fix: 'Annual expense = 400,000 ÷ 3 = 133,333, so unrecognised at the end of year one = 400,000 − 133,333 = 266,667. Average unrecognised = (266,667 + 0) ÷ 2 = 133,333. Cash proceeds are zero for a stock grant, so assumed proceeds = 133,333. Treasury shares = 133,333 ÷ 17 = 7,843. Dilutive shares = 25,000 − 7,843 = 17,157. IMPORTANT — the marked answer of 21,078 cannot be reached from this. The provider’s own explanation writes "Assumed proceeds = 0 + 133,333 = 66,667", which is arithmetically false, and then divides that 66,667 by 17 to get 3,922 treasury shares. Every line above that one is right; the slip is at that single step. Of the three options offered, 16,667 is nearest to the correct 17,157, so the answer you chose was the best available and this one should probably not be counted against you. Worth raising with the provider.',
@@ -1558,6 +1559,56 @@ const TUITION_MISSES = {
         'Subtract the treasury shares from the shares issued. Then sanity-check the size: a grant with no exercise price should stay heavily dilutive, so a tiny answer means the pot was too big.',
       ],
       spot: 'Options and grants get tested side by side precisely because the cash-proceeds line differs. The same vignette will also offer the grant-date price and the closing price next to the average price — only the average is correct. And as here, check that the marked answer reconciles before assuming you were wrong.',
+    },
+    {
+      module: '8.S3',
+      title: 'Forecasting future dilution — charge it through the cash flows or through the share count, never both',
+      questions: [
+        { ref: 'MR-R8 · set 2 · Q3', ask: 'For forecasting the dilution from future grants of share-based compensation and its effects on valuation, which of the following approaches is LEAST appropriate?', picked: 'Discount the estimated value of equity by a dilution factor', answer: 'Add share-based compensation expense estimates to free cash flow estimates AND increase the number of shares outstanding based on the same estimates' },
+      ],
+      trap: 'The option you picked is one of the approved methods, not the broken one. "Least appropriate" again means find the FLAWED approach, and the flaw in the marked answer is DOUBLE COUNTING. Free cash flow has already been computed with share-based compensation added back, because the charge is noncash. Adding those estimates into FCF a second time inflates the numerator, and then raising the share count off the same estimates penalises the denominator as well — you take credit for the cash saving twice and charge the dilution once on top.',
+      fix: 'There are three defensible treatments and you use exactly one of them: (1) discount the estimated value of equity by a dilution factor; (2) estimate an increase in the number of shares outstanding; or (3) deduct share-based compensation expense from the free cash flow estimates and then ignore dilution altogether, because the cost has already been charged. What you cannot do is add the expense back into FCF and expand the share count from the same estimates — that is one adjustment applied twice, in opposite directions.',
+      tackle: [
+        'Read "least appropriate" as a signal that two of the three options are perfectly acceptable methods.',
+        'Remember that free cash flow already has share-based compensation added back, because it is a noncash charge.',
+        'Ask of each option: is this adjustment being applied once, or twice? A double count is the standard constructed error.',
+        'Check the pairing — charge the cost in the CASH FLOWS or in the SHARE COUNT, never both from one set of estimates.',
+        'If an option only charges it once, in either place, it is defensible and therefore not the answer.',
+      ],
+      spot: 'The three legitimate routes come straight out of LOS 8.c and get rotated through the answer choices. Whichever option simultaneously boosts the cash flows and expands the share count off a single set of estimates is the one that has been built wrong.',
+    },
+    {
+      module: '8.S6',
+      title: 'PBO and plan asset changes hit the balance sheet in full immediately — it is only the income statement recognition that gets deferred',
+      questions: [
+        { ref: 'MR-R8 · set 2 · Q8', ask: 'Which of the following statements regarding pension accounting is MOST accurate?', picked: 'A reconciliation between the funded status and the net pension asset (liability) reported on the balance sheet is required', answer: 'Changes in the projected benefit obligation (PBO) and plan assets fully and immediately affect the balance sheet' },
+      ],
+      trap: 'A required reconciliation sounds plausible because so much of this module is about amounts parked in OCI waiting to be amortised — it feels as though the reported balance and the true funded status must drift apart. They do not. The net pension asset or liability on the balance sheet IS the funded status, by definition, so there is nothing to reconcile. What gets deferred is the INCOME STATEMENT recognition, never the balance sheet carrying amount.',
+      fix: 'Separate the two statements and judge them one at a time. The BALANCE SHEET carries the net funded status (plan assets − PBO) in full and immediately, so any change in PBO or in plan assets appears there at once — that is why the correct option is true. The INCOME STATEMENT is where the smoothing lives: under US GAAP past service cost and actuarial gains and losses go to OCI and reach P&L over time, past service cost amortised over remaining service life and actuarial amounts via the corridor. Under IFRS, vested past service cost hits P&L immediately while remeasurements sit in OCI and are never amortised. So the third option — that actuarial assumptions and past service costs fully and immediately affect the income statement — is false under both regimes.',
+      tackle: [
+        'Identify which statement the claim is about. Balance sheet → full and immediate. Income statement → possibly deferred.',
+        'Remember that the balance sheet figure IS the funded status, so any claim that a reconciliation is required is false by definition.',
+        'For an income statement claim, name the regime AND the component before judging it — the routing differs for past service cost and for actuarial gains and losses.',
+        'Treat the words "fully and immediately" as the hinge: true of the balance sheet, false of the income statement under US GAAP.',
+      ],
+      spot: 'This question rotates the same three statements. The balance sheet one is always true, the reconciliation one is always false, and the income statement one is false as written because it ignores the OCI route entirely. Note the gross PBO and gross plan assets still only appear in the footnotes — it is the NET position that reaches the face of the balance sheet.',
+    },
+    {
+      module: '8.S7',
+      title: 'Pension cost in P&L uses the EXPECTED return, and an actuarial loss is only amortised once it breaches the corridor',
+      questions: [
+        { ref: 'MR-R8 · set 1 · Q6', ask: 'Beginning PBO 65m, beginning plan assets 60m, service cost 27m, interest cost 3m, unamortised actuarial losses 5m, actual return 7.5m, expected return 8.5m. Periodic pension cost for the year?', picked: '$27,500,000', answer: '$21,500,000' },
+      ],
+      trap: 'The vignette hands you BOTH returns — actual 7.5m and expected 8.5m — and an unamortised actuarial loss of 5m sitting right below the corridor. Neither figure is there to be used. Reaching for the actual return, or adding the actuarial loss as though it were automatically amortised, is exactly what those two numbers are placed to tempt. Using the actual return instead of the expected costs you 1m; adding the loss on top costs you another 5m.',
+      fix: 'US GAAP pension cost in P&L = current service cost + interest cost − EXPECTED return on plan assets, plus any amortisation of past service cost and actuarial losses. So 27m + 3m − 8.5m = 21.5m. The actual return of 7.5m belongs only in the plan asset roll-forward, never in the P&L charge. The 5m loss is amortised only if it exceeds the corridor, which is 10% of the GREATER of beginning PBO (65m) or beginning plan assets (60m) = 6.5m. Since 5m is below 6.5m it stays in OCI and no amortisation enters pension cost.',
+      tackle: [
+        'Write the recipe out first: service cost + interest cost − expected return + amortisation of past service cost + amortisation of actuarial losses.',
+        'If both returns are given, take the EXPECTED one for the P&L charge. Actual return only ever appears in the plan asset roll-forward.',
+        'Before touching any actuarial loss, run the corridor test: 10% × the GREATER of beginning PBO or beginning plan assets.',
+        'Only if the loss exceeds that threshold do you amortise the excess over remaining service life — otherwise the loss contributes nothing this period.',
+        'Sanity-check the regime. Under IFRS there is no separate expected return at all: it would be service cost + past service cost + net interest on the beginning funded status.',
+      ],
+      spot: 'These vignettes nearly always supply both returns and park the actuarial loss just under the corridor, purely to see whether you run the test. Note also that the question said "total periodic pension cost" while the answer is the P&L charge — read what the marking actually wants, because true total periodic pension cost (employer contribution − change in funded status) uses the ACTUAL return and would give a different number.',
     },
   ],
 };
