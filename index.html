@@ -1529,6 +1529,24 @@ const TUITION_MISSES = {
     },
     {
       module: '8.S3',
+      title: 'Total share-based expense is options PLUS shares — two legs, valued on two different bases',
+      questions: [
+        { ref: 'L2-R8-Case 1 · Q1', ask: 'Prisma grants 150,000 at-the-money options (fair value $1.79) and 25,000 shares (stock price $16) on 1 Jan 20X1, both vesting after 3 years. The expense reported for 20X1 is closest to:', picked: '$133,333', answer: '$222,833' },
+      ],
+      trap: 'The figure you picked, $133,333, is 400,000 ÷ 3 — the STOCK GRANT ON ITS OWN. The option leg was dropped entirely. It is an easy thing to do because the two legs are valued on completely different bases: the options at their grant-date FAIR VALUE of $1.79 each, the shares at the grant-date STOCK PRICE of $16 each. There is also a second pull here — "at-the-money" makes the options sound worthless, since intrinsic value is nil. They are not worthless. An at-the-money option still carries TIME VALUE, and that is exactly what the $1.79 is measuring.',
+      fix: 'Value each leg on its own basis, add them, then amortise the total straight line over the vesting period. Options: 150,000 × $1.79 = $268,500. Shares: 25,000 × $16 = $400,000. Total = $668,500, over 3 years = $222,833 per year. Note which prices you did NOT use: the $17 average price and the $17.50 year-end price play no part in the expense at all. They belong to the DILUTION questions later in the same case, where the treasury stock method needs an average price. The expense only ever looks at grant-date values.',
+      tackle: [
+        'List the legs separately before touching a calculator. A grant plan almost always has both options and shares, and they are never valued the same way.',
+        'Options leg = number × grant-date FAIR VALUE (the premium). Never the stock price, never the exercise price.',
+        'Shares leg = number × grant-date STOCK PRICE. For an RSU, reduce that price by the PV of dividends expected during vesting.',
+        'Add the two legs, then divide by the vesting period for the annual straight-line charge.',
+        'Ignore every price quoted for a later date. Average and closing prices are treasury stock method inputs, not expense inputs.',
+        'Sanity-check the answer: if it equals exactly one leg divided by the vesting years, you dropped the other leg.',
+      ],
+      spot: 'The case hands you four prices — $1.79 fair value, $16 grant price, $17 average, $17.50 closing — and only the first two touch the expense. The distractors are built from partial sums, so an answer that matches one leg alone is the tell. This is the same Prisma case that later asks for dilutive shares from the stock grant (25,000 shares, $400,000, 3 years, $17 average), so the $400,000 you compute here is reused further down.',
+    },
+    {
+      module: '8.S3',
       title: 'Under IFRS a tax windfall never reaches the income statement — so any statement that says it does is the false one',
       questions: [
         { ref: 'MR-R8 · set 1 · Q2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
@@ -1562,20 +1580,20 @@ const TUITION_MISSES = {
     },
     {
       module: '8.S3',
-      title: 'Forecasting future dilution — charge it through the cash flows or through the share count, never both',
+      title: 'Free cash flow already adds share-based compensation back — adding it a second time is the error',
       questions: [
         { ref: 'MR-R8 · set 2 · Q3', ask: 'For forecasting the dilution from future grants of share-based compensation and its effects on valuation, which of the following approaches is LEAST appropriate?', picked: 'Discount the estimated value of equity by a dilution factor', answer: 'Add share-based compensation expense estimates to free cash flow estimates AND increase the number of shares outstanding based on the same estimates' },
       ],
-      trap: 'The option you picked is one of the approved methods, not the broken one. "Least appropriate" again means find the FLAWED approach, and the flaw in the marked answer is DOUBLE COUNTING. Free cash flow has already been computed with share-based compensation added back, because the charge is noncash. Adding those estimates into FCF a second time inflates the numerator, and then raising the share count off the same estimates penalises the denominator as well — you take credit for the cash saving twice and charge the dilution once on top.',
-      fix: 'There are three defensible treatments and you use exactly one of them: (1) discount the estimated value of equity by a dilution factor; (2) estimate an increase in the number of shares outstanding; or (3) deduct share-based compensation expense from the free cash flow estimates and then ignore dilution altogether, because the cost has already been charged. What you cannot do is add the expense back into FCF and expand the share count from the same estimates — that is one adjustment applied twice, in opposite directions.',
+      trap: 'The option you picked is one of the approved methods, not the broken one. "Least appropriate" means find the FLAWED approach — and the flaw is NOT that the marked answer also adjusts the share count, because adjusting the share count is perfectly normal. The flaw is the words "ADD share-based compensation expense estimates TO free cash flow estimates". Free cash flow is built by starting from net income and adding back noncash charges, and share-based compensation IS a noncash charge, so that add-back is ALREADY SITTING INSIDE the FCF you began with. Adding it in again counts the same noncash saving twice and overstates cash flow.',
+      fix: 'The cost has to be charged exactly once, and you get to choose where. ROUTE 1 — leave FCF as normally computed. The add-back is already inside it, so the cost is not in the cash flows; charge it in the SHARE COUNT instead, either by estimating an increase in shares outstanding or by discounting the estimated equity value by a dilution factor. This is the standard route, and it is why "increase the number of shares outstanding" on its own is a perfectly good answer. ROUTE 2 — deduct share-based compensation from the FCF estimates so the cost IS in the cash flows, and then do not forecast dilutive shares at all, because you have already charged it. The broken option does neither cleanly: it adds the expense into FCF on top of an add-back that was already there.',
       tackle: [
-        'Read "least appropriate" as a signal that two of the three options are perfectly acceptable methods.',
-        'Remember that free cash flow already has share-based compensation added back, because it is a noncash charge.',
-        'Ask of each option: is this adjustment being applied once, or twice? A double count is the standard constructed error.',
-        'Check the pairing — charge the cost in the CASH FLOWS or in the SHARE COUNT, never both from one set of estimates.',
-        'If an option only charges it once, in either place, it is defensible and therefore not the answer.',
+        'Read "least appropriate" as a signal that the other options are legitimate methods, not as a ranking exercise.',
+        'Remember what FCF already contains: share-based compensation has been added back, because it is noncash.',
+        'Check the cash-flow leg first — is this option adding the charge back a SECOND time? That is the constructed error.',
+        'Then check the cost is charged once overall: in the share count (more shares or a dilution factor), or by deducting it from FCF and skipping dilution.',
+        'An option that only adjusts the share count, or only deducts from FCF, is defensible and therefore not the answer.',
       ],
-      spot: 'The three legitimate routes come straight out of LOS 8.c and get rotated through the answer choices. Whichever option simultaneously boosts the cash flows and expands the share count off a single set of estimates is the one that has been built wrong.',
+      spot: 'The three legitimate routes come straight out of LOS 8.c and get rotated through the answer choices: a dilution factor on the equity value, an estimated increase in shares outstanding, or deduct from FCF and ignore dilution. The wrong option is recognisable by a SECOND add-back into cash flows, not by the presence of a share-count adjustment.',
     },
     {
       module: '8.S6',
