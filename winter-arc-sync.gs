@@ -13,7 +13,7 @@
  * Tabs it keeps:
  *   Log    one row per day in the Tracker sheet's columns. You can edit Notes here.
  *          "Tasks" holds the per-task ticks and minutes: leave it alone.
- *   Times  the slot times you changed on the page (Timetable, Activity, Time).
+ *   Times  no longer used by the page: a slot moved on one day is saved with that day, in Tasks.
  */
 const PASSPHRASE = 'change-me';
 

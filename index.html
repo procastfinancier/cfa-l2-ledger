@@ -3394,7 +3394,7 @@ function renderDetail() {
 // and the activities that slip most. The log is saved in this browser (localStorage); Export CSV
 // gives rows in the Tracker sheet's column order for the workbook.
 const ARC_HABITS = [['woke', 'Woke on time'], ['walk', 'Walk / exercise'], ['cfa', 'CFA study'], ['slept', 'Slept on time']];
-const arc = { tab: 'day', iso: null, log: {}, canSave: true, times: {}, editTimes: false };
+const arc = { tab: 'day', iso: null, log: {}, canSave: true, editTimes: false };
 
 function arcDay(iso) { const [y, m, d] = iso.split('-').map(Number); return Date.UTC(y, m - 1, d) / 86400000; }
 function arcIso(n) { return new Date(n * 86400000).toISOString().slice(0, 10); }
@@ -3429,41 +3429,28 @@ function arcLoad() {
   catch (e) { arc.log = {}; }
   if (WINTER_ARC.sample && !Object.keys(arc.log).length) { arc.log = arcSample(); arcSave(); }
   try { arc.tab = localStorage.getItem('winterArc.tab') === 'progress' ? 'progress' : 'day'; } catch (e) {}
-  try { arc.times = JSON.parse(localStorage.getItem(WINTER_ARC.storageKey + '.times') || '{}') || {}; } catch (e) { arc.times = {}; }
-}
-// Your own times for timetable slots, as { Weekday: { 'Deep study block': '5:30 AM to 8:30 AM' } }.
-// They apply to every day of that timetable type, past days included.
-function arcSaveTimes() {
-  try { localStorage.setItem(WINTER_ARC.storageKey + '.times', JSON.stringify(arc.times)); return true; } catch (e) { return false; }
 }
 
 // Google Sheet sync. With a sheet connected (its Apps Script is winter-arc-sync.gs), every change is
 // stamped, marked as waiting, and sent a moment later; the reply carries everything in the sheet, so
 // changes from your other devices come back too. Offline, or with no sheet, the page keeps working
 // from this browser, and waiting changes go up on the next sync that gets through.
-const arcSync = { cfg: null, dirty: {}, timesU: 0, timer: null, busy: false, again: false, at: null, err: '', stale: false };
+const arcSync = { cfg: null, dirty: {}, timer: null, busy: false, again: false, at: null, err: '', stale: false };
 function arcSyncLoad() {
   try { arcSync.cfg = JSON.parse(localStorage.getItem('winterArc.sync') || 'null'); } catch (e) {}
   try { arcSync.dirty = JSON.parse(localStorage.getItem(WINTER_ARC.storageKey + '.dirty') || '{}') || {}; } catch (e) {}
-  try { arcSync.timesU = +localStorage.getItem(WINTER_ARC.storageKey + '.timesU') || 0; } catch (e) {}
+  delete arcSync.dirty.__times;
 }
 function arcSyncPersist() {
-  try {
-    localStorage.setItem(WINTER_ARC.storageKey + '.dirty', JSON.stringify(arcSync.dirty));
-    localStorage.setItem(WINTER_ARC.storageKey + '.timesU', String(arcSync.timesU));
-  } catch (e) {}
+  try { localStorage.setItem(WINTER_ARC.storageKey + '.dirty', JSON.stringify(arcSync.dirty)); } catch (e) {}
 }
 function arcTouchDay(iso) {
   if (arc.log[iso]) arc.log[iso].u = Date.now();
   arcSync.dirty[iso] = 1; arcSave(); arcSyncPersist(); arcSyncSoon();
 }
-function arcTouchTimes() {
-  arcSync.timesU = Date.now(); arcSync.dirty.__times = 1; arcSaveTimes(); arcSyncPersist(); arcSyncSoon();
-}
 function arcTouchAll() {
   const now = Date.now();
   Object.keys(arc.log).forEach(iso => { arc.log[iso].u = arc.log[iso].u || now; arcSync.dirty[iso] = 1; });
-  if (Object.keys(arc.times).length) { arcSync.timesU = arcSync.timesU || now; arcSync.dirty.__times = 1; }
   arcSave(); arcSyncPersist();
 }
 function arcSyncSoon() {
@@ -3478,35 +3465,29 @@ async function arcSyncNow() {
   if (arcSync.busy) { arcSync.again = true; return; }
   arcSync.busy = true; arcSyncShow();
   const sent = {};
-  const days = Object.keys(arcSync.dirty).filter(k => k !== '__times' && arc.log[k]).map(iso => {
+  const days = Object.keys(arcSync.dirty).filter(k => arc.log[k]).map(iso => {
     const info = arcInfo(arcDay(iso)), e = arc.log[iso], tr = arcTracker(info);
     sent[iso] = e.u || 0;
     return { iso, u: e.u || 0, entry: { t: e.t || {}, notes: e.notes || '' },
       tracker: { day: arcFmt(info.n, { weekday: 'short' }), phase: info.phase, woke: tr.woke, s1: tr.s1, s2: tr.s2,
         walk: tr.walk, cfa: tr.cfa, slept: tr.slept, total: tr.total, habits: tr.habits } };
   });
-  Object.keys(arcSync.dirty).forEach(k => { if (k !== '__times' && !arc.log[k]) delete arcSync.dirty[k]; });
-  const times = arcSync.dirty.__times ? { u: arcSync.timesU, data: arc.times } : null;
-  if (times) sent.__times = arcSync.timesU;
+  Object.keys(arcSync.dirty).forEach(k => { if (!arc.log[k]) delete arcSync.dirty[k]; });
   try {
     const res = await fetch(arcSync.cfg.url, {
       method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ key: arcSync.cfg.key, days, times })
+      body: JSON.stringify({ key: arcSync.cfg.key, days })
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || 'Sync failed');
     // What went up is done, unless it changed again while the request was out.
-    Object.keys(sent).forEach(k => {
-      const now = k === '__times' ? arcSync.timesU : (arc.log[k] && arc.log[k].u) || 0;
-      if (now === sent[k]) delete arcSync.dirty[k];
-    });
-    // Take the sheet's copy of everything not still waiting to go up.
-    const before = JSON.stringify([arc.log, arc.times]);
+    Object.keys(sent).forEach(k => { if (((arc.log[k] && arc.log[k].u) || 0) === sent[k]) delete arcSync.dirty[k]; });
+    // Take the sheet's copy of every day not still waiting to go up.
+    const before = JSON.stringify(arc.log);
     Object.keys(data.log || {}).forEach(iso => { if (!arcSync.dirty[iso]) arc.log[iso] = data.log[iso]; });
-    if (!arcSync.dirty.__times && data.times) { arc.times = data.times.data || {}; arcSync.timesU = data.times.u || 0; }
-    arcSave(); arcSaveTimes(); arcSyncPersist();
+    arcSave(); arcSyncPersist();
     arcSync.at = new Date(); arcSync.err = '';
-    if (JSON.stringify([arc.log, arc.times]) !== before) arcSync.stale = true;
+    if (JSON.stringify(arc.log) !== before) arcSync.stale = true;
   } catch (err) {
     arcSync.err = /fetch|network|json/i.test(err.message) ? 'offline or wrong URL' : err.message;
   }
@@ -3541,27 +3522,31 @@ function arcSave() {
 }
 
 // One day of the arc: its phase, timetable type, and the tasks shown (slots tagged with another
-// phase are hidden, as in columns L and M of the Today sheet).
+// phase are hidden, as in columns L and M of the Today sheet). Each task keeps the default time
+// and its length (plan), which Progress measures against, and the time set for this day only when
+// it was moved to catch up (t[name].tm in the log), with that slot's length (slot).
 function arcInfo(n) {
   const A = WINTER_ARC, start = arcDay(A.start), end = arcDay(A.end), exam = arcDay(A.exam);
   const inArc = n >= start && n <= end;
   const phase = !inArc ? 'Outside Winter Arc' : n <= exam ? 'CFA mode' : 'Build mode';
   const dow = new Date(n * 86400000).getUTCDay();
   const type = dow === 6 ? 'Saturday' : dow === 0 ? 'Sunday' : 'Weekday';
+  const iso = arcIso(n), dayT = (arc.log[iso] && arc.log[iso].t) || {};
   const hidden = [], tasks = [];
   A.timetable[type].forEach(s => {
     if (s[3] && s[3] !== phase) hidden.push(s[1]);
     else {
-      const time = (arc.times[type] && arc.times[type][s[1]]) || s[0];
-      tasks.push({ time, base: s[0], edited: time !== s[0], name: s[1], note: s[2], plan: arcPlanMins(time), study: /study block/i.test(s[1]) });
+      const time = (dayT[s[1]] && dayT[s[1]].tm) || s[0];
+      tasks.push({ time, base: s[0], edited: time !== s[0], name: s[1], note: s[2],
+        plan: arcPlanMins(s[0]), slot: arcPlanMins(time), study: /study block/i.test(s[1]) });
     }
   });
-  return { n, iso: arcIso(n), inArc, phase, type, tasks, hidden, start, end, exam };
+  return { n, iso, inArc, phase, type, tasks, hidden, start, end, exam };
 }
 
 // The Tracker row for a day, worked out from its task log: the four habits come from the wake-up,
 // walk and sleep tasks and from the study blocks; study hours are the minutes taken on each study
-// block (the planned time when it is ticked done with no minutes entered).
+// block (the slot's length that day when it is ticked done with no minutes entered).
 function arcTracker(info) {
   const e = arc.log[info.iso], t = (e && e.t) || {};
   const val = re => { const k = info.tasks.find(x => re.test(x.name)); return k && t[k.name] ? t[k.name].d || '' : ''; };
@@ -3570,7 +3555,7 @@ function arcTracker(info) {
     const r = t[k.name];
     if (!r || !r.d) return '';
     if (r.d === 'N') return 0;
-    const m = r.m != null && r.m !== '' ? +r.m : k.plan;
+    const m = r.m != null && r.m !== '' ? +r.m : k.slot;
     return Math.round(m / 60 * 100) / 100;
   });
   const sd = study.map(k => (t[k.name] && t[k.name].d) || '');
@@ -3580,6 +3565,7 @@ function arcTracker(info) {
     s1: hrs.length > 0 ? hrs[0] : '', s2: hrs.length > 1 ? hrs[1] : '', notes: (e && e.notes) || ''
   };
   r.total = (+r.s1 || 0) + (+r.s2 || 0);
+  r.planned = Math.round(study.reduce((a, k) => a + k.plan, 0) / 60 * 100) / 100;
   r.habits = ARC_HABITS.filter(h => r[h[0]] === 'Y').length;
   r.logged = !!e && (Object.keys(t).some(k => t[k].d) || !!r.notes);
   return r;
@@ -3587,6 +3573,7 @@ function arcTracker(info) {
 
 function arcSetDate(iso) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || '')) return;
+  if (iso !== arc.iso) arc.editTimes = false;
   arc.iso = iso;
   try { history.replaceState(null, '', '?date=' + iso + location.hash); } catch (e) {}
   renderArc();
@@ -3613,6 +3600,13 @@ function arcSummaryHtml(info) {
   const rows = [['Woke on time', tag(tr.woke)], ['Study block 1 (hrs)', tr.s1 === '' ? '·' : tr.s1],
     ['Study block 2 (hrs)', tr.s2 === '' ? '·' : tr.s2], ['Walk / exercise', tag(tr.walk)], ['CFA study', tag(tr.cfa)],
     ['Slept on time', tag(tr.slept)], ['Total study hrs', '<b>' + tr.total + '</b>'], ['Habits done (of 4)', '<b>' + tr.habits + '</b>']];
+  // How the day's study stands against the default timetable, so moved or stretched blocks show
+  // whether the lost time has been made up.
+  if (tr.planned) {
+    const short = Math.round((tr.planned - tr.total) * 100) / 100;
+    rows.push(['Study vs plan', tr.total + ' of ' + tr.planned + ' h ' +
+      (short > 0 ? '<span class="arc-tag n">' + short + ' h to make up</span>' : '<span class="arc-tag y">on plan</span>')]);
+  }
   return rows.map(r => '<div class="arc-log-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>').join('');
 }
 
@@ -3621,9 +3615,9 @@ function arcDayHtml(info) {
   const dis = info.inArc ? '' : ' disabled';
   const rows = info.tasks.map(k => {
     const r = t[k.name] || {};
-    const mins = k.plan
-      ? '<input type="number" min="0" max="1440" step="5" data-plan="' + k.plan + '" value="' + (r.m != null ? r.m : '') + '" placeholder="' + (r.d === 'N' ? '' : k.plan) +
-        '" aria-label="Minutes taken: ' + escapeHtml(k.name) + '"' + (r.d === 'N' || !info.inArc ? ' disabled' : '') + '>/ <span class="pl">' + k.plan + 'm</span>'
+    const mins = k.slot
+      ? '<input type="number" min="0" max="1440" step="5" data-plan="' + k.slot + '" value="' + (r.m != null ? r.m : '') + '" placeholder="' + (r.d === 'N' ? '' : k.slot) +
+        '" aria-label="Minutes taken: ' + escapeHtml(k.name) + '"' + (r.d === 'N' || !info.inArc ? ' disabled' : '') + '>/ <span class="pl">' + k.slot + 'm</span>'
       : '<span>on time?</span>';
     const parts = k.time.split(' to ');
     const time = arc.editTimes
@@ -3641,11 +3635,11 @@ function arcDayHtml(info) {
     <div class="arc-cols">
       <div class="arc-tt${arc.editTimes ? ' editing' : ''}">
         <div class="arc-tt-head">
-          <div class="block-label">${info.type} timetable · ${arc.editTimes ? 'set the start and end of each slot' : '✓ done, ✗ missed, and minutes taken'}</div>
-          ${arc.editTimes ? '<button class="arc-btn" data-times="reset">Reset ' + info.type + ' times</button>' : ''}
-          <button class="arc-btn${arc.editTimes ? ' on' : ''}" data-times="toggle">${arc.editTimes ? 'Done' : 'Edit times'}</button>
+          <div class="block-label">${info.type} timetable · ${arc.editTimes ? 'move or stretch slots for this day' : '✓ done, ✗ missed, and minutes taken'}</div>
+          ${arc.editTimes ? '<button class="arc-btn" data-times="reset">Back to default times</button>' : ''}
+          ${info.inArc ? '<button class="arc-btn' + (arc.editTimes ? ' on' : '') + '" data-times="toggle">' + (arc.editTimes ? 'Done' : 'Edit this day’s times') + '</button>' : ''}
         </div>
-        ${arc.editTimes ? '<div class="arc-fine" style="margin:0 0 8px">Changes apply to every ' + (info.type === 'Weekday' ? 'weekday' : info.type) + ', including days already logged, and are saved in this browser.</div>' : ''}
+        ${arc.editTimes ? '<div class="arc-fine" style="margin:0 0 8px">Changes apply to ' + arcFmt(info.n, { weekday: 'long', day: 'numeric', month: 'short' }) + ' only; other days keep the default timetable. Progress still measures study against the default plan, and “Study vs plan” on the right shows what is left to make up.</div>' : ''}
         ${rows}
         ${info.hidden.length && info.phase === 'CFA mode' ? '<div class="arc-hidden-note">Paused until Build mode (after the exam): ' + info.hidden.map(escapeHtml).join(', ') + '</div>' : ''}
       </div>
@@ -3654,7 +3648,7 @@ function arcDayHtml(info) {
         <div id="arcSummary">${arcSummaryHtml(info)}</div>
         <textarea id="arcNotes" placeholder="Notes for the day"${dis}>${escapeHtml(e.notes || '')}</textarea>
         <div class="arc-saved" id="arcSaved"></div>
-        <div class="arc-fine">Study hours are the minutes on the study-block rows. Tick ✓ and leave minutes blank to count the planned time.
+        <div class="arc-fine">Study hours are the minutes on the study-block rows. Tick ✓ and leave minutes blank to count the slot’s time that day.
           CFA study is Y when any study block is done.</div>
         ${info.inArc ? '' : '<div class="arc-empty">Outside Winter Arc, so there is nothing to log for this day.</div>'}
       </div>
@@ -3864,8 +3858,8 @@ function renderArc() {
 
   arcSyncShow();
 
-  const refresh = what => {
-    if (what === 'times') arcTouchTimes(); else arcTouchDay(info.iso);
+  const refresh = () => {
+    arcTouchDay(info.iso);
     const ok = arcSave();
     panel.querySelector('#arcSummary').innerHTML = arcSummaryHtml(info);
     panel.querySelector('#arcStrip').innerHTML = arcStripHtml(info.n);
@@ -3874,9 +3868,18 @@ function renderArc() {
   };
   const entry = () => (arc.log[info.iso] = arc.log[info.iso] || { t: {}, notes: '' });
 
+  // A record with no tick, minutes or moved time is dropped, so the log only holds what was set.
+  const tidy = name => {
+    const e = arc.log[info.iso], r = e && e.t[name];
+    if (r && !r.d && r.m == null && !r.tm) delete e.t[name];
+  };
+
   panel.querySelectorAll('[data-times]').forEach(b => b.addEventListener('click', () => {
     if (b.getAttribute('data-times') === 'toggle') arc.editTimes = !arc.editTimes;
-    else if (confirm('Put every ' + info.type + ' slot back to its original time?')) { delete arc.times[info.type]; arcTouchTimes(); }
+    else if (confirm('Put this day’s slots back to their default times?')) {
+      const e = arc.log[info.iso];
+      if (e) { Object.keys(e.t).forEach(name => { delete e.t[name].tm; tidy(name); }); arcTouchDay(info.iso); }
+    }
     renderArc();
   }));
 
@@ -3887,16 +3890,16 @@ function renderArc() {
       const vals = [...row.querySelectorAll('input[type=time]')].map(x => x.value);
       if (vals.some(v => !v) || (vals.length > 1 && vals[0] === vals[1])) return;
       const time = vals.map(arcFrom24).join(' to ');
-      const byType = arc.times[info.type] = arc.times[info.type] || {};
-      if (time === k.base) delete byType[name]; else byType[name] = time;
-      if (!Object.keys(byType).length) delete arc.times[info.type];
-      k.time = time; k.edited = time !== k.base; k.plan = arcPlanMins(time);
-      if (input && k.plan) {
-        input.setAttribute('data-plan', k.plan);
-        if (!input.disabled) input.placeholder = k.plan;
-        row.querySelector('.pl').textContent = k.plan + 'm';
+      const r = entry().t[name] = entry().t[name] || {};
+      if (time === k.base) delete r.tm; else r.tm = time;
+      tidy(name);
+      k.time = time; k.edited = time !== k.base; k.slot = arcPlanMins(time);
+      if (input && k.slot) {
+        input.setAttribute('data-plan', k.slot);
+        if (!input.disabled) input.placeholder = k.slot;
+        row.querySelector('.pl').textContent = k.slot + 'm';
       }
-      refresh('times');
+      refresh();
     }));
     row.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => {
       const e = entry(), r = e.t[name] = e.t[name] || {};
@@ -3924,10 +3927,10 @@ function renderArc() {
   panel.querySelectorAll('[data-act]').forEach(el => {
     const act = el.getAttribute('data-act');
     if (act === 'csv') el.addEventListener('click', () => arcDownload('winter-arc-tracker.csv', arcCsv(), 'text/csv'));
-    // The backup holds the log and your edited slot times. Older backups were the log on its own,
-    // and still restore (leaving the times in this browser as they are).
+    // The backup is the log, which carries each day's moved slot times. Older backups (the bare log,
+    // or a log with timetable-wide times, which are no longer used) restore the same way.
     if (act === 'backup') el.addEventListener('click', () => arcDownload('winter-arc-backup-' + arcTodayIso() + '.json',
-      JSON.stringify({ winterArcBackup: 2, log: arc.log, times: arc.times }, null, 1), 'application/json'));
+      JSON.stringify({ winterArcBackup: 2, log: arc.log }, null, 1), 'application/json'));
     if (act === 'restore') el.addEventListener('change', () => {
       const f = el.files[0];
       if (!f) return;
@@ -3936,19 +3939,15 @@ function renderArc() {
         let data;
         try { data = JSON.parse(txt); } catch (e) { alert('That file is not a Winter Arc backup.'); return; }
         if (!data || typeof data !== 'object' || Array.isArray(data)) { alert('That file is not a Winter Arc backup.'); return; }
-        const v2 = data.winterArcBackup === 2;
-        const log = v2 ? data.log : data, times = v2 ? data.times : null;
+        const log = data.winterArcBackup === 2 ? data.log : data;
         if (!log || typeof log !== 'object' || Array.isArray(log) || Object.keys(log).some(k => !/^\d{4}-\d{2}-\d{2}$/.test(k))) {
           alert('That file is not a Winter Arc backup.'); return;
         }
-        const nTimes = times ? Object.keys(times).reduce((s, t) => s + Object.keys(times[t] || {}).length, 0) : 0;
-        if (!confirm('Replace what is in this browser with this backup?\n\n' + Object.keys(log).length + ' logged days' +
-          (v2 ? '\n' + nTimes + ' edited slot time' + (nTimes === 1 ? '' : 's') : '\n(older backup: your slot times here stay as they are)'))) return;
+        if (!confirm('Replace what is in this browser with this backup?\n\n' + Object.keys(log).length + ' logged days')) return;
         // Restored days count as new changes, so with a sheet connected they replace its copies.
         const now = Date.now();
         Object.keys(log).forEach(iso => { log[iso].u = now; arcSync.dirty[iso] = 1; });
         arc.log = log; arcSave();
-        if (v2) { arc.times = times && typeof times === 'object' ? times : {}; arcTouchTimes(); }
         arcSyncPersist(); arcSyncSoon();
         renderArc();
       });
