@@ -596,7 +596,7 @@
   <h2 class="sr-only">CFA Level II knowledge ledger: a mind map you fill in with your own explanations, questions, and links across all ten subjects.</h2>
   <header>
     <h1>CFA Level II — knowledge ledger</h1>
-    <p class="sub">56 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
+    <p class="sub">51 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
 
     <details class="rules-panel" id="rulesPanel">
       <summary>How this ledger works — session rules (read this first, every new chat)</summary>
@@ -658,12 +658,7 @@ const SUBJECTS = [
     { name: 'Reading 7: Intercorporate Investments', desc: 'R7 · Modules 7.1–7.9 merged into one — classifications through SPEs/VIEs' },
     { name: 'Reading 8: Employee Compensation', desc: 'R8 · Modules 8.S1–8.S7, following your written notes — share-based grants through defined benefit pensions' },
     { name: 'Reading 9: Multinational Operations', desc: 'R9 · Sessions 9.S1–9.S9, following your written notes — transaction exposure, current rate vs. temporal, ratios, hyperinflation and tax' },
-    { name: '10.1 Financial institutions', desc: 'R10 · How banks differ from other companies' },
-    { name: '10.2 Capital adequacy and asset quality', desc: 'R10 · Basel III, Tier 1/2 capital, RWA' },
-    { name: '10.3 Management capabilities and earnings quality', desc: 'R10 · Fair value hierarchy, estimates' },
-    { name: '10.4 Liquidity position and sensitivity to market risk', desc: 'R10 · LCR, NSFR' },
-    { name: '10.5 Other factors', desc: 'R10 · Government support, culture, competition' },
-    { name: '10.6 Insurance companies', desc: 'R10 · P&C vs L&H, combined ratio' },
+    { name: 'Reading 10: Analysis of Financial Institutions', desc: 'R10 · Sessions 10.S1–10.S6, following your written notes — Basel III, CAMELS, other bank factors and insurers' },
     { name: '11.1 Quality of financial reports', desc: 'R11 · Conceptual framework for assessment' },
     { name: '11.2 Evaluating earnings quality, part 1', desc: 'R11 · Sustainability, mean reversion, Beneish' },
     { name: '11.3 Evaluating earnings quality, part 2', desc: 'R11 · Revenue and expense manipulation' },
@@ -2076,6 +2071,436 @@ const CONTENT = {
       },
     ],
   },
+  'fsa.3': {
+    refs: {
+      megaLoans: {
+        title: 'Mega Bank — loans (Schweser loan loss example)',
+        lines: [
+          'Total loans *5,511* (20X8) · *4,968* (20X7)',
+          'Nonperforming loans *606* · *397*',
+          'Provision for loan losses *122* · *108*',
+          'Allowance for loan losses *338* · *404*',
+          'Write-offs *202* · *178* · recoveries *(14)* · *(19)*',
+          'Net write-offs *188* · *159*',
+        ],
+      },
+      megaLiq: {
+        title: 'Mega Bank — liquidity (Schweser liquidity example)',
+        lines: [
+          'Highly liquid assets *1,250* (20X9) · *1,100* (20X8)',
+          'Average monthly withdrawals *900* · *750*',
+          'Expected monthly outflow in a stress scenario *1,300* · *1,050*',
+        ],
+      },
+    },
+    flow: [
+      {
+        module: '10.S1', title: 'Analysis of Financial Institutions · Basel III · Global Organisations',
+        blocks: [
+          { k: 'points', id: 's1-products', title: 'Products & services of a financial institution:', items: [
+            '*Intermediation* between users & providers of capital.',
+            '*Asset & risk management.*',
+            '*Transaction execution.*',
+          ] },
+          { k: 'sub', text: 'Difference Between Financial Institutions & Other Companies' },
+          { k: 'points', id: 's1-diff', items: [
+            '*Systemic importance* — failure of one financial institution can lead to failure of the entire system (e.g. the Lehman crisis in 2008). Also known as the *contagion effect*.',
+            '*Regulated* — financial institutions are highly regulated.',
+            '*Assets* — the assets of financial institutions are loans, whereas other companies have tangible assets.',
+          ] },
+          { k: 'flag', title: 'What sits behind each of the three differences',
+            items: [
+              'Banks are especially prone to a *bank run*; to stop contagion, governments often *insure deposits* up to a limit.',
+              'Regulation means *minimum capital*, *minimum liquidity* and *limits on risk-taking*.',
+              'The assets are *financial assets* — loans *and securities* — usually reported at *fair value*, against the tangible assets at *depreciated historical cost* other companies carry.',
+            ],
+            text: 'Schweser’s version of the same list adds:' },
+          { k: 'sub', text: '3 Pillars of the Basel III Framework' },
+          { k: 'points', id: 's1-basel', items: [
+            '*Minimum level of capital* — dependent on the risk of the bank’s assets; directly proportional to the risk of the assets.',
+            '*Minimum level of liquidity* — liquid assets should be able to meet demand under a *30-day stress scenario*.',
+            '*Stable funding* — directly proportional to the *tenor* of the bank’s deposits. Stability in funding also depends on the *type of deposit*, e.g. consumer deposits are more stable than interbank market funds.',
+          ] },
+          { k: 'flag', title: 'Who writes Basel III, and the horizon for stable funding',
+            items: [
+              'Basel III comes from the *Basel Committee on Banking Supervision*, a standing committee of the *Bank for International Settlements*. Global coordination also stops *regulatory arbitrage*.',
+              'Stable funding is measured against the bank’s liquidity needs over a *one-year* horizon (liquidity is the 30-day one).',
+              'Module quiz: Basel III does *not* recommend that the spread earned on assets over the deposit rate be positive. It covers capital, liquidity and stable funding only.',
+            ] ,
+            text: 'Two details and a quiz trap:' },
+          { k: 'sub', text: 'Global Organisations & Their Roles' },
+          { k: 'table', id: 's1-orgs',
+            columns: ['Role'],
+            rows: [
+              { label: 'Financial Stability Board (FSB)', values: ['Coordinates actions of participating jurisdictions in identifying & managing *systemic risk*'] },
+              { label: 'International Association of Deposit Insurers (IADI)', values: ['Improves the effectiveness of *deposit insurance* systems'] },
+              { label: 'International Organization of Securities Commissions (IOSCO)', values: ['Promotes fair & efficient *securities (capital) markets*'] },
+              { label: 'International Association of Insurance Supervisors (IAIS)', values: ['Improves *supervision of the insurance industry*'] },
+            ],
+            caption: 'The roles are my pencil notes beside each name.' },
+        ],
+      },
+      {
+        module: '10.S2', title: 'CAMELS · C — Capital Adequacy',
+        blocks: [
+          { k: 'p', text: 'The *CAMELS* approach analyses a bank on six factors: *C*apital adequacy, *A*sset quality, *M*anagement, *E*arnings, *L*iquidity and *S*ensitivity to market risk.' },
+          { k: 'points', id: 's2-cap', title: 'Capital adequacy', items: [
+            'Required to *prevent financial insolvency*.',
+            'Based on *risk-weighted assets* (RWA).',
+            'Risk weights are *specified by individual regulators*.',
+          ] },
+          { k: 'sub', text: 'Basel III Capital Tiers — total capital 8% of RWA' },
+          { k: 'split', id: 's2-tiers', head: 'Total capital (Tier 1 + Tier 2) — min. 8% of RWA', legs: [
+            { name: 'Tier 1 capital — min. 6% of RWA', text: 'Common Equity Tier 1 + Other Tier 1' },
+            { name: 'Tier 2 capital', text: 'Subordinated instruments with maturity *> 5 years*' },
+          ] },
+          { k: 'cols', id: 's2-t1', panes: [
+            { title: 'Common Equity Tier 1 — min. 4.5% of RWA', tone: 'slate', items: [
+              'Common stock',
+              'Additional paid-up capital',
+              'Retained earnings',
+              'OCI',
+              'Less: intangibles and deferred tax assets',
+            ] },
+            { title: 'Other Tier 1 (e.g. preferred stock)', tone: 'violet', items: [
+              'Subordinated instruments with *no specific maturity* and *no contractual dividends*.',
+            ] },
+          ] },
+          { k: 'fix', title: 'Deferred tax assets listed as a separate CET1 item, after “OCI less intangibles”',
+            text: 'Deferred tax assets are *deducted* from CET1, exactly like intangibles: CET1 = common stock + APIC + retained earnings + OCI *− intangibles − deferred tax assets*. Neither can absorb a loss, so neither counts as capital. The box above shows it that way.' },
+          { k: 'flag', title: 'The two worked examples on page 99',
+            items: [
+              '*RWA* = each asset class × its regulator-set risk weight, summed. Cash and government bonds carry low or zero weights; loans carry high ones.',
+              '*Capital position*: divide CET1, total Tier 1 and total capital by RWA, then compare with *4.5% / 6% / 8%*.',
+              'Mega Bank’s CET1 ratio was *below 4.5% in both years and worsened*, the most worrying result because CET1 is the most important component. Its Tier 1 and total capital ratios were above 6% and 8% in 20X7 but *fell below both in 20X8*.',
+              'Tier 2 counts the *original* maturity (when issued), not the remaining one.',
+              'Module quiz: the most important source of capital is *Common Equity Tier 1*. Securities subordinate to deposits with no maturity and no contractual payments are *Tier 1* (Other Tier 1), not Tier 2.',
+            ],
+            text: 'My page just says “Example at Pg 99”. What it works through:' },
+        ],
+      },
+      {
+        module: '10.S3', title: 'A — Asset Quality · Loan Loss Provisions · M — Management',
+        blocks: [
+          { k: 'split', id: 's3-depends', head: 'Asset quality is dependent on', legs: [
+            { name: 'Process of generating assets' },
+            { name: 'Management of assets' },
+            { name: 'Control of overall risk' },
+          ] },
+          { k: 'cols', id: 's3-credit', panes: [
+            { title: 'Current credit risk', tone: 'slate', items: ['Loans already going bad today, and what the loss on them will be.'] },
+            { title: 'Potential credit risk', tone: 'violet', items: ['Depends on the future: losses that may yet occur.'] },
+          ] },
+          { k: 'p', text: 'Evaluation of asset quality requires analysis of both.' },
+          { k: 'sub', text: 'Bank’s Assets' },
+          { k: 'table', id: 's3-assets',
+            columns: ['Reported at'],
+            rows: [
+              { label: 'Loans', values: ['*Amortised cost*'] },
+              { label: 'Investment in securities', values: ['*Amortised cost* (HTM) · *fair value through P&L* · *fair value through OCI*'] },
+            ] },
+          { k: 'flag', title: 'Which standard allows which, and the off-balance-sheet credit risk',
+            items: [
+              'Loans are the *largest* asset, carried at amortised cost *net of allowances*.',
+              '*IFRS 9*: debt securities at amortised cost, FVOCI or FVPL depending on the business model; *equity securities always at fair value* (OCI or P&L). *US GAAP*: equity at FVPL; debt as HTM (amortised cost), AFS (FVOCI) or trading (FVPL). Module quiz: equity securities → *fair value* under both.',
+              'Two balance sheet terms: *reverse repurchase agreements* are loans made against high-quality collateral; *assets held for sale* are discontinued operations valued on the assumption they will be sold.',
+              'Credit risk also sits *off the balance sheet*: unused lines of credit and letters of credit.',
+              'Small Bank example: loans past due or impaired rose from *12% to 16%* (5% + 8% + 3%) while the better grades shrank, so credit quality *worsened*.',
+            ],
+            text: 'Points around the asset breakdown:' },
+          { k: 'sub', text: 'Loan Loss Provisions (similar to allowance for doubtful debts)' },
+          { k: 'points', id: 's3-llp', items: [
+            'For a bank, loans represent a *large portion of its total assets*.',
+            'The credit quality of loans & loss provisions are critical in evaluating the bank’s *financial position & performance*.',
+            '*Allowance for loan losses* is a *contra-asset* account to loans.',
+            '*Provision for loan losses* is an *expense*, subject to *management discretion*.',
+          ] },
+          { k: 'formula', title: 'Three ratios for loan loss adequacy', lines: [
+            'Allowance for loan losses to nonperforming loans = allowance for loan losses ÷ nonperforming loans',
+            'Allowance for loan losses to net loan charge-offs = allowance for loan losses ÷ net write-offs',
+            'Provision for loan losses to net loan charge-offs = provision for loan losses ÷ net write-offs',
+          ], note: 'Each one puts a *discretionary* number (allowance or provision) over an *objective* one (bad loans, actual losses). A falling ratio means management is reserving less against the losses actually showing up.' },
+          { k: 'example', id: 's3-mega', ref: 'megaLoans', title: 'Example — Mega Bank: adequacy of loan loss reserves',
+            body: ['The following information is collected for Mega Bank. Calculate the appropriate ratios to evaluate the adequacy of loan loss reserves as well as provisions for loan losses.'] },
+          { k: 'table', id: 's3-mega-data', ref: 'megaLoans',
+            columns: ['20X8', '20X7'],
+            rows: [
+              { label: 'Total loans', values: ['5,511', '4,968'] },
+              { label: 'Nonperforming loans', values: ['606', '397'] },
+              { label: 'Provisions for loan losses', values: ['122', '108'] },
+              { label: 'Allowance for loan losses', values: ['338', '404'] },
+              { label: 'Write-offs', values: ['202', '178'] },
+              { label: 'Recoveries', values: ['(14)', '(19)'] },
+              { label: '*Net write-offs*', values: ['*188*', '*159*'] },
+            ] },
+          { k: 'p', text: 'Pencil check on the page: *ending allowance = beginning allowance + provision − net write-offs*. For 20X8: 404 + 122 − 188 = *338* ✓.' },
+          { k: 'table', id: 's3-mega-ratios', ref: 'megaLoans',
+            columns: ['20X8', '20X7'],
+            rows: [
+              { label: 'Allowance for loan losses ÷ nonperforming loans', values: ['338 ÷ 606 = *0.56*', '404 ÷ 397 = *1.02*'] },
+              { label: 'Allowance for loan losses ÷ net loan charge-offs', values: ['338 ÷ 188 = *1.80*', '404 ÷ 159 = *2.54*'] },
+              { label: 'Provision for loan losses ÷ net loan charge-offs', values: ['122 ÷ 188 = *0.65*', '108 ÷ 159 = *0.68*'] },
+            ] },
+          { k: 'points', id: 's3-mega-ans', ref: 'megaLoans', title: 'Answer', items: [
+            '*Decline from 1.02 to 0.56* — the bank has not made sufficient provisions for loan losses (possible *aggressive accounting*).',
+            '*Decline from 0.68 to 0.65* — possible aggressive accounting. The expense recorded for loan losses was only *65% of actual losses* during 20X8.',
+            '*Decline for 20X8 (2.54 → 1.80)* — the rate of increase in the allowance for loan losses is significantly *below the growth rate of actual write-offs*. Here the allowance actually fell (404 → 338) while net write-offs rose (159 → 188).',
+          ] },
+          { k: 'sub', text: 'M — Management Capabilities' },
+          { k: 'points', id: 's3-mgmt', items: [
+            'The quality of a bank’s management influences the success with which the bank is able to *exploit profitable opportunities* while also *controlling the level of risk* taken.',
+            '*Risk management & control* is critical for banks. This includes identification & control of different types of risk (e.g. credit, market, operating, legal & other).',
+            'A bank’s *internal control & governance system* (including an *independent board*) ensures that managers do not take undue risks or engage in self-serving behaviour. The board also sets appropriate levels of *maximum allowable risk* for the managers.',
+            'Internal control systems should *continuously measure & monitor* the myriad risks the bank may be exposed to.',
+          ] },
+        ],
+      },
+      {
+        module: '10.S4', title: 'E — Earnings · L — Liquidity Position',
+        blocks: [
+          { k: 'split', id: 's4-earn', head: 'Earnings should be', legs: [
+            { name: 'Sustainable' },
+            { name: 'Adequate', text: 'A return above the cost of capital' },
+          ] },
+          { k: 'flag', title: 'The rest of what “high-quality earnings” means for a bank',
+            text: 'Beyond adequate and sustainable, Schweser wants the *trend positive*, the accounting estimates behind reported earnings *unbiased*, and earnings coming from *recurring* sources. Other subjective estimates hit bank earnings just as they do any company’s: goodwill impairment, recognition of deferred tax assets, contingent liabilities.' },
+          { k: 'sub', text: 'Fair Value Hierarchy (used for determining the fair value of financial assets)' },
+          { k: 'table', id: 's4-fvh',
+            columns: ['Inputs'],
+            rows: [
+              { label: 'Level 1', values: ['Quoted market prices of *identical* assets'] },
+              { label: 'Level 2', values: ['Quoted prices of *similar* assets · quoted prices of identical assets in *non-active* markets'] },
+              { label: 'Level 3', values: ['*Non-observable & subjective* · derived from models, e.g. DCF'] },
+            ] },
+          { k: 'flag', title: 'Why the hierarchy matters for earnings, and more Level 2 inputs',
+            items: [
+              'Securities are a major source of a bank’s earnings, and the estimates used to value them can *bias earnings*. The further down the hierarchy, the more judgement.',
+              'Level 2 = *observable but not quoted* prices of identical assets. It also covers *observable interest rates, spreads and implied volatility*.',
+              'Banks use the levels as labels: “Level 2 securities” were valued with Level 2 inputs.',
+            ],
+            text: 'Schweser frames the hierarchy as an earnings-quality tool:' },
+          { k: 'sub', text: 'Major Sources of Earnings' },
+          { k: 'split', id: 's4-sources', head: 'Major sources of a bank’s earnings', legs: [
+            { name: 'Net interest income', text: 'Higher proportion indicates *sustainable* earnings' },
+            { name: 'Service income', text: 'Higher proportion indicates *sustainable* earnings' },
+            { name: 'Trading income', text: '*Most volatile*' },
+          ] },
+          { k: 'sub', text: 'L — Liquidity Position' },
+          { k: 'cols', id: 's4-liq', panes: [
+            { title: 'Liquidity coverage ratio (LCR)', tone: 'slate', items: [
+              'Used in a *stress scenario*.',
+              'LCR = highly liquid assets ÷ expected cash outflows',
+              'Standards recommend a minimum LCR of *1 (100%)*.',
+            ] },
+            { title: 'Net stable funding ratio (NSFR)', tone: 'violet', items: [
+              'NSFR = available stable funding ÷ required stable funding',
+              'Standards recommend a minimum NSFR of *1 (100%)*.',
+            ] },
+          ] },
+          { k: 'points', id: 's4-nsfr', title: 'NSFR in more detail', items: [
+            '*Available stable funding* — a function of the composition & maturity distribution of the bank’s *funding sources* (capital, deposits & other liabilities).',
+            '*Required stable funding* — a function of the composition & maturity distribution of the bank’s *asset base*.',
+            'NSFR relates the *liquidity needs of the bank’s assets* to the *liquidity provided by the bank’s liabilities*.',
+          ] },
+          { k: 'flag', title: 'How ASF is weighted, and what “expected cash outflows” means',
+            items: [
+              'LCR’s expected cash outflows are the estimated *one-month* liquidity needs in a stress scenario.',
+              'ASF applies an *ASF factor* to each funding source (Schweser Figure 10.1). *Longer-dated* liabilities are more stable and suit long-dated assets such as long-term loans.',
+              '*Retail and small-business deposits* count as more stable than *corporate* deposits.',
+              'Module quiz: NSFR measures the *liquidity of a bank’s funding sources relative to the liquidity needs of its assets*; its minimum is *100%*.',
+            ],
+            text: 'Details Schweser adds:' },
+          { k: 'sub', text: 'Other Liquidity Monitoring Measures' },
+          { k: 'cols', id: 's4-other', panes: [
+            { title: 'Concentration of funding', tone: 'slate', items: [
+              'Concentrated funding indicates *reliance on few sources*.',
+              '*More risky.*',
+            ] },
+            { title: 'Maturity mismatch', tone: 'violet', items: [
+              'Occurs when *asset maturities differ* from the maturity of liabilities.',
+              'Higher mismatch → *higher liquidity risk*.',
+            ] },
+          ] },
+          { k: 'flag', title: 'How a mismatch turns into a liquidity crunch',
+            text: 'Banks widen their spread by *borrowing short at low rates and lending long at higher rates*. If they cannot *roll over* the short borrowing at reasonable rates, they are short of cash. Module quiz: a maturity mismatch contributes to *liquidity risk*, not earnings-quality or capital-adequacy risk.' },
+          { k: 'example', id: 's4-lcr', ref: 'megaLiq', title: 'Example — Mega Bank: liquidity risk',
+            body: ['The following information is collected for Mega Bank. Describe the liquidity risk faced by Mega Bank.'],
+            given: [
+              { label: 'Highly liquid assets', val: '20X9 *1,250* · 20X8 *1,100*' },
+              { label: 'Average monthly withdrawals', val: '20X9 *900* · 20X8 *750*' },
+              { label: 'Expected monthly outflow in a stress scenario', val: '20X9 *1,300* · 20X8 *1,050*' },
+            ],
+            steps: [
+              'LCR for 20X8 = 1,100 ÷ 1,050 = *104.76%*',
+              'LCR for 20X9 = 1,250 ÷ 1,300 = *96.15%*',
+            ],
+            result: 'For 20X9, the bank’s LCR has dropped from the prior year, dropping even below the minimum requirement of 100%, indicating higher liquidity risk.' },
+          { k: 'p', text: 'Average monthly withdrawals are not used: the LCR’s denominator is the *stressed* outflow, not the normal one.' },
+        ],
+      },
+      {
+        module: '10.S5', title: 'S — Sensitivity to Market Risk · Other Factors Apart from CAMELS',
+        blocks: [
+          { k: 'split', id: 's5-mkt', head: 'Sensitivity to market risk', legs: [
+            { name: 'Volatility of security prices' },
+            { name: 'Currency risk' },
+            { name: 'Interest rate risk', text: 'The *most important*' },
+          ] },
+          { k: 'points', id: 's5-irr', title: 'Interest rate risk is the most important, due to:', items: [
+            'Difference in *maturity & rates* between assets and liabilities.',
+            '*Repricing frequency* between assets & liabilities. If interest rates are increasing & assets are repriced more frequently than liabilities, *net interest income will rise*.',
+          ] },
+          { k: 'table', id: 's5-dur',
+            columns: ['Assets', 'Liabilities'],
+            rows: [
+              { label: 'Duration', values: ['10', '5'] },
+              { label: 'Fall in value when rates rise', values: ['≈ 10%', '≈ 5%'] },
+            ],
+            caption: 'Pencil sketch at the top of my page: with mismatched durations, a rate rise cuts the bank’s assets about twice as hard as its liabilities, so it books a loss. This happens because the bank holds assets & liabilities of different maturities.' },
+          { k: 'points', id: 's5-2008', title: 'After the 2008 crisis', items: [
+            'Short-term interest rates were lowered, and banks *borrowed more at short-term rates*.',
+            'And banks started *lending long term at higher rates*.',
+            'This led to increased *duration risk*.',
+          ] },
+          { k: 'flag', title: 'Yield curve shape, disclosures and VaR',
+            text: 'A change in the *shape of the yield curve* hits banks differently depending on what their assets and liabilities are. Banks disclose market and non-market risk exposures in the *MD&A*, e.g. the effect of a change in yields on earnings. Market risk overall can be captured by *value at risk (VaR)*, covered in Portfolio Management.' },
+          { k: 'sub', text: 'Other Factors Apart from CAMELS' },
+          { k: 'points', id: 's5-other', items: [
+            '*Government support* — governments provide support to banks in contingent failure. *More* support if the bank is *big*, e.g. JP Morgan.',
+            '*Bank mission* — community banks pursue community development and may have *concentrated risks*; global banks have a *diversified asset base*.',
+          ] },
+          { k: 'points', id: 's5-culture', title: 'Culture evaluation', items: [
+            '*Diversity* of the bank’s assets.',
+            '*Frequent accounting restatements* indicate an unethical culture.',
+            '*Management compensation* tied to stock price performance might lead to a culture of excessive risk-taking.',
+            '*Speed of adjustment* of loan loss provisions to actual losses: a slower response indicates a risk-taking culture.',
+          ] },
+          { k: 'flag', title: 'Government ownership, and the other half of government support',
+            items: [
+              'Implicit support is *inversely related to the health of the banking sector*: a healthy sector can absorb one bank’s failure, so support is low in good times. It rises with *size and inter-linkage*. In 2008 the US propped banks up through *TARP*.',
+              '*Government ownership* — public ownership builds depositors’ faith in implicit backing; shrinking it removes that comfort. A government *exiting* a rescue stake signals confidence in the bank’s balance sheet. Module quiz: a significant government stake → high likelihood of *support in the event of failure*.',
+              'Community bank risk example: Houston banks tied to oil in the 1980s. Module quiz: community banks → significant exposure to a *single industry or employer*.',
+              'Culture needs balance: *too risk-averse* fails to earn an adequate return. Module quiz: management *tenure* is not part of culture evaluation.',
+            ],
+            text: 'My page has government support, mission and culture. Schweser adds:' },
+          { k: 'flag', title: 'General factors that apply to any company, banks included',
+            items: [
+              '*Competitive environment* — a satisfied regional bank may not reach for risk; a global bank chasing large rivals may take too much.',
+              '*Off-balance-sheet* items — often opaque. Operating leases are far less risky than selling CDS protection. Watch for SPEs that are not treated as VIEs and so stay unconsolidated.',
+              '*Segment information* — each business line or region carries different market, geopolitical or cyclical risk.',
+              '*Currency exposure* — large for global banks trading currencies or holding foreign-currency assets and liabilities.',
+            ],
+            text: 'The last part of LOS 10.e, missing from my page:' },
+          { k: 'flag', title: 'The JP Morgan example my page points to (Ex at Pg 111)',
+            items: [
+              'On the exam, focus on *one type of analysis* at a time (capital, asset quality, liquidity), not a full CAMELS write-up.',
+              'Most liquid assets (cash and deposits with banks) = 1.02% + 15.96% = *16.98%* of total assets in 2017. Lending, as a share of assets, barely changed from 2016; investments fell slightly.',
+              'Capital: CET1 *12.20%* > 4.5%, Tier 1 *13.90%* > 6%, total capital *15.90%* > 8%, and rising over time, so capital is strengthening.',
+              'Fair value: Level 3 is *3.2%* of fair-value assets, so Levels 1 and 2 are *96.8%*. Fair-value assets are 627 ÷ 2,533.6 = *24.75%* of total assets; Level 3 is *0.8%* of total assets.',
+            ],
+            text: 'What the example works through:' },
+        ],
+      },
+      {
+        module: '10.S6', title: 'Insurance Companies · P&C · Combined Ratio',
+        blocks: [
+          { k: 'split', id: 's6-rev', head: 'Insurance company revenue', legs: [
+            { name: 'Premium income' },
+            { name: 'Income on float', text: 'Income earned on premiums between their *collection* and the *payment of claims*' },
+          ] },
+          { k: 'sub', text: 'Types of Insurance Companies' },
+          { k: 'cols', id: 's6-types', panes: [
+            { title: '1. Property & casualty (P&C)', tone: 'slate', items: [
+              'Claims tend to be *lumpier*.',
+              '*Lower* contract duration.',
+            ] },
+            { title: '2. Life & health (L&H)', tone: 'violet', items: [
+              'Claims are generally *stable & predictable*.',
+              '*Higher* contract duration.',
+            ] },
+          ] },
+          { k: 'sub', text: 'P&C Insurance Company' },
+          { k: 'points', id: 's6-pc', items: [
+            '*Property insurance* covers assets against loss due to insured events.',
+            '*Casualty insurance* protects against a *legal liability* due to the occurrence of a covered event.',
+            '*Premium income* is usually the highest source of income for a P&C insurer.',
+            '*Reinsurance* is done to diversify their risks.',
+            'Claim events (e.g. fire, accident) are *clearly defined* but may take a *long time to emerge*.',
+            'Expenses of a P&C insurer are *claims expense* & the *expense of obtaining new policies*.',
+            'Pricing of insurance policies is driven by the *industry combined ratio* (total insurance expenses ÷ net premiums earned). When it is *low (high)*, it is a *hard (soft)* market.',
+          ] },
+          { k: 'flag', title: 'The underwriting cycle, and what drives a P&C insurer’s profit',
+            items: [
+              'Profitability rests on *prudent underwriting*, *adequate premium pricing* and *diversification* of risk. Policies are short; premiums arrive up front and are invested during the float.',
+              'A *multiple peril* policy covers both property and casualty losses from one event.',
+              'The cycle: competition → price cutting → slim or negative margins (*soft*) → losses push insurers out → less competition → better pricing and fat margins (*hard*) → new entrants → soft again.',
+              'Acquisition cost depends on the model: *direct-to-customer* means fixed staffing cost; the *agency* model means variable commissions.',
+              'Module quiz: a soft pricing period is one where the P&C combined ratio is *higher*.',
+            ],
+            text: 'Schweser adds the mechanism behind “hard” and “soft”:' },
+          { k: 'sub', text: 'Combined Ratio' },
+          { k: 'formula', title: 'Underwriting loss ratio', lines: [
+            'Underwriting loss ratio = (claims paid + Δ loss reserves) ÷ net premiums earned',
+          ], note: 'Measures the relative efficiency of the company’s *underwriting standards*. It can also be used to measure quality: ↑ ratio, ↓ quality.' },
+          { k: 'formula', title: 'Expense ratio', lines: [
+            'Expense ratio = underwriting expenses incl. commissions ÷ net premiums written',
+          ], note: 'Measures the efficiency of the company’s *operations*.' },
+          { k: 'p', text: 'Combined ratio = underwriting loss ratio + expense ratio. A combined ratio *> 100%* indicates an *underwriting loss*.' },
+          { k: 'points', id: 's6-reserve', title: 'Loss reserve', items: [
+            'Estimated value of *unpaid claims*.',
+            'Based on estimated losses incurred during the reporting period.',
+            'Subject to *management discretion*.',
+          ] },
+          { k: 'flag', title: 'Different denominators, and which way a reserve revision points',
+            items: [
+              'The two ratios use *different denominators* (premiums earned v/s premiums written). Under *US GAAP* reporting, both use *net premiums earned*. The sum is the Statutory Accounting Practices definition.',
+              'Many insurers report the *loss and loss adjustment expense ratio* in place of the underwriting loss ratio; the expense ratio is also called the *underwriting expense ratio*.',
+              'The loss reserve is highly material and revised as information comes in. *Downward* revisions mean the original estimate was conservative; *upward* revisions mean profits were booked aggressively, a *warning sign*.',
+            ],
+            text: 'Points that get tested:' },
+          { k: 'sub', text: 'Other Profitability Ratios' },
+          { k: 'cols', id: 's6-other', panes: [
+            { title: 'Loss and loss adjustment expense ratio', tone: 'slate', items: [
+              '= (loss expense + loss adjustment expense) ÷ net premiums earned',
+              'Measures relative success in *estimating the risks insured* (lower value indicates success).',
+              'Same as the underwriting loss ratio.',
+            ] },
+            { title: 'Dividends to policyholders ratio', tone: 'violet', items: [
+              '= dividends to policyholders ÷ net premiums earned',
+              'A *liquidity* measure: cash outflow on account of dividends relative to premium income.',
+            ] },
+          ] },
+          { k: 'formula', title: 'Combined ratio after dividends', lines: [
+            'CRAD = combined ratio + dividends to policyholders ratio',
+          ], note: 'The combined ratio covers *claims* (loss ratio) and *operations* (expense ratio); CRAD adds dividends, so it measures *total efficiency* and is more comprehensive.' },
+          { k: 'flag', title: 'The P&C example my page points to, and how to read the three ratios',
+            items: [
+              'Andy Miranda’s three insurers: *lowest combined ratio* → most profitable on a combined ratio basis (ABC). *Lowest underwriting expense ratio* → most efficient operations (also ABC). *Lowest CRAD* → most profitable overall (XYZ).',
+              'The quiz set (IPCO, SYMCO, DELPHI) asks the same five things: highest loss ratio, lowest expense ratio, highest combined ratio, lowest dividends ratio, highest CRAD.',
+            ],
+            text: 'My page ends with “e.g. Pg”. The example asks:' },
+          { k: 'flag', title: 'Investment returns, liquidity and capital for P&C insurers',
+            items: [
+              '*Investment returns* are the second source of profit. Premiums are invested conservatively; look for diversification by asset class and concentration by type, maturity, industry and region. Use the *total investment return ratio*, and recompute it *excluding unrealised gains* to see how much they drive income.',
+              '*Liquidity* matters because claims must be paid on demand. Gauge it through the fair value hierarchy: Level 1 most liquid, Level 3 least.',
+              '*Capitalisation*: no global risk-based standard. The EU uses *Solvency II*; in the US, the *NAIC* sets minimum capital by size and risk.',
+            ],
+            text: 'The rest of the P&C section:' },
+          { k: 'flag', title: 'L&H insurers — none of this is on my pages',
+            items: [
+              '*Revenue diversification*: premiums, investments and fees. Diversification is good, but premium income is the most stable.',
+              '*Earnings characteristics*: heavy on estimates. Actuarial assumptions drive the liability to policyholders; claim expense includes interest on that liability; acquisition costs are *capitalised and amortised* against estimated future profits; asset and liability valuation mismatches distort results when rates change.',
+              'Industry cost ratios: *total benefits paid ÷ (net premiums written + deposits)* and *commissions and expenses ÷ (net premiums written + deposits)*, alongside ROA, ROE and EBIT margin.',
+              '*Investment returns*: L&H has a *longer float*, so investment income is central. The portfolio is mostly long-term debt; watch the *duration mismatch*. Use the total investment income ratio, with and without unrealised gains.',
+              '*Liquidity*: needs are fairly *predictable*, so excess liquidity matters less than for P&C. S&P’s measure is adjusted investment assets ÷ adjusted obligations, run under normal and stressed conditions.',
+              '*Capitalisation*: no global minimum; local risk-adjusted rules usually include *interest rate risk* because of the duration mismatch.',
+              'Module quiz: relative to P&C, L&H has a *higher float*, *higher interest rate risk* and a *longer* contract period; P&C has *lumpier* claims.',
+            ],
+            text: 'Schweser’s L&H section in brief:' },
+        ],
+      },
+    ],
+  },
 };
 // Gaps I flag after each teach-back round, aligned by index to the points in CONTENT above.
 // null means that point was correct as explained — nothing to flag. Cleared only once the
@@ -2095,6 +2520,7 @@ const GAPS = {
   ],
   'fsa.1': {},
   'fsa.2': {},
+  'fsa.3': {},
 };
 // Tuition weak spots: questions the user got wrong in external tuition tests, diagnosed and
 // grouped by the misconception behind them — one entry per concept, not per question. `module`
@@ -2365,6 +2791,7 @@ const STATUS = {
   'fsa.0': 'mastered',
   'fsa.1': 'progress',
   'fsa.2': 'progress',
+  'fsa.3': 'progress',
 };
 // Cross-topic links, set by Claude when a genuine connection comes up in conversation
 // (e.g. Reading 7's equity method vs. Reading 8's pension accounting). Read-only chips
