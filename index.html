@@ -569,6 +569,11 @@
   .arc-weeklbl span { flex: 1; text-align: center; }
   .arc-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); align-items: center; }
   .arc-empty { font-size: 12.5px; color: var(--ink-faint); font-style: italic; padding: 6px 0; }
+  .arc-sync { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .arc-sync-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12.5px; margin-bottom: 6px; }
+  .arc-sync input { font: 12px var(--mono); padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: var(--panel); }
+  .arc-sync input[type=url] { flex: 1 1 320px; min-width: 0; }
+  .arc-sync input[type=password] { flex: 0 1 180px; min-width: 0; }
 
   @media (max-width: 760px) {
     .arc-cols, .arc-prog-cols { flex-direction: column; gap: 14px; }
@@ -3004,6 +3009,104 @@ function arcLoad() {
 function arcSaveTimes() {
   try { localStorage.setItem(WINTER_ARC.storageKey + '.times', JSON.stringify(arc.times)); return true; } catch (e) { return false; }
 }
+
+// Google Sheet sync. With a sheet connected (its Apps Script is winter-arc-sync.gs), every change is
+// stamped, marked as waiting, and sent a moment later; the reply carries everything in the sheet, so
+// changes from your other devices come back too. Offline, or with no sheet, the page keeps working
+// from this browser, and waiting changes go up on the next sync that gets through.
+const arcSync = { cfg: null, dirty: {}, timesU: 0, timer: null, busy: false, again: false, at: null, err: '', stale: false };
+function arcSyncLoad() {
+  try { arcSync.cfg = JSON.parse(localStorage.getItem('winterArc.sync') || 'null'); } catch (e) {}
+  try { arcSync.dirty = JSON.parse(localStorage.getItem(WINTER_ARC.storageKey + '.dirty') || '{}') || {}; } catch (e) {}
+  try { arcSync.timesU = +localStorage.getItem(WINTER_ARC.storageKey + '.timesU') || 0; } catch (e) {}
+}
+function arcSyncPersist() {
+  try {
+    localStorage.setItem(WINTER_ARC.storageKey + '.dirty', JSON.stringify(arcSync.dirty));
+    localStorage.setItem(WINTER_ARC.storageKey + '.timesU', String(arcSync.timesU));
+  } catch (e) {}
+}
+function arcTouchDay(iso) {
+  if (arc.log[iso]) arc.log[iso].u = Date.now();
+  arcSync.dirty[iso] = 1; arcSave(); arcSyncPersist(); arcSyncSoon();
+}
+function arcTouchTimes() {
+  arcSync.timesU = Date.now(); arcSync.dirty.__times = 1; arcSaveTimes(); arcSyncPersist(); arcSyncSoon();
+}
+function arcTouchAll() {
+  const now = Date.now();
+  Object.keys(arc.log).forEach(iso => { arc.log[iso].u = arc.log[iso].u || now; arcSync.dirty[iso] = 1; });
+  if (Object.keys(arc.times).length) { arcSync.timesU = arcSync.timesU || now; arcSync.dirty.__times = 1; }
+  arcSave(); arcSyncPersist();
+}
+function arcSyncSoon() {
+  if (!arcSync.cfg) return;
+  clearTimeout(arcSync.timer);
+  arcSync.timer = setTimeout(arcSyncNow, 1500);
+}
+function arcWaiting() { return Object.keys(arcSync.dirty).length; }
+
+async function arcSyncNow() {
+  if (!arcSync.cfg) return;
+  if (arcSync.busy) { arcSync.again = true; return; }
+  arcSync.busy = true; arcSyncShow();
+  const sent = {};
+  const days = Object.keys(arcSync.dirty).filter(k => k !== '__times' && arc.log[k]).map(iso => {
+    const info = arcInfo(arcDay(iso)), e = arc.log[iso], tr = arcTracker(info);
+    sent[iso] = e.u || 0;
+    return { iso, u: e.u || 0, entry: { t: e.t || {}, notes: e.notes || '' },
+      tracker: { day: arcFmt(info.n, { weekday: 'short' }), phase: info.phase, woke: tr.woke, s1: tr.s1, s2: tr.s2,
+        walk: tr.walk, cfa: tr.cfa, slept: tr.slept, total: tr.total, habits: tr.habits } };
+  });
+  Object.keys(arcSync.dirty).forEach(k => { if (k !== '__times' && !arc.log[k]) delete arcSync.dirty[k]; });
+  const times = arcSync.dirty.__times ? { u: arcSync.timesU, data: arc.times } : null;
+  if (times) sent.__times = arcSync.timesU;
+  try {
+    const res = await fetch(arcSync.cfg.url, {
+      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ key: arcSync.cfg.key, days, times })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'Sync failed');
+    // What went up is done, unless it changed again while the request was out.
+    Object.keys(sent).forEach(k => {
+      const now = k === '__times' ? arcSync.timesU : (arc.log[k] && arc.log[k].u) || 0;
+      if (now === sent[k]) delete arcSync.dirty[k];
+    });
+    // Take the sheet's copy of everything not still waiting to go up.
+    const before = JSON.stringify([arc.log, arc.times]);
+    Object.keys(data.log || {}).forEach(iso => { if (!arcSync.dirty[iso]) arc.log[iso] = data.log[iso]; });
+    if (!arcSync.dirty.__times && data.times) { arc.times = data.times.data || {}; arcSync.timesU = data.times.u || 0; }
+    arcSave(); arcSaveTimes(); arcSyncPersist();
+    arcSync.at = new Date(); arcSync.err = '';
+    if (JSON.stringify([arc.log, arc.times]) !== before) arcSync.stale = true;
+  } catch (err) {
+    arcSync.err = /fetch|network|json/i.test(err.message) ? 'offline or wrong URL' : err.message;
+  }
+  arcSync.busy = false;
+  // Redraw with what came back, but not under someone typing.
+  const typing = document.activeElement && document.activeElement.closest && document.activeElement.closest('#arcPanel') &&
+    /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+  if (arcSync.stale && !typing) { arcSync.stale = false; renderArc(); } else arcSyncShow();
+  if (arcSync.again) { arcSync.again = false; arcSyncNow(); }
+}
+
+function arcSyncLabel() {
+  if (!arcSync.cfg) return { cls: '', text: 'This device only' };
+  if (arcSync.busy) return { cls: '', text: 'Syncing…' };
+  if (arcSync.err) return { cls: 'exam', text: 'Not synced (' + arcSync.err + ')' + (arcWaiting() ? ' · ' + arcWaiting() + ' waiting' : '') };
+  if (arcSync.at) return { cls: 'build', text: 'Synced ' + arcSync.at.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+  return { cls: '', text: 'Google Sheet' };
+}
+function arcSyncShow() {
+  const p = document.getElementById('arcSyncPill');
+  if (!p) return;
+  const l = arcSyncLabel();
+  p.className = 'arc-pill ' + l.cls;
+  p.textContent = l.text;
+  const s = document.getElementById('arcSyncStatus');
+  if (s) s.textContent = l.text;
+}
 function arcSave() {
   try { localStorage.setItem(WINTER_ARC.storageKey, JSON.stringify(arc.log)); arc.canSave = true; }
   catch (e) { arc.canSave = false; }
@@ -3244,11 +3347,26 @@ function arcProgressHtml() {
             <tr><th align="left">Week</th><th align="left">Dates</th><th align="left">Study h</th><th align="left">Planned h</th></tr>${table}</table></details>
       </div>
     </div>
+    <div class="arc-sync">
+      <div class="block-label">Google Sheet sync</div>
+      ${arcSync.cfg ? `
+        <div class="arc-sync-row"><span>Connected. Every change goes to your Google Sheet, and your other devices pick it up.</span>
+          <span class="arc-fine" style="margin:0" id="arcSyncStatus"></span></div>
+        <div class="arc-sync-row"><button class="arc-btn" data-sync="now">Sync now</button>
+          <button class="arc-btn" data-sync="off">Disconnect this device</button></div>` : `
+        <div class="arc-sync-row">
+          <input id="arcSyncUrl" type="url" placeholder="Web app URL: https://script.google.com/macros/s/…/exec" autocomplete="off">
+          <input id="arcSyncKey" type="password" placeholder="Passphrase" autocomplete="off">
+          <button class="arc-btn" data-sync="on">Connect</button>
+        </div>
+        <div class="arc-fine">Not connected, so your log and slot times live in this browser only. Set up the Google Sheet once
+          (the script is winter-arc-sync.gs in the ledger's repo), then connect each device here with its URL and passphrase.</div>`}
+    </div>
     <div class="arc-actions">
       <button class="arc-btn" data-act="csv">Export CSV for the workbook</button>
       <button class="arc-btn" data-act="backup">Download backup</button>
       <label class="arc-btn">Restore backup<input type="file" accept=".json,application/json" data-act="restore" hidden></label>
-      <span class="arc-fine" style="margin:0">Your log and slot times are saved in this browser only. The backup holds both: download it here, then Restore it on your other device.</span>
+      <span class="arc-fine" style="margin:0">The backup holds your log and slot times in one file.</span>
     </div>`;
 }
 
@@ -3283,6 +3401,7 @@ function renderArc() {
   if (toExam > 0) pills.push('<span class="arc-pill exam">' + toExam + (toExam === 1 ? ' day' : ' days') + ' to exam</span>');
   else if (toExam === 0) pills.push('<span class="arc-pill exam">Exam day</span>');
   if (info.n < info.start) pills.push('<span class="arc-pill">Starts in ' + (info.start - info.n) + (info.start - info.n === 1 ? ' day' : ' days') + '</span>');
+  if (!A.sample) pills.push('<span class="arc-pill" id="arcSyncPill"></span>');
 
   const panel = document.getElementById('arcPanel');
   panel.innerHTML = `
@@ -3316,7 +3435,10 @@ function renderArc() {
   panel.querySelector('#arcDate').addEventListener('change', e => arcSetDate(e.target.value));
   panel.querySelector('#arcStrip').addEventListener('click', e => { const g = e.target.getAttribute('data-go'); if (g) arcSetDate(g); });
 
-  const refresh = () => {
+  arcSyncShow();
+
+  const refresh = what => {
+    if (what === 'times') arcTouchTimes(); else arcTouchDay(info.iso);
     const ok = arcSave();
     panel.querySelector('#arcSummary').innerHTML = arcSummaryHtml(info);
     panel.querySelector('#arcStrip').innerHTML = arcStripHtml(info.n);
@@ -3327,7 +3449,7 @@ function renderArc() {
 
   panel.querySelectorAll('[data-times]').forEach(b => b.addEventListener('click', () => {
     if (b.getAttribute('data-times') === 'toggle') arc.editTimes = !arc.editTimes;
-    else if (confirm('Put every ' + info.type + ' slot back to its original time?')) { delete arc.times[info.type]; arcSaveTimes(); }
+    else if (confirm('Put every ' + info.type + ' slot back to its original time?')) { delete arc.times[info.type]; arcTouchTimes(); }
     renderArc();
   }));
 
@@ -3341,14 +3463,13 @@ function renderArc() {
       const byType = arc.times[info.type] = arc.times[info.type] || {};
       if (time === k.base) delete byType[name]; else byType[name] = time;
       if (!Object.keys(byType).length) delete arc.times[info.type];
-      arcSaveTimes();
       k.time = time; k.edited = time !== k.base; k.plan = arcPlanMins(time);
       if (input && k.plan) {
         input.setAttribute('data-plan', k.plan);
         if (!input.disabled) input.placeholder = k.plan;
         row.querySelector('.pl').textContent = k.plan + 'm';
       }
-      refresh();
+      refresh('times');
     }));
     row.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => {
       const e = entry(), r = e.t[name] = e.t[name] || {};
@@ -3396,19 +3517,60 @@ function renderArc() {
         const nTimes = times ? Object.keys(times).reduce((s, t) => s + Object.keys(times[t] || {}).length, 0) : 0;
         if (!confirm('Replace what is in this browser with this backup?\n\n' + Object.keys(log).length + ' logged days' +
           (v2 ? '\n' + nTimes + ' edited slot time' + (nTimes === 1 ? '' : 's') : '\n(older backup: your slot times here stay as they are)'))) return;
+        // Restored days count as new changes, so with a sheet connected they replace its copies.
+        const now = Date.now();
+        Object.keys(log).forEach(iso => { log[iso].u = now; arcSync.dirty[iso] = 1; });
         arc.log = log; arcSave();
-        if (v2) { arc.times = times && typeof times === 'object' ? times : {}; arcSaveTimes(); }
+        if (v2) { arc.times = times && typeof times === 'object' ? times : {}; arcTouchTimes(); }
+        arcSyncPersist(); arcSyncSoon();
         renderArc();
       });
     });
   });
+
+  panel.querySelectorAll('[data-sync]').forEach(b => b.addEventListener('click', async () => {
+    const act = b.getAttribute('data-sync');
+    if (act === 'now') arcSyncNow();
+    if (act === 'off' && confirm('Disconnect this device from the Google Sheet? Your data stays in the sheet and in this browser.')) {
+      arcSync.cfg = null; arcSync.at = null; arcSync.err = '';
+      try { localStorage.removeItem('winterArc.sync'); } catch (e) {}
+      renderArc();
+    }
+    if (act === 'on') {
+      const url = panel.querySelector('#arcSyncUrl').value.trim(), key = panel.querySelector('#arcSyncKey').value;
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(url)) { alert('Paste the web app URL from Apps Script. It starts with https://script.google.com/macros/s/ and ends with /exec.'); return; }
+      if (!key) { alert('Enter the passphrase you set in the script.'); return; }
+      b.disabled = true; b.textContent = 'Connecting…';
+      arcSync.cfg = { url, key }; arcSync.err = '';
+      arcTouchAll();
+      await arcSyncNow();
+      if (arcSync.err) {
+        alert('Could not connect: ' + arcSync.err + '.');
+        arcSync.cfg = null; arcSync.err = '';
+        renderArc();
+        return;
+      }
+      try { localStorage.setItem('winterArc.sync', JSON.stringify(arcSync.cfg)); } catch (e) {}
+      renderArc();
+    }
+  }));
 }
 
 function initArc() {
   arcLoad();
+  arcSyncLoad();
   const q = new URLSearchParams(location.search).get('date');
   arc.iso = /^\d{4}-\d{2}-\d{2}$/.test(q || '') ? q : arcTodayIso();
   renderArc();
+  // Pull from the sheet on open, whenever the tab comes back into view, and every two minutes.
+  arcSyncNow();
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') arcSyncNow(); });
+  setInterval(() => { if (document.visibilityState === 'visible' && !arcWaiting()) arcSyncNow(); }, 120000);
+  document.getElementById('arcPanel').addEventListener('focusout', () => setTimeout(() => {
+    if (arcSync.stale && !(document.activeElement && document.activeElement.closest && document.activeElement.closest('#arcPanel'))) {
+      arcSync.stale = false; renderArc();
+    }
+  }, 0));
 }
 
 function escapeHtml(str) {
