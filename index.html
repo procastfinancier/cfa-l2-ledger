@@ -525,6 +525,9 @@
   .arc-tt-head .arc-btn { padding: 4px 10px; font-size: 11.5px; }
   .arc-tt-head .arc-btn.on { background: var(--ink); border-color: var(--ink); color: #fff; }
   .arc-task .ed { display: inline-block; margin-left: 6px; font-size: 9.5px; padding: 0 5px; border-radius: 4px; background: var(--amber-bg); color: var(--amber); vertical-align: 1px; }
+  .arc-task .ed.late { background: var(--rose-bg); color: var(--rose); }
+  .arc-task .ed.early { background: var(--violet-bg); color: var(--violet); }
+  .arc-task .ed.ok { background: var(--teal-bg); color: var(--teal); }
   .arc-tt.editing .arc-task { grid-template-columns: 124px 1fr auto 96px; }
   .arc-task .t input[type=time] { display: block; width: 116px; font: 11.5px var(--mono); padding: 3px 4px; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); background: var(--panel); }
   .arc-task .t input[type=time] + input[type=time] { margin-top: 4px; }
@@ -3423,6 +3426,24 @@ function arcFrom24(v) {
   const [h, m] = v.split(':').map(Number);
   return (h % 12 || 12) + ':' + String(m).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM');
 }
+// Punctuality: how far a slot's start on the day was from its default start, in minutes (positive
+// is late, negative early). A slot left at its default time counts as started on time, and so does
+// one within ARC_ON_TIME minutes of it.
+const ARC_ON_TIME = 5;
+function arcOffset(time, base) {
+  if (time === base) return 0;
+  let d = arcToMin(time.split(' to ')[0]) - arcToMin(base.split(' to ')[0]);
+  if (d > 720) d -= 1440; else if (d < -720) d += 1440;
+  return d;
+}
+function arcDur(m) {
+  m = Math.abs(Math.round(m));
+  return m >= 60 ? Math.floor(m / 60) + 'h' + (m % 60 ? ' ' + (m % 60) + 'm' : '') : m + 'm';
+}
+function arcPunct(d) {
+  return d > ARC_ON_TIME ? { cls: 'late', text: arcDur(d) + ' late' }
+    : d < -ARC_ON_TIME ? { cls: 'early', text: arcDur(d) + ' early' } : { cls: 'ok', text: 'on time' };
+}
 
 function arcLoad() {
   try { const raw = localStorage.getItem(WINTER_ARC.storageKey); arc.log = raw ? JSON.parse(raw) : {}; }
@@ -3537,7 +3558,7 @@ function arcInfo(n) {
     if (s[3] && s[3] !== phase) hidden.push(s[1]);
     else {
       const time = (dayT[s[1]] && dayT[s[1]].tm) || s[0];
-      tasks.push({ time, base: s[0], edited: time !== s[0], name: s[1], note: s[2],
+      tasks.push({ time, base: s[0], edited: time !== s[0], offset: arcOffset(time, s[0]), name: s[1], note: s[2],
         plan: arcPlanMins(s[0]), slot: arcPlanMins(time), study: /study block/i.test(s[1]) });
     }
   });
@@ -3550,6 +3571,11 @@ function arcInfo(n) {
 function arcTracker(info) {
   const e = arc.log[info.iso], t = (e && e.t) || {};
   const val = re => { const k = info.tasks.find(x => re.test(x.name)); return k && t[k.name] ? t[k.name].d || '' : ''; };
+  // Woke and slept "on time" also need the slot to have started on time, not just been done.
+  const onTime = re => {
+    const k = info.tasks.find(x => re.test(x.name)), v = val(re);
+    return v === 'Y' && k.offset > ARC_ON_TIME ? 'N' : v;
+  };
   const study = info.tasks.filter(k => k.study);
   const hrs = study.map(k => {
     const r = t[k.name];
@@ -3560,7 +3586,7 @@ function arcTracker(info) {
   });
   const sd = study.map(k => (t[k.name] && t[k.name].d) || '');
   const r = {
-    woke: val(/^wake up/i), walk: val(/walk/i), slept: val(/^sleep$/i),
+    woke: onTime(/^wake up/i), walk: val(/walk/i), slept: onTime(/^sleep$/i),
     cfa: sd.includes('Y') ? 'Y' : sd.length && sd.every(x => x === 'N') ? 'N' : '',
     s1: hrs.length > 0 ? hrs[0] : '', s2: hrs.length > 1 ? hrs[1] : '', notes: (e && e.notes) || ''
   };
@@ -3594,6 +3620,20 @@ function arcStripHtml(selN) {
   return s;
 }
 
+function arcPunctTag(k) {
+  const p = arcPunct(k.offset);
+  return '<span class="ed ' + p.cls + '" title="Default: ' + escapeHtml(k.base) + '">' + p.text + '</span>';
+}
+
+// Of the slots done that day, how many started on time and how late the rest ran in total.
+function arcPunctDay(info) {
+  const t = ((arc.log[info.iso] || {}).t) || {};
+  const done = info.tasks.filter(k => t[k.name] && t[k.name].d === 'Y');
+  const late = done.filter(k => k.offset > ARC_ON_TIME);
+  return { done: done.length, onTime: done.filter(k => Math.abs(k.offset) <= ARC_ON_TIME).length,
+    early: done.filter(k => k.offset < -ARC_ON_TIME).length, lateMin: late.reduce((s, k) => s + k.offset, 0) };
+}
+
 function arcSummaryHtml(info) {
   const tr = arcTracker(info);
   const tag = v => '<span class="arc-tag ' + (v === 'Y' ? 'y' : v === 'N' ? 'n' : '') + '">' + (v || '·') + '</span>';
@@ -3607,6 +3647,11 @@ function arcSummaryHtml(info) {
     rows.push(['Study vs plan', tr.total + ' of ' + tr.planned + ' h ' +
       (short > 0 ? '<span class="arc-tag n">' + short + ' h to make up</span>' : '<span class="arc-tag y">on plan</span>')]);
   }
+  const pd = arcPunctDay(info);
+  if (pd.done) rows.push(['Started on time', pd.onTime + ' of ' + pd.done +
+    (pd.lateMin ? ' <span class="arc-tag n">' + arcDur(pd.lateMin) + ' late in total</span>' : '') +
+    (pd.early ? ' <span class="arc-tag">' + pd.early + ' early</span>' : '') +
+    (pd.onTime === pd.done ? ' <span class="arc-tag y">all on time</span>' : '')]);
   return rows.map(r => '<div class="arc-log-row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>').join('');
 }
 
@@ -3623,7 +3668,7 @@ function arcDayHtml(info) {
     const time = arc.editTimes
       ? '<input type="time" step="300" data-part="0" value="' + arcTo24(parts[0]) + '" aria-label="Start time: ' + escapeHtml(k.name) + '">' +
         (parts.length > 1 ? '<input type="time" step="300" data-part="1" value="' + arcTo24(parts[1]) + '" aria-label="End time: ' + escapeHtml(k.name) + '">' : '')
-      : escapeHtml(k.time) + (k.edited ? '<span class="ed" title="Default: ' + escapeHtml(k.base) + '">edited</span>' : '');
+      : escapeHtml(k.time) + (k.edited ? arcPunctTag(k) : '');
     return '<div class="arc-task' + (k.study ? ' study' : '') + '" data-task="' + escapeHtml(k.name) + '">' +
       '<div class="t">' + time + '</div>' +
       '<div class="a">' + escapeHtml(k.name) + (k.note ? '<span class="n">' + escapeHtml(k.note) + '</span>' : '') + '</div>' +
@@ -3639,7 +3684,7 @@ function arcDayHtml(info) {
           ${arc.editTimes ? '<button class="arc-btn" data-times="reset">Back to default times</button>' : ''}
           ${info.inArc ? '<button class="arc-btn' + (arc.editTimes ? ' on' : '') + '" data-times="toggle">' + (arc.editTimes ? 'Done' : 'Edit this day’s times') + '</button>' : ''}
         </div>
-        ${arc.editTimes ? '<div class="arc-fine" style="margin:0 0 8px">Changes apply to ' + arcFmt(info.n, { weekday: 'long', day: 'numeric', month: 'short' }) + ' only; other days keep the default timetable. Progress still measures study against the default plan, and “Study vs plan” on the right shows what is left to make up.</div>' : ''}
+        ${arc.editTimes ? '<div class="arc-fine" style="margin:0 0 8px">Changes apply to ' + arcFmt(info.n, { weekday: 'long', day: 'numeric', month: 'short' }) + ' only; other days keep the default timetable. Set each slot to when it really started: a start that differs from the default by more than ' + ARC_ON_TIME + ' min is counted as late or early. Progress still measures study against the default plan, and “Study vs plan” on the right shows what is left to make up.</div>' : ''}
         ${rows}
         ${info.hidden.length && info.phase === 'CFA mode' ? '<div class="arc-hidden-note">Paused until Build mode (after the exam): ' + info.hidden.map(escapeHtml).join(', ') + '</div>' : ''}
       </div>
@@ -3695,22 +3740,29 @@ function arcProgressHtml() {
       '<span class="val">' + (y + n ? Math.round(p * 100) + '% · ' + y + '/' + (y + n) : 'no data') + '</span></div>';
   }).join('');
 
-  // Where you are lacking: per activity, how often it is missed and how far short of plan it runs.
+  // Where you are lacking: per activity, how often it is missed, how far short of plan it runs, and
+  // how often it starts late against the default timetable.
   const agg = {};
   days.forEach(d => {
     const t = (arc.log[d.info.iso] || {}).t || {};
     d.info.tasks.forEach(k => {
       const r = t[k.name];
       if (!r || !r.d) return;
-      const a = agg[k.name] = agg[k.name] || { y: 0, n: 0, act: 0, plan: 0, byDay: {} };
-      if (r.d === 'Y') { a.y++; if (k.plan && r.m != null && r.m !== '') { a.act += +r.m; a.plan += k.plan; } }
+      const a = agg[k.name] = agg[k.name] || { y: 0, n: 0, act: 0, plan: 0, byDay: {}, late: 0, lateMin: 0, early: 0, earlyMin: 0 };
+      if (r.d === 'Y') {
+        a.y++;
+        if (k.plan && r.m != null && r.m !== '') { a.act += +r.m; a.plan += k.plan; }
+        if (k.offset > ARC_ON_TIME) { a.late++; a.lateMin += k.offset; }
+        else if (k.offset < -ARC_ON_TIME) { a.early++; a.earlyMin -= k.offset; }
+      }
       else { a.n++; const w = arcFmt(d.info.n, { weekday: 'long' }); a.byDay[w] = (a.byDay[w] || 0) + 1; }
     });
   });
   const issues = [];
   Object.keys(agg).forEach(name => {
     const a = agg[name], marked = a.y + a.n, miss = a.n / marked, ratio = a.plan ? a.act / a.plan : 1;
-    if (marked < 3 || (miss < 0.15 && ratio >= 0.9)) return;
+    const lateRate = a.y ? a.late / a.y : 0;
+    if (marked < 3 || (miss < 0.15 && ratio >= 0.9 && lateRate < 0.3)) return;
     const why = [];
     if (miss >= 0.15) {
       const top = Object.keys(a.byDay).sort((p, q) => a.byDay[q] - a.byDay[p])[0];
@@ -3718,8 +3770,9 @@ function arcProgressHtml() {
         (a.byDay[top] >= 2 ? ', most often on ' + top + 's' : ''));
     }
     if (ratio < 0.9) why.push('When done, averages ' + Math.round(ratio * 100) + '% of the planned time (' + a.act + ' of ' + a.plan + ' min)');
+    if (lateRate >= 0.3) why.push('Started late on ' + a.late + ' of ' + a.y + ' days done, by ' + arcDur(a.lateMin / a.late) + ' on average');
     // Rank by how bad it is, discounted when only a few days are logged for it.
-    const bad = miss + (1 - ratio);
+    const bad = miss + (1 - ratio) + (lateRate >= 0.3 ? lateRate * 0.5 : 0);
     issues.push({ name, why, score: bad * marked / (marked + 4), level: bad >= 0.4 ? 'bad' : 'warn' });
   });
   const unlogged = days.length - logged.length;
@@ -3728,7 +3781,24 @@ function arcProgressHtml() {
   const lacking = issues.length
     ? issues.slice(0, 6).map(i => '<div class="arc-lack"><span class="lvl ' + i.level + '">' + (i.level === 'bad' ? 'LACKING' : 'SLIPPING') + '</span><b>' +
         escapeHtml(i.name) + '</b><div class="why">' + i.why.join('. ') + '.</div></div>').join('')
-    : '<div class="arc-empty">Nothing flagged yet. Keep logging and anything you miss often, or cut short, shows up here.</div>';
+    : '<div class="arc-empty">Nothing flagged yet. Keep logging and anything you miss often, cut short, or start late shows up here.</div>';
+
+  // Sticking to the timetable: of the slots done, how many started at their default time, and which
+  // activities run late most.
+  const P = Object.keys(agg).reduce((s, n) => { const a = agg[n]; s.done += a.y; s.late += a.late; s.lateMin += a.lateMin; s.early += a.early; return s; },
+    { done: 0, late: 0, lateMin: 0, early: 0 });
+  const onTime = P.done - P.late - P.early, pOn = P.done ? onTime / P.done : 0, Lp = lvl(pOn);
+  const lateList = Object.keys(agg).filter(n => agg[n].late)
+    .sort((p, q) => agg[q].lateMin - agg[p].lateMin).slice(0, 5)
+    .map(n => '<div class="arc-log-row"><span>' + escapeHtml(n) + '</span><span>late ' + agg[n].late + ' of ' + agg[n].y +
+      ' · avg ' + arcDur(agg[n].lateMin / agg[n].late) + '</span></div>').join('');
+  const punct = P.done
+    ? '<div class="arc-meter" title="Slots started within ' + ARC_ON_TIME + ' min of the default time: ' + onTime + ' of ' + P.done + ' (' + lvlWord[Lp] + ')">' +
+        '<span>Started on time</span><div class="track"><div class="fill ' + Lp + '" style="width:' + Math.round(pOn * 100) + '%"></div></div>' +
+        '<span class="val">' + Math.round(pOn * 100) + '% · ' + onTime + '/' + P.done + '</span></div>' +
+      '<div class="arc-fine" style="margin:2px 0 8px">' + P.late + ' late start' + (P.late === 1 ? '' : 's') +
+        (P.late ? ' (' + arcDur(P.lateMin) + ' in total)' : '') + ' · ' + P.early + ' early</div>' + lateList
+    : '<div class="arc-empty">Tick slots done to see how closely you keep to the timetable. When a slot starts at a different time, set its real time with “Edit this day’s times”.</div>';
 
   // Weekly study hours against plan, in the same 7-day weeks as the Summary sheet.
   const weeks = [];
@@ -3760,6 +3830,8 @@ function arcProgressHtml() {
       <div>
         <div class="block-label">Habit completion (of days marked ✓ or ✗)</div>
         ${habits}
+        <div class="block-label" style="margin-top:18px">Sticking to the timetable (slots done)</div>
+        ${punct}
         <div class="block-label" style="margin-top:18px">Study hours per week · dashed line = planned</div>
         <div class="arc-weeks">${bars}</div>
         <div class="arc-weeklbl">${weeks.map(w => '<span>W' + w.w + '</span>').join('')}</div>
@@ -3893,7 +3965,7 @@ function renderArc() {
       const r = entry().t[name] = entry().t[name] || {};
       if (time === k.base) delete r.tm; else r.tm = time;
       tidy(name);
-      k.time = time; k.edited = time !== k.base; k.slot = arcPlanMins(time);
+      k.time = time; k.edited = time !== k.base; k.slot = arcPlanMins(time); k.offset = arcOffset(time, k.base);
       if (input && k.slot) {
         input.setAttribute('data-plan', k.slot);
         if (!input.disabled) input.placeholder = k.slot;
