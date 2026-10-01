@@ -3248,7 +3248,7 @@ function arcProgressHtml() {
       <button class="arc-btn" data-act="csv">Export CSV for the workbook</button>
       <button class="arc-btn" data-act="backup">Download backup</button>
       <label class="arc-btn">Restore backup<input type="file" accept=".json,application/json" data-act="restore" hidden></label>
-      <span class="arc-fine" style="margin:0">Your log is saved in this browser only. Back it up now and then.</span>
+      <span class="arc-fine" style="margin:0">Your log and slot times are saved in this browser only. The backup holds both: download it here, then Restore it on your other device.</span>
     </div>`;
 }
 
@@ -3376,16 +3376,29 @@ function renderArc() {
   panel.querySelectorAll('[data-act]').forEach(el => {
     const act = el.getAttribute('data-act');
     if (act === 'csv') el.addEventListener('click', () => arcDownload('winter-arc-tracker.csv', arcCsv(), 'text/csv'));
-    if (act === 'backup') el.addEventListener('click', () => arcDownload('winter-arc-backup-' + arcTodayIso() + '.json', JSON.stringify(arc.log, null, 1), 'application/json'));
+    // The backup holds the log and your edited slot times. Older backups were the log on its own,
+    // and still restore (leaving the times in this browser as they are).
+    if (act === 'backup') el.addEventListener('click', () => arcDownload('winter-arc-backup-' + arcTodayIso() + '.json',
+      JSON.stringify({ winterArcBackup: 2, log: arc.log, times: arc.times }, null, 1), 'application/json'));
     if (act === 'restore') el.addEventListener('change', () => {
       const f = el.files[0];
       if (!f) return;
       f.text().then(txt => {
+        el.value = '';
         let data;
         try { data = JSON.parse(txt); } catch (e) { alert('That file is not a Winter Arc backup.'); return; }
         if (!data || typeof data !== 'object' || Array.isArray(data)) { alert('That file is not a Winter Arc backup.'); return; }
-        if (!confirm('Replace the log in this browser with the ' + Object.keys(data).length + ' days in this backup?')) return;
-        arc.log = data; arcSave(); renderArc();
+        const v2 = data.winterArcBackup === 2;
+        const log = v2 ? data.log : data, times = v2 ? data.times : null;
+        if (!log || typeof log !== 'object' || Array.isArray(log) || Object.keys(log).some(k => !/^\d{4}-\d{2}-\d{2}$/.test(k))) {
+          alert('That file is not a Winter Arc backup.'); return;
+        }
+        const nTimes = times ? Object.keys(times).reduce((s, t) => s + Object.keys(times[t] || {}).length, 0) : 0;
+        if (!confirm('Replace what is in this browser with this backup?\n\n' + Object.keys(log).length + ' logged days' +
+          (v2 ? '\n' + nTimes + ' edited slot time' + (nTimes === 1 ? '' : 's') : '\n(older backup: your slot times here stay as they are)'))) return;
+        arc.log = log; arcSave();
+        if (v2) { arc.times = times && typeof times === 'object' ? times : {}; arcSaveTimes(); }
+        renderArc();
       });
     });
   });
