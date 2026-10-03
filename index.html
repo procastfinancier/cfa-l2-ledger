@@ -2787,6 +2787,61 @@ const TUITION_MISSES = {
       spot: 'These vignettes nearly always supply both returns and park the actuarial loss just under the corridor, purely to see whether you run the test. Note also that the question said "total periodic pension cost" while the answer is the P&L charge — read what the marking actually wants, because true total periodic pension cost (employer contribution − change in funded status) uses the ACTUAL return and would give a different number.',
     },
   ],
+  'fsa.2': [
+    {
+      module: '9.S2',
+      title: 'Independent subsidiary → its local currency is functional → current rate. Integrated or hyperinflationary → parent’s currency → temporal',
+      questions: [
+        { ref: 'MR-R9 · Q4', ask: 'Which statement describing the choice of the functional currency is LEAST accurate? The functional currency should be the same as the parent’s reporting currency if the subsidiary is:', picked: 'Highly integrated with the parent where the local currency, prices and some costs are controlled or restricted', answer: 'Mostly independent from the parent' },
+        { ref: 'MR-R9 · Q5', ask: 'Which statement regarding foreign currency translation under US GAAP is LEAST accurate? The functional currency is the:', picked: 'Parent firm’s home currency if the foreign subsidiary operates in a country with high inflation', answer: 'Parent firm’s home currency for self-contained independent foreign subsidiaries' },
+        { ref: 'MR-R9 · Q10', ask: 'Which of the following situations does NOT require the use of the temporal method?', picked: 'Functional currency is some currency other than the local currency or the US dollar', answer: 'Local currency is the functional currency' },
+      ],
+      trap: 'In Q4 and Q5 you picked statements that are TRUE. A highly integrated subsidiary does use the parent’s currency as its functional currency, and under US GAAP so does a subsidiary in a high-inflation country. In a “least accurate” question, a statement you can confirm is a reason to skip it, not select it. Q10 is a different slip: a functional currency that is neither the local currency nor the dollar is the THIRD case, where all three currencies differ. That case still needs the temporal method for its first leg, remeasuring local → functional, before the current rate method takes it on to dollars.',
+      fix: 'One question decides everything: who runs the subsidiary? If it is self-contained, with decisions made locally, its own LOCAL currency is the functional currency. That differs from the parent’s presentation currency, so the CURRENT RATE method applies. If it is integrated, with the parent making the decisions, the PARENT’S currency is the functional currency, so the TEMPORAL method remeasures local → functional. Hyperinflation under US GAAP overrides management’s choice: the parent’s currency is deemed functional, so it is temporal. Temporal is needed whenever the books are kept in a currency other than the functional one. So the only case on the list that needs NO temporal step is local currency = functional currency.',
+      tackle: [
+        'Circle “least accurate” or “NOT”. You are looking for the one false statement, or the one case that does not fit.',
+        'Write the independence rule first. Independent → local currency functional → current rate. Integrated → parent’s currency functional → temporal.',
+        'Add the override: hyperinflation under US GAAP → parent’s currency functional → temporal, whatever the subsidiary’s independence.',
+        'For “does it need temporal?”, ask whether the books are kept in the functional currency. If not, temporal does the local → functional leg. That covers both the integrated case and the third-currency case.',
+        'Mark each option true or false against those rules, then pick the false one (or the exception).',
+      ],
+      spot: 'The examiner swaps “independent” and “integrated”. Any statement pairing an independent subsidiary with the parent’s currency is false, and so is one pairing an integrated subsidiary with the local currency. The third-currency case is the classic trap in “which does NOT require temporal”, because it looks like the current rate case but contains a temporal step.',
+    },
+    {
+      module: '9.S3',
+      title: '“Monetary/non-monetary method” IS the temporal method — so judge the option by its reason, and monetary items are never at the historical rate',
+      questions: [
+        { ref: 'MR-R9 · Q6', ask: 'Which translation method should be used under a hyperinflationary economy when using US GAAP?', picked: 'Monetary/non-monetary, because all monetary accounts are translated at the historical rate', answer: 'Temporal, because all non-monetary accounts are remeasured at the historical rate' },
+      ],
+      trap: 'The method you picked is not wrong: “monetary/non-monetary method” is simply another name for the temporal method. What makes the option false is its REASON. Monetary items (cash, receivables, payables, debt) are remeasured at the CURRENT rate under the temporal method. It is the NON-monetary items (inventory, fixed assets, intangibles) that stay at historical rates. The option reverses that, and the correct option states it the right way round.',
+      fix: 'Under US GAAP, hyperinflation (cumulative inflation over 100% in 3 years) makes the parent’s currency the functional currency, so the TEMPORAL method is used. Its rule: monetary items at the current rate, non-monetary items at historical rates, and the remeasurement gain or loss goes through the income statement. Using historical rates for non-monetary items is precisely why temporal suits hyperinflation: it stops land and plant from shrinking to almost nothing in the parent’s accounts. IFRS instead restates for inflation and then translates at the current rate.',
+      tackle: [
+        'Know the aliases. Temporal = monetary/non-monetary method. Current rate = all-current method. Two options naming the same method under different labels means the REASON decides.',
+        'Check each reason against the temporal rule: monetary → CURRENT rate, non-monetary → HISTORICAL rate.',
+        'Reject any option that puts monetary items at a historical rate, or non-monetary items at the current rate (unless they are carried at fair value).',
+        'For hyperinflation, state the regime split before reading the options: US GAAP → temporal; IFRS → restate, then current rate.',
+      ],
+      spot: 'Expect a right method attached to a reversed rate rule, or an alias that hides the method’s identity. Option B used “all-current” with a dividend fact that is true in isolation. Being true in isolation does not make it the reason for choosing the method.',
+    },
+    {
+      module: '9.S9',
+      title: 'Currency effect on translated sales: work out which way the quote runs, then separate the currency effect from local growth',
+      questions: [
+        { ref: 'MR-R9 · Q2', ask: 'A Canadian firm owns a US subsidiary. Sales were USD 1,000,000 in both 2002 and 2003; the USD/CAD rate moved from 0.6329 to 0.7484. Impact of the change in the value of the CAD on translated sales?', picked: 'Increase by 18%', answer: 'Decline by 15%' },
+        { ref: 'MR-R9 · Q3', ask: 'A US firm owns a French subsidiary. Sales were EUR 1,000,000 in 2002 (USD/EUR 1.0620) and EUR 1,100,000 in 2003 (USD/EUR 1.1417). Impact of the change in the value of the USD on translated sales?', picked: 'Increase by 18.25%', answer: 'Increase by 7.5%' },
+      ],
+      trap: 'Q2: the rate rising from 0.6329 to 0.7484 looks like “more”, so +18% (0.7484 ÷ 0.6329 − 1) felt right. But USD/CAD is quoted as USD per 1 CAD. A higher number means the CAD has STRENGTHENED, so each US dollar of sales now converts into FEWER Canadian dollars. The sales have to be DIVIDED by the rate, not multiplied. Q3: 18.25% is the TOTAL growth in translated sales. It mixes 10% local-currency growth with 7.5% currency appreciation, but the question asked only for the currency’s impact. (That both questions show 18.25% is a coincidence.)',
+      fix: 'Step 1, translate into the parent’s currency. In A/B notation, the rate is the price of one B in A. Q2: USD/CAD = USD per CAD, so CAD sales = USD sales ÷ rate. 1,000,000 ÷ 0.6329 = CAD 1,580,028, then 1,000,000 ÷ 0.7484 = CAD 1,336,184, a 15.4% decline. Q3: USD/EUR = USD per EUR, so USD sales = EUR sales × rate. 1,000,000 × 1.0620 = USD 1,062,000, then 1,100,000 × 1.1417 = USD 1,255,870, +18.25% in total. Step 2, isolate the currency. The currency effect is the move in the translation factor alone: Q2 (0.6329 ÷ 0.7484) − 1 = −15%, Q3 (1.1417 ÷ 1.0620) − 1 = +7.5%. The pieces compound: (1 + total) = (1 + local growth) × (1 + currency effect), so 1.10 × 1.075 = 1.1825.',
+      tackle: [
+        'Name the base currency. In A/B the number is how many A one B costs. Decide whether the subsidiary’s currency is A or B.',
+        'Translate both years into the parent’s currency: multiply if the rate is parent-per-subsidiary, divide if it is subsidiary-per-parent.',
+        'Sanity-check the direction. If the subsidiary’s currency weakened against the parent’s, translated sales must FALL at constant local sales.',
+        'Read what is asked: total change in translated sales, local-currency growth, or currency impact only.',
+        'Currency impact = ratio of the translation factors − 1. Total = (1 + local) × (1 + currency) − 1. Never add the two.',
+      ],
+      spot: 'This is LOS 9.c and the BCN-style sales analysis in 9.S9: reported growth = underlying growth combined with the currency effect. Distractors use the inverted rate ratio (+18% for −15%) or the total growth when only the currency piece is asked for. Growth driven by currency is the less sustainable part.',
+    },
+  ],
 };
 // Mastery status per topic key: 'not-started' | 'progress' | 'mastered'. Set by Claude
 // directly based on how the teach-back in chat goes — no button in the UI sets this.
