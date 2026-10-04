@@ -549,6 +549,79 @@
   .cm-settings summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
   .cm-settings label { display: block; font-size: 11.5px; color: var(--ink-soft); margin: 10px 0 4px; }
   .cm-hint { font-size: 11.5px; color: var(--ink-faint); line-height: 1.5; margin-top: 8px; }
+  .cm-chip.slate, .cm-tag.on.slate { background: var(--slate-bg); border-color: var(--slate); color: var(--slate); }
+  .cm-head-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Revision: "Revised" ticks per session, a blurt mode that hides the notes while I recall them,
+     checkpoint questions I grade myself on, and spaced review of the ones I didn't get. */
+  .rv-panel { border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; }
+  .rv-panel-title { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .rv-meter { margin-bottom: 9px; }
+  .rv-meter-top { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--ink); margin-bottom: 4px; }
+  .rv-meter-top b { font-family: var(--mono); font-size: 12px; }
+  .rv-track { height: 8px; border-radius: 4px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
+  .rv-fill { height: 100%; background: var(--amber); }
+  .rv-fill.teal { background: var(--teal); }
+  .rv-qstats { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 11.5px; color: var(--ink-soft); margin: 8px 0 10px; }
+  .rv-qstats span { display: inline-flex; align-items: center; gap: 5px; }
+  .rv-sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .rv-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rv-note { font-size: 12px; color: var(--ink-faint); font-style: italic; margin-top: 4px; }
+  .rv-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: -6px 0 14px; }
+  .rv-btn {
+    font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 16px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer;
+  }
+  .rv-btn.on { border-color: var(--amber); background: var(--amber-bg); color: var(--amber); }
+  .rv-state { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); margin-left: auto; }
+  .rv-state.ok { color: var(--teal); font-weight: 700; }
+  .rv-state.due { color: var(--rose); font-weight: 700; }
+  .nb-session.rv-done .nb-session-tag { background: var(--teal-bg); color: var(--teal); }
+  .nb-session.rv-done .nb-session-tag::after { content: ' ✓'; }
+  .nb-session.rv-blurting > *:not(.nb-session-head):not(.rv-bar):not(.rv-blurt) { display: none; }
+  .rv-blurt { border: 1px dashed var(--violet); background: var(--violet-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+  .rv-blurt-title { font-size: 13px; font-weight: 700; color: var(--violet); margin-bottom: 4px; }
+  .rv-blurt-hint { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 8px; }
+  .rv-blurt ul { margin: 0 0 8px; padding-left: 18px; font-size: 12.5px; color: var(--ink); }
+  .rv-blurt textarea, .rv-q textarea {
+    width: 100%; font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 110px; resize: vertical; line-height: 1.45;
+  }
+  .rv-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .rv-check { border: 2px solid var(--ink); border-radius: 10px; padding: 12px 14px; margin-top: 18px; }
+  .rv-check-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .rv-check-score { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  .rv-check-hint { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin: 4px 0 10px; }
+  .rv-q { border-top: 1px solid var(--line); padding: 10px 0; }
+  .rv-q:last-child { padding-bottom: 0; }
+  .rv-q-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+  .rv-kind { font-family: var(--mono); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--violet); background: var(--violet-bg); border-radius: 10px; padding: 2px 7px; }
+  .rv-last { font-family: var(--mono); font-size: 10px; border-radius: 10px; padding: 2px 7px; margin-left: auto; }
+  .rv-last.got { color: var(--teal); background: var(--teal-bg); }
+  .rv-last.shaky { color: var(--amber); background: var(--amber-bg); }
+  .rv-last.miss { color: var(--rose); background: var(--rose-bg); }
+  .rv-last.isdue { outline: 1px solid var(--rose); }
+  .rv-q-text { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+  .rv-a { font-size: 13px; color: var(--ink); line-height: 1.55; background: var(--teal-bg); border-left: 3px solid var(--teal); border-radius: 0 6px 6px 0; padding: 8px 10px; margin-top: 8px; }
+  .rv-a b { font-weight: 700; }
+  .rv-grade { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .rv-grade button { font-family: var(--sans); font-size: 12.5px; font-weight: 600; padding: 7px 12px; border-radius: 8px; cursor: pointer; border: 1px solid; background: var(--panel); }
+  .rv-grade .g-got { color: var(--teal); border-color: var(--teal); }
+  .rv-grade .g-shaky { color: var(--amber); border-color: var(--amber); }
+  .rv-grade .g-miss { color: var(--rose); border-color: var(--rose); }
+  .rv-sent { font-size: 11.5px; color: var(--teal); margin-top: 6px; }
+  .rv-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .rv-table th, .rv-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .rv-table th { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .rv-table td.num { font-family: var(--mono); font-size: 11.5px; white-space: nowrap; }
+  .rv-table tr[data-topic] { cursor: pointer; }
+  .rv-table tr[data-topic]:hover td { background: var(--bg); }
+  .rv-card-crumb { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); margin-bottom: 6px; line-height: 1.45; }
+  .rv-progress { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  @media (max-width: 760px) {
+    .rv-state { margin-left: 0; width: 100%; }
+    .rv-table th:nth-child(3), .rv-table td:nth-child(3) { display: none; }
+  }
   @media (max-width: 760px) {
     .cm-overlay { align-items: flex-end; padding: 0; }
     .cm-card, .cm-card-wide { width: 100%; max-height: 92vh; border-radius: 14px 14px 0 0; padding: 14px 16px 20px; }
@@ -573,7 +646,7 @@
           <li><b>Structure everything.</b> Every explanation the user gives gets converted into structured, visual HTML for the relevant topic — comparison tables (<code>CONTENT[key].compare</code>), branch/mind-map nodes (<code>CONTENT[key].notes</code>) — never left as a plain paragraph dump.</li>
           <li><b>Grill, don't just record.</b> After the user explains a concept, Claude should push for depth on every sub-point of that reading before marking it understood — follow-up questions, edge cases, "what if" variants — not accept a surface-level answer.</li>
           <li><b>Built for real revision.</b> This file is the user's actual November exam revision tool. Bias toward exam-relevant distinctions (IFRS vs. US GAAP, exceptions to ownership-% guidelines, ratio effects) over generic summaries.</li>
-          <li><b>Read-only ledger — Claude edits everything.</b> There is no manual-entry UI in this file except the search bar. The one exception is the 💬 comments box, where the user pins a doubt, a correction or something to add onto a section (synced through a Google Sheet by <code>ledger-comments.gs</code>); Claude works through the open ones, updates the data, and resolves each with a reply. Explanations happen in chat, not in a textarea; Claude decides status (not started/progress/mastered), writes the structured notes, logs gaps and tuition misses, and sets links between topics — all directly in the file's data. The user never fills in a form here.</li>
+          <li><b>Read-only ledger — Claude edits everything.</b> There is no manual-entry UI in this file except the search bar. The exceptions are the revision controls (Revised ticks, blurt box, checkpoint grades) and the 💬 comments box, where the user pins a doubt, a correction or something to add onto a section (synced through a Google Sheet by <code>ledger-comments.gs</code>); Claude works through the open ones, updates the data, and resolves each with a reply. Explanations happen in chat, not in a textarea; Claude decides status (not started/progress/mastered), writes the structured notes, logs gaps and tuition misses, and sets links between topics — all directly in the file's data. The user never fills in a form here.</li>
           <li><b>Two distinct flag colors — never mix them:</b>
             <div class="legend" style="margin:8px 0 0;">
               <span><span class="sw" style="background:var(--amber);"></span><b style="color:var(--amber);">Amber "Gap"</b> — Claude flagged this during teach-back in this ledger (the user's explanation here was incomplete/wrong)</span>
@@ -581,6 +654,7 @@
             </div>
           </li>
           <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
+          <li><b>Revision is tracked as two separate things.</b> “Revised” is a tick per notebook session (one per day; the count is the number of passes). “Understood” turns on only when the user has graded every checkpoint question for that session “Got it”. Claude writes those questions into <code>CHECKS[key][module]</code> from the session’s own notes: why it works, what changes if an input moves, a fresh calculation, and an “explain it” prompt, never a plain definition. Keep each question <code>id</code> stable once published. Shaky and missed questions come back on a 1 / 3 / 7 / 14 / 30-day schedule. When processing comments, also check <code>node tools/comments.mjs progress</code>: a question that keeps coming back Shaky or Didn’t know is a gap to explain, and Teach-back comments (blurts and explain-it answers) get graded in the reply.</li>
           <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box (apart from the 💬 comments box). It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
         </ol>
       </div>
@@ -593,7 +667,10 @@
       <span><span class="sw" style="background:var(--rose);"></span>Tuition miss (you got it wrong externally)</span>
       <span><span class="sw" style="background:var(--teal);"></span>Mastered</span>
     </div>
-    <button type="button" class="cm-open" id="cmOpen">💬 My comments</button>
+    <div class="cm-head-row">
+      <button type="button" class="cm-open" id="rvOpen">📈 Revision</button>
+      <button type="button" class="cm-open" id="cmOpen">💬 My comments</button>
+    </div>
   </header>
   <div class="layout">
     <div class="sidebar">
@@ -615,6 +692,18 @@
       <textarea id="cmText" placeholder="What's unclear, wrong or missing here? This is what Claude will read."></textarea>
       <div class="cm-actions"><span class="cm-sync" id="cmSheetSync"></span><button type="button" class="cm-primary" id="cmSave">Save</button></div>
       <div id="cmHere"></div>
+    </div>
+  </div>
+  <div class="cm-overlay" id="rvPanel" hidden>
+    <div class="cm-card cm-card-wide" role="dialog" aria-modal="true" aria-labelledby="rvPanelTitle">
+      <div class="cm-card-head"><span id="rvPanelTitle">Revision progress</span><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></div>
+      <div id="rvSummary"></div>
+    </div>
+  </div>
+  <div class="cm-overlay" id="rvReview" hidden>
+    <div class="cm-card" role="dialog" aria-modal="true" aria-labelledby="rvReviewTitle">
+      <div class="cm-card-head"><span id="rvReviewTitle">Review</span><span class="rv-progress" id="rvReviewCount"></span><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></div>
+      <div id="rvCard"></div>
     </div>
   </div>
   <div class="cm-overlay" id="cmPanel" hidden>
@@ -8044,6 +8133,89 @@ const STATUS = {
 // (e.g. Reading 7's equity method vs. Reading 8's pension accounting). Read-only chips
 // in the UI — clicking one just navigates, there's no manual add/remove.
 const LINKS = {};
+// Checkpoint questions per notebook session, written by Claude from the notes above. They test
+// whether I can produce the idea without the page: why it works, what changes if an input moves,
+// and a fresh calculation, never "define X". `kind`: why · whatif · calc · explain. An `explain`
+// question also takes a typed answer that goes to Claude as a teach-back comment. Keep each `id`
+// stable once published: my grades and review dates are stored against it.
+const CHECKS = {
+  'equity.2': {
+    '19.S1': [
+      { id: 's1a', kind: 'why', q: 'Why is FCFF discounted at the WACC but FCFE at the cost of equity? What goes wrong if you swap them?',
+        a: 'FCFF is the cash available to *all* capital providers, so it is discounted at their blended required return, the *WACC*, giving *firm* value. FCFE is what is left for common shareholders after bondholders are paid, so it is discounted at *kₑ*, giving *equity* value. Swapping them: FCFE at the WACC (too low a rate) *overstates* equity; FCFF at kₑ (too high a rate) *understates* firm value.' },
+      { id: 's1b', kind: 'whatif', q: 'A takeover target has negative FCFE, high leverage and a debt level that keeps changing. Which model do you use, and why not the other one?',
+        a: 'Use *FCFF*, then subtract the market value of debt. With a volatile capital structure FCFE swings with every borrowing or repayment (here it is even negative), and each change in leverage also changes *kₑ*. FCFF is not affected by financing, so it is the stable measure. As an acquisition target the *control* perspective also points to free cash flow rather than dividends.' },
+      { id: 's1c', kind: 'explain', q: 'In your own words: when is free cash flow a better measure than dividends? Give all four situations, and say whose perspective each model takes.',
+        a: '1. The firm pays *no or low* dividends. 2. Dividends are set at the *board’s discretion* and may not track long-run profitability. 3. The firm is an *acquisition target*: new owners control the distribution. 4. FCF is *more closely related to long-run profitability*. Dividends (DDM) = the *minority* shareholder’s view; free cash flow = the *owner’s (control)* view.' },
+      { id: 's1d', kind: 'calc', q: 'FCFF discounted at the WACC gives $900 mn for the operating assets. The firm also holds $50 mn of excess cash not used in operations, and its debt has a market value of $300 mn. What is equity worth?',
+        a: 'Firm value = operating value + nonoperating assets = 900 + 50 = $950 mn. Equity = firm value − market value of debt = 950 − 300 = *$650 mn*. FCFF only values the operating assets, so the excess cash has to be added separately.' },
+    ],
+    '19.S2': [
+      { id: 's2a', kind: 'why', q: 'Starting from net income, why do you add back interest × (1 − T) and not the full interest expense?',
+        a: 'Net income was reduced by interest *net of its tax saving*, i.e. by Int(1 − T), so that is what is added back to reach the cash available to all providers. The tax benefit of debt is *not* put into FCFF because it is already in the *WACC* through the after-tax cost of debt. Adding the full interest would count the tax shield twice.' },
+      { id: 's2b', kind: 'why', q: 'In FCFF = CFO + Int(1 − T) − FCInv, why is WCInv not subtracted?',
+        a: 'Because CFO already contains it: *CFO = NI + NCC − WCInv*. Subtracting WCInv again would double count. Interest is added back (after tax) because under US GAAP it was deducted inside CFO as an operating flow.' },
+      { id: 's2c', kind: 'why', q: 'Starting from EBITDA, why do you add back Dep × T instead of the full depreciation?',
+        a: 'EBITDA is *before* depreciation, so depreciation was never deducted and there is nothing to add back in full. Its only cash effect is the *tax saving*: EBITDA(1 − T) taxes the firm as if there were no depreciation, so the *Dep × T* tax shield is added to correct the tax.' },
+      { id: 's2d', kind: 'calc', q: 'NI = 400, depreciation = 100, interest expense = 50, tax rate = 40%, WCInv = 30, FCInv = 120. Calculate FCFF.',
+        a: 'FCFF = NI + NCC + Int(1 − T) − WCInv − FCInv = 400 + 100 + 50 × 0.6 − 30 − 120 = 400 + 100 + 30 − 30 − 120 = *380*. Check from EBIT: EBT = 400 ÷ 0.6 = 666.7; EBIT = 716.7; EBIT(1 − T) = 430; 430 + 100 − 30 − 120 = *380*.' },
+      { id: 's2e', kind: 'whatif', q: 'The firm also has preferred stock paying 20 of dividends a year. How does that change your FCFF and FCFE calculations?',
+        a: 'Treat preferred like debt *without the tax shield*: add the *full* preferred dividend (20) back to FCFF, include preferred in the WACC, and for FCFE add net preferred issuance to net borrowing.' },
+    ],
+    '19.S3': [
+      { id: 's3a', kind: 'why', q: 'A company sells a machine at a gain of 40. Why is the gain subtracted from net income when you calculate FCFF?',
+        a: 'The gain is a *noncash* item sitting in NI. The actual cash received is already counted in *FCInv* (capex − proceeds from asset sales). Leaving the gain in NI would count the sale twice.' },
+      { id: 's3b', kind: 'whatif', q: 'This year net income includes income from reversing a restructuring charge made two years ago. Do you add it or subtract it to get FCFF, and why?',
+        a: '*Subtract* it. Reversing a provision is a *noncash gain*: it raises NI without any cash coming in.' },
+      { id: 's3c', kind: 'why', q: 'Why is amortization of a bond discount added back, but accretion of a bond premium subtracted?',
+        a: 'Discount amortization makes *interest expense larger than the cash coupon*, a noncash charge, so it is *added back*. Premium amortization makes interest expense *smaller than the cash coupon*, so NI overstates cash and it is *subtracted*.' },
+      { id: 's3d', kind: 'calc', q: 'Beginning net PP&E 2,000, ending net PP&E 2,300, depreciation 250. During the year an asset was sold at a gain of 40. Calculate FCInv.',
+        a: 'FCInv = End net PP&E − Beg net PP&E + Dep − Gain = 2,300 − 2,000 + 250 − 40 = *510*.' },
+      { id: 's3e', kind: 'whatif', q: 'The deferred tax liability rises by 30 this year. When do you add the 30 back to FCFF, and when do you not?',
+        a: 'Add it back only if the DTL is *not expected to reverse*: then the tax is effectively never paid in cash. If it will reverse (a timing difference that unwinds), it is not a lasting cash saving and is left out. A non-reversing *increase in a DTA* is subtracted.' },
+    ],
+    '19.S4': [
+      { id: 's4a', kind: 'why', q: 'Explain each piece of FCFE = FCFF − Int(1 − T) + Net borrowing.',
+        a: 'Start from cash for *all* providers (FCFF). Take out what the bondholders get: *after-tax* interest (the after-tax cost to the firm). Add *net borrowing* (new loans − repayments), the cash that came *in* from bondholders. What remains belongs to common shareholders.' },
+      { id: 's4b', kind: 'whatif', q: 'A company unexpectedly issues debt to fund a share buyback. What happens to FCFF and FCFE this year, and in later years?',
+        a: 'FCFF: *unchanged* (financing does not affect it). FCFE: *up this year* (net borrowing is a cash inflow) and *down in later years* (higher interest). The buyback itself affects neither: it is a *use* of FCFE, not part of it.' },
+      { id: 's4c', kind: 'calc', q: 'NI = 5.0, FCInv = 3.0, depreciation = 1.0, WCInv = 0.5, target debt ratio = 40%. Forecast FCFE with the debt-ratio formula.',
+        a: 'FCFE = NI − (1 − DR)(FCInv − Dep) − (1 − DR)WCInv = 5.0 − 0.6 × 2.0 − 0.6 × 0.5 = 5.0 − 1.2 − 0.3 = *3.5*.' },
+      { id: 's4d', kind: 'explain', q: 'In your own words: why is net income a poor proxy for FCFE, and EBITDA a poor proxy for FCFF?',
+        a: '*NI* includes noncash charges and ignores FCInv, WCInv and net borrowing. *EBITDA* ignores cash taxes and the investment in working and fixed capital. Both miss the reinvestment the firm needs just to keep going.' },
+      { id: 's4e', kind: 'whatif', q: 'The board doubles the dividend this year. What happens to FCFE?',
+        a: 'Nothing. *Dividends, buybacks and share issues do not affect FCFF or FCFE*: they are what the firm does *with* FCFE, not part of how it is generated.' },
+    ],
+    '19.S5': [
+      { id: 's5a', kind: 'calc', q: 'FCFF₀ = $10 mn, g = 4%, WACC = 9%, market value of debt = $60 mn, 5 mn shares. Value per share?',
+        a: 'FCFF₁ = 10 × 1.04 = 10.4. Firm value = 10.4 ÷ (9% − 4%) = *$208 mn*. Equity = 208 − 60 = $148 mn. Per share = 148 ÷ 5 = *$29.60*.' },
+      { id: 's5b', kind: 'why', q: 'Why does the single-stage model use FCFF₁ in the numerator and not FCFF₀?',
+        a: 'Value today is the PV of cash flows *still to come*, which starts with next year’s. FCFF₀ has already been paid, so you grow it once: FCFF₁ = FCFF₀(1 + g).' },
+      { id: 's5c', kind: 'calc', q: 'FCFE₀ = $2.00 per share, Rf = 3%, β = 1.2, market risk premium 5%, g = 5%. Value per share?',
+        a: 'kₑ = 3% + 1.2 × 5% = *9%*. V₀ = 2.00 × 1.05 ÷ (9% − 5%) = 2.10 ÷ 0.04 = *$52.50*.' },
+      { id: 's5d', kind: 'why', q: 'In the Prentice Paint two-stage FCFF model, the terminal value uses a 15% WACC but everything is discounted back at 17%. Why two rates?',
+        a: 'The terminal value at year 5 values cash flows *after* year 5, when the firm is mature and its WACC is *15%*. That year-5 value, and the high-growth cash flows, are then brought back to today *through* the high-growth years, whose WACC is *17%*.' },
+    ],
+    '19.S6': [
+      { id: 's6a', kind: 'why', q: 'In Sioux Falls, why are (FCInv − Dep) and WCInv multiplied by (1 − DR) instead of being subtracted in full?',
+        a: 'Debt finances *DR* (40%) of the net new investment, so shareholders only fund *(1 − DR)* of it. Equivalently, the 40% is the net borrowing that gets added back to FCFE.' },
+      { id: 's6b', kind: 'calc', q: 'Check Sioux Falls year 1: NI = 2.08, FCInv − Dep = 1.80, WCInv = 0.42, DR = 0.40. What is FCFE?',
+        a: 'FCFE = 2.08 − 0.6 × 1.80 − 0.6 × 0.42 = 2.08 − 1.08 − 0.252 = *0.748*. Debt financing = 0.4 × (1.80 + 0.42) = 0.888.' },
+      { id: 's6c', kind: 'calc', q: 'EPS₅ = $2.80, forecast EPS₆ = $3.00. A trailing P/E of 20 or a leading P/E of 18: what is the terminal value at year 5 under each?',
+        a: 'Trailing: TV₅ = 20 × EPS₅ = 20 × 2.80 = *$56.00*. Leading: TV₅ = 18 × EPS₆ = 18 × 3.00 = *$54.00*. Trailing P/E goes with the year-n earnings, leading P/E with year n + 1.' },
+      { id: 's6d', kind: 'whatif', q: 'Which model do you pick: (a) a utility in a mature market, (b) a drug company whose patent expires in 7 years, (c) a young tech firm with growth, transition and mature phases still ahead?',
+        a: '(a) *Single-stage*. (b) *Two-stage*: a supernormal period, then stable growth. (c) *Three-stage*.' },
+      { id: 's6e', kind: 'why', q: 'In the three-stage Medina example, why can’t you get the value in one pass on the calculator’s NPV keys?',
+        a: 'Because the *discount rate changes* between stages (20%, then 15%, then 10%). A year-4 cash flow has to be discounted three years at 20% and then at 15%, while the NPV function uses one rate for every year.' },
+    ],
+    '19.S7': [
+      { id: 's7a', kind: 'explain', q: 'In your own words: what are the two main sources of error in an FCF valuation? Give an example of a bad base year.',
+        a: '1. Estimating *future growth* in FCFF/FCFE. 2. The *chosen base year*: it has to be representative. Example: a year with a one-off asset-sale gain, or unusually low capex, inflates FCF₀, and growing that number compounds the distortion into every later year and the terminal value.' },
+      { id: 's7b', kind: 'why', q: 'In a sensitivity analysis, why do the growth rate and the required return usually move the value far more than the other inputs?',
+        a: 'They sit in the *denominator* (r − g), which is a small number. A 1-point change in either changes the gap by a large *percentage*, so the value swings sharply. That is why sensitivity analysis checks each input across its plausible range.' },
+    ],
+  },
+};
 
 let selectedKey = null;
 let openSubjects = new Set();
@@ -8587,6 +8759,7 @@ function renderDetail() {
   });
 
   setupRefCards(el);
+  rvDecorate(el);
   cmDecorate(el);
 }
 
@@ -8603,6 +8776,7 @@ const CM_TAGS = [
   { id: 'fix', name: 'Fix / error', tone: 'rose' },
   { id: 'add', name: 'Add more', tone: 'teal' },
   { id: 'idea', name: 'Idea', tone: 'violet' },
+  { id: 'teach', name: 'Teach-back', tone: 'slate' },
 ];
 const CM_STORE = 'ledgerComments.v1';
 const cm = { items: {}, dirty: {}, cfg: null, busy: false, again: false, err: '', at: null, timer: null,
@@ -8673,7 +8847,7 @@ function cmSectionOnScreen() {
 }
 
 function cmSyncLabel() {
-  const waiting = Object.keys(cm.dirty).length;
+  const waiting = Object.keys(cm.dirty).length + Object.keys(pg.dirty).length;
   if (!cm.cfg) return { cls: '', text: 'Saved on this device only · set up sync below' };
   if (cm.busy) return { cls: '', text: 'Syncing…' };
   if (cm.err) return { cls: 'err', text: 'Not synced (' + cm.err + ')' + (waiting ? ' · ' + waiting + ' waiting' : '') };
@@ -8695,6 +8869,8 @@ function cmRefresh() {
   if (!document.getElementById('cmPanel').hidden) cmRenderList();
   if (!document.getElementById('cmSheet').hidden) cmRenderHere();
   cmShowSync();
+  const typing = document.activeElement && document.activeElement.hasAttribute && document.activeElement.hasAttribute('data-rv-text');
+  if (typing) rvHeader(); else rvRepaint();
 }
 
 function cmItemHtml(c, showWhere) {
@@ -8736,7 +8912,7 @@ function cmRenderList() {
 
 function cmOverlay(id, show) {
   document.getElementById(id).hidden = !show;
-  const anyOpen = !document.getElementById('cmSheet').hidden || !document.getElementById('cmPanel').hidden;
+  const anyOpen = Array.prototype.some.call(document.querySelectorAll('.cm-overlay'), o => !o.hidden);
   document.body.style.overflow = anyOpen ? 'hidden' : '';
 }
 function cmCompose(section) {
@@ -8816,10 +8992,12 @@ async function cmSyncNow() {
   const sent = {};
   const comments = Object.keys(cm.dirty).filter(id => cm.items[id]).map(id => { sent[id] = cm.items[id].u; return cm.items[id]; });
   Object.keys(cm.dirty).forEach(id => { if (!cm.items[id]) delete cm.dirty[id]; });
+  const sentP = {};
+  const progress = Object.keys(pg.dirty).filter(k => pg.items[k]).map(k => { sentP[k] = pg.items[k].u; return pg.items[k]; });
   try {
     const res = await fetch(cm.cfg.url, {
       method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ key: cm.cfg.key, comments })
+      body: JSON.stringify({ key: cm.cfg.key, comments, progress })
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || 'Sync failed');
@@ -8828,6 +9006,15 @@ async function cmSyncNow() {
     Object.keys(cm.dirty).forEach(id => { next[id] = cm.items[id]; });
     (data.comments || []).forEach(c => { if (c.id && !next[c.id]) next[c.id] = c; });
     cm.items = next;
+    // An older deployment of the script has no Progress tab: keep everything here and resend later.
+    if (Array.isArray(data.progress)) {
+      Object.keys(sentP).forEach(k => { if (pg.items[k] && pg.items[k].u === sentP[k]) delete pg.dirty[k]; });
+      const nextP = {};
+      Object.keys(pg.dirty).forEach(k => { nextP[k] = pg.items[k]; });
+      data.progress.forEach(p => { if (p.k && !nextP[p.k]) nextP[p.k] = p; });
+      pg.items = nextP;
+      pgSave();
+    } else if (progress.length) throw new Error('redeploy ledger-comments.gs to sync revision progress');
     cm.at = new Date(); cm.err = '';
   } catch (err) {
     cm.err = /fetch|network|json|load/i.test(err.message) ? 'offline or wrong URL' : err.message;
@@ -8837,8 +9024,350 @@ async function cmSyncNow() {
   if (cm.again) { cm.again = false; cmSyncNow(); }
 }
 
+// --- Revision: tracks two separate things per notebook session, because reading the page and
+// understanding it are not the same. "Revised" is a tick (one per day; the count is how many
+// passes I've made). "Understood" only turns on when I've got every checkpoint question right
+// without the page. Questions I grade Shaky or Didn't know come back after 1 day; ones I get come
+// back after 3, 7, 14, then 30 days. All of it syncs through the same sheet as comments. ---
+const RV_STEPS = [1, 3, 7, 14, 30];
+const RV_KIND = { why: 'Why', whatif: 'What if', calc: 'Calculate', explain: 'Explain it' };
+const RV_GRADE = { got: 'Got it', shaky: 'Shaky', miss: 'Didn’t know' };
+const PG_STORE = 'ledgerProgress.v1';
+const pg = { items: {}, dirty: {} };
+const rv = { shown: {}, blurting: {}, blurt: {}, sent: {}, queue: [], qi: 0, revealed: false, tally: null };
+
+function pgLoad() {
+  try { const s = JSON.parse(localStorage.getItem(PG_STORE) || '{}'); pg.items = s.items || {}; pg.dirty = s.dirty || {}; } catch (e) {}
+}
+function pgSave() {
+  try { localStorage.setItem(PG_STORE, JSON.stringify({ items: pg.items, dirty: pg.dirty })); } catch (e) {}
+}
+function pgGet(k) {
+  const it = pg.items[k];
+  if (!it || !it.v) return null;
+  try { return JSON.parse(it.v); } catch (e) { return null; }
+}
+function pgSet(k, meta, v) {
+  const prev = pg.items[k];
+  pg.items[k] = Object.assign({ k }, meta, { v: JSON.stringify(v), u: Math.max(Date.now(), ((prev && +prev.u) || 0) + 1) });
+  pg.dirty[k] = 1;
+  pgSave(); cmSyncSoon();
+}
+function rvToday() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function rvAddDays(iso, n) {
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + n);
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function rvFmt(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString([], { day: 'numeric', month: 'short' }); }
+function rvSessions(topic) { return (CONTENT[topic] && CONTENT[topic].flow) || []; }
+function rvSessionLabel(topic, mod) {
+  const s = rvSessions(topic).find(x => x.module === mod);
+  return s ? s.module + ' · ' + s.title : mod;
+}
+function rvQKey(topic, mod, id) { return 'q|' + topic + '|' + mod + '|' + id; }
+function rvRevKey(topic, mod) { return 'rev|' + topic + '|' + mod; }
+
+function rvSession(topic, mod) {
+  const qs = (CHECKS[topic] && CHECKS[topic][mod]) || [];
+  const today = rvToday();
+  const rev = pgGet(rvRevKey(topic, mod)) || { dates: [] };
+  const grades = qs.map(q => pgGet(rvQKey(topic, mod, q.id)));
+  const count = g => grades.filter(x => x && x.g === g).length;
+  return { qs, rev, grades, got: count('got'), shaky: count('shaky'), miss: count('miss'),
+    untested: grades.filter(x => !x).length, due: grades.filter(x => x && x.due <= today).length,
+    understood: qs.length > 0 && count('got') === qs.length };
+}
+function rvTopic(topic) {
+  const sessions = rvSessions(topic).map(s => rvSession(topic, s.module));
+  const sum = f => sessions.reduce((n, s) => n + f(s), 0);
+  const revised = sessions.filter(s => s.rev.dates.length).length;
+  return { n: sessions.length, revised, understood: sessions.filter(s => s.understood).length,
+    passes: sessions.length ? Math.min(...sessions.map(s => s.rev.dates.length)) : 0,
+    withQs: sessions.filter(s => s.qs.length).length, qs: sum(s => s.qs.length),
+    got: sum(s => s.got), shaky: sum(s => s.shaky), miss: sum(s => s.miss), untested: sum(s => s.untested), due: sum(s => s.due) };
+}
+function rvDueList(onlyTopic) {
+  const today = rvToday(), out = [];
+  Object.keys(CHECKS).forEach(topic => {
+    if (onlyTopic && topic !== onlyTopic) return;
+    Object.keys(CHECKS[topic]).forEach(mod => CHECKS[topic][mod].forEach(q => {
+      const g = pgGet(rvQKey(topic, mod, q.id));
+      if (g && g.due <= today) out.push({ topic, mod, q });
+    }));
+  });
+  return out;
+}
+
+function rvToggleRevised(topic, mod) {
+  const k = rvRevKey(topic, mod), today = rvToday();
+  const v = pgGet(k) || { dates: [] };
+  v.dates = v.dates.indexOf(today) >= 0 ? v.dates.filter(d => d !== today) : v.dates.concat(today);
+  pgSet(k, { reading: cmReadingOf(topic), session: rvSessionLabel(topic, mod), item: 'Revised' }, v);
+}
+function rvGrade(topic, mod, q, g) {
+  const k = rvQKey(topic, mod, q.id), today = rvToday();
+  const prev = pgGet(k);
+  const box = g === 'got' ? Math.min(((prev && prev.g === 'got') ? prev.box : 0) + 1, RV_STEPS.length - 1) : 0;
+  const hist = ((prev && prev.hist) || []).concat([[today, g]]).slice(-20);
+  pgSet(k, { reading: cmReadingOf(topic), session: rvSessionLabel(topic, mod), item: q.q.slice(0, 140) },
+    { g, box, due: rvAddDays(today, RV_STEPS[box]), hist });
+}
+// A typed explanation (blurt or an explain-it question) goes to Claude as a Teach-back comment.
+function rvTeachBack(topic, mod, text) {
+  const now = Date.now();
+  cmTouch({ id: 'c_' + now.toString(36) + Math.random().toString(36).slice(2, 6), created: String(now), topic,
+    reading: cmReadingOf(topic), section: rvSessionLabel(topic, mod), tag: 'teach', text, status: 'open', reply: '' });
+}
+
+function rvLastHtml(g) {
+  if (!g) return '<span class="rv-last">Not tried yet</span>';
+  const due = g.due <= rvToday();
+  return `<span class="rv-last ${g.g}${due ? ' isdue' : ''}">${RV_GRADE[g.g]} · ${due ? 'due now' : 'next ' + rvFmt(g.due)}</span>`;
+}
+function rvAnswerHtml(q) { return `<div class="rv-a">${rt(q.a)}</div>`; }
+function rvGradeHtml(attrs) {
+  return `<div class="rv-grade">${['got', 'shaky', 'miss'].map(g =>
+    `<button type="button" class="g-${g}" data-rv="grade" data-g="${g}" ${attrs}>${RV_GRADE[g]}</button>`).join('')}</div>`;
+}
+function rvQHtml(topic, mod, q, g) {
+  const key = rvQKey(topic, mod, q.id);
+  const attrs = `data-topic="${topic}" data-mod="${escapeHtml(mod)}" data-qid="${q.id}"`;
+  return `<div class="rv-q">
+    <div class="rv-q-top"><span class="rv-kind">${RV_KIND[q.kind] || 'Question'}</span>${rvLastHtml(g)}</div>
+    <div class="rv-q-text">${rt(q.q)}</div>
+    ${q.kind === 'explain' ? `<textarea data-rv-text="${key}" placeholder="Explain it here in your own words, without looking. Claude reads and grades it.">${escapeHtml(rv.blurt[key] || '')}</textarea>
+      <div class="rv-row"><button type="button" class="rv-btn" data-rv="teach" ${attrs}>Send to Claude</button></div>
+      ${rv.sent[key] ? '<div class="rv-sent">Sent as a Teach-back comment ✓</div>' : ''}` : ''}
+    ${rv.shown[key] ? rvAnswerHtml(q) + rvGradeHtml(attrs)
+      : `<div class="rv-row"><button type="button" class="rv-btn" data-rv="show" ${attrs}>Show answer</button></div>`}
+  </div>`;
+}
+function rvCheckHtml(topic, mod) {
+  const s = rvSession(topic, mod);
+  if (!s.qs.length) return '';
+  return `<div class="rv-check-head">Test yourself · ${escapeHtml(mod)}<span class="rv-check-score">${s.got}/${s.qs.length} got${s.due ? ' · ' + s.due + ' due' : ''}</span></div>
+    <div class="rv-check-hint">Answer out loud or on paper <b>before</b> you reveal. “Got it” means you could have written the answer without the page; if you needed a peek, it’s Shaky.</div>
+    ${s.qs.map((q, i) => rvQHtml(topic, mod, q, s.grades[i])).join('')}`;
+}
+function rvBarHtml(topic, mod) {
+  const s = rvSession(topic, mod), today = rvToday();
+  const d = s.rev.dates, last = d.length ? d[d.length - 1] : null;
+  const state = s.understood ? (s.due ? { cls: 'due', t: 'Understood · ' + s.due + ' due for review' } : { cls: 'ok', t: 'Understood ✓' })
+    : s.qs.length ? { cls: s.due ? 'due' : '', t: s.got + '/' + s.qs.length + ' questions got' + (s.due ? ' · ' + s.due + ' due' : '') }
+    : { cls: '', t: 'No checkpoint yet' };
+  return `<button type="button" class="rv-btn${last === today ? ' on' : ''}" data-rv="rev" data-topic="${topic}" data-mod="${escapeHtml(mod)}">${
+      d.length ? '✓ Revised ' + d.length + '× · last ' + (last === today ? 'today' : rvFmt(last)) : 'Mark revised'}</button>
+    <button type="button" class="rv-btn${rv.blurting[topic + '|' + mod] ? ' on' : ''}" data-rv="blurt" data-topic="${topic}" data-mod="${escapeHtml(mod)}">🙈 ${rv.blurting[topic + '|' + mod] ? 'Show notes' : 'Blurt first'}</button>
+    <span class="rv-state ${state.cls}">${state.t}</span>`;
+}
+function rvBlurtHtml(topic, mod, sec) {
+  const key = 'blurt|' + topic + '|' + mod;
+  const subs = Array.prototype.map.call(sec.querySelectorAll('.nb-sub'), x => x.firstChild ? x.firstChild.textContent.trim() : '').filter(Boolean);
+  return `<div class="rv-blurt-title">Blurt: write everything you remember</div>
+    <div class="rv-blurt-hint">The notes are hidden. Write down every formula, rule and reason you can recall for this session${subs.length ? ', using these headings as prompts' : ''}. Then show the notes and compare: whatever you missed is what to study.</div>
+    ${subs.length ? `<ul>${subs.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>` : ''}
+    <textarea data-rv-text="${key}" placeholder="Start writing…">${escapeHtml(rv.blurt[key] || '')}</textarea>
+    <div class="rv-row">
+      <button type="button" class="cm-primary" data-rv="blurt" data-topic="${topic}" data-mod="${escapeHtml(mod)}">Show the notes and compare</button>
+      <button type="button" class="rv-btn" data-rv="teachblurt" data-topic="${topic}" data-mod="${escapeHtml(mod)}">Send to Claude</button>
+    </div>
+    ${rv.sent[key] ? '<div class="rv-sent">Sent as a Teach-back comment ✓</div>' : ''}`;
+}
+function rvPanelHtml(topic) {
+  const t = rvTopic(topic);
+  const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
+  const due = rvDueList(topic).length;
+  return `<div class="rv-panel-title">Revision · ${t.passes ? 'pass ' + (t.passes + 1) + ' in progress' : 'first pass'}</div>
+    <div class="rv-meter"><div class="rv-meter-top"><span>Revised (read through)</span><b>${t.revised}/${t.n}</b></div><div class="rv-track"><div class="rv-fill" style="width:${pct(t.revised, t.n)}%"></div></div></div>
+    <div class="rv-meter"><div class="rv-meter-top"><span>Understood (every checkpoint question got)</span><b>${t.understood}/${t.n}</b></div><div class="rv-track"><div class="rv-fill teal" style="width:${pct(t.understood, t.n)}%"></div></div></div>
+    ${t.qs ? `<div class="rv-qstats">
+        <span><span class="rv-sw" style="background:var(--teal)"></span>${t.got} got</span>
+        <span><span class="rv-sw" style="background:var(--amber)"></span>${t.shaky} shaky</span>
+        <span><span class="rv-sw" style="background:var(--rose)"></span>${t.miss} didn’t know</span>
+        <span><span class="rv-sw" style="background:var(--line)"></span>${t.untested} not tried</span>
+      </div>
+      <div class="rv-acts">
+        ${due ? `<button type="button" class="cm-primary" data-rv="review" data-topic="${topic}">Review ${due} due now</button>` : ''}
+        <button type="button" class="cm-ghost" data-rv="quiz" data-topic="${topic}">Quiz me on this reading</button>
+      </div>`
+      : '<div class="rv-note">Checkpoint questions aren’t written for this reading yet. Ask Claude to add them; until then, track your passes with “Mark revised”.</div>'}`;
+}
+
+// Adds the revision pieces onto a rendered notebook topic: the progress panel under the status
+// row, and on each session a Revised / Blurt bar, the blurt box, and the checkpoint card.
+function rvDecorate(el) {
+  if (!selectedKey || !rvSessions(selectedKey).length) return;
+  const topic = selectedKey;
+  const status = el.querySelector('.status-row');
+  if (status) {
+    const p = document.createElement('div');
+    p.className = 'rv-panel'; p.id = 'rvTopicPanel';
+    p.innerHTML = rvPanelHtml(topic);
+    status.insertAdjacentElement('afterend', p);
+  }
+  el.querySelectorAll('.nb-session').forEach(sec => {
+    const mod = sec.getAttribute('data-group');
+    const bar = document.createElement('div');
+    bar.className = 'rv-bar';
+    bar.innerHTML = rvBarHtml(topic, mod);
+    sec.querySelector('.nb-session-head').insertAdjacentElement('afterend', bar);
+    const blurt = document.createElement('div');
+    blurt.className = 'rv-blurt';
+    bar.insertAdjacentElement('afterend', blurt);
+    const check = document.createElement('div');
+    check.className = 'rv-check';
+    sec.appendChild(check);
+    rvPaintSession(sec);
+  });
+}
+function rvPaintSession(sec) {
+  const topic = selectedKey, mod = sec.getAttribute('data-group');
+  const on = !!rv.blurting[topic + '|' + mod];
+  const s = rvSession(topic, mod);
+  sec.classList.toggle('rv-blurting', on);
+  sec.classList.toggle('rv-done', s.understood);
+  sec.querySelector('.rv-bar').innerHTML = rvBarHtml(topic, mod);
+  const blurt = sec.querySelector('.rv-blurt');
+  blurt.hidden = !on;
+  blurt.innerHTML = on ? rvBlurtHtml(topic, mod, sec) : '';
+  const check = sec.querySelector('.rv-check');
+  check.hidden = !s.qs.length;
+  check.innerHTML = rvCheckHtml(topic, mod);
+}
+function rvRepaint() {
+  if (!selectedKey) return;
+  document.querySelectorAll('#detail .nb-session').forEach(sec => { if (sec.querySelector('.rv-bar')) rvPaintSession(sec); });
+  const p = document.getElementById('rvTopicPanel');
+  if (p) p.innerHTML = rvPanelHtml(selectedKey);
+  rvHeader();
+  if (!document.getElementById('rvPanel').hidden) rvRenderSummary();
+}
+function rvHeader() {
+  const due = rvDueList().length;
+  document.getElementById('rvOpen').textContent = '📈 Revision' + (due ? ' · ' + due + ' due' : '');
+}
+function rvRenderSummary() {
+  const topics = FLAT.filter(t => rvSessions(t.key).length);
+  const due = rvDueList().length;
+  let all = { n: 0, revised: 0, understood: 0 };
+  const rows = topics.map(t => {
+    const s = rvTopic(t.key);
+    all.n += s.n; all.revised += s.revised; all.understood += s.understood;
+    return `<tr data-topic="${t.key}"><td>${escapeHtml(t.name)}</td>
+      <td class="num">${s.revised}/${s.n}</td><td class="num">${s.qs ? s.got + '/' + s.qs : '—'}</td>
+      <td class="num">${s.understood}/${s.n}</td><td class="num"${s.due ? ' style="color:var(--rose);font-weight:700"' : ''}>${s.due || ''}</td></tr>`;
+  }).join('');
+  const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
+  document.getElementById('rvSummary').innerHTML = `
+    <div class="rv-meter"><div class="rv-meter-top"><span>Sessions revised, all readings</span><b>${all.revised}/${all.n}</b></div><div class="rv-track"><div class="rv-fill" style="width:${pct(all.revised, all.n)}%"></div></div></div>
+    <div class="rv-meter"><div class="rv-meter-top"><span>Sessions understood</span><b>${all.understood}/${all.n}</b></div><div class="rv-track"><div class="rv-fill teal" style="width:${pct(all.understood, all.n)}%"></div></div></div>
+    <div class="cm-actions">
+      ${due ? `<button type="button" class="cm-primary" data-rv="review">Review all ${due} due now</button>` : '<span class="rv-note">Nothing due for review today.</span>'}
+      <span class="cm-sync" id="rvSync"></span>
+    </div>
+    <table class="rv-table"><thead><tr><th>Reading</th><th>Revised</th><th>Questions got</th><th>Understood</th><th>Due</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="cm-hint">Revised = sessions you’ve ticked as read. Understood = sessions where you’ve got every checkpoint question right. Tap a reading to open it.</div>`;
+  const l = cmSyncLabel(), s = document.getElementById('rvSync');
+  s.className = 'cm-sync ' + l.cls; s.textContent = cm.cfg ? l.text : 'Saved on this device only · set up sync under 💬 My comments';
+}
+
+// Flashcard review: one question at a time, answer hidden until I've tried.
+function rvStartReview(list, title) {
+  rv.queue = list; rv.qi = 0; rv.revealed = false; rv.tally = { got: 0, shaky: 0, miss: 0 };
+  document.getElementById('rvReviewTitle').textContent = title;
+  cmOverlay('rvPanel', false);
+  cmOverlay('rvReview', true);
+  rvRenderCard();
+}
+function rvRenderCard() {
+  const box = document.getElementById('rvCard');
+  const n = rv.queue.length;
+  document.getElementById('rvReviewCount').textContent = rv.qi < n ? (rv.qi + 1) + ' / ' + n : '';
+  if (rv.qi >= n) {
+    const t = rv.tally;
+    box.innerHTML = `<div class="rv-q-text">Done: ${t.got} got, ${t.shaky} shaky, ${t.miss} didn’t know.</div>
+      <div class="rv-check-hint">${t.shaky + t.miss ? 'Those come back tomorrow. Re-read their sessions today, or leave a 💬 Doubt where it still doesn’t click.' : 'Nice. Each one comes back on a longer gap.'}</div>
+      <div class="rv-row"><button type="button" class="cm-primary" data-cm-close>Close</button></div>`;
+    return;
+  }
+  const it = rv.queue[rv.qi];
+  const attrs = `data-topic="${it.topic}" data-mod="${escapeHtml(it.mod)}" data-qid="${it.q.id}"`;
+  box.innerHTML = `<div class="rv-card-crumb">${escapeHtml(cmReadingOf(it.topic))} › ${escapeHtml(rvSessionLabel(it.topic, it.mod))}</div>
+    <div class="rv-q-top"><span class="rv-kind">${RV_KIND[it.q.kind] || 'Question'}</span>${rvLastHtml(pgGet(rvQKey(it.topic, it.mod, it.q.id)))}</div>
+    <div class="rv-q-text">${rt(it.q.q)}</div>
+    ${rv.revealed ? rvAnswerHtml(it.q) + rvGradeHtml(attrs + ' data-review="1"')
+      : `<div class="rv-check-hint" style="margin-top:10px">Answer it first: out loud, on paper, or in your head.</div>
+         <div class="rv-row"><button type="button" class="cm-primary" data-rv="flip">Show answer</button></div>`}`;
+}
+
+function rvFindQ(topic, mod, id) { return ((CHECKS[topic] || {})[mod] || []).find(q => q.id === id); }
+function rvHandle(a) {
+  const act = a.getAttribute('data-rv'), topic = a.getAttribute('data-topic'), mod = a.getAttribute('data-mod');
+  const q = topic && mod && rvFindQ(topic, mod, a.getAttribute('data-qid'));
+  if (act === 'rev') rvToggleRevised(topic, mod);
+  else if (act === 'blurt') {
+    const k = topic + '|' + mod;
+    rv.blurting[k] = !rv.blurting[k];
+    if (!rv.blurting[k]) { const sec = a.closest('.nb-session'); if (sec && sec.scrollIntoView) sec.scrollIntoView({ block: 'start' }); }
+  }
+  else if (act === 'teachblurt') {
+    const key = 'blurt|' + topic + '|' + mod, text = (rv.blurt[key] || '').trim();
+    if (!text) return;
+    rvTeachBack(topic, mod, 'Blurt of ' + rvSessionLabel(topic, mod) + ' (written without the notes):\n\n' + text);
+    rv.sent[key] = 1;
+  }
+  else if (act === 'teach' && q) {
+    const key = rvQKey(topic, mod, q.id), text = (rv.blurt[key] || '').trim();
+    if (!text) return;
+    rvTeachBack(topic, mod, 'Q: ' + q.q.replace(/\*/g, '') + '\n\nMy answer: ' + text);
+    rv.sent[key] = 1;
+  }
+  else if (act === 'show' && q) rv.shown[rvQKey(topic, mod, q.id)] = 1;
+  else if (act === 'grade' && q) {
+    const g = a.getAttribute('data-g');
+    rvGrade(topic, mod, q, g);
+    if (a.hasAttribute('data-review')) { rv.tally[g]++; rv.qi++; rv.revealed = false; rvRenderCard(); }
+    else delete rv.shown[rvQKey(topic, mod, q.id)];
+  }
+  else if (act === 'flip') { rv.revealed = true; rvRenderCard(); return; }
+  else if (act === 'review') { rvStartReview(rvDueList(topic || null), 'Review due'); return; }
+  else if (act === 'quiz') {
+    // Weakest first: didn't know, then shaky, then not tried, then got (oldest due first).
+    const rank = g => !g ? 2 : g.g === 'miss' ? 0 : g.g === 'shaky' ? 1 : 3;
+    const list = [];
+    Object.keys(CHECKS[topic] || {}).forEach(m => CHECKS[topic][m].forEach(qq => list.push({ topic, mod: m, q: qq, g: pgGet(rvQKey(topic, m, qq.id)) })));
+    list.sort((x, y) => (rank(x.g) - rank(y.g)) || ((x.g && x.g.due || '') < (y.g && y.g.due || '') ? -1 : 1));
+    rvStartReview(list.slice(0, 10), 'Quiz');
+    return;
+  }
+  rvRepaint();
+}
+
 function cmInit() {
   cmLoad();
+  pgLoad();
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('[data-rv]');
+    if (a) { e.preventDefault(); rvHandle(a); }
+  });
+  document.addEventListener('input', e => {
+    const k = e.target.getAttribute && e.target.getAttribute('data-rv-text');
+    if (k) rv.blurt[k] = e.target.value;
+  });
+  document.getElementById('rvOpen').onclick = () => { rvRenderSummary(); cmOverlay('rvPanel', true); cmSyncNow(); };
+  document.getElementById('rvSummary').addEventListener('click', e => {
+    const tr = e.target.closest('tr[data-topic]');
+    if (!tr) return;
+    const m = FLAT.find(t => t.key === tr.getAttribute('data-topic'));
+    cmOverlay('rvPanel', false);
+    selectedKey = m.key; openSubjects.add(m.subjectId); render();
+    const p = document.getElementById('rvTopicPanel');
+    if (p && p.scrollIntoView) p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   document.getElementById('detail').addEventListener('click', e => {
     const b = e.target.closest && e.target.closest('.cm-btn');
     if (!b) return;
@@ -8872,7 +9401,8 @@ function cmInit() {
     if (!/^https:\/\/script\.google(usercontent)?\.com\//.test(url)) { cm.err = 'that is not an Apps Script web app URL'; cmShowSync(); return; }
     cm.cfg = { url, key }; cm.err = '';
     Object.keys(cm.items).forEach(id => { cm.dirty[id] = 1; });
-    cmSave(); document.getElementById('cmSettings').open = false; cmSyncNow();
+    Object.keys(pg.items).forEach(k => { pg.dirty[k] = 1; });
+    cmSave(); pgSave(); document.getElementById('cmSettings').open = false; cmSyncNow();
   };
   document.getElementById('cmDisconnect').onclick = () => { cm.cfg = null; cm.err = ''; cm.at = null; cmSave(); cmRefresh(); };
   // Resolve / reopen / delete / jump, in either overlay.
@@ -8888,10 +9418,11 @@ function cmInit() {
       else if (act === 'delete' && confirm('Delete this comment?')) cmTouch(Object.assign({}, c, { status: 'deleted' }));
       return;
     }
-    if (e.target.closest && e.target.closest('[data-cm-close]')) { cmOverlay('cmSheet', false); cmOverlay('cmPanel', false); return; }
+    const x = e.target.closest && e.target.closest('[data-cm-close]');
+    if (x) { cmOverlay(x.closest('.cm-overlay').id, false); return; }
     if (e.target.classList && e.target.classList.contains('cm-overlay')) cmOverlay(e.target.id, false);
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { cmOverlay('cmSheet', false); cmOverlay('cmPanel', false); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.cm-overlay').forEach(o => cmOverlay(o.id, false)); });
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') cmSyncNow(); });
   cmRefresh();
   cmSyncNow();

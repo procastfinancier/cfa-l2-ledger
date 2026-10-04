@@ -1,6 +1,7 @@
 /**
  * Ledger comments: keeps the comments I leave on the ledger page (doubts, fixes, things to add)
- * in this Google Sheet, so every device sees the same list and Claude can read and resolve them.
+ * and my revision progress (sessions revised, checkpoint grades and review dates) in this Google
+ * Sheet, so every device sees the same state and Claude can read and resolve the comments.
  *
  * Setup (once):
  *   1. Make a new Google Sheet (e.g. "CFA Ledger Comments") and open Extensions > Apps Script.
@@ -14,11 +15,15 @@
  * Tab it keeps:
  *   Comments  one row per comment. You can edit Comment, Status (open / resolved) and Reply here;
  *             leave ID, Topic key and Updated alone.
+ *   Progress  one row per session ticked as revised and per checkpoint question graded. Read-only:
+ *             the page writes it.
  */
 const PASSPHRASE = 'change-me';
 
 const HEADERS = ['ID', 'Created', 'Topic key', 'Reading', 'Section', 'Tag', 'Comment', 'Status', 'Reply', 'Updated'];
 const FIELDS = ['id', 'created', 'topic', 'reading', 'section', 'tag', 'text', 'status', 'reply', 'u'];
+const P_HEADERS = ['Key', 'Reading', 'Session', 'Item', 'Value', 'Updated'];
+const P_FIELDS = ['k', 'reading', 'session', 'item', 'v', 'u'];
 const NAVY = '#1F3864';
 
 function setup() {
@@ -28,20 +33,24 @@ function setup() {
 
 function tab_() {
   const ss = SpreadsheetApp.getActive();
-  let sh = ss.getSheetByName('Comments');
-  if (!sh) sh = ss.insertSheet('Comments');
-  if (sh.getLastRow() === 0) {
-    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS])
-      .setFontWeight('bold').setFontColor('#FFFFFF').setBackground(NAVY).setFontFamily('Arial');
-    sh.setFrozenRows(1);
-    [110, 130, 80, 220, 260, 80, 380, 80, 300, 110].forEach((w, i) => sh.setColumnWidth(i + 1, w));
-    // Stored as text so Sheets doesn't turn ids or timestamps into numbers or dates.
-    [1, 2, 3].forEach(c => sh.getRange(1, c, sh.getMaxRows(), 1).setNumberFormat('@'));
-    sh.getRange(2, 7, sh.getMaxRows() - 1, 3).setWrap(true);
-  }
+  const make = (name, headers, widths, textCols) => {
+    let sh = ss.getSheetByName(name);
+    if (!sh) sh = ss.insertSheet(name);
+    if (sh.getLastRow() === 0) {
+      sh.getRange(1, 1, 1, headers.length).setValues([headers])
+        .setFontWeight('bold').setFontColor('#FFFFFF').setBackground(NAVY).setFontFamily('Arial');
+      sh.setFrozenRows(1);
+      widths.forEach((w, i) => sh.setColumnWidth(i + 1, w));
+      // Stored as text so Sheets doesn't turn ids, timestamps or JSON into numbers or dates.
+      textCols.forEach(c => sh.getRange(1, c, sh.getMaxRows(), 1).setNumberFormat('@'));
+    }
+    return sh;
+  };
+  const sh = make('Comments', HEADERS, [110, 130, 80, 220, 260, 80, 380, 80, 300, 110], [1, 2, 3]);
+  const prog = make('Progress', P_HEADERS, [230, 220, 260, 380, 300, 110], [1, 5]);
   const blank = ss.getSheetByName('Sheet1');
   if (blank && blank.getLastRow() === 0 && ss.getSheets().length > 1) ss.deleteSheet(blank);
-  return sh;
+  return { sh, prog };
 }
 
 // Opening the web app URL in a browser shows this, which confirms the deployment works.
@@ -49,9 +58,9 @@ function doGet() {
   return json_({ ok: true, app: 'ledger-comments' });
 }
 
-// One request does both directions: the page sends the comments it changed (newer copies replace
-// older ones, field by field, so a request may carry only { id, status, reply, u }), and the reply
-// carries every comment in the sheet.
+// One request does both directions: the page sends the comments and progress rows it changed
+// (newer copies replace older ones, field by field, so a request may carry only
+// { id, status, reply, u }), and the reply carries every comment and progress row in the sheet.
 function doPost(e) {
   let req;
   try { req = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'Bad request' }); }
@@ -61,7 +70,7 @@ function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    const sh = tab_();
+    const { sh, prog } = tab_();
     const last = sh.getLastRow();
     const rows = last > 1 ? sh.getRange(2, 1, last - 1, HEADERS.length).getValues() : [];
     const at = {};
@@ -85,7 +94,27 @@ function doPost(e) {
       FIELDS.forEach((f, k) => { o[f] = f === 'u' ? (+r[k] || 0) : String(r[k]); });
       return o;
     });
-    return json_({ ok: true, comments: out });
+
+    const pLast = prog.getLastRow();
+    const pRows = pLast > 1 ? prog.getRange(2, 1, pLast - 1, P_HEADERS.length).getValues() : [];
+    const pAt = {};
+    pRows.forEach((r, i) => { pAt[String(r[0])] = i; });
+    let pChanged = false;
+    (req.progress || []).forEach(p => {
+      if (!p || !/^(rev|q)\|/.test(p.k || '')) return;
+      const i = pAt[p.k];
+      if (i != null && (+pRows[i][5] || 0) >= (+p.u || 0)) return;
+      const row = P_FIELDS.map(f => f === 'u' ? (+p.u || Date.now()) : String(p[f] == null ? '' : p[f]));
+      if (i != null) pRows[i] = row; else { pAt[p.k] = pRows.length; pRows.push(row); }
+      pChanged = true;
+    });
+    if (pChanged) prog.getRange(2, 1, pRows.length, P_HEADERS.length).setValues(pRows);
+    const pOut = pRows.filter(r => r[0]).map(r => {
+      const o = {};
+      P_FIELDS.forEach((f, k) => { o[f] = f === 'u' ? (+r[k] || 0) : String(r[k]); });
+      return o;
+    });
+    return json_({ ok: true, comments: out, progress: pOut });
   } finally {
     lock.releaseLock();
   }

@@ -4,6 +4,8 @@
 //   node tools/comments.mjs                        list open comments
 //   node tools/comments.mjs all                    list every comment
 //   node tools/comments.mjs resolve <id> "reply"   mark one resolved, with a reply shown on the page
+//   node tools/comments.mjs progress               revision state per session, and the checkpoint
+//                                                  questions graded Shaky or Didn't know
 //
 // Needs .comments-sync.json in the repo root (gitignored): { "url": "<web app URL>", "key": "<passphrase>" }
 import { readFileSync } from 'node:fs';
@@ -15,6 +17,7 @@ try { cfg = JSON.parse(readFileSync(cfgPath, 'utf8')); } catch (e) {
   process.exit(1);
 }
 
+let lastProgress = [];
 async function sync(comments = []) {
   const res = await fetch(cfg.url, {
     method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -22,6 +25,7 @@ async function sync(comments = []) {
   });
   const data = await res.json();
   if (!data.ok) throw new Error(data.error || 'Sync failed');
+  lastProgress = data.progress || [];
   return data.comments;
 }
 
@@ -33,6 +37,16 @@ if (cmd === 'resolve') {
   if (!c) { console.error('No comment with id ' + id); process.exit(1); }
   await sync([{ id, status: 'resolved', reply: rest.join(' '), u: Math.max(Date.now(), c.u + 1) }]);
   console.log('Resolved ' + id);
+} else if (cmd === 'progress') {
+  await sync();
+  const rows = lastProgress.map(p => { let v = {}; try { v = JSON.parse(p.v); } catch (e) {} return { ...p, v }; });
+  const rev = rows.filter(p => p.k.startsWith('rev|') && (p.v.dates || []).length);
+  const qs = rows.filter(p => p.k.startsWith('q|'));
+  console.log('Sessions revised:');
+  rev.forEach(p => console.log(`  ${p.reading} › ${p.session}: ${p.v.dates.length}× (last ${p.v.dates[p.v.dates.length - 1]})`));
+  const weak = qs.filter(p => p.v.g !== 'got');
+  console.log(`\nCheckpoint questions: ${qs.length} graded, ${qs.length - weak.length} got, ${weak.length} shaky or didn't know`);
+  weak.forEach(p => console.log(`  [${p.v.g}] ${p.reading} › ${p.session}\n    ${p.item}\n    key ${p.k} · history ${(p.v.hist || []).map(h => h[1]).join(' → ')}`));
 } else {
   const all = (await sync()).filter(c => c.status !== 'deleted' && (cmd === 'all' || c.status === 'open'));
   if (!all.length) console.log('No ' + (cmd === 'all' ? '' : 'open ') + 'comments.');
