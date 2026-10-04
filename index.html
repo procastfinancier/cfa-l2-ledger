@@ -465,6 +465,95 @@
     table.nb-table tbody th { min-width: 74px; }
     .nb-stack-line, .nb-stack-head { padding-left: 8px; padding-right: 8px; }
   }
+
+  /* Comments: a 💬 button on each session, sub-heading and module group, a floating button
+     for "here", and a panel listing them all. The only place on the page I type. */
+  .cm-btn {
+    display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; vertical-align: middle;
+    font-family: var(--sans); font-size: 11px; line-height: 1; padding: 3px 7px; margin-left: 8px;
+    border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink-faint);
+    cursor: pointer; opacity: 0.75;
+  }
+  .cm-btn:hover, .cm-btn:focus-visible { opacity: 1; border-color: var(--violet); color: var(--violet); }
+  .cm-btn.has-n { opacity: 1; border-color: var(--violet); background: var(--violet-bg); color: var(--violet); font-weight: 700; }
+  .nb-sub .cm-btn { float: right; margin-top: -1px; }
+  .nb-session-head .cm-btn { align-self: center; }
+  .status-row { align-items: center; }
+  .status-row .cm-btn { margin-left: 2px; font-size: 12px; padding: 6px 11px; border-radius: 20px; opacity: 1; }
+  .cm-count { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--violet); background: var(--violet-bg); border-radius: 10px; padding: 1px 6px; flex-shrink: 0; }
+  .cm-open {
+    display: inline-flex; align-items: center; gap: 6px; font-family: var(--sans); font-size: 12px; font-weight: 600;
+    padding: 6px 12px; border-radius: 20px; border: 1px solid var(--violet); background: var(--violet-bg); color: var(--violet); cursor: pointer;
+  }
+  .cm-fab {
+    position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 52px; height: 52px; border-radius: 50%;
+    border: none; background: var(--violet); color: #fff; font-size: 22px; cursor: pointer;
+    box-shadow: 0 6px 18px rgba(27, 33, 48, 0.25);
+  }
+  .cm-fab[hidden], .cm-overlay[hidden] { display: none; }
+  .cm-overlay {
+    position: fixed; inset: 0; z-index: 50; background: rgba(27, 33, 48, 0.38);
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+  }
+  .cm-card {
+    width: min(560px, 100%); max-height: 88vh; overflow-y: auto; background: var(--panel); color: var(--ink);
+    border-radius: 12px; padding: 16px 18px; font-family: var(--sans); box-shadow: 0 12px 32px rgba(27, 33, 48, 0.2);
+  }
+  .cm-card-wide { width: min(720px, 100%); }
+  .cm-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: var(--serif); font-size: 18px; margin-bottom: 10px; }
+  .cm-x { border: none; background: none; font-size: 24px; line-height: 1; color: var(--ink-faint); cursor: pointer; padding: 0 4px; }
+  .cm-ctx { font-family: var(--mono); font-size: 11px; color: var(--violet); background: var(--violet-bg); border-radius: 6px; padding: 6px 9px; margin-bottom: 10px; line-height: 1.5; }
+  .cm-ctx select { font-family: var(--mono); font-size: 11px; color: var(--ink); max-width: 100%; margin-top: 4px; width: 100%; padding: 4px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); }
+  .cm-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .cm-tag {
+    font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 16px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer;
+  }
+  .cm-tag.on.amber, .cm-chip.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .cm-tag.on.rose, .cm-chip.rose { background: var(--rose-bg); border-color: var(--rose); color: var(--rose); }
+  .cm-tag.on.teal, .cm-chip.teal { background: var(--teal-bg); border-color: var(--teal); color: var(--teal); }
+  .cm-tag.on.violet, .cm-chip.violet { background: var(--violet-bg); border-color: var(--violet); color: var(--violet); }
+  .cm-card textarea, .cm-card input[type=text], .cm-card input[type=password], .cm-card input[type=url] {
+    width: 100%; font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px;
+  }
+  .cm-card textarea { resize: vertical; min-height: 96px; line-height: 1.45; }
+  .cm-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 10px 0 4px; }
+  .cm-sync { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); }
+  .cm-sync.err { color: var(--rose); }
+  .cm-sync.ok { color: var(--teal); }
+  .cm-primary, .cm-ghost {
+    font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  }
+  .cm-primary { border: 1px solid var(--violet); background: var(--violet); color: #fff; }
+  .cm-ghost { border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+  .cm-sec-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 6px; }
+  .cm-filter { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .cm-filter button { font-family: var(--sans); font-size: 12px; padding: 6px 11px; border: none; background: var(--panel); color: var(--ink-soft); cursor: pointer; }
+  .cm-filter button.on { background: var(--ink); color: #fff; }
+  .cm-group { font-size: 12.5px; font-weight: 700; color: var(--ink); margin: 14px 0 6px; }
+  .cm-item { border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; margin-bottom: 8px; }
+  .cm-item.resolved { background: var(--bg); }
+  .cm-item.resolved .cm-text { color: var(--ink-faint); text-decoration: line-through; }
+  .cm-item-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+  .cm-chip { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--line); }
+  .cm-where { font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft); background: none; border: none; padding: 0; cursor: pointer; text-align: left; text-decoration: underline dotted; }
+  .cm-date { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); margin-left: auto; }
+  .cm-text { font-size: 13px; color: var(--ink); line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .cm-reply { font-size: 12.5px; color: var(--ink); background: var(--teal-bg); border-left: 3px solid var(--teal); border-radius: 0 6px 6px 0; padding: 6px 9px; margin-top: 7px; line-height: 1.5; white-space: pre-wrap; }
+  .cm-reply b { color: var(--teal); }
+  .cm-item-acts { display: flex; gap: 6px; margin-top: 7px; }
+  .cm-item-acts button { font-family: var(--sans); font-size: 11.5px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer; }
+  .cm-empty { font-size: 13px; color: var(--ink-faint); font-style: italic; padding: 8px 0; }
+  .cm-settings { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px; }
+  .cm-settings summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+  .cm-settings label { display: block; font-size: 11.5px; color: var(--ink-soft); margin: 10px 0 4px; }
+  .cm-hint { font-size: 11.5px; color: var(--ink-faint); line-height: 1.5; margin-top: 8px; }
+  @media (max-width: 760px) {
+    .cm-overlay { align-items: flex-end; padding: 0; }
+    .cm-card, .cm-card-wide { width: 100%; max-height: 92vh; border-radius: 14px 14px 0 0; padding: 14px 16px 20px; }
+    .cm-btn { padding: 5px 9px; font-size: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -484,7 +573,7 @@
           <li><b>Structure everything.</b> Every explanation the user gives gets converted into structured, visual HTML for the relevant topic — comparison tables (<code>CONTENT[key].compare</code>), branch/mind-map nodes (<code>CONTENT[key].notes</code>) — never left as a plain paragraph dump.</li>
           <li><b>Grill, don't just record.</b> After the user explains a concept, Claude should push for depth on every sub-point of that reading before marking it understood — follow-up questions, edge cases, "what if" variants — not accept a surface-level answer.</li>
           <li><b>Built for real revision.</b> This file is the user's actual November exam revision tool. Bias toward exam-relevant distinctions (IFRS vs. US GAAP, exceptions to ownership-% guidelines, ratio effects) over generic summaries.</li>
-          <li><b>Read-only ledger — Claude edits everything.</b> There is no manual-entry UI in this file except the search bar. Explanations happen in chat, not in a textarea; Claude decides status (not started/progress/mastered), writes the structured notes, logs gaps and tuition misses, and sets links between topics — all directly in the file's data. The user never fills in a form here.</li>
+          <li><b>Read-only ledger — Claude edits everything.</b> There is no manual-entry UI in this file except the search bar. The one exception is the 💬 comments box, where the user pins a doubt, a correction or something to add onto a section (synced through a Google Sheet by <code>ledger-comments.gs</code>); Claude works through the open ones, updates the data, and resolves each with a reply. Explanations happen in chat, not in a textarea; Claude decides status (not started/progress/mastered), writes the structured notes, logs gaps and tuition misses, and sets links between topics — all directly in the file's data. The user never fills in a form here.</li>
           <li><b>Two distinct flag colors — never mix them:</b>
             <div class="legend" style="margin:8px 0 0;">
               <span><span class="sw" style="background:var(--amber);"></span><b style="color:var(--amber);">Amber "Gap"</b> — Claude flagged this during teach-back in this ledger (the user's explanation here was incomplete/wrong)</span>
@@ -492,7 +581,7 @@
             </div>
           </li>
           <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
-          <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box. It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
+          <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box (apart from the 💬 comments box). It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
         </ol>
       </div>
     </details>
@@ -504,6 +593,7 @@
       <span><span class="sw" style="background:var(--rose);"></span>Tuition miss (you got it wrong externally)</span>
       <span><span class="sw" style="background:var(--teal);"></span>Mastered</span>
     </div>
+    <button type="button" class="cm-open" id="cmOpen">💬 My comments</button>
   </header>
   <div class="layout">
     <div class="sidebar">
@@ -515,6 +605,43 @@
     </div>
   </div>
   <aside class="refcard" id="refcard" aria-live="polite"></aside>
+
+  <button type="button" class="cm-fab" id="cmFab" hidden aria-label="Comment on the section on screen">💬</button>
+  <div class="cm-overlay" id="cmSheet" hidden>
+    <div class="cm-card" role="dialog" aria-modal="true" aria-labelledby="cmSheetTitle">
+      <div class="cm-card-head"><span id="cmSheetTitle">Add a comment</span><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></div>
+      <div class="cm-ctx" id="cmCtx"></div>
+      <div class="cm-tags" id="cmTags"></div>
+      <textarea id="cmText" placeholder="What's unclear, wrong or missing here? This is what Claude will read."></textarea>
+      <div class="cm-actions"><span class="cm-sync" id="cmSheetSync"></span><button type="button" class="cm-primary" id="cmSave">Save</button></div>
+      <div id="cmHere"></div>
+    </div>
+  </div>
+  <div class="cm-overlay" id="cmPanel" hidden>
+    <div class="cm-card cm-card-wide" role="dialog" aria-modal="true" aria-labelledby="cmPanelTitle">
+      <div class="cm-card-head"><span id="cmPanelTitle">My comments</span><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></div>
+      <div class="cm-actions">
+        <div class="cm-filter" id="cmFilter">
+          <button type="button" data-f="open">Open</button><button type="button" data-f="resolved">Resolved</button><button type="button" data-f="all">All</button>
+        </div>
+        <button type="button" class="cm-ghost" id="cmSyncNow">Sync now</button>
+      </div>
+      <div class="cm-actions">
+        <button type="button" class="cm-primary" id="cmCopy">Copy open comments as a Claude prompt</button>
+        <span class="cm-sync" id="cmPanelSync"></span>
+      </div>
+      <div id="cmList"></div>
+      <details class="cm-settings" id="cmSettings">
+        <summary>Sync settings (Google Sheet)</summary>
+        <label for="cmUrl">Web app URL</label>
+        <input type="url" id="cmUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
+        <label for="cmKey">Passphrase</label>
+        <input type="password" id="cmKey" autocomplete="off">
+        <div class="cm-actions"><button type="button" class="cm-ghost" id="cmDisconnect">Stop syncing</button><button type="button" class="cm-primary" id="cmConnect">Save and sync</button></div>
+        <div class="cm-hint">Set up once with <b>ledger-comments.gs</b> in the repo (steps at the top of that file), then enter the same URL and passphrase on each device. Without it, comments stay in this browser only.</div>
+      </details>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -8077,7 +8204,8 @@ function renderSidebar() {
       const row = document.createElement('div');
       row.className = 'topic-row' + (t.key === selectedKey ? ' active' : '');
       const st = statusOf(t.key);
-      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '');
+      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
+        (cmOpenCount(t.key) ? '<span class="cm-count" title="Open comments">💬 ' + cmOpenCount(t.key) + '</span>' : '');
       row.onclick = () => { selectedKey = t.key; openSubjects.add(s.id); render(); };
       topicsDiv.appendChild(row);
     });
@@ -8459,15 +8587,320 @@ function renderDetail() {
   });
 
   setupRefCards(el);
+  cmDecorate(el);
 }
 
 function escapeHtml(str) {
   return (str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+// --- Comments: the one place I type on this page. A comment pins a doubt, a correction or
+// something to add onto a section of a reading. It's saved in this browser at once and, once a
+// sync URL is set, in a Google Sheet (ledger-comments.gs), so my phone and PC share one list
+// and Claude can read the open ones, update the notes, and resolve them with a reply. ---
+const CM_TAGS = [
+  { id: 'doubt', name: 'Doubt', tone: 'amber' },
+  { id: 'fix', name: 'Fix / error', tone: 'rose' },
+  { id: 'add', name: 'Add more', tone: 'teal' },
+  { id: 'idea', name: 'Idea', tone: 'violet' },
+];
+const CM_STORE = 'ledgerComments.v1';
+const cm = { items: {}, dirty: {}, cfg: null, busy: false, again: false, err: '', at: null, timer: null,
+  topic: null, section: '', tag: 'doubt', filter: 'open' };
+
+function cmLoad() {
+  try {
+    const s = JSON.parse(localStorage.getItem(CM_STORE) || '{}');
+    cm.items = s.items || {}; cm.dirty = s.dirty || {}; cm.cfg = s.cfg || null;
+  } catch (e) {}
+}
+function cmSave() {
+  try { localStorage.setItem(CM_STORE, JSON.stringify({ items: cm.items, dirty: cm.dirty, cfg: cm.cfg })); } catch (e) {}
+}
+function cmLive() { return Object.values(cm.items).filter(c => c.status !== 'deleted'); }
+function cmOpenCount(topic, section) {
+  return cmLive().filter(c => c.status === 'open' && (!topic || c.topic === topic) && (section == null || c.section === section)).length;
+}
+function cmTagOf(id) { return CM_TAGS.find(t => t.id === id) || CM_TAGS[0]; }
+function cmReadingOf(key) { const m = FLAT.find(t => t.key === key); return m ? m.name : key; }
+function cmWhere(c) { return cmReadingOf(c.topic) + (c.section ? ' › ' + c.section : ' (whole reading)'); }
+function cmTouch(c) {
+  c.u = Math.max(Date.now(), (+c.u || 0) + 1);
+  cm.items[c.id] = c; cm.dirty[c.id] = 1;
+  cmSave(); cmSyncSoon(); cmRefresh();
+}
+
+// 💬 buttons go onto the rendered topic rather than into each renderer: one on the status row for
+// the whole reading, one per notebook session and sub-heading, one per module group. The section
+// label each carries is what the comment is pinned to.
+function cmDecorate(el) {
+  const add = (host, section) => {
+    if (!host) return;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'cm-btn';
+    b.setAttribute('data-csec', section);
+    b.setAttribute('aria-label', 'Comment on ' + (section || 'this reading'));
+    host.appendChild(b);
+  };
+  add(el.querySelector('.status-row'), '');
+  el.querySelectorAll('.nb-session').forEach(s => {
+    const tag = s.querySelector('.nb-session-tag'), title = s.querySelector('.nb-session-title');
+    const sec = (tag ? tag.textContent : '') + ' · ' + (title ? title.textContent : '');
+    add(s.querySelector('.nb-session-head'), sec);
+    s.querySelectorAll('.nb-sub').forEach(sub => add(sub, sec + ' › ' + sub.textContent.trim()));
+  });
+  el.querySelectorAll('details.note-group > summary').forEach(sm => add(sm, sm.parentNode.getAttribute('data-group')));
+  cmPaintButtons();
+}
+function cmPaintButtons() {
+  document.querySelectorAll('#detail .cm-btn').forEach(b => {
+    const sec = b.getAttribute('data-csec');
+    const n = cmOpenCount(selectedKey, sec);
+    b.classList.toggle('has-n', n > 0);
+    b.innerHTML = sec ? '💬' + (n ? ' ' + n : '') : '💬 ' + (n ? n + ' on this reading' : 'Comment');
+  });
+  const fab = document.getElementById('cmFab');
+  fab.hidden = !selectedKey;
+}
+// The section whose heading was last scrolled past the top third of the screen.
+function cmSectionOnScreen() {
+  let sec = '';
+  document.querySelectorAll('#detail .cm-btn').forEach(b => {
+    const r = b.getBoundingClientRect();
+    if (r.height && r.top < window.innerHeight * 0.4) sec = b.getAttribute('data-csec');
+  });
+  return sec;
+}
+
+function cmSyncLabel() {
+  const waiting = Object.keys(cm.dirty).length;
+  if (!cm.cfg) return { cls: '', text: 'Saved on this device only · set up sync below' };
+  if (cm.busy) return { cls: '', text: 'Syncing…' };
+  if (cm.err) return { cls: 'err', text: 'Not synced (' + cm.err + ')' + (waiting ? ' · ' + waiting + ' waiting' : '') };
+  if (cm.at) return { cls: 'ok', text: 'Synced ' + cm.at.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+  return { cls: '', text: waiting ? waiting + ' waiting to sync' : 'Google Sheet' };
+}
+function cmShowSync() {
+  const l = cmSyncLabel();
+  ['cmSheetSync', 'cmPanelSync'].forEach(id => {
+    const s = document.getElementById(id);
+    s.className = 'cm-sync ' + l.cls; s.textContent = id === 'cmSheetSync' && !cm.cfg ? 'Saved on this device only' : l.text;
+  });
+}
+function cmRefresh() {
+  const n = cmOpenCount();
+  document.getElementById('cmOpen').textContent = '💬 My comments' + (n ? ' · ' + n + ' open' : '');
+  cmPaintButtons();
+  renderSidebar();
+  if (!document.getElementById('cmPanel').hidden) cmRenderList();
+  if (!document.getElementById('cmSheet').hidden) cmRenderHere();
+  cmShowSync();
+}
+
+function cmItemHtml(c, showWhere) {
+  const t = cmTagOf(c.tag);
+  const when = new Date(+c.created || +c.u || Date.now());
+  return `<div class="cm-item${c.status === 'resolved' ? ' resolved' : ''}">
+    <div class="cm-item-top">
+      <span class="cm-chip ${t.tone}">${t.name}</span>
+      ${showWhere ? `<button type="button" class="cm-where" data-cm-act="jump" data-id="${escapeHtml(c.id)}">${escapeHtml(c.section || 'Whole reading')}</button>` : ''}
+      <span class="cm-date">${when.toLocaleDateString([], { day: 'numeric', month: 'short' })}</span>
+    </div>
+    <div class="cm-text">${escapeHtml(c.text)}</div>
+    ${c.reply ? `<div class="cm-reply"><b>Claude:</b> ${escapeHtml(c.reply)}</div>` : ''}
+    <div class="cm-item-acts">
+      ${c.status === 'resolved'
+        ? `<button type="button" data-cm-act="reopen" data-id="${escapeHtml(c.id)}">Reopen</button>`
+        : `<button type="button" data-cm-act="resolve" data-id="${escapeHtml(c.id)}">✓ Resolve</button>`}
+      <button type="button" data-cm-act="delete" data-id="${escapeHtml(c.id)}">Delete</button>
+    </div>
+  </div>`;
+}
+function cmRenderHere() {
+  const list = cmLive().filter(c => c.topic === cm.topic && c.section === cm.section).sort((a, b) => (+b.created || 0) - (+a.created || 0));
+  document.getElementById('cmHere').innerHTML = list.length
+    ? '<div class="cm-sec-label">Already on this section</div>' + list.map(c => cmItemHtml(c, false)).join('') : '';
+}
+function cmRenderList() {
+  document.querySelectorAll('#cmFilter button').forEach(b => b.classList.toggle('on', b.getAttribute('data-f') === cm.filter));
+  const list = cmLive().filter(c => cm.filter === 'all' || c.status === cm.filter);
+  const order = FLAT.map(t => t.key);
+  const groups = {};
+  list.forEach(c => (groups[c.topic] = groups[c.topic] || []).push(c));
+  const keys = Object.keys(groups).sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  document.getElementById('cmList').innerHTML = keys.length ? keys.map(k => `
+    <div class="cm-group">${escapeHtml(cmReadingOf(k))}</div>
+    ${groups[k].sort((a, b) => (+a.created || 0) - (+b.created || 0)).map(c => cmItemHtml(c, true)).join('')}`).join('')
+    : `<div class="cm-empty">${cm.filter === 'open' ? 'No open comments. Tap 💬 next to any heading to add one.' : 'Nothing here.'}</div>`;
+}
+
+function cmOverlay(id, show) {
+  document.getElementById(id).hidden = !show;
+  const anyOpen = !document.getElementById('cmSheet').hidden || !document.getElementById('cmPanel').hidden;
+  document.body.style.overflow = anyOpen ? 'hidden' : '';
+}
+function cmCompose(section) {
+  cm.topic = selectedKey; cm.section = section;
+  const secs = [];
+  document.querySelectorAll('#detail .cm-btn').forEach(b => { const s = b.getAttribute('data-csec'); if (secs.indexOf(s) < 0) secs.push(s); });
+  document.getElementById('cmCtx').innerHTML = escapeHtml(cmReadingOf(cm.topic)) +
+    `<select id="cmSec" aria-label="Section">${secs.map(s => `<option value="${escapeHtml(s)}"${s === section ? ' selected' : ''}>${escapeHtml(s || 'Whole reading')}</option>`).join('')}</select>`;
+  document.getElementById('cmSec').onchange = e => { cm.section = e.target.value; cmRenderHere(); };
+  document.getElementById('cmTags').innerHTML = CM_TAGS.map(t =>
+    `<button type="button" class="cm-tag ${t.tone}${t.id === cm.tag ? ' on' : ''}" data-tag="${t.id}">${t.name}</button>`).join('');
+  cmRenderHere(); cmShowSync();
+  cmOverlay('cmSheet', true);
+  const ta = document.getElementById('cmText');
+  setTimeout(() => ta.focus(), 50);
+}
+function cmSaveNew() {
+  const ta = document.getElementById('cmText');
+  const text = ta.value.trim();
+  if (!text) { ta.focus(); return; }
+  const now = Date.now();
+  cmTouch({ id: 'c_' + now.toString(36) + Math.random().toString(36).slice(2, 6), created: String(now), topic: cm.topic,
+    reading: cmReadingOf(cm.topic), section: cm.section, tag: cm.tag, text, status: 'open', reply: '' });
+  ta.value = '';
+  cmOverlay('cmSheet', false);
+}
+
+function cmJump(c) {
+  cmOverlay('cmPanel', false);
+  const m = FLAT.find(t => t.key === c.topic);
+  if (!m) return;
+  selectedKey = c.topic; openSubjects.add(m.subjectId); render();
+  const b = Array.prototype.find.call(document.querySelectorAll('#detail .cm-btn'), x => x.getAttribute('data-csec') === c.section);
+  if (!b) return;
+  const group = b.closest('details');
+  if (group) group.open = true;
+  if (b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function cmPrompt() {
+  const open = cmLive().filter(c => c.status === 'open');
+  const order = FLAT.map(t => t.key);
+  open.sort((a, b) => (order.indexOf(a.topic) - order.indexOf(b.topic)) || ((+a.created || 0) - (+b.created || 0)));
+  return 'Work through my open ledger comments (' + open.length + '). For each one, update index.html where it points, ' +
+    'then resolve it in the comments sheet with a one-line reply saying what you changed.\n\n' +
+    open.map((c, i) => (i + 1) + '. [' + cmTagOf(c.tag).name + '] ' + cmWhere(c) + '\n   topic ' + c.topic + ' · id ' + c.id +
+      '\n   ' + c.text.replace(/\n/g, '\n   ')).join('\n\n');
+}
+function cmCopy() {
+  const text = cmPrompt();
+  const btn = document.getElementById('cmCopy');
+  const done = ok => { btn.textContent = ok ? 'Copied ✓ paste it to Claude' : 'Copy failed: select the text manually'; setTimeout(() => { btn.textContent = 'Copy open comments as a Claude prompt'; }, 2500); };
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); done(ok);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => done(true), fallback);
+  else fallback();
+}
+
+function cmSyncSoon() {
+  if (!cm.cfg) return;
+  clearTimeout(cm.timer);
+  cm.timer = setTimeout(cmSyncNow, 1200);
+}
+// One request does both directions: what changed here goes up, and the sheet's full list comes
+// back. The sheet wins for anything not still waiting to go up, so edits and deletions made in the
+// sheet (or by Claude) show up here.
+async function cmSyncNow() {
+  if (!cm.cfg) { cmShowSync(); return; }
+  if (cm.busy) { cm.again = true; return; }
+  cm.busy = true; cmShowSync();
+  const sent = {};
+  const comments = Object.keys(cm.dirty).filter(id => cm.items[id]).map(id => { sent[id] = cm.items[id].u; return cm.items[id]; });
+  Object.keys(cm.dirty).forEach(id => { if (!cm.items[id]) delete cm.dirty[id]; });
+  try {
+    const res = await fetch(cm.cfg.url, {
+      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ key: cm.cfg.key, comments })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'Sync failed');
+    Object.keys(sent).forEach(id => { if (cm.items[id] && cm.items[id].u === sent[id]) delete cm.dirty[id]; });
+    const next = {};
+    Object.keys(cm.dirty).forEach(id => { next[id] = cm.items[id]; });
+    (data.comments || []).forEach(c => { if (c.id && !next[c.id]) next[c.id] = c; });
+    cm.items = next;
+    cm.at = new Date(); cm.err = '';
+  } catch (err) {
+    cm.err = /fetch|network|json|load/i.test(err.message) ? 'offline or wrong URL' : err.message;
+  }
+  cm.busy = false;
+  cmSave(); cmRefresh();
+  if (cm.again) { cm.again = false; cmSyncNow(); }
+}
+
+function cmInit() {
+  cmLoad();
+  document.getElementById('detail').addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('.cm-btn');
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    cmCompose(b.getAttribute('data-csec'));
+  });
+  document.getElementById('cmFab').onclick = () => cmCompose(cmSectionOnScreen());
+  document.getElementById('cmOpen').onclick = () => {
+    document.getElementById('cmUrl').value = (cm.cfg && cm.cfg.url) || '';
+    document.getElementById('cmKey').value = (cm.cfg && cm.cfg.key) || '';
+    document.getElementById('cmSettings').open = !cm.cfg;
+    cmRenderList(); cmShowSync(); cmOverlay('cmPanel', true);
+    cmSyncNow();
+  };
+  document.getElementById('cmTags').onclick = e => {
+    const t = e.target.closest('[data-tag]');
+    if (!t) return;
+    cm.tag = t.getAttribute('data-tag');
+    document.querySelectorAll('#cmTags .cm-tag').forEach(x => x.classList.toggle('on', x === t));
+  };
+  document.getElementById('cmSave').onclick = cmSaveNew;
+  document.getElementById('cmText').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) cmSaveNew(); });
+  document.getElementById('cmFilter').onclick = e => {
+    const f = e.target.closest('[data-f]');
+    if (f) { cm.filter = f.getAttribute('data-f'); cmRenderList(); }
+  };
+  document.getElementById('cmSyncNow').onclick = cmSyncNow;
+  document.getElementById('cmCopy').onclick = cmCopy;
+  document.getElementById('cmConnect').onclick = () => {
+    const url = document.getElementById('cmUrl').value.trim(), key = document.getElementById('cmKey').value;
+    if (!/^https:\/\/script\.google(usercontent)?\.com\//.test(url)) { cm.err = 'that is not an Apps Script web app URL'; cmShowSync(); return; }
+    cm.cfg = { url, key }; cm.err = '';
+    Object.keys(cm.items).forEach(id => { cm.dirty[id] = 1; });
+    cmSave(); document.getElementById('cmSettings').open = false; cmSyncNow();
+  };
+  document.getElementById('cmDisconnect').onclick = () => { cm.cfg = null; cm.err = ''; cm.at = null; cmSave(); cmRefresh(); };
+  // Resolve / reopen / delete / jump, in either overlay.
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('[data-cm-act]');
+    if (a) {
+      const c = cm.items[a.getAttribute('data-id')];
+      if (!c) return;
+      const act = a.getAttribute('data-cm-act');
+      if (act === 'jump') cmJump(c);
+      else if (act === 'resolve') cmTouch(Object.assign({}, c, { status: 'resolved' }));
+      else if (act === 'reopen') cmTouch(Object.assign({}, c, { status: 'open' }));
+      else if (act === 'delete' && confirm('Delete this comment?')) cmTouch(Object.assign({}, c, { status: 'deleted' }));
+      return;
+    }
+    if (e.target.closest && e.target.closest('[data-cm-close]')) { cmOverlay('cmSheet', false); cmOverlay('cmPanel', false); return; }
+    if (e.target.classList && e.target.classList.contains('cm-overlay')) cmOverlay(e.target.id, false);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { cmOverlay('cmSheet', false); cmOverlay('cmPanel', false); } });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') cmSyncNow(); });
+  cmRefresh();
+  cmSyncNow();
+}
+
 document.getElementById('search').addEventListener('input', renderSidebar);
 openSubjects.add('fsa');
 render();
+cmInit();
 </script>
 </body>
 </html>
