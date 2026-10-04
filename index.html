@@ -545,7 +545,7 @@ const SUBJECTS = [
   ]},
   { id: 'equity', name: 'Equity', topics: [
     { name: 'Reading 17: Equity Valuation: Applications and Processes', desc: 'R17 · Sessions 17.S1–17.S2, following your written notes — types of value, the five-step valuation process, Porter and quality of earnings, absolute vs. relative models, sum-of-the-parts and conglomerate discount' },
-    { name: 'Discounted dividend valuation', desc: 'DDM models' },
+    { name: 'Reading 18: Discounted Dividend Valuation', desc: 'R18 · Sessions 18.S1–18.S5, following your written notes — one-, two- and multi-period DDM, Gordon growth, PVGO and justified P/E, preferred stock, two-stage, H-model and three-stage DDM, terminal value, implied returns, sustainable growth and PRAT' },
     { name: 'Free cash flow valuation', desc: 'FCFF / FCFE models' },
     { name: 'Market-based valuation', desc: 'Price and EV multiples' },
     { name: 'Residual income valuation', desc: 'RI model and accounting issues' },
@@ -4360,6 +4360,409 @@ const CONTENT = {
       },
     ],
   },
+  'equity.1': {
+    flow: [
+      {
+        module: '18.S1', title: 'Dividends as Cash Flow · One-, Two- and Multi-Period DDM',
+        blocks: [
+          { k: 'p', text: 'Refer to the steps of the *equity valuation process* (Reading 17).' },
+          { k: 'cols', id: 's1-proscons', panes: [
+            { title: 'Advantages of dividends as the measure of cash flow', tone: 'teal', items: [
+              'Dividends are *less volatile* than other measures (earnings or free cash flow).',
+              'The investor receives dividends while they hold a particular stock, hence it is *theoretically justified*.',
+            ] },
+            { title: 'Disadvantages', tone: 'violet', items: [
+              '*Difficult to implement* for firms that don’t currently pay dividends.',
+              'Takes the perspective of an investor who owns a *minority stake* in the firm and *cannot control* the dividend policy.',
+            ] },
+          ] },
+          { k: 'points', id: 's1-when', title: 'Situations when dividends can be used for valuation', items: [
+            'The company has a *history of dividend payments*.',
+            'The dividend policy is *clear & related to the earnings* of the firm.',
+            'The perspective is that of a *minority shareholder*.',
+          ] },
+          { k: 'flag', title: 'Free cash flow and residual income as the alternatives (LOS 18.a)',
+            items: [
+              'Firms in the *mature* stage of the life cycle are the ones most likely to meet the first two dividend criteria.',
+              '*FCFF / FCFE* fit firms with no dividend history (or one unrelated to earnings), with FCF that tracks profitability, and a *controlling* shareholder’s perspective. Hard to use when capital needs make FCF negative for years.',
+              '*Residual income* fits firms with no dividends, *negative FCF* for the foreseeable future, and *transparent, high-quality* reporting. It needs a careful look at accruals.',
+              'Module quiz: a growth stock with no dividends, negative FCF for five years and high-quality earnings → *residual income model*.',
+            ],
+            text: 'Schweser adds:' },
+          { k: 'split', head: 'Dividend Discount Model (DDM)', legs: [
+            { name: 'One period', text: '' },
+            { name: 'Two period', text: '' },
+            { name: 'Multi period', text: '' },
+          ] },
+          { k: 'formula', title: 'One-period DDM', lines: [
+            'V₀ = (D₁ + P₁) ÷ (1 + kₑ)',
+          ] },
+          { k: 'example', id: 's1-one', title: 'Example — One-period DDM (BuyBest shares)',
+            given: [
+              { label: 'Current price P₀', val: '26' },
+              { label: 'D₁', val: '1.25' },
+              { label: 'Expected price P₁', val: '28' },
+              { label: 'kₑ', val: '8%' },
+            ],
+            steps: [
+              'IV of the share = (D₁ + P₁) ÷ (1 + kₑ) = (1.25 + 28) ÷ 1.08',
+            ],
+            result: 'IV = 27.08 > MV of 26, so the stock is *undervalued*' },
+          { k: 'formula', title: 'Two-period DDM', lines: [
+            'P₀ = D₁ ÷ (1 + kₑ) + (D₂ + P₂) ÷ (1 + kₑ)²',
+          ] },
+          { k: 'example', id: 's1-two', title: 'Example — Two-period DDM (Machines Unlimited shares)',
+            given: [
+              { label: 'D₁ · D₂', val: '1.55 · 1.72' },
+              { label: 'P₂', val: '42' },
+              { label: 'kₑ', val: '14%' },
+            ],
+            steps: [
+              'P₀ = 1.55 ÷ 1.14 + (1.72 + 42) ÷ (1.14)²',
+            ],
+            result: 'P₀ = 35' },
+          { k: 'example', id: 's1-three', title: 'Example — Three-period DDM (Reliable Motors)',
+            given: [
+              { label: 'D₁ · D₂ · D₃', val: '1.50 · 1.60 · 1.75' },
+              { label: 'P₃', val: '54' },
+              { label: 'kₑ', val: '15%' },
+            ],
+            steps: [
+              'P₀ = 1.50 ÷ 1.15 + 1.60 ÷ 1.15² + (1.75 + 54) ÷ 1.15³',
+              'Calculator: CF0 = 0; C01 = 1.50; C02 = 1.60; C03 = 55.75; I = 15; CPT NPV',
+            ],
+            result: 'P₀ = 39.17' },
+          { k: 'p', text: 'Extending the holding period forever gives the general DDM: value = PV of an *infinite stream of dividends*. In practice we use one of the growth models:' },
+          { k: 'split', head: 'DDM growth models', legs: [
+            { name: 'Gordon constant growth model', text: '' },
+            { name: 'Two-stage growth model', text: '' },
+            { name: 'H-model', text: '' },
+            { name: 'Three-stage growth model', text: '' },
+          ] },
+        ],
+      },
+      {
+        module: '18.S2', title: 'Gordon Growth Model · Implied Growth Rate',
+        blocks: [
+          { k: 'formula', title: 'Gordon growth model', lines: [
+            'V₀ = D₁ ÷ (kₑ − g) = D₀(1 + g) ÷ (kₑ − g)',
+          ], note: 'Discount the *next* dividend, D₁. If you are given D₀ (just paid), grow it by (1 + g) first.' },
+          { k: 'points', id: 's2-assume', title: 'Assumptions', items: [
+            'Dividends are the *appropriate measure of shareholder wealth*.',
+            'The constant dividend growth rate, *g*, and the required return on the stock, *kₑ*, are *never expected to change*.',
+            '*kₑ must be greater than g*; if not, the math will not work.',
+            'This model is *very sensitive* to changes in its inputs.',
+          ] },
+          { k: 'flag', title: 'How high can g be?',
+            items: [
+              'g can be *negative* (dividends declining) and the model still works, as long as g < kₑ.',
+              'No firm can grow forever faster than *real GDP growth + long-term inflation*; a perpetual growth forecast *above 5%* is suspect.',
+              'With share repurchases, the analyst can model *total payout* (dividends + buybacks), or use cash dividends adjusted for the share count.',
+            ],
+            text: 'Schweser adds:' },
+          { k: 'example', id: 's2-ggm', title: 'Example — Gordon growth model with CAPM (DownUnder Financial)',
+            given: [
+              { label: 'D₀', val: '1.80' },
+              { label: 'g', val: '3.5%' },
+              { label: 'β · Rf · Rm', val: '1.5 · 4% · 8%' },
+            ],
+            steps: [
+              'kₑ = Rf + β(Rm − Rf) = 4% + 1.5 × (8% − 4%) = *10%*',
+              'P₀ = 1.8 × (1 + 3.5%) ÷ (10% − 3.5%)',
+            ],
+            result: 'P₀ = 28.66' },
+          { k: 'fix', title: 'kₑ = Rm + β(Rm − Rf)',
+            text: 'CAPM starts from the *risk-free rate*: kₑ = *Rf* + β(Rm − Rf). The working on the page already uses 4% (Rf), so the 10% answer is right; only the formula line has the wrong first term.' },
+          { k: 'example', id: 's2-implied', title: 'Example — Implied growth rate (Aurora Mining)',
+            given: [
+              { label: 'P₀', val: '24.25' },
+              { label: 'D₀', val: '1.10' },
+              { label: 'kₑ', val: '8.5%' },
+            ],
+            steps: [
+              '24.25 = 1.1(1 + g) ÷ (8.5% − g)',
+              '24.25 × (8.5% − g) = 1.1(1 + g) → 2.0612 − 24.25g = 1.1 + 1.1g',
+              '0.9612 = 25.35g',
+            ],
+            result: 'g = 0.0379 ≈ 3.8%' },
+          { k: 'flag', title: 'Solving for any one of the four inputs (LOS 18.f, 18.i)',
+            items: [
+              'The GGM has four variables (V₀, D₁, kₑ, g): know three, solve for the fourth. In practice price and dividend are observed, so you back out either *implied g* or *implied kₑ*.',
+              'Module quiz: MCD at $89, D₀ = $2.50, g = 8% → implied kₑ = 2.70 ÷ 89 + 8% ≈ *11%*.',
+              'Module quiz: VDF pays $4 next period, then dividends *decline 3%* a year, r = 9% → 4 ÷ (9% + 3%) = *$33.33*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '18.S3', title: 'Zero Growth & Preferred Stock · PVGO · Justified P/E · GGM Strengths',
+        blocks: [
+          { k: 'p', text: 'Where a company earns *lower than the required return*, it should *pay out 100% as dividends*. In this scenario growth will be zero (g = 0), and the value of the company will be:' },
+          { k: 'formula', title: 'No-growth company', lines: [
+            'V₀ = Earnings ÷ kₑ',
+          ], note: 'g = b × ROE, and with 100% payout b = 0, so g = 0 and D = E: V₀ = D ÷ (kₑ − 0) = E ÷ kₑ.' },
+          { k: 'sub', text: 'Components of Equity Value' },
+          { k: 'cols', id: 's3-comp', panes: [
+            { title: 'Value of its assets in place (E₁ ÷ r)', tone: 'slate', items: [
+              'Present value of a *perpetual cash flow of E₁*',
+            ] },
+            { title: 'PV of its future investment opportunities', tone: 'teal', items: [
+              'Present value of *growth opportunities* (PVGO)',
+            ] },
+          ] },
+          { k: 'formula', title: 'Value with growth opportunities', lines: [
+            'V₀ = E₁ ÷ kₑ + PVGO',
+          ] },
+          { k: 'example', id: 's3-pvgo', title: 'Example — PVGO and the P/E it explains (Reliable, Inc.)',
+            given: [
+              { label: 'P₀', val: '60' },
+              { label: 'E₁', val: '5' },
+              { label: 'kₑ', val: '10%' },
+            ],
+            steps: [
+              '60 = 5 ÷ 0.10 + PVGO → PVGO = *10*',
+              'P/E = 60 ÷ 5 = *12*; P/E from growth = PVGO ÷ E₁ = 10 ÷ 5 = *2*',
+              'What % of value is related to growth? 10 out of 60 = 2 out of 12 = *16.7%*',
+            ],
+            result: 'PVGO = 10 · 16.7% of value comes from growth' },
+          { k: 'flag', title: 'Who has a big PVGO',
+            items: [
+              'A firm with opportunities to earn *more than* its required return should retain earnings and invest them; that is what PVGO captures.',
+              'Growth companies hold much of their value in PVGO; slow-growth firms (e.g. *utilities*) get most of their value from *assets in place*.',
+            ],
+            text: 'Schweser adds:' },
+          { k: 'sub', text: 'Multiples Based on Fundamentals' },
+          { k: 'p', text: 'Justified P/E is what the multiple *should* be, based on fundamentals (the valuation model), i.e. based on IV and not the market price.' },
+          { k: 'table', id: 's3-pe',
+            columns: ['Valuation model', 'P/E multiple depends on'],
+            rows: [
+              { label: 'Justified leading P/E (future earnings)', values: ['P₀ ÷ E₁ = (D₁ ÷ E₁) ÷ (kₑ − g) = (1 − RR) ÷ (kₑ − g)', 'Expected dividend payout ratio · required return on the stock · expected constant growth rate of dividends'] },
+              { label: 'Justified trailing P/E (current earnings)', values: ['P₀ ÷ E₀ = [D₀(1 + g) ÷ E₀] ÷ (kₑ − g) = (1 − RR)(1 + g) ÷ (kₑ − g)', 'D₀ ÷ E₀ = current dividend payout ratio · required return on the stock · expected constant growth rate of dividends'] },
+            ] },
+          { k: 'qa', q: 'Which multiple would be higher if earnings are expected to increase?', a: 'Justified *trailing* P/E > justified *leading* P/E, by a factor of *(1 + g)*: trailing = leading × (1 + g).' },
+          { k: 'example', id: 's3-alliance', title: 'Example — Justified leading and trailing P/E (Alliance, Inc.)',
+            given: [
+              { label: 'P₀ · E₀ · D₀', val: '16 · 3 · 1.5' },
+              { label: 'g', val: '3.5%' },
+              { label: 'Rf · equity risk premium · β', val: '4% · 6% · 1.1' },
+            ],
+            steps: [
+              'kₑ = Rf + β × ERP = 4% + 1.1 × 6% = *10.6%*',
+              'DPR = DPS ÷ EPS = 1.5 ÷ 3 = *50%*',
+              'Justified trailing P/E = (1 − 50%)(1 + 3.5%) ÷ (10.6% − 3.5%) = *7.29*',
+              'Justified leading P/E = (1 − 50%) ÷ (10.6% − 3.5%) = *7.04*',
+            ],
+            result: 'Trailing 7.29 > leading 7.04' },
+          { k: 'fix', title: 'Alliance: Rm = 6%, kₑ = 4% + 1.1(6% − 4%)',
+            text: 'In the question *6% is the market equity risk premium* (Rm − Rf), not the market return. So kₑ = 4% + 1.1 × *6%* = 10.6%, which is the number boxed on the page. Written as 4% + 1.1(6% − 4%), it would give 6.2%.' },
+          { k: 'sub', text: 'Value of Preferred Stock' },
+          { k: 'p', text: 'Same logic as the no-growth company: if a company earns lower than the required return it should pay out 100% as dividends, and the value is the dividend over the required return with *g = 0*. A *fixed-rate perpetual preferred* works exactly like that.' },
+          { k: 'formula', title: 'Non-callable fixed-rate perpetual preferred', lines: [
+            'V(ps) = D(ps) ÷ k(ps)',
+          ] },
+          { k: 'example', id: 's3-pref', title: 'Example — Fixed-rate perpetual preferred (United Publishing)',
+            given: [
+              { label: 'Dividend', val: '6% of par 100' },
+              { label: 'k(ps)', val: '9.5%' },
+            ],
+            steps: [
+              'D = 0.06 × 100 = *6*',
+              'V(ps) = 6 ÷ 9.5%',
+            ],
+            result: 'V(ps) = 63.16' },
+          { k: 'cols', id: 's3-ggm', panes: [
+            { title: 'Gordon growth model — advantages', tone: 'teal', items: [
+              'Used to determine *price-implied growth rates*, *required rates of return* & *value of growth opportunities*.',
+              'Is applicable to *stable, mature, dividend-paying* firms.',
+              'Is appropriate for valuing *market indices*.',
+              'Is easily communicated & explained because of its *straightforward* approach.',
+              'Can be used to *supplement* other, more complex valuation methods.',
+            ] },
+            { title: 'Disadvantages', tone: 'violet', items: [
+              '*Small changes in input* could impact significantly on the output.',
+              'Not applied to companies with *unpredictable growth*.',
+              'Not applied to *non-dividend-paying* stocks.',
+            ] },
+          ] },
+        ],
+      },
+      {
+        module: '18.S4', title: 'Multistage Models · Two-Stage, H-Model, Three-Stage · Implied Return',
+        blocks: [
+          { k: 'points', id: 's4-two', title: 'Two-stage DDM', items: [
+            'In the initial short term the company grows at a *high rate* and then *suddenly shifts* to a low & sustainable growth rate for perpetuity.',
+            'Such sudden shifts don’t happen in reality; it is usually a more *gradual shift* towards sustainable growth.',
+            'The *H-model* uses a gradual & *linear shift* toward the long-run average growth rate.',
+          ] },
+          { k: 'flag', title: 'Life-cycle phases and which model fits (LOS 18.k, 18.l)',
+            items: [
+              '*Growth* phase: rapidly rising earnings, little or no dividends, heavy reinvestment. *Transition*: growth slowing as competition arrives. *Mature*: stable, slower growth and stable payout.',
+              '*Two-stage*: high growth for a short, visible period, then an immediate drop (e.g. a *patent expiring*). *H-model*: high growth fading *linearly*. *Three-stage*: three distinct growth phases (stage 2 may also decline linearly).',
+              '*Spreadsheet modelling*: any growth pattern, for firms with lots of information (construction firms, defence contractors with long contracts). Steps: base dividend → forecast the supernormal period → terminal value → discount everything.',
+              'Long-run growth reverts to roughly real GDP growth + inflation, historically *2%–5%*.',
+            ],
+            text: 'Schweser adds:' },
+          { k: 'sub', text: 'Estimating Terminal Value' },
+          { k: 'example', id: 's4-tv', title: 'Example — Terminal value two ways (Level Partners)',
+            given: [
+              { label: 'E₁₀', val: '12' },
+              { label: 'DPR', val: '50% → D₁₀ = 6' },
+              { label: 'kₑ · g', val: '11% · 4%' },
+              { label: 'Trailing P/E', val: '8' },
+            ],
+            steps: [
+              'Using the Gordon growth model: P₁₀ = D₁₁ ÷ (kₑ − g) = 6 × (1 + 4%) ÷ (11% − 4%) = *89.14*',
+              'Using the P/E multiple: P₁₀ = (P₁₀ ÷ E₁₀) × E₁₀ = 8 × 12 = *96*',
+            ],
+            result: 'Terminal value: 89.14 (GGM) · 96 (P/E multiple)' },
+          { k: 'sub', text: 'A Firm with No Current Dividend' },
+          { k: 'example', id: 's4-nodiv', title: 'Example — Valuing a non-dividend-paying stock',
+            given: [
+              { label: 'EPS₄ · D₄', val: '1.64 · 0.82' },
+              { label: 'g', val: '5% from year 4' },
+              { label: 'kₑ', val: '10%' },
+            ],
+            steps: [
+              'No dividends in years 1–3, so value at t = 3: P₃ = D₄ ÷ (kₑ − g) = 0.82 ÷ (10% − 5%) = *16.4*',
+              'P₀ = 16.4 ÷ (1.1)³',
+            ],
+            result: 'P₀ = 12.32' },
+          { k: 'example', id: 's4-twostage', title: 'Example — Two-stage DDM (Sea Island Recreation)',
+            given: [
+              { label: 'D₁ · D₂ · D₃', val: '1.10 · 1.21 · 1.331 (g = 10%)' },
+              { label: 'g after year 3', val: '4%' },
+              { label: 'kₑ', val: '12%' },
+            ],
+            steps: [
+              'D₄ = 1.331 × 1.04 = *1.384*',
+              'P₃ = D₄ ÷ (kₑ − g) = 1.384 ÷ (12% − 4%) = *17.30*',
+              'Calculator: CF0 = 0; C01 = 1.10; C02 = 1.21; C03 = 1.331 + 17.30 = 18.63; I = 12; CPT NPV',
+            ],
+            result: 'P₀ = 15.21' },
+          { k: 'fix', title: 'D₄ = 1.38, P₃ = 17.25, P₀ = 15.17',
+            text: 'The method is right; the gap is rounding. D₄ = 1.331 × 1.04 = *1.3842*, so P₃ = 1.3842 ÷ 0.08 = *17.30* and P₀ = *15.21* (Schweser’s answer). Rounding D₄ to 1.38 before dividing by 0.08 multiplies the error by 12.5. Keep at least four decimals on a dividend you are about to capitalise.' },
+          { k: 'sub', text: 'H-Model' },
+          { k: 'formula', title: 'H-model', lines: [
+            'V₀ = [D₀(1 + g_L)] ÷ (kₑ − g_L) + [D₀ × H × (g_S − g_L)] ÷ (kₑ − g_L)',
+            'H = t ÷ 2 (half the length of the high-growth period)',
+          ], note: 'The first term is the value with no high-growth period at all (growth = g_L forever); the second approximates the extra value from the high-growth period.' },
+          { k: 'points', id: 's4-h', items: [
+            'The above formula gives the price when growth starts *declining* (linearly from g_S to g_L).',
+            'The H-model could also be used in the *three-stage* DDM.',
+          ] },
+          { k: 'example', id: 's4-omega', title: 'Example — H-model (Omega Foods)',
+            body: ['Omega Foods currently pays a dividend of 2. The growth rate, which is currently 20%, is expected to decline linearly over the next ten years to a stable rate of 5% thereafter. The required return is 12%. Calculate the current value of Omega.'],
+            given: [
+              { label: 'g_S · g_L', val: '20% · 5%' },
+              { label: 'D₀', val: '2' },
+              { label: 'kₑ', val: '12%' },
+              { label: 'H', val: 't ÷ 2 = 10 ÷ 2 = 5' },
+            ],
+            steps: [
+              'V₀ = 2(1 + 5%) ÷ (12% − 5%) + 2 × 5 × (20% − 5%) ÷ (12% − 5%)',
+              '= 30.00 + 21.43',
+            ],
+            result: 'V₀ = 51.43' },
+          { k: 'p', text: 'The H-model provides *only an approximation* of the value of shares. If we want the approximation to be more accurate, we have to *shorten the high-growth period, t*, and *decrease (make smaller) the spread between g_S and g_L*.' },
+          { k: 'sub', text: 'Three-Stage DDM' },
+          { k: 'example', id: 's4-three', title: 'Example — Three-stage DDM (R&M)',
+            given: [
+              { label: 'D₀', val: '1.00' },
+              { label: 'Growth', val: '15% for 2 years → 10% for 4 years → 4% forever' },
+              { label: 'kₑ', val: '12%' },
+            ],
+            steps: [
+              'Dividends: 1.150 · 1.323 · 1.455 · 1.600 · 1.760 · 1.936',
+              'P₆ = 1.936 × 1.04 ÷ (12% − 4%) = *25.168*',
+              'Calculator: CF0 = 0; C01 = 1.150; C02 = 1.323; C03 = 1.455; C04 = 1.600; C05 = 1.760; C06 = 1.936 + 25.168 = 27.104; I = 12; CPT NPV',
+            ],
+            result: 'P₀ = 18.86' },
+          { k: 'example', id: 's4-threeh', title: 'Example — Three-stage with a linear decline in stage 2 (H-model for stages 2–3)',
+            given: [
+              { label: 'D₀', val: '0.75' },
+              { label: 'Growth', val: '12% for 3 years → declines linearly to 4% over 6 years → 4% forever' },
+              { label: 'kₑ', val: '9%' },
+            ],
+            steps: [
+              'D₁ = 0.84 · D₂ = 0.9408 · D₃ = 1.0537',
+              'Value at t = 3 by the H-model (H = 6 ÷ 2 = 3): V₃ = 1.0537 × 1.04 ÷ (9% − 4%) + 1.0537 × 3 × (12% − 4%) ÷ (9% − 4%) = 21.917 + 5.058 = *26.97*',
+              'Calculator: CF0 = 0; C01 = 0.84; C02 = 0.9408; C03 = 1.0537 + 26.97 = 28.03; I = 9; CPT NPV',
+            ],
+            result: 'P₀ = 23.21' },
+          { k: 'fix', title: 'P₀ = 27.56',
+            text: 'V₃ = 26.97 on the page is right, but it is a value at *t = 3* and has to be discounted three years along with D₁–D₃: 0.84 ÷ 1.09 + 0.9408 ÷ 1.09² + (1.0537 + 26.97) ÷ 1.09³ = *23.21* (Schweser: 23.2056). Check the last line of the working against this cash-flow set.' },
+          { k: 'sub', text: 'Implied Required Return' },
+          { k: 'formula', title: 'Implied kₑ from the Gordon growth model', lines: [
+            'kₑ = D₁ ÷ P₀ + g',
+          ] },
+          { k: 'example', id: 's4-smyth', title: 'Example — Implied required return (Smyth & Weston Explosives)',
+            body: ['Smyth & Weston Explosives’ stock is expected to pay a dividend of 1.6, has a current price of 40, and has a projected growth rate of 9%. Calculate S&W’s implied required return.'],
+            steps: [
+              'P₀ = D₁ ÷ (kₑ − g) → 40 = 1.6 ÷ (kₑ − 9%)',
+              'kₑ = 1.6 ÷ 40 + 0.09',
+            ],
+            result: 'kₑ = 13%' },
+          { k: 'example', id: 's4-beluga', title: 'Example — Implied required return from the H-model (Beluga Fisheries)',
+            given: [
+              { label: 'D₀', val: '0.75' },
+              { label: 'g_S · g_L', val: '10% · 5%' },
+              { label: 'H', val: '5 ÷ 2 = 2.5' },
+              { label: 'P₀', val: '30' },
+            ],
+            steps: [
+              '30 = 0.75(1 + 5%) ÷ (kₑ − 5%) + 0.75 × 2.5 × (10% − 5%) ÷ (kₑ − 5%)',
+              '30(kₑ − 5%) = 0.7875 + 0.09375 = 0.88125 → kₑ − 5% = 2.94%',
+            ],
+            result: 'kₑ = 7.94%' },
+          { k: 'flag', title: 'Implied return from a two-stage DDM, and over/undervalued (LOS 18.i, 18.j)',
+            items: [
+              'A two-stage DDM has no closed form for r: *try the answer choices*. Start with the middle one; if the value is too high, the rate must be higher.',
+              'Ozone Labs: D₀ = 1, 11% for two years then 8%, price 35.60. At 10% the value is 57.03 (too high); at *11.2%*, P₂ = 1.331 ÷ 0.032 = 41.59 and the value is 35.63 → 11.2%.',
+              'Market price > model value → *overvalued*; market price < model value → *undervalued*; equal → fairly valued.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '18.S5', title: 'Sustainable Growth Rate · PRAT Model',
+        blocks: [
+          { k: 'formula', title: 'Sustainable growth rate', lines: [
+            'SGR = b × ROE',
+            'b = earnings retention rate = 1 − dividend payout rate',
+            'ROE = return on equity',
+          ] },
+          { k: 'example', id: 's5-bio', title: 'Example — SGR (Biotechnica, Inc.)',
+            body: ['Biotechnica, Inc., is growing earnings at an annual rate of 9%. It currently pays out dividends equal to 20% of earnings. ROE is 15%. Calculate SGR.'],
+            steps: [
+              'SGR = RR × ROE = (1 − 20%) × 15%',
+            ],
+            result: 'SGR = 12%' },
+          { k: 'formula', title: 'ROE by DuPont, and the PRAT model', lines: [
+            'ROE = Net income ÷ Avg shareholders’ equity = (Net income ÷ Sales) × (Sales ÷ Avg TA) × (Avg TA ÷ Avg TE)',
+            'SGR = RR × ROE = [(Net income − Div) ÷ Net income] × (Net income ÷ Sales) × (Sales ÷ Avg TA) × (Avg TA ÷ Avg TE)',
+            'g = P × R × A × T',
+          ], note: 'P = profit margin · R = retention rate · A = asset turnover · T = financial leverage.' },
+          { k: 'points', id: 's5-prat', items: [
+            'This is also referred to as the *PRAT model*.',
+            'Growth is dependent on *how the firm finances its assets* (R and T: financing decisions) & *how it performs using those assets* (P and A).',
+          ] },
+          { k: 'example', id: 's5-halo', title: 'Example — SGR with PRAT (Halo Construction)',
+            body: ['Halo Construction has been successful in a mature industry over the last three years. Halo has averaged a profit margin of 10%, a total asset turnover of 1.8, and a leverage ratio of 1.25. Assuming Halo continues to distribute 40% of its earnings as dividends, calculate its long-term SGR.'],
+            steps: [
+              'g = P × R × A × T = 0.10 × (1 − 0.4) × 1.8 × 1.25 = 0.135',
+            ],
+            result: 'SGR = 13.5%' },
+          { k: 'flag', title: 'What SGR assumes (LOS 18.p)',
+            items: [
+              'SGR is how fast earnings and dividends can grow *with internally generated funds*, holding the *debt-to-equity ratio constant* and issuing *no new equity*.',
+              'If actual growth is forecast above SGR, the firm must *issue equity* unless it raises its retention ratio, profit margin, asset turnover or leverage.',
+              'Use *beginning-of-year* balance sheet values for mixed ratios (e.g. asset turnover) unless the question says otherwise.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+    ],
+  },
   'deriv.0': {
     refs: {
       stk: {
@@ -5637,6 +6040,7 @@ const GAPS = {
   'econ.0': {},
   'econ.1': {},
   'equity.0': {},
+  'equity.1': {},
   'deriv.0': {},
   'deriv.1': {},
 };
@@ -6042,6 +6446,7 @@ const STATUS = {
   'econ.0': 'progress',
   'econ.1': 'progress',
   'equity.0': 'progress',
+  'equity.1': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
 };
