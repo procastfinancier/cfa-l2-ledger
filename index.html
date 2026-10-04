@@ -547,7 +547,7 @@ const SUBJECTS = [
     { name: 'Reading 17: Equity Valuation: Applications and Processes', desc: 'R17 · Sessions 17.S1–17.S2, following your written notes — types of value, the five-step valuation process, Porter and quality of earnings, absolute vs. relative models, sum-of-the-parts and conglomerate discount' },
     { name: 'Reading 18: Discounted Dividend Valuation', desc: 'R18 · Sessions 18.S1–18.S5, following your written notes — one-, two- and multi-period DDM, Gordon growth, PVGO and justified P/E, preferred stock, two-stage, H-model and three-stage DDM, terminal value, implied returns, sustainable growth and PRAT' },
     { name: 'Reading 19: Free Cash Flow Valuation', desc: 'R19 · Sessions 19.S1–19.S7, following your written notes — FCFF vs. FCFE and when to use each, FCFF and FCFE from NI, EBIT, EBITDA and CFO, noncash charges and FCInv, the debt-ratio FCFE formula, single-, two- and three-stage models, terminal value with a P/E multiple, sources of error' },
-    { name: 'Market-based valuation', desc: 'Price and EV multiples' },
+    { name: 'Reading 20: Market-Based Valuation: Price and Enterprise Value Multiples', desc: 'R20 · Sessions 20.S1–20.S6, following your written notes — fundamentals vs. comparables, rationales and drawbacks of P/E, P/B, P/S, P/CF and dividend yield, underlying and normalized earnings, justified P/E, P/B, P/S, P/CF, D/P and EV/EBITDA, predicted P/E, Fed and Yardeni models, PEG, cross-border differences, momentum indicators' },
     { name: 'Residual income valuation', desc: 'RI model and accounting issues' },
     { name: 'Private company valuation', desc: 'Adjustments for private firms' },
   ]},
@@ -5033,6 +5033,433 @@ const CONTENT = {
       },
     ],
   },
+  'equity.3': {
+    flow: [
+      {
+        module: '20.S1', title: 'Relative Models · Fundamentals vs. Comparables',
+        blocks: [
+          { k: 'points', id: 's1-rel', items: [
+            'Relative models are based on one principle, the *law of one price*: if we have two similar assets, they should have the same price. If the prices differ, there is an *arbitrage opportunity*.',
+            'Two families of multiples: *1. Price multiples* · *2. EV multiples*.',
+          ] },
+          { k: 'cols', id: 's1-two', panes: [
+            { title: 'Multiples based on fundamentals', tone: 'teal', items: [
+              'The value used in the *numerator* of the justified price multiple is derived from a *DCF model* (DDM or FCF).',
+            ] },
+            { title: 'Multiples based on comparables', tone: 'violet', items: [
+              'Law of one price: two similar assets should sell at *comparable price multiples*.',
+              'Relative only: over- or undervalued *relative to the benchmark*.',
+            ] },
+          ] },
+          { k: 'example', id: 's1-comtronics', title: 'Example — Method of forecasted fundamentals (Comtronics)',
+            given: [
+              { label: 'P₀ · EPS₁', val: '$30 · $4' },
+              { label: 'g · payout · k', val: '5% · 60% · 14%' },
+            ],
+            steps: [
+              'D₁ = EPS₁ × payout = 4 × 60% = *2.4*',
+              'V₀ = D₁ ÷ (k − g) = 2.4 ÷ (14% − 5%) = *26.67*',
+              'Justified P₀/E₁ = 26.67 ÷ 4 = *6.67*',
+              'Observed P₀/E₁ = 30 ÷ 4 = *7.5* > 6.67',
+            ],
+            result: 'Comtronics is overvalued (same as $30 > $26.67)' },
+          { k: 'example', id: 's1-mk', title: 'Example — Method of comparables (MK Technologies)',
+            given: [
+              { label: 'P₀ · EPS₀', val: '$50 · $2' },
+              { label: 'Avg trailing industry P/E', val: '32' },
+            ],
+            steps: [
+              'P₀/E₀ = 50 ÷ 2 = *25*',
+            ],
+            result: 'MK is undervalued, as its P/E (25) < industry P/E (32)' },
+          { k: 'points', id: 's1-list', title: 'Multiples based on comparables', items: [
+            '1. Price to earnings · *P/E*',
+            '2. Price to book · *P/B*',
+            '3. Price to sales · *P/S*',
+            '4. Price to cash flow · *P/CF*',
+            '5. Dividend yield · *DPS/MPS*',
+          ] },
+          { k: 'flag', title: 'Justified multiple and the verdict (LOS 20.a, 20.b)',
+            items: [
+              'A *justified* price multiple is what the multiple should be if the stock is fairly valued; it can be justified by fundamentals or by comparables.',
+              'Actual multiple > justified → *overvalued*; actual multiple < justified → *undervalued* (all else equal).',
+              'Module quiz (Copyright): H-model value $84, EPS₁ $4.20 → justified leading P/E = *20*. An actual leading P/E of 15 means *underpriced*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '20.S2', title: 'Rationales & Shortcomings · P/E, P/B, P/S, P/CF, Dividend Yield',
+        blocks: [
+          { k: 'sub', text: 'P/E Multiple' },
+          { k: 'cols', id: 's2-pe', panes: [
+            { title: 'Rationale', tone: 'teal', items: [
+              '*Earnings power*, as measured by EPS, is the primary determinant of investment value.',
+              'Empirical research shows P/E differences are significantly related to *long-run average stock returns* (applies to all multiples).',
+            ] },
+            { title: 'Shortcomings', tone: 'violet', items: [
+              'Earnings can be *negative*, which produces a meaningless P/E.',
+              'The volatile, *transitory* portion of earnings makes interpreting P/Es difficult.',
+              '*Management discretion* within allowed accounting practices can distort earnings, lessening comparability across firms.',
+            ] },
+          ] },
+          { k: 'formula', title: 'P/E', lines: [
+            'Trailing P/E = MPS ÷ EPS₀',
+            'Leading P/E = MPS ÷ EPS₁',
+          ], note: 'When a firm’s *business model has changed*, the leading P/E is more useful for forecasting and valuation. If earnings are *very volatile*, use the trailing P/E.' },
+          { k: 'sub', text: 'P/B Multiple' },
+          { k: 'cols', id: 's2-pb', panes: [
+            { title: 'Rationale', tone: 'teal', items: [
+              'BV is usually *positive*, even when the firm reports a loss and EPS is negative, so P/B can be used when P/E cannot.',
+              'BV is *more stable* than EPS, so it may be more useful than P/E when EPS is particularly high, low or volatile.',
+              'BV is an appropriate measure of net asset value for firms that primarily hold *liquid assets*: finance, investment, insurance and banking firms.',
+              'P/B can be useful in valuing companies expected to *go out of business*.',
+              'Empirical research shows P/Bs help explain long-run average stock returns.',
+            ] },
+            { title: 'Shortcomings', tone: 'violet', items: [
+              'P/Bs do not reflect the value of *intangible* economic assets, such as human capital.',
+              'Can mislead when asset bases differ due to *different business models*, e.g. outsourced manufacturing vs. in-house.',
+              'Different *accounting conventions* can obscure the true investment made by shareholders, reducing comparability across firms and countries.',
+              '*Inflation* and *technological change* can make book and market values of assets differ significantly.',
+            ] },
+          ] },
+          { k: 'formula', title: 'P/B', lines: [
+            'P/B = Market value of equity ÷ Book value of equity = MPS ÷ BVPS',
+            'BV of equity = Common shareholders’ equity = (Total assets − Total liabilities) − Preferred stock',
+          ] },
+          { k: 'sub', text: 'P/S Multiple' },
+          { k: 'cols', id: 's2-ps', panes: [
+            { title: 'Rationale', tone: 'teal', items: [
+              'P/S is meaningful even for *distressed* firms, since sales revenue is always positive (P/E and P/B can be negative).',
+              'Sales revenue is *not as easy to manipulate* or distort as EPS and book value.',
+              'P/S ratios are *not as volatile* as P/E multiples, so more reliable when earnings in a particular year are very high or very low relative to the long-run average.',
+              'Appropriate for *mature or cyclical* industries and *start-ups* with no record of earnings.',
+              'Empirical research shows P/S helps explain long-run average stock returns.',
+            ] },
+            { title: 'Shortcomings', tone: 'violet', items: [
+              'High growth in sales does *not necessarily* mean high operating profits as measured by earnings and cash flow.',
+              'P/S ratios do not capture differences in *cost structures* across companies.',
+              'While less subject to distortion, *revenue recognition* practices can still distort sales forecasts, e.g. *bill-and-hold* sales, FOB shipping.',
+            ] },
+          ] },
+          { k: 'formula', title: 'P/S', lines: [
+            'P/S = Market value of equity ÷ Total sales = MPS ÷ Sales per share',
+          ] },
+          { k: 'sub', text: 'P/CF Multiple' },
+          { k: 'points', id: 's2-cfdef', title: 'Definitions of cash flow', items: [
+            '*Earnings-plus-noncash-charges* = Net income + depreciation + amortization.',
+            '*Adjusted cash flow* (adjusted CFO), adjusted for nonrecurring items.',
+            '*Free cash flow to equity* (FCFE).',
+            '*Earnings before interest, taxes, depreciation & amortization* (EBITDA).',
+          ] },
+          { k: 'cols', id: 's2-pcf', panes: [
+            { title: 'Rationale', tone: 'teal', items: [
+              'CF is *harder* for managers to manipulate than earnings.',
+              'Price to CF is *more stable* than price to earnings.',
+              'Relying on CF rather than earnings handles the problem of differences in the *quality of reported earnings*, which is a problem for P/E.',
+              'Empirical evidence: P/CF differences are significantly related to long-run average stock returns.',
+            ] },
+            { title: 'Shortcomings', tone: 'violet', items: [
+              'Items affecting actual CFO are *ignored* when the EPS-plus-noncash-charges estimate is used, e.g. noncash revenue and changes in working capital.',
+              'Theoretically *FCFE* is preferable to operating CF, but FCFE is *more volatile*, so it is not necessarily more informative.',
+            ] },
+          ] },
+          { k: 'formula', title: 'P/CF', lines: [
+            'P/CF = Market value of equity ÷ Total cash flow = MPS ÷ Cash flow per share',
+          ] },
+          { k: 'sub', text: 'Dividend Yield' },
+          { k: 'cols', id: 's2-dy', panes: [
+            { title: 'Rationale', tone: 'teal', items: [
+              'It is most often used for valuing *indexes*.',
+              'Dividend yield *contributes to total* investment return.',
+              'Dividends are *not as risky* as the capital-appreciation component of total return.',
+            ] },
+            { title: 'Shortcomings', tone: 'violet', items: [
+              'The focus on dividend yield is *incomplete* because it ignores capital appreciation.',
+              '*Dividend displacement of earnings*: dividends paid now displace future earnings, implying a trade-off between current and future cash flows.',
+            ] },
+          ] },
+          { k: 'formula', title: 'Dividend yield', lines: [
+            'Trailing dividend yield = (4 × Most recent quarterly dividend) ÷ Market price per share',
+            'Leading dividend yield = Forecasted dividends over next four quarters ÷ Market price per share',
+          ] },
+          { k: 'flag', title: 'Adjustments and worked numbers (LOS 20.c, 20.d, 20.n)',
+            items: [
+              'Leading P/E uses either the next *four quarters’* EPS or next *fiscal year’s* EPS.',
+              'P/B adjustments: use *tangible* book value (less goodwill and other intangibles); adjust for off-balance-sheet items, fair vs. recorded values, and inventory method (FIFO vs. LIFO).',
+              'CFO classification: US GAAP puts interest paid, interest and dividends received in *operating*; IFRS lets interest paid be operating or financing, so compare carefully.',
+              'Module quiz (Lester’s): P/CF on NI + depreciation = 42.10 ÷ 2.4656 = *17.08*; adjusting CFO for an after-tax nonrecurring item gives P/CFO ≈ *17*.',
+              'Module quiz: high dividend yield stocks reflect a *value* (not growth) strategy.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '20.S3', title: 'Underlying Earnings · Normalized Earnings',
+        blocks: [
+          { k: 'points', id: 's3-def', items: [
+            '*Underlying earnings*: earnings that *exclude nonrecurring* components, such as gains and losses from asset sales, asset write-downs, provisions for future losses, and changes in accounting estimates.',
+            '*Normalized earnings*: analysts adjust P/Es for *cyclicality* by estimating normalized (normal) EPS, an estimate of EPS in the *middle of the business cycle*.',
+          ] },
+          { k: 'formula', title: 'Two methods of normalized earnings', lines: [
+            '1. Historical average EPS: Normalized EPS = Avg EPS over a recent period (usually the most recent business cycle)',
+            '2. Average return on equity: Normalized EPS = Avg ROE × Current BVPS',
+          ], note: 'Average ROE is often measured over the most recent business cycle.' },
+          { k: 'flag', title: 'Which method, Molodovsky and E/P (LOS 20.e, 20.f)',
+            items: [
+              'The average-ROE method is *preferred*: using current BVPS reflects changes in firm size, which historical average EPS ignores.',
+              '*Molodovsky effect*: P/Es look high at the bottom of the cycle (low EPS) and low at the top (high EPS).',
+              'Use *diluted* EPS for comparisons.',
+              'When EPS is negative, use the *earnings yield* (E/P): price is never negative, so stocks can still be ranked. High E/P = cheap; low E/P = expensive.',
+              'Module quiz (Sample Fabrication): underlying EPS = 1.29 + 0.22 + 0.04 − 0.08 = *1.47* → P/E = 42.50 ÷ 1.47 = *28.9*.',
+              'Module quiz (Lever): normalized EPS = 32% × $14 = *$4.48*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '20.S4', title: 'Multiples Based on Fundamentals · Justified P/E, P/B, P/S',
+        blocks: [
+          { k: 'points', id: 's4-list', title: 'Multiples based on fundamentals', items: [
+            'Justified price to earnings · *P/E*',
+            'Justified price to book · *P/B*',
+            'Justified price to sales · *P/S*',
+            'Justified price to cash flow · *P/CF*',
+            'Justified dividend yield · *DPS/MPS*',
+            'Justified *EV/EBITDA*',
+          ] },
+          { k: 'sub', text: 'Justified P/E' },
+          { k: 'formula', title: 'Justified P/E', lines: [
+            'Justified leading P/E = P₀/E₁ = (D₁/E₁) ÷ (kₑ − g) = (1 − RR) ÷ (kₑ − g)',
+            'Justified trailing P/E = P₀/E₀ = [D₀(1 + g)/E₀] ÷ (kₑ − g) = (1 − RR)(1 + g) ÷ (kₑ − g)',
+            'Justified trailing P/E = Justified leading P/E × (1 + g)',
+          ], note: 'Justified trailing P/E will be *higher* when earnings are growing.' },
+          { k: 'points', id: 's4-pe-f', title: 'Influencing factors (relationship)', items: [
+            'P/E multiple related to *growth rate* → *direct*.',
+            'P/E multiple related to *required rate of return* → *inverse*.',
+          ] },
+          { k: 'example', id: 's4-pe-ex', title: 'Example — Justified trailing and leading P/E',
+            given: [
+              { label: 'Payout', val: '40%' },
+              { label: 'kₑ · g', val: '11% · 5%' },
+            ],
+            steps: [
+              'Justified trailing P/E = (1 − RR)(1 + g) ÷ (kₑ − g) = 0.4 × 1.05 ÷ (0.11 − 0.05) = *7.00*',
+              'Justified leading P/E = (1 − RR) ÷ (kₑ − g) = 0.4 ÷ 0.06 = *6.67*',
+              'Check: justified trailing P/E = 6.67 × 1.05 = *7*',
+            ],
+            result: 'Trailing 7.00 · Leading 6.67' },
+          { k: 'sub', text: 'Justified Price to Book (P/B)' },
+          { k: 'example', id: 's4-pb-d', title: 'Formula derivation',
+            steps: [
+              'g = Retention rate × ROE · ROE = EPS₁ ÷ BVPS₀ · P₀ = D₁ ÷ (kₑ − g)',
+              'Divide both sides by BVPS₀: P₀/BVPS₀ = (D₁/BVPS₀) ÷ (kₑ − g)',
+              'Substituting BVPS₀ = EPS₁/ROE: P₀/BVPS₀ = (D₁/EPS₁) × ROE ÷ (kₑ − g)',
+              'Payout ratio DPR = DPS₁/EPS₁: P₀/BVPS₀ = DPR × ROE ÷ (kₑ − g) = (1 − RR) × ROE ÷ (kₑ − g)',
+              '= [ROE − (ROE × RR)] ÷ (kₑ − g)',
+            ],
+            result: 'P₀/BVPS₀ = (ROE − g) ÷ (kₑ − g)' },
+          { k: 'points', id: 's4-pb-f', title: 'Influencing factors (relationships)', items: [
+            'P/B ↑ as *ROE* ↑.',
+            'P/B ↑ as the *spread between ROE and kₑ* ↑ (more value created by investment).',
+          ] },
+          { k: 'example', id: 's4-pb-ex', title: 'Example — Justified P/B',
+            given: [
+              { label: 'ROE · kₑ · g', val: '14% · 8% · 4%' },
+            ],
+            steps: [
+              'Justified P/B = (ROE − g) ÷ (kₑ − g) = (0.14 − 0.04) ÷ (0.08 − 0.04)',
+            ],
+            result: 'Justified P/B = 2.5' },
+          { k: 'sub', text: 'Justified Price to Sales (P/S)' },
+          { k: 'example', id: 's4-ps-d', title: 'Formula derivation',
+            steps: [
+              'P₀/E₀ = (1 − RR)(1 + g) ÷ (kₑ − g) → P₀ = E₀(1 − RR)(1 + g) ÷ (kₑ − g)',
+              'Divide both sides by S₀: P₀/S₀ = (E₀/S₀)(1 − RR)(1 + g) ÷ (kₑ − g)',
+            ],
+            result: 'P₀/S₀ = Net profit margin × Justified trailing P/E' },
+          { k: 'points', id: 's4-ps-f', title: 'Influencing factors (relationship)', items: [
+            'P/S ↑ as *net profit margin* ↑.',
+            'P/S ↑ as *g* ↑.',
+          ] },
+          { k: 'example', id: 's4-ps-ex', title: 'Example — Justified P/S',
+            given: [
+              { label: 'Payout · ROE', val: '40% · 8.3%' },
+              { label: 'EPS · Sales per share', val: '$4.25 · $218.75' },
+              { label: 'g · kₑ', val: '5% · 10%' },
+            ],
+            steps: [
+              'Net profit margin = EPS ÷ SPS = 4.25 ÷ 218.75 = *0.0194*',
+              'P₀/S₀ = (E₀/S₀)(1 − RR)(1 + g) ÷ (kₑ − g) = 0.0194 × 0.4 × 1.05 ÷ (0.10 − 0.05)',
+            ],
+            result: 'Justified P/S = 0.163' },
+          { k: 'flag', title: 'Other fundamentals and quiz checks (LOS 20.g, 20.i)',
+            items: [
+              'P/E is also positively related to the *inflation pass-through* rate (ability to pass costs on to customers).',
+              'P/S on forecast sales: P₀/S₁ = (E₁/S₁)(1 − b) ÷ (r − g). Margin also lifts P/S indirectly through g.',
+              'Module quiz (Western Graphics): payout 40%, g 5%, r 12% → trailing *6.0*, leading *5.71*.',
+              'Module quiz (Creative Toys): (23% − 7.6%) ÷ (14% − 7.6%) = *2.41*.',
+              'Module quiz (Blue Ridge): margin 5.35 ÷ 342 = 0.0156 → P/S = 0.0156 × 0.75 × 1.045 ÷ 0.105 = *0.1164*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '20.S5', title: 'Justified P/CF · Dividend Yield · EV/EBITDA',
+        blocks: [
+          { k: 'formula', title: 'Justified P/CF', lines: [
+            'P₀ = FCFE₀(1 + g) ÷ (kₑ − g)',
+            'P₀/FCFE₀ = (1 + g) ÷ (kₑ − g)',
+          ] },
+          { k: 'points', id: 's5-pcf', items: [
+            'P/CF and *kₑ* have an *inverse* relationship.',
+            'P/CF and *g* have a *direct* relationship.',
+          ] },
+          { k: 'example', id: 's5-dy-d', title: 'Justified dividend yield (DPS/MPS) — derivation',
+            steps: [
+              'P₀ = D₁ ÷ (kₑ − g) = D₀(1 + g) ÷ (kₑ − g)',
+              'Divide both sides by D₀: P₀/D₀ = (1 + g) ÷ (kₑ − g)',
+              'Inverting the equation:',
+            ],
+            result: 'D₀/P₀ = (kₑ − g) ÷ (1 + g)' },
+          { k: 'points', id: 's5-dy', items: [
+            'DPS/MPS and *kₑ* have a *direct* relationship.',
+            'DPS/MPS and *g* have an *inverse* relationship.',
+          ] },
+          { k: 'sub', text: 'Justified EV/EBITDA' },
+          { k: 'points', id: 's5-ev', items: [
+            'The justified EV/EBITDA based on fundamentals is simply the *enterprise value* based on a forecast of fundamentals, divided by *EBITDA* forecast based on fundamentals.',
+            'EV/EBITDA and *WACC* have an *inverse* relationship.',
+            'EV/EBITDA and *g* have a *direct* relationship.',
+            'EV and EBITDA both belong to *debtholders and equity holders*.',
+          ] },
+          { k: 'cols', id: 's5-ev-uses', panes: [
+            { title: 'Situations when EV/EBITDA is useful', tone: 'teal', items: [
+              'When comparing firms with *different degrees of financial leverage*.',
+              'EBITDA is useful for valuing *capital-intensive* businesses with high levels of depreciation and amortization.',
+              'EBITDA is usually *positive* even when EPS is not.',
+            ] },
+            { title: 'Drawbacks of EV/EBITDA', tone: 'violet', items: [
+              'If *working capital is growing*, EBITDA will overstate CFO. The measure also ignores how different revenue recognition policies affect CFO.',
+              'Because *FCFF* captures capital expenditures, it is more strongly linked with valuation theory than EBITDA. EBITDA is adequate only if *capex equals depreciation*.',
+              'EBITDA is not a good measure of CF when there is *high WCInv or FCInv*.',
+            ] },
+          ] },
+          { k: 'flag', title: 'Enterprise value and related ratios (LOS 20.o)',
+            items: [
+              'EV = MV of common equity + MV of preferred + MV of debt (+ minority interest) − *cash and short-term investments*.',
+              'Cash is subtracted because an acquirer’s net price is lowered by the target’s liquid assets.',
+              '*Total invested capital* (TIC) = MV of equity + debt, *without* subtracting cash.',
+              '*EV/Sales* is an alternative to P/S when capital structures differ significantly.',
+              'Lower EV/EBITDA vs. peers → relatively *undervalued*; higher dividend yield vs. peers → *undervalued* (all else equal).',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '20.S6', title: 'Predicted P/E · Benchmarks · Fed & Yardeni · PEG · Cross-Border · Momentum',
+        blocks: [
+          { k: 'timeline', steps: [
+            { name: 'Step 1: Run regression', text: 'Independent variables = growth rate, required return · Dependent variable = P/E multiple' },
+            { name: 'Step 2: Form regression equation', text: 'P/E = b₀ + b₁ × growth + b₂ × required return' },
+            { name: 'Step 3: Forecast', text: 'Forecast growth and required return → forecast the P/E multiple' },
+          ] },
+          { k: 'points', id: 's6-lim', title: 'Limitations', items: [
+            '*Predictive power* is uncertain (other periods or samples).',
+            'The *relationship* might change over time.',
+            '*Multicollinearity* can create problems.',
+          ] },
+          { k: 'example', id: 's6-util', title: 'Example — Predicted P/E (public utility)',
+            body: ['Payout 0.50, beta 0.95, expected growth 0.06. Regression on other utilities: predicted P/E = 6.75 + (4.00 × payout) + (12.35 × growth) − (0.5 × beta). The firm’s P/E is 12.0.'],
+            steps: [
+              'Predicted P/E = 6.75 + (4.00 × 0.50) + (12.35 × 0.06) − (0.5 × 0.95)',
+              '= *9.02*',
+            ],
+            result: 'Actual P/E (12) > predicted (9.02), so the firm is overpriced' },
+          { k: 'points', id: 's6-bench', title: 'P/E benchmarks', items: [
+            'P/E of another company’s stock in a similar industry with similar operating characteristics.',
+            'Average or median P/E of a peer group within the company’s industry.',
+            'Average or median P/E for the industry.',
+            'P/E of an equity index.',
+            'Average historical P/E for the stock.',
+          ] },
+          { k: 'table', id: 's6-allbright',
+            columns: ['Trailing P/E', 'Leading P/E', '5-yr growth', 'Beta'],
+            rows: [
+              { label: 'Allbright', values: ['10.0', '8.7', '11.0%', '1.3'] },
+              { label: 'Basic Designs', values: ['14.0', '12.7', '9.0%', '1.4'] },
+              { label: 'Peer median', values: ['13.3', '12.1', '11.0%', '1.3'] },
+            ],
+            caption: 'Allbright has a lower P/E than the peer median despite comparable growth and beta → *undervalued*. Basic Designs has a higher P/E despite lower growth and higher beta → *overvalued* relative to the benchmark.' },
+          { k: 'sub', text: 'The Fed Model' },
+          { k: 'formula', title: 'Earnings yield', lines: [
+            'Earnings yield = Earnings ÷ Price',
+          ] },
+          { k: 'qa', q: 'If the earnings yield on the S&P 500 Index is lower than the yield on 10-yr US Treasury bonds, the market is?', a: '*Overvalued*.' },
+          { k: 'qa', q: 'If the earnings yield on the S&P 500 Index is higher than the yield on 10-yr US Treasury bonds, the market is?', a: '*Undervalued*.' },
+          { k: 'sub', text: 'Yardeni Model' },
+          { k: 'formula', title: 'Yardeni model', lines: [
+            'CEY = CBY − k × LTEG + εᵢ',
+            'P/E = 1 ÷ (CBY − k × LTEG)',
+          ], note: 'CEY = current earnings yield of the market · CBY = current Moody’s A-rated corporate bond yield · LTEG = 5-yr consensus earnings growth rate · k = constant assigned by the market to earnings growth. The second line takes reciprocals and ignores the error term. Includes *expected earnings growth* in the analysis.' },
+          { k: 'p', text: 'This shows that the P/E ratio is *negatively* related to interest rates and *positively* related to growth.' },
+          { k: 'sub', text: 'The PEG Ratio' },
+          { k: 'formula', title: 'PEG', lines: [
+            'PEG ratio = (P/E) ÷ g',
+          ] },
+          { k: 'cols', id: 's6-peg', panes: [
+            { title: 'Use', tone: 'teal', items: [
+              'PEG “standardizes” the P/E ratio for stocks with *different growth rates*.',
+              'Implied valuation rule: stocks with *lower PEGs* are more attractive than stocks with higher PEGs, assuming risk is similar.',
+            ] },
+            { title: 'Drawbacks', tone: 'violet', items: [
+              'The relationship between P/E and g is *not linear*, which makes comparisons difficult.',
+              'The PEG ratio does *not account for risk*.',
+              'It doesn’t reflect the *duration* of the high-growth period in a multistage model, especially with a short-term high-growth forecast.',
+            ] },
+          ] },
+          { k: 'example', id: 's6-polar', title: 'Example — Terminal value with a P/E multiple (Polar Technology)',
+            given: [
+              { label: 'EPS₅ · EPS₆', val: 'C$2.10 · C$2.32' },
+              { label: 'Median trailing industry P/E', val: '35' },
+            ],
+            steps: [
+              'Terminal value in year 5 = (Benchmark trailing P/E) × (Forecasted earnings in year 5) = 35 × C$2.10',
+            ],
+            result: 'TV₅ = C$73.50' },
+          { k: 'sub', text: 'Sources of Differences in Cross-Border Valuation' },
+          { k: 'points', id: 's6-xb', items: [
+            'Differences in *accounting methods*.',
+            'Differences in *culture*.',
+            'Differences in *risk*.',
+            'Differences in *growth opportunities*.',
+          ] },
+          { k: 'qa', q: 'Multiples most affected due to international accounting differences?', a: '*P/B, P/E and EV/EBITDA* (accounting could differ across companies, so the numbers vary, and this could affect the multiples).' },
+          { k: 'qa', q: 'Multiple least affected due to international accounting differences?', a: '*P/FCFE*.' },
+          { k: 'sub', text: 'Momentum Indicators' },
+          { k: 'points', id: 's6-mom', items: [
+            'Relate either the *market price* or a *fundamental variable* like EPS to the time series of historical or expected value.',
+            '*Relative strength* indicators compare a stock’s price or return performance during a given period with its own historical performance or with some group of peer stocks.',
+          ] },
+          { k: 'formula', title: 'Earnings surprise & SUE', lines: [
+            'Earnings surprise = Reported EPS − Expected EPS',
+            'Standardized unexpected earnings (SUE) = Earnings surprise ÷ SD of earnings surprise',
+          ] },
+          { k: 'flag', title: 'Comparables method, PEG example and averaging multiples (LOS 20.j, 20.k, 20.m, 20.q, 20.r)',
+            items: [
+              'Method of comparables steps: select the multiple → pick a benchmark and its mean/median → compare → check whether differences are explained by *fundamentals* (growth, risk).',
+              'A lower P/E than the benchmark could mean undervalued, *or* lower growth, *or* higher required return.',
+              'Module quiz (Party Favors): PEG = 18.75 ÷ 15.32 = *1.22* > peer 0.92 → *overvalued*.',
+              'Terminal multiples from comparables use market data only, but a mispriced benchmark *transfers its error* to the terminal value.',
+              'Rationale for momentum: positive surprises may lead to persistent abnormal returns; a given surprise is more meaningful when historical forecast errors are *small*.',
+              'Index or portfolio P/E is best computed as the *weighted harmonic mean*; the arithmetic mean is most affected by outliers, and the harmonic mean weights small values more.',
+              'Backtesting multiple-based screens: avoid *look-ahead bias*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+    ],
+  },
   'deriv.0': {
     refs: {
       stk: {
@@ -6312,6 +6739,7 @@ const GAPS = {
   'equity.0': {},
   'equity.1': {},
   'equity.2': {},
+  'equity.3': {},
   'deriv.0': {},
   'deriv.1': {},
 };
@@ -6719,6 +7147,7 @@ const STATUS = {
   'equity.0': 'progress',
   'equity.1': 'progress',
   'equity.2': 'progress',
+  'equity.3': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
 };
