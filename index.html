@@ -546,7 +546,7 @@ const SUBJECTS = [
   { id: 'equity', name: 'Equity', topics: [
     { name: 'Reading 17: Equity Valuation: Applications and Processes', desc: 'R17 · Sessions 17.S1–17.S2, following your written notes — types of value, the five-step valuation process, Porter and quality of earnings, absolute vs. relative models, sum-of-the-parts and conglomerate discount' },
     { name: 'Reading 18: Discounted Dividend Valuation', desc: 'R18 · Sessions 18.S1–18.S5, following your written notes — one-, two- and multi-period DDM, Gordon growth, PVGO and justified P/E, preferred stock, two-stage, H-model and three-stage DDM, terminal value, implied returns, sustainable growth and PRAT' },
-    { name: 'Free cash flow valuation', desc: 'FCFF / FCFE models' },
+    { name: 'Reading 19: Free Cash Flow Valuation', desc: 'R19 · Sessions 19.S1–19.S7, following your written notes — FCFF vs. FCFE and when to use each, FCFF and FCFE from NI, EBIT, EBITDA and CFO, noncash charges and FCInv, the debt-ratio FCFE formula, single-, two- and three-stage models, terminal value with a P/E multiple, sources of error' },
     { name: 'Market-based valuation', desc: 'Price and EV multiples' },
     { name: 'Residual income valuation', desc: 'RI model and accounting issues' },
     { name: 'Private company valuation', desc: 'Adjustments for private firms' },
@@ -4763,6 +4763,276 @@ const CONTENT = {
       },
     ],
   },
+  'equity.2': {
+    flow: [
+      {
+        module: '19.S1', title: 'FCFF vs. FCFE · When to Use Each · Why Not Dividends',
+        blocks: [
+          { k: 'timeline', steps: [
+            { name: 'Cash revenue', text: 'Cash flowing in from sales' },
+            { name: 'Less cash operating expenses', text: 'Including taxes, *not* interest or dividends' },
+            { name: 'Less WC & fixed capital investment', text: 'Working capital investment · fixed capital investment' },
+            { name: 'FCFF', text: 'Free to pay out to *all* capital providers' },
+            { name: 'Less bondholder flows', text: 'Interest payments to bondholders · net borrowings from bondholders' },
+            { name: 'FCFE', text: 'Left for common shareholders' },
+          ] },
+          { k: 'points', id: 's1-def', items: [
+            '*FCFF* is the cash generated for *all capital providers*. It should be discounted with the *WACC*.',
+            '*FCFE* is the cash generated for *equity providers*. It should be discounted with the *cost of equity*.',
+          ] },
+          { k: 'points', id: 's1-when', title: 'When to use FCFF & FCFE', items: [
+            'When the company’s capital structure is *stable* we use *FCFE*, and when it’s *volatile* we use *FCFF*.',
+            'Capital structure changes mean changes in the level of debt; this also impacts the *cost of equity*.',
+            'So when FCFE is *negative* with *significant debt* outstanding → we use *FCFF*.',
+            'When dividend (DDM) is considered as the measure of CF, we say the perspective is that of a *minority* shareholder; free cash flow is the perspective of a *company owner* (control).',
+          ] },
+          { k: 'points', id: 's1-pref', title: 'Scenarios where FCF is preferred over dividends', items: [
+            'Many firms pay *no, or low,* cash dividends.',
+            'Dividends are paid at the *discretion of the board* of directors and may be poorly aligned with the firm’s long-run profitability.',
+            'If a company is viewed as an *acquisition target*, free cash flow is a more appropriate measure because the new owners will have discretion over its distribution.',
+            'Free cash flows may be *more related to long-run profitability* of the firm as compared to dividends.',
+          ] },
+          { k: 'flag', title: 'Values, discount rates and the control perspective (LOS 19.a, 19.b, 19.g)',
+            items: [
+              'Firm value = FCFF discounted at the *WACC*. Equity value = FCFE discounted at *kₑ*, or firm value − *market value of debt*.',
+              'FCFF really values the *operating* assets; add significant nonoperating assets (excess cash and marketable securities, land held for investment) when the question gives them.',
+              'With a volatile capital structure the *APV* approach also works: unlevered cash flows at the unlevered cost of equity, plus the NPV of debt (tax shield less distress costs).',
+              'FCFE assumes value is recognised *immediately* (control); DDM assumes value waits until the dividend policy reflects long-run profitability (minority).',
+              'Module quiz: a takeover target with negative, volatile FCFE and high leverage → *FCFF model*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '19.S2', title: 'Calculating FCFF · Four Starting Points',
+        blocks: [
+          { k: 'formula', title: 'FCFF from net income', lines: [
+            'FCFF = Net income + NCC + Int(1 − T) − WCInv − FCInv',
+          ], note: 'NCC = noncash charges · WCInv = working capital investment · FCInv = fixed capital investment.' },
+          { k: 'points', id: 's2-why', items: [
+            'Debt gives you a *tax benefit*, and that is *not* considered in FCFF; rather, it is considered in the *WACC* (after-tax cost of debt). That is why only the *after-tax* interest is added back.',
+            'Depreciation is added *in full* because it’s a *noncash* entity, not incorporated in the WACC, and it generates cash for the capital providers.',
+            'Working capital investment is not in net income, but it represents a *cash outflow*, so it is subtracted.',
+            'Fixed capital investment also represents a *cash outflow*.',
+          ] },
+          { k: 'formula', title: 'Four ways to FCFF', lines: [
+            '1. FCFF = NI + NCC + Int(1 − T) − WCInv − FCInv',
+            '2. FCFF = EBIT(1 − T) + Dep − WCInv − FCInv',
+            '3. FCFF = EBITDA(1 − T) + Dep × T − WCInv − FCInv',
+            '4. FCFF = CFO + Int(1 − T) − FCInv',
+          ], note: 'CFO = NI + NCC − WCInv, which is why WCInv is not subtracted again in the CFO version. From EBITDA, only the depreciation *tax shield* (Dep × T) is added back.' },
+          { k: 'flag', title: 'Which form to memorise, and preferred stock (LOS 19.c)',
+            items: [
+              'At a minimum know the *NI* and *CFO* versions: one works from an income statement, the other from a cash flow statement.',
+              'Starting from EBIT, adjust only for noncash charges *above* EBIT (usually just depreciation). The general rule: adjust for every noncash charge above the line you start from.',
+              'Interest is an operating cash flow on a US GAAP cash flow statement, so it has to be added back (after tax) to CFO to reach FCFF.',
+              '*Preferred stock*: treat like debt but without the tax shield. Add preferred dividends back to FCFF; add net preferred issuance to net borrowing for FCFE; include preferred in the WACC.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '19.S3', title: 'Noncash Charges · Fixed Capital Investment',
+        blocks: [
+          { k: 'points', id: 's3-ncc', title: 'Examples of noncash charges', items: [
+            '*Depreciation* of tangible assets & *amortization* of intangible assets (added back).',
+            '*Losses* from sales of LT assets must be *added* & *gains* must be *subtracted*, since they are already considered in fixed capital investment.',
+            'Income from *restructuring charge reversals* & other noncash gains should be *subtracted* from net income.',
+            '*Amortization of a bond discount* should be *added back* to net income, & the *accretion of a bond premium* should be *subtracted* from net income to calculate FCFF.',
+          ] },
+          { k: 'flag', title: 'Deferred taxes and restructuring provisions',
+            items: [
+              'An increase in a *deferred tax liability* that is not expected to reverse is added back; an increase in a non-reversing *deferred tax asset* is subtracted.',
+              'Restructuring *provisions* (noncash losses) are added back, but if they accrue for future cash outflows, reduce the future FCF forecast.',
+              'Module quiz (Roth): income from reversing a prior restructuring charge is a noncash *gain* and must be *subtracted*.',
+            ],
+            text: 'Schweser adds:' },
+          { k: 'formula', title: 'Fixed capital investment', lines: [
+            'FCInv = Capital expenditures − Proceeds from sales of LT assets',
+          ] },
+          { k: 'cols', id: 's3-fcinv', panes: [
+            { title: 'If no LT assets are sold during the year', tone: 'teal', items: [
+              'FCInv = End net PP&E − Beg net PP&E + Dep',
+              'FCInv = End gross PP&E − Beg gross PP&E',
+            ] },
+            { title: 'LT assets sold during the year', tone: 'violet', items: [
+              'FCInv = End net PP&E − Beg net PP&E + Dep − Gain / + Loss on sale',
+            ] },
+          ] },
+          { k: 'example', id: 's3-airbrush', title: 'Example — FCInv with long-term asset sales (Airbrush)',
+            body: ['Suppose that Airbrush reports capital expenditures of $1,400, long-term asset sales of $600, and depreciation expense of $850. The LT assets sold were fully depreciated. Calculate Airbrush’s revised FCInv for 20X3.'],
+            steps: [
+              'FCInv = Capital expenditures − Proceeds from sale of LT assets',
+              '= 1,400 − 600',
+            ],
+            result: 'FCInv = $800' },
+        ],
+      },
+      {
+        module: '19.S4', title: 'Calculating FCFE · The Debt-Ratio Formula · Financing Decisions',
+        blocks: [
+          { k: 'formula', title: 'FCFE from FCFF', lines: [
+            'FCFE = FCFF − Int(1 − T) + Net borrowing',
+            'Net borrowing = Loans taken − Loans repaid',
+          ] },
+          { k: 'formula', title: 'Other ways to FCFE', lines: [
+            'FCFE = NI + NCC − WCInv − FCInv + Net borrowing',
+            'FCFE = EBIT(1 − T) + NCC − WCInv − FCInv − Int(1 − T) + Net borrowing',
+            'FCFE = EBITDA(1 − T) + Dep × T − WCInv − FCInv − Int(1 − T) + Net borrowing',
+            'FCFE = CFO + Int(1 − T) − FCInv − Int(1 − T) + Net borrowing = CFO − FCInv + Net borrowing',
+          ] },
+          { k: 'sub', text: 'FCFE Formula with Debt Ratio' },
+          { k: 'formula', title: 'Forecasting FCFE with a target debt ratio', lines: [
+            'FCFE = NI − [(1 − DR) × (FCInv − Dep)] − [(1 − DR) × WCInv]',
+            'Debt ratio (DR) = Debt ÷ Assets',
+          ] },
+          { k: 'example', id: 's4-derive', title: 'Derivation — from NI + NCC to the debt-ratio form',
+            steps: [
+              'FCFE = NI + NCC − WCInv − FCInv + Net borrowing',
+              'FCFE = NI − [(1 − DR)(FCInv − Dep)] − [(1 − DR) × WCInv]',
+              '= NI − [(FCInv − Dep) − DR(FCInv − Dep)] − [WCInv − DR(WCInv)]',
+              '= NI − FCInv + Dep + DR(FCInv − Dep) − WCInv + DR(WCInv)',
+              '= NI + Dep − WCInv − FCInv + [DR(FCInv − Dep) + DR(WCInv)]',
+              '= NI + Dep − WCInv − FCInv + *DR(FCInv − Dep + WCInv)*',
+            ],
+            result: 'The last bracket is the net borrowing: debt funds DR of the net new investment' },
+          { k: 'points', id: 's4-fin', items: [
+            '*Dividends, share repurchases & share issues* will *not* impact FCFF & FCFE.',
+            '*Deleveraging* will have a *small effect on FCFE* (and none on FCFF):',
+            'Repaying debt will *lower the leverage & FCFE* in the current year,',
+            'but will *increase forecasted FCFE* in future years due to lower interest expense.',
+          ] },
+          { k: 'flag', title: 'Forecasting approaches and poor proxies (LOS 19.e, 19.h)',
+            items: [
+              'Two ways to forecast: grow *historical FCF* at a constant rate, or forecast the *components* (sales → capex, depreciation, WC) year by year. Capex has a maintenance part (tied to current sales) and a growth part (tied to sales growth).',
+              '*Net income* is a poor proxy for FCFE: it includes noncash charges and ignores FCInv, WCInv and net borrowing.',
+              '*EBITDA* is a poor proxy for FCFF: it ignores cash taxes and the investment in working and fixed capital.',
+              'Module quiz (Trammel): an unexpected debt issue to fund buybacks → FCFE *up this year, down later* (more interest); FCFF *unchanged*.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '19.S5', title: 'Single-Stage FCFF and FCFE Models',
+        blocks: [
+          { k: 'formula', title: 'Single-stage models', lines: [
+            'Firm value = FCFF₁ ÷ (WACC − g) = FCFF₀(1 + g) ÷ (WACC − g)',
+            'Equity value = FCFE₁ ÷ (kₑ − g) = FCFE₀(1 + g) ÷ (kₑ − g)',
+            'WACC = [w_E × r_E] + [w_D × r_D × (1 − T)]',
+          ], note: 'The Gordon growth model with FCFF (at the WACC) or FCFE (at kₑ) in place of dividends. Use *target* weights if given, otherwise market-value weights.' },
+          { k: 'example', id: 's5-kvw', title: 'Example — Single-stage FCFF (Knappa Valley Winery)',
+            given: [
+              { label: 'FCFF₀', val: '$5,000,000' },
+              { label: 'Target D/E', val: '0.25 → w_D = 20%, w_E = 80%' },
+              { label: 'MV of debt · shares', val: '$10,000,000 · 2,000,000' },
+              { label: 'T · r_E · r_D · g', val: '40% · 16% · 8% · 5%' },
+            ],
+            steps: [
+              'Step 1, WACC = (0.80 × 0.16) + [0.20 × 0.08 × (1 − 0.40)] = *13.76%*',
+              'Step 2, FCFF₁ = FCFF₀ × (1 + g) = 5 mn × 1.05 = *$5.25 mn*',
+              'Step 3, value of firm V₀ = FCFF₁ ÷ (WACC − g) = 5.25 mn ÷ (13.76% − 5%) = *$59,931,507*',
+              'Step 4, value of equity = firm value − value of debt = 59,931,507 − 10,000,000 = *$49,931,507*',
+              'Step 5, price per share = 49,931,507 ÷ 2,000,000',
+            ],
+            result: 'P₀ = $24.97 per share' },
+          { k: 'example', id: 's5-ridgeway', title: 'Example — Single-stage FCFE (Ridgeway Construction)',
+            given: [
+              { label: 'FCFE₀', val: 'C$2.50 per share' },
+              { label: 'Rf · Rm · β', val: '4% · 9% · 1.5' },
+              { label: 'g', val: '4.5%' },
+            ],
+            steps: [
+              'Step 1, kₑ by CAPM = Rf + β(Rm − Rf) = 4% + 1.5 × (9% − 4%) = *11.5%*',
+              'Step 2, V₀ = FCFE₁ ÷ (kₑ − g) = 2.5 × (1 + 4.5%) ÷ (11.5% − 4.5%)',
+            ],
+            result: 'V₀ = C$37.32' },
+          { k: 'flag', title: 'Two-stage FCFF with components (Prentice Paint) — marked “Rev” on my page',
+            items: [
+              'Sales $20/share, NPM 20%, FCInv $2, Dep $3, WCInv 7.5% of sales; NI, FCInv, Dep, interest and sales grow *10%* for five years, then *5%*. T = 40%, debt $32/share at 12.5%. WACC *17%* in high growth, *15%* when stable.',
+              'FCFF = NI + Dep + Int(1 − T) − FCInv − WCInv. Terminal value at year 5 uses the *stable* 15% WACC; the cash flows and TV are then discounted at *17%*.',
+              'CF0 = 0; C01 = 6.49; C02 = 7.13; C03 = 7.84; C04 = 8.63; C05 = 109.20; I = 17 → firm value *$70.06*; equity = 70.06 − 32 = *$38.06* per share.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '19.S6', title: 'Two-Stage FCFE with Declining Growth · Three-Stage · Terminal Value with P/E',
+        blocks: [
+          { k: 'example', id: 's6-sioux', title: 'Example — Two-stage FCFE model with declining growth in stage 1 (Sioux Falls Decor)',
+            body: ['Sales $20 mn this year. FCInv net of depreciation = 30% of the sales increase; WCInv = 7% of the sales increase; debt finances 40% of both (DR = 0.40). kₑ = 12%, 1 mn shares.'],
+            steps: [
+              'FCFE = NI + Dep − FCInv − WCInv + ND = NI − [FCInv − Dep] − WCInv + ND',
+            ] },
+          { k: 'table', id: 's6-sioux-t',
+            columns: ['1', '2', '3', '4', '5', '6'],
+            rows: [
+              { label: 'Sales growth', values: ['30%', '25%', '20%', '15%', '10%', '5%'] },
+              { label: 'NPM', values: ['8%', '7.5%', '7.0%', '6.0%', '5.5%', '5.0%'] },
+              { label: 'Sales (Y0 = 20 mn)', values: ['26', '32.50', '39.00', '44.85', '49.335', '51.802'] },
+              { label: 'Net income', values: ['2.08', '2.44', '2.73', '2.691', '2.71', '2.59'] },
+              { label: 'FCInv − Dep', values: ['1.80', '1.95', '1.95', '1.755', '1.346', '0.74'] },
+              { label: 'WCInv', values: ['0.42', '0.455', '0.455', '0.4095', '0.314', '0.171'] },
+              { label: 'Debt financing', values: ['0.888', '0.962', '0.962', '0.864', '0.664', '0.364'] },
+              { label: 'FCFE', values: ['*0.748*', '*0.997*', '*1.287*', '*1.391*', '*1.714*', '*2.043*'] },
+            ],
+            caption: 'Per-share amounts. Debt financing = 0.40 × [(FCInv − Dep) + WCInv], e.g. year 1: 0.4 × (1.80 + 0.42) = 0.888.' },
+          { k: 'example', id: 's6-sioux-v', title: 'Sioux Falls — terminal value and present value',
+            steps: [
+              'V₅ = FCFE₆ ÷ (kₑ − g) = 2.043 ÷ (12% − 5%) = *29.186*',
+              'V₀ = 0.748 ÷ 1.12 + 0.997 ÷ 1.12² + 1.287 ÷ 1.12³ + 1.391 ÷ 1.12⁴ + (1.714 + 29.186) ÷ 1.12⁵',
+              'Calculator: CF0 = 0; C01 = 0.748; C02 = 0.997; C03 = 1.287; C04 = 1.391; C05 = 30.90; I = 12; CPT NPV',
+            ],
+            result: 'V₀ = $20.80 per share' },
+          { k: 'flag', title: 'Three-stage FCFE (Medina Classic Furniture) — marked “Rev” on my page',
+            items: [
+              'FCFE₀ = C$0.90. Stage 1: 30% for 3 years at kₑ = *20%*. Stage 2: growth falls 9 points a year (21%, 12%, 3%) at kₑ = *15%*. Stage 3: 3% forever at kₑ = *10%*.',
+              'FCFE: 1.170 · 1.521 · 1.977 · 2.393 · 2.680 · 2.760. PVs: 0.975 · 1.056 · 1.144 · 1.204 · 1.173 · 1.050 (years 4–6 discounted 3 years at 20%, then at 15%).',
+              'TV₆ = 2.760 × 1.03 ÷ (10% − 3%) = *40.61*, discounted 1.20³ × 1.15³ → *15.45*.',
+              'Value = 6.60 + 15.45 ≈ *C$22.06*. With changing discount rates the NPV keys can’t do it in one pass.',
+            ],
+            text: 'Schweser adds:' },
+          { k: 'sub', text: 'Estimating Terminal Value with a P/E Multiple' },
+          { k: 'formula', title: 'Terminal value from a P/E multiple', lines: [
+            'Terminal value in year n = (Trailing P/E) × (Earnings in year n)',
+            'Terminal value in year n = (Leading P/E) × (Forecasted earnings in year n + 1)',
+          ], note: 'The other approach is a single-stage FCF model at the point growth settles to its long-run rate, which is what every example above used.' },
+          { k: 'example', id: 's6-polar', title: 'Example — Terminal value with a P/E multiple (Polar Technology)',
+            given: [
+              { label: 'EPS₅ · EPS₆', val: '$2.10 · $2.32' },
+              { label: 'Median trailing industry P/E', val: '35' },
+            ],
+            steps: [
+              'Terminal value in year 5 = (P/E) × EPS₅ = 35 × 2.10',
+            ],
+            result: 'TV₅ = $73.50' },
+          { k: 'flag', title: 'Picking the model, and over/undervalued (LOS 19.j, 19.m)',
+            items: [
+              '*Single-stage*: stable firms in mature industries. *Two-stage*: a short supernormal period then stable growth (e.g. a patent expiring in seven years). *Three-stage*: growth, transition and mature phases.',
+              'FCFF and FCFE growth rates are usually *different*.',
+              'Single-stage FCFE in *real* terms is often used for countries with high inflation.',
+              'Market price > model value → *overvalued*; market price < model value → *undervalued*.',
+              'Module quiz: discounting FCFE at the WACC (too low) *overstates* equity; discounting FCFF at kₑ (too high) *understates* firm value.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '19.S7', title: 'Major Sources of Error in Valuation Analysis',
+        blocks: [
+          { k: 'points', id: 's7-err', title: 'Major sources of error in valuation analysis', items: [
+            '*Estimating the future growth* in FCFF & FCFE.',
+            'The *chosen base years* for the FCFF or FCFE growth forecasts: a representative base year must be chosen, or all the subsequent analysis & valuation will be flawed.',
+          ] },
+          { k: 'flag', title: 'Sensitivity analysis (LOS 19.i)',
+            items: [
+              'Sensitivity analysis shows how much the value moves when each input (FCFE, β, Rf, ERP, growth) moves across its forecast range.',
+              'Growth forecasts depend on sales growth, profit margins, the firm’s life-cycle stage, its competitive strategy and industry profitability.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+    ],
+  },
   'deriv.0': {
     refs: {
       stk: {
@@ -6041,6 +6311,7 @@ const GAPS = {
   'econ.1': {},
   'equity.0': {},
   'equity.1': {},
+  'equity.2': {},
   'deriv.0': {},
   'deriv.1': {},
 };
@@ -6447,6 +6718,7 @@ const STATUS = {
   'econ.1': 'progress',
   'equity.0': 'progress',
   'equity.1': 'progress',
+  'equity.2': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
 };
