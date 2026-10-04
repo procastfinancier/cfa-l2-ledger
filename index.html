@@ -548,7 +548,7 @@ const SUBJECTS = [
     { name: 'Reading 18: Discounted Dividend Valuation', desc: 'R18 · Sessions 18.S1–18.S5, following your written notes — one-, two- and multi-period DDM, Gordon growth, PVGO and justified P/E, preferred stock, two-stage, H-model and three-stage DDM, terminal value, implied returns, sustainable growth and PRAT' },
     { name: 'Reading 19: Free Cash Flow Valuation', desc: 'R19 · Sessions 19.S1–19.S7, following your written notes — FCFF vs. FCFE and when to use each, FCFF and FCFE from NI, EBIT, EBITDA and CFO, noncash charges and FCInv, the debt-ratio FCFE formula, single-, two- and three-stage models, terminal value with a P/E multiple, sources of error' },
     { name: 'Reading 20: Market-Based Valuation: Price and Enterprise Value Multiples', desc: 'R20 · Sessions 20.S1–20.S6, following your written notes — fundamentals vs. comparables, rationales and drawbacks of P/E, P/B, P/S, P/CF and dividend yield, underlying and normalized earnings, justified P/E, P/B, P/S, P/CF, D/P and EV/EBITDA, predicted P/E, Fed and Yardeni models, PEG, cross-border differences, momentum indicators' },
-    { name: 'Residual income valuation', desc: 'RI model and accounting issues' },
+    { name: 'Reading 21: Residual Income Valuation', desc: 'R21 · Sessions 21.S1–21.S5, following your written notes — residual income and the equity charge, EVA and MVA, forecasting RI, multi-year and single-stage RI models, implied growth, persistence factor and the four continuing-RI scenarios, strengths and weaknesses, clean surplus and accounting adjustments' },
     { name: 'Private company valuation', desc: 'Adjustments for private firms' },
   ]},
   { id: 'fi', name: 'Fixed income', topics: [
@@ -5460,6 +5460,354 @@ const CONTENT = {
       },
     ],
   },
+  'equity.4': {
+    flow: [
+      {
+        module: '21.S1', title: 'Residual Income · The Idea',
+        blocks: [
+          { k: 'points', id: 's1-idea', items: [
+            'An investor has a required return of *10%* on 1,000 invested in the company’s equity, i.e. *100* (kₑ = 10%).',
+            'Case 1: the company generates *$70*, which is *lower* than 100 → the investor’s requirement is not met.',
+            'Case 2: the company reports *$130*. Then the company has *30* (130 − 100) of *residual income*.',
+            'The extra amount that is generated *over and above the cost of equity* is referred to as *residual income*.',
+          ] },
+          { k: 'formula', title: 'Residual income', lines: [
+            'Residual income = Net income − (Equity₍beg₎ × kₑ)',
+          ], note: 'Why is the *beginning* value of equity used? Same logic as interest expense, which is paid on the *beginning loan* balance.' },
+          { k: 'points', id: 's1-pv', items: [
+            'This way we could find every year’s residual income, and then discount it at *kₑ* to get the *PV of RI*.',
+            'Residual income is only for *equity holders*.',
+          ] },
+          { k: 'formula', title: 'Equity value', lines: [
+            'Equity value₀ = BV of equity₀ + PV of RI',
+          ] },
+          { k: 'example', id: 's1-mfs', title: 'Example — Is Madhuva Fruit Suppliers (MFS) profitable?',
+            given: [
+              { label: 'BV of assets', val: '$1.4 bn (800 m equity + 600 m debt)' },
+              { label: 'Marginal tax rate', val: '34%' },
+              { label: 'Before-tax cost of debt · kₑ', val: '3.33% · 12.3%' },
+            ],
+            body: ['Income statement of MFS: EBIT 142,000,000 − interest expense (20,000,000) = pretax income 122,000,000 − income tax expense (41,480,000) = *net income 80,520,000*. Determine whether MFS is profitable by calculating RI and exploring its relationship to reported accounting income.'],
+            steps: [
+              'Equity charge = Equity capital × Cost of equity = 800 m × 0.123 = *98,400,000*',
+              'RI = NI − Equity charge = 80,520,000 − 98,400,000 = *−17,880,000*',
+            ],
+            result: 'Even though MFS is profitable in the traditional accounting sense, it is economically unprofitable after taking into account the necessary charge to meet stockholders’ opportunity cost of supplying capital to the company.' },
+          { k: 'flag', title: 'RI concepts (LOS 21.a)',
+            items: [
+              'Residual income is also called *economic profit* or *abnormal earnings*.',
+              'Traditional accounting income deducts interest on debt but *not* the cost of equity capital; RI deducts both.',
+              'Equity charge = Equity capital × kₑ; RI = NI − equity charge.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '21.S2', title: 'Economic Value Added (EVA) & Market Value Added (MVA)',
+        blocks: [
+          { k: 'points', id: 's2-eva', items: [
+            'EVA is the extra amount that is generated *over and above the WACC* for *all capital providers*.',
+          ] },
+          { k: 'formula', title: 'EVA', lines: [
+            'EVA = EBIT × (1 − t) − (Total capital₍beg₎ × WACC)',
+            'NOPAT = EBIT × (1 − t)   (net operating profit after tax)',
+            'Total capital = Net working capital + Net fixed assets = BV of LT debt + BV of equity',
+          ] },
+          { k: 'points', id: 's2-mva', items: [
+            '*Market value added (MVA)* is the *PV of all future EVA*.',
+            'And the discount rate used will be the *WACC*.',
+          ] },
+          { k: 'formula', title: 'Firm value', lines: [
+            'Firm value₀ = Total capital₀ + MVA',
+          ] },
+          { k: 'example', id: 's2-vbm', title: 'Example — EVA and MVA (VBM, Inc.)',
+            given: [
+              { label: 'NOPAT · WACC', val: '$2,100 · 14.2%' },
+              { label: 'Invested capital (beg · end)', val: '$18,000 · $21,000' },
+              { label: 'Share price (yr-end) · shares', val: '$25 · 800' },
+              { label: 'MV of LT debt (yr-end)', val: '$4,000' },
+            ],
+            steps: [
+              '$WACC = 0.142 × $18,000 = *$2,556*',
+              'EVA = $2,100 − $2,556 = *−$456*',
+              'MV of company = MV equity + MV debt = ($25 × 800) + $4,000 = *$24,000*',
+              'Firm value = Total capital + MVA → 24,000 = 21,000 + MVA',
+            ],
+            result: 'EVA = −$456 · MVA = $3,000' },
+          { k: 'table', id: 's2-cmp',
+            columns: ['EVA', 'RI'],
+            rows: [
+              { label: 'Charge', values: ['NOPAT − (Total capital₍beg₎ × WACC)', 'NI − (Equity capital₍beg₎ × kₑ)'] },
+              { label: 'Discounting', values: ['All future EVAs discounted using WACC', 'All future RIs discounted using kₑ'] },
+              { label: 'PV of all future', values: ['Referred to as MVA', 'Has no name'] },
+              { label: 'Value', values: ['Firm value₀ = Total capital₀ + MVA', 'Equity₀ = BV₀ + PV of RI'] },
+            ] },
+          { k: 'flag', title: 'EVA adjustments (LOS 21.b)',
+            items: [
+              'Common adjustments when computing EVA: capitalize and amortize *R&D*, add back *deferred taxes* (use cash taxes), treat *operating leases* as capital, and adjust for *LIFO reserves* and nonrecurring items.',
+              'MVA = Market value of the company − Total capital; a positive MVA means management has *created* value.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '21.S3', title: 'Forecasting RI · Multi-Year and Single-Stage RI Models',
+        blocks: [
+          { k: 'formula', title: 'Formulas for RI', lines: [
+            'ROE = Net income ÷ BV of equity',
+            'Net income₍t₎ = ROE × BV equity₍t−1₎',
+            'RI₍t₎ = NI₍t₎ − (kₑ × BV equity₍t−1₎)',
+            'RI₍t₎ = (ROE × BV equity₍t−1₎) − (kₑ × BV equity₍t−1₎) = BV equity₍t−1₎ × (ROE − kₑ)',
+            'Equity value = BV equity + PV of RI',
+          ] },
+          { k: 'example', id: 's3-duluth', title: 'Example — Forecasting residual income (Duluth Cosmetics)',
+            given: [
+              { label: 'Current market price', val: '€24.00' },
+              { label: 'Current BV per share (Dec 31, 2018)', val: '€18.00' },
+              { label: 'Consensus EPS 2019 · 2020', val: '€2.05 · €2.22' },
+              { label: 'Dividend payout 2019 & 2020 · kₑ', val: '65% · 11%' },
+            ],
+            body: ['Laura Kropt, CFA, was assigned the task of forecasting the residual income for Duluth Cosmetics over the next 2 years.'],
+            result: 'RI₂₀₁₉ = €0.07 · RI₂₀₂₀ = €0.16' },
+          { k: 'table', id: 's3-duluth-t',
+            columns: ['FY2019', 'FY2020'],
+            rows: [
+              { label: 'Beg BV (Bₜ₋₁)', values: ['€18.00', '€18.72'] },
+              { label: 'EPS forecast (Eₜ)', values: ['2.05', '2.22'] },
+              { label: 'Dividend forecast (Dₜ = Eₜ × DPR)', values: ['1.33', '1.44'] },
+              { label: 'Forecast BV/share (Bₜ₋₁ + Eₜ − Dₜ)', values: ['18.72', '19.50'] },
+              { label: 'Equity charge/share (kₑ × Bₜ₋₁)', values: ['1.98', '2.06'] },
+              { label: 'RI/share [Eₜ − (kₑ × Bₜ₋₁)]', values: ['€0.07', '€0.16'] },
+            ] },
+          { k: 'example', id: 's3-pipe', title: 'Example — Computing IV with an RI model (Consolidated Pipe Products)',
+            given: [
+              { label: 'kₑ · current BV', val: '14% · $6.50' },
+              { label: 'EPS 2019 · 2020 · 2021', val: '$1.10 · $1.00 · $0.95' },
+              { label: 'Dividends 2019 · 2020', val: '$0.50 · $0.60' },
+            ],
+            body: ['The dividend in 2021 is a *liquidating dividend*. Calculate the value of Consolidated stock using the RI model.'],
+            steps: [
+              'Equity value = BV equity + PV of RI',
+              'V₀ = 6.50 + 0.19 ÷ 1.14 + 0.01 ÷ 1.14² − 0.10 ÷ 1.14³',
+            ],
+            result: 'V₀ = $6.61' },
+          { k: 'table', id: 's3-pipe-t',
+            columns: ['FY2019', 'FY2020', 'FY2021'],
+            rows: [
+              { label: 'Beg BV (Bₜ₋₁)', values: ['$6.50', '$7.10', '$7.50'] },
+              { label: 'EPS forecast (Eₜ)', values: ['1.10', '1.00', '0.95'] },
+              { label: 'Dividend forecast (Dₜ)', values: ['0.50', '0.60', '8.45'] },
+              { label: 'Forecast BV/share (Bₜ₋₁ + Eₜ − Dₜ)', values: ['7.10', '7.50', '0.00'] },
+              { label: 'Equity charge/share (kₑ × Bₜ₋₁)', values: ['0.91', '0.99', '1.05'] },
+              { label: 'RI/share [Eₜ − (kₑ × Bₜ₋₁)]', values: ['0.19', '0.01', '−0.10'] },
+            ],
+            caption: 'The 2021 liquidating dividend pays out the whole BV plus that year’s earnings: 7.50 + 0.95 = *8.45*, leaving ending BV of zero.' },
+          { k: 'formula', title: 'Constant-growth RI', lines: [
+            'PV of RI = RI₁ ÷ (kₑ − g)',
+          ], note: 'If RI is expected to grow at a constant rate g forever, we can use the *constant growth model* to find the PV of RI.' },
+          { k: 'formula', title: 'Single-stage RI valuation model', lines: [
+            'Equity value = BV₀ + [(ROE − kₑ) × BV₀] ÷ (kₑ − g)',
+          ], note: 'The second term is the *PV of future RI*.' },
+          { k: 'points', id: 's3-ss', items: [
+            'If ROE and kₑ are the same → Equity value = *BV*.',
+            'If ROE > kₑ → Equity value > *BV*.',
+            'PV of RI is the *additional value* generated by the firm’s ability to produce returns in excess of the cost of equity.',
+          ] },
+          { k: 'example', id: 's3-war', title: 'Example — Value with a single-stage RI model (Western Atlantic Railroad)',
+            given: [
+              { label: 'BV per share', val: '$23' },
+              { label: 'ROE on new investment · kₑ', val: '14% · 12%' },
+              { label: 'Dividend payout ratio', val: '60%' },
+            ],
+            body: ['Calculate the value of the shares using a single-stage residual income model and the PV of expected economic profits. Then confirm it with the Gordon growth model.'],
+            steps: [
+              'Step 1 — growth rate: g = Retention ratio × ROE = (1 − 0.6) × 0.14 = *5.6%*',
+              'Step 2 — IV: V₀ = BVPS₀ + PV of RI = 23 + (0.14 − 0.12) × 23 ÷ (0.12 − 0.056) = *30.19*',
+              'GGM check — EPS₁ = BVPS₀ × ROE = 23 × 0.14 = *3.22*',
+              'D₁ = DPR × EPS₁ = 3.22 × 0.6 = *1.932*',
+              'V₀ = D₁ ÷ (kₑ − g) = 1.932 ÷ (0.12 − 0.056) = *30.19*',
+            ],
+            result: 'V₀ = $30.19 under both models' },
+          { k: 'example', id: 's3-tellis', title: 'Example — Calculating implied growth rate (Tellis Telecommunications)',
+            given: [
+              { label: 'P/B', val: '2.50' },
+              { label: 'Expected ROE', val: '13%' },
+              { label: 'Current BV per share · kₑ', val: '€8.00 · 11%' },
+            ],
+            body: ['Calculate the growth rate implied by the current P/B ratio.'],
+            steps: [
+              'Step 1 — MPS = P/B × BVPS = 2.5 × 8 = *20*',
+              'Step 2 — V₀ = BVPS₀ + PV of RI → 20 = 8 + (0.13 − 0.11) × 8 ÷ (0.11 − g)',
+            ],
+            result: 'g = 9.67%' },
+          { k: 'flag', title: 'Justified P/B and RI-model choice (LOS 21.d–21.g)',
+            items: [
+              'Dividing the single-stage model by B₀ gives the justified P/B: P₀/B₀ = 1 + (ROE − r) ÷ (r − g) = (ROE − g) ÷ (r − g).',
+              'A multistage RI model forecasts RI explicitly for a high-growth period, then adds a *terminal value* that reflects how RI is expected to fade.',
+              'In RI models, a larger share of intrinsic value is recognized *earlier* (current BV) than in DDM or FCF models.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '21.S4', title: 'Residual Income & the Persistence Factor',
+        blocks: [
+          { k: 'points', id: 's4-factors', title: 'Factors which have an important role in deciding the residual income of a company', items: [
+            'Fortunes of the *industry*.',
+            '*Sustainability* of a specific firm’s competitive prospects.',
+          ] },
+          { k: 'points', id: 's4-fade', items: [
+            'Residual income *cannot grow forever* and will *decline to zero*. For a firm to maintain a competitive advantage forever is only possible when *no competition* enters the market to erode the margin.',
+            '*Persistence factor (ω)*: the projected rate at which residual income is expected to fade over the life cycle of the firm is captured by a persistence factor ω, which is between *zero and one*; it shows what portion of residual income will persist next year.',
+          ] },
+          { k: 'cols', id: 's4-pf', panes: [
+            { title: 'Associated with a high PF', tone: 'teal', items: [
+              'Low *payout* ratio.',
+              'Historically high *RI persistence* in the industry.',
+            ] },
+            { title: 'Associated with a lower PF', tone: 'violet', items: [
+              'Significant level of *nonrecurring items*.',
+              'High *accounting accruals*.',
+            ] },
+          ] },
+          { k: 'points', id: 's4-scen', title: '4 assumptions about continuing residual income', items: [
+            'Scenario 1: residual income is expected to *persist at its current level* forever.',
+            'Scenario 2: RI *drops immediately to zero*.',
+            'Scenario 3: RI *declines over time* as ROE falls to the cost of equity.',
+            'Scenario 4: RI *declines to a long-run average level* consistent with a mature industry.',
+          ] },
+          { k: 'example', id: 's4-java', title: 'Example — Scenario 2: continuing RI falls to zero (Java Mobile)',
+            given: [
+              { label: 'ROE (each of the next 5 yrs)', val: '15%' },
+              { label: 'Current BV per share', val: '$5' },
+              { label: 'Dividends · kₑ', val: 'None (all earnings reinvested) · 10%' },
+            ],
+            body: ['Forecasted earnings in yr 1 through 5 are equal to ROE times beginning BV. Calculate the IV of the company using a residual income model, assuming that after 5 years, continuing residual income falls to zero.'],
+            steps: [
+              'Equity value = BV of Eq (B₀) + PV of RI',
+              'V₀ = 5 + 0.25 ÷ 1.1 + 0.29 ÷ 1.1² + 0.33 ÷ 1.1³ + 0.38 ÷ 1.1⁴ + 0.44 ÷ 1.1⁵',
+            ],
+            result: 'V₀ = $6.25' },
+          { k: 'table', id: 's4-java-t',
+            columns: ['EPS', 'BV (end)', 'ROE', 'Equity charge', 'RI'],
+            rows: [
+              { label: 'Yr 0', values: ['—', '5.00', '15%', '—', '—'] },
+              { label: 'Yr 1', values: ['0.75', '5.75', '15%', '0.50', '0.25'] },
+              { label: 'Yr 2', values: ['0.86', '6.61', '15%', '0.57', '0.29'] },
+              { label: 'Yr 3', values: ['0.99', '7.60', '15%', '0.66', '0.33'] },
+              { label: 'Yr 4', values: ['1.15', '8.75', '15%', '0.76', '0.38'] },
+              { label: 'Yr 5', values: ['1.31', '10.06', '15%', '0.88', '0.44'] },
+            ],
+            caption: 'EPSₜ = 15% × BVₜ₋₁ · BVₜ = BVₜ₋₁ + EPSₜ (no dividends) · Equity charge = 10% × BVₜ₋₁ · RI = EPS − equity charge.' },
+          { k: 'example', id: 's4-java2', title: 'Example — Scenario 1: RI persists at its current level forever',
+            body: ['Suppose we change our assumption regarding Java’s RIs after the 5 years to assume instead that it remains constant at $0.44 forever. Calculate the new IV of Java.'],
+            steps: [
+              'Here the RI is expected to remain constant at 0.44 forever (perpetuity of 0.44).',
+              'PV of perpetuity₅ = PMT ÷ Rate = 0.44 ÷ 10% = *4.4*',
+              'Equity value = BV + PV of RI (yrs 1–5) + PV of perpetuity = 6.25 + 4.4 ÷ 1.1⁵',
+            ],
+            result: 'V₀ = $8.98' },
+          { k: 'example', id: 's4-java3', title: 'Example — Scenario 3: RI fades with a persistence factor of 0.4',
+            body: ['Now let’s make the more realistic assumption that after 5 years, Java’s RI will decay over time to zero, with a persistence factor of 0.4. Calculate the new IV of Java.'],
+            steps: [
+              'A PF of 0.4 means next year’s RI will be 40% of the previous year’s RI, so the PF of 0.4 implies g = −60%.',
+              'So we can use GGM beyond yr 5 to find PV of RI, using g = −60%.',
+              'PV of RI₅ = RI₆ ÷ (kₑ − g) = 0.44 × (1 − 60%) ÷ (10% + 60%) = *0.2514*',
+              'Equity value = 6.25 + 0.2514 ÷ 1.1⁵',
+            ],
+            result: 'V₀ = $6.40' },
+          { k: 'example', id: 's4-java4', title: 'Example — Scenario 4: P/B at the end of year 5 is 1.2',
+            body: ['Suppose instead that at the end of 5 years we assume that Java’s ROE falls to a long-run average level and the price-to-book ratio falls to 1.2. Calculate the IV of Java.'],
+            steps: [
+              'P₅ = BV₅ + PV of RI₅; B₅ = 10.06 and P₅ ÷ B₅ = 1.2',
+              'P₅ = 1.2 × 10.06 = *12.07*',
+              'Equity value₅ = BV₅ + (PV of RI)₅ → 12.07 = 10.06 + (PV of RI)₅ → (PV of RI)₅ = *2.01*',
+              'Equity value₀ = BV₀ + PV of RI = 6.25 + 2.01 ÷ 1.1⁵',
+            ],
+            result: 'V₀ ≈ $7.50' },
+          { k: 'flag', title: 'Continuing RI formulas (LOS 21.h)',
+            items: [
+              'Fading RI: PV at T−1 of continuing RI = RI_T ÷ (1 + r − ω). With ω = 0 → RI drops to zero after T; with ω = 1 → RI persists as a perpetuity.',
+              'Long-run P/B approach: PV of continuing RI at T = P_T − B_T.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+      {
+        module: '21.S5', title: 'Strengths, Weaknesses & Accounting Issues in RI Models',
+        blocks: [
+          { k: 'cols', id: 's5-sw', panes: [
+            { title: 'Strengths of residual income valuation', tone: 'teal', items: [
+              '*Terminal value* does not dominate the IV estimate, as is the case with DDM and FCF valuation models.',
+              'RI models use *accounting data*, which is usually easy to find.',
+              'The models are applicable to firms that *do not pay dividends* or that do not have positive expected FCF in the short run.',
+              'The models are applicable even when *CF are volatile*.',
+              'The models focus on *economic profitability* rather than just on accounting profit.',
+            ] },
+            { title: 'Weaknesses of RIV', tone: 'violet', items: [
+              'The models rely on accounting data that can be *manipulated* by management.',
+              'Reliance on accounting data requires *numerous and significant adjustments*.',
+              'The models assume that the *clean surplus relation* holds or that its failure to hold has been properly taken into account.',
+            ] },
+          ] },
+          { k: 'cols', id: 's5-when', panes: [
+            { title: 'Scenarios when RI is appropriate', tone: 'teal', items: [
+              'A firm *does not pay dividends*, or the stream of payments is too volatile to be sufficiently predictable.',
+              'Expected *free CF are negative* for the foreseeable future.',
+              'The *terminal value* forecast is highly uncertain, which makes dividend discount or free CF models less useful.',
+            ] },
+            { title: 'Scenarios when RI is not appropriate', tone: 'violet', items: [
+              'The *clean surplus* accounting relation is violated significantly.',
+              'There is significant uncertainty concerning the estimates of *BV* and return on equity.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Accounting Issues in Applying RI Models' },
+          { k: 'sub', text: '1. Clean Surplus Relationship' },
+          { k: 'formula', title: 'Clean surplus', lines: [
+            'Ending BV = Beg BV + Net income − Dividends paid',
+          ], note: 'NI is not the only entry that affects equity; there are also *OCI* and *revaluation surplus*.' },
+          { k: 'points', id: 's5-oci', title: 'Certain items that pass through equity but don’t flow through the IS', items: [
+            'Foreign currency translation gains & losses under the *current rate method* — passes through OCI.',
+            'Certain *pension* adjustment gains & losses — passes through OCI.',
+            'Gains/losses on certain *hedging instruments* — passes through OCI.',
+            '*Unrealised* G/L on securities classified as *AFS* — passes through OCI.',
+            'Changes in *revaluation surplus* (IFRS only) for long-lived assets.',
+          ] },
+          { k: 'sub', text: '2. Variations from Fair Value' },
+          { k: 'points', id: 's5-fv', title: 'Common adjustments to the BS necessary to reflect FV', items: [
+            'Capitalizing *operating leases*.',
+            '*Consolidation* of assets & liabilities of SPEs.',
+            'Adjustments for *reserves & allowances*.',
+            '*LIFO to FIFO* conversion.',
+            'Adjustment to *pension* asset or liability to reflect the funded status of the plan.',
+          ] },
+          { k: 'sub', text: '3. Nonrecurring Items & Some Aggressive Accounting Practices' },
+          { k: 'points', id: 's5-nr', title: 'Items that may need adjustment in measuring recurring earnings', items: [
+            '*Discontinued* operations.',
+            '*Accounting* changes.',
+            '*Unusual* items.',
+            '*Extraordinary* items.',
+            '*Restructuring* charges.',
+          ] },
+          { k: 'sub', text: '4. International Accounting Differences' },
+          { k: 'points', id: 's5-intl', title: 'Some things to consider in applying residual income models in global valuation settings include the following', items: [
+            'How *reliable* are the earnings forecasts?',
+            'Are there *systematic violations* of the clean surplus relation?',
+            'Do *poor quality accounting rules* result in financial statements that bear no resemblance to the economic reality of the business?',
+          ] },
+          { k: 'sub', text: '5. Intangible Asset Effects on BV' },
+          { k: 'flag', title: 'Intangibles and other RI accounting points (LOS 21.k–21.m)',
+            items: [
+              'Internally generated intangibles (e.g. R&D under US GAAP) are expensed, so BV is *understated* and ROE overstated; the RI model still works if clean surplus holds, since lower BV means higher future RI.',
+              'Purchased goodwill and intangibles stay on the BS; analysts may remove them or adjust for impairments to improve comparability.',
+              'When clean surplus is violated, adjust ROE by using *comprehensive income* so the dirty-surplus items are not omitted from forecast RI.',
+              'Aggressive accounting that boosts current earnings at the expense of future earnings inflates BV today, but *future RI falls*, so the model partly self-corrects.',
+            ],
+            text: 'Schweser adds:' },
+        ],
+      },
+    ],
+  },
   'deriv.0': {
     refs: {
       stk: {
@@ -6740,6 +7088,7 @@ const GAPS = {
   'equity.1': {},
   'equity.2': {},
   'equity.3': {},
+  'equity.4': {},
   'deriv.0': {},
   'deriv.1': {},
 };
@@ -7148,6 +7497,7 @@ const STATUS = {
   'equity.1': 'progress',
   'equity.2': 'progress',
   'equity.3': 'progress',
+  'equity.4': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
 };
