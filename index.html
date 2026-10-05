@@ -933,6 +933,17 @@ const CONTENT = {
             'Ask (A/B) = 1 ÷ Bid (B/A)',
             'Bid (A/B) = 1 ÷ Ask (B/A)',
           ] },
+          { k: 'example', id: 's3-why-invert', ref: 'cross', title: 'Why Ask (A/B) = 1 ÷ Bid (B/A): the same trade, read from the other side',
+            body: [
+              'Take the dealer’s quote *USD/MXN = 0.0933 – 0.0935*. MXN is the base currency, so the dealer *buys 1 MXN for $0.0933* (bid) and *sells 1 MXN for $0.0935* (ask).',
+              'Now flip the quote to *MXN/USD*, the price of 1 USD in pesos. Every trade is still with the same dealer, so work out each side by asking which way the currencies move:',
+            ],
+            steps: [
+              '*Ask (MXN/USD)* is what you pay to buy 1 USD from the dealer. Buying USD with pesos means you *sell MXN* to the dealer, who buys it at the USD/MXN *bid* of 0.0933. So 1 USD costs 1 ÷ 0.0933 = *10.7181 MXN*. That is Ask (MXN/USD) = 1 ÷ Bid (USD/MXN).',
+              '*Bid (MXN/USD)* is what you get for selling 1 USD to the dealer. You receive pesos, so you are *buying MXN* from the dealer, who sells it at the USD/MXN *ask* of 0.0935. So 1 USD fetches 1 ÷ 0.0935 = *10.6952 MXN*. That is Bid (MXN/USD) = 1 ÷ Ask (USD/MXN).',
+              'Sanity check: inverting turns the smaller number into the larger one (0.0933 → 10.7181). If you kept the sides, the “bid” would come out above the “ask”, and a dealer never quotes like that. The swap keeps bid < ask, so the dealer still earns the spread.',
+            ],
+            result: 'Rule: flip the quote → flip the side. 1 ÷ bid gives the new ask; 1 ÷ ask gives the new bid.' },
           { k: 'example', id: 's3-implied', ref: 'cross', title: 'Example — Implied MXN/AUD cross rate (Schweser)',
             body: ['The following quotes are available from the interbank market. Compute the implied MXN/AUD cross rate.'],
             given: [
@@ -944,6 +955,19 @@ const CONTENT = {
               'Ask (MXN/AUD) = Ask (MXN/USD) × Ask (USD/AUD) = [1 ÷ Bid (USD/MXN)] × Ask (USD/AUD) = (1 ÷ 0.0933) × 0.6015 = *6.44695*',
             ],
             result: 'Implied MXN/AUD = 6.41711 – 6.44695' },
+          { k: 'example', id: 's3-when-invert', ref: 'cross', title: 'Why “1 ÷ Ask (USD/MXN)” here, and how to know when to invert',
+            body: [
+              'The cross rate formulas only work when the middle currency *cancels*: Bid (A/C) = Bid (A/B) × Bid (B/C). For MXN/AUD the chain has to be *MXN/USD × USD/AUD*, so USD sits on the bottom of the first quote and on top of the second.',
+              'The market gave *USD/MXN*, which is upside down for this chain. It has to be turned into MXN/USD first, and the rule above says inverting swaps the side: Bid (MXN/USD) = *1 ÷ Ask (USD/MXN)* and Ask (MXN/USD) = *1 ÷ Bid (USD/MXN)*. USD/AUD already faces the right way, so it is used as given.',
+            ],
+            steps: [
+              '*Write the target* with its numerator and denominator: MXN/AUD.',
+              '*Write the chain* so the common currency cancels: MXN/USD × USD/AUD. The target’s top currency starts the chain; its bottom currency ends it.',
+              '*Compare each given quote with the chain.* Same way up → use it as given. Upside down → take 1 ÷ the quote and swap bid ↔ ask.',
+              '*Multiply like with like*: bid × bid for the cross bid, ask × ask for the cross ask (after any flipping).',
+              '*Check bid < ask.* Here 6.41711 < 6.44695 ✓. If the bid comes out bigger, a flip lost its swap.',
+            ],
+            result: 'Invert only a quote that faces the wrong way for the chain, and every inversion swaps bid and ask.' },
           { k: 'flag', title: 'When you need a cross rate',
             text: 'When there is *no active FX market* in the pair itself. It is built through a major third currency, usually the *USD or EUR*.' },
         ],
