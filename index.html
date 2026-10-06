@@ -256,6 +256,17 @@
   .nb-tl-text { font-size: 11.5px; color: var(--ink); line-height: 1.45; }
   .nb-tl-arrow { align-self: center; font-size: 18px; color: var(--ink-faint); flex: 0 0 auto; }
 
+  /* Three-currency triangle, as drawn on my page: one node per currency, arrows clockwise */
+  .nb-tri { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; background: var(--panel); }
+  .nb-tri svg { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
+  .nb-tri-node rect { fill: var(--violet-bg); stroke: var(--violet); stroke-width: 1.2; }
+  .nb-tri-node text { fill: var(--ink); font-size: 14px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+  .nb-tri-edge { stroke: var(--teal); stroke-width: 1.6; fill: none; }
+  .nb-tri-head { fill: var(--teal); }
+  .nb-tri-label { fill: var(--ink-soft); font-size: 11px; }
+  .nb-tri-label .lead { fill: var(--ink); font-weight: 700; }
+  .nb-tri-note { font-size: 11.5px; color: var(--ink-faint); font-style: italic; line-height: 1.5; margin-top: 6px; }
+
   .nb-split { margin-bottom: 14px; }
   .nb-split-head { text-align: center; font-size: 13px; font-weight: 700; color: var(--ink); border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 9px 12px; max-width: 340px; margin: 0 auto 4px; }
   .nb-split-stem { width: 2px; height: 14px; background: var(--line); margin: 0 auto; }
@@ -980,14 +991,38 @@ const CONTENT = {
               'Same interbank quotes as 5.S3. If your dealer quotes *MXN/AUD = 6.3000 – 6.3025*, is an arbitrage profit possible? If so, compute the arbitrage profit in USD if you start with USD 1 million.',
               'Since the market value (6.3000 – 6.3025) is not equal to the intrinsic value (6.41711 – 6.44695), there is an arbitrage opportunity. *MV < IV*: AUD is cheaper in the market and MXN is expensive, so following “buy low, sell high” we *sell MXN and buy AUD*.',
             ],
+          },
+          { k: 'table', id: 's4-quotes', ref: 'cross',
+            columns: ['Bid rate', 'Ask rate'],
+            rows: [
+              { label: 'USD/AUD', values: ['0.6000', '0.6015'] },
+              { label: 'USD/MXN', values: ['0.0933', '0.0935'] },
+            ],
+            caption: 'Pencil table at the top right of my page: the interbank quotes.' },
+          { k: 'table', id: 's4-ivmv', ref: 'cross',
+            columns: ['Bid rate', 'Ask rate'],
+            rows: [
+              { label: 'MXN/AUD — intrinsic value (implied cross)', values: ['6.41711', '6.44695'] },
+              { label: 'MXN/AUD — market value (dealer)', values: ['6.3000', '6.3025'] },
+            ],
+            caption: 'Pencil table under it: MV < IV on both sides, so the dealer is selling AUD too cheaply.' },
+          { k: 'triangle', id: 's4-triangle', title: 'Triangular arbitrage: USD → MXN → AUD → USD, clockwise',
+            nodes: ['MXN', 'USD', 'AUD'],
+            edges: [
+              { lead: '1 · USD → MXN', text: '÷ 0.0935 (ask)' },
+              { lead: '2 · MXN → AUD', text: '÷ 6.3025 (ask)' },
+              { lead: '3 · AUD → USD', text: '× 0.6000 (bid)' },
+            ],
+            note: 'My pencil note beside the triangle: the arrow from MXN to AUD goes *clockwise*; if the arrow goes from AUD to MXN, it goes *anticlockwise*. Here we sell MXN for AUD, so the trade runs clockwise.' },
+          { k: 'example', id: 's4-tri-steps', ref: 'cross', title: 'Answer — each step, thinking from the base currency (my pencil margins)',
             steps: [
-              'Convert USD to MXN: USD 1,000,000 ÷ 0.0935 = *MXN 10,695,187*',
-              'Convert MXN to AUD: MXN 10,695,187 ÷ 6.3025 = *AUD 1,696,975*. We buy AUD, so the dealer has to sell → ask.',
-              'Convert AUD to USD: AUD 1,696,975 × 0.6 = *USD 1,018,185*. We sell AUD and buy USD, the dealer buys AUD → bid.',
+              '*Convert USD to MXN.* Think from the perspective of the base currency, i.e. *MXN* (USD/MXN) → we *sell USD & buy MXN* → use the *ask* rate, since we buy MXN and the dealer has to sell. USD 1,000,000 ÷ 0.0935 = *MXN 10,695,187*',
+              '*Convert MXN to AUD.* Think from the perspective of the base currency, i.e. *AUD* (MXN/AUD) → we *sell MXN & buy AUD* → use the *ask* rate, since we buy AUD and the dealer has to sell. MXN 10,695,187 ÷ 6.3025 = *AUD 1,696,975*',
+              '*Convert AUD to USD.* Think from the perspective of the base currency, i.e. *AUD* (USD/AUD) → we *sell AUD & buy USD* → use the *bid* rate, since we sell AUD and the dealer has to buy. AUD 1,696,975 × 0.6 = *USD 1,018,185*',
             ],
             result: 'Arbitrage profit = USD 1,018,185 − 1,000,000 = USD 18,185' },
           { k: 'formula', title: 'Alternate way to solve', lines: [
-            'Compare the bid & ask of MV and IV and select the wrong rates: bid *6.41711* and ask *6.3025* (since bid > ask)',
+            'Compare the bid & ask of MV and IV and select the wrong rates: bid *6.41711* and ask *6.3025* (pencil: “because ask > bid” — a real quote always has ask above bid, and these two break that)',
             'Arbitrage profit = notional principal × (bid ÷ ask − 1)',
             '= USD 1,000,000 × (6.41711 ÷ 6.3025 − 1) = *USD 18,185*',
           ] },
@@ -8528,6 +8563,34 @@ function refInlineHtml(r) {
   </details>`;
 }
 
+// Draws the currency triangle from my pages: `nodes` are [top, bottom-left, bottom-right] and
+// `edges` run clockwise (bottom-left → top → bottom-right → bottom-left), each with a two-line label.
+function renderTriangle(b) {
+  const P = [[200, 34], [70, 206], [330, 206]];
+  const L = [{ x: 118, y: 104, a: 'end' }, { x: 282, y: 104, a: 'start' }, { x: 200, y: 236, a: 'middle' }];
+  const node = (name, [x, y]) => `<g class="nb-tri-node"><rect x="${x - 34}" y="${y - 15}" width="68" height="30" rx="7"></rect><text x="${x}" y="${y}">${escapeHtml(name)}</text></g>`;
+  const edge = (from, to) => {
+    const [x1, y1] = P[from], [x2, y2] = P[to];
+    const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len;
+    const pad = Math.abs(uy) > 0.5 ? 24 : 40;
+    const sx = x1 + ux * pad, sy = y1 + uy * pad, ex = x2 - ux * pad, ey = y2 - uy * pad;
+    const hx = ex - ux * 9, hy = ey - uy * 9, nx = -uy * 5, ny = ux * 5;
+    return `<line class="nb-tri-edge" x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}"></line>` +
+      `<polygon class="nb-tri-head" points="${ex.toFixed(1)},${ey.toFixed(1)} ${(hx + nx).toFixed(1)},${(hy + ny).toFixed(1)} ${(hx - nx).toFixed(1)},${(hy - ny).toFixed(1)}"></polygon>`;
+  };
+  const label = (e, { x, y, a }) => `<text class="nb-tri-label" x="${x}" y="${y}" text-anchor="${a}">` +
+    `<tspan class="lead" x="${x}">${escapeHtml(e.lead || '')}</tspan><tspan x="${x}" dy="14">${escapeHtml(e.text || '')}</tspan></text>`;
+  const order = [[1, 0], [0, 2], [2, 1]];
+  return `<div class="nb-tri">
+    <svg viewBox="-20 0 440 256" role="img" aria-label="${escapeHtml(b.title || 'Currency triangle')}">
+      ${order.map(([f, t]) => edge(f, t)).join('')}
+      ${(b.edges || []).map((e, i) => label(e, L[i])).join('')}
+      ${b.nodes.map((n, i) => node(n, P[i])).join('')}
+    </svg>
+    ${b.note ? `<div class="nb-tri-note">${rt(b.note)}</div>` : ''}
+  </div>`;
+}
+
 function renderBlock(b, gaps, refs) {
   const gap = (b.id && gaps && gaps[b.id])
     ? `<div class="note-gap"><span class="note-gap-label">Gap —</span>${escapeHtml(gaps[b.id])}</div>` : '';
@@ -8553,6 +8616,9 @@ function renderBlock(b, gaps, refs) {
       </table></div>` + (b.caption ? `<div class="nb-caption">${escapeHtml(b.caption)}</div>` : '');
       break;
     }
+    case 'triangle':
+      body = renderTriangle(b);
+      break;
     case 'timeline':
       body = `<div class="nb-timeline">${b.steps.map((s, i) => `
         ${i ? '<div class="nb-tl-arrow">→</div>' : ''}
