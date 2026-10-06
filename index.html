@@ -267,6 +267,32 @@
   .nb-tri-label .lead { fill: var(--ink); font-weight: 700; }
   .nb-tri-note { font-size: 11.5px; color: var(--ink-faint); font-style: italic; line-height: 1.5; margin-top: 6px; }
 
+  /* Node-and-arrow diagrams (binomial trees, parity web, approach trees) and simple curve plots,
+     redrawn from the pencil sketches on my pages. Same frame and note style as the triangle. */
+  .nb-dia { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; background: var(--panel); overflow-x: auto; }
+  .nb-dia-title { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .nb-dia svg { display: block; width: 100%; height: auto; margin: 0 auto; }
+  .nb-dia-node rect { fill: var(--violet-bg); stroke: var(--violet); stroke-width: 1.2; }
+  .nb-dia-node.teal rect { fill: var(--teal-bg); stroke: var(--teal); }
+  .nb-dia-node.slate rect { fill: var(--slate-bg); stroke: var(--slate); }
+  .nb-dia-node.rose rect { fill: var(--rose-bg); stroke: var(--rose); }
+  .nb-dia-node .t1 { fill: var(--ink); font-size: 12.5px; font-weight: 700; text-anchor: middle; }
+  .nb-dia-node .t2 { fill: var(--ink-soft); font-size: 10.5px; text-anchor: middle; }
+  .nb-dia-edge { stroke: var(--teal); stroke-width: 1.4; fill: none; }
+  .nb-dia-head { fill: var(--teal); }
+  .nb-dia-elabel { fill: var(--ink-soft); font-size: 10.5px; text-anchor: middle; }
+  .nb-dia-tag { fill: var(--ink-faint); font-family: var(--mono); font-size: 10px; text-anchor: middle; }
+  .nb-plot-axis { stroke: var(--ink-soft); stroke-width: 1.2; fill: none; }
+  .nb-plot-guide { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 3; fill: none; }
+  .nb-plot-line { stroke-width: 2; fill: none; }
+  .nb-plot-line.c0 { stroke: var(--violet); } .nb-plot-line.c1 { stroke: var(--teal); } .nb-plot-line.c2 { stroke: var(--amber); } .nb-plot-line.c3 { stroke: var(--rose); }
+  .nb-plot-line.dash { stroke-dasharray: 5 4; }
+  .nb-plot-ltext { font-size: 10.5px; font-weight: 600; }
+  .nb-plot-ltext.c0 { fill: var(--violet); } .nb-plot-ltext.c1 { fill: var(--teal); } .nb-plot-ltext.c2 { fill: var(--amber); } .nb-plot-ltext.c3 { fill: var(--rose); }
+  .nb-plot-tick { fill: var(--ink-soft); font-size: 10.5px; }
+  .nb-plot-axlabel { fill: var(--ink-faint); font-size: 10.5px; font-style: italic; }
+  .nb-plot-dot { fill: var(--ink); }
+
   .nb-split { margin-bottom: 14px; }
   .nb-split-head { text-align: center; font-size: 13px; font-weight: 700; color: var(--ink); border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 9px 12px; max-width: 340px; margin: 0 auto 4px; }
   .nb-split-stem { width: 2px; height: 14px; background: var(--line); margin: 0 auto; }
@@ -1062,6 +1088,13 @@ const CONTENT = {
               'Value today = 8,480 ÷ (1 + 1.16% × 60/360) = *AUD 8,463.64*',
             ],
             result: 'Mark-to-market value = +AUD 8,463.64' },
+          { k: 'timeline', id: 's5-yip-tl', steps: [
+            { name: 'Day 0', text: 'Yip *buys CAD 1m* 90 days forward at *1.05358* AUD/CAD' },
+            { name: 'Day 30', text: 'To unwind, *sell CAD 1m* in a new 60-day forward at the bid *1.06206*' },
+            { name: 'Day 90', text: 'Both settle the same day: gain (1.06206 − 1.05358) × 1m = *AUD 8,480*' },
+            { name: 'Back to day 30', text: '8,480 ÷ (1 + 1.16% × 60/360) = *AUD 8,463.64*' },
+          ] },
+          { k: 'p', text: 'The pencil timeline on my page: 0 → 30 → 90 days, with the original contract on top, the offsetting one from day 30 underneath, and the gain at day 90 discounted back over the 60 days that remain.' },
           { k: 'flag', title: 'Which rate discounts it, and what the value is at the start',
             items: [
               'Discount with the *price currency* (AUD) rate, for the *remaining* 60 days.',
@@ -1247,6 +1280,21 @@ const CONTENT = {
               { label: 'Relative (ex-ante) PPP', values: ['Inflation rate differential ↔ expected exchange rate movement'] },
             ],
             caption: 'Redrawn from the box diagram on my page.' },
+          { k: 'graph', id: 's7-web-dia', title: 'International parity conditions — the starred box diagram on my page', w: 520, h: 250,
+            nodes: [
+              { id: 'fp', x: 110, y: 40, t1: 'Forward premium / discount', t2: '(F − S) ÷ S', w: 190, tone: 'slate' },
+              { id: 'ird', x: 410, y: 40, t1: 'Interest rate differential', t2: 'R(A) − R(B)', w: 190, tone: 'slate' },
+              { id: 'exp', x: 110, y: 210, t1: 'Expected change in spot', t2: 'E(%ΔS)', w: 190, tone: 'slate' },
+              { id: 'inf', x: 410, y: 210, t1: 'Inflation differential', t2: 'π(A) − π(B)', w: 190, tone: 'slate' },
+            ],
+            edges: [
+              { from: 'fp', to: 'ird', label: 'Covered interest parity', plain: true },
+              { from: 'ird', to: 'exp', label: 'Uncovered interest parity', plain: true, lx: 50, ly: 18 },
+              { from: 'fp', to: 'exp', label: 'Forward rate parity', plain: true, lx: 62, ly: -40 },
+              { from: 'ird', to: 'inf', label: 'International Fisher', plain: true, lx: -62, ly: 56 },
+              { from: 'inf', to: 'exp', label: 'Ex-ante (relative) PPP', plain: true, ly: 18 },
+            ],
+            note: 'Each line is one parity condition joining the two quantities it equates. Only *covered* interest parity is held by arbitrage; go round the square and the others follow if they all hold.' },
           { k: 'flag', title: 'Reading the web, and using it to forecast (LOS 5.f–5.h)',
             items: [
               'If ex-ante relative PPP *and* the international Fisher relation both hold, UCIRP holds. Module quiz: the condition UCIRP needs is *forward rate parity*.',
@@ -2367,6 +2415,13 @@ const CONTENT = {
               'Discount back to today: N = 24, I/Y = 8, PMT = 0, FV = 21,940 → PV = *3,460*',
             ],
             result: 'PBO at the end of year 1 = 3,460' },
+          { k: 'timeline', id: 's5-mc-tl', steps: [
+            { name: '1 Jan 2016', text: 'McElwain is hired at *50,000*' },
+            { name: '25 years of service', text: 'Salary grows *4%* a year' },
+            { name: 'Retirement', text: 'Final salary 50,000 × 1.04²⁴ = *128,165*' },
+            { name: '15 years retired', text: 'Paid 2% × 128,165 × years of service, e.g. *2,563* a year for each year worked' },
+          ] },
+          { k: 'p', text: 'The pencil timeline above the working on my page: discount the 15 payments back to the retirement date, then that lump sum back to today, which is why there are two PV steps.' },
           { k: 'sub', text: 'Current Service Cost', tone: 'teal' },
           { k: 'points', id: 's5-csc', items: [
             'It is the *present value of benefits earned by the employees during the current period*.',
@@ -3251,6 +3306,7 @@ const CONTENT = {
             '*Minimum level of liquidity* — liquid assets should be able to meet demand under a *30-day stress scenario*.',
             '*Stable funding* — directly proportional to the *tenor* of the bank’s deposits. Stability in funding also depends on the *type of deposit*, e.g. consumer deposits are more stable than interbank market funds.',
           ] },
+          { k: 'p', text: 'Pencil beside the pillars: the capital minimum is set against *risk-weighted assets* (the asset side), while the capital itself sits on the *equity + liabilities* side.' },
           { k: 'flag', title: 'Who writes Basel III, and the horizon for stable funding',
             items: [
               'Basel III comes from the *Basel Committee on Banking Supervision*, a standing committee of the *Bank for International Settlements*. Global coordination also stops *regulatory arbitrage*.',
@@ -3374,6 +3430,10 @@ const CONTENT = {
             '*Allowance for loan losses* is a *contra-asset* account to loans.',
             '*Provision for loan losses* is an *expense*, subject to *management discretion*.',
           ] },
+          { k: 'entry', id: 's3-llp-sketch', title: 'Pencil sketch on my page — a provision of 2 on loans of 100',
+            bs: { a: ['Loans (A/c receivable) 100', 'Allowance for loan losses (2)'], le: ['Retained earnings 98'] },
+            is: ['Revenue 100', 'Provision for loan losses (2)', 'Net income 98'] },
+          { k: 'p', text: 'Margin note: this is the same mechanics as the *allowance for doubtful debts* (US GAAP). The provision is the expense; the allowance is the running contra-asset balance.' },
           { k: 'formula', title: 'Three ratios for loan loss adequacy', lines: [
             'Allowance for loan losses to nonperforming loans = allowance for loan losses ÷ nonperforming loans',
             'Allowance for loan losses to net loan charge-offs = allowance for loan losses ÷ net write-offs',
@@ -3418,7 +3478,7 @@ const CONTENT = {
         module: '10.S4', title: 'E — Earnings · L — Liquidity Position',
         blocks: [
           { k: 'split', id: 's4-earn', head: 'Earnings should be', legs: [
-            { name: 'Sustainable' },
+            { name: 'Sustainable', text: 'Less fluctuation; earnings should keep growing (pencil)' },
             { name: 'Adequate', text: 'A return above the cost of capital' },
           ] },
           { k: 'flag', title: 'The rest of what “high-quality earnings” means for a bank',
@@ -3461,6 +3521,7 @@ const CONTENT = {
             '*Required stable funding* — a function of the composition & maturity distribution of the bank’s *asset base*.',
             'NSFR relates the *liquidity needs of the bank’s assets* to the *liquidity provided by the bank’s liabilities*.',
           ] },
+          { k: 'p', text: 'Pencil over the two definitions on my page: *composition* = who will provide the funding (or what the assets are), *maturity distribution* = for how long.' },
           { k: 'flag', title: 'How ASF is weighted, and what “expected cash outflows” means',
             items: [
               'LCR’s expected cash outflows are the estimated *one-month* liquidity needs in a stress scenario.',
@@ -3604,6 +3665,11 @@ const CONTENT = {
             'Short-term interest rates were lowered, and banks *borrowed more at short-term rates*.',
             'And banks started *lending long term at higher rates*.',
             'This led to increased *duration risk*.',
+          ] },
+          { k: 'timeline', id: 's5-2008-tl', steps: [
+            { name: 'Borrow short term', text: 'Short rates ↓, so funding is cheap' },
+            { name: 'Lend long term', text: 'At higher long-term rates' },
+            { name: 'Spread', text: 'Profit ↑, but so does the duration mismatch' },
           ] },
           { k: 'flag', title: 'Yield curve shape, disclosures and VaR',
             text: 'A change in the *shape of the yield curve* hits banks differently depending on what their assets and liabilities are. Banks disclose market and non-market risk exposures in the *MD&A*, e.g. the effect of a change in yields on earnings. Market risk overall can be captured by *value at risk (VaR)*, covered in Portfolio Management.' },
@@ -4914,6 +4980,13 @@ const CONTENT = {
               'Calculator: CF0 = 0; C01 = 1.10; C02 = 1.21; C03 = 1.331 + 17.30 = 18.63; I = 12; CPT NPV',
             ],
             result: 'P₀ = 15.21' },
+          { k: 'timeline', id: 's4-twostage-tl', steps: [
+            { name: 't = 0', text: 'P₀ = ?' },
+            { name: 't = 1', text: 'D₁ = 1.10' },
+            { name: 't = 2', text: 'D₂ = 1.21' },
+            { name: 't = 3', text: 'D₃ = 1.331 + P₃ = 17.30' },
+            { name: 't = 4 → ∞', text: 'D₄ = 1.384, growing at *4%*; P₃ = D₄ ÷ (12% − 4%)' },
+          ] },
           { k: 'fix', title: 'D₄ = 1.38, P₃ = 17.25, P₀ = 15.17',
             text: 'The method is right; the gap is rounding. D₄ = 1.331 × 1.04 = *1.3842*, so P₃ = 1.3842 ÷ 0.08 = *17.30* and P₀ = *15.21* (Schweser’s answer). Rounding D₄ to 1.38 before dividing by 0.08 multiplies the error by 12.5. Keep at least four decimals on a dividend you are about to capitalise.' },
           { k: 'sub', text: 'H-Model' },
@@ -4938,6 +5011,15 @@ const CONTENT = {
               '= 30.00 + 21.43',
             ],
             result: 'V₀ = 51.43' },
+          { k: 'plot', id: 's4-omega-plot', title: 'H-model — the growth path sketched on my page', w: 440, h: 220,
+            x: [0, 14], y: [0, 24], xlabel: 'years', ylabel: 'dividend growth',
+            series: [
+              { pts: [[0, 20], [10, 5], [14, 5]], c: 0, label: 'g falls linearly 20% → 5%', lx: 2.2, ly: 17.5 },
+            ],
+            guides: [[10, 0, 10, 5], [5, 0, 5, 12.5]],
+            xticks: [{ v: 0, t: '0' }, { v: 5, t: 'H = 5' }, { v: 10, t: 't = 10' }],
+            yticks: [{ v: 5, t: 'g_L 5%' }, { v: 20, t: 'g_S 20%' }],
+            note: 'H is half the high-growth period: the linear fade is worth about the same as growing at g_S for H years and then dropping straight to g_L.' },
           { k: 'p', text: 'The H-model provides *only an approximation* of the value of shares. If we want the approximation to be more accurate, we have to *shorten the high-growth period, t*, and *decrease (make smaller) the spread between g_S and g_L*.' },
           { k: 'sub', text: 'Three-Stage DDM' },
           { k: 'example', id: 's4-three', title: 'Example — Three-stage DDM (R&M)',
@@ -4952,6 +5034,11 @@ const CONTENT = {
               'Calculator: CF0 = 0; C01 = 1.150; C02 = 1.323; C03 = 1.455; C04 = 1.600; C05 = 1.760; C06 = 1.936 + 25.168 = 27.104; I = 12; CPT NPV',
             ],
             result: 'P₀ = 18.86' },
+          { k: 'timeline', id: 's4-three-tl', steps: [
+            { name: 'Years 1–2', text: 'g = *15%*: D₁ 1.150 · D₂ 1.323' },
+            { name: 'Years 3–6', text: 'g = *10%*: D₃ 1.455 · D₄ 1.600 · D₅ 1.760 · D₆ 1.936' },
+            { name: 'Year 7 → ∞', text: 'g = *4%*: P₆ = 1.936 × 1.04 ÷ (12% − 4%) = 25.168' },
+          ] },
           { k: 'example', id: 's4-threeh', title: 'Example — Three-stage with a linear decline in stage 2 (H-model for stages 2–3)',
             given: [
               { label: 'D₀', val: '0.75' },
@@ -5537,6 +5624,7 @@ const CONTENT = {
           { k: 'points', id: 's4-pb-f', title: 'Influencing factors (relationships)', items: [
             'P/B ↑ as *ROE* ↑.',
             'P/B ↑ as the *spread between ROE and kₑ* ↑ (more value created by investment).',
+            'P/B ↓ as the *spread between kₑ and g* ↑ (the denominator of the formula), as my page puts it.',
           ] },
           { k: 'example', id: 's4-pb-ex', title: 'Example — Justified P/B',
             given: [
@@ -6121,6 +6209,25 @@ const CONTENT = {
             '*Litigation-related valuation*: required for shareholder suits, damage claims, divorce settlements. Performed by *legal experts*. It’s done in the same cases as the 1st point.',
           ] },
           { k: 'sub', text: 'Approaches to Private Company Valuation' },
+          { k: 'graph', id: 's1-approaches-tree', title: 'Approaches to private company valuation — the tree on my page', w: 640, h: 210,
+            nodes: [
+              { id: 'abs', x: 190, y: 22, t1: 'Absolute', w: 110 },
+              { id: 'rel', x: 500, y: 22, t1: 'Relative', w: 110 },
+              { id: 'inc', x: 120, y: 82, t1: 'Income approach', t2: 'PV of future CF', w: 130, tone: 'teal' },
+              { id: 'ast', x: 270, y: 82, t1: 'Asset based', t2: 'Assets − liabilities', w: 130, tone: 'slate' },
+              { id: 'mkt', x: 500, y: 82, t1: 'Market approach', t2: 'multiples from transactions', w: 170 },
+              { id: 'fcf', x: 50, y: 170, t1: 'Free CF', t2: '2-stage model', w: 88, tone: 'teal' },
+              { id: 'ccm', x: 145, y: 170, t1: 'Capitalized CF', t2: 'single-stage', w: 92, tone: 'teal' },
+              { id: 'eem', x: 240, y: 170, t1: 'Excess earnings', w: 92, tone: 'teal' },
+              { id: 'gpcm', x: 400, y: 170, t1: 'GPCM', t2: 'public company', w: 92 },
+              { id: 'gtm', x: 500, y: 170, t1: 'GTM', t2: 'transactions', w: 92 },
+              { id: 'ptm', x: 600, y: 170, t1: 'Prior', t2: 'transaction', w: 72 },
+            ],
+            edges: [
+              { from: 'abs', to: 'inc' }, { from: 'abs', to: 'ast' }, { from: 'rel', to: 'mkt' },
+              { from: 'inc', to: 'fcf' }, { from: 'inc', to: 'ccm' }, { from: 'inc', to: 'eem' },
+              { from: 'mkt', to: 'gpcm' }, { from: 'mkt', to: 'gtm' }, { from: 'mkt', to: 'ptm' },
+            ] },
           { k: 'cols', id: 's1-approaches', panes: [
             { title: 'Absolute · Income approach (PV of future CF)', tone: 'teal', items: [
               '*Free CF method* → 2-stage model.',
@@ -6641,6 +6748,13 @@ const CONTENT = {
               'PV method: F = [30 − 0.4 ÷ (1.05)^(15/365) − 0.4 ÷ (1.05)^(85/365)] × (1.05)^(100/365) = *29.60*',
             ],
             result: 'F = 29.60' },
+          { k: 'timeline', id: 's2-eqf-tl', steps: [
+            { name: 'Day 0', text: 'S₀ = 30; forward agreed' },
+            { name: 'Day 15', text: 'Dividend *0.40*, carried 85 days to expiry' },
+            { name: 'Day 85', text: 'Dividend *0.40*, carried 15 days' },
+            { name: 'Day 100', text: 'Forward expires: F = *29.60*' },
+            { name: 'Day 175', text: 'Dividend 0.50, after expiry, so *ignored*' },
+          ] },
         ],
       },
       {
@@ -6726,6 +6840,12 @@ const CONTENT = {
               'The numerator is the interest saving, which is only earned at the end of the 90-day loan, so it is *discounted*: the FRA settles at the start of the loan.',
             ],
             result: 'Gain to long ≈ 1,675' },
+          { k: 'timeline', id: 's5-fra-tl', steps: [
+            { name: 'Day 0', text: '1 × 4 FRA agreed at *5.32%*' },
+            { name: 'Day 30', text: 'FRA expires and settles; 90-day rate is *6%*' },
+            { name: 'Day 120', text: 'End of the notional loan: the interest saving would be earned here' },
+          ] },
+          { k: 'p', text: 'My pencil timeline: the saving (6% − 5.32%) × 90/360 × 1m belongs to day 120, so it is discounted back to day 30 at the 90-day rate, the day the FRA actually pays.' },
           { k: 'sub', text: 'Value of an FRA before maturity' },
           { k: 'example', id: 's5-val', ref: 'fra', title: 'Example — Value 10 days after initiation',
             body: ['Value a 5.32% 1 × 4 FRA with a principal amount of 1 million 10 days after initiation, if 110-day LIBOR is 5.9% and 20-day LIBOR is 5.7%.'],
@@ -7071,6 +7191,14 @@ const CONTENT = {
               'Value of the option today = 5.486 ÷ 1.07',
             ],
             result: 'Call value = 5.1269' },
+          { k: 'graph', id: 's2-c1-tree', title: 'One-period tree — $30 call, X = 30', w: 460, h: 200,
+            nodes: [
+              { id: 'r', x: 75, y: 100, t1: 'S₀ = 30', t2: 'C₀ = 5.486 ÷ 1.07 = 5.1269', w: 140 },
+              { id: 'u', x: 345, y: 40, t1: 'S⁺ = 40', t2: 'C⁺ = max(0, 40 − 30) = 10', w: 160, tone: 'teal' },
+              { id: 'd', x: 345, y: 160, t1: 'S⁻ = 22.5', t2: 'C⁻ = max(0, 22.5 − 30) = 0', w: 160, tone: 'rose' },
+            ],
+            edges: [{ from: 'r', to: 'u', label: 'Pᵤ = 54.86%' }, { from: 'r', to: 'd', label: 'P_d = 45.14%', ly: 14 }],
+            tags: [{ x: 75, y: 192, text: 't = 0' }, { x: 345, y: 196, text: 't = 1' }] },
           { k: 'sub', text: 'Valuing a call option on a stock with a two-period model' },
           { k: 'example', id: 's2-c2', ref: 'b50', title: 'Example — Two-period European call',
             body: ['Suppose you own a stock currently priced at $50, and a two-period European call option on the stock is available with a strike price of $45. The up-move factor is 1.25 and the down-move factor is 0.80. The risk-free rate per period is 7%. Compute the value of the call using a two-period binomial model.'],
@@ -7083,6 +7211,21 @@ const CONTENT = {
               'Today: (20.4439 × 60% + 2.8037 × 40%) ÷ 1.07 = (12.2664 + 1.1215) ÷ 1.07',
             ],
             result: 'Value of the call option = 12.512' },
+          { k: 'graph', id: 's2-c2-tree', title: 'Two-period tree — $50 stock, call X = 45 (my page)', w: 560, h: 270,
+            nodes: [
+              { id: 'r', x: 70, y: 135, t1: '50', t2: 'C = 12.512', w: 100 },
+              { id: 'u', x: 265, y: 70, t1: '62.5', t2: 'C = 20.4439', w: 110 },
+              { id: 'd', x: 265, y: 200, t1: '40', t2: 'C = 2.8037', w: 110 },
+              { id: 'uu', x: 470, y: 25, t1: '78.125', t2: 'payoff 33.125', w: 120, tone: 'teal' },
+              { id: 'ud', x: 470, y: 135, t1: '50', t2: 'payoff 5', w: 120, tone: 'teal' },
+              { id: 'dd', x: 470, y: 245, t1: '32', t2: 'payoff 0', w: 120, tone: 'rose' },
+            ],
+            edges: [
+              { from: 'r', to: 'u', label: '60%' }, { from: 'r', to: 'd', label: '40%', ly: 14 },
+              { from: 'u', to: 'uu', label: '60%' }, { from: 'u', to: 'ud', label: '40%', ly: 14 },
+              { from: 'd', to: 'ud', label: '60%' }, { from: 'd', to: 'dd', label: '40%', ly: 14 },
+            ],
+            note: 'Work right to left: each node is (0.6 × up value + 0.4 × down value) ÷ 1.07. Pencil beside the tree: for a *put*, only the payoffs at the end change; the roll-back is the same.' },
           { k: 'fix', title: 'Node 62.5 = 20.4393, so the call = 12.5094',
             text: '21.875 ÷ 1.07 = *20.4439*; the digits got swapped on the page. Carried through: 20.4439 × 0.6 = 12.2664, plus 1.1215 = 13.3879, ÷ 1.07 = *12.512*. The method on the page is right.' },
           { k: 'p', text: 'In the case of a *put option* the payoffs change, and the value is worked out from those.' },
@@ -7103,6 +7246,21 @@ const CONTENT = {
               '10 > 9.436 → exercise early at year 1',
             ],
             result: 'As the present value of the future payoff is less than the current payoff at year 1, the option should be exercised early.' },
+          { k: 'graph', id: 's2-amp-tree', title: 'Two-period American put — X = 50 (my page)', w: 560, h: 270,
+            nodes: [
+              { id: 'r', x: 70, y: 135, t1: '50', t2: 'put = 5.40 ÷ 1.03 ≈ 5.24', w: 140 },
+              { id: 'u', x: 265, y: 70, t1: '65', t2: 'put = 0', w: 110 },
+              { id: 'd', x: 265, y: 200, t1: '40', t2: 'hold 9.436 · exercise 10 ✓', w: 160, tone: 'teal' },
+              { id: 'uu', x: 470, y: 25, t1: '84.5', t2: 'payoff 0', w: 110, tone: 'rose' },
+              { id: 'ud', x: 470, y: 135, t1: '52', t2: 'payoff 0', w: 110, tone: 'rose' },
+              { id: 'dd', x: 470, y: 245, t1: '32', t2: 'payoff 18', w: 110, tone: 'teal' },
+            ],
+            edges: [
+              { from: 'r', to: 'u', label: '46%' }, { from: 'r', to: 'd', label: '54%', ly: 14 },
+              { from: 'u', to: 'uu', label: '46%' }, { from: 'u', to: 'ud', label: '54%', ly: 14 },
+              { from: 'd', to: 'ud', label: '46%' }, { from: 'd', to: 'dd', label: '54%', ly: 14 },
+            ],
+            note: 'At node 40 the boxed comparison on my page: exercising now (10) beats holding (9.436), so the American put is exercised early and *10* is carried back. The value today, (0 × 46% + 10 × 54%) ÷ 1.03 ≈ 5.24, is not on my page; it follows from the same tree.' },
           { k: 'fix', title: 'Down-down price = 22',
             text: '40 × 0.80 = *32*, not 22. The page’s payoff of *18* (50 − 32) is right, so only the label slipped.' },
           { k: 'flag', title: 'Finishing the American put',
@@ -7170,6 +7328,21 @@ const CONTENT = {
               '1.9882% × $1 million',
             ],
             result: 'Value of the call = $19,882' },
+          { k: 'graph', id: 's4-tree-dia', title: 'Two-period interest rate tree — call at 5.50%, $1m', w: 560, h: 270,
+            nodes: [
+              { id: 'r', x: 75, y: 135, t1: '3.0000%', t2: 'call 1.9882% → $19,882', w: 150 },
+              { id: 'u', x: 280, y: 70, t1: '5.7883%', t2: 'call 3.2784%', w: 110 },
+              { id: 'd', x: 280, y: 200, t1: '3.8800%', t2: 'call 0.8173%', w: 110 },
+              { id: 'uu', x: 475, y: 25, t1: '10.7382%', t2: 'payoff 5.2382%', w: 120, tone: 'teal' },
+              { id: 'ud', x: 475, y: 135, t1: '7.1981%', t2: 'payoff 1.6981%', w: 120, tone: 'teal' },
+              { id: 'dd', x: 475, y: 245, t1: '4.8250%', t2: 'payoff 0', w: 120, tone: 'rose' },
+            ],
+            edges: [
+              { from: 'r', to: 'u', label: '50%' }, { from: 'r', to: 'd', label: '50%', ly: 14 },
+              { from: 'u', to: 'uu', label: '50%' }, { from: 'u', to: 'ud', label: '50%', ly: 14 },
+              { from: 'd', to: 'ud', label: '50%' }, { from: 'd', to: 'dd', label: '50%', ly: 14 },
+            ],
+            note: 'Each node’s rate is the one used to discount from that node to the next, so the up node discounts at 1.057883 and the down node at 1.0388.' },
           { k: 'points', id: 's4-notes', items: [
             'Rate at T₀ = 3%: this 3% is for *T₀ to T₁*.',
             'Rates at T₁ = 5.7883% and 3.88% are for *T₁ to T₂*.',
@@ -7324,6 +7497,13 @@ const CONTENT = {
             '*N(d₂)* = probability that the call option will *expire in the money*.',
             '*N(d₁)* = also referred to as the *hedge ratio, or delta* of the call.',
           ] },
+          { k: 'plot', id: 's7-nd-plot', title: 'N(d₁) and N(−d₁) — the bell curves on my page', w: 440, h: 200,
+            x: [-3.5, 3.5], y: [0, 0.45],
+            series: [{ pts: curvePts(z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI), -3.5, 3.5, 60), c: 1 }],
+            guides: [[0.6, 0, 0.6, 0.333]],
+            xticks: [{ v: 0.6, t: 'd₁' }],
+            dots: [{ x: -0.5, y: 0.06, t: 'N(d₁) = area left of d₁', anchor: 'middle', dx: 0, dy: 0, noDot: true }, { x: 1.45, y: 0.02, t: 'N(−d₁)', anchor: 'middle', dx: 0, dy: 0, noDot: true }],
+            note: 'The two areas make up the whole curve, so *N(d₁) + N(−d₁) = 1*: ignoring signs, delta of a call + delta of a put = 1.' },
           { k: 'formula', title: 'Relationship between N(d₁) and N(−d₁)', lines: [
             'N(d₁) + N(−d₁) = 1',
             'N(−d₁) = 1 − N(d₁)',
@@ -7601,6 +7781,16 @@ const CONTENT = {
             'Delta is nothing but the slope of the payoff diagram, so the delta of a curve is different at every point.',
             'Hence the delta for a call and a put will *change as the stock price changes* before expiry.',
           ] },
+          { k: 'plot', id: 's11-curve-plot', title: 'Call value against stock price — the sketch on my delta and gamma pages', w: 460, h: 240,
+            x: [0, 100], y: [0, 55], xlabel: 'stock price', ylabel: 'call value',
+            series: [
+              { pts: [[0, 0], [50, 0], [100, 50]], c: 0, label: 'payoff at expiry (45°)', lx: 70, ly: 20, ldy: 16 },
+              { pts: curvePts(s => 10 * Math.log(1 + Math.exp((s - 50) / 10)), 0, 100, 50), c: 1, dash: true, label: 'value before expiry', lx: 8, ly: 12 },
+            ],
+            guides: [[50, 0, 50, 55]],
+            xticks: [{ v: 25, t: 'OTM' }, { v: 50, t: 'X' }, { v: 80, t: 'ITM' }],
+            dots: [{ x: 25, y: 10 * Math.log(1 + Math.exp(-2.5)), t: 'A' }, { x: 50, y: 10 * Math.log(2), t: 'B' }, { x: 75, y: 10 * Math.log(1 + Math.exp(2.5)), t: 'C' }],
+            note: 'Delta is the *slope* of the curve: ≈ 0 deep OTM, 1 deep ITM (the 45° line). Gamma is how fast that slope changes: low at A, *highest at B* (ATM) where the curve bends most, low again at C.' },
           { k: 'table', id: 's11-range',
             columns: ['Call delta', 'Put delta'],
             rows: [
@@ -7674,6 +7864,13 @@ const CONTENT = {
             'Maturity and option price are positively related: maturity ↑, option price ↑.',
             'But passage of time and option price are *inversely* related.',
           ] },
+          { k: 'plot', id: 's12-theta-plot', title: 'Option value as time passes — the two sketches on my page', w: 460, h: 220,
+            x: [0, 1], y: [0, 12], xlabel: 'time passing → expiry', ylabel: 'option value',
+            series: [
+              { pts: curvePts(t => 10 * Math.sqrt(1 - t) + 1, 0, 1, 40), c: 0, label: 'call: falls with time', lx: 0.05, ly: 10.6 },
+              { pts: curvePts(t => 5 + 4 * Math.sin(Math.PI * t * 0.85), 0, 1, 40), c: 2, label: 'deep ITM put: can rise near expiry', lx: 0.32, ly: 9.4 },
+            ],
+            note: 'Usual case: theta < 0, value decays as expiry nears. The exception on my page: a *deep in-the-money European put* close to expiry can gain value with time.' },
           { k: 'sub', text: 'Option Greeks and relation' },
           { k: 'table', id: 's12-rel',
             columns: ['Input', 'Calls', 'Puts'],
@@ -8591,6 +8788,74 @@ function renderTriangle(b) {
   </div>`;
 }
 
+// Node-and-arrow diagram: `nodes` sit at (x, y) centres in a w × h box; `edges` join them border to
+// border, with an arrowhead unless `plain`. Used for binomial trees and the boxed pencil sketches.
+function renderGraph(b) {
+  const W = b.w || 460, H = b.h || 240, f = n => n.toFixed(1);
+  const size = n => [n.w || 96, n.t2 ? 36 : 26];
+  const byId = {}; b.nodes.forEach(n => { byId[n.id] = n; });
+  const clip = (n, dx, dy) => {
+    const [w, h] = size(n), sx = dx ? (w / 2 + 3) / Math.abs(dx) : Infinity, sy = dy ? (h / 2 + 3) / Math.abs(dy) : Infinity;
+    const s = Math.min(sx, sy); return [n.x + dx * s, n.y + dy * s];
+  };
+  const edge = e => {
+    const a = byId[e.from], c = byId[e.to]; if (!a || !c) return '';
+    const dx = c.x - a.x, dy = c.y - a.y, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len;
+    const [sx, sy] = clip(a, dx, dy), [ex, ey] = clip(c, -dx, -dy);
+    const head = !e.plain, hx = head ? ex - ux * 8 : ex, hy = head ? ey - uy * 8 : ey, nx = -uy * 4.5, ny = ux * 4.5;
+    const mx = (sx + ex) / 2 + (e.lx || 0), my = (sy + ey) / 2 + (e.ly == null ? -5 : e.ly);
+    return `<line class="nb-dia-edge" x1="${f(sx)}" y1="${f(sy)}" x2="${f(hx)}" y2="${f(hy)}"${e.dashed ? ' stroke-dasharray="4 3"' : ''}></line>` +
+      (head ? `<polygon class="nb-dia-head" points="${f(ex)},${f(ey)} ${f(hx + nx)},${f(hy + ny)} ${f(hx - nx)},${f(hy - ny)}"></polygon>` : '') +
+      (e.label ? `<text class="nb-dia-elabel" x="${f(mx)}" y="${f(my)}">${escapeHtml(e.label)}</text>` : '');
+  };
+  const node = n => {
+    const [w, h] = size(n);
+    return `<g class="nb-dia-node${n.tone ? ' ' + n.tone : ''}"><rect x="${f(n.x - w / 2)}" y="${f(n.y - h / 2)}" width="${w}" height="${h}" rx="6"></rect>` +
+      `<text class="t1" x="${n.x}" y="${f(n.t2 ? n.y - 3 : n.y + 4.5)}">${escapeHtml(n.t1)}</text>` +
+      (n.t2 ? `<text class="t2" x="${n.x}" y="${f(n.y + 11)}">${escapeHtml(n.t2)}</text>` : '') + '</g>';
+  };
+  const tag = t => `<text class="nb-dia-tag" x="${t.x}" y="${t.y}">${escapeHtml(t.text)}</text>`;
+  return `<div class="nb-dia">${b.title ? `<div class="nb-dia-title">${escapeHtml(b.title)}</div>` : ''}
+    <svg viewBox="0 0 ${W} ${H}" style="max-width:${W}px" role="img" aria-label="${escapeHtml(b.title || 'Diagram')}">
+      ${(b.edges || []).map(edge).join('')}${b.nodes.map(node).join('')}${(b.tags || []).map(tag).join('')}
+    </svg>${b.note ? `<div class="nb-tri-note">${rt(b.note)}</div>` : ''}</div>`;
+}
+
+// Points along y = fn(x), for drawing the smooth curves in `plot` blocks.
+function curvePts(fn, a, z, n) {
+  const pts = [];
+  for (let i = 0; i <= (n || 40); i++) { const x = a + (z - a) * i / (n || 40); pts.push([x, fn(x)]); }
+  return pts;
+}
+
+// Simple x–y sketch: axes, optional guide lines and ticks, and one or more labelled curves.
+function renderPlot(b) {
+  const W = b.w || 440, H = b.h || 230, L = 46, R = 16, T = 14, B = 34;
+  const [x0, x1] = b.x, [y0, y1] = b.y, f = n => n.toFixed(1);
+  const px = v => L + (v - x0) / (x1 - x0) * (W - L - R), py = v => H - B - (v - y0) / (y1 - y0) * (H - T - B);
+  const path = pts => pts.map((p, i) => (i ? 'L' : 'M') + f(px(p[0])) + ',' + f(py(p[1]))).join(' ');
+  const series = (s, i) => {
+    const c = 'c' + (s.c == null ? i % 4 : s.c), end = s.pts[s.pts.length - 1];
+    const lx = s.lx == null ? end[0] : s.lx, ly = s.ly == null ? end[1] : s.ly;
+    return `<path class="nb-plot-line ${c}${s.dash ? ' dash' : ''}" d="${path(s.pts)}"></path>` +
+      (s.label ? `<text class="nb-plot-ltext ${c}" x="${f(px(lx) + (s.ldx || 4))}" y="${f(py(ly) + (s.ldy || -4))}" text-anchor="${s.anchor || 'start'}">${escapeHtml(s.label)}</text>` : '');
+  };
+  const guide = g => `<line class="nb-plot-guide" x1="${f(px(g[0]))}" y1="${f(py(g[1]))}" x2="${f(px(g[2]))}" y2="${f(py(g[3]))}"></line>`;
+  const xt = t => `<text class="nb-plot-tick" x="${f(px(t.v))}" y="${H - B + 14}" text-anchor="middle">${escapeHtml(t.t)}</text>`;
+  const yt = t => `<text class="nb-plot-tick" x="${L - 6}" y="${f(py(t.v) + 3.5)}" text-anchor="end">${escapeHtml(t.t)}</text>`;
+  const dot = d => (d.noDot ? '' : `<circle class="nb-plot-dot" cx="${f(px(d.x))}" cy="${f(py(d.y))}" r="3"></circle>`) +
+    (d.t ? `<text class="nb-plot-tick" x="${f(px(d.x) + (d.dx || 6))}" y="${f(py(d.y) + (d.dy || -6))}" text-anchor="${d.anchor || 'start'}">${escapeHtml(d.t)}</text>` : '');
+  return `<div class="nb-dia">${b.title ? `<div class="nb-dia-title">${escapeHtml(b.title)}</div>` : ''}
+    <svg viewBox="0 0 ${W} ${H}" style="max-width:${W}px" role="img" aria-label="${escapeHtml(b.title || 'Plot')}">
+      ${(b.guides || []).map(guide).join('')}
+      <path class="nb-plot-axis" d="M${L},${T} L${L},${H - B} L${W - R},${H - B}"></path>
+      ${(b.xticks || []).map(xt).join('')}${(b.yticks || []).map(yt).join('')}
+      ${b.series.map(series).join('')}${(b.dots || []).map(dot).join('')}
+      ${b.xlabel ? `<text class="nb-plot-axlabel" x="${W - R}" y="${H - 6}" text-anchor="end">${escapeHtml(b.xlabel)}</text>` : ''}
+      ${b.ylabel ? `<text class="nb-plot-axlabel" x="${L + 4}" y="${T + 4}">${escapeHtml(b.ylabel)}</text>` : ''}
+    </svg>${b.note ? `<div class="nb-tri-note">${rt(b.note)}</div>` : ''}</div>`;
+}
+
 function renderBlock(b, gaps, refs) {
   const gap = (b.id && gaps && gaps[b.id])
     ? `<div class="note-gap"><span class="note-gap-label">Gap —</span>${escapeHtml(gaps[b.id])}</div>` : '';
@@ -8618,6 +8883,12 @@ function renderBlock(b, gaps, refs) {
     }
     case 'triangle':
       body = renderTriangle(b);
+      break;
+    case 'graph':
+      body = renderGraph(b);
+      break;
+    case 'plot':
+      body = renderPlot(b);
       break;
     case 'timeline':
       body = `<div class="nb-timeline">${b.steps.map((s, i) => `
