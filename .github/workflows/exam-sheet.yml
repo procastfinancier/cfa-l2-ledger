@@ -1,0 +1,26 @@
+# Runs on every push to GitHub: checks that the exam-day sheet (formula sheet, concise notes,
+# stars) is in step with the readings. A red ✗ on the commit means a session has no concise
+# notes or an exam line's ↗ link broke; GitHub emails the details.
+name: Exam sheet in step
+
+on:
+  push:
+    paths: ['index.html', 'tools/exam-check.mjs']
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check exam notes and links
+        run: |
+          set -o pipefail
+          node tools/exam-check.mjs | tee result.txt
+      - name: Summary
+        if: always()
+        run: |
+          { echo '### Exam-day sheet'; echo '```'; cat result.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"

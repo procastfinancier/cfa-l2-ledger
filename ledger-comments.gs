@@ -15,8 +15,8 @@
  * Tab it keeps:
  *   Comments  one row per comment. You can edit Comment, Status (open / resolved) and Reply here;
  *             leave ID, Topic key and Updated alone.
- *   Progress  one row per session ticked as revised and per checkpoint question graded. Read-only:
- *             the page writes it.
+ *   Progress  one row per session ticked as revised, per checkpoint question graded, and per ☆
+ *             star on the exam-day set. Read-only: the page writes it.
  */
 const PASSPHRASE = 'change-me';
 
@@ -101,7 +101,7 @@ function doPost(e) {
     pRows.forEach((r, i) => { pAt[String(r[0])] = i; });
     let pChanged = false;
     (req.progress || []).forEach(p => {
-      if (!p || !/^(rev|q)\|/.test(p.k || '')) return;
+      if (!p || !/^(rev|q|star)\|/.test(p.k || '')) return;
       const i = pAt[p.k];
       if (i != null && (+pRows[i][5] || 0) >= (+p.u || 0)) return;
       const row = P_FIELDS.map(f => f === 'u' ? (+p.u || Date.now()) : String(p[f] == null ? '' : p[f]));

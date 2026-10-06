@@ -1,0 +1,11 @@
+#!/bin/sh
+# Keeps the exam-day sheet in step with the notes: a commit that touches index.html is stopped
+# if a session has no concise notes in EXAM or an exam line's ↗ link no longer lands on a block.
+# Turned on once per clone with:  git config core.hooksPath tools/hooks
+if git diff --cached --name-only | grep -qx 'index.html'; then
+  node tools/exam-check.mjs || {
+    echo ''
+    echo 'Commit stopped: update EXAM in index.html for the sessions above, then commit again.'
+    exit 1
+  }
+fi

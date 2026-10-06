@@ -664,6 +664,98 @@
     .cm-card, .cm-card-wide { width: 100%; max-height: 92vh; border-radius: 14px 14px 0 0; padding: 14px 16px 20px; }
     .cm-btn { padding: 5px 9px; font-size: 12px; }
   }
+
+  /* Exam day: a formula sheet and concise notes built from the readings, every line linked back
+     to the block it came from, plus ☆ stars on readings, sessions, blocks, notes and formulas
+     that collect into the exam-day set. */
+  .st-btn {
+    display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; font-family: var(--sans); font-size: 13px; line-height: 1;
+    padding: 3px 6px; border: 1px solid transparent; border-radius: 12px; background: none; color: var(--ink-faint); cursor: pointer; opacity: 0.6;
+  }
+  .st-btn:hover, .st-btn:focus-visible { opacity: 1; color: var(--amber); border-color: var(--amber); }
+  .st-btn.on { opacity: 1; color: var(--amber); }
+  .status-row .st-btn { font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 20px; border-color: var(--line); opacity: 1; }
+  .status-row .st-btn.on { background: var(--amber-bg); border-color: var(--amber); }
+  .nb-session-head .st-btn, .nb-session-head .ex-link { align-self: center; }
+  .nb-blk { position: relative; }
+  .nb-blk > .st-btn { position: absolute; top: -9px; right: -9px; z-index: 2; width: 22px; height: 22px; padding: 0; justify-content: center; font-size: 12px; background: var(--panel); border-color: var(--line); border-radius: 50%; opacity: 0.45; }
+  .nb-blk > .st-btn.on { opacity: 1; border-color: var(--amber); background: var(--amber-bg); }
+  .nb-blk:hover > .st-btn { opacity: 1; }
+  .note-item summary .st-btn { margin-left: auto; }
+  .ex-flash { animation: exFlash 2.2s ease-out; border-radius: 8px; }
+  @keyframes exFlash { 0%, 35% { box-shadow: 0 0 0 3px var(--amber); } 100% { box-shadow: 0 0 0 3px transparent; } }
+  .ex-link {
+    display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; font-family: var(--mono); font-size: 10.5px; line-height: 1;
+    padding: 3px 7px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink-soft); cursor: pointer; text-decoration: none;
+  }
+  .ex-link:hover, .ex-link:focus-visible { border-color: var(--violet); color: var(--violet); }
+  .ex-nav { border-bottom: 1px solid var(--line); padding: 6px; }
+  .ex-nav-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 8px 2px; }
+  .ex-nav .topic-row b { font-family: var(--mono); font-size: 10.5px; color: var(--amber); margin-left: auto; }
+  .ex-back {
+    position: fixed; left: 18px; bottom: 18px; z-index: 40; font-family: var(--sans); font-size: 13px; font-weight: 600;
+    padding: 10px 16px; border-radius: 22px; border: none; background: var(--ink); color: #fff; cursor: pointer;
+    box-shadow: 0 6px 18px rgba(27, 33, 48, 0.25); max-width: calc(100% - 100px);
+  }
+  .ex-back[hidden] { display: none; }
+  .ex-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 18px; }
+  .ex-tools input { flex: 1 1 180px; min-width: 0; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; font-size: 13px; font-family: var(--sans); color: var(--ink); background: var(--bg); }
+  .ex-chip { font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer; }
+  .ex-chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .ex-chip.star.on { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .ex-read { margin-bottom: 26px; }
+  .ex-read-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin-bottom: 12px; }
+  .ex-read-title { font-family: var(--serif); font-size: 18px; color: var(--ink); background: none; border: none; padding: 0; cursor: pointer; text-align: left; }
+  .ex-read-title:hover { color: var(--violet); }
+  .ex-read-subj { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; width: 100%; }
+  .ex-sess { margin: 0 0 14px; padding-left: 12px; border-left: 3px solid var(--violet-bg); }
+  .ex-sess-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 7px; }
+  .ex-sess-head .nb-session-tag { font-size: 11px; padding: 2px 7px; }
+  .ex-sess-title { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .ex-sess-head .ex-acts { margin-left: auto; }
+  .ex-acts { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .ex-notes { list-style: none; margin: 0; padding: 0; }
+  .ex-note { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--ink); line-height: 1.55; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+  .ex-note:last-child { border-bottom: none; }
+  .ex-note::before { content: '•'; color: var(--violet); font-weight: 700; flex-shrink: 0; }
+  .ex-note.weak::before { content: '!'; color: var(--rose); }
+  .ex-note.weak .ex-note-text { color: var(--rose); }
+  .ex-note-text { flex: 1; min-width: 0; }
+  .ex-note-text b { font-weight: 700; }
+  .ex-fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+  .ex-f { border: 1px solid var(--violet); background: var(--violet-bg); border-radius: 8px; padding: 8px 11px; min-width: 0; }
+  .ex-f-top { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+  .ex-f-title { flex: 1; font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--violet); text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.4; padding-top: 3px; }
+  .ex-f-line { font-family: var(--mono); font-size: 12px; color: var(--ink); line-height: 1.65; overflow-wrap: anywhere; }
+  .ex-f-note { font-size: 11.5px; color: var(--ink-soft); line-height: 1.45; margin-top: 4px; }
+  .ex-card { position: relative; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px 2px; margin-bottom: 10px; }
+  .ex-card-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .ex-kind { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--amber); background: var(--amber-bg); border-radius: 10px; padding: 2px 8px; }
+  .ex-card-top .ex-acts { margin-left: auto; }
+  .ex-overview { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 15px 10px; margin: 0 0 16px; }
+  .ex-summary { font-size: 13.5px; color: var(--ink); line-height: 1.65; margin: 0 0 9px; }
+  .ex-summary b { font-weight: 700; }
+  .ex-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 10px 0 5px; }
+  .ex-overview > .ex-label:first-child { margin-top: 0; }
+  .ex-topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 2px; }
+  .ex-topic { display: inline-flex; align-items: center; gap: 6px; font-family: var(--sans); font-size: 12px; color: var(--ink); text-align: left; padding: 4px 9px 4px 4px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); cursor: pointer; }
+  .ex-topic:hover { border-color: var(--violet); }
+  .ex-topic .nb-session-tag { font-size: 10.5px; padding: 1px 6px; }
+  .ex-empty { font-size: 13px; color: var(--ink-faint); line-height: 1.6; padding: 10px 0; }
+  .ex-count { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  @media (max-width: 760px) {
+    .ex-back { left: 12px; bottom: 12px; }
+    .ex-fgrid { grid-template-columns: 1fr; }
+    .ex-sess { padding-left: 9px; }
+  }
+  @media print {
+    #app { background: none; padding: 0; }
+    header, .sidebar, .cm-fab, .ex-back, .ex-tools, .st-btn, .ex-link, .cm-btn { display: none !important; }
+    .detail { border: none; padding: 0; }
+    .ex-read { break-inside: auto; }
+    .ex-f, .ex-sess-head, .ex-note, .ex-summary { break-inside: avoid; }
+    .ex-topics { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -692,6 +784,7 @@
           </li>
           <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
           <li><b>Revision is tracked as two separate things.</b> “Revised” is a tick per notebook session (one per day; the count is the number of passes). “Understood” turns on only when the user has graded every checkpoint question for that session “Got it”. Claude writes those questions into <code>CHECKS[key][module]</code> from the session’s own notes: why it works, what changes if an input moves, a fresh calculation, and an “explain it” prompt, never a plain definition. Keep each question <code>id</code> stable once published. Shaky and missed questions come back on a 1 / 3 / 7 / 14 / 30-day schedule. When processing comments, also check <code>node tools/comments.mjs progress</code>: a question that keeps coming back Shaky or Didn’t know is a gap to explain, and Teach-back comments (blurts and explain-it answers) get graded in the reply.</li>
+          <li><b>The exam-day sheet moves with the notes.</b> The formula sheet builds itself from <code>formula</code> blocks, but the concise notes are written by hand in <code>EXAM</code>: a reading overview (<code>EXAM[key].about</code>, paragraphs on what the reading covers and how its topics connect), and for each session a prose summary (<code>s</code>) plus linked key points (<code>n</code>). Concise means a real overview, not one-liners. In the same change that adds or edits a session (or a whole reading), Claude writes or updates the overview, that session’s summary and key points, adds any formula that only sits inside an example or point list as an <code>f</code> entry, and runs <code>node tools/exam-check.mjs</code>. The pre-commit hook (<code>tools/hooks</code>) stops a commit that leaves a session without exam notes or breaks a ↗ link, and the GitHub check re-runs it on every push.</li>
           <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box (apart from the 💬 comments box). It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
         </ol>
       </div>
@@ -712,6 +805,7 @@
   <div class="layout">
     <div class="sidebar">
       <div class="search"><input id="search" placeholder="Search everything — topics, notes, gaps, tuition misses…" /></div>
+      <div class="ex-nav" id="exNav"></div>
       <div id="sidebarList"></div>
     </div>
     <div class="detail" id="detail">
@@ -721,6 +815,7 @@
   <aside class="refcard" id="refcard" aria-live="polite"></aside>
 
   <button type="button" class="cm-fab" id="cmFab" hidden aria-label="Comment on the section on screen">💬</button>
+  <button type="button" class="ex-back" id="exBack" hidden></button>
   <div class="cm-overlay" id="cmSheet" hidden>
     <div class="cm-card" role="dialog" aria-modal="true" aria-labelledby="cmSheetTitle">
       <div class="cm-card-head"><span id="cmSheetTitle">Add a comment</span><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></div>
@@ -8497,6 +8592,1309 @@ const CHECKS = {
   },
 };
 
+// Exam-day notes: the few lines per session worth reading in the last days, written from each
+// session's own blocks. `n` lines are [text, find] and `f` formulas are [title, [lines], find, note?]
+// (only the ones not already a formula block, which the sheet picks up on its own). `find` is a
+// phrase from the session's blocks, so ↗ lands on the block the line came from; check it still
+// matches after editing a session (node tools/exam-check.mjs). Reading 7 groups by module and
+// can set its title with `t`.
+const EXAM = {
+  'econ.0': {
+    about: [
+      'Reading 5 runs from the mechanics of a currency quote to what moves exchange rates. The first half is *calculation*: reading a quote (price currency on top, base currency underneath), picking bid or ask, building cross rates, spotting triangular arbitrage, turning forward points into forward rates and marking a forward to market. Every one of these comes down to asking which way the dealer is trading the *base* currency.',
+      'The second half is *theory*. Covered interest parity is the only condition held by arbitrage, and it pins the forward rate to the interest differential. Uncovered parity, forward rate parity, the international Fisher effect and relative PPP link interest rates, inflation and expected spot rates, but hold only over the long run. Carry trades make money exactly when uncovered parity fails, which is also where their crash risk comes from.',
+      'The last two sessions explain long-run and policy drivers: the balance of payments (flow, portfolio balance and debt sustainability mechanisms), Mundell-Fleming, the monetary and Dornbusch models, the portfolio balance approach to fiscal policy, capital controls and the warning signs of a currency crisis. Expect vignette questions that ask for a direction (appreciate or depreciate) more than a number.',
+    ],
+    '5.S1': {
+      s: [
+        'A quote A/B is the price of one unit of the base currency B in units of A. The dealer *buys* the base currency at the bid and *sells* it at the ask, so the ask is always higher and the gap is the dealer’s spread. Dealer spreads widen with the interbank spread and with trade size and narrow for good clients; interbank spreads narrow for heavily traded pairs and the London–New York overlap and widen in volatile markets. Forward spreads widen with maturity.',
+      ],
+      n: [
+        ['Quote A/B = price of *one unit of B* (base, bottom) in A (price, top).', 'The one unit being priced'],
+        ['*Bid* = dealer buys the base currency; *ask* = dealer sells it. Ask > bid always.', 'ready to buy'],
+        ['Dealer spread widens with the interbank spread and *bigger* trades; narrows with a good client relationship.', 'Size of the transaction'],
+        ['Interbank spread: *narrower* for heavily traded pairs and in the London–New York overlap; *wider* in volatile markets.', 'Market volatility'],
+        ['Forward spreads *widen with maturity* (less liquid, more credit and rate risk).', 'widen with maturity'],
+      ],
+    },
+    '5.S2': {
+      s: [
+        'Turning a quote upside down means taking 1 ÷ the rate *and swapping the sides*: the new bid is 1 ÷ the old ask. To convert an amount, decide whether you are selling or buying the base currency: going “up” the quote uses the bid and multiplies, going “down” uses the ask and divides. The customer always loses the spread.',
+      ],
+      n: [
+        ['Inverting a quote *swaps the sides*: new bid = 1 ÷ old ask, new ask = 1 ÷ old bid.', 'invert and swap the sides'],
+        ['Buy the base currency at the *ask*, sell it at the *bid*. “Up the bid and multiply, down the ask and divide.”', 'up the bid and multiply'],
+      ],
+    },
+    '5.S3': {
+      s: [
+        'A cross rate is built through a common currency that cancels: A/C = A/B × B/C, bid with bid and ask with ask. Write the chain first, flip any quote that faces the wrong way (and swap its bid and ask), then multiply. A cross bid above the cross ask means a flip lost its swap.',
+      ],
+      n: [
+        ['Write the chain so the middle currency cancels: *A/C = A/B × B/C*. Bid × bid, ask × ask.', 'the common currency cancels'],
+        ['A quote facing the wrong way: take 1 ÷ it *and swap bid ↔ ask* before multiplying.', 'Invert only a quote that faces the wrong way'],
+        ['Check bid < ask at the end; if not, a flip lost its swap.', 'Check bid < ask'],
+      ],
+    },
+    '5.S4': {
+      s: [
+        'Triangular arbitrage exists when a dealer’s direct quote does not overlap the implied cross rate. If the dealer’s quote is below the implied cross, the base currency is cheap there, so buy it from the dealer and run the triangle the profitable way round, converting at the dealer’s ask whenever you buy a base currency and at the bid whenever you sell one. Only one direction makes money; the shortcut is principal × (higher bid ÷ lower ask − 1).',
+      ],
+      n: [
+        ['Compare the dealer quote (MV) with the implied cross (IV). If they don’t overlap there is an arbitrage.', 'intrinsic value (6.41711'],
+        ['MV < IV → the base currency is cheap at the dealer: *buy it there*, run the triangle the profitable way round.', 'buy low, sell high'],
+        ['Shortcut: profit = principal × (higher bid ÷ lower ask − 1). Only one direction can make money.', 'Alternate way to solve'],
+      ],
+    },
+    '5.S5': {
+      s: [
+        'Forward rate = spot + forward points (÷ 10,000 for a four-decimal quote); positive points mean the base currency trades at a forward premium. To value an existing forward, take an offsetting forward for the remaining term at today’s quote (bid if you are selling the base currency, ask if buying), multiply the rate difference by the notional, and discount for the days left at the *price-currency* interest rate.',
+      ],
+      n: [
+        ['Forward rate = spot + points ÷ 10,000 (four-decimal quote). Positive points = base currency at a *forward premium*.', 'Forward quotes to forward rates'],
+        ['Value before maturity: take an *offsetting* forward for the remaining term, gain = (F_new − F_old) × notional, discount at the *price-currency* rate for the days left.', 'enter an opposite contract'],
+        ['Selling the base currency in the offset → use the *bid* forward; buying → the *ask*.', 'We sell CAD and the dealer buys it'],
+        ['A forward at covered parity is worth *zero* at initiation.', 'worth *zero* at initiation'],
+      ],
+      f: [
+        ['Mark-to-market value of a forward', ['Value = (F_offset − F_contract) × notional ÷ [1 + R(price) × days left/360]'], 'Value today = 8,480', 'Long the base currency gains when the offset rate is higher.'],
+      ],
+    },
+    '5.S6': {
+      s: [
+        'Covered interest parity says that hedged returns are equal across currencies: F/S = (1 + R price) ÷ (1 + R base), adjusted for days/360. It holds by arbitrage, so the higher-rate currency trades at a forward discount. If the market forward is too high, borrow the price currency, convert, invest and sell the base forward; if too low, borrow the base currency and do the reverse. Always state the profit with its notional.',
+      ],
+      n: [
+        ['Covered = *bound by arbitrage*; it gives the no-arbitrage forward rate.', 'means *bound by arbitrage*'],
+        ['F/S = (1 + R price) ÷ (1 + R base). The higher-rate currency trades at a *forward discount*.', 'F ÷ S = (1 + R price currency)'],
+        ['Market F > IV → borrow the *price* currency, buy base spot, deposit, *sell base forward*. F < IV → borrow the *base* currency and do the reverse.', 'Forward overvalued (MV > IV)'],
+        ['Always state the notional with an arbitrage profit (per $1,000 vs. per $100,000).', 'The page doesn’t say how much is borrowed'],
+      ],
+    },
+    '5.S7': {
+      s: [
+        'Uncovered interest parity says the high-rate currency is *expected* to depreciate by the rate differential; it is not held by arbitrage and assumes risk-neutral investors. Forward rate parity (F = expected spot) is equivalent to UCIRP because CIRP always holds. The international Fisher effect equalises real rates, so nominal differentials equal inflation differentials, and relative PPP says exchange rates move by the inflation differential. Together they form the parity web; only CIRP is reliable in the short run, but PPP gives the long-run fair value.',
+      ],
+      n: [
+        ['UCIRP: expected % change in A/B ≈ R(A) − R(B); the high-rate currency is expected to *depreciate*. Not bound by arbitrage; fails short run, holds long run.', 'Typically *doesn’t hold in the short run*'],
+        ['Forward rate parity: F = E(S₁). CIRP always holds, so FRP ⇔ UCIRP. Using the forward as forecast assumes *risk-neutral* investors.', 'unbiased predictor'],
+        ['International Fisher: real rates converge, so the nominal differential = expected inflation differential.', 'real interest rates converge'],
+        ['Relative / ex-ante PPP: %ΔS(A/B) ≈ π(A) − π(B); the high-inflation currency depreciates.', 'Relative purchasing power parity'],
+        ['Law of one price for every good does *not* guarantee absolute PPP: basket weights differ.', 'If the law of one price holds for every good'],
+        ['PPP holds only over *long* horizons: the real exchange rate mean-reverts.', 'PPP does hold over *long* horizons'],
+      ],
+      f: [
+        ['UCIRP forecast of the spot rate', ['E(S₁) = S₀ × [1 + R(A) − R(B)]'], 'Expected rate in a year'],
+      ],
+    },
+    '5.S8': {
+      s: [
+        'A carry trade borrows a low-yield currency and invests in a high-yield one. It earns the rate differential minus any depreciation of the high-yielder, so it pays only when UCIRP fails. Because it is leveraged and crowded, a rush to exit can make the high-yielder crash: returns are negatively skewed with fat tails, and the trade does best in calm, low-volatility markets.',
+      ],
+      n: [
+        ['Carry trade: borrow the *low-yield* (funding) currency, invest in the *high-yield* one. Works only when UCIRP *fails*.', 'in the *low-yielding* currency'],
+        ['Return ≈ high rate − funding rate − depreciation of the high-yielder. Not riskless, so not arbitrage.', 'Return = interest earned on investment'],
+        ['Crash risk: crowded, leveraged exit makes the high-yielder fall steeply. Returns have *negative skew, fat tails*.', 'negative skewness'],
+        ['Carry does best in *low-volatility* periods.', 'Carry trades do best'],
+      ],
+      f: [
+        ['Carry trade return', ['Return ≈ i(invest) − i(fund) − %depreciation of the invested currency'], 'Return = interest earned on investment'],
+      ],
+    },
+    '5.S9': {
+      s: [
+        'The current account (trade, income, transfers) is financed by the financial account. A deficit puts downward pressure on the currency through the flow mechanism, but how far depends on the deficit size, price pass-through and demand elasticity. Portfolio rebalancing by foreign holders and doubts about debt sustainability can also force depreciation. Capital flows are larger and faster than trade flows, so they dominate in the short run.',
+      ],
+      n: [
+        ['Current a/c deficit ⇔ financial a/c surplus. Without that funding the currency falls.', 'When a country experiences a current a/c deficit'],
+        ['Flow mechanism: deficit → currency depreciates. How well it corrects depends on the size of the deficit, pass-through to prices, and *elastic* demand.', 'Price elasticity of demand'],
+        ['Portfolio balance: foreign holders rebalancing out of the currency depreciates it. Debt sustainability: debt/GDP too high → rapid depreciation.', 'If the US chooses to diversify'],
+        ['Capital flows are bigger and faster than trade flows, so they *dominate in the short run*.', 'larger and faster-moving'],
+      ],
+    },
+    '5.S10': {
+      s: [
+        'Mundell-Fleming (short run, no inflation): with high capital mobility, loose money weakens the currency and loose fiscal policy strengthens it; with low mobility both weaken it through imports. A peg with free capital flows rules out independent monetary policy. The pure monetary model links money growth one-for-one to depreciation through PPP; Dornbusch adds sticky prices, so the currency overshoots before drifting back. The portfolio balance approach says persistent fiscal deficits eventually weaken the currency. Capital controls and intervention try to stop excess inflows, and crises are signalled by falling reserves, pegs, overvaluation, rising inflation and weak terms of trade.',
+      ],
+      n: [
+        ['Mundell-Fleming (short run, ignores inflation). *High* capital mobility: loose monetary ↓ currency, loose fiscal ↑ currency. *Low* mobility: both loose ↓ (imports rise).', 'High capital mobility — think about money supply'],
+        ['Both expansionary / high mobility → *uncertain*; restrictive monetary + expansionary fiscal / high mobility → *appreciation*.', 'Expansionary / expansionary'],
+        ['Fixed peg + free capital = no independent monetary policy.', 'cannot both manage exchange rates'],
+        ['Pure monetary model: PPP always holds, money +x% → prices +x% → currency −x%. Ignores expectations.', 'Pure monetary model'],
+        ['Dornbusch: sticky prices, so the currency *overshoots* then drifts back toward PPP.', 'Dornbusch overshooting model'],
+        ['Portfolio balance (long run, fiscal): deficits appreciate at first, then *depreciate* when debt must be reversed or monetized.', 'Portfolio balance approach'],
+        ['Capital controls aim to stop excess appreciation, keep monetary independence, cut inflow volume. Intervention works *less* for developed currencies.', 'Objectives of capital control'],
+        ['Crisis warning signs: worse terms of trade, pegs, falling reserves, overvalued currency, rising inflation, liberalized capital markets, money supply ↑ vs reserves, banking crises.', 'Warning Signs of a Currency Crisis'],
+      ],
+    },
+  },
+  'econ.1': {
+    about: [
+      'Reading 6 explains why some economies grow faster than others and what that means for investors. It starts with the *pre-conditions* for growth (saving, financial markets, stable institutions, education, light regulation, open trade) and with the link to equity markets: over the long run share prices can only grow with GDP, because earnings’ share of GDP and the P/E cannot trend forever.',
+      'The core is the *Cobb–Douglas* production function and *growth accounting*: output growth splits into technology (TFP), capital and labour, weighted by their income shares. Capital deepening hits diminishing returns, so sustained growth in output per worker needs technology. Labour supply, natural resources, human and physical capital and infrastructure are the inputs to watch.',
+      'The final session compares *classical*, *neoclassical* and *endogenous* growth theory and the convergence hypotheses. Know which theory gives a permanent versus a temporary effect for a higher saving rate, the steady-state formula g* = θ ÷ (1 − α), and why neoclassical theory supports only conditional convergence.',
+    ],
+    '6.S1': {
+      s: [
+        'Growth needs saving and investment, deep financial markets, political stability and property rights, human capital, light tax and regulation, and open trade and capital flows. Over the long run, equity market growth equals GDP growth (Grinold–Kroner: dividend yield + real EPS growth + inflation − dilution + change in P/E). Higher potential GDP raises interest rates and asset returns and lowers credit risk; actual GDP above potential signals inflation and tighter policy.',
+      ],
+      n: [
+        ['Pre-conditions all help growth *except* a heavy tax and regulatory burden (inverse).', 'Tax & regulatory system'],
+        ['Low domestic saving → growth needs *foreign investment*. Developed countries gain most from post-secondary education, developing from primary/secondary.', 'too little domestic saving'],
+        ['Long run: E/GDP and P/E can’t trend forever, so *equity growth = GDP growth*.', 'Hence *ΔP = ΔGDP* in the long term'],
+        ['Grinold–Kroner: E(R) = DY + real EPS growth + π − ΔS + ΔP/E. ΔS = net buybacks + relative dynamism.', 'The Grinold–Kroner model'],
+        ['Higher potential GDP → consumers save less today → *interest rates and asset returns ↑*; credit risk ↓.', 'increase in interest rates and asset returns'],
+        ['Actual > potential → inflation, *tighter* monetary policy. Actual < potential → easing and fiscal stimulus.', 'Actual GDP > potential GDP'],
+      ],
+    },
+    '6.S2': {
+      s: [
+        'Y = T·Kᵅ·L¹⁻ᵅ has constant returns to scale; per worker it becomes T·(K/L)ᵅ. Capital deepening moves along the curve with diminishing returns until MPK equals the rental price of capital, while TFP growth shifts the curve up. Growth accounting splits output growth into ΔT/T + α·ΔK/K + (1 − α)·ΔL/L, with TFP as the residual. Natural resources do not guarantee growth (access matters more, and Dutch disease can hurt), labour supply depends on demographics, participation, immigration and hours, and ICT capital and infrastructure raise TFP.',
+      ],
+      n: [
+        ['Cobb–Douglas Y = T·Kᵅ·L¹⁻ᵅ: constant returns to scale; α = capital’s share of output.', 'Cobb–Douglas production function'],
+        ['Capital deepening moves *along* the curve with diminishing returns; TFP growth *shifts it up*.', 'Capital deepening vs. technological progress'],
+        ['Capital is added until MPK = rental price r, so α = rK/Y.', 'MPK = *αY/K*'],
+        ['TFP is the *residual*: output growth not explained by labour and capital.', 'TFP is the residual'],
+        ['Natural resources: relationship *can’t be stated*; access beats ownership. Dutch disease hurts other exports.', 'Cannot comment.'],
+        ['Labour quantity = labour force × hours. Drivers: demographics, participation, immigration, hours worked.', 'Labour supply in detail'],
+        ['ICT investment and infrastructure have externalities that raise TFP; non-ICT least so.', 'non-ICT'],
+      ],
+    },
+    '6.S3': {
+      s: [
+        'Classical theory says population growth pushes income back to subsistence; it is not supported by evidence. Neoclassical theory reaches a steady state where growth per worker is θ ÷ (1 − α): capital deepening and saving raise the *level* of output but only temporarily raise growth. Endogenous theory has constant returns at the economy level through knowledge spillovers, so saving and R&D raise growth *permanently* and subsidies can be justified. Convergence: absolute (everyone catches up) is not implied; conditional (same saving, population growth and technology) is; club convergence applies only to countries with the right institutions.',
+      ],
+      n: [
+        ['Classical (Malthus): per-capita income above subsistence → population ↑ → back to subsistence. Not supported by evidence.', 'Classical Growth Theory'],
+        ['Neoclassical: steady state at constant Y/K; growth set only by θ and labour share — capital deepening raises the *level*, not the growth rate.', 'not dependent on capital deepening'],
+        ['Divide θ by *labour’s* share (1 − α), not by α.', 'The divisor is the labour cost share'],
+        ['Higher saving rate: temporary growth (neoclassical) vs *permanent* growth (endogenous).', 'raises growth only temporarily'],
+        ['Endogenous: constant returns at economy level, no steady state; R&D spillovers justify *subsidies*.', 'Why the increase can be permanent'],
+        ['Convergence: neoclassical supports *conditional* (same saving, population growth, production function), not absolute. Club: only members converge; others can join via reforms.', 'Conditional convergence'],
+        ['Open trade: neoclassical gain is temporary; endogenous gain is permanent for all.', 'Neoclassical*: poor countries attract capital'],
+      ],
+    },
+  },
+  'fsa.0': {
+    about: [
+      'Reading 7 is about *how much influence an investor has, and how that decides the accounting*. A passive stake is a financial asset under IFRS 9 (amortized cost, FVOCI or FVPL); significant influence (usually 20–50%, judged by board seats, policy input, technology dependence, material transactions and shared managers) means the *equity method*; control means *consolidation* with the acquisition method; joint control means the equity method for a joint venture. Substance beats the ownership percentage in every case.',
+      'The exam focus is the *comparison*: the same investment under the equity method versus consolidation gives the same net income and equity, but very different revenue, assets, liabilities and therefore ratios. Learn the equity method mechanics (dividends reduce the investment, excess price is depreciated, unrealised intercompany profit is deferred by ownership %), the goodwill methods (full vs partial, US GAAP vs IFRS) and how impairment is tested and who absorbs it.',
+      'The reading closes with special purpose entities: why sponsors used them to keep debt off the balance sheet, why the voting-control test failed, and how the VIE / primary beneficiary model (US GAAP) and the single control model (IFRS 10) now force consolidation.',
+    ],
+    '7.1': {
+      t: 'Classifications · significant influence · joint ventures',
+      s: [
+        'Classify by influence, not by percentage alone: control below 50% still means consolidation, majority ownership without control (e.g. in insolvency) means the equity method, and influence can exist below 20% or be blocked within 20–50%. Joint control needs unanimous consent on relevant activities. A joint operation gives direct rights to assets and is recognised line by line; a joint venture is a stake in a separate vehicle and uses the equity method.',
+      ],
+      n: [
+        ['Significant influence indicators (B-P-T-M-IT): board seat, policy-making, technology dependency, material transactions, interchange of managers.', 'Board representation'],
+        ['Substance beats %: control below 50% → consolidate; >50% without control → equity method; influence below 20% → equity method.', 'Control without majority ownership'],
+        ['Joint operation = *direct* rights to assets → recognize your share line by line. Joint venture = stake in a vehicle → *equity method*.', 'The real distinction: rights to what?'],
+      ],
+    },
+    '7.2': {
+      t: 'IFRS 9 financial assets · reclassification · ECL',
+      s: [
+        'IFRS 9 puts debt at amortized cost only if it passes both the hold-to-collect business model test and the SPPI cash flow test; hold-to-collect-and-sell debt goes to FVOCI; everything else, including trading equity, goes to FVPL. Strategic equity can be irrevocably elected to FVOCI. Equity never reclassifies, debt only on a genuine business model change. Hybrid financial assets are not split, so a convertible fails SPPI and goes to FVPL. Impairment uses the three-stage expected loss model: 12-month ECL, then lifetime ECL after a significant increase in credit risk, with interest on the net amount once credit-impaired.',
+      ],
+      n: [
+        ['Amortized cost needs *both* tests: hold-to-collect business model + SPPI cash flows. Fail either → FVPL.', 'Two separate tests, both must pass'],
+        ['FVOCI debt = collect *and* sell. FVOCI equity = *irrevocable* election for strategic stakes (dividends still in P&L).', 'An irrevocable election, not sale intent'],
+        ['Equity never reclassifies; debt only on a rare *business model change*. Gap to fair value hits P&L at that date.', 'Equity never reclassifies'],
+        ['Hybrid financial assets are *not* split: a conversion option fails SPPI → whole instrument at FVPL.', 'Convertible bonds and similar hybrids'],
+        ['ECL: Stage 1 = 12-month ECL; Stage 2 (SICR, >30 days past due) = lifetime; Stage 3 (default) = lifetime and interest on *net* carrying amount.', 'Replaces the old incurred-loss model'],
+      ],
+    },
+    '7.3': {
+      t: 'Equity method',
+      s: [
+        'Under the equity method the investment is recorded at cost, increased by the investor’s share of the investee’s net income and *reduced by dividends*, which are a return of capital. Losses stop at zero and must be recovered before income resumes. Any premium over book value is first allocated to undervalued assets (and depreciated through the investor’s share of income) and the rest is goodwill, all inside the one investment line. US GAAP lets any investor elect fair value; IFRS only venture-capital-type entities.',
+      ],
+      n: [
+        ['Investment at cost, + share of investee NI, − *dividends* (return of capital, not income).', 'Dividends reduce the investment account'],
+        ['Losses stop at zero; profits must first cover the unrecognized losses before income resumes.', 'The investment account can’t go negative'],
+        ['Excess price → fair-value step-up of assets, rest is goodwill, all inside one line. Extra depreciation on the step-up cuts the investor’s pickup.', 'Fair-value step-up first, goodwill absorbs the rest'],
+        ['Fair value option: US GAAP any investor; IFRS only VC/mutual funds. Irrevocable.', 'US GAAP allows it; IFRS restricts it'],
+      ],
+    },
+    '7.4': {
+      t: 'Impairment · intercompany profits · analytical issues',
+      s: [
+        'Impairment of an equity-method investment: US GAAP requires an other-than-temporary decline and forbids reversal; IFRS needs a loss event and allows reversal. Profit on goods sold between investor and investee (either direction) that are still unsold is deferred by profit × % unsold × ownership %. Analytically, the equity method flatters the investor: income exceeds cash received, the investee’s debt is invisible, and margins look better because NI includes investee profits with no matching revenue.',
+      ],
+      n: [
+        ['Equity-method impairment: US GAAP *no reversal* (other-than-temporary test); IFRS reversal allowed (loss-event test).', 'US GAAP: no reversal'],
+        ['Upstream and downstream: defer unsold profit × *ownership %*, released when goods are sold outside.', '% of goods still unsold'],
+        ['Equity method flatters: income above cash dividends, investee debt hidden (leverage understated), margins inflated (NI up, revenue not).', 'Net income rises, revenue doesn’t'],
+      ],
+    },
+    '7.5': {
+      t: 'Acquisition method · noncontrolling interest',
+      s: [
+        'Control means consolidating 100% of the subsidiary’s assets and liabilities at fair value; ownership % only decides how equity splits between the parent and the noncontrolling interest. The acquisition method is the same under IFRS and US GAAP.',
+      ],
+      n: [
+        ['Control (>50%) → consolidate *100%* of assets and liabilities; ownership % only splits equity into parent vs NCI.', 'Control determines WHAT gets consolidated'],
+        ['NCI = subsidiary equity × unowned % (partial goodwill basis).', 'Subsidiary’s total equity × % not owned'],
+      ],
+    },
+    '7.6': {
+      t: 'Consolidated income statement · eliminations · EPS',
+      s: [
+        'The consolidated income statement includes 100% of the subsidiary’s revenue and expenses from the acquisition date, with NI split between parent and NCI. Intercompany sales, interest, dividends and unrealised profits are eliminated in full. A share-financed deal is accretive to EPS if the P/E paid is below the acquirer’s own P/E and dilutive if above.',
+      ],
+      n: [
+        ['Revenue and expenses: 100% of the subsidiary *from the acquisition date*.', 'from acquisition date forward'],
+        ['Intercompany items eliminated *100%* (vs proportionate under the equity method).', 'The elimination is 100% of the intercompany profit'],
+        ['Stock deal: *accretive* if P/E paid < acquirer’s P/E; dilutive if higher, even for a profitable target.', 'ACCRETIVE (EPS rises)'],
+      ],
+    },
+    '7.7': {
+      t: 'Goodwill: partial vs full · impairment',
+      s: [
+        'Goodwill = consideration − fair value of identifiable net assets. Full goodwill grosses up to 100% of the acquiree’s fair value (NCI at fair value); partial goodwill covers only the parent’s share (NCI at share of net assets). US GAAP requires full goodwill; IFRS allows either, deal by deal. Goodwill is never amortised, is tested at least annually and is never reversed. Under partial goodwill an impairment falls entirely on the parent; under full goodwill it is shared with NCI.',
+      ],
+      n: [
+        ['US GAAP: *full* goodwill only. IFRS: choice, deal by deal.', 'US GAAP: full goodwill only'],
+        ['Goodwill: never amortized, tested at least annually, *never reversed* under either standard.', 'never amortized, never reversed'],
+        ['Impairment under partial goodwill is borne *entirely by the parent*; under full goodwill it is split with NCI.', 'NCI is affected by impairment only if the full goodwill method was used'],
+        ['US GAAP: loss = carrying value − fair value of the reporting unit, capped at goodwill. IFRS: carrying − recoverable at the CGU.', 'Detect at the reporting unit'],
+      ],
+      f: [
+        ['Goodwill and NCI', ['Full goodwill = FV of whole acquiree − FV of identifiable net assets', 'Partial goodwill = price paid − % × FV of identifiable net assets', 'NCI (full) = % × FV of acquiree · NCI (partial) = % × FV of identifiable net assets'], 'Partial goodwill = only the proportion'],
+        ['Goodwill impairment (US GAAP, one step)', ['Loss = carrying value of unit − fair value of unit (≤ goodwill)', 'Old two-step: implied goodwill = FV of unit − FV of net assets; loss = book goodwill − implied'], 'Current rule (ASU 2017-04)'],
+      ],
+    },
+    '7.8': {
+      t: 'Proportionate consolidation · JV accounting',
+      s: [
+        'Proportionate consolidation adds the investor’s share of every JV line item; it survives only for joint operations (IFRS) or narrow industry exceptions (US GAAP). Comparing methods: NI and equity are the same everywhere; the acquisition method gives the highest revenue, assets and liabilities and the equity method the lowest, so the equity method shows the best margins, ROA and lowest leverage.',
+      ],
+      n: [
+        ['IFRS 11 and US GAAP: JVs use the *equity method*; proportionate treatment only for joint operations (IFRS) or narrow industry exceptions (US GAAP).', 'Equity method is required for JVs'],
+        ['NI, EPS and ROE are the *same* under every method; only ratios with revenue, assets or liabilities change.', 'Net income, EPS, and ROE are unaffected'],
+        ['Acquisition method shows the highest assets, liabilities and revenue; equity method the lowest; margins highest under the equity method.', 'fixes BOTH'],
+      ],
+    },
+    '7.9': {
+      t: 'SPEs and VIEs',
+      s: [
+        'Special purpose entities hold assets and debt off the sponsor’s balance sheet. Because they were built so no one held voting control, standards moved to an economic test: under US GAAP the primary beneficiary of a VIE (power over significant activities plus exposure to significant losses or gains) consolidates, even with no equity; IFRS 10 applies the same control definition to every entity.',
+      ],
+      n: [
+        ['SPEs: off-balance-sheet financing and risk isolation (Enron).', 'Off-balance-sheet financing and risk isolation'],
+        ['VIE (US GAAP): primary beneficiary with *power* + significant *economics* consolidates, even with 0% equity. IFRS 10 uses the single control model.', 'primary beneficiary'],
+      ],
+    },
+  },
+  'fsa.1': {
+    about: [
+      'Reading 8 covers the two forms of employee pay that need estimates: *share-based compensation* and *post-employment benefits*. Short-term pay is simply expensed as it vests; the difficulty is pay that settles years later.',
+      'For share-based pay, the expense is the *grant-date fair value* spread over the vesting period, booked against an equity reserve, so total equity and cash do not change. Know the conditions (service, performance, market), the restricted stock vs RSU differences, why the tax deduction uses the settlement-date value (windfalls and shortfalls), and the Level II treasury stock method, which adds unrecognised compensation expense to the assumed proceeds.',
+      'For defined benefit pensions, the obligation (PBO) is the present value of benefits earned to date at expected future salaries. Its roll-forward (service cost, interest cost, past service cost, actuarial changes, benefits paid) and the plan asset roll-forward give the funded status. The heart of the exam is *where each piece goes* under IFRS (service and net interest in P&L, remeasurements in OCI) versus US GAAP (expected return, OCI then amortisation, corridor), and which assumptions are aggressive.',
+    ],
+    '8.S1': {
+      s: [
+        'Employee pay is short-term (expensed as earned, by function), share-based or post-employment. Share-based awards are measured at grant-date fair value and expensed over the service period with a matching credit to a share-based compensation reserve, so equity and cash are unchanged; on settlement the reserve moves to share capital. They align incentives without cash, but dilute shareholders and can push managers to take too much (options) or too little (shares) risk.',
+      ],
+      n: [
+        ['Short-term pay: expensed as it vests, by function (COGS, R&D, SG&A); unsold-inventory wages are capitalised. Low measurement error.', 'expensed to the income statement as it vests'],
+        ['Share-based pay: *grant-date fair value* spread over the service period. Dr expense / Cr share-based comp reserve → total equity unchanged, no cash effect.', 'total equity does not change'],
+        ['Options can push managers to take *too much* risk; stock grants to take *too little*.', 'too much risk'],
+      ],
+    },
+    '8.S2': {
+      s: [
+        'Grants vest on service, performance or market conditions. Restricted stock carries voting and dividend rights; RSUs carry neither and convert into shares on vesting, which is why they are preferred to options (always some value, no exercise price). Performance-based restricted stock is called performance shares.',
+      ],
+      n: [
+        ['Conditions: service (years), performance (e.g. EPS target), market (e.g. share price).', 'Service condition'],
+        ['Restricted stock: voting + dividends. RSUs: neither; exchanged for shares on vesting.', 'Voting rights'],
+        ['Performance shares = performance-based restricted stock.', 'performance-based restricted stocks are called performance shares'],
+      ],
+    },
+    '8.S3': {
+      s: [
+        'Option fair value comes from a similar traded option or a pricing model; expected volatility is the subjective input, and a lower volatility assumption lowers expense and raises earnings. RSUs are valued net of the PV of dividends not received. The tax deduction is based on the settlement-date value, creating windfalls or shortfalls (IFRS through equity, US GAAP through tax expense). For dilution, the Level II treasury stock method adds the average unrecognised compensation expense to the assumed proceeds, so grants and RSUs with no exercise price dilute far more per share than options.',
+      ],
+      n: [
+        ['Option fair value: market price of a similar option or a model (no model mandated); only *expected volatility* is subjective. Lower vol → lower expense → higher earnings.', 'lower volatility'],
+        ['RSU value = grant-date price − PV of dividends during vesting.', 'the dividend haircut'],
+        ['Expense is never reversed if options expire out of the money.', 'no further accounting treatment'],
+        ['Tax deduction uses the *settlement-date* value. Windfall/shortfall: IFRS → equity; US GAAP → tax expense (ETR volatile).', 'Where are tax windfalls'],
+        ['Net loss → basic EPS = diluted EPS. In-the-money unvested options are dilutive.', 'basic EPS and fully diluted EPS are *the same*'],
+        ['Level II TSM: assumed proceeds = exercise cash + *average* unrecognised comp expense; grants/RSUs have zero cash so they dilute far more per share.', 'Why the unrecognised expense counts as proceeds'],
+        ['Forecasting: share-based comp is noncash, so stock-paying firms show *higher FCF*; P/FCF across peers can mislead.', 'higher free cash flow'],
+      ],
+    },
+    '8.S4': {
+      s: [
+        'In a defined contribution plan the employee carries the investment risk and the employer simply expenses its contribution. In a defined benefit plan the employer promises the benefit and must estimate salary growth, turnover, retirement age, mortality and the discount rate. Other post-employment benefits such as retiree health care work like a DB plan but are usually unfunded.',
+      ],
+      n: [
+        ['DC: employee bears investment risk; expense = contribution; *nothing on the balance sheet*.', 'DC reporting is *straightforward*'],
+        ['DB: employer bears the risk and estimates salary growth, turnover, retirement age, mortality, discount rate.', 'The full list of forecasts'],
+        ['OPEB (retiree health care): usually unfunded; expensed as earned, cash only when paid.', 'usually unfunded'],
+      ],
+    },
+    '8.S5': {
+      s: [
+        'The PBO is the present value of benefits earned to date using expected future salaries, discounted at high-quality corporate bond yields. Each year it grows by current service cost (the PV of benefits earned this year) and interest cost (beginning PBO × discount rate), plus past service cost and actuarial losses, and falls by benefits paid. Computing it for one employee takes two steps: annuity value at retirement, then discount back to today.',
+      ],
+      n: [
+        ['PBO = PV of benefits *earned to date* using *expected future salaries*; discount at high-grade corporate bond yields.', 'projected benefit obligation (PBO)'],
+        ['PBO moves with service cost, interest cost, past service cost, actuarial changes, minus benefits paid.', 'the benefits obligation changes due to'],
+        ['Interest cost = *beginning* PBO × discount rate. Service cost = PV of benefits earned this year; recognized above EBIT.', 'Interest cost = the pension obligation *at the beginning of the period*'],
+      ],
+      f: [
+        ['PBO for one employee (two-step PV)', ['Annual benefit = accrual % × final salary × years of service', 'PV at retirement = annuity of the benefit over retirement years', 'PBO = PV at retirement ÷ (1 + r)^(years to retirement)'], 'Solution — year 1'],
+      ],
+    },
+    '8.S6': {
+      s: [
+        'Funded status = plan assets − PBO; a deficit is a net liability. Benefits paid reduce both sides and leave funded status unchanged. IFRS reports service cost and past service cost in P&L, net interest on the funded status at the discount rate, and remeasurements in OCI, never amortised. US GAAP reports service cost, interest cost, minus the *expected* return, plus amortisation of past service cost and of actuarial losses beyond the 10% corridor; past service cost and actuarial gains and losses go first to OCI. The only cash item is the employer’s contribution, in CFO.',
+      ],
+      n: [
+        ['Funded status = plan assets − PBO; negative = underfunded = net liability.', 'The order of subtraction is the whole trap'],
+        ['Benefits paid cut both PBO and plan assets: funded status unchanged, never in pension cost.', 'leave the *funded status unchanged*'],
+        ['Past service cost: IFRS → P&L immediately; US GAAP → OCI, amortised.', 'Past service cost'],
+        ['IFRS: return on assets = discount rate, so *net interest* on funded status. US GAAP: *expected* return offsets cost; actual − expected goes to actuarial G/L.', 'implicitly assumed to be the same as the discount rate'],
+        ['Actuarial G/L (remeasurements) in OCI: IFRS never amortised; US GAAP amortises the excess over the *10% corridor* (greater of PBO or assets).', 'Corridor Approach'],
+        ['The only cash item: employer contributions in CFO.', 'employer’s contributions during the year'],
+      ],
+      f: [
+        ['PBO and plan asset roll-forwards', ['End PBO = beg PBO + service cost + interest cost + past service cost ± actuarial loss/(gain) − benefits paid', 'End plan assets = beg assets + actual return + employer contributions − benefits paid'], 'Liability side (PBO or PVDBO)'],
+        ['Total periodic pension cost', ['TPPC = contributions − (end funded status − beg funded status)', 'TPPC = service cost + interest cost + past service cost + actuarial losses − actual return'], 'Total periodic pension cost (TPPC)'],
+        ['Pension expense in P&L', ['IFRS = service cost + past service cost + net interest (discount rate × beg funded status deficit)', 'US GAAP = service cost + interest cost − expected return + amortisation of PSC and actuarial losses'], 'Expected return on plan assets'],
+      ],
+    },
+    '8.S7': {
+      s: [
+        'The Zenith example shows the same plan giving a higher P&L expense under US GAAP than IFRS purely from how returns and interest are routed. Aggressive assumptions are a high discount rate, low salary growth, short life expectancy and, under US GAAP, a high expected return (which flatters expense without changing the PBO). Assumptions should be internally consistent: discount rate with inflation, expected return with asset mix. For valuation, deduct an underfunded deficit from enterprise value.',
+      ],
+      n: [
+        ['Run the corridor test before amortising: 10% of the larger of beg PBO and beg assets.', 'no amortisation is necessary'],
+        ['Aggressive: high discount rate, low salary growth, low inflation, short life expectancy, high expected return (US GAAP; only flatters expense).', 'Aggressive Accounting Choices'],
+        ['Lower discount rate or higher salary growth → PBO ↑, funded status ↓. *Neither changes plan assets.*', 'neither assumption affects plan assets'],
+        ['Consistency: discount rate moves with inflation; expected return moves with the equity allocation.', 'Internal consistency of assumptions'],
+        ['Valuation: deduct an underfunded liability from enterprise value.', 'underfunded liability should be deducted'],
+      ],
+    },
+  },
+  'fsa.2': {
+    about: [
+      'Reading 9 is about how foreign currency enters a multinational’s statements and how that changes the numbers analysts use. There are two routes: *transactions* denominated in a foreign currency (transaction exposure, with gains and losses in the income statement) and *foreign subsidiaries* whose statements must be converted into the parent’s presentation currency.',
+      'The method follows the *functional currency*. A self-contained subsidiary whose functional currency is the local currency is *translated* with the *current rate method*: assets and liabilities at the current rate, income at the average rate, and the difference parked in equity as the CTA; exposure is net assets. A subsidiary integrated with the parent is *remeasured* with the *temporal method*: monetary items at the current rate, non-monetary at historical rates, and the gain or loss in net income; exposure is net monetary assets or liabilities. Hyperinflation forces the temporal method under US GAAP and inflation restatement under IFRS.',
+      'Most questions are directional: will the gain be positive or negative, which ratios change, what is different between the two methods. The reading ends with the effective tax rate reconciliation and organic sales growth excluding currency effects.',
+    ],
+    '9.S1': {
+      s: [
+        'A foreign-currency transaction is recorded at the spot rate on the transaction date, and any balance still open at the balance sheet date is marked to the closing rate, with the gain or loss in profit before cash moves. A foreign-currency receivable gains when that currency strengthens; a payable gains when it weakens. Firms may show these gains as operating or non-operating, which hurts comparability.',
+      ],
+      n: [
+        ['Transaction exposure: recorded at spot on the deal date, open balances marked to the closing rate, *gain/loss in P&L* even before cash moves.', 'marked to the closing rate'],
+        ['FC receivable: gain if the FC appreciates. FC payable: gain if the FC *depreciates*. Whoever deals in its own currency has no exposure.', 'A *payable* in a foreign currency works the other way'],
+        ['Placement (operating vs non-operating) is not prescribed and not disclosed → operating margins not comparable.', 'Neither requires disclosure of where'],
+      ],
+    },
+    '9.S2': {
+      s: [
+        'Local currency is where the entity operates, functional currency is the currency of its primary economic environment, and presentation currency is what the parent reports in. Converting local to functional is *remeasurement* (temporal method); functional to presentation is *translation* (current rate method); when all three differ, do both in order. Self-contained subsidiaries use the current rate method, integrated ones the temporal method, and hyperinflation overrides the choice.',
+      ],
+      n: [
+        ['Local = where it is; functional = primary economic environment (management judgement); presentation = parent’s reporting currency.', 'Functional currency'],
+        ['Self-contained subsidiary → FC = local → *current rate*. Integrated with parent → FC = parent’s → *temporal*. All three differ → temporal then current rate.', 'self-contained, independent'],
+        ['Hyperinflation: US GAAP forces temporal; IFRS restates for inflation then uses the current rate.', 'A fourth case that overrides all three'],
+      ],
+    },
+    '9.S3': {
+      s: [
+        'Current rate method: all assets and liabilities at the current rate, common stock and dividends at historical rates, the income statement at the average rate, and the CTA as the balancing figure in equity. Temporal method: monetary items at the current rate; non-monetary items (inventory, PP&E, intangibles, unearned revenue) at historical rates, as are COGS and depreciation; the remeasurement gain or loss goes to net income, making it more volatile.',
+      ],
+      n: [
+        ['Current rate: assets and liabilities at current, equity and dividends at historical (dividends at declaration rate), IS at average, CTA plugs equity (OCI).', 'Cumulative translation adjustment (CTA)'],
+        ['Temporal: monetary at current, non-monetary at historical (fair-value items at current); COGS and depreciation at historical; gain/loss to *P&L*.', 'Non-monetary assets'],
+        ['Exposure: current rate → *net assets*; temporal → *net monetary* assets/liabilities.', 'Net monetary assets'],
+        ['Unearned revenue is *non-monetary*.', 'unearned revenue, land'],
+      ],
+    },
+    '9.S4': {
+      s: [
+        'Exposure is the balance that gets revalued at the current rate. Under the current rate method that is net assets, so a strengthening foreign currency gives a translation gain. Under the temporal method it is net monetary assets or liabilities; most subsidiaries have a net monetary liability, which loses when the foreign currency strengthens. Temporal exposure can be managed by changing the monetary position; current-rate exposure is hard to remove.',
+      ],
+      n: [
+        ['Net asset exposure: FC appreciates → gain; depreciates → loss. Net liability exposure is the reverse.', 'Subsidiary currency appreciates'],
+        ['Most temporal firms are in a *net monetary liability* position.', 'net monetary liability* exposure'],
+        ['To cut temporal exposure: turn non-monetary assets into monetary, or pay down monetary liabilities. One-for-one monetary swaps change nothing.', 'leaves net monetary exposure *unchanged*'],
+      ],
+    },
+    '9.S5': {
+      s: [
+        'The Vibrant example applies both methods to one subsidiary with a depreciating local currency: the current rate method gives a translation loss in equity (net asset exposure), the temporal method a remeasurement gain in income (net monetary liability). Net income, total assets and gross margin also differ because COGS, depreciation and fixed assets use different rates.',
+      ],
+      n: [
+        ['Same depreciating LC: current rate → translation *loss* (net assets); temporal → remeasurement *gain* (net monetary liability). Opposite signs are normal.', 'Same depreciating loca, opposite sign'],
+        ['Temporal has *no CTA*: plug RE from the balance sheet, back out NI, then plug the remeasurement G/L.', 'The temporal method has *no CTA at all*'],
+        ['Temporal COGS: beginning inventory at old rate + purchases at average − ending inventory at its historical rate.', 'Temporal COGS — built from purchases'],
+      ],
+    },
+    '9.S6': {
+      s: [
+        'Ratios built from one statement are unchanged by the current rate method. Mixed ratios with an income statement numerator and a year-end balance sheet denominator rise when the foreign currency depreciates (average rate above current rate) and fall when it appreciates. Comparing temporal and current rate results needs a line-by-line check of which rate each item uses.',
+      ],
+      n: [
+        ['Pure ratios (same statement) are unchanged by the current rate method.', 'Pure ratios'],
+        ['Mixed IS/BS ratios under current rate: FC depreciating → ratio *rises*; appreciating → falls.', 'Mixed ratio after translation'],
+        ['Temporal vs current rate, LC depreciating: gross margin and fixed asset turnover *lower* under temporal; receivables turnover the same.', 'Receivables turnover is the same'],
+      ],
+    },
+    '9.S8': {
+      s: [
+        'US GAAP defines hyperinflation as cumulative inflation over 100% in three years and then requires the temporal method. IFRS restates non-monetary items and equity for inflation using the price index, leaves monetary items alone, and then translates at the current rate; the net purchasing power gain or loss goes to income (monetary liabilities gain in inflation, monetary assets lose).',
+      ],
+      n: [
+        ['Hyperinflation: US GAAP = cumulative >100% over 3 years (≈26% a year) → temporal. IFRS: no bright line; restate then current rate.', 'Cumulative inflation exceeds'],
+        ['IFRS restatement: non-monetary items and equity indexed, monetary items not; RE and NI are plugs; IS items at index from the transaction date.', 'Non-monetary* assets & liabilities are adjusted'],
+        ['Purchasing power: monetary *assets* lose, monetary *liabilities* gain; non-monetary items none.', 'Monetary *liabilities* in inflation'],
+        ['Adding the CTA change to NI makes a current-rate firm comparable to a temporal one (clean surplus).', 'add the change in the CTA to net income'],
+      ],
+    },
+    '9.S9': {
+      s: [
+        'The effective tax rate differs from the statutory rate because of permanent differences and profits earned in other tax jurisdictions; the “foreign jurisdictions” line in the reconciliation shows whether foreign operations raise or lower it, and a changing mix of profits moves it further. For sales, separate growth from volume and price, which is sustainable, from currency effects, which are not; organic growth excludes both acquisitions and currency.',
+      ],
+      n: [
+        ['ETR ≠ statutory due to permanent differences and multiple jurisdictions. Read only the *foreign jurisdiction* line for the foreign effect.', 'Only the “taxes in foreign jurisdictions” line'],
+        ['Growth from volume/price is more sustainable than from currency. Organic = excluding M&A *and* currency.', 'Organic growth'],
+        ['Underlying growth = reported growth − currency impact.', 'Reported growth = underlying'],
+      ],
+    },
+  },
+  'fsa.3': {
+    about: [
+      'Reading 10 is a toolkit for analysing banks and insurers, which differ from other companies because they are systemically important, heavily regulated and hold financial assets. Basel III sets the framework banks are judged against: minimum *capital* against risk-weighted assets, minimum *liquidity* for a 30-day stress (LCR) and *stable funding* over a year (NSFR).',
+      'The analysis follows *CAMELS*: Capital adequacy (CET1 ≥ 4.5%, Tier 1 ≥ 6%, total ≥ 8% of RWA), Asset quality (loan quality and the adequacy of loan loss allowances), Management, Earnings (sustainable sources, fair value level 3 judgement), Liquidity (LCR, NSFR, funding concentration, maturity mismatch) and Sensitivity to market risk (above all interest rate risk). Add government support, mission, culture and the general factors that apply to any company.',
+      'For insurers, know the P&C vs L&H differences and the P&C ratios: loss ratio, expense ratio, combined ratio and combined ratio after dividends, where lower is better and above 100% is an underwriting loss.',
+    ],
+    '10.S1': {
+      s: [
+        'Financial institutions intermediate capital, manage assets and risk, and execute transactions. They differ from other firms through systemic importance (contagion, bank runs), regulation, and financial assets at fair value. Basel III requires minimum capital against risk, enough liquid assets for a 30-day stress, and stable funding over a year. Global bodies: FSB (systemic risk), IADI (deposit insurance), IOSCO (securities markets), IAIS (insurance).',
+      ],
+      n: [
+        ['Banks differ: *systemic* (contagion), heavily *regulated*, assets are *financial* (often at fair value).', 'Systemic importance'],
+        ['Basel III pillars: minimum *capital* (vs RWA), minimum *liquidity* (30-day stress), *stable funding* (1-year). Nothing about spreads.', '3 Pillars of the Basel III Framework'],
+        ['FSB = systemic risk · IADI = deposit insurance · IOSCO = securities markets · IAIS = insurance supervision.', 'Financial Stability Board'],
+      ],
+    },
+    '10.S2': {
+      s: [
+        'Capital adequacy is measured against risk-weighted assets (each asset × the regulator’s risk weight). CET1 (common stock, APIC, retained earnings, OCI, less intangibles and deferred tax assets) must be at least 4.5% of RWA, Tier 1 at least 6% and total capital at least 8%. Other Tier 1 has no maturity and no contractual dividend; Tier 2 is subordinated debt with original maturity over five years.',
+      ],
+      n: [
+        ['CAMELS: Capital, Asset quality, Management, Earnings, Liquidity, Sensitivity to market risk.', 'The *CAMELS* approach'],
+        ['RWA = Σ asset × regulator’s risk weight; can exceed total assets (200% on nonperforming loans).', 'RWA = Σ amount × risk weight'],
+        ['Minimums: *CET1 4.5%*, Tier 1 6%, total capital 8% of RWA. CET1 is the most important.', 'Total capital (Tier 1 + Tier 2)'],
+        ['CET1 = common stock + APIC + RE + OCI − intangibles − *deferred tax assets*. Other Tier 1 = no maturity, no contractual dividend. Tier 2 = sub debt >5 yrs original maturity.', 'Deferred tax assets are *deducted*'],
+      ],
+      f: [
+        ['Capital ratios', ['CET1 ratio = CET1 ÷ RWA (≥ 4.5%)', 'Tier 1 ratio = Tier 1 ÷ RWA (≥ 6%)', 'Total capital ratio = (Tier 1 + Tier 2) ÷ RWA (≥ 8%)'], 'Capital position'],
+      ],
+    },
+    '10.S3': {
+      s: [
+        'Asset quality depends on how loans are made and managed and on current and potential credit risk, including off-balance-sheet commitments. The allowance for loan losses is a contra-asset fed by the discretionary provision expense. Compare the allowance with nonperforming loans and with net charge-offs, and the provision with net charge-offs: falling ratios mean under-reserving and possibly aggressive accounting. Management quality shows in risk control, an independent board and internal monitoring.',
+      ],
+      n: [
+        ['Asset quality needs both *current* and *potential* credit risk; watch off-balance-sheet lines and letters of credit.', 'Current credit risk'],
+        ['Loans at amortised cost net of allowance; equity securities at *fair value* under both standards.', 'equity securities always at fair value'],
+        ['Allowance = contra-asset; provision = discretionary expense. Ending allowance = beginning + provision − net write-offs.', 'ending allowance = beginning allowance + provision − net write-offs'],
+        ['Falling allowance/NPL, allowance/charge-offs or provision/charge-offs → under-reserving, possibly *aggressive* accounting.', 'possible *aggressive accounting*'],
+        ['Management: risk control, independent board, continuous monitoring.', 'Risk management & control'],
+      ],
+    },
+    '10.S4': {
+      s: [
+        'Good bank earnings are adequate, sustainable and recurring: net interest and fee income are steadier than trading income, and Level 3 fair values involve the most judgement. Liquidity is measured by the LCR (high-quality liquid assets ÷ 30-day stressed outflows) and NSFR (available ÷ required stable funding), both at least 100%, plus funding concentration and maturity mismatch.',
+      ],
+      n: [
+        ['High-quality bank earnings: adequate, sustainable, recurring, unbiased estimates. Interest and fee income sustainable; trading most volatile.', 'Trading income'],
+        ['Fair value: Level 1 quoted identical · Level 2 observable (similar, inactive, rates, spreads, vols) · Level 3 models (most judgement).', 'Non-observable & subjective'],
+        ['Concentrated funding and maturity mismatch raise *liquidity* risk.', 'Maturity mismatch'],
+        ['LCR denominator is the *stressed* outflow, not average withdrawals.', 'Average monthly withdrawals are not used'],
+      ],
+      f: [
+        ['Liquidity ratios (minimum 100%)', ['LCR = highly liquid assets ÷ expected 30-day stressed cash outflows', 'NSFR = available stable funding ÷ required stable funding'], 'LCR = highly liquid assets'],
+      ],
+    },
+    '10.S5': {
+      s: [
+        'Interest rate risk is the key market sensitivity, driven by maturity and repricing mismatches between assets and liabilities. Beyond CAMELS, consider implicit government support (bigger for large, interconnected banks), the bank’s mission (community banks are concentrated), culture (restatements, stock-linked pay, slow provisioning) and general factors such as competition, off-balance-sheet items, segments and currency exposure.',
+      ],
+      n: [
+        ['Interest rate risk is the most important market risk: maturity and *repricing* mismatches. Assets repricing faster in rising rates → NII up.', 'Repricing frequency'],
+        ['Implicit government support is greater for big, interlinked banks and when the sector is weak; government stake → support likely.', 'Government support'],
+        ['Culture red flags: frequent restatements, stock-linked pay, slow provisioning; community banks have concentrated exposures.', 'Frequent accounting restatements'],
+      ],
+    },
+    '10.S6': {
+      s: [
+        'Insurers earn premiums and investment income on the float. P&C claims are lumpy and contracts short; L&H claims are predictable and contracts long, with more float and interest rate risk. For P&C insurers, the combined ratio (loss ratio + expense ratio) above 100% means an underwriting loss, a high industry combined ratio signals a soft market, and the combined ratio after dividends ranks overall profitability. Upward loss reserve revisions are a warning sign.',
+      ],
+      n: [
+        ['P&C: lumpy claims, short contracts. L&H: stable claims, long contracts, higher float and rate risk.', '1. Property & casualty (P&C)'],
+        ['Combined ratio > 100% = underwriting loss. High industry combined ratio = *soft* market.', 'A combined ratio *> 100%*'],
+        ['Upward loss-reserve revisions = profits booked aggressively (warning sign).', 'upward* revisions mean profits were booked aggressively'],
+        ['Profitability ranks on CRAD (lowest wins); efficiency on the expense ratio.', 'the most profitable overall'],
+      ],
+      f: [
+        ['Combined ratio', ['Combined ratio = underwriting loss ratio + expense ratio'], 'Combined ratio = underwriting loss ratio + expense ratio'],
+        ['Other insurer ratios', ['Loss & LAE ratio = (loss + loss adjustment expense) ÷ net premiums earned', 'Dividends to policyholders ratio = dividends ÷ net premiums earned'], 'Loss and loss adjustment expense ratio'],
+      ],
+    },
+  },
+  'fsa.4': {
+    about: [
+      'Reading 11 teaches you to judge how far reported numbers can be trusted. *Reporting quality* asks whether the statements are decision-useful; *earnings quality* asks whether the results are adequate and sustainable. Reports sit on a spectrum from high-quality reporting of good earnings, through biased choices, down to fraud.',
+      'It then gives tools: the steps for evaluating quality, the *Beneish M-score* for manipulation (above −1.78 is a warning) and the *Altman Z-score* for bankruptcy (higher is safer), and the evidence that cash earnings persist more than accruals. The red flags to learn are receivables growing faster than revenue, positive income with negative operating cash flow, capitalised expenses, and repeatedly just beating consensus.',
+      'The final sessions apply the same thinking to cash flow (timing and classification tricks, IFRS flexibility) and the balance sheet (completeness, unbiased measurement, clarity) and list where risk information is found.',
+    ],
+    '11.S1': {
+      s: [
+        'High-quality reporting is decision-useful; high-quality earnings are adequate and sustainable, and they require good reporting. Problems come from measurement and timing choices (which hit several elements at once) and from classification (operating vs non-operating, current vs non-current). Business combinations offer room to manage results, for example by allocating more to goodwill, which is not amortised. Warning signs include revenue growth above peers, receivables growing faster than sales, Q4-heavy revenue and operating cash flow below operating income.',
+      ],
+      n: [
+        ['Reporting quality (decision-useful) ≠ earnings quality (adequate + sustainable). Low-quality reporting rules out high-quality earnings.', 'You *cannot* have low-quality reporting with high-quality earnings'],
+        ['Spectrum: decision-useful + good earnings → decision-useful + weak earnings → biased → non-compliant → fraud.', 'Figure 11.1 ranks reports'],
+        ['Measurement/timing issues hit *several* elements; classification issues usually just *one*.', 'Measurement and timing* errors'],
+        ['Selling receivables → turnover ↑, DSO ↓. Inventory reclassified long-term → inventory turnover ↑, current ratio ↓.', 'Remove a/c receivable'],
+        ['M&A: over-allocating to goodwill lifts future profit (no amortisation). Big restructuring/impairment charges can be timed.', 'Net income *increases* if you allocate *more to goodwill*'],
+        ['Warning signs: receivables outpacing revenue, Q4-heavy revenue, OCF < operating income, long useful lives, payables up while receivables/inventory fall.', 'Misstating profitability'],
+      ],
+    },
+    '11.S2': {
+      s: [
+        'Evaluate quality in steps: understand the business and management, find the judgemental areas, compare across time and peers, check the warning signs, then use quantitative tools. The Beneish M-score uses eight variables (DSRI, GMI, AQI, SGI, DEPI, SGAI, accruals, LEVI); a score above −1.78 suggests manipulation. The Altman Z-score combines five ratios; higher means lower bankruptcy risk. Earnings with a large cash component persist more than accrual-based earnings, and discretionary accruals are the residual from a regression of total accruals.',
+      ],
+      n: [
+        ['Beneish M-score (probit, 8 variables): *M > −1.78* → manipulation likely. Probability = N(M). Don’t memorise coefficients.', 'M-score *> −1.78*'],
+        ['DSRI ↑ revenue inflation · GMI > 1 margins worse · AQI > 1 over-capitalising · DEPI > 1 slower depreciation · SGI high = pressure.', 'Days sales receivable index (DSRI)'],
+        ['Altman Z (discriminant, 5 ratios): *higher is safer*. Static, accounting-based.', 'Altman model'],
+        ['Persistence: Earnings(t+1) = α + β1·E(t); cash component more persistent than accruals (β cash > β accruals).', 'Cash component'],
+        ['Discretionary accruals = residual of a regression of total accruals on normal drivers.', 'The *residual* of such a regression'],
+        ['Red flags: positive NI with *negative CFO*; repeatedly barely beating consensus.', 'Major red flag'],
+      ],
+    },
+    '11.S3': {
+      s: [
+        'Extreme earnings revert to the mean, faster when built on discretionary accruals. To test revenue, read the recognition policy, compare receivables and DSO with history and peers, compare cash with accrual earnings and with physical data, and look for related-party sales. To test expenses, watch for capitalisation that shows up as a build-up of assets with falling turnover.',
+      ],
+      n: [
+        ['Extreme earnings mean-revert; *faster* when built on discretionary accruals.', 'mean reversion will occur *faster*'],
+        ['Revenue review: policy, receivable ageing vs peers, cash vs accruals, physical data, trends by segment, related parties.', 'Steps in the analysis of revenue recognition practices'],
+        ['Receivables growing faster than sales and DSO rising above industry → low-quality revenue.', 'DSI’s revenue increased at a slower rate'],
+        ['Capitalised expenses show as asset build-up with falling asset turnover and stable margins.', 'buildup of non-current assets'],
+      ],
+    },
+    '11.S4': {
+      s: [
+        'High-quality operating cash flow is sustainable, covers capex, dividends and debt service, and is not unusually volatile, judged against the company’s life cycle. It can be inflated by timing (stretching payables, selling receivables) and classification (moving investing or financing items into operations; IFRS allows interest and dividends in different sections). A widening gap between earnings and CFO is a warning sign.',
+      ],
+      n: [
+        ['High-quality CFO: sustainable, covers capex + dividends + debt, low volatility; judge against life cycle.', 'CFO is said to be of high quality if'],
+        ['CFO tricks: stretch payables, sell receivables (timing); move CFI/CFF items into CFO (classification).', 'Timing issues'],
+        ['IFRS lets interest paid be CFO or CFF and interest/dividends received be CFO or CFI → comparability ↓.', 'interest paid can be *operating or financing*'],
+      ],
+    },
+    '11.S5': {
+      s: [
+        'A high-quality balance sheet is complete (no hidden obligations such as take-or-pay contracts or heavy use of equity-method affiliates), uses unbiased measurement for judgemental items (pensions, goodwill, impairments) and is clearly presented. Risk information comes from the statements, auditor’s report, notes, MD&A, late-filing notices (SEC form NT) and the financial press.',
+      ],
+      n: [
+        ['Balance sheet quality: completeness (off-B/S items, equity-method affiliates), unbiased measurement, clarity.', 'High-quality financial balance sheet reporting'],
+        ['Risk sources: statements, auditor’s report (limited), notes, MD&A, SEC form NT (late filing = red flag), press.', 'SEC form NT'],
+      ],
+    },
+  },
+  'fsa.5': {
+    about: [
+      'Reading 12 pulls the FSA toolkit together in one case (Thunderbird) following the analysis framework: set the objective, collect and process data, analyse, conclude and follow up. Each step answers one question about the company.',
+      'The steps: where ROE comes from (five-way DuPont, and stripping out equity-method income and the investment to see the parent alone), what the asset base is made of (rising goodwill means acquisitions), how the company is financed, whether capital goes to the most profitable segments (capex share ÷ asset share against EBIT margin and cash return), whether earnings are backed by cash (accruals ratios and cash generated from operations), and what the market is paying for the core business once the associate’s market value is removed.',
+      'Expect calculation questions on the extended DuPont, the accruals ratio, the capex-to-assets allocation ratio and the implied standalone P/E.',
+    ],
+    '12.S1': {
+      s: [
+        'The framework runs objective → collect → process → analyse → conclude → follow up, plus watching for changes in accounting standards. Five-way DuPont splits ROE into tax burden, interest burden, EBIT margin, asset turnover and leverage, exposing weak margins hidden by turnover or leverage. Removing equity-method income and the investment lowers NI and assets: the tax burden falls, turnover rises, EBIT margin and leverage stay the same, and adjusted ROE comes out lower.',
+      ],
+      n: [
+        ['Framework: objective → collect (incl. talks with suppliers, competitors) → process (common-size, adjusted statements) → analyse → communicate → follow up.', 'What goes in and comes out of each step'],
+        ['DuPont exposes weak margins masked by higher turnover or leverage. Higher burden *ratios* = less lost to tax/interest.', 'What “masked” looks like'],
+        ['Strip equity-method income: NI ↓, assets ↓ (use *average* adjusted assets), tax burden falls, turnover rises, EBIT margin unchanged, leverage left alone.', 'Reason for not adjusting financial leverage'],
+      ],
+    },
+    '12.S2': {
+      s: [
+        'A common-size balance sheet shows how the asset mix changes. Thunderbird’s rising goodwill share points to acquisitions, which may explain part of the margin and ROE gains but brings future impairment risk.',
+      ],
+      n: [
+        ['Common-size the asset base; rising goodwill = acquisitions, which brings future impairment risk.', 'Goodwill is *not amortised*'],
+      ],
+    },
+    '12.S3': {
+      s: [
+        'Capital structure should support strategy and let the firm meet its obligations. Debt is more burdensome than liabilities such as pension obligations or deferred taxes because missing it means default. Check working capital alongside leverage (current and quick ratios, defensive interval, cash conversion cycle). Segment reporting is required for segments above 10% of revenue or assets.',
+      ],
+      n: [
+        ['Debt (loans, bonds) is more burdensome than PBO, DTL or provisions: missing it means default.', 'More burdensome'],
+        ['Check working capital alongside leverage: current/quick ratios, defensive interval, cash conversion cycle.', 'cash conversion cycle'],
+        ['Reportable segment: >10% of revenue or assets, with distinct risk/return.', 'Accounts for *more than 10%*'],
+      ],
+    },
+    '12.S4': {
+      s: [
+        'Capital allocation: divide each segment’s share of capex by its share of assets; above 1 means the firm is growing that segment. Good allocation favours the segments with the highest EBIT margins or, better, the highest cash operating return (EBIT + D&A over average segment assets). Thunderbird over-invests in its lowest-margin segment.',
+      ],
+      n: [
+        ['Capex%/asset% > 1 = growing that segment. Good allocation puts it into the *highest-margin* segments.', 'Ratio > 1'],
+        ['Judge on cash where possible: segment cash ≈ EBIT + D&A; cash operating return = cash ÷ *average* segment assets.', 'Cash operating return'],
+      ],
+    },
+    '12.S5': {
+      s: [
+        'Earnings closer to cash are higher quality. The accruals ratio (change in net operating assets, or NI − CFO − CFI, over average NOA) should be low and stable; rising or volatile ratios are red flags. Cash generated from operations (CFO + interest + taxes paid) above operating income eases those concerns.',
+      ],
+      n: [
+        ['Lower accruals ratio = higher earnings quality; wide swings or a rising trend are red flags.', 'the *lower* the ratio, the *higher* the earnings quality'],
+        ['CFF is excluded from cash-flow accruals: financing is not part of earnings.', 'is not part of earnings'],
+        ['If CGO exceeds operating income, accrual worries ease.', 'exceeded operating income'],
+      ],
+    },
+    '12.S6': {
+      s: [
+        'Market value decomposition removes the associate: standalone value = parent market cap − ownership % × associate market cap (converted at the year-end rate), and the implied P/E divides this by NI less equity income (associate earnings at the average rate). A deep discount to the market P/E with low leverage and strong cash flow suggests undervaluation.',
+      ],
+      n: [
+        ['Standalone value = market cap − share of associate’s market value (at *year-end* rate); its earnings at the *average* rate.', 'Convert the associate’s *market value*'],
+        ['Implied P/E of the parent alone = standalone value ÷ (NI − equity income).', 'P/E without Eagle'],
+      ],
+      f: [
+        ['Market value decomposition', ['Standalone value = parent market cap − ownership % × associate market cap', 'Implied standalone P/E = standalone value ÷ (parent NI − equity income)'], 'Standalone value = parent’s market value'],
+      ],
+    },
+  },
+  'equity.0': {
+    about: [
+      'Reading 17 sets up the whole equity valuation topic. It defines the kinds of *value* (fair market, investment, intrinsic, going concern, liquidation) and when each applies: intrinsic value for most investment decisions, investment value for an acquirer with synergies, liquidation value when the firm cannot continue.',
+      'It then lays out the *five-step valuation process*: understand the business (Porter’s five forces, competitive strategy, quality of earnings), forecast performance, choose the model, convert forecasts into a value (sensitivity analysis and situational adjustments), and apply the conclusion. Model choice is the bridge to the rest of the topic: absolute models (DDM, FCF, residual income, asset-based) versus relative models (multiples), chosen by the company’s characteristics, the purpose and the data available. Sum-of-the-parts and the conglomerate discount complete the picture.',
+    ],
+    '17.S1': {
+      s: [
+        'Intrinsic value is what someone with full understanding would put on the asset; a gap between an analyst’s value and the price is part true mispricing and part the analyst’s own error. Most models assume a going concern; use liquidation value when the firm will not survive and investment value when a specific buyer (with synergies) is the reference.',
+      ],
+      n: [
+        ['Fair market value (willing parties) · investment value (to *one buyer*, incl. synergies) · intrinsic (PV of future cash) · going concern · liquidation.', 'Value of an asset to a *particular buyer*'],
+        ['Perceived mispricing = true mispricing + the analyst’s own valuation error.', 'Perceived mispricing has two parts'],
+        ['Most decisions use intrinsic value; acquisitions use *investment value*; a firm that can’t survive uses liquidation value.', 'For most investment decisions'],
+      ],
+      f: [
+        ['Perceived mispricing', ['IV(analyst) − Price = [IV(actual) − Price] + [IV(analyst) − IV(actual)]'], 'Perceived mispricing has two parts'],
+      ],
+    },
+    '17.S2': {
+      s: [
+        'Understanding the business means industry analysis (Porter’s five forces), the firm’s strategy (cost leadership, differentiation or focus) and the quality of its reported earnings (bill-and-hold, channel stuffing, capitalised costs, off-balance-sheet items). Forecasts run top-down from GDP to industry to market share. Choose between absolute and relative models by fit, purpose and data: a controlling buyer uses cash flow models, a minority holder a DDM. Diversified firms are valued as a sum of the parts, usually less a conglomerate discount. Valuation feeds stock selection, reading market expectations, fairness opinions and corporate actions.',
+      ],
+      n: [
+        ['Five steps: understand the business → forecast → choose model → convert to value (sensitivity, situational adjustments) → apply.', '1. Understand the business'],
+        ['Porter: new entrants, substitutes, buyer power, supplier power, rivalry. Strategies: cost leadership, differentiation, focus.', 'Industry analysis (Porter’s five forces)'],
+        ['Earnings-quality tricks: bill-and-hold, FOB shipping point, channel stuffing, reclassified gains, delayed expenses, off-balance-sheet items.', 'Bill & hold'],
+        ['Absolute (DDM, FCF, RI, asset-based) vs relative (multiples). Controlling stake → cash flow model; minority → DDM.', 'Controlling interest'],
+        ['Sum-of-the-parts − conglomerate discount = conglomerate value. Reasons: capital inefficiency, endogenous factors, measurement error.', 'Sum-of-the-parts valuation'],
+      ],
+    },
+  },
+  'equity.1': {
+    about: [
+      'Reading 18 values a share as the present value of its dividends. Dividends suit a minority investor in a firm with a dividend record tied to earnings; free cash flow suits a controlling buyer or a firm without dividends, and residual income a firm with negative free cash flow but good accounting.',
+      'The building blocks are the one- and multi-period DDM and the *Gordon growth model* V₀ = D₁ ÷ (r − g), which also gives implied growth, implied return, the value of growth opportunities (V₀ = E₁/r + PVGO) and the justified P/E. Preferred stock and no-growth firms are perpetuities.',
+      'Real companies change growth rate, so the reading builds *two-stage*, *H-model* (linear fade) and *three-stage* models, with a terminal value from the Gordon model or a P/E multiple. It finishes with the sustainable growth rate g = b × ROE and its PRAT breakdown. Most questions are calculations, so the traps are timing: grow D₀ to D₁, discount a terminal value with the last explicit dividend, and keep enough decimals.',
+    ],
+    '18.S1': {
+      s: [
+        'Use dividends when the firm has a dividend history linked to earnings and the view is a minority shareholder’s. The value of a share is the PV of the dividends received plus the PV of the expected sale price, which extends to an infinite stream of dividends handled with growth models.',
+      ],
+      n: [
+        ['Use dividends when there is a dividend history tied to earnings and a *minority* view. FCF for control or no dividends; RI for negative FCF with good reporting.', 'Situations when dividends can be used'],
+        ['Value = PV of dividends + PV of the expected sale price.', 'One-period DDM'],
+      ],
+    },
+    '18.S2': {
+      s: [
+        'The Gordon growth model values a share as D₁ ÷ (r − g). It needs r > g, constant g forever and is very sensitive to inputs; a perpetual g much above nominal GDP growth is suspect. Rearranged, it gives the implied growth rate or the implied required return (D₁/P₀ + g). The required return usually comes from CAPM: Rf + β × equity risk premium.',
+      ],
+      n: [
+        ['GGM: discount *D₁* (grow D₀ first). Needs kₑ > g; very input-sensitive. g can be negative.', 'Discount the *next* dividend'],
+        ['Perpetual g above ~5% (real GDP + inflation) is suspect.', 'a perpetual growth forecast *above 5%*'],
+        ['CAPM starts from the *risk-free rate*: kₑ = Rf + β(Rm − Rf).', 'CAPM starts from the *risk-free rate*'],
+      ],
+      f: [
+        ['CAPM required return', ['kₑ = Rf + β × (Rm − Rf) = Rf + β × ERP'], 'kₑ = Rf + β(Rm − Rf)'],
+      ],
+    },
+    '18.S3': {
+      s: [
+        'A firm earning less than its required return should pay out everything, so g = 0 and V = E ÷ r; a fixed-rate perpetual preferred is D ÷ r. Value splits into assets in place (E₁/r) plus the present value of growth opportunities. The justified leading P/E is payout ÷ (r − g) and the trailing P/E is that × (1 + g). The Gordon model fits stable, mature dividend payers and market indexes.',
+      ],
+      n: [
+        ['No-growth firm (ROE < r → pay out 100%): V = E ÷ kₑ. Fixed-rate perpetual preferred: D ÷ k.', 'No-growth company'],
+        ['V₀ = E₁/kₑ + PVGO: growth firms carry big PVGO, utilities mostly assets in place.', 'Who has a big PVGO'],
+        ['Justified trailing P/E = leading × (1 + g).', 'trailing = leading × (1 + g)'],
+        ['Watch whether 6% is Rm or the *equity risk premium*.', 'market equity risk premium'],
+        ['GGM suits stable, mature dividend payers and market indices; not unpredictable growth or non-payers.', 'Gordon growth model — advantages'],
+      ],
+      f: [
+        ['P/E explained by growth', ['P/E = 1 ÷ kₑ + PVGO ÷ E₁'], 'P/E from growth = PVGO'],
+      ],
+    },
+    '18.S4': {
+      s: [
+        'Two-stage models suit a sudden drop in growth (patent expiry), the H-model a linear fade, V₀ = D₀(1 + g_L)/(r − g_L) + D₀·H·(g_S − g_L)/(r − g_L) with H = half the high-growth period, and three-stage models three distinct phases. Terminal value comes from the Gordon model on the first stable dividend or from a P/E multiple, and is discounted back with the final explicit dividend. A firm with no current dividend is valued from the point dividends begin. Implied returns from multistage models are found by trial.',
+      ],
+      n: [
+        ['Two-stage = sudden drop (patent expiry); H-model = *linear fade*; three-stage = three phases.', 'Life-cycle phases and which model fits'],
+        ['Terminal value: GGM on D(n+1), or a P/E multiple × E(n). Discount it back with the last dividend.', 'Terminal value two ways'],
+        ['H-model is an approximation, better for short high-growth periods and small g_S − g_L gaps.', 'only an approximation'],
+        ['A value found at t = 3 must still be discounted three years.', 'it is a value at *t = 3*'],
+        ['Keep 4 decimals on a dividend you are about to capitalise.', 'Keep at least four decimals'],
+        ['Implied return with a two-stage DDM: try the answer choices.', 'try the answer choices'],
+      ],
+      f: [
+        ['Terminal value', ['P(n) = D(n+1) ÷ (kₑ − g_L)', 'P(n) = justified trailing P/E × E(n)'], 'Terminal value two ways'],
+        ['Implied required return, H-model', ['kₑ = (D₀ ÷ P₀) × [(1 + g_L) + H × (g_S − g_L)] + g_L'], 'Implied required return from the H-model'],
+      ],
+    },
+    '18.S5': {
+      s: [
+        'The sustainable growth rate g = b × ROE is how fast a firm can grow with retained earnings while keeping its debt-to-equity ratio and issuing no new shares. Through DuPont, g = profit margin × retention × asset turnover × leverage (PRAT): margin and turnover are operating decisions, retention and leverage financing decisions.',
+      ],
+      n: [
+        ['SGR = b × ROE: growth from internal funds with constant D/E and no new equity.', 'with internally generated funds'],
+        ['PRAT: P and A are operating decisions; R and T are financing decisions.', 'how the firm finances its assets'],
+        ['Forecast growth above SGR → must issue equity or lift R, P, A or T.', 'If actual growth is forecast above SGR'],
+      ],
+    },
+  },
+  'equity.2': {
+    about: [
+      'Reading 19 replaces dividends with *free cash flow*: FCFF is the cash available to all capital providers (discount at the WACC to get firm value, then subtract debt), and FCFE is the cash available to shareholders (discount at the cost of equity). FCF suits firms that pay little or no dividend, controlling buyers and takeover targets; FCFF is preferred when leverage is high or changing.',
+      'Most of the reading is *computing* free cash flow from net income, EBIT, EBITDA or CFO: add back noncash charges and after-tax interest, subtract working capital and fixed capital investment, and for FCFE add net borrowing. Dividends, buybacks and share issues do not change either measure.',
+      'Valuation then uses single-stage, two-stage and three-stage models exactly like the DDM, with terminal values from a growth model or a P/E multiple. Know the common errors: discounting FCFE at the WACC, using NI or EBITDA as a proxy, and forecasting from an unrepresentative base year.',
+    ],
+    '19.S1': {
+      s: [
+        'FCFF is the cash left after operating costs, taxes and investment, available to debt and equity holders; FCFE is what remains for shareholders after paying interest and net borrowing. Firm value = FCFF at the WACC; equity value = FCFE at the cost of equity, or firm value − debt (add non-operating assets). Use FCFE when the capital structure is stable and FCFF when it is volatile or FCFE is negative.',
+      ],
+      n: [
+        ['FCFF → all capital providers, discount at *WACC*. FCFE → equity, discount at *kₑ*. Equity = firm value − MV of debt.', 'It should be discounted with the *WACC*'],
+        ['Stable capital structure → FCFE; volatile, or negative FCFE with heavy debt → *FCFF*.', 'When the company’s capital structure is *stable*'],
+        ['FCF fits control / takeover targets and firms with low or unrelated dividends; DDM is the minority view.', 'acquisition target'],
+        ['Add significant nonoperating assets (excess cash, investment land) to FCFF value.', 'nonoperating assets'],
+      ],
+    },
+    '19.S2': {
+      s: [
+        'FCFF can start from NI (+ noncash charges + after-tax interest − WCInv − FCInv), EBIT (× (1 − T) + depreciation), EBITDA (× (1 − T) + depreciation tax shield) or CFO (+ after-tax interest − FCInv). Only after-tax interest is added because the tax shield is already in the WACC. Preferred dividends are added back like interest but without a tax shield.',
+      ],
+      n: [
+        ['Add back interest *after tax* only: the tax shield lives in the WACC.', 'only the *after-tax* interest is added back'],
+        ['From EBITDA add back only the depreciation *tax shield*; from CFO don’t subtract WCInv again.', 'From EBITDA, only the depreciation *tax shield*'],
+        ['Preferred stock: like debt without the tax shield (add pref dividends back to FCFF).', 'Preferred stock'],
+      ],
+    },
+    '19.S3': {
+      s: [
+        'Noncash charges are added back (depreciation, amortisation, losses, discount amortisation, non-reversing deferred tax liability increases) and noncash gains subtracted. Fixed capital investment is capex minus proceeds from asset sales, or the change in net PP&E plus depreciation adjusted for gains and losses on sales.',
+      ],
+      n: [
+        ['Noncash: add D&A, losses, bond discount amortisation; subtract gains, restructuring reversals, premium accretion.', 'Examples of noncash charges'],
+        ['Non-reversing DTL increase added back; DTA increase subtracted.', 'deferred tax liability'],
+        ['FCInv = capex − proceeds from asset sales.', 'FCInv = Capital expenditures − Proceeds'],
+      ],
+    },
+    '19.S4': {
+      s: [
+        'FCFE = FCFF − after-tax interest + net borrowing, or the same formulas from NI, EBIT, EBITDA or CFO plus net borrowing. With a target debt ratio, debt finances DR of the net new investment, so FCFE = NI − (1 − DR)(FCInv − Dep) − (1 − DR)WCInv. Dividends and buybacks do not change FCF; new debt raises FCFE this year and lowers it later. NI and EBITDA are poor substitutes for FCF.',
+      ],
+      n: [
+        ['FCFE = FCFF − Int(1 − T) + net borrowing.', 'FCFE from FCFF'],
+        ['Target debt ratio: debt funds DR of the net new investment (FCInv − Dep + WCInv).', 'The last bracket is the net borrowing'],
+        ['Dividends, buybacks and share issues don’t change FCFF or FCFE. New debt raises FCFE now, lowers it later; FCFF unchanged.', 'will *not* impact FCFF & FCFE'],
+        ['NI is a poor FCFE proxy; EBITDA a poor FCFF proxy (ignores taxes and investment).', 'is a poor proxy'],
+      ],
+    },
+    '19.S5': {
+      s: [
+        'The single-stage model is the Gordon model applied to free cash flow: firm value = FCFF₁ ÷ (WACC − g) and equity value = FCFE₁ ÷ (r − g). WACC uses target weights if given.',
+      ],
+      n: [
+        ['Single-stage = GGM with FCFF at WACC or FCFE at kₑ. Use *target* weights if given.', 'Use *target* weights'],
+        ['Equity per share = (firm value − debt) ÷ shares.', 'value of equity = firm value − value of debt'],
+      ],
+    },
+    '19.S6': {
+      s: [
+        'Multi-stage models forecast each year’s FCF (often from sales, margins and investment ratios), add a terminal value when growth settles, and discount at the rate for each stage. Terminal value can also be a P/E multiple times earnings. Discounting FCFE at the WACC overstates equity value; discounting FCFF at the cost of equity understates firm value.',
+      ],
+      n: [
+        ['Multi-stage: forecast each year’s FCFE, terminal value when growth settles, discount at the rate for each stage.', 'terminal value and present value'],
+        ['FCFE at the WACC overstates equity; FCFF at kₑ understates firm value.', 'discounting FCFE at the WACC'],
+        ['FCFF and FCFE growth rates usually differ.', 'FCFF and FCFE growth rates are usually *different*'],
+      ],
+    },
+    '19.S7': {
+      s: [
+        'The biggest errors are the growth forecast and choosing an unrepresentative base year; sensitivity analysis shows how far the value moves with each input.',
+      ],
+      n: [
+        ['Biggest error sources: the growth forecast and an unrepresentative *base year*.', 'Major sources of error in valuation analysis'],
+      ],
+    },
+  },
+  'equity.3': {
+    about: [
+      'Reading 20 values a stock with *multiples*. There are two routes: multiples justified by *fundamentals* (derived from a DCF model, giving an absolute verdict) and multiples from *comparables* (the law of one price, giving only a relative verdict).',
+      'For each multiple (P/E, P/B, P/S, P/CF, dividend yield, EV/EBITDA) know why it is used, where it fails, how to adjust its inputs (underlying and normalized earnings, tangible book value), and what drives its justified value: P/E rises with growth and falls with the required return, P/B rises with the spread of ROE over the required return, P/S rises with margin and growth, EV/EBITDA falls with the WACC.',
+      'The last session covers how comparisons are made in practice: predicted P/E from regression, peer benchmarks, the Fed and Yardeni models for the whole market, the PEG ratio, terminal values from multiples, cross-border differences, momentum indicators and averaging with the harmonic mean.',
+    ],
+    '20.S1': {
+      s: [
+        'The method of forecasted fundamentals derives a justified multiple from a DCF model; the method of comparables compares the stock’s multiple with a benchmark (law of one price). An actual multiple above the justified one means overvalued, below means undervalued, all else equal.',
+      ],
+      n: [
+        ['Fundamentals: justified multiple from a DCF model (absolute verdict). Comparables: law of one price (relative verdict only).', 'Multiples based on fundamentals'],
+        ['Actual multiple > justified → *overvalued*; below → undervalued.', 'Actual multiple > justified'],
+      ],
+    },
+    '20.S2': {
+      s: [
+        'P/E reflects earnings power but fails with negative or volatile earnings (use leading P/E after a business model change, trailing when earnings are volatile). P/B works for loss-makers and financial firms but ignores intangibles. P/S works for distressed firms and start-ups and is hard to manipulate but ignores cost structure. P/CF is harder to manipulate than P/E. Dividend yield is used for indexes but ignores capital gains.',
+      ],
+      n: [
+        ['P/E: earnings power drives value; fails with negative or transitory earnings. Business model changed → leading; volatile earnings → trailing.', 'When a firm’s *business model has changed*'],
+        ['P/B: works with losses and for liquid-asset firms (banks); misses intangibles. Use *tangible* book.', 'BV is usually *positive*'],
+        ['P/S: works for distressed and start-ups, hard to manipulate; ignores cost structure.', 'P/S is meaningful even for *distressed* firms'],
+        ['P/CF: harder to manipulate than earnings. Dividend yield: for indexes; ignores capital gains.', 'CF is *harder* for managers to manipulate'],
+      ],
+    },
+    '20.S3': {
+      s: [
+        'Underlying earnings exclude nonrecurring items. Normalized earnings estimate mid-cycle EPS, by historical average EPS or, preferably, average ROE × current book value per share. P/Es look high at the bottom of the cycle and low at the top (Molodovsky effect); with negative EPS rank stocks on earnings yield.',
+      ],
+      n: [
+        ['Underlying earnings exclude nonrecurring items; normalized = mid-cycle EPS.', 'Underlying earnings'],
+        ['Normalized EPS: average-ROE × current BVPS is *preferred* over historical average EPS (reflects size).', 'The average-ROE method is *preferred*'],
+        ['Molodovsky: P/E high at the cycle bottom, low at the top. Negative EPS → rank on E/P.', 'Molodovsky effect'],
+      ],
+    },
+    '20.S4': {
+      s: [
+        'Justified P/E: leading = payout ÷ (r − g), trailing = leading × (1 + g); it rises with g and falls with r. Justified P/B = (ROE − g) ÷ (r − g), rising with ROE above the required return. Justified P/S = net margin × payout × (1 + g) ÷ (r − g), rising with margin and g.',
+      ],
+      n: [
+        ['P/E: ↑ with g, ↓ with kₑ (↑ with inflation pass-through).', 'P/E multiple related to *growth rate*'],
+        ['P/B: ↑ with ROE and with the ROE − kₑ spread.', 'P/B ↑ as *ROE* ↑'],
+        ['P/S: ↑ with net margin and g.', 'P/S ↑ as *net profit margin* ↑'],
+      ],
+    },
+    '20.S5': {
+      s: [
+        'Justified P/CF = (1 + g) ÷ (r − g) using FCFE; justified dividend yield is the inverse (rises with r, falls with g). EV = market value of equity + preferred + debt − cash; EV/EBITDA suits firms with different leverage and capital-intensive firms but overstates cash flow when working capital or capex is high, and it falls with the WACC and rises with g.',
+      ],
+      n: [
+        ['P/CF ↑ with g, ↓ with kₑ. Dividend yield ↑ with kₑ, ↓ with g.', 'DPS/MPS and *kₑ* have a *direct* relationship'],
+        ['EV/EBITDA: good across leverage and for capital-intensive firms; weak when WC or capex is high. ↓ with WACC, ↑ with g.', 'Situations when EV/EBITDA is useful'],
+        ['EV = equity + preferred + debt (+ minority) − cash and ST investments. TIC doesn’t subtract cash.', 'Total invested capital'],
+      ],
+      f: [
+        ['Enterprise value', ['EV = MV equity + MV preferred + MV debt + minority interest − cash & ST investments', 'TIC = MV equity + MV debt (no cash deduction)'], 'EV = MV of common equity'],
+      ],
+    },
+    '20.S6': {
+      s: [
+        'A predicted P/E comes from regressing P/E on fundamentals across peers. Benchmarks are peers, the industry, an index or the stock’s own history. The Fed model calls the market overvalued when its earnings yield is below the 10-year Treasury yield; Yardeni adds expected growth. The PEG ratio (P/E ÷ g) prefers lower values but ignores risk and growth duration. Cross-border, P/E, P/B and EV/EBITDA are distorted by accounting, P/FCFE least. Momentum uses earnings surprise and SUE. Average multiples with the weighted harmonic mean.',
+      ],
+      n: [
+        ['Predicted P/E from a cross-sectional regression; limits: uncertain power, unstable relation, multicollinearity.', 'Multicollinearity'],
+        ['Fed model: earnings yield < 10-yr Treasury yield → market *overvalued*. Yardeni adds growth: P/E ↓ with rates, ↑ with growth.', 'is lower than the yield on 10-yr US Treasury bonds'],
+        ['PEG: lower is more attractive; ignores risk, nonlinearity and growth duration.', 'PEG ratio does *not account for risk*'],
+        ['Cross-border: P/B, P/E, EV/EBITDA most hurt by accounting differences; *P/FCFE* least.', 'Multiple least affected'],
+        ['Index P/E: use the *weighted harmonic mean*.', 'weighted harmonic mean'],
+      ],
+    },
+  },
+  'equity.4': {
+    about: [
+      'Reading 21 values equity as *book value today plus the present value of future residual income*. Residual income is net income minus a charge for the cost of equity on beginning book value, so a firm that earns exactly its required return is worth its book value and only returns above that cost add value. EVA and MVA apply the same idea to the whole firm with NOPAT and the WACC.',
+      'You need to forecast RI year by year with the clean surplus relation, use the single-stage model (which gives the justified P/B and implied growth), and handle *continuing* RI after the forecast horizon: it may persist, drop to zero, fade with a persistence factor ω, or revert so that P/B reaches a target.',
+      'Because RI recognises most value early through book value, it suits firms with no dividends or negative free cash flow, but it depends on accounting that may need adjusting: dirty-surplus items in OCI, fair value adjustments, nonrecurring items, intangibles and international differences.',
+    ],
+    '21.S1': {
+      s: [
+        'Residual income = net income − cost of equity × beginning book value. Accounting profit can still be an economic loss once equity capital is charged. Equity value = current book value + PV of future RI discounted at the cost of equity.',
+      ],
+      n: [
+        ['RI (economic profit) = NI − equity charge, charged on *beginning* equity. Accounting profit can still be an economic loss.', 'Why is the *beginning* value of equity used'],
+        ['Equity value = current BV + PV of future RI at kₑ.', 'Equity value₀ = BV of equity₀ + PV of RI'],
+      ],
+    },
+    '21.S2': {
+      s: [
+        'EVA = NOPAT − WACC × beginning invested capital and applies to all capital providers; MVA is the PV of future EVA, so firm value = invested capital + MVA. EVA uses adjustments such as capitalising R&D, using cash taxes and capitalising operating leases.',
+      ],
+      n: [
+        ['EVA = NOPAT − WACC × beginning capital (all capital providers). MVA = PV of future EVA = market value − total capital.', 'EVA is the extra amount'],
+        ['EVA adjustments: capitalise R&D, add back deferred taxes, capitalise operating leases, LIFO reserve, nonrecurring items.', 'Common adjustments when computing EVA'],
+      ],
+    },
+    '21.S3': {
+      s: [
+        'Forecast book value with clean surplus (B + E − D) and RI as B(t−1) × (ROE − r). With constant growth, value = B₀ + (ROE − r)B₀ ÷ (r − g), so ROE = r gives book value and ROE > r a premium; dividing by B₀ gives the justified P/B and lets you back out implied growth. RI recognises value earlier than DDM or FCF models.',
+      ],
+      n: [
+        ['RI(t) = BV(t−1) × (ROE − kₑ). ROE = kₑ → value = BV; ROE > kₑ → value > BV.', 'If ROE and kₑ are the same'],
+        ['Forecast BV with clean surplus: B(t) = B(t−1) + E − D. A liquidating dividend takes BV to zero.', 'liquidating dividend'],
+        ['RI recognises value *earlier* than DDM/FCF (most of it is current BV).', 'recognized *earlier*'],
+      ],
+      f: [
+        ['Justified P/B from RI', ['P₀/B₀ = 1 + (ROE − kₑ) ÷ (kₑ − g) = (ROE − g) ÷ (kₑ − g)'], 'Dividing the single-stage model by B₀'],
+      ],
+    },
+    '21.S4': {
+      s: [
+        'RI cannot last forever as competition erodes it. The persistence factor ω (0 to 1) is higher with low payout and persistent industries and lower with large nonrecurring items or accruals. Continuing RI may persist at its level, drop to zero, fade (PV = RI ÷ (1 + r − ω)) or revert so that P/B hits a target (PV = P − B at the horizon).',
+      ],
+      n: [
+        ['RI fades to zero as competition enters. Persistence factor ω (0–1): high with low payout and a persistent industry; low with nonrecurring items and high accruals.', 'Associated with a high PF'],
+        ['Four continuing-RI cases: persists forever · drops to zero · fades (ω) · reverts to a long-run level (P/B target).', '4 assumptions about continuing residual income'],
+      ],
+      f: [
+        ['Continuing residual income', ['PV at T−1 = RI(T) ÷ (1 + kₑ − ω)', 'ω = 0 → drops to zero · ω = 1 → perpetuity RI(T) ÷ kₑ', 'Long-run P/B: PV of continuing RI at T = P(T) − B(T)'], 'Continuing RI formulas'],
+      ],
+    },
+    '21.S5': {
+      s: [
+        'RI models are less dominated by terminal value and work without dividends or positive FCF, but rely on accounting that can be managed. Adjust for clean surplus violations (OCI items such as CTA, pension remeasurements and AFS gains), restate assets and liabilities toward fair value (leases, SPEs, reserves, LIFO, pensions), remove nonrecurring items and consider intangibles and international accounting.',
+      ],
+      n: [
+        ['RI strengths: terminal value matters less, works with no dividends or negative FCF. Weakness: needs clean, adjusted accounting.', 'Strengths of residual income valuation'],
+        ['Clean surplus is broken by OCI items: CTA, pension remeasurements, hedges, AFS gains, revaluation surplus. Use *comprehensive income* to fix.', 'Certain items that pass through equity'],
+        ['Adjust BV toward fair value: leases, SPEs, reserves, LIFO → FIFO, pension funded status.', 'Common adjustments to the BS necessary to reflect FV'],
+        ['Aggressive accounting inflates BV now but lowers future RI, so RI partly self-corrects.', 'partly self-corrects'],
+      ],
+    },
+  },
+  'equity.5': {
+    about: [
+      'Reading 22 adapts the valuation toolkit to private companies, which differ through company-specific factors (stage, management, size, taxes) and stock-specific ones (illiquidity, restricted marketability, concentrated control). Valuations are done for transactions, compliance or litigation, and the reason shapes the approach.',
+      'Start by *normalising* earnings (owner pay and personal expenses at market levels, non-core assets removed, synergies only for strategic buyers), then build a discount rate that reflects extra risk: CAPM, expanded CAPM with size and company premiums, or the build-up method, with the optimal capital structure for an acquisition.',
+      'Value with the income approach (free cash flow, capitalized cash flow, excess earnings), the market approach (guideline public companies plus a control premium, guideline transactions that already include control, prior transactions) or the asset-based approach. Finally apply discounts for lack of control and lack of marketability, which combine multiplicatively.',
+    ],
+    '22.S1': {
+      s: [
+        'Private firms differ in company-specific factors that can raise or lower value and stock-specific factors (liquidity, marketability, control) that usually lower it. Choose the approach by stage: asset-based for early stage, income for high growth, market for mature firms. Normalise earnings by bringing owner pay and leases to market, removing personal expenses and non-core assets, and excluding nonrecurring items; forecast FCFF when the capital structure will change.',
+      ],
+      n: [
+        ['Company-specific factors cut both ways (stage, management, overlap, size, tax); stock-specific (liquidity, marketability, control) are usually *negative*.', 'Stock-specific factors'],
+        ['Reasons: transaction (bankers), compliance (financial reporting, tax), litigation.', 'Transaction-related valuation'],
+        ['Approach by stage: early → asset-based; high growth → income; mature → market.', 'Lifecycle stage'],
+        ['Normalize: owner pay to market, strip personal expenses and non-core assets, lease/rent at market rates.', 'Adjustments required to calculate normalized earnings'],
+        ['FCFF preferred when the capital structure will change (WACC less sensitive to leverage).', 'FCFF is preferred'],
+      ],
+    },
+    '22.S2': {
+      s: [
+        'Private-company discount rates include a size premium, costlier debt and projection risk; the acquirer’s own WACC is wrong. Use CAPM, expanded CAPM (adding size and company-specific premiums) or the build-up method (Rf + ERP + size + industry + company premiums), and the optimal capital structure. Include synergies only for strategic buyers. DLOC = 1 − 1 ÷ (1 + control premium); DLOM falls with an impending IPO, dividends and many buyers; total discount = 1 − (1 − DLOC)(1 − DLOM).',
+      ],
+      n: [
+        ['Discount rate is higher: size premium, costlier debt, projection risk; don’t use the acquirer’s WACC.', 'Factors affecting the discount rate of private firms'],
+        ['Expanded CAPM = CAPM + size + company-specific. Build-up = Rf + ERP + size + company + industry (no beta).', 'Build-up method'],
+        ['Use the *optimal* capital structure for an acquisition, not current or public-peer weights.', 'The current structure reflects'],
+        ['Only strategic buyers get synergies in normalized earnings.', 'Only the strategic Buyer A'],
+        ['DLOM ↓ with an impending IPO/sale, dividends, short duration, many buyers; ↑ with restrictions and uncertainty.', 'Decreases the DLOM'],
+        ['DLOM estimates: restricted vs traded shares, pre- vs post-IPO, at-the-money put ÷ price.', 'DLOM calculation'],
+        ['Discounts are *multiplicative*, not additive.', 'multiplicative and not additive'],
+      ],
+      f: [
+        ['Expanded CAPM and build-up', ['Expanded CAPM: kₑ = Rf + β(ERP) + size premium + company-specific premium', 'Build-up: kₑ = Rf + ERP + size premium + company premium + industry premium'], 'Expanded CAPM'],
+      ],
+    },
+    '22.S3': {
+      s: [
+        'The capitalized cash flow method is a single-stage model for stable growth, firm value = FCFF₁ ÷ (WACC − g). The excess earnings method values intangibles as the PV of earnings above the required return on working capital and fixed assets. The market approach is preferred: guideline public company multiples need a control premium for a controlling stake, guideline transaction multiples already include control. The asset-based approach suits early-stage or distressed firms.',
+      ],
+      n: [
+        ['CCM (single-stage): stable growth, no comparables, uncertain projections. Cap rate = r − g.', 'Capitalized CF Method (CCM)'],
+        ['Excess earnings method: for big intangibles. Intangibles = PV of earnings above the required return on WC and fixed assets.', 'Excess Earnings Method (EEM)'],
+        ['Market approach is preferred (real sales data); use EV/EBITDA or EV/Sales.', 'Preferred* method of valuation'],
+        ['GPCM: public prices are minority values → *add a control premium* for control. GTM: deal prices already include control.', 'GPCM uses *EV multiples*'],
+        ['Control premium judgement: strategic pays more; bubble stock deals overstate it; check reasonableness.', 'Issues to be considered in estimating the control premium'],
+        ['Asset-based for early-stage or distressed firms.', 'financially distressed'],
+      ],
+      f: [
+        ['Capitalized cash flow method', ['Firm value = FCFF₁ ÷ (WACC − g)', 'Equity value = firm value − MV of debt = FCFE₁ ÷ (kₑ − g)'], 'CCM formulas'],
+        ['Excess earnings method', ['Excess earnings = normalized earnings − r(WC) × WC − r(FA) × FA', 'Intangibles = excess earnings × (1 + g) ÷ (r(intangibles) − g)', 'Firm value = WC + FA + intangibles'], 'Calculating firm value using the excess earnings method'],
+      ],
+    },
+  },
+  'deriv.0': {
+    about: [
+      'Reading 28 prices and values *forward commitments*: forwards, futures, FRAs and swaps. Two ideas run through all of it. *Pricing* sets the contract rate at initiation so that no arbitrage is possible, which makes the contract worth zero at the start: the forward price is the spot price carried forward at the risk-free rate, less benefits and plus costs of holding the asset. *Valuation* later is the gain or loss from the agreed price versus the price you could lock in today, discounted for the time left.',
+      'The same pattern repeats for each underlying: equities with discrete dividends, equity indexes with continuous yields, coupon bonds, interest rates (FRAs, priced from two spot rates and settled at the start of the loan), and bond futures with the cheapest-to-deliver option and conversion factors.',
+      'Swaps are portfolios of these commitments. The swap fixed rate makes the fixed leg worth par, since a floating leg is worth par on a reset date; value later is the change in the swap rate times the notional and the remaining discount factors. Currency and equity swaps follow the same leg-by-leg logic.',
+    ],
+    '28.S1': {
+      s: [
+        'The no-arbitrage forward price carries the spot price forward at the risk-free rate, subtracting benefits and adding costs of holding the asset. If the market forward is above it, do cash-and-carry (sell forward, borrow, buy spot); if below, do reverse cash-and-carry (buy forward, short spot, lend). The long gains when the final spot exceeds the forward price.',
+      ],
+      n: [
+        ['Long gains when spot at expiry > F₀; short when below. Forwards have no exercise price.', 'A forward has no exercise price'],
+        ['F = carry the spot at Rf, less benefits (dividends, coupons), plus costs (storage).', 'The benefits (dividends) will be received by the seller'],
+        ['F too high → *cash-and-carry*: sell forward, borrow, buy spot. F too low → *reverse*: buy forward, short spot, lend.', 'Cash-and-carry arbitrage'],
+      ],
+    },
+    '28.S2': {
+      s: [
+        'Use simple interest on a 360-day year for interest rate contracts, discrete compounding on 365 days for equities, bonds and currencies, and continuous compounding for equity indexes. Only dividends paid before expiry reduce the forward price, each carried forward only for the days left to expiry.',
+      ],
+      n: [
+        ['Simple interest / 360 for rate contracts; discrete / 365 for equities, bonds, FX; continuous for equity indexes.', 'Which formula to use when'],
+        ['Only benefits paid *before expiry* count; carry each forward only for the days left.', 'falls after expiry, so it is ignored'],
+      ],
+    },
+    '28.S3': {
+      s: [
+        'A forward’s value before expiry is the PV of the difference between the forward price available today for the same expiry and the original contract price, or equivalently the spot price less PV of benefits minus the PV of the contract price.',
+      ],
+      n: [
+        ['Value before expiry = PV of (new forward − old forward) for the remaining term.', 'take the PV of the difference'],
+      ],
+    },
+    '28.S4': {
+      s: [
+        'Equity index forwards use continuous compounding net of the dividend yield. Bond forwards subtract the future value of coupons paid before expiry; valuing them later follows the same logic as for equities.',
+      ],
+      n: [
+        ['Index forward: continuous compounding with the dividend yield; bond forward: subtract the FV of coupons before expiry.', 'Forward on a coupon bond'],
+      ],
+    },
+    '28.S5': {
+      s: [
+        'An m × n FRA locks the rate on a loan starting at m and ending at n; its rate comes from the two spot rates. It settles at the start of the loan, so the interest difference is discounted at the underlying rate. Before expiry, value it with the new implied forward rate for the remaining period and discount from the loan’s end date.',
+      ],
+      n: [
+        ['m × n FRA: loan starts at m months, ends at n; FRA rate from the two spot rates.', 'FRA rate on a 1 × 4 FRA'],
+        ['FRA settles at the *start* of the loan, so the interest difference is discounted at the underlying rate.', 'the FRA settles at the start of the loan'],
+        ['Before expiry: new implied forward rate for the remaining term, discount the gain from the loan’s end date to today.', 'Value 10 days after initiation'],
+      ],
+      f: [
+        ['FRA settlement and value', ['Settlement = (L − FRA rate) × days/360 × NP ÷ (1 + L × days/360)', 'Value(t) = (new forward rate − FRA rate) × days/360 × NP ÷ (1 + R(to loan end) × days/360)'], 'Gain to long at day 30'],
+      ],
+    },
+    '28.S6': {
+      s: [
+        'Swap floating payments are set at the start of each period and paid at the end (in arrears). A floating-rate bond is worth par on each reset date because its coupon equals the market rate.',
+      ],
+      n: [
+        ['Floating swap payments are set at the start of each period, paid *in arrears*.', 'settled in arrears'],
+        ['A floating-rate bond is worth *par* on a reset date.', 'The price of a floating-rate bond on any reset date'],
+      ],
+    },
+    '28.S7': {
+      s: [
+        'The swap fixed rate makes the PV of the fixed leg equal to par at initiation: periodic rate = (1 − Z_last) ÷ ΣZ, annualised by the payment frequency.',
+      ],
+      n: [
+        ['Price a swap: PV of fixed = PV of floating (= par) at initiation.', 'PV of fixed payments = PV of floating payments'],
+      ],
+    },
+    '28.S8': {
+      s: [
+        'A swap’s value later is the PV of the fixed leg minus par, or (new swap rate − old swap rate) × period fraction × notional × ΣZ of the remaining payments. When rates fall, the receive-fixed side gains and the fixed payer makes the mark-to-market payment.',
+      ],
+      n: [
+        ['Value = PV of fixed leg − par, or (SFR_new − SFR_old) × period × NP × ΣZ.', 'Value of swap = (SFR_new − SFR_old)'],
+        ['Rates fall → receive-fixed side gains; the fixed-rate *payer* makes the mark-to-market payment.', 'Rates have fallen'],
+      ],
+    },
+    '28.S9': {
+      s: [
+        'A currency swap has one fixed rate from each currency’s curve, with principals sized at today’s spot and exchanged at the start and end. Its value is the PV of one leg minus the PV of the other converted at the current spot rate.',
+      ],
+      n: [
+        ['Currency swap: one fixed rate per country’s curve; principals sized at spot and exchanged at the start and end.', 'Principal amounts must be adjusted'],
+        ['Value = PV of one leg − PV of the other converted at the *current* spot.', 'Gain or loss in $'],
+      ],
+      f: [
+        ['Currency swap value', ['Value = PV(receive leg) − PV(pay leg) × current spot (into the same currency)'], 'Gain or loss in $'],
+      ],
+    },
+    '28.S10': {
+      s: [
+        'An equity swap’s equity leg is worth the notional grown by the index return since the last reset; the fixed leg is valued like a fixed-rate bond. In a swap of one equity return for another, a negative return received is paid instead.',
+      ],
+      n: [
+        ['Equity swap: equity leg = NP × (1 + index return to date); fixed leg = PV like a fixed bond.', 'Equity leg = 10 million'],
+        ['Paying one equity return for another: a negative received return is also paid.', 'stock B return is negative'],
+      ],
+      f: [
+        ['Equity swap value (fixed payer)', ['Value = NP × (1 + index return since last reset) − PV of remaining fixed payments and NP'], 'Value to fixed payer = receive equity − pay fixed'],
+      ],
+    },
+    '28.S11': {
+      s: [
+        'Bonds trade on the clean price but settle at the full price (clean + accrued interest). A bond futures price is the full price carried forward less the future value of coupons and accrued interest at expiry, divided by the cheapest-to-deliver bond’s conversion factor. If the market futures price is above that value, sell futures and buy the bond.',
+      ],
+      n: [
+        ['Full (dirty) price = clean + accrued interest; the buyer pays the full price.', 'At settlement, the buyer actually pays'],
+        ['The short’s delivery option (cheapest-to-deliver) is adjusted by conversion factors.', 'delivery option'],
+        ['Futures above fair quoted price → sell futures, buy the bond; profit = (QFP_mkt − QFP_fair) × CF.', 'arbitrage profit at maturity'],
+      ],
+    },
+  },
+  'deriv.1': {
+    about: [
+      'Reading 29 values *contingent claims*, mainly options. The key idea is *replication*: an option can be copied with the underlying and a risk-free bond, so its price must equal the cost of that copy, and any difference is an arbitrage. That gives the binomial model (risk-neutral probabilities, rolling back a tree, early exercise for American puts), put–call parity, and the hedge ratio.',
+      'The continuous version is *Black–Scholes–Merton*: a call is N(d₁) shares less a bond, N(d₂) is the risk-neutral chance of finishing in the money, and the model extends to dividends, currencies (the foreign rate acts as a dividend yield), options on futures (Black), interest rate options and swaptions. Equivalencies link these: calls and puts on rates build FRAs, caps and floors build swaps, and swaptions build forward swaps.',
+      'The last sessions measure risk with the *Greeks*: delta (slope, used for delta hedging), gamma (curvature, highest at the money, the source of gamma risk), vega, rho and theta. A delta hedge works only for small moves and must be rebalanced; implied volatility versus expected volatility tells you whether options are cheap or dear.',
+    ],
+    '29.S1': {
+      s: [
+        'A call is the right to buy and a put the right to sell. Breakeven is X + premium for a call and X − premium for a put; buyers lose at most the premium, a short call’s loss is unlimited and a short put’s is capped at X − premium.',
+      ],
+      n: [
+        ['Breakeven: call X + P, put X − P. Short call has unlimited loss; short put max loss X − P.', 'Long call'],
+      ],
+    },
+    '29.S2': {
+      s: [
+        'In the binomial model, the risk-neutral up probability is [(1 + r) − D] ÷ (U − D); each node’s option value is the probability-weighted payoff discounted at the risk-free rate, rolled back from expiry. For an American option compare holding with exercising at each node; early exercise can pay for puts, never for calls on non-dividend stocks.',
+      ],
+      n: [
+        ['πᵤ is a *risk-neutral* probability, so expected payoffs are discounted at Rf.', 'risk-neutral probability'],
+        ['Roll back the tree right to left; for a put only the end payoffs change.', 'Work right to left'],
+        ['American put: at each node take max(exercise now, hold). American call on a non-dividend stock is never exercised early.', 'An American *call* on a non-dividend-paying stock'],
+      ],
+    },
+    '29.S3': {
+      s: [
+        'Put–call parity: a call plus a bond paying X (fiduciary call) has the same payoff as the stock plus a put (protective put), so C + PV(X) = S + P, with the same underlying, strike and expiry.',
+      ],
+      n: [
+        ['Fiduciary call (call + bond paying X) = protective put (stock + put). Same underlying, X and expiry.', 'Portfolio A — Fiduciary call'],
+      ],
+    },
+    '29.S4': {
+      s: [
+        'An interest rate call pays when rates rise above the strike, a put when they fall below. In a binomial interest rate tree the probabilities are 50/50 and each node is discounted at its own rate; payoffs normally arrive one period after the rate is set.',
+      ],
+      n: [
+        ['IR call gains when rates *rise* (option to borrow at X); IR put gains when rates fall.', 'Interest rate call option'],
+        ['Rate trees use 50/50 probabilities; discount each node at *its own* rate. Payoffs normally arrive one period later (in arrears).', 'In a binomial interest rate tree the probability will *always be 50%*'],
+      ],
+    },
+    '29.S5': {
+      s: [
+        'The hedge ratio (delta) is the change in option value per unit change in the stock. Holding delta shares per short call makes a riskless position; call deltas are positive, put deltas negative.',
+      ],
+      n: [
+        ['Hedge ratio = delta: call delta positive, put delta negative.', 'Delta for a call is positive'],
+      ],
+    },
+    '29.S6': {
+      s: [
+        'Long h shares and short one call gives a certain payoff, so its cost must equal the PV of that payoff at the risk-free rate; solving gives the no-arbitrage call price. If the market price is higher, sell the call and buy h shares (borrowing the rest) to lock in the mispricing.',
+      ],
+      n: [
+        ['Long h shares + short 1 call = risk-free bond, so its cost = PV of the certain payoff.', 'Long h stocks + short 1 call'],
+        ['Call overpriced → sell call, buy h shares (borrow the rest). Profit today = mispricing × number of calls.', 'Calculating arbitrage profit'],
+      ],
+    },
+    '29.S7': {
+      s: [
+        'BSM assumes lognormal prices with no jumps, continuous trading, no frictions, short selling, European exercise, and a known constant rate and volatility. C = S·N(d₁) − Xe^(−rT)·N(d₂) and P = Xe^(−rT)·N(−d₂) − S·N(−d₁). N(d₁) is the call delta; N(d₂) the risk-neutral probability the call expires in the money. Call value rises with S, r, σ and time and falls with X and dividends.',
+      ],
+      n: [
+        ['BSM assumptions: GBM (lognormal prices, no jumps), liquid, continuous trading, shorting allowed, no frictions, European, constant known r and σ, continuous yield.', 'geometric Brownian motion'],
+        ['N(d₂) = risk-neutral probability the call ends ITM; N(d₁) = call delta.', 'probability that the call option will *expire in the money*'],
+        ['Long call = long N(d₁) shares + short bond. Long put = long bond + short N(−d₁) shares.', 'Long call = long N(d₁) stocks + short bond'],
+        ['Call ↑ with S, r, σ, T, costs; ↓ with X and benefits. Put reverses S, X, r, benefits, costs.', 'Factors influencing the price of a call and put option'],
+      ],
+    },
+    '29.S8': {
+      s: [
+        'Adapt BSM by replacing S with S·e^(−δT) for a dividend yield, S·e^(−r_f T) for a currency, or e^(−rT)·F for options on futures (the Black model, with no r in d₁). Interest rate options apply Black to the FRA rate, times the accrual period and notional, discounted from the payoff date. A payer swaption pays off when swap rates rise and a receiver swaption when they fall, valued with the annuity factor ΣZ.',
+      ],
+      n: [
+        ['Dividend yield, foreign rate (currencies) or futures (Black) replace S₀ with S₀e^(−δT), S₀e^(−r_f T) or e^(−rT)F.', 'The six versions of the model on one page'],
+        ['Black model has no r in d₁: the futures price already carries the cost of carry.', 'There is no r in d₁'],
+        ['IR option payoff is discounted from the *end of the accrual period*, not the option expiry.', 'Discount from the payoff date'],
+        ['Payer swaption pays off when the swap rate *rises*; receiver when it falls.', 'Payer swaption'],
+      ],
+      f: [
+        ['Put–call parity with dividends', ['P₀ + S₀e^(−δT) = C₀ + Xe^(−rT)'], 'Put–call parity with dividends'],
+      ],
+    },
+    '29.S9': {
+      s: [
+        'A long interest rate call plus a short put at the FRA rate is a long FRA, and the reverse is a short FRA. A strip of interest rate calls is a cap that limits a floating borrower’s rate; a strip of puts is a floor that protects a floating-rate lender.',
+      ],
+      n: [
+        ['Long IR call + short IR put (strike = FRA rate) = long FRA; reverse for short FRA.', 'The strike must equal the FRA rate'],
+        ['Cap = strip of IR calls (caplets) → borrower’s rate ceiling. Floor = strip of IR puts → floating-rate lender’s minimum.', 'interest rate cap'],
+      ],
+    },
+    '29.S10': {
+      s: [
+        'Multiple long FRAs, or a long cap plus a short floor, make a payer swap; a short cap plus a long floor make a receiver swap. With the strike equal to the swap rate, cap and floor have the same value. A long receiver plus a short payer swaption is a forward receiver swap.',
+      ],
+      n: [
+        ['Long cap + short floor = payer swap; short cap + long floor = receiver swap.', 'Long cap + short floor = *payer swap*'],
+        ['Cap value = floor value only when the strike = swap fixed rate.', 'Only when the strike = swap rate'],
+        ['Long receiver + short payer swaption = forward receiver swap (and the mirror for payer).', 'long forward receiver swap'],
+      ],
+    },
+    '29.S11': {
+      s: [
+        'Delta is the slope of option value against the stock: a call’s rises from 0 to 1 (to e^(−δT) with dividends) and a put’s from −1 to 0; at expiry it is 0 out of the money and ±1 in the money, and it moves toward those values as expiry approaches.',
+      ],
+      n: [
+        ['Delta = slope of option value vs S: call 0 → 1 (or e^(−δT)), put −1 → 0. At expiry ITM ±1, OTM 0.', 'Increases from *0 to 1*'],
+        ['Near expiry deltas move toward 0 (OTM) or ±1 (ITM).', 'Delta as the option approaches maturity'],
+      ],
+    },
+    '29.S12': {
+      s: [
+        'Gamma is the change in delta, always positive for long options and highest at the money; delta and gamma play the roles of duration and convexity. Vega is positive for both calls and puts; rho is positive for calls and negative for puts; theta is usually negative, except for some deep in-the-money European puts near expiry.',
+      ],
+      n: [
+        ['Gamma: rate of change of delta, always positive for long options, *highest ATM*.', 'gamma is highest ATM'],
+        ['Delta ~ duration, gamma ~ convexity.', 'Delta ↔ duration'],
+        ['Vega > 0 for both. Rho: call +, put −. Theta usually negative; exception: deep ITM European put near expiry.', 'There is an *exception* to the general rule'],
+      ],
+    },
+    '29.S13': {
+      s: [
+        'A delta-neutral position (short calls equal to shares ÷ delta, or long puts) holds only for small moves, since delta changes, so it needs continuous rebalancing. A long-stock, short-call position has negative gamma, so large moves hurt; gamma can only be neutralised with another option. If expected volatility is above implied volatility, options are cheap, so buy them.',
+      ],
+      n: [
+        ['Delta hedge works only for *small* moves; delta changes, so rebalance continuously (dynamic hedge).', 'delta hedging works *only for small changes*'],
+        ['Long stock + short calls has negative gamma → gamma risk on jumps. Fix with another *option*, not stock.', 'cannot change gamma'],
+        ['Expected vol > implied vol → options cheap → *buy*.', 'Expected volatility 25% > implied 22%'],
+      ],
+    },
+  },
+};
+
 let selectedKey = null;
 let openSubjects = new Set();
 
@@ -8633,6 +10031,7 @@ function renderSidebar() {
   const filter = (document.getElementById('search').value || '').toLowerCase().trim();
   const list = document.getElementById('sidebarList');
   list.innerHTML = '';
+  exRenderNav();
   SUBJECTS.forEach(s => {
     const topics = s.topics.map((t, i) => ({ ...t, key: s.id + '.' + i }))
       .filter(t => !filter || corpusFor(t.key, s.name).includes(filter));
@@ -8658,7 +10057,7 @@ function renderSidebar() {
       const st = statusOf(t.key);
       row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
         (cmOpenCount(t.key) ? '<span class="cm-count" title="Open comments">💬 ' + cmOpenCount(t.key) + '</span>' : '');
-      row.onclick = () => { selectedKey = t.key; openSubjects.add(s.id); render(); };
+      row.onclick = () => { selectedKey = t.key; openSubjects.add(s.id); exBackHide(); render(); };
       topicsDiv.appendChild(row);
     });
     wrap.appendChild(topicsDiv);
@@ -8688,11 +10087,11 @@ function renderNotesAccordion(key) {
       groupIndex[groupKey] = groups.length;
       groups.push({ key: groupKey, items: [] });
     }
-    groups[groupIndex[groupKey]].items.push({ color: item.color, term: item.term, a: item.a, label, idx: i });
+    groups[groupIndex[groupKey]].items.push({ color: item.color, term: item.term, a: item.a, label, idx: i, mod: groupKey });
   });
   const renderItem = (item) => `
-        <details class="note-item">
-          <summary><span class="note-item-dot ${item.color}"></span><span class="note-item-term">${escapeHtml(item.term)}</span></summary>
+        <details class="note-item" data-anchor="${exTermAnchor(item.term)}">
+          <summary><span class="note-item-dot ${item.color}"></span><span class="note-item-term">${escapeHtml(item.term)}</span>${stBtn(stKey(key, item.mod, 'b:' + exTermAnchor(item.term)), 'Definition')}</summary>
           <div class="note-item-body">
             <div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-bottom:5px;">${escapeHtml(item.label)}</div>
             ${escapeHtml(item.a)}
@@ -8716,7 +10115,7 @@ function renderNotesAccordion(key) {
         const weak = (TUITION_MISSES[key] || []).filter(m => m.module === g.key);
         return `
       <details class="note-group" data-group="${escapeHtml(g.key)}">
-        <summary><span>${escapeHtml(g.key)}</span><span class="note-group-count">${g.items.length} points${weak.length ? '<span class="group-weak-badge">' + weak.length + ' weak spot' + (weak.length > 1 ? 's' : '') + '</span>' : ''}</span></summary>
+        <summary><span>${escapeHtml(g.key)}</span><span class="note-group-count">${g.items.length} points${weak.length ? '<span class="group-weak-badge">' + weak.length + ' weak spot' + (weak.length > 1 ? 's' : '') + '</span>' : ''}</span>${exNotes(key, g.key).length ? exViewLink('notes', key, g.key, '📝') : ''}${stBtn(stKey(key, g.key, 'section'), 'section')}</summary>
         <div class="note-group-body">
           ${weak.map(renderWeakCard).join('')}
           ${g.items.map(renderItem).join('')}
@@ -9008,16 +10407,25 @@ function renderFlow(key) {
   const gapObj = (gaps && !Array.isArray(gaps)) ? gaps : null;
   const refs = CONTENT[key].refs || {};
   const misses = TUITION_MISSES[key] || [];
-  return flow.map(s => `
+  // Every block but a sub-heading sits in a wrapper carrying its anchor, so the exam sheet can link
+  // straight to it, and a ☆ to add it to the exam-day set.
+  return flow.map(s => {
+    const anchors = exAnchors(key, s.module);
+    const hasF = exFormulas(key, s.module).length, hasN = exNotes(key, s.module).length;
+    return `
     <section class="nb-session" data-group="${escapeHtml(s.module)}">
       <div class="nb-session-head">
         <span class="nb-session-tag${s.tone === 'teal' ? ' teal' : ''}">${escapeHtml(s.module)}</span>
         <span class="nb-session-title">${escapeHtml(s.title)}</span>
         ${s.pages ? `<span class="nb-session-pages">${escapeHtml(s.pages)}</span>` : ''}
+        ${hasN ? exViewLink('notes', key, s.module, '📝 Notes') : ''}${hasF ? exViewLink('formulas', key, s.module, '📐 Formulas') : ''}
+        ${stBtn(stKey(key, s.module, 'section'), 'section')}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
-      ${s.blocks.map(b => renderBlock(b, gapObj, refs)).join('')}
-    </section>`).join('');
+      ${s.blocks.map((b, i) => b.k === 'sub' ? renderBlock(b, gapObj, refs)
+        : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}">${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b))}${renderBlock(b, gapObj, refs)}</div>`).join('')}
+    </section>`;
+  }).join('');
 }
 
 // Pins the question card into the left gutter while a solution block citing that question is
@@ -9068,6 +10476,7 @@ function setupRefCards(el) {
 function renderDetail() {
   const el = document.getElementById('detail');
   if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
+  if (exIsView(selectedKey)) { renderExam(el); return; }
   const meta = FLAT.find(t => t.key === selectedKey);
   const st = statusOf(selectedKey);
   const statusLabel = st === 'mastered' ? 'Mastered' : st === 'progress' ? 'In progress' : 'Not started';
@@ -9075,7 +10484,7 @@ function renderDetail() {
     <div class="crumb">${meta.subjectName}</div>
     <h2 class="topic-title">${meta.name}</h2>
     <p class="topic-desc">${meta.desc}</p>
-    <div class="status-row"><span class="status-badge${st === 'progress' ? ' st-progress' : st === 'mastered' ? ' st-mastered' : ''}">${statusLabel}</span></div>
+    <div class="status-row"><span class="status-badge${st === 'progress' ? ' st-progress' : st === 'mastered' ? ' st-mastered' : ''}">${statusLabel}</span>${CONTENT[selectedKey] ? stBtn(stKey(selectedKey, '-', 'reading'), 'reading', true) : ''}</div>
     ${(CONTENT[selectedKey] && CONTENT[selectedKey].overview) ? `
     <div class="overview-panel">
       <div class="overview-title">Big picture — fast revise</div>
@@ -9219,7 +10628,7 @@ function cmPaintButtons() {
     b.innerHTML = sec ? '💬' + (n ? ' ' + n : '') : '💬 ' + (n ? n + ' on this reading' : 'Comment');
   });
   const fab = document.getElementById('cmFab');
-  fab.hidden = !selectedKey;
+  fab.hidden = !selectedKey || exIsView(selectedKey);
 }
 // The section whose heading was last scrolled past the top third of the screen.
 function cmSectionOnScreen() {
@@ -9397,6 +10806,8 @@ async function cmSyncNow() {
       const nextP = {};
       Object.keys(pg.dirty).forEach(k => { nextP[k] = pg.items[k]; });
       data.progress.forEach(p => { if (p.k && !nextP[p.k]) nextP[p.k] = p; });
+      // A sheet script deployed before stars existed drops star rows; keep them here and resend.
+      Object.keys(pg.items).forEach(k => { if (!nextP[k] && /^star\|/.test(k)) { nextP[k] = pg.items[k]; pg.dirty[k] = 1; } });
       pg.items = nextP;
       pgSave();
     } else if (progress.length) throw new Error('redeploy ledger-comments.gs to sync revision progress');
@@ -9732,6 +11143,300 @@ function rvHandle(a) {
   rvRepaint();
 }
 
+// --- Exam day: a formula sheet and concise notes for the last days before the exam, built from
+// the readings themselves. Formula blocks come straight from each session; EXAM adds the short
+// notes per session and the formulas that only appear inside examples. Every line links back (↗)
+// to the block it came from, and ☆ marks a reading, session, block, note or formula as important:
+// the starred ones make up the exam-day set. Stars sync with revision progress. ---
+const EX_VIEWS = { 'exam:formulas': 'Formula sheet', 'exam:notes': 'Concise notes', 'exam:starred': 'Exam-day set' };
+const EX_ICON = { 'exam:formulas': '📐', 'exam:notes': '📝', 'exam:starred': '⭐' };
+const EX_KIND = { formula: 'Formula', example: 'Example', qa: 'Q&A', table: 'Table', flag: 'Schweser add-on', fix: 'Correction',
+  graph: 'Diagram', plot: 'Diagram', triangle: 'Diagram', timeline: 'Process', htimeline: 'Timeline', entry: 'Entry', stacks: 'Calculation' };
+const ex = { subj: 'all', starOnly: false, q: '', back: null, anchors: {} };
+
+function exIsView(k) { return !!EX_VIEWS[k]; }
+function exHash(s) {
+  let h = 5381; s = String(s || '');
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return h.toString(36);
+}
+function exPlain(s) { return String(s || '').replace(/\*/g, '').toLowerCase(); }
+function exKindOf(b) { return EX_KIND[b.k] || 'Definition'; }
+function exLead(b) {
+  const first = a => (a && a.length) ? (typeof a[0] === 'string' ? a[0] : (a[0].title || a[0].name || a[0].label || a[0].t1 || '')) : '';
+  return b.title || b.head || b.text || b.q || first(b.lines) || first(b.items) || first(b.panes) || first(b.legs) ||
+    first(b.steps) || first(b.columns) || first(b.rows) || first(b.nodes) || JSON.stringify(b).slice(0, 160);
+}
+// Stable anchors for a session's blocks: the block's own id, else its kind plus a hash of its
+// opening words, so a star survives edits elsewhere in the session.
+function exAnchors(topic, mod) {
+  const k = topic + '|' + mod;
+  if (ex.anchors[k]) return ex.anchors[k];
+  const s = rvSessions(topic).find(x => x.module === mod), seen = {};
+  return ex.anchors[k] = ((s && s.blocks) || []).map(b => {
+    let a = b.id || (b.k + '-' + exHash(exLead(b)));
+    if (seen[a]) a += '-' + (++seen[a]); else seen[a] = 1;
+    return a;
+  });
+}
+function exTermAnchor(term) { return 't-' + exHash(term); }
+// The sessions of a reading; Reading 7 has none, so its points are grouped by module prefix.
+function exGroups(topic) {
+  const c = CONTENT[topic];
+  if (!c) return [];
+  if (c.flow) return c.flow.map(s => ({ module: s.module, title: s.title }));
+  const out = [], seen = {};
+  (c.notes || []).forEach(n => {
+    const m = /^(\d+\.[A-Za-z]*\d+)\s*·\s*(.+)$/.exec(n.type);
+    if (m && !seen[m[1]]) { seen[m[1]] = 1; out.push({ module: m[1], title: ((EXAM[topic] || {})[m[1]] || {}).t || m[2] }); }
+  });
+  return out;
+}
+// The block a note or formula came from: the first block of the session whose text has `find`.
+function exLocate(topic, mod, find) {
+  const c = CONTENT[topic];
+  if (!find || !c) return '';
+  const f = exPlain(find);
+  if (c.flow) {
+    const s = c.flow.find(x => x.module === mod);
+    if (!s) return '';
+    let i = s.blocks.findIndex(b => exPlain(JSON.stringify(b)).includes(f));
+    if (i >= 0 && s.blocks[i].k === 'sub' && s.blocks[i + 1]) i++;
+    return i < 0 ? '' : exAnchors(topic, mod)[i];
+  }
+  const n = (c.notes || []).find(x => x.type.indexOf(mod + ' ') === 0 && exPlain(x.term + ' ' + x.a).includes(f));
+  return n ? exTermAnchor(n.term) : '';
+}
+function exFormulas(topic, mod) {
+  const s = rvSessions(topic).find(x => x.module === mod), an = exAnchors(topic, mod), out = [];
+  if (s) s.blocks.forEach((b, i) => {
+    if (b.k === 'formula') out.push({ title: b.title || '', lines: b.lines || [], note: b.note || '', anchor: an[i], key: stKey(topic, mod, 'b:' + an[i]) });
+  });
+  (((EXAM[topic] || {})[mod] || {}).f || []).forEach(f => out.push({ title: f[0], lines: f[1], note: f[3] || '',
+    anchor: exLocate(topic, mod, f[2]), key: stKey(topic, mod, 'f:' + exHash(f[0])) }));
+  const pos = a => { const i = an.indexOf(a); return i < 0 ? 1e6 : i; };
+  return out.map((f, i) => [f, i]).sort((x, y) => (pos(x[0].anchor) - pos(y[0].anchor)) || (x[1] - y[1])).map(x => x[0]);
+}
+function exNotes(topic, mod) {
+  return (((EXAM[topic] || {})[mod] || {}).n || []).map(n => ({ text: n[0], anchor: exLocate(topic, mod, n[1]), key: stKey(topic, mod, 'n:' + exHash(n[0])) }));
+}
+
+function stKey(topic, mod, what) { return 'star|' + topic + '|' + mod + '|' + what; }
+function stOn(k) { const v = pgGet(k); return !!(v && v.on); }
+function stCount() { return Object.keys(pg.items).filter(k => /^star\|/.test(k) && stOn(k)).length; }
+function stBtn(k, kind, big) {
+  const on = stOn(k);
+  return `<button type="button" class="st-btn${on ? ' on' : ''}" data-star="${escapeHtml(k)}" data-skind="${escapeHtml(kind)}"${big ? ' data-big="1"' : ''} aria-pressed="${on}" ` +
+    `title="${on ? 'In the exam-day set. Tap to unstar' : 'Star this ' + escapeHtml(kind.toLowerCase()) + ' for the exam-day set'}">${on ? '★' : '☆'}${big ? (on ? ' Starred for exam day' : ' Star this reading') : ''}</button>`;
+}
+function stToggle(k, kind) {
+  const parts = k.split('|'), topic = parts[1], mod = parts[2], on = !stOn(k);
+  pgSet(k, { reading: cmReadingOf(topic), session: mod === '-' ? '' : rvSessionLabel(topic, mod), item: 'Star · ' + kind }, { on, kind });
+  document.querySelectorAll('.st-btn[data-star]').forEach(b => {
+    if (b.getAttribute('data-star') === k) b.outerHTML = stBtn(k, kind, b.hasAttribute('data-big'));
+  });
+  exRenderNav();
+  if (exIsView(selectedKey) && (selectedKey === 'exam:starred' || ex.starOnly)) exRenderBody();
+}
+
+function exRenderNav() {
+  const n = stCount();
+  document.getElementById('exNav').innerHTML = '<div class="ex-nav-label">Exam-day revision</div>' + Object.keys(EX_VIEWS).map(v =>
+    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>★ ' + n + '</b>' : ''}</div>`).join('');
+}
+function exGoBtn(topic, mod, anchor, label) {
+  return `<button type="button" class="ex-link" data-exgo="${escapeHtml(topic + '|' + mod + '|' + (anchor || ''))}" title="Open where this came from in the notes">↗ ${escapeHtml(label || mod)}</button>`;
+}
+function exViewLink(view, topic, mod, label) {
+  return `<button type="button" class="ex-link" data-exview="${escapeHtml('exam:' + view + '|' + topic + '|' + mod)}" title="This session on the exam sheet">${label}</button>`;
+}
+function exFormulaHtml(topic, mod, f) {
+  return `<div class="ex-f"><div class="ex-f-top"><span class="ex-f-title">${escapeHtml(f.title || 'Formula')}</span><span class="ex-acts">${exGoBtn(topic, mod, f.anchor)}${stBtn(f.key, 'Formula')}</span></div>
+    ${f.lines.map(l => `<div class="ex-f-line">${rt(typeof l === 'string' ? l : String(l))}</div>`).join('')}${f.note ? `<div class="ex-f-note">${rt(f.note)}</div>` : ''}</div>`;
+}
+function exNoteHtml(topic, mod, n) {
+  return `<li class="ex-note"><span class="ex-note-text">${rt(n.text)}</span><span class="ex-acts">${exGoBtn(topic, mod, n.anchor)}${stBtn(n.key, 'Note')}</span></li>`;
+}
+function exWeakHtml(topic, mod, m) {
+  return `<li class="ex-note weak"><span class="ex-note-text"><b>Tuition weak spot:</b> ${escapeHtml(m.title)}</span><span class="ex-acts">${exGoBtn(topic, mod, '')}</span></li>`;
+}
+// Starred blocks render as they do in the notes, in a card that says what they are.
+function exBlockCards(topic, mod) {
+  const c = CONTENT[topic], out = [];
+  if (c.flow) {
+    const s = c.flow.find(x => x.module === mod), an = exAnchors(topic, mod);
+    const gaps = GAPS[topic] && !Array.isArray(GAPS[topic]) ? GAPS[topic] : null;
+    (s ? s.blocks : []).forEach((b, i) => {
+      const k = stKey(topic, mod, 'b:' + an[i]);
+      if (b.k === 'formula' || !stOn(k)) return;
+      out.push({ text: JSON.stringify(b), html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts">${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>${renderBlock(b, gaps, c.refs || {})}</div>` });
+    });
+  } else (c.notes || []).forEach(n => {
+    const a = exTermAnchor(n.term), k = stKey(topic, mod, 'b:' + a);
+    if (n.type.indexOf(mod + ' ') !== 0 || !stOn(k)) return;
+    out.push({ text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition')}</span></div><p class="nb-p">${escapeHtml(n.a)}</p></div>` });
+  });
+  return out;
+}
+
+function renderExam(el) {
+  const view = selectedKey;
+  const subjects = SUBJECTS.filter(s => FLAT.some(t => t.subjectId === s.id && CONTENT[t.key]));
+  const desc = {
+    'exam:formulas': 'Every formula from your readings on one sheet, session by session. ↗ opens the block it came from; ☆ adds it to the exam-day set.',
+    'exam:notes': 'Each reading as a revision overview: what it covers and how the topics fit together, then every session summarised with its key points, formulas and your weak spots. ↗ opens where each line came from; ☆ adds it to the exam-day set.',
+    'exam:starred': 'Everything you have starred: whole readings and sessions bring their overview, summaries, key points and formulas; starred blocks show in full. ↗ opens each one in the notes.',
+  }[view];
+  el.innerHTML = `
+    <div class="crumb">Exam-day revision</div>
+    <h2 class="topic-title">${EX_ICON[view]} ${EX_VIEWS[view]}</h2>
+    <p class="topic-desc">${desc}</p>
+    <div class="ex-tools" id="exTools">
+      ${view !== 'exam:starred' ? `<button type="button" class="ex-chip star${ex.starOnly ? ' on' : ''}" data-ex="star">★ Starred only</button>` : ''}
+      <button type="button" class="ex-chip${ex.subj === 'all' ? ' on' : ''}" data-ex="subj" data-v="all">All</button>
+      ${subjects.map(s => `<button type="button" class="ex-chip${ex.subj === s.id ? ' on' : ''}" data-ex="subj" data-v="${s.id}">${escapeHtml(s.name)}</button>`).join('')}
+      <input type="search" id="exQ" placeholder="Filter this sheet…" aria-label="Filter this sheet">
+      <button type="button" class="ex-chip" data-ex="print">🖨 Print</button>
+    </div>
+    <div id="exBody"></div>`;
+  document.getElementById('exQ').value = ex.q;
+  document.getElementById('cmFab').hidden = true;
+  exRenderBody();
+}
+function exRenderBody() {
+  const body = document.getElementById('exBody');
+  if (!body) return;
+  const view = selectedKey, q = exPlain(ex.q.trim());
+  const has = s => !q || exPlain(s).includes(q);
+  let html = '', nItems = 0, nRead = 0;
+  const starredOnly = view === 'exam:starred' || ex.starOnly, prose = view !== 'exam:formulas';
+  FLAT.filter(t => CONTENT[t.key] && (ex.subj === 'all' || t.subjectId === ex.subj)).forEach(t => {
+    const tStar = stOn(stKey(t.key, '-', 'reading')), exam = EXAM[t.key] || {};
+    const readHit = !q || exPlain(t.name).includes(q);
+    let sh = '';
+    const topics = [];
+    exGroups(t.key).forEach(g => {
+      const whole = tStar || stOn(stKey(t.key, g.module, 'section'));
+      const sessHit = readHit || exPlain(g.module + ' ' + g.title).includes(q);
+      const keep = (it, text) => (sessHit || has(text)) && (!starredOnly || whole || stOn(it.key));
+      const summary = prose && (!starredOnly || whole) ? ((exam[g.module] || {}).s || []).filter(p => sessHit || has(p)) : [];
+      const fs = exFormulas(t.key, g.module).filter(f => keep(f, f.title + ' ' + f.lines.join(' ') + ' ' + f.note));
+      const ns = prose ? exNotes(t.key, g.module).filter(n => keep(n, n.text)) : [];
+      const weak = view !== 'exam:notes' || (starredOnly && !whole) ? [] : (TUITION_MISSES[t.key] || []).filter(m => m.module === g.module && (sessHit || has(m.title)));
+      const cards = view === 'exam:starred' ? exBlockCards(t.key, g.module).filter(c => sessHit || has(c.text)) : [];
+      const n = fs.length + ns.length + weak.length + cards.length;
+      if (!n && !summary.length) return;
+      nItems += n;
+      topics.push(g);
+      sh += `
+      <div class="ex-sess" data-sess="${escapeHtml(t.key + '|' + g.module)}">
+        <div class="ex-sess-head"><span class="nb-session-tag">${escapeHtml(g.module)}</span><span class="ex-sess-title">${escapeHtml(g.title)}</span>
+          <span class="ex-acts">${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section')}</span></div>
+        ${summary.map(p => `<p class="ex-summary">${rt(p)}</p>`).join('')}
+        ${ns.length || weak.length ? `${summary.length ? '<div class="ex-label">Key points</div>' : ''}<ul class="ex-notes">${ns.map(x => exNoteHtml(t.key, g.module, x)).join('')}${weak.map(m => exWeakHtml(t.key, g.module, m)).join('')}</ul>` : ''}
+        ${fs.length ? `${prose ? '<div class="ex-label">Formulas</div>' : ''}<div class="ex-fgrid">${fs.map(f => exFormulaHtml(t.key, g.module, f)).join('')}</div>` : ''}
+        ${cards.length ? `<div style="margin-top:8px">${cards.map(c => c.html).join('')}</div>` : ''}
+      </div>`;
+    });
+    // The reading overview: what the reading covers and how its topics connect, with the
+    // sessions listed so a tap jumps to that part of the summary.
+    const about = prose && (!starredOnly || tStar) && (readHit || has((exam.about || []).join(' '))) ? exam.about || [] : [];
+    if (!sh && !about.length) return;
+    nRead++;
+    html += `
+    <section class="ex-read" data-read="${t.key}">
+      <div class="ex-read-head"><span class="ex-read-subj">${escapeHtml(t.subjectName)}</span>
+        <button type="button" class="ex-read-title" data-exgo="${t.key}||">${escapeHtml(t.name)}</button>
+        <span class="ex-acts" style="margin-left:auto">${stBtn(stKey(t.key, '-', 'reading'), 'reading')}</span></div>
+      ${about.length ? `<div class="ex-overview">
+        <div class="ex-label">Reading overview</div>
+        ${about.map(p => `<p class="ex-summary">${rt(p)}</p>`).join('')}
+        ${topics.length > 1 ? `<div class="ex-topics">${topics.map(g => `<button type="button" class="ex-topic" data-exsess="${escapeHtml(t.key + '|' + g.module)}"><span class="nb-session-tag">${escapeHtml(g.module)}</span>${escapeHtml(g.title)}</button>`).join('')}</div>` : ''}
+      </div>` : ''}
+      ${sh}
+    </section>`;
+  });
+  const what = { 'exam:formulas': 'formulas', 'exam:notes': 'key points and formulas', 'exam:starred': 'starred items' }[view];
+  body.innerHTML = html ? `<div class="ex-count" style="margin-bottom:12px">${nItems} ${what} across ${nRead} reading${nRead > 1 ? 's' : ''}</div>` + html
+    : `<div class="ex-empty">${view === 'exam:starred' && !q
+      ? 'Nothing starred yet. Tap ☆ on a reading, a session heading, any block in the notes (definitions, examples, formulas), or any line on the formula sheet and concise notes. Starred items gather here for the last days before the exam.'
+      : ex.starOnly && !q ? 'Nothing starred in this view yet. Turn off “Starred only” to see everything.' : 'Nothing matches that filter.'}</div>`;
+}
+
+function exScrollFlash(t, center) {
+  if (!t) return;
+  const tall = t.getBoundingClientRect && t.getBoundingClientRect().height > window.innerHeight * 0.7;
+  if (t.scrollIntoView) t.scrollIntoView({ behavior: 'smooth', block: center && !tall ? 'center' : 'start' });
+  t.classList.remove('ex-flash'); void t.offsetWidth; t.classList.add('ex-flash');
+  setTimeout(() => t.classList.remove('ex-flash'), 2300);
+}
+function exSetBack() {
+  if (!selectedKey) return;
+  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || cmReadingOf(selectedKey).replace(/:.*/, '') };
+  const b = document.getElementById('exBack');
+  b.textContent = '← Back to ' + ex.back.label; b.hidden = false;
+}
+function exBackHide() { ex.back = null; const b = document.getElementById('exBack'); if (b) b.hidden = true; }
+function exBackGo() {
+  const b = ex.back;
+  if (!b) return;
+  exBackHide();
+  const m = FLAT.find(t => t.key === b.key);
+  if (m) openSubjects.add(m.subjectId);
+  selectedKey = b.key; render();
+  window.scrollTo(0, b.y);
+}
+// Opens a reading at the block (or session) a line on the exam sheet came from.
+function exGo(topic, mod, anchor) {
+  const m = FLAT.find(t => t.key === topic);
+  if (!m) return;
+  exSetBack();
+  selectedKey = topic; openSubjects.add(m.subjectId); render();
+  const el = document.getElementById('detail'), esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
+  let t = anchor ? el.querySelector('[data-anchor="' + esc(anchor) + '"]') : null;
+  if (!t && mod) t = el.querySelector('.nb-session[data-group="' + esc(mod) + '"], details.note-group[data-group="' + esc(mod) + '"]');
+  if (!t) { el.scrollIntoView({ block: 'start' }); return; }
+  for (let p = t; p && p !== el; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  exScrollFlash(t, !!anchor);
+}
+// Opens an exam view, at one session when coming from that session's 📝 / 📐 link.
+function exOpenView(view, topic, mod) {
+  if (topic) { exSetBack(); ex.subj = 'all'; ex.q = ''; ex.starOnly = false; } else exBackHide();
+  selectedKey = view; render();
+  if (!topic) return;
+  const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
+  exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"]'), false);
+}
+function exInit() {
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-star],[data-exgo],[data-exview],[data-ex],[data-exsess]');
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    if (t.hasAttribute('data-exsess')) {
+      const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
+      exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(t.getAttribute('data-exsess')) + '"]'), false);
+    }
+    else if (t.hasAttribute('data-star')) stToggle(t.getAttribute('data-star'), t.getAttribute('data-skind') || 'item');
+    else if (t.hasAttribute('data-exgo')) { const p = t.getAttribute('data-exgo').split('|'); exGo(p[0], p[1], p[2]); }
+    else if (t.hasAttribute('data-exview')) { const p = t.getAttribute('data-exview').split('|'); exOpenView(p[0], p[1], p[2]); }
+    else {
+      const act = t.getAttribute('data-ex');
+      if (act === 'print') { window.print(); return; }
+      if (act === 'star') ex.starOnly = !ex.starOnly;
+      if (act === 'subj') ex.subj = t.getAttribute('data-v');
+      document.querySelectorAll('#exTools [data-ex="subj"]').forEach(c => c.classList.toggle('on', c.getAttribute('data-v') === ex.subj));
+      const s = document.querySelector('#exTools [data-ex="star"]');
+      if (s) s.classList.toggle('on', ex.starOnly);
+      exRenderBody();
+    }
+  }, true);
+  document.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.hasAttribute && e.target.hasAttribute('data-exview')) { e.preventDefault(); e.target.click(); }
+  });
+  document.addEventListener('input', e => { if (e.target.id === 'exQ') { ex.q = e.target.value; exRenderBody(); } });
+  document.getElementById('exBack').onclick = exBackGo;
+}
+
 function cmInit() {
   cmLoad();
   pgLoad();
@@ -9815,8 +11520,10 @@ function cmInit() {
 
 document.getElementById('search').addEventListener('input', renderSidebar);
 openSubjects.add('fsa');
+pgLoad();
 render();
 cmInit();
+exInit();
 </script>
 </body>
 </html>

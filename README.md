@@ -42,3 +42,33 @@ missed questions come back after 1 day; correct ones after 3, 7, 14, then 30 day
 Progress syncs through the same sheet as comments (`Progress` tab).
 
     node tools/comments.mjs progress              # passes, and questions still shaky or missed
+
+## Exam-day revision
+
+Three pages at the top of the sidebar, for the last days before the exam:
+
+- **📐 Formula sheet**: every formula from every reading, session by session.
+- **📝 Concise notes**: each reading as a revision overview (`EXAM` in
+  `index.html`): what it covers and how its topics connect, then every session
+  summarised in prose with its key points, formulas and tuition weak spots.
+- **⭐ Exam-day set**: everything starred. Tap ☆ on a reading, a session, any block
+  in the notes (definition, example, formula), or any line on the two sheets.
+
+Every line has a ↗ link back to the block it came from, and each session in the
+notes links forward to its 📝 / 📐 lines. Stars sync through the same sheet as
+progress (redeploy `ledger-comments.gs` once so it keeps them).
+
+### Keeping it in step with the notes
+
+The formula sheet rebuilds itself from the notes on every page load. The concise
+notes are written by hand, so every update to the notes has to carry them along:
+
+1. **Same change**: whoever adds or edits a session updates the reading overview
+   and writes that session’s summary and key points in `EXAM` too (a rule in the page’s session-rules panel says so for Claude).
+2. **Before each commit**: `tools/hooks/pre-commit` runs the check below and stops
+   the commit if a session has no exam notes or a ↗ link broke. Turn it on once per
+   clone with `git config core.hooksPath tools/hooks`.
+3. **After each push**: the *Exam sheet in step* GitHub check runs it again; a red ✗
+   on the commit (and an email from GitHub) means something slipped through.
+
+    node tools/exam-check.mjs
