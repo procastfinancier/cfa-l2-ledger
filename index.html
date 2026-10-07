@@ -1436,7 +1436,7 @@ const CONTENT = {
           { k: 'qa', q: 'What happens to the currency of a country having higher interest rates?', a: 'It *depreciates*.' },
           { k: 'qa', q: 'So what will an investor earn if they invest in a country with higher interest rates, compared to a country with lower interest rates?', a: 'The *same*. UCIRP implies that the differential in interest rates will be offset by currency depreciation, hence an investor will earn the same returns.' },
           { k: 'qa', q: 'But is it necessary? Is uncovered interest rate parity bound by arbitrage?', a: '*No.*' },
-          { k: 'qa', q: 'So what happens to returns if the high-yielding currency depreciates by a lower amount?', a: '*Higher.*' },
+          { k: 'qa', q: 'So what happens to returns if the high-yielding currency depreciates by a lower amount?', a: '*Higher.* The currency loss no longer cancels all of the extra interest, so part of the rate gap is left over as excess return (worked through below).' },
           { k: 'example', id: 's8-inr', title: 'My page’s example — investing in India when UCIRP fails',
             given: [
               { label: 'Interest rate in India', val: '*10%*' },
@@ -1450,6 +1450,16 @@ const CONTENT = {
               'Convert back at the then exchange rate of ₹52/$ → *$105.77*',
             ],
             result: '$105.77 against $103 if invested at home' },
+          { k: 'table', id: 's8-cases',
+            columns: ['₹/$ after 1 yr', '₹5,500 back in $', 'vs. $103 at home'],
+            rows: [
+              { label: 'INR does not fall at all', values: ['₹50.00', '$110.00', '*+$7.00*: you keep the full 7% rate gap'] },
+              { label: 'INR falls *less* than UCIRP says (4%)', values: ['₹52.00', '$105.77', '*+$2.77*: higher return'] },
+              { label: 'INR falls *exactly* as UCIRP says (≈7%)', values: ['₹53.40', '$103.00', '*$0*: no gain, the parity case'] },
+              { label: 'INR falls *more* than UCIRP says (10%)', values: ['₹55.00', '$100.00', '*−$3.00*: a loss (crash risk)'] },
+            ],
+            caption: 'Same trade every time: $100 → ₹5,000 at ₹50/$ → ₹5,500 after a year at 10%. Only the rate you convert back at changes. ₹53.40 = 50 × 1.10 ÷ 1.03, the rate at which India and the US pay exactly the same.' },
+          { k: 'p', text: 'Why “higher”: your dollar return ≈ *interest earned abroad − how much the high-yield currency falls*. India pays 10%, 7% more than home. UCIRP says the rupee falls by that same 7%, so the extra interest is exactly wiped out and you end at $103, the same as staying home. If the rupee falls by *less* (4%), only part of the extra interest is wiped out: roughly 10% − 4% ≈ 6% (precisely $105.77), above the 3% at home. The smaller the fall, the more of the 7% gap you keep. If it falls by *more* than 7%, the currency loss eats all the extra interest and then some: that is the risk the carry trade runs.' },
           { k: 'qa', q: 'Is the above process riskless? Will the profit be referred to as arbitrage profit?',
             a: '*No.* The exchange rate at which we convert in the future is not fixed. This is referred to as a *carry trade*.' },
           { k: 'example', id: 's8-gbp', title: 'Example — Carry trade (Schweser)',
@@ -1561,6 +1571,18 @@ const CONTENT = {
           ] },
           { k: 'sub', text: 'Mundell-Fleming — Flexible Exchange Rate Regimes' },
           { k: 'p', text: 'Rates are determined by supply and demand in the foreign exchange markets.' },
+          { k: 'cols', id: 's10-mobility', panes: [
+            { title: 'What “high capital mobility” means', tone: 'slate', items: [
+              'Money can move *freely* in and out of the country: no capital controls, deep markets. Typical of *developed* economies.',
+              'So a change in interest rates moves *financial flows* fast: foreign investors pile in when rates rise and leave when they fall.',
+              'Those flows are much bigger than trade flows, so *interest rates* decide where the currency goes.',
+            ] },
+            { title: 'What “low capital mobility” means', tone: 'violet', items: [
+              'Capital is *restricted* (controls, shallow markets). Typical of *emerging* economies.',
+              'A rate change can’t pull much foreign money in or out, so the financial channel is weak.',
+              'What’s left is the *goods (trade) channel*: anything that boosts domestic spending raises *imports*, and paying for imports means selling the home currency.',
+            ] },
+          ] },
           { k: 'cols', id: 's10-mf', panes: [
             { title: 'High capital mobility — think about money supply', tone: 'slate', items: [
               '*Expansionary monetary policy*: interest rates ↓ → capital flows ↓ → domestic currency ↓',
@@ -1580,6 +1602,15 @@ const CONTENT = {
               { label: '4. Restrictive / restrictive', values: ['Uncertain', 'Appreciation'] },
             ],
             caption: 'Monetary policy / fiscal policy → effect on the domestic currency.' },
+          { k: 'table', id: 's10-mf-why',
+            columns: ['Why, with high mobility (rates drive it)', 'Why, with low mobility (trade drives it)'],
+            rows: [
+              { label: '1. Expansionary / expansionary', values: ['Easy money cuts rates (currency ↓) but a bigger deficit raises them (currency ↑). They pull opposite ways → *uncertain*.', 'Both boost spending → imports ↑ on both counts → *depreciation*.'] },
+              { label: '2. Expansionary / restrictive', values: ['Easy money cuts rates and tighter budgets need less borrowing, so rates fall on both counts → capital leaves → *depreciation*.', 'Easy money raises imports, tight budget cuts them → *uncertain*.'] },
+              { label: '3. Restrictive / expansionary', values: ['Tight money raises rates and a bigger deficit raises them too → capital flows in → *appreciation*.', 'Tight money cuts imports, the deficit raises them → *uncertain*.'] },
+              { label: '4. Restrictive / restrictive', values: ['Tight money raises rates, but a smaller deficit lowers them → *uncertain*.', 'Both cut spending → imports ↓ → trade balance improves → *appreciation*.'] },
+            ],
+            caption: 'How to rebuild the grid in the exam: with high mobility ask “what happens to interest rates?” (up → appreciate); with low mobility ask “what happens to imports?” (up → depreciate). Where the two policies point opposite ways, the answer is uncertain.' },
           { k: 'flag', title: 'Mundell-Fleming vs. UCIRP',
             text: 'Mundell-Fleming says a higher-rate currency *appreciates*; UCIRP says it depreciates. No contradiction: UCIRP assumes equal real rates, so nominal rates just mirror inflation; Mundell-Fleming assumes slack in the economy and *ignores inflation*. Module quiz: low capital mobility with restrictive monetary *and* fiscal policy → *appreciation*.' },
           { k: 'sub', text: 'Mundell-Fleming — Fixed Exchange Rate Regimes' },
