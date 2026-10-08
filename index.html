@@ -900,11 +900,11 @@ const SUBJECTS = [
     { name: 'Reading 22: Private Company Valuation', desc: 'R22 · Sessions 22.S1–22.S3, following your written notes — company- and stock-specific factors, reasons for valuation, approaches and how to choose one, normalized earnings, FCFF estimation, discount rate factors, CAPM, expanded CAPM and build-up, unlevering beta, synergies, DLOC, DLOM and total discount, CCM, excess earnings method, GPCM, control premium and GTM' },
   ]},
   { id: 'fi', name: 'Fixed income', topics: [
-    { name: 'Term structure and rate dynamics', desc: 'Yield curve models' },
-    { name: 'Arbitrage-free valuation', desc: 'Binomial tree valuation' },
-    { name: 'Bonds with embedded options', desc: 'Callable / putable bond valuation' },
-    { name: 'Credit analysis models', desc: 'Structural and reduced-form models' },
-    { name: 'Credit default swaps', desc: 'CDS mechanics and pricing' },
+    { name: 'Reading 23: The Term Structure and Interest Rate Dynamics', desc: 'R23 · Sessions 23.S1–23.S7, following your written notes — spot, forward and par rates, YTM, bootstrapping, riding the yield curve, swap curve, swap, I-, Z-, TED and LIBOR–OIS spreads, the five term structure theories, modified, effective and key rate duration, level, steepness and curvature, macro factors, bond risk premium, bearish flattening and bullish steepening' },
+    { name: 'Reading 24: The Arbitrage-Free Valuation Framework', desc: 'R24 · Sessions 24.S1–24.S4, following your written notes — value additivity and dominance, stripping and reconstitution, backward induction and pathwise valuation, path dependency and Monte Carlo, building a binomial interest rate tree, CIR, Vasicek, Ho–Lee and KWF models' },
+    { name: 'Reading 25: Valuation and Analysis of Bonds with Embedded Options', desc: 'R25 · Sessions 25.S1–25.S7, following your written notes — European, American and Bermudan options, callable, putable and extendible bonds, valuing call and put options on the tree, volatility, rate level and curve shape, OAS, effective duration and convexity, one-sided and key rate durations, capped and floored floaters, convertible bonds' },
+    { name: 'Reading 26: Credit Analysis Models', desc: 'R26 · Sessions 26.S1–26.S4, following your written notes — exposure, recovery, LGD, hazard rate, survival, expected loss and CVA, IRR on default, risk-neutral PD, relative credit risk, scores and ratings, structural and reduced-form models, implied CVA, credit spread components, term structure of credit spreads' },
+    { name: 'Reading 27: Credit Default Swaps', desc: 'R27 · Sessions 27.S1–27.S2, following your written notes — protection buyer and seller, CDS spread and standard coupons, upfront premium, single-name and index CDS, credit events and settlement preference, hazard rate, protection and premium legs, CDS price, value after inception, credit curve, naked, long/short, curve and basis trades' },
   ]},
   { id: 'deriv', name: 'Derivatives', topics: [
     { name: 'Reading 28: Pricing and Valuation of Forward Commitments', desc: 'R28 · Sessions 28.S1–28.S11, following your written notes — forward pricing and arbitrage, forward value, FRAs, interest rate, currency and equity swaps, bond futures' },
@@ -6755,6 +6755,980 @@ const CONTENT = {
       },
     ],
   },
+  'fi.0': {
+    flow: [
+      {
+        module: '23.S1', title: 'Spot Rates · Forward Rates · Yield to Maturity',
+        blocks: [
+          { k: 'sub', text: 'Spot Rate' },
+          { k: 'points', id: 's1-spot', items: [
+            'Spot rates are the annualized market interest rates for a *single payment* to be received in the future.',
+            'Generally, we use spot rates for *government securities* (risk-free) to generate the spot rate curve.',
+            'Spot rates can be interpreted as the yields on *zero-coupon bonds*, and for this reason we sometimes refer to spot rates as *zero-coupon rates*.',
+            'The *term structure of spot rates* — the graph of the spot rate Sₜ versus the maturity T — is known as the *spot yield curve* or *spot curve*.',
+            'The shape and level of the spot curve *change continuously* with the market prices of bonds.',
+          ] },
+          { k: 'sub', text: 'Forward Rates' },
+          { k: 'points', id: 's1-fwd', items: [
+            'The annualized interest rate on a loan to be initiated at a future period is called the *forward rate* for that period.',
+            'The term structure of forward rates is called the *forward curve*.',
+            'e.g. *1y2y* means the 2-year forward rate one year from now.',
+          ] },
+          { k: 'sub', text: 'Yield to Maturity' },
+          { k: 'points', id: 's1-ytm', items: [
+            'A *zero-coupon* bond’s YTM = spot rate.',
+            'A *coupon-paying* bond’s YTM = spot rate *when the yield curve is flat*.',
+          ] },
+          { k: 'qa', q: 'When is the realized return = YTM on a bond?', a: '1. The bond is *held to maturity*. 2. All payments (coupons and principal) are made *on time and in full*. 3. All coupons are *reinvested at the original YTM*. YTM always assumes that interim cash flows are reinvested at the YTM rate.' },
+        ],
+      },
+      {
+        module: '23.S2', title: 'Par Rate · Bootstrapping',
+        blocks: [
+          { k: 'sub', text: 'Par Rate' },
+          { k: 'points', id: 's2-par', items: [
+            'A *par rate* is the yield to maturity of a bond trading at par: YTM = coupon rate.',
+            'If you want to find the par value of a bond, put PMT in as the par rate.',
+          ] },
+          { k: 'sub', text: 'Bootstrapping' },
+          { k: 'points', id: 's2-boot', items: [
+            'By using a process called *bootstrapping*, spot rates or zero-coupon rates can be derived from the *par curve*.',
+            'Bootstrapping involves using the *output of one step as an input to the next step*.',
+            '1-year par rate = S₁.',
+            'From S₁ and the 2-year par rate we can calculate S₂, and so on.',
+            'S₂ cannot be calculated directly without knowing S₁ — hence the name bootstrapping, as the output of one step acts as an input to the next step.',
+            'If a spot curve is *upward sloping*, then the forward rate curve will be *above* the spot curve, and vice versa.',
+          ] },
+        ],
+      },
+      {
+        module: '23.S3', title: 'Riding the Yield Curve · Spot Rate Evolution',
+        blocks: [
+          { k: 'points', id: 's3-ride', items: [
+            'If expected spot rates are the *same as forward rates*, holding a long-term bond or a short-term bond will give the *same returns* over the investment horizon.',
+            'If expected spot rates are different from forward rates, or are *lower than forward rates*, then holding a long-term bond for short investment horizons would yield *higher returns*.',
+          ] },
+          { k: 'example', id: 's3-evol', title: 'Example — Spot rate evolution (case 1: expected spot rates = forward rates)',
+            body: ['Jane Doshi, CFA, has collected benchmark spot rates as shown below. Calculate the 1-year holding period return of a 1-year, a 2-year and a 3-year zero-coupon bond (FV 1,000).'],
+            given: [
+              { label: 'Spot rates today (1, 2, 3 yr)', val: '3.00% · 4.00% · 5.00%' },
+              { label: 'Expected spot rates in 1 year (1, 2 yr)', val: '5.01% · 6.01% (= today’s forward rates 1y1y and 1y2y)' },
+            ],
+            steps: [
+              '1-year zero: P₀ = 1000 ÷ 1.03 = *970.87*; return = (1000 − 970.87) ÷ 970.87 = *3%*',
+              '2-year zero: P₀ = 1000 ÷ 1.04² = *924.56*; sell at the end of year 1 (horizon is 1 yr) at P₁ = 1000 ÷ 1.0501 = *952.29*; return = (952.29 − 924.56) ÷ 924.56 = *3%*',
+              '3-year zero: P₀ = 1000 ÷ 1.05³ = *863.84*; sell at P₁ = 1000 ÷ 1.0601² = *889.82*; return = (889.82 − 863.84) ÷ 863.84 = *3%*',
+            ],
+            result: 'All three bonds return 3% — because the expected spot rates were the same as today’s forward rates (1y1y = 5.01%, 1y2y = 6.01%)' },
+          { k: 'example', id: 's3-unch', title: 'Example — Spot rate evolution (case 2: the yield curve stays unchanged)',
+            body: ['When the yield curve is expected to remain the same, i.e. unchanged, then holding a long-term bond for a short investment horizon will yield higher returns.'],
+            steps: [
+              '1-year zero: P₀ = 970.87 → 1000; return = *3%*',
+              '2-year zero: P₀ = 924.56; sell at the end of year 1 at P₁ = 1000 ÷ 1.03 = *970.87*; return = (970.87 − 924.56) ÷ 924.56 = *5.01%*',
+              '3-year zero: P₀ = 863.84; sell at P₁ = 1000 ÷ 1.04² = *924.56*; return = (924.56 − 863.84) ÷ 863.84 = *7.03%*',
+            ],
+            result: '1-year returns: 3% · 5.01% · 7.03% — the longer bond rolls down the unchanged curve' },
+          { k: 'table', id: 's3-concl',
+            columns: ['1-yr return (case 1: E(S) = forward)', '1-yr return (case 2: curve unchanged)'],
+            rows: [
+              { label: '1-yr zero', values: ['3%', '3%'] },
+              { label: '2-yr zero', values: ['3%', '5.01%'] },
+              { label: '3-yr zero', values: ['3%', '7.03%'] },
+            ],
+            caption: 'Conclusion: E(S) = forward rate today → same return. E(S) < forward rate today → longer maturity gives higher returns.' },
+          { k: 'p', text: 'If you expect the spot rate to be *lower than the forward rate*, the bond with the *longer maturity* will give you a higher return.' },
+        ],
+      },
+      {
+        module: '23.S4', title: 'The Swap Rate Curve · Measures of Spread',
+        blocks: [
+          { k: 'points', id: 's4-swap', items: [
+            'In a plain vanilla interest rate swap, one party makes payments based on a *fixed rate* while the counterparty makes payments based on a *floating rate*.',
+            'The fixed rate in an interest rate swap is called the *swap fixed rate* or *swap rate*.',
+          ] },
+          { k: 'qa', q: 'Why is the swap curve preferred?', a: '1. Swap rates reflect the *credit risk of commercial banks* rather than the credit risk of governments. 2. The swap market is *not regulated by any government*, which makes swap rates in different countries more comparable (government bond yield curves additionally reflect sovereign risk unique to each country). 3. The swap curve typically has yield quotes at *many maturities*, while the US government bond yield curve has on-the-run issues trading at only a small number of maturities.' },
+          { k: 'qa', q: 'What is preferred by wholesale banks and retail banks?', a: 'Wholesale banks that manage interest rate risk with swap contracts are more likely to use *swap curves* to value their assets and liabilities. Retail banks, on the other hand, are more likely to use a *government bond yield curve*.' },
+          { k: 'sub', text: 'Swap Spread (bank vs. government)' },
+          { k: 'points', id: 's4-spread', items: [
+            'The swap spread is the spread paid by the fixed-rate payer of an interest rate swap over the rate of the *on-the-run* (most recently issued) government security with the same maturity as the swap.',
+            'If the fixed rate of a one-year fixed-for-floating LIBOR swap is 0.57% and the one-year Treasury is yielding 0.11%, the swap spread is 0.57% − 0.11% = *0.46%*.',
+            'Swap spreads are *almost always positive*, reflecting the lower credit risk of governments compared to the credit risk of the surveyed banks that determines the swap rate.',
+            'The LIBOR swap curve is arguably the most commonly used interest rate curve. This rate curve roughly reflects the default risk of a commercial bank.',
+          ] },
+          { k: 'formula', title: 'Swap spread', lines: [
+            'Swap spreadₜ = swap rateₜ − Treasury yieldₜ',
+          ] },
+          { k: 'sub', text: 'I-Spread (corporate vs. swap/bank)' },
+          { k: 'points', id: 's4-ispread', items: [
+            'The I-spread for a credit-risky bond is the amount by which the yield on the risky bond exceeds the *swap rate for the same maturity*.',
+            'In a case where the swap rate for a specific maturity is not available, the missing swap rate can be estimated from the swap rate curve using *linear interpolation*.',
+            'While a bond’s yield reflects time value as well as compensation for credit and liquidity risk, the I-spread only reflects compensation for *credit and liquidity risks*. The higher the I-spread, the higher the compensation for liquidity and credit risk.',
+          ] },
+          { k: 'formula', title: 'I-spread', lines: [
+            'I-spread = yield on the bond − swap rate',
+          ] },
+          { k: 'sub', text: 'Z-Spread' },
+          { k: 'example', id: 's4-z', title: 'Example — Z-spread',
+            body: ['Government spot rates: S₁ = 3%, S₂ = 4%, S₃ = 5%. Consider a corporate bond with a 5% coupon, 3 years to maturity and FV $1,000. Suppose the bond is currently trading at 980. Find the Z-spread.'],
+            steps: [
+              'We cannot use government spot rates to find the price of a corporate bond. If we do so we will get a higher price, because corporate bonds have more risk, hence the spot rate should be higher.',
+              '980 = 50 ÷ (1 + 3% + z) + 50 ÷ (1 + 4% + z)² + 1050 ÷ (1 + 5% + z)³',
+              'At z = 0 the price is 1,001.80, too high, so z > 0. Solving by trial (or a solver): z ≈ *0.81%*.',
+            ],
+            result: 'Z-spread ≈ 0.81% (81 bps) — solved here; my page sets up the equation only' },
+          { k: 'points', id: 's4-zpts', items: [
+            'The Z-spread is the rate which, when added to *government spot rates*, will give the price of the corporate bond.',
+            'Limitation: the term *zero volatility* in the Z-spread refers to the assumption of zero interest rate volatility.',
+            'The Z-spread is *not appropriate* to use to value bonds with embedded options, as without any interest rate volatility options are meaningless.',
+          ] },
+          { k: 'sub', text: 'TED Spread (bank vs. government)' },
+          { k: 'formula', title: 'TED spread', lines: [
+            'TED spread = 3-month LIBOR rate − 3-month T-bill rate',
+          ] },
+          { k: 'points', id: 's4-ted', items: [
+            'The TED spread is the amount by which the interest rate on loans between banks (formally, 3-m LIBOR) exceeds the interest rate on short-term US government debt.',
+            'The TED spread is seen as an indication of the risk of interbank loans.',
+            'The TED spread captures the risk in the banking system more accurately than does the 10-yr swap spread.',
+          ] },
+          { k: 'sub', text: 'LIBOR–OIS Spread' },
+          { k: 'formula', title: 'LIBOR–OIS spread', lines: [
+            'LIBOR–OIS spread = LIBOR rate − OIS rate',
+          ] },
+          { k: 'points', id: 's4-ois', items: [
+            'OIS stands for *overnight indexed swap*. The OIS rate roughly reflects the federal funds rate and includes minimal counterparty risk.',
+            'LIBOR includes credit risk; OIS includes only minimal credit risk.',
+            'This makes the LIBOR–OIS spread a useful measure of credit risk and an indication of the overall well-being of the banking system.',
+            'A *low* LIBOR–OIS spread is a sign of high market liquidity, while a *high* LIBOR–OIS spread is a sign that banks are unwilling to lend due to concerns about creditworthiness.',
+          ] },
+        ],
+      },
+      {
+        module: '23.S5', title: 'Term Structure Theories',
+        blocks: [
+          { k: 'p', text: 'These theories focus on explaining the *shape of the yield curve* and the interpretation of forward rates. There are 5 types of theories.' },
+          { k: 'sub', text: '1. Unbiased Expectations Theory (Pure Expectations Theory)' },
+          { k: 'points', id: 's5-ue', items: [
+            'In this theory the interest rate term structure (the yield curve) is determined by the *investors’ expectations*.',
+            'Forward rates are solely a function of expected future spot rates: *E(S) = forward rate*.',
+            'The underlying principle behind this theory is *risk neutrality*: investors don’t demand a risk premium for maturity strategies that differ from their investment horizon.',
+            'This implies that an investor should earn the same returns by investing in a 5-yr bond or by investing in a 2-yr and then a 3-yr bond. If expected spot rates are the same, the investor will be indifferent.',
+          ] },
+          { k: 'points', id: 's5-ue-shape', title: 'Implications for the shape of the yield curve under this theory', items: [
+            'If the yield curve is *upward sloping*, ST rates are expected to *rise*.',
+            'If the curve is *downward sloping*, ST rates are expected to *fall*.',
+            'A *flat* curve implies that the market expects ST rates to remain constant.',
+          ] },
+          { k: 'sub', text: '2. Local Expectations Theory' },
+          { k: 'points', id: 's5-le', items: [
+            'The unbiased expectations theory assumed that investors are risk neutral in the short term as well as in the long term. In a risk-neutral world, investors are unaffected by uncertainty and risk premiums do not exist. Every security is risk free and yields the risk-free rate for that particular maturity.',
+            'In reality investors are *risk averse* and not risk neutral.',
+            'Local expectations theory assumes: investors are *risk neutral in the ST* (no risk premium; if invested for the ST, returns will be the same as the risk-free rate), and *risk averse in the LT* (they demand a risk premium if invested for the LT).',
+          ] },
+          { k: 'qa', q: 'Problem with this theory', a: 'If the yield curve is expected to remain same or unchanged, we know that short-holding-period returns of long-maturity bonds can be shown to be *higher* than short-holding-period returns on short-maturity bonds, due to liquidity premiums and hedging concerns (riding the yield curve). So where E(S) < F, a higher-maturity bond will give higher returns even in the short run, while this theory says investors are risk neutral in the ST.' },
+          { k: 'sub', text: '3. Liquidity Preference Theory' },
+          { k: 'formula', title: 'Liquidity preference (as on my page)', lines: [
+            'E(S) = forward rate + LP',
+          ], note: 'See the correction below: the liquidity premium is added to the expected spot rate to give the forward rate.' },
+          { k: 'points', id: 's5-lp', items: [
+            'The liquidity premium is *directly proportional to maturity*. The size of the liquidity premium need not be constant over time; it may be larger during periods of greater economic uncertainty when risk aversion among investors is higher.',
+            'Hence forward rates are *biased estimates* of the market’s expectation of future rates, as they reflect the liquidity premium.',
+          ] },
+          { k: 'points', id: 's5-lp-shape', title: 'Shape of yield curve — a positive-sloping yield curve may indicate that the market expects:', items: [
+            'Interest rates to rise;',
+            'Interest rates to remain constant;',
+            'Interest rates to fall, but the addition of the liquidity premium results in a positive slope.',
+            'A *downward-sloping* yield curve indicates steeply falling ST rates according to the liquidity preference theory.',
+          ] },
+          { k: 'sub', text: '4. Segmented Markets Theory' },
+          { k: 'points', id: 's5-seg', items: [
+            'Yields are *not* determined by liquidity premiums and expected spot rates.',
+            'The shape depends on *demand and supply* for loans at each maturity.',
+            'The yield at each maturity is essentially unrelated to the other maturities.',
+          ] },
+          { k: 'sub', text: '5. Preferred Habitat Theory' },
+          { k: 'formula', title: 'Preferred habitat (as on my page)', lines: [
+            'E(S) = F + RP',
+          ], note: 'RP depends on demand and supply. A combination of theories 3 and 4.' },
+          { k: 'table', id: 's5-summary',
+            columns: ['Relation', 'Key idea'],
+            rows: [
+              { label: '① Unbiased', values: ['E(S) = F', 'No risk premium; risk neutral'] },
+              { label: '② Local expectations', values: ['E(S) = F + RP in the LT', 'Risk neutral ST; risk premium LT'] },
+              { label: '③ Liquidity preference', values: ['E(S) = F + LP', 'LP ∝ maturity'] },
+              { label: '④ Segmented', values: ['—', 'Based on demand & supply'] },
+              { label: '⑤ Preferred habitat', values: ['E(S) = F + RP', 'RP depends on demand & supply'] },
+            ],
+            caption: 'My summary box (relations as written on my page; see the correction below).' },
+          { k: 'fix', title: 'E(S) = Forward rate + LP · E(S) = F + RP',
+            text: 'The premium sits on the *forward* side: *forward rate = E(S) + liquidity premium* (and F = E(S) + RP for preferred habitat). That is exactly why forward rates are *upward-biased* estimates of expected spot rates, as the next line on my page says, and why a curve can slope up even when rates are expected to stay flat or fall: E(S) = F − LP < F.' },
+        ],
+      },
+      {
+        module: '23.S6', title: 'Duration Measures · Key Rate Duration · Yield Curve Risk',
+        blocks: [
+          { k: 'sub', text: 'Macaulay Duration' },
+          { k: 'p', text: 'MD tells us how long it takes to recover the initial investment, on a weighted-average basis.' },
+          { k: 'sub', text: 'Modified Duration' },
+          { k: 'formula', title: 'Modified duration', lines: [
+            'MD = Macaulay duration ÷ (1 + YTM)',
+            'Approximate change in bond price = −modified duration × ΔYTM',
+          ], note: 'For a 1% change in YTM, the price changes by approximately MD%.' },
+          { k: 'p', text: 'Modified duration measures the sensitivity of bond price with respect to YTM. It can be used only for bonds *without embedded options*.' },
+          { k: 'sub', text: 'Effective Duration' },
+          { k: 'points', id: 's6-ed', items: [
+            'It is similar in concept to modified duration but is applicable to bonds *with embedded options* as well. Effective duration measures price sensitivity to small *parallel shifts* in the yield curve.',
+            'It is important to note that effective duration is *not an accurate measure* of interest rate sensitivity to *non-parallel shifts* in the yield curve, like those described by shaping risk.',
+            '*Shaping risk* refers to changes in portfolio value due to changes in the shape of the benchmark yield curve (non-parallel shifts).',
+            'However, since parallel shifts explain more than *75%* of the variation in bond portfolio returns, it is a widely used measure.',
+          ] },
+          { k: 'sub', text: 'Key Rate Duration' },
+          { k: 'points', id: 's6-krd', items: [
+            'Key rate duration is defined as the approximate percentage change in the value of a bond portfolio in response to a *100 basis point change in the corresponding key rate*, holding all other rates constant.',
+            'Key rate duration is the sensitivity of the value of a security (or a bond portfolio) to changes in a *single par rate*, holding all other spot rates constant.',
+            'Key rate duration is used to identify the interest rate risk from changes in the shape of the yield curve (*shaping risk*).',
+            'Key rate duration is superior for measuring the impact of *non-parallel* yield curve shifts.',
+          ] },
+          { k: 'formula', title: 'Yield curve risk with key rate durations', lines: [
+            'ΔP/P = −D₁Δr₁ − D₅Δr₅ − D₂₅Δr₂₅',
+            'ΔP/P = −(0.7)Δr₁ − (3.5)Δr₅ − (9.5)Δr₂₅',
+          ], note: 'Example: a bond portfolio has interest rate risk exposure to only three maturity points on the par rate curve — the 1-yr, 5-yr and 25-yr maturities — with key rate durations D₁ = 0.7, D₅ = 3.5 and D₂₅ = 9.5.' },
+          { k: 'sub', text: 'Yield Curve Risk' },
+          { k: 'cols', id: 's6-lsc', panes: [
+            { title: 'Level', tone: 'teal', items: ['A *parallel shift* represents a change in level.', 'D_L captures the change in bond price for a change in the level of the yield curve.'] },
+            { title: 'Steepness', tone: 'violet', items: ['ST rates ↓, LT rates ↑ → curve is getting *steeper*.', 'ST rates ↑, LT rates ↓ → curve is getting *flatter*.', 'The impact on price of a change in steepness is captured using D_S (duration of steepness).'] },
+            { title: 'Curvature', tone: 'amber', items: ['Here curvature has increased: ST rates increase and LT rates increase; medium-term rates don’t change.', 'The impact of a change in curvature on the price of a bond is captured using D_C (curvature duration).'] },
+          ] },
+          { k: 'formula', title: 'Sensitivity to parallel, steepness and curvature movements', lines: [
+            'ΔP/P = −D_L Δx_L − D_S Δx_S − D_C Δx_C',
+          ], note: 'It has been found that all yield curve movements can be described using a combination of one or more of these movements. D_L, D_S and D_C are respectively the portfolio’s sensitivities to changes in the yield curve’s level, steepness and curvature.' },
+          { k: 'sub', text: 'Term Structure of Interest Rate Volatility' },
+          { k: 'points', id: 's6-vol', items: [
+            'On the graph the y-axis plots volatility and the x-axis plots maturity.',
+            'Volatility at the *long-maturity* end is affected by *macroeconomic factors*, and at the *short-maturity* end is affected by *monetary policy*.',
+          ] },
+        ],
+      },
+      {
+        module: '23.S7', title: 'Macroeconomic Factors · Bond Risk Premium · Policy and the Yield Curve · Investor Actions',
+        blocks: [
+          { k: 'sub', text: 'Macroeconomic Factors Affecting Bond Yields' },
+          { k: 'points', id: 's7-macro', items: [
+            '*Inflation* — about 2/3 of long-term yields are explained by it.',
+            'GDP.',
+            '*Monetary policy* — about 2/3 of short- and intermediate-term yields are explained by it.',
+          ] },
+          { k: 'sub', text: 'Bond Risk Premium' },
+          { k: 'formula', title: 'Bond risk premium', lines: [
+            'Bond risk premium = yield on LT government bond − yield on 1-yr risk-free bond',
+          ], note: 'e.g. 5-yr government bond yield = 4% and 1-yr risk-free yield = 1% → bond risk premium = 3%. Also known as the *term premium* or *duration premium*.' },
+          { k: 'sub', text: 'Impact of Monetary Policy on the Shape of the Yield Curve' },
+          { k: 'timeline', steps: [
+            { name: 'Economy in expansion', text: 'Central bank implements contractionary MP' },
+            { name: 'ST rates ↑', text: 'Short end rises' },
+            { name: 'Curve flattens', text: '*Bearish flattening*' },
+          ] },
+          { k: 'timeline', steps: [
+            { name: 'Economy in contraction', text: 'Central bank implements expansionary MP' },
+            { name: 'ST rates ↓', text: 'Short end falls' },
+            { name: 'Curve steepens', text: '*Bullish steepening*' },
+          ] },
+          { k: 'sub', text: 'Other Factors Affecting Bond Yields' },
+          { k: 'points', id: 's7-other', items: [
+            '*Fiscal policy*: expansionary fiscal policy → government issues more bonds → supply ↑ → bond price ↓ → YTM ↑. Contractionary policy → YTM ↓. (YTM = rates)',
+            '*Maturity structure*: an increase in supply (issuing) of bonds of a specific maturity will increase rates.',
+            '*Investor demand*: more demand for a specific maturity decreases rates.',
+          ] },
+          { k: 'sub', text: 'Investor Actions' },
+          { k: 'points', id: 's7-actions', items: [
+            'On expectation of a rise (fall) in rates, investors will lower (extend) the duration of their bond portfolio.',
+            'Expectations of steepening of the yield curve may lead to investors going long ST bonds and short LT bonds.',
+            'Trades may be designed to be *duration-neutral* so that a change in the level of interest rates does not affect the value of the portfolio.',
+            'Investors with long-only mandates may rotate between a *bullet* portfolio (portfolio concentrated in a single maturity) and a *barbell* portfolio (portfolio with short and long maturities).',
+            'An investor that expects a *bullish flattening* of the yield curve may rotate out of a bullet portfolio and into a barbell portfolio.',
+          ] },
+        ],
+      },
+    ],
+  },
+  'fi.1': {
+    flow: [
+      {
+        module: '24.S1', title: 'The Arbitrage-Free Valuation Framework',
+        blocks: [
+          { k: 'sub', text: '2 Types of Arbitrage Opportunity' },
+          { k: 'points', id: 's1-types', items: [
+            '1. *Value additivity*: the value of the whole differs from the sum of its parts (e.g. stripping and reconstitution).',
+            '2. *Dominance*: one asset trades at a lower price than another with identical characteristics.',
+          ] },
+          { k: 'sub', text: 'Stripping and Reconstitution' },
+          { k: 'cols', id: 's1-strip', panes: [
+            { title: 'Stripping', tone: 'teal', items: ['Separate the bond’s individual cash flows and trade them as *zero-coupon securities*.'] },
+            { title: 'Reconstitution', tone: 'violet', items: ['Dealers can recombine the appropriate individual zero-coupon securities and reproduce the underlying coupon Treasury.'] },
+          ] },
+        ],
+      },
+      {
+        module: '24.S2', title: 'Backward Induction · Pathwise Valuation · Path Dependency',
+        blocks: [
+          { k: 'sub', text: 'Backward Induction' },
+          { k: 'points', id: 's2-bi', items: [
+            'It is the process of valuing a bond using a *binomial interest rate tree*.',
+            'The term “backward” is used because in order to determine the value of a bond today at Node 0, you need to know the values that the bond can take at the year-1 nodes.',
+            'To determine the values of the bond at the year-1 nodes, you need to know the possible values of the bond at the year-2 nodes.',
+          ] },
+          { k: 'example', id: 's2-tree', title: 'Example — Valuing an option-free bond with the binomial model',
+            body: ['A 7% annual-coupon bond has two years to maturity (FV 1,000). The interest rate tree is shown below. Fill in the tree and calculate the value of the bond today. Do the same in pathwise valuation.'],
+            given: [
+              { label: 'Node 0 (year 0–1)', val: '4.5749%' },
+              { label: 'Year-1 nodes (year 1–2)', val: 'upper 7.1826% · lower 5.3210%' },
+            ],
+            steps: [
+              'Year-1 upper node: 1070 ÷ 1.071826 = *998.30*',
+              'Year-1 lower node: 1070 ÷ 1.053210 = *1,015.94*',
+              'Node 0: [(998.30 + 1,015.94) ÷ 2 + 70] ÷ 1.045749 = (1,007.12 + 70) ÷ 1.045749 = *1,030*',
+              'Pathwise: path 1 (4.5749%, 7.1826%) → *1,021.56*; path 2 (4.5749%, 5.3210%) → *1,038.43*; average = *1,030*',
+            ],
+            result: 'Value of the bond today = 1,030 (same by backward induction and pathwise valuation)' },
+          { k: 'sub', text: 'Path Dependency' },
+          { k: 'qa', q: 'How do we value a bond using the backward induction process?', a: 'The term “backward” is used because in order to determine the value of a bond today at Node 0, you need to know the values that the bond can take at the year-1 nodes. In the backward induction process we assume that the cash flows in year 2 are *not dependent on the interest rate path* the cash flow has taken.' },
+          { k: 'points', id: 's2-path', items: [
+            'Yes, the cash flows of *mortgage-backed securities* are dependent on the path that interest rates took: if interest rates go down, homeowners will refinance their loans at lower interest rates, and if rates increase the loan will not be refinanced.',
+            'Hence we cannot use backward induction.',
+            'Instead we use *Monte Carlo simulation* (calculation is done similarly to pathwise valuation).',
+          ] },
+        ],
+      },
+      {
+        module: '24.S3', title: 'How to Construct a Binomial Interest Rate Tree',
+        blocks: [
+          { k: 'p', text: '*Equal probability next period*: the binomial interest rate tree framework assumes that the interest rate has an *equal probability* of taking one of two possible values in the next period.' },
+          { k: 'points', id: 's3-nodes', items: [
+            'i₁,U = rate that will occur if the interest rate will follow the upper path from node 0.',
+            'i₁,L = lower path from node 0.',
+            'i₂,UU = node 0 upper and then node 1 upper.',
+            'i₂,UL = after node 0 upper, and after node 1 lower.',
+          ] },
+          { k: 'formula', title: 'Adjacent rates in the tree', lines: [
+            'i₁,U = i₁,L × e^(2σ)',
+            'i₂,UU = i₂,UL × e^(2σ) · i₂,UL = i₂,LL × e^(2σ) · i₂,UU = i₂,LL × e^(4σ)',
+          ], note: 'i) We assume continuous compounding. ii) σ means volatility, between the upper node and the lower node. iii) The relationship is always between the upper and lower nodes of the same year.' },
+          { k: 'points', id: 's3-rel', items: [
+            'The relationship is always between upper nodes and lower nodes. There is *no direct relation* between the interest rates of year 1 and year 2.',
+            'e = 2.7183 (i.e. the base of the natural log).',
+            'σ = standard deviation of interest rates (i.e. the interest rate volatility used in the model).',
+          ] },
+          { k: 'points', id: 's3-rules', title: 'The binomial tree construction process conforms to three rules:', items: [
+            'The interest rate tree should generate *arbitrage-free values* for the benchmark security. This means that the value of bonds produced by the interest rate tree must be equal to their market price, which excludes arbitrage opportunities.',
+            'As stated earlier, adjacent forward rates (for the same period) are *two standard deviations apart* (calculated as e^(2σ)). Hence, knowing one of the forward rates (out of many) for a particular nodal period allows us to compute the other forward rates for that period in the tree.',
+            'The *middle forward rate* (or mid-point in case of an even number of rates) in a period is approximately equal to the *implied (from the benchmark spot rate curve) one-period forward rate* for that period.',
+          ] },
+          { k: 'example', id: 's3-build', title: 'Example — Binomial interest rate tree',
+            body: ['Xi Nguyen, CFA, has collected the following information on the par rate curve, spot rates and forward rates. Nguyen has asked a colleague, Alok Nath, to generate a binomial interest rate tree consistent with this data and an assumed volatility of 20%. Nath completed a partial interest rate tree shown below (1-yr forward rates): Time 0 = 3%; Time 1 = 5.7883% (upper) and A (lower); Time 2 = B, C, D. 1) Calculate the forward rate indicated by A. 2) Estimate the forward rate indicated by C. 3) Estimate forward rates B and D.'],
+            given: [
+              { label: 'Maturity 1 · par 3% · spot', val: '3.000%' },
+              { label: 'Maturity 2 · par 4% · spot', val: '4.020%' },
+              { label: 'Maturity 3 · par 5% · spot', val: '5.069%' },
+            ],
+            steps: [
+              'A: i₁,L = i₁,U × e^(−2σ) = 0.057883 × e^(−2 × 0.20) = *0.0388 or 3.88%*',
+              'C is the middle rate for period 3, hence the best estimate for that rate is the one-year forward rate in 2 years, F(2,1), i.e. 2y1y: (1 + S₃)³ = (1 + S₂)² × [1 + F(2,1)] → (1.05069)³ = (1.0402)² × [1 + F(2,1)] → F(2,1) = *7.199%* = C = i₂,UL',
+              'B: i₂,UU = i₂,UL × e^(2σ) = 0.07199 × e^(0.40) = *0.1074 or 10.74%*',
+              'D: i₂,LL = i₂,UL × e^(−2σ) = 0.07199 × e^(−0.40) = *0.0483 or 4.83%*',
+            ],
+            result: 'A = 3.88% · B = 10.74% · C = 7.199% · D = 4.83%' },
+        ],
+      },
+      {
+        module: '24.S4', title: 'Term Structure Models · CIR · Vasicek · Ho–Lee · KWF',
+        blocks: [
+          { k: 'points', id: 's4-tsm', items: [
+            'Term structure models provide quantitatively precise descriptions of how interest rates evolve.',
+            'Interest rate models attempt to capture the *statistical properties* of interest rate movements.',
+            'Models are often used to solve particular real-world problems on the basis of a certain set of assumptions.',
+          ] },
+          { k: 'cols', id: 's4-types', panes: [
+            { title: 'Equilibrium term structure models', tone: 'teal', items: ['Cox–Ingersoll–Ross model', 'Vasicek model'] },
+            { title: 'Arbitrage-free models', tone: 'violet', items: ['Ho–Lee model', 'Kalotay–Williams–Fabozzi model'] },
+          ] },
+          { k: 'sub', text: 'Equilibrium Term Structure Models' },
+          { k: 'points', id: 's4-eq', items: [
+            'These models explain the term structure using *fundamental economic variables* that affect interest rates.',
+            'They are one-factor or multifactor models. Since the majority of changes in the yield curve are explained by parallel shifts, a single-factor model can be used to model the yield curve. Multifactor models are costly but can do the modelling more accurately.',
+            'They make assumptions about the behaviour of factors: should the factor be mean reverting, should the factor exhibit jumps.',
+            'They are, in general, *more sparing* with respect to the number of parameters that must be estimated compared with arbitrage-free term structure models.',
+          ] },
+          { k: 'sub', text: 'The Cox–Ingersoll–Ross Model' },
+          { k: 'p', text: 'Interest rate movements are driven by individuals choosing between consumption today versus investing and consuming at a later time.' },
+          { k: 'formula', title: 'CIR model', lines: [
+            'dr = a(b − r)dt + σ√r dz',
+          ], note: 'dr = change in the ST interest rate · a = speed of mean reversion parameter (high a means fast mean reversion) · b = long-run value of the ST interest rate · r = the ST interest rate · t = time · dt = a small increase in time · σ = volatility · dz = a small random walk movement. a(b − r)dt is the drift term (deterministic part); σ√r dz is the random component (stochastic part).' },
+          { k: 'p', text: 'The a(b − r)dt term forces the interest rate to *mean-revert* toward the long-run value (b) at a speed determined by the mean reversion parameter (a). If “a” is high (low), mean reversion to the long-run rate “b” would occur quickly (slowly).' },
+          { k: 'sub', text: 'The Vasicek Model' },
+          { k: 'formula', title: 'Vasicek model', lines: [
+            'dr = a(b − r)dt + σdz',
+          ] },
+          { k: 'points', id: 's4-vas', items: [
+            'The Vasicek model suggests that interest rates are *mean reverting* to some long-run value.',
+            'The difference from the CIR model that you will notice is that no interest rate (r) term appears in the 2nd term σdz, meaning that volatility in this model does *not increase* as the level of interest rates increases.',
+            'The main disadvantage of the Vasicek model is that the model does not force interest rates to be *non-negative*.',
+          ] },
+          { k: 'sub', text: 'Arbitrage-Free Models' },
+          { k: 'points', id: 's4-af', items: [
+            'Bonds in the market are correctly priced. The term structure of interest rates is calibrated to value such bonds consistent with their market price.',
+            'These models do not try to justify the current yield curve; rather, they take this curve as given.',
+          ] },
+          { k: 'sub', text: 'Ho–Lee Model' },
+          { k: 'formula', title: 'Ho–Lee model', lines: [
+            'drₜ = θₜdt + σdzₜ',
+          ], note: 'θₜ = a time-dependent drift term.' },
+          { k: 'points', id: 's4-holee', items: [
+            'The model assumes that changes in the yield curve are consistent with a *no-arbitrage* condition. The Ho–Lee model is calibrated by using market prices to find the time-dependent drift term θₜ that generates the current term structure.',
+            'The Ho–Lee model can then be used to price zero-coupon bonds and to determine the spot curve. The model produces a *symmetrical (normal)* distribution of future rates.',
+          ] },
+          { k: 'sub', text: 'Kalotay–Williams–Fabozzi Model' },
+          { k: 'formula', title: 'KWF model', lines: [
+            'd ln(rₜ) = θₜdt + σdzₜ',
+          ], note: 'θₜ = a time-dependent drift term.' },
+          { k: 'points', id: 's4-kwf', items: [
+            'The KWF model does not assume mean reversion and, like the Ho–Lee model, assumes constant volatility and a constant drift.',
+            'The KWF model assumes that the short-term rate is *lognormally* distributed.',
+            'The only difference is that the KWF model assumes a lognormal distribution of rates while the Ho–Lee model assumes a normal distribution.',
+          ] },
+        ],
+      },
+    ],
+  },
+  'fi.2': {
+    flow: [
+      {
+        module: '25.S1', title: 'Bonds with Embedded Options · Types · Callable, Putable and Extendible Bonds',
+        blocks: [
+          { k: 'points', id: 's1-app', title: 'Application of embedded options', items: [
+            'Manage interest rate risk.',
+            'Issue the bonds at an attractive coupon rate.',
+          ] },
+          { k: 'sub', text: 'Types of Embedded Option' },
+          { k: 'points', id: 's1-types', items: [
+            '*European-style* option: the option can only be exercised on a single day immediately after the lockout period.',
+            '*American-style* option: the option can be exercised at any time after the lockout period.',
+            '*Bermudan-style* option: the option can be exercised at fixed dates after the lockout period.',
+          ] },
+          { k: 'sub', text: 'Bond and Loan' },
+          { k: 'p', text: 'A bond issuer also borrows money and hence is similar to the borrower in a traditional loan arrangement. The bondholder will receive periodic coupon payments, similar to the lender in a traditional loan arrangement.' },
+          { k: 'sub', text: 'Callable and Putable Bonds' },
+          { k: 'cols', id: 's1-cp', panes: [
+            { title: 'Callable bond', tone: 'teal', items: ['Issuer has the option to *call back* the bond.', 'Issuer is *long a call* option on the bond. The investor is *short* the call option.', 'Exercised when the *price* of the bond goes up, or YTM in the market goes *down*.'] },
+            { title: 'Putable bond', tone: 'violet', items: ['Bondholder has the option to *put* (sell) the bond to the issuer.', 'Bondholder is *long a put* option on the bond. The issuer is *short* the put option.', 'Exercised when the *price* of the bond goes *down*, or YTM in the market goes *up*.'] },
+          ] },
+          { k: 'p', text: '*Extendible* bonds are similar in concept to putable bonds. It allows to extend the maturity of the bond. It can be evaluated as a putable bond with longer maturity (i.e. the maturity if the bond is extended). e.g. a 2-yr + 1-yr extendible bond = a 3-yr putable bond having a lockout period of 2 yrs.' },
+          { k: 'sub', text: 'Complex Options' },
+          { k: 'points', id: 's1-complex', items: [
+            '*Estate put*: included as a provision that allows the heirs of an investor to put the bond back to the issuer upon the death of the investor. The value of an estate put is *inversely* related to life expectancy: the shorter the life expectancy, the higher the value.',
+            '*Sinking fund bonds*: require the issuer to set aside funds periodically to retire the bond (a sinking fund). This provision reduces the credit risk of the bond. Sinkers typically have several related issuer options (e.g. call provisions, acceleration provisions, and delivery options).',
+          ] },
+        ],
+      },
+      {
+        module: '25.S2', title: 'Valuing Callable and Putable Bonds',
+        blocks: [
+          { k: 'formula', title: 'Callable bond', lines: [
+            'V_callable = V_straight − V_call',
+            'V_call = V_straight − V_callable',
+          ], note: 'Callable bond price < normal bond price; callable YTM > normal YTM. The call option will be exercised when interest rates go down.' },
+          { k: 'formula', title: 'Putable bond', lines: [
+            'V_putable = V_straight + V_put',
+            'V_put = V_putable − V_straight',
+          ] },
+          { k: 'fix', title: 'Callable bond price < normal bond price, because the demand for the normal bond ↑',
+            text: 'The price is lower because the investor is *short the call*: the issuer holds the right to take the bond back exactly when it is worth more (rates fall), so the investor pays less by the value of that call, V_callable = V_straight − V_call. Demand has nothing to do with it.' },
+          { k: 'example', id: 's2-cp', title: 'Example — Valuation of call and put options',
+            body: ['Consider a 2-yr, 7% annual-pay, $100 par bond callable in 1 yr at $100. Also consider a 2-yr, 7% annual-pay, $100 par bond putable in 1 yr at $100. The interest rate tree at 15% assumed volatility is as given below (4.5749% at node 0; 7.1826% and 5.3210% at year 1). Values shown per 1,000 of par.'],
+            steps: [
+              'Normal bond: year-1 nodes 998.30 (upper) and 1,015.94 (lower); [(998.30 + 1,015.94) ÷ 2 + 70] ÷ 1.045749 = (1,007.12 + 70) ÷ 1.045749 = *1,030* (1,029.99)',
+              'Callable bond is called at 1,000 at year 1 at the lower node (1,015.94 > 1,000): [(998.30 + 1,000) ÷ 2 + 70] ÷ 1.045749 = (999.15 + 70) ÷ 1.045749 = *1,022.38*',
+              'V_call = 1,029.99 − 1,022.38 = *7.61*',
+              'Putable bond is put at 1,000 at the upper node (998.30 < 1,000): [(1,000 + 1,015.94) ÷ 2 + 70] ÷ 1.045749 = (1,007.97 + 70) ÷ 1.045749 = *1,030.81*',
+              'V_put = 1,030.81 − 1,029.99 = *0.82*',
+            ],
+            result: 'Callable = 1,022.38 · V_call = 7.61 · Putable = 1,030.81 · V_put = 0.82' },
+        ],
+      },
+      {
+        module: '25.S3', title: 'Volatility · Level and Shape of the Yield Curve · Option Values',
+        blocks: [
+          { k: 'sub', text: 'Volatility and Option Values' },
+          { k: 'points', id: 's3-vol', items: [
+            'An option-free bond (NB) will change when interest rates change.',
+            'An NB will not be affected if the interest rate is volatile (volatility only affects option values).',
+            'For a bond with an option, the volatility in IR will have an effect on the option price.',
+            'The relationship of option price and volatility is *direct*.',
+          ] },
+          { k: 'cols', id: 's3-cp', panes: [
+            { title: 'Callable bond: V_callable = V_straight − V_call', tone: 'teal', items: ['When volatility increases the value of the call option increases, hence the value of the callable bond will decrease (*inverse* relation).', 'V_straight = V_callable + V_call: as volatility ↑, V_call ↑ and V_callable ↓, but they always equal V_straight.'] },
+            { title: 'Putable bond: V_putable = V_straight + V_put', tone: 'violet', items: ['When volatility increases the value of the put option increases, hence the value of the putable bond will increase (*direct* relation).', 'V_straight = V_putable − V_put: the NB value always remains the same, but the put option value keeps increasing; the value of the putable bond and put option is not equal to NB.'] },
+          ] },
+          { k: 'sub', text: 'Option Values and the Level of Interest Rates' },
+          { k: 'points', id: 's3-level', items: [
+            'The call option in a callable bond will be exercised when interest rates decrease. This implies the call option is *more valuable when interest rates are lower*. Hence call option value and level of interest rates are *inversely* related.',
+            'If the level of interest rates is higher (lower) → value of option lower (higher) → value of bond higher (lower).',
+            'The put option in a putable bond will be exercised when interest rates increase (*direct*). This implies the put option is more valuable when interest rates are higher.',
+            'Level of IR higher (lower) → value of put option higher (lower) → value of bond higher (lower).',
+          ] },
+          { k: 'sub', text: 'Option Value and the Shape of the Yield Curve' },
+          { k: 'points', id: 's3-shape', items: [
+            'If the yield curve is *upward sloping*, interest rates are expected to rise. In such a scenario is the probability of the call or put option getting exercised more or less?',
+            'For the call option: lower. Hence we can conclude that if the yield curve is upward sloping, the *CALL option is LESS valuable*.',
+            'For the put option: higher. Hence we can conclude that if the yield curve is upward sloping, the *PUT option is MORE valuable*.',
+            'When the upward slope of the yield curve starts flattening, the value of the put option ↓ and the call option ↑.',
+          ] },
+        ],
+      },
+      {
+        module: '25.S4', title: 'Option-Adjusted Spread',
+        blocks: [
+          { k: 'p', text: 'The price of a bond is nothing but the present value of future cash flows at appropriate discount rates.' },
+          { k: 'qa', q: 'What if you use a risk-free binomial interest rate tree to find the price of a risky bond? Will you get a higher price or a lower price, and why?', a: '*Higher price.* Since the risky bond has more risk it should be discounted using higher rates compared to risk-free rates, due to the risk premium.' },
+          { k: 'p', text: 'Hence to find the price of a risky bond using a risk-free binomial interest rate tree, we need to add something to the risk-free rate to get the price of the risky bond. This constant amount that we add to the risk-free binomial interest rate tree to get the price of the risky bond is referred to as the *OAS (option-adjusted spread)*.' },
+          { k: 'points', id: 's4-app', title: 'Application of OAS', items: [
+            'Used for *relative valuation*, i.e. to determine if a bond is undervalued or overvalued.',
+            'Ideally bonds with similar credit risk should have the same OAS.',
+            'If 2 bonds are identical (i.e. have the same credit risk) but Bond A has a *higher OAS* compared to Bond B, then it is *undervalued*, since it is giving a higher yield for the same level of risk. And if Bond A has a lower OAS, it is overvalued.',
+          ] },
+          { k: 'sub', text: 'Interest Rate Volatility and OAS' },
+          { k: 'timeline', steps: [
+            { name: 'Volatility ↑', text: 'Assumed in the tree' },
+            { name: 'Call option value ↑', text: 'More valuable' },
+            { name: 'Callable bond price ↓', text: 'V_callable = V_normal − V_call' },
+            { name: 'Gets closer to market price', text: 'Less spread needed' },
+            { name: 'OAS ↓', text: 'Less spread to be added to the benchmark tree to get the market price' },
+          ] },
+          { k: 'p', text: 'Interest rate volatility and OAS have an *inverse* relation in a callable bond and are *directly* related in a putable bond.' },
+        ],
+      },
+      {
+        module: '25.S5', title: 'Duration and Convexity of Bonds with Embedded Options',
+        blocks: [
+          { k: 'sub', text: 'Modified Duration and Convexity' },
+          { k: 'points', id: 's5-md', items: [
+            '*Modified duration*: it measures a bond’s price sensitivity to interest rate changes, assuming that the bond’s cash flows do not change as interest rates change. It is the percentage change in bond price for a one percent change in YTM.',
+            'You get a better answer from MD if the changes in YTM are small.',
+            'The price that we get from MD is always *lower* than the actual price.',
+            'Hence to get a better approximation we add something to the price that we get from the duration effect. That is called the *convexity effect*. The convexity effect is always positive.',
+            'The standard measure of convexity can be used to improve price changes estimated from modified duration.',
+          ] },
+          { k: 'sub', text: 'Effective Duration' },
+          { k: 'points', id: 's5-ed', items: [
+            'MD and convexity are not useful for bonds with embedded options.',
+            'Because in a normal bond the cash flows and maturity are known, and in embedded options the CF and maturity will change if the option is exercised.',
+            'This is why effective duration and effective convexity should be used; these measures take into account how changes in interest rates may alter CF.',
+          ] },
+          { k: 'formula', title: 'Effective duration and effective convexity', lines: [
+            'Effective duration = ED = (V₋ − V₊) ÷ (2 × V₀ × Δy)',
+            'Effective convexity = EC = (V₋ + V₊ − 2V₀) ÷ (V₀ × Δy²)',
+          ] },
+          { k: 'points', id: 's5-steps', title: 'Steps to calculate effective duration', items: [
+            'Step 1: Given assumptions about benchmark interest rates, interest rate volatility and any calls and/or puts, calculate the *OAS* for the issue using the current market price and the binomial model.',
+            'Step 2: Impose a small parallel shift in the benchmark yield curve by an amount equal to +Δy.',
+            'Step 3: Build a new binomial interest rate tree using the new yield curve.',
+            'Step 4: Add the OAS from step 1 to each of the one-year rates in the interest rate tree to get a “modified” tree.',
+            'Step 5: Compute BV₊Δy using this modified interest rate tree. (Repeat for −Δy to find V₋.)',
+          ] },
+          { k: 'points', id: 's5-edrel', items: [
+            'Relationship between the effective duration of a callable bond and a straight bond: *callable bond ≤ normal bond*. Because the life of a callable bond is either the same or less than the life of a comparable normal bond — since the bond can be called early it can have a lower life and hence lower duration.',
+            'Relationship between the effective duration of a putable bond and a straight bond: *putable bond ≤ normal bond*. Same reasons as for the callable bond.',
+            'The effective duration of a *zero-coupon bond* is equal to the bond’s maturity, since there is no CF in a zero-coupon bond.',
+            'The effective duration of a *coupon bond* is lower than the bond’s life, since CF is received before maturity.',
+            'The ED of a *floating bond* is approximately the same as the time to the next reset date, since the floating-rate bond trades at its par value on every reset date. Hence the entire recovery can happen on the next reset date.',
+          ] },
+          { k: 'sub', text: 'One-Sided Durations' },
+          { k: 'points', id: 's5-onesided', items: [
+            'The measure of effective duration or modified duration is helpful in finding the change in price when YTM changes. The change in price is applicable for an increase in YTM and/or a decrease in YTM as well.',
+            'In a callable bond the increase in price is less than the decrease in price for the same ΔYTM (the callable bond is capped at the call price).',
+            'This is why we have 2 different measures of duration: *UP duration* gives you the change in price when YTM increases; *DOWN duration* gives you the change in price when YTM decreases.',
+            'For a callable bond, when the call option is at or near the money, the change in price for a decrease in yield will be less than the change in price for an equal amount of increase in yield.',
+            'One-sided duration, putable bond: in a putable bond the down duration is smaller than the up duration.',
+          ] },
+          { k: 'fix', title: 'In a putable bond the down duration is smaller than up duration',
+            text: 'It is the other way round. When yields *rise*, the put puts a floor under the price, so the price falls only a little: the *up-duration is small*. When yields *fall*, the putable behaves like a straight bond and rises fully: the *down-duration is larger*. For a putable bond, down-duration > up-duration; for a callable, up-duration > down-duration (as my callable line says).' },
+          { k: 'sub', text: 'Key Rate Durations' },
+          { k: 'p', text: 'Definitions and the 1-yr / 5-yr / 25-yr example (D₁ = 0.7, D₅ = 3.5, D₂₅ = 9.5) are in 23.S6. Applied to bonds:' },
+          { k: 'points', id: 's5-krd-nb', title: 'Key rate duration — normal bond', items: [
+            '1. If an option-free bond is trading at *par*, the bond’s maturity-matched rate is the only rate that affects the bond’s value. Its maturity key rate duration is the same as its effective duration, and all other rate durations are zero.',
+            '2. The 3% bond’s (i.e. the par bond’s) 15-yr key rate duration is the same as the bond’s effective duration, and all other rate durations are zero.',
+            '3. For an option-free bond not trading at par, the maturity-matched rate is still the most important rate: the 15-yr key rate duration is highest.',
+          ] },
+          { k: 'points', id: 's5-krd-call', title: 'Key rate durations — callable bonds', items: [
+            '1. A callable bond with a *low coupon* rate is unlikely to be called; hence the bond’s maturity-matched rate is the most critical rate (i.e. the highest key rate duration corresponds to the bond’s maturity). For the 1% bond in the figure, the 15-yr key rate duration exceeds all other key rate durations.',
+            '2. All else equal, *higher coupon* bonds are more likely to be called, and therefore the *time-to-exercise* rate will tend to dominate the time-to-maturity rate. For the 8% coupon bond in the diagram, the 10-yr key rate duration is highest.',
+            'Key rate durations — putable bonds: same as callable bonds.',
+          ] },
+          { k: 'sub', text: 'Convexity' },
+          { k: 'cols', id: 's5-conv', panes: [
+            { title: 'Positive convexity', tone: 'teal', items: ['↑ in price when rates ↓ > ↓ in price when rates ↑, for the same Δ in rates.'] },
+            { title: 'Negative convexity', tone: 'violet', items: ['↑ in price when rates ↓ < ↓ in price when rates ↑, for the same Δ in rates.'] },
+          ] },
+        ],
+      },
+      {
+        module: '25.S6', title: 'Floating-Rate Bonds · Capped and Floored Floaters',
+        blocks: [
+          { k: 'p', text: '*Floating-rate bond*: a floater pays a coupon that adjusts every period based on an underlying reference rate. The coupon is typically paid *in arrears*, meaning the coupon rate is determined at the beginning of a period but is paid at the end of that period.' },
+          { k: 'p', text: '*Capped floater*: in a capped floater there is a cap option with the issuer, which gives him the right that prevents the coupon rate from rising above a specified maximum rate known as the cap.' },
+          { k: 'formula', title: 'Capped floater', lines: [
+            'Value of capped floater = value of straight floater − value of the embedded cap',
+          ] },
+          { k: 'p', text: '*Floored floater*: in a floored floater there is a floor option with the bondholder, which gives him the right that prevents the coupon rate from falling below a specified minimum rate known as the floor.' },
+          { k: 'formula', title: 'Floored floater', lines: [
+            'Value of floored floater = value of straight floater + value of the embedded floor',
+          ] },
+        ],
+      },
+      {
+        module: '25.S7', title: 'Convertible Bonds',
+        blocks: [
+          { k: 'points', id: 's7-defs', items: [
+            '*Conversion ratio*: it is the number of common shares for which a convertible bond can be exchanged.',
+            '*Conversion parity price*: it is the minimum share price at which the bond will be converted into equity shares. It is also the price that the convertible bondholder would effectively pay for the stock if she bought the bond and immediately converted it.',
+            '*Conversion value*: the conversion value of a convertible bond is the value of the common stock that you get after converting the bond.',
+            '*Straight value*: the straight value, or investment value, of a convertible bond is the value of the bond if it were not convertible — the present value of the bond’s cash flows discounted at the return required on a comparable option-free issue.',
+            '*Market conversion premium per share*: it is the difference between the market conversion price and the stock’s current market price.',
+            '*Market conversion premium ratio*: when the market conversion premium per share is expressed as a ratio of the current market price, it is referred to as the market conversion premium ratio.',
+          ] },
+          { k: 'example', id: 's7-bsc', title: 'Example — Convertible bond measures (BSC)',
+            body: ['Consider a BSC convertible bond with a 7% coupon that is currently selling at $985 with a conversion ratio of 25 and a straight value of $950. Suppose that the value of BSC’s common stock is currently $35 per share, and that it pays $1 per share in dividends annually. Calculate: CPP, CPPS, CV, MCPR, premium over SV.'],
+            steps: [
+              'Market conversion price = 985 ÷ 25 = *$39.40* (only convert if the price goes to 39.40)',
+              'Conversion premium per share = 39.40 − 35 = *4.40* (share price needs to increase by a minimum of 4.40)',
+              'Conversion value = 25 × 35 = *875*',
+              'Market conversion premium ratio = 4.40 ÷ 35 = *12.57%* (share price needs to ↑ by 12.57% min.)',
+              'Premium over straight value = (985 ÷ 950) − 1 = *3.68%*',
+            ],
+            result: 'CPP = $39.40 · premium/share = $4.40 · CV = $875 · ratio = 12.57% · premium over SV = 3.68%' },
+          { k: 'sub', text: 'Minimum Value of a Convertible Bond' },
+          { k: 'p', text: 'The minimum value of a convertible bond is the *greater of its conversion value or its straight value*. This must be the case, or arbitrage opportunities would be possible. If the above condition is not met there would be an arbitrage opportunity.' },
+          { k: 'example', id: 's7-arb', title: 'Example — Arbitrage when price < conversion value',
+            body: ['Consider a convertible bond currently selling at $850 with a conversion ratio of 25 and a straight value of $825. Suppose that the value of the common stock is currently $35. What is the conversion value? Also, is there any arbitrage opportunity?'],
+            steps: [
+              'Conversion value = 35 × 25 = *875*',
+              'Bond price = *850*',
+            ],
+            result: 'There exists an arbitrage opportunity (buy the bond at 850, convert into stock worth 875)' },
+          { k: 'example', id: 's7-min', title: 'Example — Minimum value of a convertible bond',
+            body: ['A convertible bond with a 7% coupon is selling at $985 with a conversion ratio of 25 and a straight value of 950. The stock is currently $35 per share and pays a $1 per share dividend.'],
+            steps: [
+              'Conversion value = 25 × 35 = *875*; SV = *950*',
+              'Min. value of a CB = max(SV, CV) = max(950, 875) = *950*',
+            ],
+            result: 'Minimum value = $950' },
+          { k: 'formula', title: 'Convertible bond values', lines: [
+            'Convertible bond value = straight value of bond + value of call option on stock',
+            'Callable convertible bond value = straight value of bond + value of call option on stock − value of call option on bond',
+            'Callable and putable convertible bond value = straight value of bond + value of call option on stock − value of call option on bond + value of put option on bond',
+          ], note: 'In a callable bond the call option is with the bond issuer, hence the call premium on the bond must be subtracted. In a putable bond the put option is with the bondholder, hence the put premium on the bond must be added.' },
+          { k: 'points', id: 's7-ret', items: [
+            'When the stock price *falls*, the returns on convertible bonds exceed those of the stock, because the convertible bond’s price has a *floor* equal to its straight bond value.',
+            'When the stock price *rises*, the bond will underperform because of the *conversion premium*. This is the main drawback of investing in convertible bonds versus investing directly in the stock.',
+            'If the stock’s price remains *stable*, the return on a convertible bond may exceed the stock return due to the coupon payments received from the bond, assuming no change in interest rates or credit risk of the issuer.',
+          ] },
+          { k: 'p', text: '*Busted convertible*: sometimes the price of the common stock associated with a convertible issue is so low that it has little or no effect on the convertible’s market price, and the bond trades as though it is a straight bond. In this situation, the convertible security is referred to as a *fixed-income equivalent* or a busted convertible.' },
+        ],
+      },
+    ],
+  },
+  'fi.3': {
+    flow: [
+      {
+        module: '26.S1', title: 'Measures of Credit Risk · CVA · Risk-Neutral Probability of Default',
+        blocks: [
+          { k: 'p', text: 'Credit risk: 1. risk of default; 2. risk of *worsening credit quality* — this can happen even if there is no default.' },
+          { k: 'sub', text: 'Measures of Credit Risk' },
+          { k: 'points', id: 's1-measures', items: [
+            '*Expected exposure*: amount of money that can be lost without considering recovery.',
+            '*Recovery rate*: % recovered if the borrower defaults.',
+            '*Loss severity*: % lost if the borrower defaults. Loss severity + recovery rate = 100%.',
+            '*Loss given default*: loss severity × exposure.',
+            '*Probability of default*: chance of default happening in a given year. It is the conditional probability of default given there is no default previously: P(Dₙ) = hazard rate × P(Sₙ₋₁).',
+            '*Hazard rate*: it is the conditional probability of default given there is no default previously.',
+            '*Probability of survival*: P(S) = 1 − cumulative probability of default; P(Sₙ) = (1 − hazard rate)ⁿ.',
+          ] },
+          { k: 'formula', title: 'Expected loss and CVA', lines: [
+            'Expected loss = LGD × P(D)',
+            'CVA = Σ PV of expected loss for each period',
+            'CVA = price of risk-free bond − price of risky bond',
+          ] },
+          { k: 'example', id: 's1-cva', title: 'Example — Credit measures',
+            body: ['A 3-yr, $100 par, zero-coupon corporate bond has a hazard rate of 2% per year. Its recovery rate is 60% and the benchmark rate curve is flat at 3%. Calculate the expected exposure, probability of survival, probability of default, loss given default and CVA.'],
+            steps: [
+              'Expected exposure₃ = 100; exposure₂ = PV of exposure at t3 + CF₂ = 97.087 + 0; exposure₁ = 94.26 + 0',
+            ],
+            result: 'CVA = 2.1527' },
+          { k: 'table', id: 's1-cvatab',
+            columns: ['Exposure', 'LGD', 'P(S)', 'P(D)', 'Expected loss', 'PV of expected loss'],
+            rows: [
+              { label: 'Yr 1', values: ['94.26', '37.704', '98%', '2%', '0.75408', '0.732113'] },
+              { label: 'Yr 2', values: ['97.08', '38.835', '96.04%', '1.96%', '0.761165', '0.717471'] },
+              { label: 'Yr 3', values: ['100.00', '40.00', '94.119%', '1.9208%', '0.768320', '0.703122'] },
+              { label: 'CVA', values: ['', '', '', '', '', '2.152706'] },
+            ],
+            caption: 'LGD = loss severity × exposure · P(Sₙ) = (1 − hazard rate)ⁿ · P(Dₙ) = hazard rate × P(Sₙ₋₁) · expected loss = LGD × P(D).' },
+          { k: 'formula', title: 'Value of the credit-risky bond', lines: [
+            'Benchmark bond with no credit risk = 100 ÷ 1.03³ = 91.51',
+            'Value of credit-risky bond = value of credit-risk-free bond − CVA = 91.51 − 2.15 = 89.36',
+          ] },
+          { k: 'example', id: 's1-irr', title: 'Example — IRR calculation',
+            body: ['Zero-coupon bond: FV = 100, maturity = 3 yrs, IR = 3%, recovery rate = 60%, hazard rate = 2% (price 89.36). Calculate the IRR if the bond defaults at the end of year 1, year 2 and year 3.'],
+            steps: [
+              'Scenario 1 — bond defaults at the end of the 3rd year: N = 3, PV = −89.36, PMT = 0, FV = 60 (60% of 100) → CPT I/Y = *−12.43%*',
+              'Scenario 2 — defaults at the end of the 2nd year: N = 2, PV = −89.36, PMT = 0, FV = 58.25 (60% of 97.08) → CPT I/Y = *−19.26%*',
+              'Scenario 3 — defaults at the end of the 1st year: N = 1, PV = −89.36, PMT = 0, FV = 56.56 (60% of 94.26) → CPT I/Y = *−36.71%*',
+            ],
+            result: 'IRR = −12.43% (default yr 3) · −19.26% (yr 2) · −36.71% (yr 1)' },
+          { k: 'sub', text: 'Risk-Neutral Probability of Default' },
+          { k: 'p', text: 'Risk-neutral probability of default = probability of default implied in the current market price.' },
+          { k: 'formula', title: 'Example — 1-yr zero-coupon bond, FV = 100, price = 95, rate = 3%, recovery rate = 60%', lines: [
+            '95 = [P_D × 60 + (1 − P_D) × 100] ÷ 1.03 → P_D = 5.38%',
+          ] },
+          { k: 'p', text: 'Keeping everything else constant, the relationship between *recovery rate* and probability of default is *direct*.' },
+          { k: 'sub', text: 'Relative Credit Risk Analysis' },
+          { k: 'qa', q: 'When comparing 2 bonds for credit, which factors should be considered?', a: 'Probability of default · loss severity · *expected loss* = LGD × P(D), which includes both.' },
+          { k: 'table', id: 's1-rel',
+            columns: ['Exposure (per 100 par)', 'Recovery (per 100 par)', 'Prob. of default', 'LGD (per 100 par)', 'Expected loss'],
+            rows: [
+              { label: 'X', values: ['102', '40', '1.25%', '62', '0.775'] },
+              { label: 'Y', values: ['88', '45', '1.30%', '43', '0.559'] },
+              { label: 'Z', values: ['92', '32', '1.65%', '60', '0.990'] },
+            ],
+            caption: 'Ex: relative risk evaluation — which bond has the highest risk? Since exposure and recovery amounts are given per $100 par, LGD per $100 par = exposure − recovery (e.g. bond Y: 88 − 45 = $43). Expected loss = LGD × P(D). Based on expected loss, bond Z is the most risky while bond Y has the least credit risk.' },
+        ],
+      },
+      {
+        module: '26.S2', title: 'Credit Scores and Ratings · Structural and Reduced-Form Models',
+        blocks: [
+          { k: 'points', id: 's2-score', title: 'Credit score: for small businesses and individuals, it is higher if:', items: [
+            'Longer credit history.',
+            'Lower utilization (o/s balance ÷ available line).',
+            'Absence of delinquencies.',
+            'Less credit enquiry.',
+            'Wide variety of credit used.',
+          ] },
+          { k: 'points', id: 's2-rating', items: [
+            '*Credit rating*: for corporate debt, ABS, government debt, etc., by rating agencies like Moody’s, S&P and Fitch.',
+            '*Notching*: lowering the ratings by one or more levels for subordinated debt of an issuer. Accounts for differences in LGD between different debt of the same issuer.',
+            '*Credit migration*: change in credit rating. This generally reflects changes in a bond’s credit risk. If it is downgraded the bond value falls.',
+          ] },
+          { k: 'formula', title: 'Credit migration', lines: [
+            '%ΔP = −modified duration of the bond × Δspread',
+          ] },
+          { k: 'sub', text: 'Structural Models' },
+          { k: 'p', text: 'Based on the *structure of the balance sheet* and relies on an option pricing model. Assets on one side; liabilities = a single zero-coupon bond with FV = K (this company has only this type of debt), plus equity.' },
+          { k: 'cols', id: 's2-sm', panes: [
+            { title: 'SM — equity', tone: 'teal', items: ['In such a company, holding equity is like holding a *call option* on the value of assets at exercise price K.', 'If asset value A_T > K, value of equity = A_T − K; else, value of equity = 0.', 'Hence value of stock = max(0, A_T − K).'] },
+            { title: 'SM — debt', tone: 'violet', items: ['Value of debt = min(A_T, K).', 'Owning risky debt = long risk-free debt (FV = K) + *short put* on assets at X = K.', 'If A_T > K, amount received = K + 0 = K.', 'If A_T < K, amount received = K − (K − A_T) = A_T.'] },
+          ] },
+          { k: 'cols', id: 's2-sm-pc', panes: [
+            { title: 'Advantages of structural models', tone: 'teal', items: ['Structural models provide an *economic rationale* for default (i.e. A_T < K) and explain why default occurs.', 'Structural models utilize option pricing models to value risky debt.'] },
+            { title: 'Disadvantages of structural models', tone: 'violet', items: ['Because structural models assume a simple balance sheet structure, a complex BS cannot be modeled. Additionally, when companies have off-BS debt, the default barriers under structural models (K) would be inaccurate and hence the estimated outputs of the model will be inaccurate.', 'One of the key assumptions of the structural model is that the *assets of the company are traded* in the market. This restrictive assumption makes the structural model impractical.'] },
+          ] },
+          { k: 'sub', text: 'Reduced-Form Models' },
+          { k: 'points', id: 's2-rf', items: [
+            'Do not rely on the structure of the company’s BS and hence don’t assume assets are trading.',
+            'These models do not explain why default occurs (the structural model does).',
+            'They tell us when default occurs statistically.',
+          ] },
+          { k: 'cols', id: 's2-rf-pc', panes: [
+            { title: 'Advantages', tone: 'teal', items: ['Do not assume that the assets of a company trade.', 'Default intensity is allowed to vary as company fundamentals change, as well as when the state of the economy changes.'] },
+            { title: 'Disadvantages', tone: 'violet', items: ['Do not explain why default occurs.', 'Under RF models default is treated as a random event (i.e. a surprise), but in reality default is rarely a surprise (it is often preceded by several downgrades).'] },
+          ] },
+        ],
+      },
+      {
+        module: '26.S3', title: 'Credit Spread Analysis',
+        blocks: [
+          { k: 'formula', title: 'Credit spread', lines: [
+            'Credit spread = YTM of risky bond − YTM of benchmark',
+            'VND = value of the risky bond assuming it doesn’t default, i.e. using risk-free rates',
+            'CVA = VND − value of risky debt',
+          ] },
+          { k: 'example', id: 's3-implied', title: 'Example — CVA implied in the market price',
+            body: ['Jack Gordon, a fixed-income analyst for Omega Bond Plc, is evaluating an EB for inclusion in the bank’s portfolio. The $100 par, 3.50%, annual-pay, 5-yr bond is currently priced with a credit spread of 135 bps over the benchmark par rate of 2%. Calculate the bond’s CVA implied in its market price.'],
+            steps: [
+              'VND for the bond = PV of the bond’s CF using the benchmark YTM: N = 5, PMT = 3.50, I/Y = 2, FV = 100 → CPT PV = *107.07*',
+              'YTM of risky bond = 2% benchmark rate + 1.35% credit spread = 3.35%: FV = 100, N = 5, PMT = 3.5, I/Y = 3.35 → CPT PV = *100.68*',
+              'CVA = VND − value of risky debt = 107.07 − 100.68',
+            ],
+            result: 'CVA = $6.39' },
+        ],
+      },
+      {
+        module: '26.S4', title: 'Benchmark Yield · Credit Spread Components · Term Structure of Credit Spreads',
+        blocks: [
+          { k: 'formula', title: 'Benchmark yield and credit spread', lines: [
+            'Benchmark yield = real risk-free rate + expected inflation + risk premium for uncertainty in inflation',
+            'Credit spread = default risk + liquidity risk + taxation risk relative to benchmark',
+          ], note: 'Real risk-free rate = compensation for delayed consumption; expected inflation = compensation for the loss in purchasing power.' },
+          { k: 'points', id: 's4-xva', items: [
+            'The adjustment to price for the above 3 factors (default, liquidity, taxation) is referred to as *XVA*.',
+            'Considering only default risk, it is termed *CVA*.',
+          ] },
+          { k: 'example', id: 's4-change', title: 'Example — Changes in probability of default and recovery rate',
+            body: ['Joao De Silva, a junior analyst, works for a regional bank. Currently, De Silva is evaluating a 3-yr, annual-pay, 3% XYZ corporate bond priced at $102. The benchmark yield curve is flat at 1.75%. De Silva prepared the table below assuming a hazard rate of 1.25% and a recovery rate of 70%. Q1: Using De Silva’s estimates of hazard rate and recovery rate, the XYZ bond is currently most likely: A. undervalued, B. overvalued, C. fairly priced. Q2: Using the market price of the bond, the credit spread on the XYZ bond is closest to: A. 0.44%, B. 0.49%, C. 0.55%. Q3: Assuming the market price changes to reflect Collin’s expectations of P_D and recovery rate (PD = 1.5%, RR = 60%), the new credit spread would be closest to: A. 0.52%, B. 0.61%, C. 0.79%.'],
+            steps: [
+              'Q1: VND: N = 3, PMT = 3, I/Y = 1.75, FV = 100 → PV = *103.62*. Value of risky bond = VND − CVA = 103.62 − 1.12 = *102.5*. Market value 102 < intrinsic value 102.5 → *A. undervalued*',
+              'Q2: PV = −102, N = 3, PMT = 3, FV = 100 → CPT I/Y = *2.30%*; credit spread = 2.30% − 1.75% = *0.55%* → *C*',
+              'Q3: based on the revised PD and RR, CVA = *1.79*; price = VND − CVA = 103.62 − 1.79 = *101.83*; N = 3, PV = −101.83, PMT = 3, FV = 100 → CPT I/Y = *2.36%*; CS = 2.36% − 1.75% = *0.61%* → *B*',
+            ],
+            result: 'Q1 A (undervalued) · Q2 C (0.55%) · Q3 B (0.61%)' },
+          { k: 'table', id: 's4-tab',
+            columns: ['Exposure', 'LGD', 'PD', 'PS', 'Expected loss', 'PV of expected loss'],
+            rows: [
+              { label: 'Yr 1', values: ['105.44', '31.63', '1.25%', '98.750%', '0.395', '0.389'] },
+              { label: 'Yr 2', values: ['104.23', '31.27', '1.23%', '97.516%', '0.386', '0.373'] },
+              { label: 'Yr 3', values: ['103.00', '30.90', '1.22%', '96.297%', '0.377', '0.358'] },
+              { label: 'CVA', values: ['', '', '', '', '', '1.12'] },
+            ],
+            caption: 'De Silva’s table (hazard rate 1.25%, recovery 70%). Exposure = PV of the remaining cash flows at 1.75% plus the coupon due (yr 3 = 100 + 3).' },
+          { k: 'sub', text: 'Term Structure of Credit Spreads' },
+          { k: 'points', id: 's4-ts', items: [
+            'For longer maturity the credit spread is higher (the credit spread curve is *upward sloping*): x-axis → maturity, y-axis → CS.',
+            'Useful for investors to price new issues.',
+            'Useful to determine relative valuation.',
+            'Credit spread and RR → *inverse* relation.',
+            'Credit spread and probability of default → *direct* relation.',
+          ] },
+          { k: 'points', id: 's4-det', title: 'Determinants of the term structure of credit spreads', items: [
+            '*Credit quality*: AAA term structures are generally flat and slightly upward; lower-rated term structures are steeper due to greater uncertainty.',
+            '*Financial conditions*: spreads narrow during expansion; spreads widen during contractions.',
+            '*Equity market volatility*: more volatile → more spread.',
+          ] },
+          { k: 'qa', q: 'Which bonds generally have more liquidity: a new issue or an old issue?', a: 'Not marked on my page. *New issues* (on-the-run) are generally more liquid than older, off-the-run issues, so they carry a smaller liquidity component in their spread.' },
+          { k: 'p', text: 'Q (open on my page): as a result, what happens when a company refinances ST debt with NEW long-term debt — how will the term structure look: inverted or upward sloping?' },
+          { k: 'points', id: 's4-abs', title: 'Components of credit analysis of secured debt', items: [
+            'Collateral pool.',
+            'Servicer quality.',
+            'Structure.',
+          ] },
+        ],
+      },
+    ],
+  },
+  'fi.4': {
+    flow: [
+      {
+        module: '27.S1', title: 'Credit Default Swaps · CDS Spread · Single-Name and Index CDS · Settlement',
+        blocks: [
+          { k: 'cols', id: 's1-sides', panes: [
+            { title: 'Protection seller', tone: 'teal', items: ['*Long* CDS.', 'Purchased credit risk.'] },
+            { title: 'Protection buyer', tone: 'violet', items: ['*Short* CDS.', 'Sold credit risk.'] },
+          ] },
+          { k: 'p', text: 'The premium is paid by the buyer to the seller, referred to as the *CDS spread*.' },
+          { k: 'sub', text: 'CDS Spread' },
+          { k: 'points', id: 's1-spread', items: [
+            'The CDS spread can be thought of as the *insurance premium* that the buyer has to pay to the protection seller.',
+            'It should be dependent on the underlying bond characteristics.',
+            'But due to standardization it has led to *fixed coupons*: 1% for investment grade, 5% for high-yield bonds.',
+            'As a result of standardization will you pay the exact insurance premium? No.',
+          ] },
+          { k: 'formula', title: 'Upfront premium', lines: [
+            'Upfront premium = PV of the difference between the standard coupon rate and the credit spread',
+          ], note: 'Ex: CDS on an investment-grade bond having a credit spread of 75 bps and a CR of 1%. The protection buyer must pay 75 bps but due to standardization he will pay 100 bps. Hence he will receive the PV of the difference as an upfront premium.' },
+          { k: 'p', text: 'A CDS is similar to a *put option* for the protection buyer, because the protection buyer benefits when the underlying asset performs poorly, and loses the premium in case the asset goes up.' },
+          { k: 'sub', text: 'Single-Name CDS' },
+          { k: 'example', id: 's1-ctd', title: 'Example — Cheapest-to-deliver',
+            body: ['Party X is a protection buyer in a $10 mill notional principal senior CDS of Alpha. There is a credit event (i.e. Alpha defaults) and the market prices of Alpha’s bonds after the credit event are as follows: Bond P, a subordinated unsecured debenture, is trading at 15% of par. Bond Q, a 5-yr senior unsecured debenture, is trading at 25% of par. Bond R, a 3-yr senior unsecured debenture, is trading at 30% of par. What will be the payoff on the CDS?'],
+            steps: [
+              'The cheapest-to-deliver senior unsecured debenture (i.e. same seniority as the senior CDS) is bond Q. The payoff will be the difference between the notional principal and the market value of the CTD.',
+              'Payoff = 10 mill − (0.25)(10 mill)',
+            ],
+            result: 'Payoff = $7.5 mill' },
+          { k: 'sub', text: 'Index CDS' },
+          { k: 'example', id: 's1-index', title: 'Example — Index CDS',
+            body: ['Party X is a protection buyer in a 5-yr, $100 mill notional principal CDS for CDX-IG, which contains 125 entities. One of the index constituents, company A, defaults and its bonds trade at 30% of par after default. 1. What will be the payoff on the CDS? 2. What will be the notional principal of the CDS after default?'],
+            steps: [
+              'Each entity = 100 mill ÷ 125 = 0.8 mill of notional',
+              'Payoff = 0.8 × 70% = *0.56 mill*',
+              'Notional principal = 124 × 0.8 = *99.2 mill*',
+            ],
+            result: 'Payoff = $0.56 mill · new notional = $99.2 mill' },
+          { k: 'sub', text: 'Credit Events That Can Lead to Default' },
+          { k: 'points', id: 's1-events', items: [
+            'Bankruptcy.',
+            'Failure to pay.',
+            'Restructuring (change in terms and conditions).',
+            'A *supermajority* vote of 12 members out of 15 members of the ISDA committee is required to declare a default has occurred.',
+            'The swap could be settled as *physical delivery* or *cash settlement*.',
+          ] },
+          { k: 'example', id: 's1-settle', title: 'Example — Settlement preference',
+            body: ['A French company files for bankruptcy, triggering various CDS contracts. It has two series of senior bonds outstanding: Bond A trades at 30% of par, and Bond B trades at 40% of par. Investor X owns €10 mil of Bond A and owns €10 mil of CDS protection. Investor Y owns €10 mil of Bond B and owns €10 mil of CDS protection. 1. Determine the RR for both CDS contracts. 2. Explain whether investor X would prefer to cash settle or physically settle her CDS contracts, or whether she is indifferent. 3. Explain whether investor Y would prefer to CS or PS his CDS contracts, or whether he is indifferent.'],
+            steps: [
+              '1. Bond A is the cheapest-to-deliver obligation, trading at 30% of par, so the RR for both CDS contracts is *30%*.',
+              '2. Investor X has *no preference* between settlement methods. She can cash settle for €7 mill [(1 − 30%) × 10 mill] and sell her bond for €3 mill, for total proceeds of €10 mill. Alternatively, she can physically deliver her entire €10 mill face amount of bonds to the counterparty in exchange for €10 mill in cash.',
+              '3. Investor Y would prefer *cash settlement* because he owns Bond B, which is worth more than the cheapest-to-deliver obligation. He will receive the same €7 mill payout on his CDS contracts, but can sell Bond B for €4 mill, for total proceeds of €11 mill. If he were to physically settle his contract, he would receive only €10 mill, the face amount of his bonds.',
+            ],
+            result: 'RR = 30% · X indifferent (€10 mill either way) · Y prefers cash settlement (€11 mill vs €10 mill)' },
+        ],
+      },
+      {
+        module: '27.S2', title: 'Factors Affecting CDS Pricing · Hazard Rate · Upfront Premium · Valuation After Inception · Uses of CDS',
+        blocks: [
+          { k: 'points', id: 's2-factors', title: 'Factors affecting CDS pricing', items: [
+            '*Probability of default*: increases over time; it is the conditional probability of default, also called the hazard rate.',
+            '*LGD*: expected lossₜ = hazard rateₜ × loss given defaultₜ.',
+            '*Coupon rate*: the cash payment made by the protection buyer on the CDS.',
+          ] },
+          { k: 'example', id: 's2-hazard', title: 'Example — Hazard rate',
+            body: ['Consider a 5-yr senior CDS on Xeon Corp. Xeon’s hazard rate is 2% and increases by 1% per year. Compute the survival rate in 5 yrs.'],
+            steps: [
+              'The hazard rates for the 5 years are 2%, 3%, 4%, 5% and 6%.',
+              'Survival rate in 5 yrs = (1 − 0.02)(1 − 0.03)(1 − 0.04)(1 − 0.05)(1 − 0.06)',
+            ],
+            result: 'Survival rate = 0.815 or 81.5%' },
+          { k: 'sub', text: 'Protection and Premium Legs' },
+          { k: 'points', id: 's2-legs', items: [
+            'LGD is inversely related to RR.',
+            'The payment made by the protection buyer to the seller is the *premium leg*.',
+            'The amount paid in the case of default is referred to as the *protection leg*.',
+          ] },
+          { k: 'formula', title: 'CDS spread, upfront premium and price', lines: [
+            'CDS spread ≈ (1 − RR) × POD',
+            'Upfront premium = PV of protection leg − PV of premium leg',
+            'Upfront premium % ≈ (CDS spread − CDS coupon) × duration',
+            'Price of CDS = $100 − upfront premium (%)',
+          ], note: 'We use duration because the upfront premium is the PV of the spread difference over the life of the CDS. The upfront premium is from the protection buyer’s side.' },
+          { k: 'example', id: 's2-upfront', title: 'Example — Upfront premium',
+            body: ['Aki Mutaro, bond portfolio manager for a regional bank, is considering buying protection on one of the bank’s high-yield holdings: Alpha Inc. bonds. The 10-yr CDS on Alpha bonds has a coupon rate of 5% while the 10-yr Alpha CDS spread is 3.5%. The duration of the CDS is 7. Calculate the approximate upfront premium and price of a 10-yr Alpha Inc. CDS.'],
+            steps: [
+              'Upfront premium % = (CDS spread − CDS coupon) × duration = (3.5% − 5.0%) × 7 = *−10.5%* (seller → buyer)',
+              'Hence, the protection seller would pay (approximately) 10.5% of the notional to the protection buyer upfront, because the CDS coupon is higher than the credit spread.',
+              'CDS price = 100 − (−10.5) = *110.50* per $100 notional',
+            ],
+            result: 'Upfront premium ≈ −10.5% (paid by the seller) · CDS price = 110.50 per 100 of notional' },
+          { k: 'sub', text: 'Valuation After Inception of a CDS' },
+          { k: 'points', id: 's2-after', items: [
+            'At inception of a CDS, the CDS spread (and the upfront premium) is computed based on the credit quality of the reference entity. After inception, the credit quality of the reference entity (or the credit risk premium in the overall market) may change.',
+            'This will lead to the underlying CDS having a nonzero value. For example, if the credit spread declines, the protection seller would gain.',
+            'The change in value of a CDS after inception can be approximated by the change in spread multiplied by the duration of the CDS.',
+          ] },
+          { k: 'formula', title: 'Change in value after inception', lines: [
+            'Profit for protection buyer = change in spread × duration × notional principal',
+          ] },
+          { k: 'points', id: 's2-curve', items: [
+            '*Credit curve*: if the curve is upward sloping it indicates longer-maturity bonds have higher credit risk. If the hazard rate is constant, the curve will be flat.',
+            '*Naked CDS*: an investor purchasing a CDS with no underlying exposure.',
+            '*Long/short trade*: purchase protection on one reference entity and sell protection on another reference entity. e.g. if you speculate that Maruti’s CDS spread will increase and Hyundai’s will decrease, you will buy protection on Maruti and sell on Hyundai.',
+          ] },
+          { k: 'cols', id: 's2-ctrade', panes: [
+            { title: 'Curve steepening', tone: 'teal', items: ['*Sell ST CDS* and *buy LT CDS*.', 'Sell ST because CS ↓; buy LT because CS ↑.'] },
+            { title: 'Curve flattening', tone: 'violet', items: ['*Buy ST CDS* and *sell LT CDS*.', 'Buy ST because CS ↑; sell LT because CS ↓.'] },
+          ] },
+          { k: 'sub', text: 'Uses of CDS' },
+          { k: 'points', id: 's2-uses', items: [
+            '*Basis trade*: exploit the difference in credit spread between the bond and CDS markets (e.g. bond market spread 4%, CDS market 3%: buy the bond and buy CDS protection to earn the difference).',
+            'If an *LBO* is anticipated, what will happen? The company will issue debt to repurchase shares, which will lead to an increase in the probability of default → *buy stock and buy credit protection*.',
+          ] },
+        ],
+      },
+    ],
+  },
   'deriv.0': {
     refs: {
       stk: {
@@ -9496,6 +10470,11 @@ const GAPS = {
   'equity.3': {},
   'equity.4': {},
   'equity.5': {},
+  'fi.0': {},
+  'fi.1': {},
+  'fi.2': {},
+  'fi.3': {},
+  'fi.4': {},
   'deriv.0': {},
   'deriv.1': {},
   'pm.0': {},
@@ -9912,6 +10891,11 @@ const STATUS = {
   'equity.3': 'progress',
   'equity.4': 'progress',
   'equity.5': 'progress',
+  'fi.0': 'progress',
+  'fi.1': 'progress',
+  'fi.2': 'progress',
+  'fi.3': 'progress',
+  'fi.4': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
   'pm.0': 'progress',
@@ -11060,6 +12044,308 @@ const EXAM = {
       f: [
         ['Capitalized cash flow method', ['Firm value = FCFF₁ ÷ (WACC − g)', 'Equity value = firm value − MV of debt = FCFE₁ ÷ (kₑ − g)'], 'CCM formulas'],
         ['Excess earnings method', ['Excess earnings = normalized earnings − r(WC) × WC − r(FA) × FA', 'Intangibles = excess earnings × (1 + g) ÷ (r(intangibles) − g)', 'Firm value = WC + FA + intangibles'], 'Calculating firm value using the excess earnings method'],
+      ],
+    },
+  },
+  'fi.0': {
+    about: [
+      'Reading 23 is about the *term structure*: how spot, forward and par rates relate, what drives the shape of the yield curve, and how to measure a portfolio’s exposure to it. Spot rates are zero-coupon yields; forward rates are the rates for loans starting in the future; par rates are the yields of bonds priced at par, and bootstrapping turns the par curve into spot rates one step at a time. An upward-sloping spot curve has the forward curve above it.',
+      'Whether a long bond beats a short one over a short horizon depends on expected spot rates versus today’s forwards: if E(S) = F every bond earns the same; if the curve stays unchanged (E(S) < F), riding the curve with longer bonds earns more. Spreads measure credit and liquidity: swap spread (swap vs. Treasury), I-spread (bond vs. swap), Z-spread (constant spread over the government spot curve, no good with options), TED and LIBOR–OIS (banking-system stress).',
+      'The five term structure theories differ in where the premium sits (none, short-term only, a liquidity premium rising with maturity, pure demand and supply, or a demand-driven premium). Interest rate risk is measured with modified and effective duration for parallel shifts and key rate durations for shaping risk, with level, steepness and curvature explaining the moves. Expect questions on riding the curve, choosing a spread, identifying a theory, and bearish flattening vs. bullish steepening.',
+    ],
+    '23.S1': {
+      s: [
+        'Spot rates are annualized rates for a single future payment, the yields on zero-coupon bonds, usually taken from government securities to build the spot curve. Forward rates are rates on loans that start in the future (1y2y = the 2-year rate one year from now). A zero’s YTM equals its spot rate; a coupon bond’s YTM equals the spot rate only when the curve is flat. The realized return equals YTM only if the bond is held to maturity, every payment is made in full and on time, and coupons are reinvested at the YTM.',
+      ],
+      n: [
+        ['Spot rate = yield on a zero-coupon bond; spot curve built from government securities.', 'zero-coupon rates'],
+        ['1y2y = 2-year forward rate one year from now.', '1y2y'],
+        ['Realized return = YTM only if held to maturity, paid in full on time, coupons reinvested at YTM.', 'held to maturity'],
+      ],
+    },
+    '23.S2': {
+      s: [
+        'A par rate is the YTM of a bond trading at par, where coupon = YTM. Bootstrapping derives spot rates from the par curve: the 1-year par rate is S₁, then S₁ and the 2-year par rate give S₂, and so on, each output feeding the next step. When the spot curve slopes up, the forward curve lies above it, and below it when the spot curve slopes down.',
+      ],
+      n: [
+        ['Bootstrapping: par curve → spot rates, output of one step is the input to the next.', 'output of one step as an input to the next step'],
+        ['Upward-sloping spot curve → forward curve above it (and vice versa).', 'forward rate curve will be'],
+      ],
+    },
+    '23.S3': {
+      s: [
+        'If expected future spot rates equal today’s forward rates, bonds of every maturity earn the same return over a one-year horizon: with spot rates of 3%, 4% and 5%, the 1-, 2- and 3-year zeros all return 3%. If the yield curve stays unchanged, meaning expected spot rates are below the forwards, longer bonds roll down the curve and earn more (3%, 5.01%, 7.03%). That is riding the yield curve.',
+      ],
+      n: [
+        ['E(S) = F → same return for every maturity (all 3%).', 'All three bonds return 3%'],
+        ['Curve unchanged (E(S) < F) → longer bond earns more: 3% · 5.01% · 7.03%.', 'rolls down the unchanged curve'],
+        ['Expect spot below forward → hold the longer maturity.', 'lower than the forward rate'],
+      ],
+    },
+    '23.S4': {
+      s: [
+        'The swap rate is the fixed rate in a plain vanilla swap. The swap curve is preferred because it reflects bank rather than sovereign credit risk, is unregulated and so comparable across countries, and has quotes at many maturities; wholesale banks use it, retail banks use the government curve. The swap spread is the swap rate minus the on-the-run Treasury yield, almost always positive. The I-spread is the bond’s yield minus the swap rate (interpolated if needed) and reflects only credit and liquidity risk. The Z-spread is the constant spread over government spot rates that prices the bond, but it assumes zero rate volatility, so it is wrong for bonds with options. TED spread (3-m LIBOR − 3-m T-bill) and LIBOR–OIS gauge risk in the banking system; a high LIBOR–OIS means banks are unwilling to lend.',
+      ],
+      n: [
+        ['Swap spread = swap rate − on-the-run Treasury yield; almost always positive (0.57% − 0.11% = 0.46%).', 'almost always positive'],
+        ['I-spread = bond yield − swap rate; reflects only credit + liquidity risk.', 'I-spread = yield on the bond − swap rate'],
+        ['Z-spread: added to every government spot rate; assumes zero volatility → not for bonds with options.', 'zero interest rate volatility'],
+        ['Z-spread example: 5% 3-yr bond at 980 over spot 3/4/5% → z ≈ 0.81%.', 'z ≈'],
+        ['TED = 3-m LIBOR − 3-m T-bill; better gauge of banking risk than the 10-yr swap spread.', '3-month LIBOR rate − 3-month T-bill rate'],
+        ['High LIBOR–OIS → banks unwilling to lend; low → high liquidity.', 'unwilling to lend'],
+      ],
+    },
+    '23.S5': {
+      s: [
+        'Unbiased (pure) expectations: forward rates equal expected spot rates, investors are risk neutral, so the slope only reflects expected rate moves. Local expectations: risk neutral only over short horizons, but this fails because long bonds earn more over short horizons when the curve is unchanged. Liquidity preference: a liquidity premium that rises with maturity is built into forward rates, making them upward-biased forecasts, so an upward curve is consistent with rates expected to rise, stay flat or even fall; a downward curve signals steeply falling rates. Segmented markets: each maturity is priced by its own supply and demand. Preferred habitat: investors can be drawn out of their preferred maturity by a premium set by supply and demand.',
+      ],
+      n: [
+        ['Unbiased expectations: E(S) = F; risk neutral; up-sloping curve → rates expected to rise.', 'risk neutrality'],
+        ['Local expectations: risk neutral only in the ST; fails because long bonds earn more over short horizons.', 'risk neutral in the ST'],
+        ['Liquidity preference: F = E(S) + LP, LP rises with maturity → forwards are upward-biased.', 'biased estimates'],
+        ['Up-sloping curve under LP: rates may rise, stay constant, or even fall.', 'addition of the liquidity premium results in a positive slope'],
+        ['Segmented markets: each maturity set by its own demand and supply.', 'essentially unrelated'],
+        ['Preferred habitat = mix of liquidity preference and segmented markets.', 'combination of theories 3 and 4'],
+      ],
+    },
+    '23.S6': {
+      s: [
+        'Modified duration (Macaulay ÷ (1 + YTM)) gives the % price change for a change in YTM but only for option-free bonds. Effective duration also works for bonds with options, but only for parallel shifts, which explain over 75% of portfolio return variation. Key rate duration is the % change in value for a 100 bp move in one par rate with others held constant, so it captures shaping risk: ΔP/P = −Σ Dₖ Δrₖ. Curve moves combine level, steepness and curvature, measured with D_L, D_S and D_C. Rate volatility at the short end is driven by monetary policy and at the long end by macroeconomic factors.',
+      ],
+      n: [
+        ['Modified duration: option-free only; effective duration: options too, but only parallel shifts.', 'only for bonds *without embedded options*'],
+        ['Parallel shifts explain > 75% of portfolio return variation.', '75%'],
+        ['Key rate duration: 100 bp move in one par rate, others constant → shaping risk.', '100 basis point change in the corresponding key rate'],
+        ['ΔP/P = −D₁Δr₁ − D₅Δr₅ − D₂₅Δr₂₅ (0.7, 3.5, 9.5).', 'D₁ = 0.7'],
+        ['Steeper: ST ↓, LT ↑. Flatter: ST ↑, LT ↓.', 'curve is getting *steeper*'],
+        ['ST volatility ← monetary policy; LT volatility ← macro factors.', 'affected by *monetary policy*'],
+      ],
+    },
+    '23.S7': {
+      s: [
+        'Inflation explains about two-thirds of long-term yields and monetary policy about two-thirds of short and intermediate yields; GDP matters too. The bond risk premium (term or duration premium) is the extra yield on long government bonds over a 1-year risk-free bond. In an expansion, tightening lifts short rates and flattens the curve (bearish flattening); in a contraction, easing cuts short rates and steepens it (bullish steepening). More government borrowing or more issuance at a maturity raises yields; more demand lowers them. Investors shorten duration if they expect rates to rise, go long short bonds and short long bonds for steepening, use duration-neutral trades, and rotate from a bullet to a barbell when expecting bullish flattening.',
+      ],
+      n: [
+        ['Inflation → ~2/3 of LT yields; monetary policy → ~2/3 of short/intermediate yields.', '2/3 of long-term yields'],
+        ['Expansion + tightening → bearish flattening; contraction + easing → bullish steepening.', 'Bearish flattening'],
+        ['Expansionary fiscal policy → more bonds → price ↓ → YTM ↑.', 'government issues more bonds'],
+        ['Expect rates ↑ → shorten duration; expect bullish flattening → bullet → barbell.', 'bullish flattening'],
+      ],
+    },
+  },
+  'fi.1': {
+    about: [
+      'Reading 24 values bonds so that no arbitrage is possible: a bond must equal the sum of its stripped cash flows (value additivity) and two identical assets cannot trade at different prices (dominance). For bonds whose cash flows depend on rates, the tool is a binomial interest rate tree valued by backward induction: start at maturity and work back, averaging the two possible values at each node, adding the coupon and discounting at the node rate. Pathwise valuation reaches the same answer by averaging over every path.',
+      'The tree is built so that it reprices the benchmark bonds (arbitrage-free), adjacent rates in a period are e^(2σ) apart, and the middle rate is about the implied one-period forward rate. When cash flows depend on the path rates took (mortgage-backed securities), backward induction fails and Monte Carlo simulation is used instead.',
+      'Term structure models describe how short rates evolve. Equilibrium models (CIR with σ√r volatility that rises with rates and keeps them non-negative; Vasicek with constant volatility that can go negative) use mean reversion and economic factors. Arbitrage-free models (Ho–Lee, normal; KWF, lognormal) take today’s curve as given with a time-dependent drift. Expect a tree to fill in, a node value, and model comparisons.',
+    ],
+    '24.S1': {
+      s: [
+        'Arbitrage takes two forms: value additivity, when the whole is priced differently from the sum of its parts, as in stripping a bond into zero-coupon pieces or reconstituting them; and dominance, when an asset trades below another with identical characteristics.',
+      ],
+      n: [
+        ['Value additivity (stripping & reconstitution) vs. dominance (same asset, lower price).', 'Value additivity'],
+      ],
+    },
+    '24.S2': {
+      s: [
+        'Backward induction values a bond on a binomial tree from the last nodes back to node 0: each node is the average of the two next-period values plus the coupon, discounted at that node’s rate. For a 2-year 7% bond with node rates 4.5749%, 7.1826% and 5.3210% the value is 1,030, the same as averaging the two paths in pathwise valuation. It assumes cash flows do not depend on the path rates took; mortgage-backed securities break that (refinancing when rates fall), so they are valued with Monte Carlo simulation.',
+      ],
+      n: [
+        ['Node value = [avg of next two values + coupon] ÷ (1 + node rate); 7% 2-yr bond = 1,030.', 'Value of the bond today = 1,030'],
+        ['Pathwise valuation: average of the path values (1,021.56 and 1,038.43).', 'Pathwise'],
+        ['Path-dependent cash flows (MBS) → Monte Carlo, not backward induction.', 'Monte Carlo simulation'],
+      ],
+    },
+    '24.S3': {
+      s: [
+        'Each period the rate takes one of two values with equal probability. Adjacent rates in the same period are linked by e^(2σ) (so i₂,UU = i₂,LL × e^(4σ)); there is no direct link between years. The tree must reprice the benchmark bonds (arbitrage-free), and the middle rate of a period is about the implied one-period forward rate. In the example (σ = 20%), A = 5.7883% × e^(−0.4) = 3.88%, C = 2y1y forward = 7.199%, B = 10.74% and D = 4.83%.',
+      ],
+      n: [
+        ['i_U = i_L × e^(2σ); no direct link between rates of different years.', 'no direct relation'],
+        ['Tree rules: reprice the benchmark, adjacent rates e^(2σ) apart, middle rate ≈ implied forward.', 'arbitrage-free values'],
+        ['Example: A = 3.88% · C = F(2,1) = 7.199% · B = 10.74% · D = 4.83%.', 'A = 3.88%'],
+      ],
+    },
+    '24.S4': {
+      s: [
+        'Equilibrium models explain the curve from economic fundamentals with one or more factors, mean reversion assumptions and fewer parameters. CIR: dr = a(b − r)dt + σ√r dz, where a sets the speed of mean reversion to the long-run rate b and volatility rises with the rate level, keeping rates non-negative. Vasicek: dr = a(b − r)dt + σdz, constant volatility, so rates can go negative. Arbitrage-free models take the current curve as given and calibrate a time-dependent drift θₜ to market prices: Ho–Lee (drₜ = θₜdt + σdzₜ, normal rates) and KWF (d ln rₜ = θₜdt + σdzₜ, lognormal), neither mean-reverting.',
+      ],
+      n: [
+        ['Equilibrium: CIR, Vasicek. Arbitrage-free: Ho–Lee, KWF.', 'Cox–Ingersoll–Ross model'],
+        ['CIR: dr = a(b − r)dt + σ√r dz; high a → fast mean reversion.', 'dr = a(b − r)dt + σ√r dz'],
+        ['Vasicek: σdz, volatility independent of rate level → rates can go negative.', 'non-negative'],
+        ['Ho–Lee: drₜ = θₜdt + σdzₜ, normal; calibrated drift reproduces today’s curve.', 'symmetrical (normal)'],
+        ['KWF: d ln(rₜ) = θₜdt + σdzₜ, lognormal; no mean reversion.', 'lognormally'],
+      ],
+    },
+  },
+  'fi.2': {
+    about: [
+      'Reading 25 values bonds with embedded options as a straight bond plus or minus the option. The investor is short the call in a callable (V_callable = V_straight − V_call) and long the put in a putable (V_putable = V_straight + V_put). Both are valued on the binomial tree by replacing node values with the call price (if above it) or the put price (if below it). Options come European, American or Bermudan style; extendibles are putables with the longer maturity; estate puts and sinking funds are more complex variants.',
+      'Option values rise with volatility, so callable values fall and putable values rise with volatility. Calls are worth more when rates are low and the curve is flat or inverted; puts when rates are high and the curve slopes up. The OAS is the constant spread added to the risk-free tree to reach the market price; equal-risk bonds should have equal OAS, and higher volatility lowers a callable’s OAS but raises a putable’s.',
+      'Rate sensitivity uses effective duration and convexity, computed by shifting the curve ±Δy, rebuilding the tree and adding the OAS. Callables and putables have durations no higher than straight bonds, and one-sided durations show the asymmetry. Floaters adjust with the reference rate; caps lower and floors raise their value. Convertibles are worth at least the greater of straight and conversion value. Expect tree valuations, the effect of volatility and curve shape, OAS relative value, and convertible metrics.',
+    ],
+    '25.S1': {
+      s: [
+        'Embedded options help issuers manage interest rate risk and issue at attractive coupons. European options are exercisable on a single date after the lockout, American at any time after it, Bermudan on fixed dates. In a callable the issuer is long the call and exercises when rates fall; in a putable the holder is long the put and exercises when rates rise. An extendible is a putable with the extended maturity (2 + 1 extendible = 3-year putable with a 2-year lockout). Estate puts are worth more the shorter the holder’s life expectancy; sinking funds reduce credit risk and often carry call, acceleration and delivery options.',
+      ],
+      n: [
+        ['European: one date; American: any time; Bermudan: fixed dates (all after lockout).', 'Bermudan-style'],
+        ['Callable: issuer long call, exercised when rates ↓. Putable: holder long put, exercised when rates ↑.', 'Issuer is *long a call*'],
+        ['Extendible = putable with the extended maturity.', 'Extendible'],
+        ['Estate put value inversely related to life expectancy.', 'Estate put'],
+      ],
+    },
+    '25.S2': {
+      s: [
+        'V_callable = V_straight − V_call and V_putable = V_straight + V_put. On the tree, the callable’s node value is capped at the call price and the putable’s is floored at the put price. For the 2-year 7% bond (straight 1,029.99), calling at 1,000 at the lower year-1 node gives 1,022.38 (call worth 7.61); putting at 1,000 at the upper node gives 1,030.81 (put worth 0.82).',
+      ],
+      n: [
+        ['V_callable = V_straight − V_call; V_putable = V_straight + V_put.', 'V_callable = V_straight − V_call'],
+        ['Tree: cap node values at the call price, floor them at the put price.', 'Callable bond is called at 1,000'],
+        ['Example: callable 1,022.38, call 7.61; putable 1,030.81, put 0.82.', 'V_call = 7.61'],
+      ],
+    },
+    '25.S3': {
+      s: [
+        'Volatility does not change an option-free bond but raises option values, so a callable’s value falls and a putable’s rises as volatility increases. Lower rates make the call more valuable (callable worth less relative to straight), higher rates make the put more valuable. An upward-sloping curve means rates are expected to rise, so the call is less valuable and the put more valuable; as the curve flattens, the call gains and the put loses.',
+      ],
+      n: [
+        ['Volatility ↑ → option values ↑ → callable ↓, putable ↑.', 'inverse* relation'],
+        ['Rates low → call more valuable; rates high → put more valuable.', 'more valuable when interest rates are lower'],
+        ['Upward-sloping curve → call less valuable, put more valuable.', 'CALL option is LESS valuable'],
+      ],
+    },
+    '25.S4': {
+      s: [
+        'Discounting a risky bond with the risk-free tree overprices it, so a constant spread, the option-adjusted spread, is added to every node rate until the model price equals the market price. Bonds of similar credit risk should have the same OAS: a higher OAS means the bond is undervalued (more yield for the same risk). Higher assumed volatility raises the call value, lowers the model price of a callable and so lowers its OAS; for a putable the relation is direct.',
+      ],
+      n: [
+        ['OAS = constant spread added to the risk-free tree to match the market price.', 'option-adjusted spread'],
+        ['Same credit risk, higher OAS → undervalued.', 'it is *undervalued*'],
+        ['Volatility ↑ → callable OAS ↓; putable OAS ↑.', 'Interest rate volatility and OAS'],
+      ],
+    },
+    '25.S5': {
+      s: [
+        'Modified duration assumes cash flows do not change with rates, so for bonds with options use effective duration ED = (V₋ − V₊) ÷ (2V₀Δy) and effective convexity EC = (V₋ + V₊ − 2V₀) ÷ (V₀Δy²). To compute them: find the OAS, shift the curve by ±Δy, rebuild the tree, add the OAS, and revalue. Callable and putable durations are no higher than the straight bond’s. A zero’s ED equals its maturity, a coupon bond’s is below its life, and a floater’s is about the time to the next reset. One-sided durations capture asymmetry: a callable falls more when yields rise than it gains when they fall. Key rate durations: a par option-free bond is exposed only to its maturity rate; a low-coupon callable to its maturity rate; a high-coupon callable to the rate at its likely call date. Positive convexity gains more on a rate fall than it loses on a rise; negative convexity the reverse.',
+      ],
+      n: [
+        ['ED = (V₋ − V₊) ÷ (2V₀Δy); EC = (V₋ + V₊ − 2V₀) ÷ (V₀Δy²).', 'Effective duration = ED'],
+        ['Steps: OAS → shift ±Δy → rebuild tree → add OAS → revalue.', 'Add the OAS from step 1'],
+        ['ED: callable ≤ straight, putable ≤ straight; zero = maturity; floater ≈ time to next reset.', 'callable bond ≤ normal bond'],
+        ['Callable: up-duration > down-duration. Putable: down-duration > up-duration.', 'down duration is smaller than up duration'],
+        ['KRD: low-coupon callable → maturity rate; high-coupon callable → time-to-exercise rate.', 'time-to-exercise'],
+      ],
+    },
+    '25.S6': {
+      s: [
+        'A floater’s coupon resets each period off a reference rate and is paid in arrears. A cap, held by the issuer, stops the coupon rising above a maximum, so a capped floater = straight floater − cap. A floor, held by the investor, stops it falling below a minimum, so a floored floater = straight floater + floor.',
+      ],
+      n: [
+        ['Coupon set at the start of the period, paid at the end (in arrears).', 'in arrears'],
+        ['Capped floater = straight − cap (issuer’s option); floored = straight + floor (holder’s option).', 'value of straight floater − value of the embedded cap'],
+      ],
+    },
+    '25.S7': {
+      s: [
+        'A convertible can be exchanged for a fixed number of shares (the conversion ratio). Conversion value = ratio × share price; straight value = the bond’s value without the conversion option; market conversion price = bond price ÷ ratio, and its excess over the share price is the conversion premium (per share or as a ratio). The minimum value is the greater of straight and conversion value, or there is an arbitrage. A convertible = straight bond + call on the stock, minus a call on the bond if callable, plus a put if putable. It cushions falls in the stock (the straight-value floor), lags when the stock rises (the premium), and beats a flat stock through its coupons. A busted convertible trades like a straight bond because the stock is far below conversion.',
+      ],
+      n: [
+        ['Market conversion price = bond price ÷ conversion ratio (985 ÷ 25 = 39.40).', 'Market conversion price = 985 ÷ 25'],
+        ['Premium ratio = premium per share ÷ share price (4.40 ÷ 35 = 12.57%).', 'Market conversion premium ratio = 4.40 ÷ 35'],
+        ['Minimum value = max(straight value, conversion value), else arbitrage.', 'greater of its conversion value or its straight value'],
+        ['Callable & putable convertible = straight + call on stock − call on bond + put on bond.', 'Callable and putable convertible bond value'],
+        ['Stock ↓ → convertible beats the stock (floor); stock ↑ → lags (premium).', 'conversion premium'],
+        ['Busted convertible = trades like a straight bond (fixed-income equivalent).', 'Busted convertible'],
+      ],
+    },
+  },
+  'fi.3': {
+    about: [
+      'Reading 26 measures and prices credit risk. The building blocks are expected exposure, recovery rate and loss severity, loss given default (LGD = loss severity × exposure), the hazard rate (probability of default given no earlier default) and the probability of survival. Expected loss = LGD × probability of default, and the credit valuation adjustment (CVA) is the sum of the present values of expected losses: risky bond value = risk-free value − CVA. The risk-neutral probability of default is the one implied by the market price.',
+      'Credit scores (individuals, small firms) and ratings (corporates, sovereigns, ABS) summarize credit risk; notching lowers ratings for subordinated debt, and a rating migration changes price by about −modified duration × Δspread. Structural models treat equity as a call on the firm’s assets and debt as risk-free debt minus a put, giving an economic reason for default but needing traded assets and a simple balance sheet. Reduced-form models treat default as a statistical event whose intensity changes with the firm and the economy.',
+      'The credit spread is the risky YTM over the benchmark and compensates for default, liquidity and tax risk (XVA; CVA covers default only). A bond is undervalued if VND − CVA exceeds its price. Spreads rise with default probability, fall with recovery, usually rise with maturity (steeper for lower ratings), widen in contractions and with equity volatility. Expect a CVA table, a fair-value verdict, a spread after a change in hazard or recovery rate, and structural vs. reduced-form comparisons.',
+    ],
+    '26.S1': {
+      s: [
+        'Credit risk is the risk of default and of a worsening credit quality. Expected exposure is the amount at risk before recovery; LGD = loss severity × exposure; the hazard rate is the conditional probability of default, so P(Dₙ) = hazard × P(Sₙ₋₁) and P(Sₙ) = (1 − hazard)ⁿ. Expected loss = LGD × P(D) and CVA = Σ PV of expected losses. For a 3-year zero with a 2% hazard rate, 60% recovery and a 3% flat curve, CVA = 2.15 and the risky bond is worth 91.51 − 2.15 = 89.36; default at the end of years 3, 2 or 1 gives IRRs of −12.43%, −19.26% and −36.71%. The risk-neutral default probability solves price = expected payoff ÷ (1 + r) (5.38% in the example), and for a given price it rises with the assumed recovery rate. Compare bonds on expected loss, which includes both PD and severity.',
+      ],
+      n: [
+        ['LGD = loss severity × exposure; loss severity + recovery = 100%.', 'Loss severity + recovery rate = 100%'],
+        ['P(Dₙ) = hazard × P(Sₙ₋₁); P(Sₙ) = (1 − hazard)ⁿ.', 'P(Dₙ) = hazard rate × P(Sₙ₋₁)'],
+        ['CVA = Σ PV(LGD × PD) = risk-free price − risky price.', 'CVA = price of risk-free bond − price of risky bond'],
+        ['Example: CVA 2.15 → risky value 91.51 − 2.15 = 89.36.', '91.51 − 2.15 = 89.36'],
+        ['Risk-neutral PD: 95 = [P×60 + (1 − P)×100] ÷ 1.03 → 5.38%; direct relation with recovery.', 'P_D = 5.38%'],
+        ['Relative credit risk: compare expected loss (Z riskiest, Y safest).', 'bond Z is the most risky'],
+      ],
+    },
+    '26.S2': {
+      s: [
+        'Credit scores rise with a longer history, lower utilization, no delinquencies, fewer enquiries and varied credit. Ratings by Moody’s, S&P and Fitch cover corporates, ABS and governments; notching lowers subordinated debt for its higher LGD; a downgrade (migration) cuts price by about −modified duration × Δspread. Structural models view equity as a call on assets with strike K (max(0, A_T − K)) and debt as min(A_T, K) = risk-free debt − a put on the assets. They explain why default happens but need a simple balance sheet and traded assets. Reduced-form models need neither, let default intensity change with fundamentals and the economy, but do not explain default and treat it as a surprise.',
+      ],
+      n: [
+        ['Notching: lower ratings for subordinated debt (different LGD).', 'Notching'],
+        ['Migration: %ΔP = −modified duration × Δspread.', 'Δspread'],
+        ['Structural: equity = call on assets (K); risky debt = risk-free debt − put on assets.', 'short put'],
+        ['Structural cons: simple BS only, off-BS debt distorts K, assumes assets trade.', 'assets of the company are traded'],
+        ['Reduced-form: no traded assets needed, intensity varies; but no reason for default, treats it as a surprise.', 'rarely a surprise'],
+      ],
+    },
+    '26.S3': {
+      s: [
+        'The credit spread is the risky bond’s YTM over the benchmark. VND is the bond valued at benchmark rates as if it could not default, and CVA = VND − market value. A 5-year 3.5% bond at 135 bp over a 2% benchmark has VND 107.07 and price 100.68, so the market implies a CVA of 6.39.',
+      ],
+      n: [
+        ['VND = bond priced at benchmark rates; CVA = VND − market price.', 'CVA = VND − value of risky debt'],
+        ['Example: 107.07 − 100.68 → implied CVA = 6.39.', 'CVA = $6.39'],
+      ],
+    },
+    '26.S4': {
+      s: [
+        'Benchmark yields compensate for the real rate, expected inflation and inflation uncertainty; the credit spread adds default, liquidity and tax risk (all three = XVA, default only = CVA). In the De Silva example the bond’s VND is 103.62 and CVA 1.12, so fair value 102.5 exceeds the price of 102 (undervalued); the market spread is 0.55%; with a 1.5% hazard and 60% recovery CVA rises to 1.79, the price to 101.83 and the spread to 0.61%. Spreads usually rise with maturity, more steeply for lower ratings; they fall with recovery, rise with default probability, narrow in expansions, widen in contractions and with equity volatility. Secured debt is analysed on its collateral pool, servicer and structure.',
+      ],
+      n: [
+        ['Credit spread = default + liquidity + taxation risk; all = XVA, default only = CVA.', 'XVA'],
+        ['Fair value = VND − CVA; above price → undervalued (102.5 > 102).', 'A. undervalued'],
+        ['Hazard 1.5%, RR 60% → CVA 1.79 → spread 0.61%.', 'CS = 2.36% − 1.75%'],
+        ['Spread vs. RR: inverse; vs. PD: direct; lower ratings → steeper curve.', 'Credit spread and RR'],
+        ['Secured debt analysis: collateral pool, servicer quality, structure.', 'Servicer quality'],
+      ],
+    },
+  },
+  'fi.4': {
+    about: [
+      'Reading 27 covers credit default swaps. The protection buyer pays a premium (the CDS spread) and receives the loss if a credit event occurs, so the buyer is short credit risk and the seller long it; a CDS works like a put for the buyer. Contracts are standardized with fixed coupons (1% investment grade, 5% high yield), so the gap between coupon and spread is settled upfront. Single-name CDS pay off on the cheapest-to-deliver obligation of the same seniority; an index CDS pays the defaulted name’s share of notional and then continues on the smaller notional.',
+      'Credit events are bankruptcy, failure to pay and restructuring, declared by a 12-of-15 ISDA supermajority, and settled physically or in cash; a holder of a bond worth more than the cheapest-to-deliver prefers cash settlement. Pricing rests on the hazard rate, LGD and the coupon: CDS spread ≈ (1 − RR) × PD and upfront premium ≈ (spread − coupon) × duration, with price = 100 − upfront %.',
+      'After inception the CDS gains or loses about Δspread × duration × notional. CDS are used for naked views, long/short trades across names, curve trades (steepener: sell short-dated, buy long-dated protection) and basis trades between bond and CDS spreads, and for events such as LBOs. Expect payoff calculations, settlement preference, upfront premium and price, and trade construction.',
+    ],
+    '27.S1': {
+      s: [
+        'The protection seller is long the CDS (long credit risk) and the buyer is short it, paying the CDS spread. Standard coupons of 1% or 5% mean the difference between the coupon and the actual spread is settled as an upfront premium. For a single-name CDS, the payoff is notional minus the value of the cheapest-to-deliver bond of the same seniority ($10m × (1 − 25%) = $7.5m). In an index CDS of 125 names, one default pays 1/125 of notional × (1 − recovery) and the notional falls by that share ($0.56m payoff, $99.2m left). Credit events are bankruptcy, failure to pay and restructuring, declared by 12 of 15 ISDA members; settlement is physical or cash. Recovery is set by the cheapest-to-deliver, so an investor holding a more valuable bond prefers cash settlement.',
+      ],
+      n: [
+        ['Seller = long CDS (bought credit risk); buyer = short CDS, pays the spread.', 'Purchased credit risk'],
+        ['Standard coupons 1% (IG) / 5% (HY) → difference settled upfront.', '1% for investment grade'],
+        ['Single-name payoff = notional × (1 − price of CTD of same seniority) = 7.5m.', 'Payoff = $7.5 mill'],
+        ['Index CDS: 1/125 of notional per name; 0.56m payoff, 99.2m notional left.', 'Notional principal = 124 × 0.8'],
+        ['Credit event needs 12 of 15 ISDA votes; physical or cash settlement.', 'supermajority'],
+        ['Hold a bond worth more than the CTD → prefer cash settlement.', 'prefer *cash settlement*'],
+      ],
+    },
+    '27.S2': {
+      s: [
+        'CDS value depends on the probability of default (the hazard rate, which can rise over time), the LGD and the coupon. Survival over several years multiplies (1 − hazard) for each year: 2% rising 1% a year gives 81.5% survival after five years. The premium leg is what the buyer pays; the protection leg is what is paid on default. CDS spread ≈ (1 − RR) × PD; upfront premium = PV(protection) − PV(premium) ≈ (spread − coupon) × duration, and price = 100 − upfront %. A 3.5% spread on a 5% coupon with duration 7 means the seller pays 10.5% upfront and the price is 110.50. After inception, the buyer gains Δspread × duration × notional if spreads widen. An upward credit curve means more risk at longer maturities; a constant hazard rate gives a flat curve. Trades: naked CDS, long/short across names, steepener (sell short-dated, buy long-dated protection), flattener (the reverse), basis trades, and buying stock plus protection ahead of an LBO.',
+      ],
+      n: [
+        ['Survival = Π(1 − hazardₜ): 0.98 × 0.97 × 0.96 × 0.95 × 0.94 = 81.5%.', 'Survival rate = 0.815'],
+        ['CDS spread ≈ (1 − RR) × PD.', 'CDS spread ≈ (1 − RR) × POD'],
+        ['Upfront % ≈ (spread − coupon) × duration; price = 100 − upfront.', 'Upfront premium % ≈ (CDS spread − CDS coupon) × duration'],
+        ['(3.5% − 5%) × 7 = −10.5% → seller pays; price 110.50.', 'CDS price = 100 − (−10.5)'],
+        ['Buyer’s profit after inception = Δspread × duration × notional.', 'Profit for protection buyer'],
+        ['Steepener: sell ST, buy LT protection; flattener: buy ST, sell LT.', 'Sell ST CDS'],
+        ['LBO expected → buy stock and buy credit protection.', 'LBO'],
       ],
     },
   },
