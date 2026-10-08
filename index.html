@@ -1822,9 +1822,45 @@ const CONTENT = {
           { k: 'formula', title: 'Cobb–Douglas production function', lines: [
             'Y = T · Kᵅ · L¹⁻ᵅ',
           ], note: 'Y = output · T = total factor productivity · K = capital · L = labour · α is the benefit from increasing capital, (1 − α) the benefit from increasing labour. If we increase all inputs by x%, output will also increase by the same x% (constant returns to scale).' },
-          { k: 'formula', title: 'Divide both sides by L', lines: [
-            'Y/L = T · Kᵅ · L¹⁻ᵅ ÷ L = T · Kᵅ ÷ Lᵅ = T · (K/L)ᵅ',
+          { k: 'sub', text: 'Cobb–Douglas in Plain Words' },
+          { k: 'p', text: 'Think of the whole economy as *one big factory*. What it produces in a year (Y, i.e. GDP) depends on three things:' },
+          { k: 'table', id: 's2-cd-plain',
+            columns: ['In plain words'],
+            rows: [
+              { label: 'K — capital', values: ['The *machines*: factories, computers, roads, equipment'] },
+              { label: 'L — labour', values: ['The *workers* (and the hours they put in)'] },
+              { label: 'T — technology (TFP)', values: ['The *know-how*: how cleverly machines and workers are combined. Better T = more output from the same machines and workers'] },
+              { label: 'α and (1 − α)', values: ['*How much each input matters.* α = share of GDP paid to capital owners, (1 − α) = share paid to workers. Typically α ≈ 0.3–0.4, so workers get ≈ 60–70%'] },
+            ] },
+          { k: 'example', id: 's2-cd-num', title: 'See it with numbers (T = 1, α = 0.5 to keep the maths easy)',
+            given: [
+              { label: 'Start', val: '100 machines, 100 workers → Y = 100^0.5 × 100^0.5 = 10 × 10 = *100*' },
+            ],
+            steps: [
+              '*Double both* (200 machines, 200 workers) → Y = *200*. Output doubles too. That is *constant returns to scale*.',
+              '*Double only machines* (200 machines, 100 workers) → Y = √(200 × 100) ≈ *141*. Twice the machines, but only *41%* more output: the extra machines have no extra workers to use them. That is *diminishing returns to capital*.',
+              '*Double only technology* (T = 2) → Y = *200* with the same machines and workers. Know-how makes everything more productive.',
+            ] },
+          { k: 'formula', title: 'Divide both sides by L — step by step', lines: [
+            'Start with: Y = T · Kᵅ · L¹⁻ᵅ',
+            'Divide both sides by L: Y/L = T · Kᵅ · L¹⁻ᵅ ÷ L',
+            'L¹⁻ᵅ ÷ L = L⁻ᵅ = 1 ÷ Lᵅ, so: Y/L = T · Kᵅ ÷ Lᵅ',
+            'Kᵅ ÷ Lᵅ = (K/L)ᵅ, so: *Y/L = T · (K/L)ᵅ*',
           ], note: 'Y/L = output per worker = labour productivity = GDP/capita = measure of standard of living.' },
+          { k: 'points', id: 's2-perworker', title: 'Why divide by L, and what the answer means', items: [
+            '*Why*: a country can grow its total GDP just by having more people. What matters for living standards is output *per worker*, so we divide everything by the number of workers.',
+            '*What it says*: output per worker depends on only *two* things — technology (*T*) and machines per worker (*K/L*). The number of workers on its own drops out.',
+            'So there are only *two ways* to make each worker produce more: give each worker *more machines* (capital deepening, raise K/L) or *better know-how* (raise T).',
+          ] },
+          { k: 'table', id: 's2-perworker-num',
+            columns: ['Output per worker = (K/L)^0.5', 'Gain from the last +100 machines'],
+            rows: [
+              { label: '100 machines per worker', values: ['10', '—'] },
+              { label: '200 machines per worker', values: ['14.1', '*+4.1*'] },
+              { label: '300 machines per worker', values: ['17.3', '*+3.2*'] },
+              { label: '400 machines per worker', values: ['20.0', '*+2.7*'] },
+            ],
+            caption: 'Each extra 100 machines per worker adds less than the last (T = 1, α = 0.5). Capital deepening runs out of steam; only better technology lifts every row.' },
           { k: 'qa', q: 'What happens if we increase K/L, keeping other parameters constant?', a: '*Labour productivity will increase.*' },
           { k: 'qa', q: 'Will the benefit increase at a faster pace or at a diminishing rate as you add more capital?', a: 'Additional capital has a *diminishing effect* on productivity. The lower the α, the lower the benefit.' },
           { k: 'flag', title: 'Capital deepening vs. technological progress (LOS 6.d)',
@@ -1852,9 +1888,17 @@ const CONTENT = {
             'ΔY/Y = ΔT/T + α(ΔK/K) + (1 − α)(ΔL/L)',
             'Growth in potential GDP = long-term growth in technology + α × long-term growth rate of capital + (1 − α) × long-term growth rate of labour',
           ] },
+          { k: 'points', id: 's2-ga-plain', title: 'Growth accounting in plain words', items: [
+            'It is the *same Cobb–Douglas formula*, just written in *growth rates* (% change per year) instead of levels.',
+            'Read it as: *GDP growth = technology growth + each input’s growth, weighted by how much that input matters*.',
+            'Capital’s weight is α, labour’s weight is (1 − α). So if α = 0.4, *3% more machines adds only 0.4 × 3% = 1.2%* to GDP, and 1.5% more workers adds 0.6 × 1.5% = 0.9%.',
+            'Technology growth counts *in full* (no weight), because better know-how lifts every machine and every worker at once.',
+            '*Why it is useful*: it shows where growth is coming from. If most of it comes from adding workers, ask whether the workforce can keep growing.',
+          ] },
           { k: 'formula', title: 'Labour productivity version', lines: [
             'Growth in potential GDP = long-term growth in labour force + long-term growth rate of labour productivity',
           ], note: 'Labour productivity growth comes from *capital deepening* and *technology*.' },
+          { k: 'p', text: '*In plain words*: GDP grows because there are *more workers*, or because *each worker produces more*. e.g. labour force +1% a year and productivity +2% a year → potential GDP grows ≈ *3%* a year.' },
           { k: 'example', id: 's2-azik', ref: 'azik', title: 'Example — Estimating potential GDP growth (Schweser)',
             body: ['Azikland is an emerging market economy where labor cost accounts for 60% of total factor cost. Labor grows 1.5% a year, capital investment 3%, and TFP is expected to rise 2% a year. Compute the potential GDP growth rate.'],
             steps: [
@@ -11794,6 +11838,8 @@ const EXAM = {
       ],
       n: [
         ['Cobb–Douglas Y = T·Kᵅ·L¹⁻ᵅ: constant returns to scale; α = capital’s share of output.', 'Cobb–Douglas production function'],
+        ['Per worker: Y/L = T·(K/L)ᵅ — only *more machines per worker* or *better technology* raise output per worker.', 'Why divide by L, and what the answer means'],
+        ['Growth accounting = Cobb–Douglas in growth rates: tech growth in full + α × capital growth + (1 − α) × labour growth.', 'Growth accounting in plain words'],
         ['Capital deepening moves *along* the curve with diminishing returns; TFP growth *shifts it up*.', 'Capital deepening vs. technological progress'],
         ['Capital is added until MPK = rental price r, so α = rK/Y.', 'MPK = *αY/K*'],
         ['TFP is the *residual*: output growth not explained by labour and capital.', 'TFP is the residual'],
