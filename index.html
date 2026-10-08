@@ -917,12 +917,12 @@ const SUBJECTS = [
     { name: 'Hedge fund strategies', desc: 'Strategy classification and analysis' },
   ]},
   { id: 'pm', name: 'Portfolio mgmt', topics: [
+    { name: 'Reading 34: Economics and Investment Markets', desc: 'R34 · Sessions 34.S1–34.S3, following your written notes — discount rates and the intertemporal rate of substitution, risky asset prices, GDP, the Taylor rule and the yield curve, credit, equity and real estate premiums, cyclical P/E and CAPE, value vs. growth' },
+    { name: 'Reading 35: Analysis of Active Portfolio Management', desc: 'R35 · Sessions 35.S1–35.S4, following your written notes — active return and weights, asset allocation vs. security selection, Sharpe and information ratios, altering and optimal active risk, the fundamental law (IC, TC, breadth), sector rotation and decision independence' },
     { name: 'ETFs: mechanics and applications', desc: 'ETF structure and use cases' },
-    { name: 'Multifactor models', desc: 'Factor models in practice' },
-    { name: 'Measuring and managing market risk', desc: 'VaR and risk measures' },
-    { name: 'Backtesting and simulation', desc: 'Strategy testing methods' },
-    { name: 'Economics and investment markets', desc: 'Macro overlay for portfolio management' },
-    { name: 'Active portfolio management', desc: 'Active return and risk analysis' },
+    { name: 'Reading 37: Using Multifactor Models', desc: 'R37 · Sessions 37.S1–37.S4, following your written notes — APT and exploiting arbitrage, macroeconomic, fundamental and statistical factor models, standardized sensitivities, active return and risk, return and risk attribution, portfolio construction, the Carhart model' },
+    { name: 'Reading 38: Measuring and Managing Market Risk', desc: 'R38 · Sessions 38.S1–38.S3, following your written notes — parametric, historical and Monte Carlo VaR, strengths and limits of VaR, CVaR, incremental, marginal and relative VaR, sensitivity and scenario analysis, reverse stress testing, risk measures by type of organization' },
+    { name: 'Reading 39: Backtesting and Simulation', desc: 'R39 · Session 39.S1, following your written notes — strategy design, factor portfolios, benchmark vs. risk parity, rolling-window backtests, long/short quintile analysis, drawdown and CVaR, survivorship, look-ahead and data snooping, historical and Monte Carlo simulation' },
   ]},
   { id: 'ethics', name: 'Ethics', topics: [
     { name: 'Code and standards', desc: 'Code of ethics overview' },
@@ -8097,6 +8097,850 @@ const CONTENT = {
       },
     ],
   },
+  'pm.0': {
+    flow: [
+      {
+        module: '34.S1', title: 'Discount Rates · Intertemporal Rate of Substitution · Real Risk-Free Rate',
+        blocks: [
+          { k: 'formula', title: 'Value of any asset', lines: [
+            'Value of any asset = PV of future cash flows at the appropriate discount rate',
+            'Discount rate = real risk-free rate + expected inflation + risk premium',
+          ], note: 'Real risk-free rate + expected inflation = the *nominal* risk-free rate (bracketed on my page).' },
+          { k: 'sub', text: 'Intertemporal Rate of Substitution' },
+          { k: 'formula', title: 'Intertemporal rate of substitution (mₜ)', lines: [
+            'mₜ = marginal utility of consuming 1 unit in future ÷ marginal utility of current consumption of 1 unit',
+          ] },
+          { k: 'p', text: 'The *risk-free rate* and the intertemporal rate of substitution are related: the price today of a default-free bond paying 1 unit in future is the expected value of mₜ.' },
+          { k: 'formula', title: 'Real risk-free rate from mₜ', lines: [
+            'P₀ = E(mₜ) = 1 ÷ (1 + R_RF)',
+            'Real risk-free rate = (ending − beginning) ÷ beginning = (1 − P₀) ÷ P₀ = [1 − E(mₜ)] ÷ E(mₜ)',
+          ] },
+          { k: 'p', text: 'Marginal utility of consumption is *higher* during periods of *scarcity*, such as during economic contractions.' },
+          { k: 'flag', title: 'Why mₜ is below 1',
+            items: [
+              'Investors prefer consumption now to the same consumption later, so a unit consumed in future is worth less today: mₜ < 1, P₀ < 1 and the real risk-free rate is *positive*.',
+              'The more investors expect to have in future (higher expected income), the lower the utility of an extra future unit, so E(mₜ) ↓ and the real rate ↑ (the GDP chain in 34.S2).',
+            ],
+            text: 'Not on my page, but it ties the two formulas together:' },
+        ],
+      },
+      {
+        module: '34.S2', title: 'Risk Premium · Risky Asset Price · GDP Growth · Taylor Rule · Yield Curve',
+        blocks: [
+          { k: 'points', id: 's2-rp', items: [
+            'If cash flows are uncertain, investors demand a *risk premium*.',
+            'Marginal utility decreases as an investor holds more risky assets (more wealth).',
+            'A *wealthy* investor is *less* risk averse; a *poor* investor is *more* risk averse.',
+            'When markets are in equilibrium, wealthy and poor investors would have the *same willingness* to hold risky assets (at the margin).',
+          ] },
+          { k: 'p', text: 'If a bond is risky, its price today will be *less than* the PV of its cash flows at the real risk-free rate. This is because of the risk premium.' },
+          { k: 'formula', title: 'Price of a risky asset', lines: [
+            'P₀ = E(P₁) ÷ (1 + R) + cov(P₁, m₁)',
+          ], note: 'P₀ = risky bond price; the first term is the riskless bond price. cov(P₁, m₁) is negative, so the risky price is lower.' },
+          { k: 'qa', q: 'Why is cov(P₁, m₁) negative?', a: 'If P₁ ↑ (a high payoff), the investor is already well off and consuming more, so the value of an extra unit of consumption, m₁, ↓. That is why cov(P₁, m₁) is −ve. Covariance is *NEGATIVE* for a risk-averse investor.' },
+          { k: 'timeline', steps: [
+            { name: 'Higher expected GDP', text: 'Investors expect higher income' },
+            { name: 'Lower utility from consumption in future', text: 'mₜ ↓' },
+            { name: 'Less savings', text: 'Consume more now' },
+            { name: 'Increased real rate of return', text: 'Higher GDP growth rate → higher R_RF' },
+          ] },
+          { k: 'p', text: 'So higher expected GDP growth means a *lower* intertemporal rate of substitution and a *higher* real risk-free rate.' },
+          { k: 'p', text: 'Interest rates are *positively* correlated with *volatility in GDP growth*, due to a higher risk premium.' },
+          { k: 'sub', text: 'Nominal Rates and the Taylor Rule' },
+          { k: 'formula', title: 'Short- and long-term nominal rates', lines: [
+            'ST nominal rate = real rate + expected inflation',
+            'LT nominal rate = real rate + expected inflation + risk premium for inflation uncertainty',
+          ], note: 'Over the long term the investor is uncertain about inflation, so the long rate carries an extra premium.' },
+          { k: 'formula', title: 'Taylor rule', lines: [
+            'Policy rate = Rₙ + inflation rate + 0.5(current inflation − target inflation) + 0.5(current GDP − target GDP)',
+          ], note: 'Rₙ = neutral real policy interest rate. The central bank policy rate implied by the Taylor rule.' },
+          { k: 'p', text: 'This rule is used by central banks to *increase or decrease* rates.' },
+          { k: 'timeline', steps: [
+            { name: 'Economy in recession', text: 'Central bank eases' },
+            { name: 'ST policy rate ↓', text: 'Cheaper money' },
+            { name: 'GDP ↑', text: 'Recovery' },
+            { name: 'Inflation in future ↑', text: 'Expected' },
+            { name: 'Long-term rates ↑', text: 'Curve steepens' },
+          ] },
+          { k: 'points', id: 's2-curve', items: [
+            'Investors’ improving expectations about future GDP growth and increasing inflation as the economy comes out of recession lead to higher longer-term rates. This results in a *positively sloped* yield curve.',
+            'An *inverted* yield curve is often an indicator of future recession.',
+            'An *upward-sloping* yield curve is an indicator of economic expansion.',
+          ] },
+          { k: 'formula', title: 'Term spread and break-even inflation', lines: [
+            'Term spread = yield on long-term − yield on short-term',
+            'Break-even inflation rate = yield on non-inflation-indexed risk-free bond − yield on inflation-indexed risk-free bond',
+          ], note: 'The term spread is generally positive because of the premium for unexpected inflation. Break-even inflation = expected inflation + risk premium for inflation uncertainty (pencil under it on my page).' },
+        ],
+      },
+      {
+        module: '34.S3', title: 'Credit Risk Premium · Equity Risk Premium · Valuation Multiples · Real Estate',
+        blocks: [
+          { k: 'formula', title: 'Required return — credit-risky bond', lines: [
+            'Real risk-free rate + inflation premium + risk premium for inflation uncertainty + risk premium for credit risk',
+          ] },
+          { k: 'p', text: 'Risk premium for credit risk = *credit spread*.' },
+          { k: 'points', id: 's3-spread', items: [
+            'The credit spread depends on: *industry*, *products & services*, and *financial leverage* in the industry.',
+            'Spreads for *consumer cyclicals* widen during an economic downturn, compared to spreads of consumer non-cyclicals.',
+          ] },
+          { k: 'formula', title: 'Required return — equity', lines: [
+            'Real risk-free rate + inflation premium + risk premium for inflation uncertainty + risk premium for credit risk + additional risk premium relative to debt for investment in equity',
+          ] },
+          { k: 'sub', text: 'Consumption Hedging' },
+          { k: 'points', id: 's3-hedge', items: [
+            'Assets that give *HIGHER* payoffs during an economic downturn are considered *safe havens*. These are highly valued because of the *consumption-hedging* property of the assets.',
+            'Assets with good consumption hedging have a *lower* risk premium.',
+            'The consumption-hedging property of equity is *poor*: equities rise in value during a boom and fall in value during a recession.',
+            'Hence more premium is demanded on equity, called the *equity risk premium*.',
+          ] },
+          { k: 'formula', title: 'Equity risk premium', lines: [
+            'ERP = risk premium for credit risk + additional risk premium relative to debt for investment in equity',
+          ] },
+          { k: 'sub', text: 'Cyclical Effects on Valuation Multiples' },
+          { k: 'points', id: 's3-pe', items: [
+            'If the P/E multiples of the *Sensex or Nifty* are higher than the historical average, the market might look overvalued, but current economic conditions might justify it.',
+            'P/E multiple and earnings growth rate: *direct* relation.',
+            'P/E multiple and required return: *inverse* relation.',
+          ] },
+          { k: 'formula', title: 'Shiller’s CAPE (cyclically adjusted P/E)', lines: [
+            'CAPE = real price ÷ 10-year moving average of real earnings',
+          ] },
+          { k: 'points', id: 's3-cycle', items: [
+            'The equity risk premium *decreases* (increases) during expansion (contraction).',
+            'P/E multiples tend to *rise* during economic expansion (and fall in contraction). This is attributed to: 1. falling real interest rates, 2. a fall in the equity risk premium, 3. an increase in expectations of future earnings growth, 4. lower expected financial risk.',
+          ] },
+          { k: 'cols', id: 's3-style', panes: [
+            { title: 'Value strategy', tone: 'teal', items: ['Performs better *during and immediately after a recession*.'] },
+            { title: 'Growth strategy', tone: 'violet', items: ['Performs better *during expansion*.'] },
+          ] },
+          { k: 'sub', text: 'Real Estate' },
+          { k: 'formula', title: 'Required return — real estate', lines: [
+            'Real risk-free rate + inflation premium + risk premium for inflation uncertainty + risk premium for credit risk + additional risk premium for uncertainty about terminal value (like the ERP) + risk premium for illiquidity',
+          ] },
+          { k: 'points', id: 's3-re', items: [
+            'Commercial property values tend to be *cyclical*.',
+            'Similar to equities, real estate provides a *poor hedge* against bad consumption outcomes. The risk premium investors require on commercial property is relatively high, often close to the risk premium required for equity.',
+          ] },
+        ],
+      },
+    ],
+  },
+  'pm.1': {
+    flow: [
+      {
+        module: '35.S1', title: 'Active Return · Active Weights',
+        blocks: [
+          { k: 'formula', title: 'Active return', lines: [
+            'Active return = R_P − R_B',
+          ], note: 'The difference in returns between a managed portfolio and its benchmark. *Ex post* = after the fact; *ex ante* = based on expectations.' },
+          { k: 'formula', title: 'Active weight', lines: [
+            'Active weight = w_P − w_B',
+          ], note: 'The difference between a security’s weight in an actively managed portfolio and its weight in the benchmark portfolio.' },
+          { k: 'table', id: 's1-pg16',
+            columns: ['Portfolio weight', 'Benchmark weight', 'Active weight', 'Return', 'Portfolio return', 'Benchmark return', 'Active return'],
+            rows: [
+              { label: 'A', values: ['22%', '25%', '−3%', '12%', '2.64%', '3.00%', '−0.36%'] },
+              { label: 'B', values: ['20%', '25%', '−5%', '−6%', '−1.20%', '−1.50%', '0.30%'] },
+              { label: 'C', values: ['21%', '25%', '−4%', '4%', '0.84%', '1.00%', '−0.16%'] },
+              { label: 'D', values: ['37%', '25%', '12%', '19%', '7.03%', '4.75%', '2.28%'] },
+              { label: 'Total', values: ['100%', '100%', '0%', '', '*9.31%*', '*7.25%*', '*2.06%*'] },
+            ],
+            caption: 'Q pg 16. Two ways to the same 2.06%: portfolio return − benchmark return (9.31% − 7.25%), or each active weight × that security’s return, summed.' },
+          { k: 'formula', title: 'Active return from active weights', lines: [
+            'R_A = Σ Δwᵢ × Rᵢ',
+          ], note: 'e.g. A: −3% × 12% = −0.36%; D: 12% × 19% = 2.28%.' },
+        ],
+      },
+      {
+        module: '35.S2', title: 'Decomposition of Active Return',
+        blocks: [
+          { k: 'formula', title: 'Asset allocation return', lines: [
+            'Asset allocation return = Σ (w_P − w_B) × E(R_B)',
+          ], note: 'From deviating asset-class portfolio weights from benchmark weights: difference in weights × benchmark return.' },
+          { k: 'formula', title: 'Security selection return', lines: [
+            'Security selection return = Σ w_P × (R_P − R_B)',
+          ], note: 'From active returns *within* asset classes: portfolio weight × difference in return.' },
+          { k: 'formula', title: 'Total', lines: [
+            'Active return = asset allocation return + security selection return',
+          ] },
+          { k: 'p', text: 'My margin sketch: my portfolio is 70% equity and 30% debt against a benchmark of 60% equity and 40% debt. The 10% shifted from debt to equity is *asset allocation*. Holding different stocks and bonds inside each sleeve from the ones the benchmark holds (in different proportions) is *security selection*.' },
+          { k: 'table', id: 's2-pg18',
+            columns: ['Portfolio weight', 'Benchmark weight', 'Portfolio return', 'Benchmark return', 'Asset allocation', 'Security selection'],
+            rows: [
+              { label: 'US equity', values: ['45%', '40%', '11%', '12%', '5% × 12% = 0.60%', '45% × (−1%) = −0.45%'] },
+              { label: 'US bonds', values: ['30%', '30%', '6%', '5%', '0.00%', '30% × 1% = 0.30%'] },
+              { label: 'Int’l equity', values: ['25%', '30%', '14%', '12%', '−5% × 12% = −0.60%', '25% × 2% = 0.50%'] },
+              { label: 'Total', values: ['', '', '10.25%', '9.90%', '*0.00%*', '*0.35%*'] },
+            ],
+            caption: 'Q pg 18 (try the TB). Active return = 0.00% + 0.35% = 0.35% = 10.25% − 9.90%: all of it came from picking securities within each asset class.' },
+        ],
+      },
+      {
+        module: '35.S3', title: 'Sharpe Ratio · Information Ratio · Altering and Optimal Active Risk',
+        blocks: [
+          { k: 'formula', title: 'Sharpe ratio', lines: [
+            'SR_P = (R_P − R_F) ÷ σ_P',
+          ] },
+          { k: 'example', id: 's3-sr', title: 'My page — 60% in stock A, 40% in the risk-free asset',
+            given: [
+              { label: 'Stock A', val: 'Return 10% · risk 6%' },
+              { label: 'Risk-free asset', val: 'Return 4% · risk 0%' },
+            ],
+            steps: [
+              'SR_A = (10% − 4%) ÷ 6% = *1*',
+              'R_P = (0.6 × 10%) + (0.4 × 4%) = 7.6%',
+              'σ_P = 0.6 × 6% = 3.6% (the risk-free asset adds no variance and no covariance)',
+              'SR_P = (7.6% − 4%) ÷ 3.6% = *1*',
+            ],
+            result: 'Conclusion: a portfolio’s Sharpe ratio is *unaffected* by adding or removing the risk-free asset.' },
+          { k: 'fix', title: 'σp² = 0.6 × 6% … σp² = 3.6%', text: 'It is σ_P, not σ_P², that equals 3.6%: σ_P² = 0.6² × 6%² = 0.1296%, and its square root is 3.6%. The Sharpe ratio uses σ_P, so the answer of 1 stands.' },
+          { k: 'formula', title: 'Information ratio', lines: [
+            'IR_P = (R_P − R_B) ÷ σ(R_P − R_B) = active return ÷ active risk',
+          ], note: 'A portfolio’s information ratio is *unaffected* by adding or removing a position in the *benchmark*.' },
+          { k: 'cols', id: 's3-exante', panes: [
+            { title: 'Ex ante information ratio', tone: 'slate', items: [
+              'Information ratio based on *expectations*.',
+              'Always *positive*: it makes no sense to pursue active portfolio management when the expected active return is negative.',
+            ] },
+            { title: 'Ex post information ratio', tone: 'violet', items: [
+              'Information ratio based on *actual* portfolio results.',
+              'Can be negative.',
+            ] },
+          ] },
+          { k: 'p', text: '*Closet index fund*: a fund purported to be actively managed but in reality closely tracks the underlying benchmark index. Its return, risk and Sharpe ratio are all about the same as the benchmark, so its IR is *close to zero*; and once the management fee is charged, its IR is *negative*.' },
+          { k: 'points', id: 's3-irsr', items: [
+            'The relationship between IR and SR is the same for a *zero-systematic-risk* portfolio, because the benchmark portfolio is then the risk-free asset.',
+            'A portfolio with cash or the risk-free asset added: the *SR remains the same*, but the *IR changes*: active return decreases, so the IR also decreases.',
+          ] },
+          { k: 'points', id: 's3-triple', title: 'What happens when active weights are tripled', items: [
+            'Active returns change and also triple.',
+            'Active risk changes and also triples.',
+            'As a result, the *IR is unaffected*.',
+          ] },
+          { k: 'p', text: 'From the online lecture (21-06-26): the information ratio is *not affected by the aggressiveness of the bet*. E.g. two managers both bet on sector X, one with 60% and the other with 40%. Both earn different returns at different risk levels, but the IR is the same for both because the bet (sector X) is the same.' },
+          { k: 'sub', text: 'How to Alter Active Risk' },
+          { k: 'formula', title: 'Mixing the active portfolio (A) with the benchmark (B)', lines: [
+            '(Active risk)²_P = w_A²σ_A² + w_B²σ_B² + 2w_A w_B σ_A σ_B corr(A, B)',
+            'The active risk of the benchmark is zero, so (active risk)²_P = w_A²σ_A² + 0 + 0',
+            'Active risk_P = w_A × σ_A',
+          ], note: 'σ_A here is the *active* risk of the active portfolio.' },
+          { k: 'example', id: 's3-alter', title: 'My page — targeting active risk of 6%',
+            given: [
+              { label: 'Active portfolio A', val: 'Active risk 10%' },
+              { label: 'Benchmark B', val: 'Active risk 0' },
+            ],
+            steps: ['6% = w_A × 10%', 'w_A = 60%'],
+            result: 'Hence 60% is allocated to the active portfolio and 40% to the benchmark, to have active risk of 6%.' },
+          { k: 'sub', text: 'Optimal Amount of Active Risk' },
+          { k: 'p', text: '*Optimal active risk*: the level of active risk that *maximizes the portfolio’s Sharpe ratio*.' },
+          { k: 'formula', title: 'Optimal active risk (unconstrained)', lines: [
+            'σ_A* = (IR ÷ SR_B) × σ_B',
+            'SR_P = √(SR_B² + IR²)',
+            'σ_P² = σ_B² + σ_A*²',
+          ], note: 'Line 2: the Sharpe ratio of a portfolio with the optimal level of active risk. Line 3: its total risk.' },
+          { k: 'example', id: 's3-omega', title: 'Example — OMEGA fund (Q pg 21)',
+            given: [
+              { label: 'OMEGA fund (active fund)', val: 'IR = 0.2 · active risk = 9%' },
+              { label: 'Benchmark portfolio', val: 'SR = 0.4 · σ = 12%' },
+            ],
+            ask: 'Portfolio P combines OMEGA and the benchmark at the optimal active risk. Find its SR, excess return R_P − R_F, and the weights w_O and w_B.',
+            steps: [
+              'Step 1 — SR of portfolio P: SR_P = √(0.4² + 0.2²) = *0.4472*',
+              'Step 2 — optimal active risk: σ_A* = (0.2 ÷ 0.4) × 12% = *6%*',
+              'Step 3 — total risk: σ_P² = 12%² + 6%² = 0.018 → σ_P = *0.134*',
+              'Step 4 — excess return: 0.4472 = (R_P − R_F) ÷ 0.134 → R_P − R_F = *6%*',
+              'Step 5 — weights: σ_A* = w_O × σ_A(OMEGA) → 6% = w_O × 9% → w_O = *67%*, w_B = *33%*',
+            ],
+            result: '67% in OMEGA and 33% in the benchmark gives the highest Sharpe ratio, 0.447, with 6% excess return at 13.4% total risk.' },
+        ],
+      },
+      {
+        module: '35.S4', title: 'Fundamental Law of Active Portfolio Management · Sector Rotation',
+        blocks: [
+          { k: 'graph', id: 's4-law-dia', title: 'The three links on my page', w: 520, h: 230,
+            nodes: [
+              { id: 'fc', x: 260, y: 36, t1: 'Forecasted active return', w: 190, tone: 'slate' },
+              { id: 'aw', x: 100, y: 190, t1: 'Active weight', w: 140, tone: 'teal' },
+              { id: 'ra', x: 420, y: 190, t1: 'Realized active return', w: 170, tone: 'teal' },
+            ],
+            edges: [
+              { from: 'fc', to: 'aw', label: 'Transfer coefficient (TC)', plain: true, lx: -74, ly: 0 },
+              { from: 'fc', to: 'ra', label: 'Information coefficient (IC)', plain: true, lx: 80, ly: 0 },
+              { from: 'aw', to: 'ra', label: 'Value added', plain: true, ly: 18 },
+            ],
+            note: 'IC: how well forecasts match what really happens (skill). TC: how fully forecasts get into the weights (constraints). Value added comes from the weights actually held times the returns actually earned.' },
+          { k: 'points', id: 's4-terms', items: [
+            '*Information coefficient (IC)*: a measure of the manager’s skill. IC is the correlation between forecasted active returns and realized active returns. The higher the coefficient, the higher the manager’s skill.',
+            '*Transfer coefficient (TC)*: measures the constraints on a manager. E.g. mutual fund managers have pre-specified weights per security, and even if they see an opportunity they cannot exceed those weights. It measures the ability to transfer your knowledge into active weights.',
+            'If the manager is *unconstrained* → TC = 1. If the manager is *constrained* → TC < 1.',
+            '*Breadth (BR)*: the number of active bets taken.',
+          ] },
+          { k: 'formula', title: 'Fundamental law', lines: [
+            'IR = TC × IC × √BR',
+            'IC = 2 × (% correct) − 1',
+          ] },
+          { k: 'table', id: 's4-uc',
+            columns: ['Unconstrained (TC = 1)', 'Constrained (TC < 1)'],
+            rows: [
+              { label: 'IR', values: ['IC × √BR', 'TC × IC × √BR'] },
+              { label: 'Active return', values: ['IC × √BR × σ_A', 'TC × IC × √BR × σ_A'] },
+              { label: 'Optimal active risk σ_A*', values: ['(IR ÷ SR_B) × σ_B', 'TC × (IR ÷ SR_B) × σ_B'] },
+              { label: 'Sharpe ratio SR_P', values: ['√(SR_B² + IR²)', '√(SR_B² + TC² × IR²)'] },
+            ],
+            caption: 'IR = active return ÷ active risk, so active return = IR × σ_A. Q pg 25 is marked important.' },
+          { k: 'sub', text: 'Sector Rotation' },
+          { k: 'p', text: 'Market timing can also be used to make *sector rotation* decisions. E.g. an active manager may allocate assets into the sectors that are expected to outperform: sector X with E(R_X) and σ_X, sector Y with E(R_Y) and σ_Y.' },
+          { k: 'formula', title: 'Two-sector rotation', lines: [
+            'σ_C = (σ_X² − 2σ_Xσ_Y r_XY + σ_Y²)^½',
+            'Annualized active risk = σ_A = σ_C × √BR',
+            'Annualized active return = E(R_A) = IC × √BR × σ_A',
+          ], note: 'Q pg 26: R4 (not important).' },
+          { k: 'cols', id: 's4-sl', panes: [
+            { title: 'Strengths', tone: 'teal', items: [
+              'Can be used to evaluate a range of active strategies: A. security selection, B. market timing, C. sector rotation.',
+            ] },
+            { title: 'Limitations', tone: 'rose', items: [
+              '*Garbage in, garbage out.*',
+              'The limitations are generally derived from inaccurate estimates of the two inputs (IC and BR).',
+            ] },
+          ] },
+          { k: 'sub', text: 'How Is Decision Independence Compromised?' },
+          { k: 'points', id: 's4-dep', items: [
+            '*Cross-sectional dependency*: a value strategy applied to different stocks within an industry may not be truly independent (most stocks will have similar fundamentals, such as the P/E ratio).',
+            '*Time-series dependency*: monthly rebalancing decisions may not be truly independent from period to period.',
+          ] },
+          { k: 'formula', title: 'Breadth with correlated decisions', lines: [
+            'BR = N ÷ [1 + (N − 1)r]',
+          ], note: 'N = number of decisions; r = correlation between the decisions. If individual decisions are correlated, breadth is lower than N.' },
+        ],
+      },
+    ],
+  },
+  'pm.3': {
+    flow: [
+      {
+        module: '37.S1', title: 'Arbitrage Pricing Theory (APT) · Exploiting Arbitrage',
+        blocks: [
+          { k: 'points', id: 's1-apt', items: [
+            'APT is an *alternative to CAPM*.',
+            'A *linear* model with multiple systematic risk factors.',
+            'APT does *not identify* the specific risk factors (or even the number of factors).',
+          ] },
+          { k: 'points', id: 's1-assume', title: 'Assumptions of APT', items: [
+            'Unsystematic risk can be diversified away in a portfolio.',
+            'Returns are generated using a factor model. But which risk factors should be considered is not specified by APT: its *major drawback*.',
+            '*No arbitrage* opportunities exist.',
+          ] },
+          { k: 'formula', title: 'APT equation', lines: [
+            'E(R_P) = R_F + β_P,1(λ₁) + β_P,2(λ₂) + … + β_P,k(λ_k)',
+          ], note: 'λ = expected risk premium associated with each risk factor (risk premium = E(R) − R_F). β = the factor sensitivity of portfolio P to that risk factor. Beside it on my page, CAPM: E(R_P) = R_F + β_P(R_M − R_F), where R_M − R_F = market risk premium.' },
+          { k: 'points', id: 's1-vs', items: [
+            'Unlike CAPM, APT does *not require* that one of the risk factors be the market portfolio.',
+            'APT assumes investors can exploit arbitrage opportunities.',
+            'Extreme long and short positions are permitted, and mispricing will disappear immediately.',
+          ] },
+          { k: 'example', id: 's1-ex1', title: 'Q — Calculating expected return from the APT model',
+            body: ['An investment firm employs a two-factor APT model. The risk-free rate equals 5%. Determine the expected return for the Invest Fund.'],
+            given: [
+              { label: 'Invest Fund factor betas', val: 'Factor 1: 1.50 · Factor 2: 2.00' },
+              { label: 'Factor risk premiums', val: 'Factor 1: 0.0300 · Factor 2: 0.0125' },
+            ],
+            steps: ['E(R_P) = R_F + β_P,1(λ₁) + β_P,2(λ₂)', '= 0.05 + 1.5(0.03) + 2(0.0125)'],
+            result: 'E(R) = 0.12, or 12%' },
+          { k: 'example', id: 's1-ex2', title: 'Q — Calculating APT parameters from expected returns',
+            body: ['Given a one-factor model and the following information, calculate the risk-free rate and the factor risk premium, and verify that portfolio C, with an expected return of 6.2% and a factor sensitivity of 0.8, is priced correctly.'],
+            given: [
+              { label: 'Portfolio A', val: 'E(R) = 7.0% · β = 1.0' },
+              { label: 'Portfolio B', val: 'E(R) = 7.8% · β = 1.2' },
+            ],
+            steps: [
+              'Solution 1 — single-factor APT: E(R_P) = R_F + β_P,1(λ₁)',
+              'A: 0.070 = R_F + 1.0λ',
+              'B: 0.078 = R_F + 1.2λ',
+              'Subtracting: 0.008 = 0.2λ → λ = *0.04*, R_F = *0.03*',
+              'Solution 2 — C: E(R) = 3% + 0.8 × 4% = 6.2%',
+            ],
+            result: 'Hence portfolio C is correctly priced.' },
+          { k: 'example', id: 's1-arb', title: 'Q — Exploiting an arbitrage opportunity',
+            body: ['Your investment firm uses a single-factor model to evaluate assets. Calculate the arbitrage opportunity from the data provided.'],
+            given: [
+              { label: 'Portfolio A', val: 'E(R) = 10% · β = 1.0' },
+              { label: 'Portfolio B', val: 'E(R) = 20% · β = 2.0' },
+              { label: 'Portfolio C', val: 'E(R) = 13% · β = 1.5' },
+            ],
+            steps: [
+              'Step 1 — select the portfolios with the highest and lowest beta: *A and B*.',
+              'Step 2 — create a new portfolio X (using A and B) with the same beta as C: (w_A × β_A) + (w_B × β_B) = β_C, with w_A + w_B = 100%.',
+              'Step 3 — find the weights: (w_A × 1.0) + (w_B × 2.0) = 1.5 → w_A = *50%*, w_B = *50%*',
+              'Step 4 — return on X: R_X = (50% × 10%) + (50% × 20%) = *15%*',
+              'Step 5 — compare C and X: beta 1.5 and 1.5; return 13% and 15%.',
+              'Step 6 — exploit it: *buy portfolio X, sell portfolio C*.',
+            ],
+            result: 'Reason: both have the same risk, but X has the higher return and C the lower return. Long X and short C costs nothing, carries no factor risk, and earns 15% − 13% = 2%.' },
+        ],
+      },
+      {
+        module: '37.S2', title: 'Multifactor Models · Standardized Sensitivities · Macro vs. Fundamental',
+        blocks: [
+          { k: 'table', id: 's2-types',
+            columns: ['How asset returns are explained'],
+            rows: [
+              { label: 'Macroeconomic factor models', values: ['By *surprises (shocks)* in macroeconomic risk factors (e.g. GDP, interest rates, inflation). Factor surprise = realized value of the factor − consensus predicted value.'] },
+              { label: 'Fundamental factor models', values: ['By multiple *firm-specific* factors (e.g. P/E ratio, market cap, leverage ratio, earnings growth rate).'] },
+              { label: 'Statistical factor models', values: ['By statistical methods. Weakness: statistical factors do not lend themselves well to economic interpretation.'] },
+              { label: '↳ Factor analysis models', values: ['Factors are portfolios that explain the *covariance* in asset returns.'] },
+              { label: '↳ Principal component models', values: ['Factors are portfolios that explain the *variance* in asset returns.'] },
+            ] },
+          { k: 'formula', title: 'Macroeconomic factor model (two factors)', lines: [
+            'Rᵢ = E(Rᵢ) + b_i1 F_GDP + b_i2 F_QS + εᵢ',
+          ] },
+          { k: 'points', id: 's2-defs', items: [
+            'Rᵢ = return for asset i',
+            'E(Rᵢ) = expected return for asset i (in the absence of any surprise)',
+            'b_i1 = GDP surprise sensitivity of asset i; F_GDP = surprise in the GDP rate',
+            'b_i2 = credit quality spread surprise sensitivity of asset i; F_QS = surprise in the credit quality spread (BB-rated bond yield − Treasury bond yield)',
+            'εᵢ = firm-specific surprise',
+            'In general: *F* = factor surprise = realized value of the factor − consensus predicted value; *b* = sensitivity of the stock to the surprise; *ε* = returns that the model is not able to explain. It represents unsystematic risk related to firm-specific events, like a strike or a warehouse fire.',
+          ] },
+          { k: 'sub', text: 'Standardized Sensitivities' },
+          { k: 'points', id: 's2-steps', items: [
+            'Step 1: find the mean of the P/E multiple for the industry (mean P/E).',
+            'Step 2: calculate the standard deviation of the P/E multiple for the industry (σ_P/E).',
+            'Step 3: calculate the standardized sensitivity for stock i using the formula below.',
+          ] },
+          { k: 'formula', title: 'Standardized sensitivity', lines: [
+            'b_i,P/E = [(P/E)ᵢ − mean P/E] ÷ σ_P/E',
+          ], note: 'Just like z = (x − μ) ÷ σ. (P/E)ᵢ = P/E of stock i; mean P/E = average P/E across all stocks; σ_P/E = standard deviation of the P/E ratio across all stocks.' },
+          { k: 'p', text: 'A stock with a standardized sensitivity of 2 means that its P/E is *2 standard deviations above the mean*.' },
+          { k: 'sub', text: 'Factor Returns' },
+          { k: 'points', id: 's2-fr', items: [
+            'The fundamental factors are *rates of return* associated with each factor.',
+            'Regress returns on the standardized sensitivities: the *slope* of this regression is the value of the fundamental factor (the factor return).',
+            'This is a *cross-sectional* regression: it runs across companies, not across time.',
+            '(Not important) In a fundamental factor model the factors are *not* return surprises. Hence the expected factor values are not zero, and the intercept term is no longer interpreted as the expected return.',
+          ] },
+          { k: 'table', id: 's2-macro-fund',
+            columns: ['Macroeconomic factor model', 'Fundamental factor model'],
+            rows: [
+              { label: 'Sensitivity', values: ['Calculated as the *slope* of a regression', 'Calculated as *standardized* sensitivities, like a z-value'] },
+              { label: 'Interpretation of factors', values: ['*Surprises* in the macroeconomic variables', '*Rates of return* associated with each factor, estimated using multiple regression'] },
+              { label: 'Intercept term', values: ['Equals the stock’s *expected return*', 'No economic interpretation: simply the regression intercept needed to make the unsystematic risk of the asset equal to zero'] },
+            ] },
+        ],
+      },
+      {
+        module: '37.S3', title: 'Active Return · Active Risk · Information Ratio',
+        blocks: [
+          { k: 'formula', title: 'Active return, active risk and the IR', lines: [
+            'Active return = R_P − R_B',
+            'Active risk = tracking error = σ(R_P − R_B)',
+            'Information ratio = active return ÷ active risk = (R_P − R_B) ÷ σ(R_P − R_B)',
+          ], note: 'Active return equals the difference in returns between a managed portfolio and its benchmark. Active risk, also known as *tracking error* or tracking risk, is the standard deviation of the active return.' },
+          { k: 'p', text: 'The IR gives *returns per unit of risk*: the higher, the better. Same definitions as Reading 35 (35.S1 and 35.S3).' },
+        ],
+      },
+      {
+        module: '37.S4', title: 'Uses of Multifactor Models: Return Attribution · Risk Attribution · Portfolio Construction · Carhart',
+        blocks: [
+          { k: 'sub', text: '1. Return Attribution' },
+          { k: 'formula', title: 'Splitting active return', lines: [
+            'Active return = factor return + security selection return',
+            'Factor return = Σ (β_P,k − β_B,k) × λ_k',
+          ], note: '*Factor return*: arising from the manager’s decision to take factor exposures that differ from those of the benchmark. *Security selection*: arising from the manager choosing a different weight for specific securities compared to their weight in the benchmark. Security selection is whatever is left over.' },
+          { k: 'table', id: 's4-pg58',
+            columns: ['Portfolio β', 'Benchmark β', 'Difference', 'Factor return (λ)', 'Contribution to active return'],
+            rows: [
+              { label: 'P/E', values: ['1.10', '1.00', '0.10', '−5.00%', '−0.50%'] },
+              { label: 'Size', values: ['0.69', '1.02', '−0.33', '2.00%', '−0.66%'] },
+              { label: 'Total factor', values: ['', '', '', '', '*−1.16%*'] },
+            ],
+            caption: 'Q pg 58 — return decomposition. Portfolio return 11.20%, benchmark return 11.80%.' },
+          { k: 'example', id: 's4-pg58-ans', title: 'Answer — splitting the −0.60%',
+            steps: [
+              'Active return = R_P − R_B = 11.20% − 11.80% = *−0.60%*',
+              'Factor return = (0.10 × −5%) + (−0.33 × 2%) = −0.50% − 0.66% = *−1.16%*',
+              'Return from security selection = active return − factor return = −0.60% − (−1.16%) = *+0.56%*',
+            ],
+            result: 'Stock selection was right, but the factor bets went wrong.' },
+          { k: 'qa', q: 'Why multiply the *difference* in beta by the factor return, and why is security selection the leftover? (marked “need to explain” on my page)',
+            a: 'A factor only pushes you away from the benchmark to the extent your exposure *differs* from the benchmark’s. On P/E the portfolio has 1.10 against 1.00, so it carries 0.10 *more* of the P/E factor. That factor returned −5%, so the extra exposure cost 0.10 × −5% = −0.50%. On size the portfolio has 0.33 *less* exposure (0.69 against 1.02). Size returned +2%, so being underweight it cost −0.33 × 2% = −0.66%. Together the factor tilts cost 1.16%. But the portfolio lagged by only 0.60%, so something else added back 0.56%. The model has no factor left to explain it, so it must come from the particular stocks the manager picked: that leftover is security selection. Read it as a good stock picker who made the wrong factor calls.' },
+          { k: 'sub', text: '2. Risk Attribution' },
+          { k: 'points', id: 's4-risk', items: [
+            '*Active risk* (tracking error) = σ(R_P − R_B).',
+            '*Active factor risk*: risk from active factor tilts. Due to under- or overweighting particular industries relative to the portfolio’s benchmark.',
+            '*Active specific risk*: risk from active asset selection. Due to over- or underweighting individual stocks within specific industries.',
+          ] },
+          { k: 'formula', title: 'Active risk squared', lines: [
+            'σ²_A = σ²_FR + σ²_SR',
+            'Active risk squared = active factor risk + active specific risk',
+          ], note: 'Variances can be added, but *not standard deviations*. Active risk is the SD: take the square root of the total.' },
+          { k: 'table', id: 's4-pg59',
+            columns: ['Size factor', 'Style factor', 'Total factor', 'Active specific', 'Active risk'],
+            rows: [
+              { label: 'Alpha', values: ['29% (6.25 ÷ 21.69)', '56% (12.22 ÷ 21.69)', '85%', '15% (3.22 ÷ 21.69)', '4.7% (√21.69)'] },
+              { label: 'Beta', values: ['20%', '5%', '25%', '75%', '4.0%'] },
+              { label: 'Gamma', values: ['47%', '0%', '48%', '52%', '6.1%'] },
+            ],
+            caption: 'Q pg 59: each source’s share of active risk squared, then active risk. My answers: 1. Gamma (higher variance → higher SD), 2. Alpha, 3. Gamma, 4. Alpha.' },
+          { k: 'sub', text: '3. Portfolio Construction' },
+          { k: 'points', id: 's4-build', items: [
+            '*Passive management*: managers seeking to track a benchmark can construct a *tracking portfolio*. A tracking portfolio has a deliberately designed set of factor exposures: it is intentionally constructed to have the same set of factor exposures as a predetermined benchmark, so it matches (tracks) it.',
+            '*Active management*: active managers use factor models to make specific bets on desired factors while hedging (or remaining neutral) on other factors.',
+            '*Factor portfolio*: a portfolio constructed to have a sensitivity of *zero* to the remaining factors (and exposure only to the one factor it is built for). Useful for hedging purposes.',
+            '*Rules-based or algorithmic active management*: these strategies use rules to mechanically tilt factor exposures when constructing the portfolio. They introduce biases in the portfolio relative to value-weighted benchmark indices.',
+          ] },
+          { k: 'sub', text: 'Carhart Model' },
+          { k: 'formula', title: 'Carhart four-factor model', lines: [
+            'E(R) = R_F + β₁ RMRF + β₂ SMB + β₃ HML + β₄ WML',
+          ] },
+          { k: 'table', id: 's4-carhart',
+            columns: ['Factor', 'Definition'],
+            rows: [
+              { label: 'RMRF', values: ['Market', 'Return on a value-weighted equity index − risk-free rate'] },
+              { label: 'SMB', values: ['Size', 'Avg. return on small-cap stocks − avg. return on large-cap stocks'] },
+              { label: 'HML', values: ['Value', 'Avg. return on high book-to-market stocks − avg. return on low book-to-market stocks'] },
+              { label: 'WML', values: ['Momentum', 'Avg. return on past winners − avg. return on past losers'] },
+            ],
+            caption: 'Q pg 61 — my answers: 1. Eridanus · 2. short Scorpius.' },
+        ],
+      },
+    ],
+  },
+  'pm.4': {
+    flow: [
+      {
+        module: '38.S1', title: 'Value at Risk · Parametric · Historical Simulation · Monte Carlo',
+        blocks: [
+          { k: 'p', text: '*VaR (value at risk)*: a monthly 5% VaR of 25,000 means there is a *5% chance of losing $25k or more* in a month.' },
+          { k: 'cols', id: 's1-how', panes: [
+            { title: '1. Estimate the probability, then find the loss amount', tone: 'slate', items: [
+              'Probability → z (using the z-table) → x (using the formula). Finds the loss at a confidence level.',
+            ] },
+            { title: '2. Estimate the loss amount, then find the probability', tone: 'violet', items: [
+              'x → z (using the formula) → probability (using the z-table).',
+            ] },
+          ] },
+          { k: 'example', id: 's1-eps', title: 'Example — mean EPS = 6, SD = 2: find P(EPS > 10)',
+            steps: [
+              'x-value = 10, compared with a mean of 6',
+              'z = (x − μ) ÷ σ = (10 − 6) ÷ 2 = 2',
+              'Find 2 in the z-table: 97.72% to the left and 2.28% to the right',
+            ],
+            result: 'P(EPS > 10) = 2.28%. The 2nd approach is the same steps in reverse.' },
+          { k: 'points', id: 's1-methods', title: 'Methods to calculate VaR (my sticky note)', items: [
+            '1. *Parametric* (variance–covariance)',
+            '2. *Historical simulation*',
+            '3. *Monte Carlo simulation*',
+            'The first step in calculating VaR is to *identify the risk factors* that affect portfolio returns.',
+          ] },
+          { k: 'sub', text: 'Parametric Method' },
+          { k: 'cols', id: 's1-assume', panes: [
+            { title: 'Risk factors are normally distributed', tone: 'teal', items: [
+              'The normality assumption allows us to estimate the risk of the portfolio from the *mean, variance and covariance*.',
+            ] },
+            { title: 'Risk factors are non-normally distributed', tone: 'rose', items: [
+              'A non-normal assumption would increase the complexity of the analysis and require estimating other parameters, such as *skewness and kurtosis*.',
+            ] },
+          ] },
+          { k: 'p', text: 'The returns period that we use to estimate the mean and standard deviation of returns for each risk factor is called the *lookback period*.' },
+          { k: 'example', id: 's1-par', title: 'Example — 5% annual VaR for a 60/40 portfolio',
+            given: [
+              { label: 'Security A (daily)', val: 'SD 0.0158 · mean 0.0004' },
+              { label: 'Security B (daily)', val: 'SD 0.0112 · mean 0.0003' },
+              { label: 'Covariance', val: '0.000106' },
+              { label: 'Portfolio', val: '60% in A, 40% in B · value $10 million' },
+            ],
+            steps: [
+              'Mean = 0.6(0.0004) + 0.4(0.0003) = 0.00036',
+              'σ² = (0.6)²(0.0158)² + (0.4)²(0.0112)² + 2(0.4)(0.6)(0.000106) = 0.000161',
+              'σ = √0.000161 = 0.012682',
+              '5% daily VaR = 0.00036 − 1.65(0.012682) = −0.0206 = *−2.06%*',
+              'Annualizing with 250 trading days a year: annual mean = 250 × 0.00036 = 0.09; annual σ = √250 × 0.012682 = 0.20052',
+              '5% annual VaR = 0.09 − 1.65(0.20052) = *−0.2409*',
+            ],
+            result: 'On $10 million: daily VaR = 10m × 0.0206 = $206,000; annual VaR = 10m × 0.2409 = $2,409,000' },
+          { k: 'plot', id: 's1-bell', title: '5% VaR — the bell curve on my page', w: 440, h: 200,
+            x: [-3.5, 3.5], y: [0, 0.45],
+            series: [{ pts: curvePts(z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI), -3.5, 3.5, 60), c: 1 }],
+            guides: [[-1.65, 0, -1.65, 0.102], [0, 0, 0, 0.399]],
+            xticks: [{ v: -1.65, t: 'μ − 1.65σ' }, { v: 0, t: 'mean' }],
+            dots: [{ x: -2.55, y: 0.06, t: '5%', anchor: 'middle', dx: 0, dy: 0, noDot: true }],
+            note: 'The 5% VaR is the return 1.65 standard deviations *below the mean*: 5% of outcomes fall in the left tail beyond it.' },
+          { k: 'formula', title: 'Parametric VaR', lines: [
+            '5% VaR = [E(R_P) − 1.65σ_P] × portfolio value',
+            'Annual mean = 250 × daily mean · annual σ = √250 × daily σ',
+          ] },
+          { k: 'points', id: 's1-par-ad', title: 'Advantages & disadvantages of the parametric method', items: [
+            'Simple to apply under the assumption of normally distributed returns.',
+            'Estimates will only be as good as the estimates of future mean return and standard deviations (*GIGO*).',
+            'Calculated VaR is also very sensitive to the *covariance* estimate.',
+            '*Limited applicability* for portfolios containing options (derivatives), because they have non-normal distributions.',
+          ] },
+          { k: 'sub', text: 'Historical Simulation Method' },
+          { k: 'points', id: 's1-hist', items: [
+            'Calculate the daily gain or loss for the lookback period.',
+            'Select the 5% largest losses.',
+            'Select the smallest of these losses: that is the VaR.',
+          ] },
+          { k: 'cols', id: 's1-hist-ad', panes: [
+            { title: 'Advantages', tone: 'teal', items: [
+              'No normality assumption required (no skewness or kurtosis).',
+              'Can be used for portfolios having options.',
+            ] },
+            { title: 'Disadvantages', tone: 'rose', items: [
+              'Highly dependent on the sample size, i.e. the lookback period and its basis.',
+              'Useful only to the extent that the future resembles the past.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Monte Carlo Simulation' },
+          { k: 'points', id: 's1-mc', items: [
+            'Generate values for the different risk factors.',
+            'Repeat the above process thousands of times.',
+            'Identify the 5th percentile.',
+            'It assumes a probability distribution for each risk factor, and also assumes the correlations among risk factors.',
+            'The data and the assumed distributions have an impact on the Monte Carlo simulation.',
+            'If the lookback period is long, the results will be the same as the parametric method, if the distribution is the same.',
+          ] },
+        ],
+      },
+      {
+        module: '38.S2', title: 'Advantages & Limitations of VaR · CVaR · Incremental, Marginal and Relative VaR',
+        blocks: [
+          { k: 'cols', id: 's2-var-ad', panes: [
+            { title: 'Advantages of VaR', tone: 'teal', items: [
+              'Simple and easy to communicate.',
+              'Comparison across different portfolios is possible: gives a sense of relative riskiness.',
+              'Like the Sharpe ratio, VaR can be used to evaluate the performance of portfolios based on risk and return (replace SD (σ) with VaR).',
+              'Capital allocation decisions can be made on the basis of maximum VaR.',
+              'Regulators accept VaR as a measure of financial risk globally.',
+              'Can be verified by backtesting.',
+            ] },
+            { title: 'Disadvantages of VaR', tone: 'rose', items: [
+              'Many inputs required.',
+              'The normality assumption *underestimates* VaR, as the normal curve has thin tails. In reality, actual return distributions frequently have *fatter tails*.',
+              'When asset prices fall, the liquidity of that asset decreases. VaR does not capture the effect of liquidity, so it is understated.',
+              'Correlations between financial assets increase during a financial crisis, which lowers diversification benefits, so VaR is understated.',
+              'VaR focuses only on *downside* risk. Considering right-hand tail values as well gives a better understanding of the risk–return trade-off.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Conditional VaR (CVaR)' },
+          { k: 'points', id: 's2-cvar', items: [
+            'What is my expected loss if the minimum (VaR) loss happens?',
+            'The expected loss given that the loss is *equal to or greater than* the VaR.',
+            'The expected loss given that the loss is in the left tail past the VaR: it measures *tail risk*.',
+            'Calculate the VaR using historical simulation or Monte Carlo simulation, then calculate the average of all the losses beyond it: that is the CVaR.',
+            'The parametric method cannot be used to calculate the CVaR, as we don’t have the amounts of the losses in the left tail.',
+          ] },
+          { k: 'sub', text: 'Incremental VaR' },
+          { k: 'p', text: '*Incremental VaR*: the change in VaR from a change in the portfolio allocation to an asset. E.g. if we increase the weight of a security in a portfolio by 2% and the VaR changes from 1,000 to 1,300, the incremental VaR is *300 for the 2% weight*.' },
+          { k: 'sub', text: 'Marginal VaR' },
+          { k: 'plot', id: 's2-mvar', title: 'Marginal VaR — VaR against the security’s weight', w: 440, h: 210,
+            x: [0, 10], y: [900, 2100], xlabel: 'security weight', ylabel: 'VaR',
+            series: [
+              { pts: curvePts(w => 1000 + 40 * w + 8 * w * w, 0, 9.3, 40), c: 1, label: 'VaR curve', lx: 6.6, ly: 1900, anchor: 'end' },
+              { pts: [[2, 1040], [8, 1760]], c: 2, dash: true, label: 'slope = MVaR here', lx: 6, ly: 1450, ldy: 16 },
+            ],
+            dots: [{ x: 5, y: 1400 }],
+            note: 'A curve, not a line: the slope (marginal VaR) is different at every weight, just as duration changes along the price–yield curve.' },
+          { k: 'points', id: 's2-mvar-pts', items: [
+            'Plot a graph of the security’s weight on the X-axis and VaR on the Y-axis. The *slope* of this line is the marginal VaR.',
+            'The graph is not a line but a *curve*. Hence MVaR is different at different points.',
+            'It is interpreted as the change in VaR for a 1% change in the security’s weight.',
+            'MVaR is the same concept as *duration*, hence the same disadvantage applies here too: it only holds for small changes.',
+          ] },
+          { k: 'sub', text: 'Relative VaR' },
+          { k: 'points', id: 's2-rel', items: [
+            'Step 1: calculate the difference between the return on the portfolio and the return on the benchmark.',
+            'Step 2: calculate the VaR of step 1.',
+            'E.g. a 5% monthly relative VaR of 2.5% implies that 5% of the time, the portfolio’s relative underperformance will be *at least 2.5%*.',
+          ] },
+        ],
+      },
+      {
+        module: '38.S3', title: 'Sensitivity & Scenario Analysis · Reverse Stress Testing · Risk Measures by Organization',
+        blocks: [
+          { k: 'p', text: 'Other measures of risk that complement VaR:' },
+          { k: 'cols', id: 's3-sens-scen', panes: [
+            { title: 'Sensitivity analysis', tone: 'slate', items: [
+              'How sensitive is my portfolio to the factor: how the portfolio value changes when *one* variable is changed.',
+            ] },
+            { title: 'Scenario analysis', tone: 'violet', items: [
+              'When *all* variables are changed, what is the portfolio value: base case, best case, worst case.',
+              '1. *Historical scenario*: considers extreme events that have occurred in the past.',
+              '2. *Hypothetical scenario*: considers extreme events that have not occurred in the past.',
+            ] },
+          ] },
+          { k: 'table', id: 's3-factors',
+            columns: ['Sensitivity risk factor'],
+            rows: [
+              { label: 'Equity', values: ['Beta (systematic risk)'] },
+              { label: 'Bond', values: ['Duration & convexity'] },
+              { label: 'Option', values: ['Delta, gamma, vega, rho'] },
+            ] },
+          { k: 'points', id: 's3-use', title: 'Use of sensitivity & scenario risk measures', items: [
+            'Sensitivity and scenario analysis complement VaR and do *not have to rely on history*.',
+            'Sensitivity and scenario analysis do *not provide a probability* estimate.',
+            'Sensitivity analysis helps us identify how sensitive the portfolio is to different risk factors.',
+            'Scenario analysis tells us what the portfolio value is if all risk parameters are varied simultaneously.',
+            'Scenario analysis can be seen as the *final step* in the risk assessment and management process, after performing sensitivity analysis.',
+          ] },
+          { k: 'sub', text: 'Reverse Stress Testing' },
+          { k: 'timeline', steps: [
+            { name: 'Identify', text: 'The portfolio’s largest risk exposures' },
+            { name: 'Determine', text: 'An unacceptable outcome (one that would threaten the survival of the organization)' },
+            { name: 'Find scenarios', text: 'Changes in risk factors that would result in such an outcome' },
+            { name: 'Ask', text: 'How likely are such scenarios?' },
+          ] },
+          { k: 'p', text: '*Advantage*: beneficial in helping risk managers identify the vulnerability of a portfolio, and perhaps mitigate the risk exposures identified.' },
+          { k: 'points', id: 's3-limits', title: 'Limitations of sensitivity analysis', items: [
+            'Consider an example where the duration of 2 bond portfolios is the same. Here we would conclude that the risk is the same in the 2 portfolios. However, the 2 portfolios might have different *yield volatility*.',
+            'Option delta is applicable for *small* changes in price. Even if 2 options have the same delta, their risk is not the same, as one underlying might be more volatile than the other.',
+          ] },
+          { k: 'points', id: 's3-select', title: 'Selection of a risk measure by an organization depends on', items: [
+            '1. Type of risk exposure',
+            '2. Regulations',
+            '3. Leverage',
+          ] },
+          { k: 'cols', id: 's3-org1', panes: [
+            { title: 'Banks', tone: 'slate', items: [
+              'Sensitivity measures (duration of HTM)',
+              'Scenario analysis (for balance sheets)',
+              'Leverage risk measures',
+              'VaR (for HFT and for economic capital)',
+              'Asset–liability mismatch',
+            ] },
+            { title: 'Asset managers', tone: 'violet', items: [
+              'Focus on *relative* risk measures; size of position',
+              'Sensitivity measures of interest rate and market risk',
+              'Historical and hypothetical scenario analysis, and option risk',
+              '*Active share*: difference in the weight of a security in the portfolio and the benchmark',
+              '*Ex post tracking error*: used for manager selection',
+              '*Ex ante tracking error*: used for assessing potential underperformance of the portfolio',
+            ] },
+            { title: 'Hedge funds', tone: 'teal', items: [
+              'Sensitivity analysis, leverage measures, scenario analysis, stress tests',
+              'VaR over less than 10 days (short periods)',
+              'Hedge funds with *non-normal* distributions use *maximum drawdown* as the measure of risk',
+            ] },
+          ] },
+          { k: 'cols', id: 's3-org2', panes: [
+            { title: 'Defined benefit pension plans', tone: 'slate', items: [
+              'Calculate the risk measure on the *funded status*.',
+              'Risk measure: *surplus at risk* (VaR for the funded status) and asset–liability mismatch.',
+              '*Glide path*: a multi-year plan for adjusting contributions to reverse a significantly overfunded or underfunded status.',
+            ] },
+            { title: 'Property & casualty insurers', tone: 'violet', items: [
+              'Medical, home, boat and car insurance.',
+              'Insurance risk is *not correlated* to market risk.',
+              'Risk is reduced by reinsurance and geographical diversification.',
+              'Premium income is expected to cover regular claims; the investment portfolio is expected to cover irregular claims like natural disasters.',
+              'Uses VaR and capital at risk as measures of risk.',
+            ] },
+            { title: 'Life insurers', tone: 'teal', items: [
+              'Insurance risk is *more correlated* to market risk than for P&C, due to discount factors, as life insurance is an annuity over the long term. It also has mortality risk.',
+              'Use scenario analysis that includes both market and non-market risk factors.',
+            ] },
+          ] },
+          { k: 'points', id: 's3-constraints', title: 'Constraints used in managing market risk', items: [
+            'Risk budgeting',
+            'Position limits',
+            'Scenario limits',
+            'Stop-loss limits',
+          ] },
+        ],
+      },
+    ],
+  },
+  'pm.5': {
+    flow: [
+      {
+        module: '39.S1', title: 'Backtesting · Factor Portfolios · Rolling Windows · Metrics · Problems · Simulation',
+        blocks: [
+          { k: 'p', text: '*Backtesting*: the use of actual historical data to emulate an investment process.' },
+          { k: 'points', id: 's1-design', title: '1. Strategy design', items: [
+            'Investment universe',
+            'Definition of returns',
+            'Rebalancing frequency & transaction costs',
+            'Start & end date',
+          ] },
+          { k: 'sub', text: 'Factor Portfolio' },
+          { k: 'points', id: 's1-factor', items: [
+            'Factors can be thought of as any variable that can be used to predict the future.',
+            'The goal of factor-based strategies is to identify signals that will allow us to assemble portfolios that will outperform the overall market.',
+            'Avoid the *data-mining trap*: it occurs when many different factors are considered, and those that performed well in a backtest are incorporated into the strategy, even if they don’t have any logical or economic reason to be included.',
+            'Generally, construct a stock selection model that *linearly combines* several factors.',
+          ] },
+          { k: 'cols', id: 's1-combine', panes: [
+            { title: '1. Benchmark portfolio (BM)', tone: 'slate', items: ['Weights the factors *equally*.'] },
+            { title: '2. Risk parity portfolio (RP)', tone: 'violet', items: ['Weights the factors so that each factor contributes *equal risk* to the portfolio.'] },
+          ] },
+          { k: 'sub', text: '2. Historical Investment Simulation' },
+          { k: 'points', id: 's1-sim', items: [
+            'We create the portfolio to be evaluated and then rebalance it according to our predetermined frequency.',
+            'Actual construction of the portfolio will be guided by the investment strategy as well as any kind of constraints (geography, size, liquidity, on shorting).',
+            'In the *rolling window* backtesting approach, the investor uses a walk-forward (rolling window) system rather than dividing the data into just 2 samples.',
+          ] },
+          { k: 'sub', text: 'Backtesting a Factor Portfolio' },
+          { k: 'p', text: 'Backtesting a multifactor strategy is somewhat complex because we need to execute the rolling window process *twice*.' },
+          { k: 'timeline', steps: [
+            { name: '1st rolling window', text: 'Construct the 8 factor portfolios using the walk-forward approach (each factor portfolio is long–short)' },
+            { name: 'Combine', text: 'Use either the benchmark or the risk parity weighting scheme to form the multifactor portfolio' },
+            { name: '2nd rolling window', text: 'Determine the covariances and create the RP portfolio' },
+            { name: 'Rebalance & test', text: 'BM and RP portfolios (long-only in the factor portfolios) are rebalanced monthly, then analysed on out-of-sample data' },
+          ] },
+          { k: 'p', text: 'Both the BM and RP portfolios are rebalanced monthly to maintain risk parity or equal weighting, as appropriate. These portfolios are then analysed using *out-of-sample* data to determine the returns of each portfolio.' },
+          { k: 'sub', text: '3. Analysis of Backtesting Output — Long/Short Hedged Portfolio Approach' },
+          { k: 'points', id: 's1-ls', items: [
+            'First select a factor and then rank our stock universe by that factor.',
+            'Rank the universe of stocks on factor scores and divide it into quantiles (in this case *quintiles*, meaning 5 equal layers based on our factor). Invest in each quintile based on the particular weighting scheme.',
+            'Inside each quintile, we may weight the stocks either equally or by market capitalization.',
+            'Go *long the top quintile* (the stocks with the highest factor scores) and *short the bottom quintile* (the lowest factor scores) to form a long/short hedged portfolio.',
+            'Rolling window backtesting can then be applied, with the portfolio rebalanced monthly. This generates a series of out-of-sample performance data that we can analyse using metrics such as the Sharpe ratio, maximum drawdown and Sortino ratio.',
+          ] },
+          { k: 'sub', text: 'Metrics in Backtesting' },
+          { k: 'points', id: 's1-metrics', items: [
+            'In addition to the familiar Sharpe ratio and Sortino ratio, a number of other measures are commonly used to quantify investment performance.',
+            '*VaR*: a portfolio’s value at risk is one way to quantify the amount of risk present in the left tail of the portfolio distribution.',
+            '*Conditional VaR*: an extension of VaR that provides a more comprehensive measure of tail loss than VaR does. CVaR quantifies the weighted average of all returns that exceed the specified VaR loss.',
+            '*Maximum drawdown*: measures downside risk. It represents the greatest amount of loss that an asset has experienced from peak to trough in the past.',
+          ] },
+          { k: 'formula', title: 'Maximum drawdown', lines: [
+            'Maximum drawdown = maximum cumulative return − lowest cumulative return that occurs after that point',
+          ] },
+          { k: 'sub', text: 'Problems in Backtesting' },
+          { k: 'table', id: 's1-problems',
+            columns: ['What goes wrong'],
+            rows: [
+              { label: 'Survivorship bias', values: ['Listed on my page without detail (see the Schweser note below).'] },
+              { label: 'Look-ahead bias', values: ['Occurs when there is a *lag* in reporting data from companies. E.g. year-end data should be reported in April, but some companies report it around May. Looking back, a backtest that uses those numbers in April concludes something that could not have been acted on, because the data was not yet available when the decision was made. It also happens when data is *restated* after it is released.'] },
+              { label: 'Data snooping', values: ['The analyst tries many different models, backtests each of them, and then selects the one with the highest numerical results. Performing analyses until we find a statistically significant strategy is called data snooping (or, sometimes, *p-hacking*). One solution: with 30 years of data, backtest on 25 years and then test the results on the other 5 years.'] },
+            ] },
+          { k: 'flag', title: 'Survivorship bias',
+            items: [
+              'Using only the firms that still exist at the end of the test period leaves out companies that went bankrupt, were delisted or were taken over. The backtest then overstates returns and understates risk.',
+              'Fix: use *point-in-time* data that includes the dead and delisted firms.',
+            ],
+            text: 'What the term means:' },
+          { k: 'sub', text: 'Historical Simulation' },
+          { k: 'points', id: 's1-hsim', items: [
+            'In backtesting, it is implicitly assumed that *history will repeat itself*. With ever-changing financial markets, this is often not a valid assumption: never-before-seen risks and opportunities occasionally arise.',
+            'A particularly useful application of simulation is to try to evaluate an investment strategy’s *downside risk*. Simulation can also help us to validate the results of backtesting.',
+          ] },
+          { k: 'cols', id: 's1-twoforms', panes: [
+            { title: 'Historical simulation', tone: 'slate', items: [
+              'We select past returns at random from a long historical period, *without regard to the order* of occurrence: we randomly sample (with replacement) from the past record of asset returns.',
+              'Downside: we only have actual past data to draw from, and the past only occurred in one particular way.',
+              'It can be performed with or without returning the samples before further selection. *Bootstrapping* refers to sampling with replacement.',
+            ] },
+            { title: 'Monte Carlo simulation', tone: 'violet', items: [
+              'Overcomes this issue by assigning a *statistical distribution* to each relevant variable, and then drawing random observations from this distribution.',
+            ] },
+          ] },
+        ],
+      },
+    ],
+  },
 };
 // Gaps I flag after each teach-back round, aligned by index to the points in CONTENT above.
 // null means that point was correct as explained — nothing to flag. Cleared only once the
@@ -8129,6 +8973,11 @@ const GAPS = {
   'equity.5': {},
   'deriv.0': {},
   'deriv.1': {},
+  'pm.0': {},
+  'pm.1': {},
+  'pm.3': {},
+  'pm.4': {},
+  'pm.5': {},
 };
 // Tuition weak spots: questions the user got wrong in external tuition tests, diagnosed and
 // grouped by the misconception behind them — one entry per concept, not per question. `module`
@@ -8539,6 +9388,11 @@ const STATUS = {
   'equity.5': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
+  'pm.0': 'progress',
+  'pm.1': 'progress',
+  'pm.3': 'progress',
+  'pm.4': 'progress',
+  'pm.5': 'progress',
 };
 // Cross-topic links, set by Claude when a genuine connection comes up in conversation
 // (e.g. Reading 7's equity method vs. Reading 8's pension accounting). Read-only chips
@@ -9926,6 +10780,246 @@ const EXAM = {
         ['Delta hedge works only for *small* moves; delta changes, so rebalance continuously (dynamic hedge).', 'delta hedging works *only for small changes*'],
         ['Long stock + short calls has negative gamma → gamma risk on jumps. Fix with another *option*, not stock.', 'cannot change gamma'],
         ['Expected vol > implied vol → options cheap → *buy*.', 'Expected volatility 25% > implied 22%'],
+      ],
+    },
+  },
+  'pm.0': {
+    about: [
+      'Reading 34 links the economy to what investors require from each asset class. Every asset is worth the PV of its cash flows, and the discount rate is built in layers: real risk-free rate, then expected inflation, then risk premiums. The first session grounds the real rate in the *intertemporal rate of substitution*: how much a unit of future consumption is worth today.',
+      'The second session explains why risky assets are priced below their riskless value (the covariance of payoffs with marginal utility is negative) and how GDP growth, its volatility, inflation uncertainty and the *Taylor rule* shape short rates, long rates and the slope of the yield curve. The third adds the premiums for credit risk, equity and real estate, and explains them through *consumption hedging*: assets that pay off in bad times are worth more and need a lower premium.',
+      'Expect direction questions: what a higher expected GDP does to real rates, what an inverted curve signals, which sectors’ spreads widen in a downturn, why P/Es rise in expansions, and when value or growth styles do better. Build each required return by adding one premium at a time.',
+    ],
+    '34.S1': {
+      s: [
+        'Asset value is the PV of future cash flows at a discount rate of real risk-free rate + expected inflation + risk premium. The real risk-free rate comes from the intertemporal rate of substitution mₜ, the ratio of the marginal utility of a future unit to a current one: a riskless bond paying 1 is worth E(mₜ) = 1 ÷ (1 + R), so R = (1 − E(m)) ÷ E(m). Marginal utility is highest when goods are scarce, in contractions.',
+      ],
+      n: [
+        ['Discount rate = real risk-free rate + expected inflation + risk premium (first two = nominal risk-free rate).', 'Discount rate = real risk-free rate'],
+        ['mₜ = MU of a future unit ÷ MU of a current unit; P₀ = E(mₜ) = 1 ÷ (1 + R_RF).', 'P₀ = E(mₜ)'],
+        ['Real risk-free rate = (1 − P₀) ÷ P₀ = [1 − E(m)] ÷ E(m).', 'Real risk-free rate = (ending'],
+        ['Marginal utility is *higher in scarcity*, e.g. economic contractions.', 'periods of *scarcity*'],
+      ],
+    },
+    '34.S2': {
+      s: [
+        'Uncertain cash flows need a risk premium. A risky asset is worth E(P₁) ÷ (1 + R) + cov(P₁, m₁), and the covariance is negative because payoffs are high when extra consumption is worth least, so the risky price is lower. Higher expected GDP lowers the value of future consumption, cuts saving and raises real rates; more volatile GDP growth raises rates through the risk premium. Short nominal rates add expected inflation; long rates also add a premium for inflation uncertainty. The Taylor rule sets the policy rate from the neutral rate, inflation and the inflation and output gaps. Easing in recession steepens the curve; an inverted curve signals recession. Break-even inflation = nominal yield − real (inflation-indexed) yield.',
+      ],
+      n: [
+        ['Wealthy investors are less risk averse; in equilibrium all have the same willingness to hold risk at the margin.', 'same willingness'],
+        ['P₀ = E(P₁) ÷ (1 + R) + cov(P₁, m₁); cov is *negative* for a risk-averse investor → risky price < riskless price.', 'Covariance is *NEGATIVE*'],
+        ['Higher expected GDP → lower m → less saving → *higher real rate*.', 'Increased real rate of return'],
+        ['Rates rise with GDP growth *volatility* (higher risk premium).', 'volatility in GDP growth'],
+        ['LT nominal = real + expected inflation + premium for inflation uncertainty.', 'LT nominal rate'],
+        ['Taylor rule: Rₙ + π + 0.5(π − π*) + 0.5(GDP − target GDP).', 'Taylor rule'],
+        ['Inverted curve → future recession; upward-sloping → expansion.', 'An *inverted* yield curve'],
+        ['Term spread = long − short yield; break-even inflation = nominal − inflation-indexed yield.', 'Break-even inflation rate'],
+      ],
+    },
+    '34.S3': {
+      s: [
+        'Credit-risky bonds add a credit spread, which depends on industry, products and leverage and widens most for cyclicals in a downturn. Equity adds a further premium over debt because its consumption hedging is poor: it falls in recessions, when money is worth most. Safe havens that pay off in downturns earn low premiums. The equity risk premium falls in expansions, so P/Es rise (lower real rates, lower ERP, higher expected growth, lower financial risk); CAPE smooths earnings over ten years. Value does better around recessions, growth in expansions. Real estate stacks premiums for terminal-value uncertainty and illiquidity on top, close to equity.',
+      ],
+      n: [
+        ['Credit-risky bond = real rf + inflation premium + inflation-uncertainty premium + credit premium (= credit spread).', 'Required return — credit-risky bond'],
+        ['Consumer cyclicals’ spreads widen in downturns vs non-cyclicals.', 'consumer cyclicals'],
+        ['Safe havens pay off in downturns → valued highly → *lower* risk premium. Equity hedges poorly → ERP.', 'safe havens'],
+        ['P/E: direct with earnings growth, inverse with required return.', 'earnings growth rate: *direct* relation'],
+        ['CAPE = real price ÷ 10-yr moving average of real earnings.', 'CAPE = real price'],
+        ['ERP ↓ and P/E ↑ in expansion: lower real rates, lower ERP, higher expected growth, lower financial risk.', 'tend to *rise* during economic expansion'],
+        ['Value wins during/just after recessions; growth wins in expansions.', 'immediately after a recession'],
+        ['Real estate adds terminal-value and illiquidity premiums; poor consumption hedge, premium close to equity.', 'risk premium for illiquidity'],
+      ],
+      f: [
+        ['Required return — equity', ['Real rf + inflation premium + inflation-uncertainty premium + credit premium + equity premium over debt'], 'Required return — equity', ''],
+      ],
+    },
+  },
+  'pm.1': {
+    about: [
+      'Reading 35 measures what active management adds and how much active risk is worth taking. It starts with *active return* (portfolio minus benchmark) and *active weights*, splits active return into *asset allocation* (different weights on asset classes) and *security selection* (different returns within them), and then compares the *Sharpe ratio* with the *information ratio*.',
+      'The middle is about scaling risk: the Sharpe ratio does not change when you add cash, and the IR does not change when you add the benchmark or scale active weights. Mixing an active fund with the benchmark sets active risk to w × σ_A, and the *optimal* active risk (IR ÷ SR_B) × σ_B gives the highest portfolio Sharpe ratio, √(SR_B² + IR²).',
+      'The reading ends with the *fundamental law*: IR = TC × IC × √BR. IC is skill, TC is how freely views reach the weights, and breadth is the number of independent bets, which shrinks when decisions are correlated. Expect calculations (decomposition, optimal weights, constrained Sharpe ratio) and conceptual questions on what changes each ratio.',
+    ],
+    '35.S1': {
+      s: [
+        'Active return is the portfolio return minus the benchmark return, ex post (realised) or ex ante (expected). Active weight is each security’s portfolio weight minus its benchmark weight; active weights sum to zero. Active return equals the sum of active weight × security return, which matches portfolio return minus benchmark return.',
+      ],
+      n: [
+        ['Active return = R_P − R_B; active weight = w_P − w_B.', 'Active weight = w_P − w_B'],
+        ['Active return = Σ active weight × return (pg 16: 2.06% = 9.31% − 7.25%).', 'Two ways to the same 2.06%'],
+      ],
+    },
+    '35.S2': {
+      s: [
+        'Active return splits in two. Asset allocation return is the difference in asset-class weights times the benchmark return of that class. Security selection return is the portfolio weight times the difference between the portfolio’s and the benchmark’s return within the class. In the pg 18 example allocation adds nothing (the over- and underweight cancel) and selection adds 0.35%.',
+      ],
+      n: [
+        ['Asset allocation = Σ (w_P − w_B) × R_B of the class.', 'Asset allocation return = Σ'],
+        ['Security selection = Σ w_P × (R_P − R_B) within the class.', 'Security selection return = Σ'],
+        ['pg 18: allocation 0.00% + selection 0.35% = 0.35% active return.', 'all of it came from picking securities'],
+      ],
+    },
+    '35.S3': {
+      s: [
+        'Sharpe ratio = excess return ÷ total risk; adding the risk-free asset scales return and risk together, so it is unchanged. Information ratio = active return ÷ active risk; adding the benchmark, or scaling active weights up or down, leaves it unchanged, but adding cash changes it. Ex ante IRs are always positive; closet indexers have IRs near zero and negative after fees. Combining an active fund with the benchmark gives active risk w_A × σ_A. The optimal active risk is (IR ÷ SR_B) × σ_B, giving a portfolio Sharpe ratio of √(SR_B² + IR²) and total variance σ_B² + σ_A*².',
+      ],
+      n: [
+        ['Adding the risk-free asset leaves the *Sharpe ratio* unchanged.', 'unaffected* by adding or removing the risk-free asset'],
+        ['Adding the benchmark (or tripling active weights) leaves the *IR* unchanged; adding cash changes the IR, not the SR.', 'the *IR is unaffected*'],
+        ['Ex ante IR always positive; closet index fund IR ≈ 0, negative after fees.', 'Closet index fund'],
+        ['Active risk of a mix = w_A × σ_A (benchmark’s active risk is 0). 6% target with 10% fund → 60% active.', 'Active risk_P = w_A × σ_A'],
+        ['σ_A* = (IR ÷ SR_B) × σ_B; SR_P = √(SR_B² + IR²); σ_P² = σ_B² + σ_A*².', 'σ_A* = (IR ÷ SR_B) × σ_B'],
+        ['OMEGA: SR 0.447, σ_A* 6%, w_O = 6% ÷ 9% = 67%, w_B = 33%.', 'Step 5 — weights'],
+      ],
+      f: [
+        ['Weight in the active fund for a target active risk', ['w_A = target active risk ÷ active risk of the fund'], 'Active risk_P = w_A × σ_A', ''],
+      ],
+    },
+    '35.S4': {
+      s: [
+        'The fundamental law: IR = TC × IC × √BR. IC (skill) is the correlation between forecast and realised active returns, 2 × (% correct) − 1. TC (constraints) is how fully forecasts reach active weights: 1 for an unconstrained manager, below 1 otherwise. Breadth is the number of independent bets. Constraints scale the IR, the optimal active risk and the Sharpe gain by TC. For sector rotation, active risk is σ_C × √BR, where σ_C is the volatility of the return difference between the two sectors. The law applies to selection, timing and rotation, but it is only as good as its IC and BR estimates; correlated decisions (cross-sectional or over time) cut breadth to N ÷ [1 + (N − 1)r].',
+      ],
+      n: [
+        ['IC = skill (forecast vs realised active return); TC = constraints (1 if unconstrained); BR = number of bets.', 'Information coefficient (IC)'],
+        ['IR = TC × IC × √BR; IC = 2 × (% correct) − 1.', 'IC = 2 × (% correct) − 1'],
+        ['Constrained: σ_A* = TC × (IR ÷ SR_B) × σ_B; SR_P = √(SR_B² + TC² × IR²).', 'TC² × IR²'],
+        ['Sector rotation: σ_C from the two sectors; σ_A = σ_C × √BR; E(R_A) = IC × √BR × σ_A.', 'Two-sector rotation'],
+        ['Limitation: garbage in, garbage out (IC and BR are estimates).', 'Garbage in, garbage out'],
+        ['Correlated decisions: BR = N ÷ [1 + (N − 1)r].', 'Breadth with correlated decisions'],
+      ],
+      f: [
+        ['Fundamental law — expected active return', ['E(R_A) = TC × IC × √BR × σ_A'], 'TC × IC × √BR × σ_A', 'Unconstrained: TC = 1.'],
+        ['Optimal active risk and Sharpe ratio — constrained', ['σ_A* = TC × (IR ÷ SR_B) × σ_B', 'SR_P = √(SR_B² + TC² × IR²)'], 'TC² × IR²', ''],
+      ],
+    },
+  },
+  'pm.3': {
+    about: [
+      'Reading 37 uses factor models to price assets and to explain and steer a portfolio’s active return and risk. It opens with the *arbitrage pricing theory*: expected return = risk-free rate + the sum of factor betas × factor risk premiums. APT needs only no arbitrage and diversifiable specific risk, but it does not name its factors. Mispriced portfolios are exploited by building a same-beta portfolio from two others and trading the return gap.',
+      'The second session sets out the three model families. *Macroeconomic* models use factor surprises and regression slopes, and the intercept is the expected return. *Fundamental* models use standardized sensitivities (z-scores of attributes like P/E) and cross-sectional regressions to get factor returns. *Statistical* models fit the data but are hard to interpret.',
+      'The last two sessions put models to work. Active return splits into factor return (difference in betas × factor return) and security selection (the remainder). Active risk squared splits into active factor and active specific risk, and variances add but SDs do not. Models also build tracking, factor and rules-based portfolios; Carhart adds size, value and momentum to the market factor. Expect APT calculations and attribution tables.',
+    ],
+    '37.S1': {
+      s: [
+        'APT is a linear multifactor alternative to CAPM: E(R) = R_F + Σ β × λ, where λ is each factor’s risk premium. It assumes diversifiable specific risk, a factor model for returns and no arbitrage, but it does not specify the factors, and none has to be the market. With two portfolios you can solve for R_F and λ and test a third for mispricing. To exploit mispricing, combine the highest- and lowest-beta portfolios to match the mispriced one’s beta, then buy the higher-return portfolio and short the lower.',
+      ],
+      n: [
+        ['APT: multiple systematic factors, linear; does *not* identify the factors (major drawback).', 'its *major drawback*'],
+        ['E(R_P) = R_F + Σ β_P,k λ_k; λ = factor risk premium. CAPM is the one-factor (market) case.', 'APT equation'],
+        ['Unlike CAPM, no factor has to be the market portfolio.', 'does *not require*'],
+        ['Two-factor example: 5% + 1.5(3%) + 2(1.25%) = 12%.', 'E(R) = 0.12'],
+        ['Solve two equations for R_F and λ (3%, 4%); C at 6.2% is correctly priced.', 'λ = *0.04*'],
+        ['Arbitrage: build X from A and B with β_C; X earns 15% vs C 13% → buy X, sell C.', 'buy portfolio X, sell portfolio C'],
+      ],
+    },
+    '37.S2': {
+      s: [
+        'Macroeconomic factor models explain returns by surprises (actual − consensus) in factors like GDP and the credit spread: Rᵢ = E(Rᵢ) + Σ b × F + ε, where ε is the firm-specific surprise. Fundamental factor models use firm attributes as standardized sensitivities, (attribute − mean) ÷ SD, and estimate factor returns as slopes of cross-sectional regressions; their intercept has no economic meaning. Statistical models (factor analysis for covariance, principal components for variance) fit the data but are hard to interpret.',
+      ],
+      n: [
+        ['Macro: factor surprise = realized − consensus predicted.', 'Factor surprise = realized value'],
+        ['Rᵢ = E(Rᵢ) + b_i1 F_GDP + b_i2 F_QS + εᵢ; ε = firm-specific (strike, fire).', 'F_GDP + b_i2'],
+        ['Statistical: factor analysis → covariance; principal components → variance. Weak economic meaning.', 'Principal component models'],
+        ['Standardized sensitivity = (P/Eᵢ − mean) ÷ σ, like a z-score; 2 = two SDs above the mean.', '2 standard deviations above the mean'],
+        ['Factor returns = slopes of a *cross-sectional* regression.', 'cross-sectional'],
+        ['Macro: slopes, surprises, intercept = expected return. Fundamental: standardized, factor returns, intercept no meaning.', 'Intercept term'],
+      ],
+      f: [
+        ['Standardized sensitivity', ['b_i,P/E = [(P/E)ᵢ − mean P/E] ÷ σ_P/E'], 'Standardized sensitivity', ''],
+      ],
+    },
+    '37.S3': {
+      s: [
+        'Active return is the portfolio’s return minus the benchmark’s; active risk (tracking error) is the standard deviation of that difference; the information ratio is active return per unit of active risk, and higher is better. These are the same measures as Reading 35, now applied to factor-based portfolios.',
+      ],
+      n: [
+        ['Active risk = tracking error = σ(R_P − R_B); IR = active return ÷ active risk.', 'Active risk = tracking error'],
+      ],
+    },
+    '37.S4': {
+      s: [
+        'Return attribution: factor return = Σ (portfolio beta − benchmark beta) × factor return; security selection is active return minus factor return. In the pg 58 case the factor bets cost 1.16% but selection added 0.56%, for −0.60% overall. Risk attribution: active risk² = active factor risk + active specific risk; add variances, never SDs. Factor risk comes from industry and style tilts, specific risk from stock picks. In portfolio construction, passive managers build tracking portfolios with the benchmark’s exposures, active managers bet on chosen factors and hedge the rest with factor portfolios, and rules-based strategies tilt factors mechanically. Carhart: market, size (SMB), value (HML) and momentum (WML).',
+      ],
+      n: [
+        ['Factor return = Σ (β_P − β_B) × λ; security selection = active return − factor return.', 'Factor return = Σ'],
+        ['pg 58: −0.60% = −1.16% factor + 0.56% selection → right stocks, wrong factor bets.', 'Stock selection was right'],
+        ['Active risk² = active factor risk + active specific risk; variances add, SDs don’t.', 'Variances can be added'],
+        ['Factor risk = industry/style tilts; specific risk = stock picks within industries.', 'Active specific risk'],
+        ['Tracking portfolio = benchmark’s factor exposures; factor portfolio = zero exposure to other factors (hedging).', 'tracking portfolio'],
+        ['Carhart: RMRF + SMB + HML + WML (market, size, value, momentum).', 'Carhart four-factor model'],
+      ],
+    },
+  },
+  'pm.4': {
+    about: [
+      'Reading 38 is about measuring market risk and choosing the right measure for the job. *VaR* is the minimum loss at a given probability over a given period. It can be estimated three ways: *parametric* (mean and covariance under normality: μ − 1.65σ at 5%), *historical simulation* (the 5th-percentile loss of past returns) and *Monte Carlo* (thousands of draws from assumed distributions). Each trades simplicity against realism, and only the simulation methods cope well with options.',
+      'The second session weighs VaR (simple, comparable, accepted by regulators, testable) against its flaws: thin tails, ignored liquidity, correlations that rise in crises, and no view of losses beyond the cut-off. CVaR answers how bad the tail is; incremental, marginal and relative VaR show how a position or a benchmark changes the picture.',
+      'The third session adds sensitivity measures (beta, duration, the Greeks), scenario analysis and reverse stress tests, which complement VaR without needing history or probabilities. It then matches risk measures to banks, asset managers, hedge funds, pension plans and insurers, and lists the constraints used to control risk. Expect a parametric VaR calculation and questions on which measure suits which institution.',
+    ],
+    '38.S1': {
+      s: [
+        'VaR is the minimum loss expected with a given probability over a period. Start by identifying the risk factors. Parametric VaR assumes normal returns and uses the portfolio mean and variance (with covariance), taking μ − 1.65σ for 5% and scaling daily figures by 250 and √250 to annualise; it is simple but only as good as its inputs and poor for options. Historical simulation takes the 5th-percentile loss of actual returns over the lookback period; it needs no normality and handles options but depends on the sample. Monte Carlo draws thousands of outcomes from assumed distributions and correlations; with a long lookback and normal inputs it matches the parametric result.',
+      ],
+      n: [
+        ['VaR: monthly 5% VaR of 25,000 = 5% chance of losing at least $25k in a month.', 'monthly 5% VaR of 25,000'],
+        ['Three methods: parametric, historical simulation, Monte Carlo. First identify the risk factors.', 'identify the risk factors'],
+        ['Parametric: σ² from weights, SDs and covariance; 5% VaR = μ − 1.65σ.', '5% daily VaR = 0.00036'],
+        ['Annualise: mean × 250, σ × √250 (−2.06% daily → −24.09% a year; $206,000 and $2,409,000 on $10m).', '5% annual VaR = 0.09'],
+        ['Parametric weak for options (non-normal) and very sensitive to the covariance estimate.', 'very sensitive to the *covariance* estimate'],
+        ['Historical: no normality, handles options; depends on the lookback period, assumes the past repeats.', 'Select the 5% largest losses'],
+        ['Monte Carlo: assumed distributions and correlations, thousands of draws, take the 5th percentile.', 'Identify the 5th percentile'],
+      ],
+    },
+    '38.S2': {
+      s: [
+        'VaR is simple, comparable across portfolios, usable in risk-adjusted performance (in place of σ), useful for capital allocation, accepted by regulators and testable by backtesting. It is understated by fat tails, falling liquidity in sell-offs and correlations that rise in crises, and it ignores the right tail. CVaR is the average loss beyond the VaR, found by averaging the tail losses from historical or Monte Carlo simulation. Incremental VaR is the change in VaR from a change in a position; marginal VaR is the slope of VaR against weight, valid only for small changes like duration; relative VaR is the VaR of the portfolio’s return minus the benchmark’s.',
+      ],
+      n: [
+        ['VaR pros: simple, comparable, capital allocation, regulators, backtestable.', 'Regulators accept VaR'],
+        ['VaR understated: fat tails, liquidity dries up as prices fall, correlations rise in crises.', 'fatter tails'],
+        ['CVaR = expected loss *beyond* VaR (tail risk): average the tail losses from historical or MC.', 'equal to or greater than'],
+        ['Incremental VaR = change in VaR from a change in allocation (1,000 → 1,300 = 300).', 'Incremental VaR'],
+        ['Marginal VaR = slope of VaR vs weight; a curve, so it varies like duration.', 'The *slope* of this line is the marginal VaR'],
+        ['Relative VaR = VaR of (R_P − R_B): 5% monthly of 2.5% = underperform by ≥ 2.5% 5% of the time.', 'relative underperformance'],
+      ],
+    },
+    '38.S3': {
+      s: [
+        'Sensitivity analysis changes one factor at a time (beta, duration and convexity, delta, gamma, vega, rho); scenario analysis changes them all at once, using historical or hypothetical events. Both complement VaR, need no history and give no probabilities. Sensitivity measures miss differences in volatility (same duration, different yield volatility; same delta, different underlying volatility). Reverse stress testing starts from an unacceptable outcome and works back to the scenarios that would cause it. The choice of measure depends on the exposure, regulation and leverage: banks use duration, scenarios, leverage, VaR and asset–liability mismatch; asset managers use relative measures, active share and tracking error; hedge funds use leverage, stress tests and drawdown; DB pensions use surplus at risk and glide paths; P&C insurers use VaR and capital at risk; life insurers use scenario analysis. Risk is constrained by risk budgets and position, scenario and stop-loss limits.',
+      ],
+      n: [
+        ['Sensitivity = one factor; scenario = all factors (historical or hypothetical).', 'how the portfolio value changes when *one* variable'],
+        ['Equity: beta · bonds: duration, convexity · options: delta, gamma, vega, rho.', 'Delta, gamma, vega, rho'],
+        ['Sensitivity/scenario: no reliance on history, *no probability*; scenario is the final step.', 'not provide a probability'],
+        ['Reverse stress test: largest exposures → unacceptable outcome → scenarios → how likely.', 'threaten the survival'],
+        ['Same duration ≠ same risk (yield volatility); same delta ≠ same risk (underlying volatility).', 'yield volatility'],
+        ['Asset managers: active share, ex post TE (manager selection), ex ante TE (potential underperformance).', 'Ex ante tracking error'],
+        ['DB pension: surplus at risk on funded status; glide path. Hedge funds: max drawdown if non-normal.', 'surplus at risk'],
+        ['P&C: insurance risk uncorrelated with markets, VaR and capital at risk. Life: correlated, scenario analysis.', 'not correlated'],
+        ['Constraints: risk budgeting, position limits, scenario limits, stop-loss limits.', 'Stop-loss limits'],
+      ],
+    },
+  },
+  'pm.5': {
+    about: [
+      'Reading 39 is about testing an investment strategy on history before trusting it with money. A backtest needs a clear *strategy design* (universe, return definition, rebalancing and costs, dates), a *historical simulation* of the portfolio run through time, and an *analysis* of the output. Multifactor strategies combine factor portfolios either equally (benchmark) or by equal risk contribution (risk parity), and are tested with a rolling (walk-forward) window, run twice for the multifactor case.',
+      'Results are analysed with a long/short quintile portfolio (long the top quintile, short the bottom) and judged with the Sharpe and Sortino ratios, VaR, CVaR and maximum drawdown. The main traps are survivorship bias, look-ahead bias (data not yet published at the decision date) and data snooping (testing models until one looks significant).',
+      'Because backtests assume history repeats, simulation adds paths the past never took: historical simulation resamples past returns at random (bootstrapping is with replacement), and Monte Carlo draws from fitted distributions. Expect questions naming a bias from a description, choosing between BM and RP weighting, or computing a maximum drawdown.',
+    ],
+    '39.S1': {
+      s: [
+        'Backtesting uses actual history to emulate an investment process: design the strategy (universe, returns, rebalancing and costs, dates), simulate the portfolio with a rolling walk-forward window, then analyse the output. Factor strategies combine factors linearly and must avoid the data-mining trap. Factor portfolios are weighted equally (benchmark) or by equal risk contribution (risk parity); a multifactor backtest runs the rolling window twice, once to build the factor portfolios and once for the covariances behind risk parity. Output is analysed by ranking stocks into quintiles and going long the top and short the bottom, measured with Sharpe, Sortino, VaR, CVaR and maximum drawdown. Survivorship bias, look-ahead bias and data snooping distort backtests; simulation (historical resampling or Monte Carlo) tests outcomes the past did not produce, especially downside risk.',
+      ],
+      n: [
+        ['Strategy design: universe, definition of returns, rebalancing frequency & costs, start & end date.', 'Rebalancing frequency & transaction costs'],
+        ['Data-mining trap: keeping factors that backtested well without an economic reason.', 'data-mining trap'],
+        ['Benchmark portfolio = equal factor weights; risk parity = equal risk contribution.', 'contributes *equal risk*'],
+        ['Rolling (walk-forward) window, not a single in/out split; run twice for a multifactor backtest.', 'rolling window process *twice*'],
+        ['Long top quintile, short bottom quintile → long/short hedged portfolio, rebalanced monthly.', 'long the top quintile'],
+        ['Max drawdown = peak cumulative return − lowest cumulative return after it.', 'Maximum drawdown = maximum cumulative return'],
+        ['Look-ahead bias: using data not yet reported (or later restated) at the decision date.', 'Look-ahead bias'],
+        ['Data snooping (p-hacking): test many models, keep the best. Fix: hold out data (25 yrs in, 5 yrs out).', 'p-hacking'],
+        ['Historical simulation resamples past returns at random (bootstrapping = with replacement); Monte Carlo draws from distributions.', 'Bootstrapping'],
       ],
     },
   },
