@@ -889,7 +889,7 @@ const SUBJECTS = [
     { name: 'Reading 13: Analysis of Dividends and Share Repurchases', desc: 'R13 · Sessions 13.S1–13.S5, following your written notes — regular, special and liquidating dividends, DRPs, stock dividends and splits, balance sheet and ratio effects, dividend irrelevance and homemade dividends, bird-in-the-hand, tax aversion, clienteles, signaling, agency costs, factors affecting payout, double taxation, split-rate and imputation systems, stable dividends and the target payout adjustment model, constant payout ratio, buyback methods, buyback financing and EPS, buyback vs. equal cash dividend, BVPS, rationales for buybacks, dividend safety ratios' },
     { name: 'Reading 14: ESG Considerations in Investment Analysis', desc: 'R14 · Session 14.S1 following your written notes, with Schweser additions, and 14.S2–14.S3 prepared from Schweser — board structure and independence, one- and two-tier boards, governance and stewardship codes, CEO duality, committees, tenure and diversity, executive pay, clawbacks and say-on-pay, ESG data sources, materiality, fixed income vs. equity ESG analysis, green bonds and greenwashing, ESG integration examples, percentage ownership vs. control, dual-class shares, vertical (pyramid) and horizontal ownership, dispersed vs. concentrated ownership and voting power, principal–agent and principal–principal conflicts, voting caps, banks, families, SOEs, institutional investors, group companies, private equity, foreign investors and insiders' },
     { name: 'Reading 15: Cost of Capital: Advanced Topics', desc: 'R15 · Sessions 15.S1–15.S3, following your class slides — WACC and its weights, top-down and bottom-up factors, cost of traded and non-traded debt, matrix pricing, RIIL on leases, country risk ratings, historical ERP and its weaknesses, survey and Grinold–Kroner estimates, DDM, bond yield plus risk premium, CAPM, multifactor and Fama–French models, expanded CAPM and build-up for private companies, SCRP, country risk premium, global and international CAPM' },
-    { name: 'Corporate restructuring', desc: 'M&A, divestitures, spin-offs' },
+    { name: 'Reading 16: Corporate Restructuring', desc: 'R16 · Sessions 16.S1–16.S3, following your class slides — investments, divestments and restructurings, cost and revenue synergies, motivations and drivers, equity investments, joint ventures and acquisitions, sale of a division vs. spin-off, outsourcing and offshoring, sale and leaseback, dividend recapitalization, reorganization, initial evaluation and materiality, comparable company and comparable transaction analysis, takeover premium, pro forma statements, the Alpha–Beta equity investment, evaluating divestments' },
   ]},
   { id: 'equity', name: 'Equity', topics: [
     { name: 'Reading 17: Equity Valuation: Applications and Processes', desc: 'R17 · Sessions 17.S1–17.S2, following your written notes — types of value, the five-step valuation process, Porter and quality of earnings, absolute vs. relative models, sum-of-the-parts and conglomerate discount' },
@@ -6795,6 +6795,201 @@ const CONTENT = {
           { k: 'formula', title: 'International CAPM', lines: [
             'E(Rₑ) = R_f + β_g[E(R_gm) − R_f] + β_c[E(R_c) − R_f]',
           ], note: 'β_g = sensitivity to the global index; β_c = sensitivity to the foreign currency index; R_gm = global market return; R_c = foreign currency index return.' },
+        ],
+      },
+    ],
+  },
+  'corp.3': {
+    flow: [
+      {
+        module: '16.S1', title: 'Types of Corporate Transactions · Synergies · Motivations · Drivers · Investments, Divestments and Restructuring',
+        blocks: [
+          { k: 'p', text: 'Prepared from my class slides (Manish Ramuka’s lectures) rather than notebook pages. Reading focus: the *types* of restructurings, the *motivations* behind them, and their *impact on company value*.' },
+          { k: 'sub', text: 'Types of Corporate Transactions' },
+          { k: 'cols', id: 's1-types', panes: [
+            { title: 'Investments', tone: 'violet', items: ['*Increase* the size of the company, thereby increasing revenue.'] },
+            { title: 'Divestments', tone: 'teal', items: ['*Reduce* the size of the company by shedding parts of the business that have low profitability or slow growth.'] },
+            { title: 'Restructuring', tone: 'slate', items: ['Does *not change the size* of the company, but improves its cost structure and capital structure to increase growth and profitability.'] },
+          ] },
+          { k: 'sub', text: 'Synergies' },
+          { k: 'cols', id: 's1-synergies', panes: [
+            { title: 'Cost synergies (lower expenses)', tone: 'violet', items: ['Economies of *scale*', 'Elimination of redundant functions'] },
+            { title: 'Revenue synergies (increased sales)', tone: 'teal', items: ['Economies of *scope*', 'Cross-selling of products', 'Reduced competitive pressure'] },
+            { title: 'Combination of the two', tone: 'slate', items: ['Both cost and revenue synergies together.'] },
+          ] },
+          { k: 'sub', text: 'Motivations of Corporate Transactions' },
+          { k: 'table', id: 's1-motives',
+            columns: ['Motivations'],
+            rows: [
+              { label: 'Investments', values: ['Realize synergy · increase growth · improve capabilities · acquire talent · acquire an *undervalued* target'] },
+              { label: 'Divestments', values: ['Liquidity · attractive valuation · refocus on the core business · comply with a regulatory requirement'] },
+              { label: 'Restructuring', values: ['Address financial difficulty · improve return on capital (ROC)'] },
+            ] },
+          { k: 'sub', text: 'Drivers of Corporate Transactions' },
+          { k: 'cols', id: 's1-drivers', panes: [
+            { title: 'High security prices', tone: 'violet', items: [
+              'Corporate transactions tend to be *cyclical*: more common during economic expansions, fewer during contractions.',
+              'Reasons: greater CEO confidence, lower cost of capital, overvalued stock (to use as currency).',
+            ] },
+            { title: 'Industry shocks', tone: 'teal', items: [
+              'Restructuring also comes in *industry-specific waves*: mergers in an industry are often followed by more mergers.',
+              'Suggests a *reactionary* motivation behind some corporate transactions.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Investments' },
+          { k: 'table', id: 's1-investments',
+            columns: ['What it is'],
+            rows: [
+              { label: 'Equity investment', values: ['Purchase of a *less-than-50%* stake in another company. Both companies maintain their independence. May lead to an eventual acquisition.'] },
+              { label: 'Joint venture', values: ['Two or more companies contribute resources and knowledge and *jointly control* a separate, independent company. A company expanding into a foreign market may form a JV with a local company that has a distribution network and local know-how.'] },
+              { label: 'Acquisition', values: ['A *controlling* investment: the investee becomes a subsidiary, and the investor reports *consolidated* financial statements that include the investee’s results.'] },
+            ] },
+          { k: 'sub', text: 'Divestments' },
+          { k: 'cols', id: 's1-divest', panes: [
+            { title: 'Sale of a division', tone: 'slate', items: [
+              'The opposite of an acquisition.',
+              'The seller has *no further exposure* to the divested business.',
+              'Sale proceeds can be returned to shareholders or otherwise put to better use.',
+            ] },
+            { title: 'Spin-off', tone: 'amber', items: [
+              'Creates a new, separate legal entity and distributes its equity to the divesting company’s *shareholders*.',
+              'Intended to improve the focus of the new company’s management and employees.',
+              'Generates *no proceeds* for the divesting company.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Restructuring' },
+          { k: 'table', id: 's1-restructuring',
+            columns: ['What it involves'],
+            rows: [
+              { label: 'Cost restructuring', values: ['Typically follows periods of underperformance; pursues improvements in *operational efficiency*. *Outsourcing*: risk of managing multiple contractual obligations. *Offshoring*: uses cheaper foreign labour while keeping the process in-house, through a wholly owned foreign subsidiary.'] },
+              { label: 'Balance sheet restructuring', values: ['Changes the mix of assets, the capital structure, or both. *Sale and leaseback*: sell an asset to a lessor and lease it back for its remaining economic life; an immediate cash infusion, with lease payments above the asset’s depreciation (they include the lessor’s interest). *Dividend recapitalization*: raise leverage through debt-financed dividends or buybacks, replacing equity with cheaper debt to lower the WACC; best for companies with *stable cash flows*.'] },
+              { label: 'Reorganization', values: ['May be mandated by a court in an *insolvency* proceeding. Management’s reorganization plan (the terms for exiting bankruptcy) must be approved by the court, which then oversees asset sales, refinancing or debt-to-equity conversion. If the court rejects the plan, the company may be *liquidated*.'] },
+            ] },
+        ],
+      },
+      {
+        module: '16.S2', title: 'Initial Evaluation · Comparable Company Analysis · Comparable Transaction Analysis · Takeover Premium · Pro Forma Statements',
+        blocks: [
+          { k: 'sub', text: 'Initial Evaluation of a Corporate Restructuring' },
+          { k: 'cols', id: 's2-initial', panes: [
+            { title: 'Four questions', tone: 'violet', items: [
+              '*What*, *why*, *when*, and *is it material*?',
+              'The first three can be answered from corporate press releases, securities filings and analyst conference calls.',
+            ] },
+            { title: 'Materiality: size and fit', tone: 'teal', items: [
+              '*Size*: the value of the transaction as a proportion of the acquirer’s EV.',
+              '*Fit*: consistency with the company’s existing strategy and prior actions.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Comparable Company Analysis (CCA)' },
+          { k: 'timeline', steps: [
+            { name: '1', text: 'Identify the set of comparable firms' },
+            { name: '2', text: 'Calculate relative value measures from the *current market prices* of the sample (EV/EBITDA, P/E, P/sales, EV/sales)' },
+            { name: '3', text: 'Calculate descriptive statistics for the metrics and apply them to the target' },
+            { name: '4', text: 'Estimate a takeover premium' },
+            { name: '5', text: 'Takeover price = stock value from comparables + takeover premium' },
+          ] },
+          { k: 'cols', id: 's2-cca', panes: [
+            { title: 'CCA advantages', tone: 'teal', items: [
+              'Uses the sound principle that “like” assets should be valued similarly.',
+              'Data for comparable companies is easy to access.',
+              'Fewer assumptions than a DCF.',
+            ] },
+            { title: 'CCA disadvantages', tone: 'rose', items: [
+              'Implicitly assumes the market values the comparables fairly.',
+              'Gives a fair *stock* price; the takeover premium must be estimated and added separately.',
+              'The target may be unique, with no true peers.',
+            ] },
+          ] },
+          { k: 'formula', title: 'Takeover premium', lines: [
+            'Takeover premium = (DP − UP) ÷ UP',
+          ], note: 'DP = deal price; UP = unaffected (pre-announcement) price. My annotation: (takeover price − pre-acquisition price) ÷ pre-acquisition price.' },
+          { k: 'sub', text: 'Comparable Transaction Analysis (CTA)' },
+          { k: 'timeline', steps: [
+            { name: '1', text: 'Identify a set of recent takeover transactions' },
+            { name: '2', text: 'Calculate relative value measures from the *completed deal prices* (e.g. takeover price ÷ EPS)' },
+            { name: '3', text: 'Calculate descriptive statistics and apply them to the target' },
+          ] },
+          { k: 'cols', id: 's2-cta', panes: [
+            { title: 'CTA advantages', tone: 'teal', items: [
+              '*No need* to estimate a separate takeover premium: it is already in the deal prices.',
+              'Fewer assumptions than a DCF.',
+            ] },
+            { title: 'CTA disadvantages', tone: 'rose', items: [
+              'Implicitly assumes the market’s valuation of the recent takeovers was fair.',
+              'Past transactions may have occurred under different conditions.',
+              'Hard to find M&A deals in the same industry, so data from other industries may be needed.',
+            ] },
+          ] },
+          { k: 'sub', text: 'Pro Forma Financial Statements' },
+          { k: 'points', id: 's2-proforma', items: [
+            '1. Combine acquirer and target *revenue*, adjusting for revenue synergies and dissynergies.',
+            '2. Combine *operating expenses* (COGS), adjusting for cost synergies and dissynergies.',
+            '3. Combine depreciation and amortization.',
+            '4. Combine other income and expenses.',
+            '5. Add the *interest expense* on financing for the transaction.',
+            '6. Estimate taxes at the *weighted average tax rate* of acquirer and target.',
+            '7. Shares outstanding should include any *additional shares issued* for the acquisition.',
+          ] },
+        ],
+      },
+      {
+        module: '16.S3', title: 'Evaluating an Equity Investment (Alpha and Beta) · Evaluating Divestment Actions',
+        blocks: [
+          { k: 'example', title: 'Alpha and Beta: evaluating an equity investment',
+            body: [
+              'Alpha Inc., a large movie studio, is a mature business concerned about new competition eroding its market share. Beta LLC is a digital distribution company with proprietary entertainment content for its subscribers; it has had high organic growth over three years but needs capital to keep growing. Beta has zero debt and one class of common shares.',
+              'Alpha makes a *$1 billion* cash investment for *25%* of Beta’s equity, financed by issuing senior unsecured debentures. The two agree to distribute Alpha’s content library on 50-50 revenue sharing. Evaluate the implied valuation of Beta and the transaction’s effects on Alpha’s solvency.',
+            ],
+            given: [
+              { label: 'Net revenues (TTM, $M)', val: 'Alpha 16,484 · Beta 720' },
+              { label: 'EBITDA', val: 'Alpha 3,297 · Beta 202' },
+              { label: 'EBIT', val: 'Alpha 2,112 · Beta 57' },
+              { label: 'Interest expense', val: 'Alpha −817 · Beta 0' },
+              { label: 'Income tax', val: 'Alpha −615 · Beta −12' },
+              { label: 'Net income', val: 'Alpha 680 · Beta 45' },
+              { label: 'Total debt', val: 'Alpha 8,671 · Beta 0' },
+              { label: 'Cash and equivalents', val: 'Alpha 2,400 · Beta 34' },
+            ],
+            steps: [
+              '1. Other actions: Alpha could have acquired a controlling interest (an acquisition) or set up a third company as a joint venture; but Beta needs cash, so it prefers an investor to a new commitment.',
+              '2. Motivations: Alpha enters a fast-growing segment and monetizes its content library; Beta gets the cash to finance growth.',
+              '3. Implied valuation: $1 bn for 25% → Beta market cap = *$4 bn*; with no debt, EV = $4 bn too.',
+              '4. Solvency: Alpha’s debt-to-EBITDA rises (see below).',
+            ] },
+          { k: 'table', id: 's3-comps',
+            columns: ['EV', 'Net revenues (TTM)', 'EV/Rev'],
+            rows: [
+              { label: 'Beta LLC', values: ['—', '720', '—'] },
+              { label: 'P', values: ['1,431', '311', '4.6'] },
+              { label: 'Q', values: ['1,019', '112', '9.1'] },
+              { label: 'R', values: ['1,994', '391', '5.1'] },
+              { label: 'S', values: ['769', '157', '4.9'] },
+              { label: 'Median', values: ['', '', '*5.0*'] },
+              { label: 'Mean', values: ['', '', '*5.925*'] },
+            ],
+            caption: 'Comparable company analysis for Beta (USD millions).' },
+          { k: 'points', id: 's3-valuation', title: 'Is the price fair?', items: [
+            'Mean multiple: EV of Beta = 720 × 5.925 = *$4.27 bn*.',
+            'Median multiple: EV = 720 × 5 = *$3.6 bn*. The median is more representative because the mean is skewed by Comparable Q, an outlier.',
+            'At a justified value of $3.6 bn, the $4 bn price is a premium of (4 − 3.6) ÷ 3.6 ≈ *11%*.',
+            'Also consider differences in risk and growth among the peers.',
+          ] },
+          { k: 'example', title: 'Impact on Alpha’s debt-to-EBITDA (no change in financials over the next year)',
+            steps: [
+              'Current debt-to-EBITDA = 8,671 ÷ 3,297 = *2.63×*.',
+              'The 25% stake adds 25% of Beta’s net income to Alpha’s EBITDA (shown as “income from associates”): 3,297 + (0.25 × 45) = 3,308.',
+              'New debt = 8,671 + 1,000 = 9,671.',
+              'New debt-to-EBITDA = 9,671 ÷ 3,308 = *2.92×*.',
+            ],
+            result: 'The debt-financed investment raises Alpha’s debt-to-EBITDA from *2.63× to 2.92×*.' },
+          { k: 'sub', text: 'Evaluation of Divestment Actions' },
+          { k: 'points', id: 's3-divest', items: [
+            'Typically involves (1) valuation of the business segments and (2) impact on ratios.',
+            '*Sale of a segment*: judge whether its valuation is reasonable, e.g. value each segment with a multiple such as *EV/EBITDA* or *EV/sales*, then compare the sum of the segments with the “conglomerate” EV to see if the market values the sum of the parts properly.',
+            'In pro forma statements, account properly for the sale proceeds; then compute ratios such as *debt-to-EBITDA* to judge the impact on the company’s debt ratings.',
+            'Unlike sales, *spin-offs* generate no sale proceeds, so they are easier to model.',
+          ] },
         ],
       },
     ],
@@ -13236,6 +13431,7 @@ const GAPS = {
   'corp.0': {},
   'corp.1': {},
   'corp.2': {},
+  'corp.3': {},
   'equity.0': {},
   'equity.1': {},
   'equity.2': {},
@@ -13667,6 +13863,7 @@ const STATUS = {
   'corp.0': 'progress',
   'corp.1': 'progress',
   'corp.2': 'progress',
+  'corp.3': 'progress',
   'equity.0': 'progress',
   'equity.1': 'progress',
   'equity.2': 'progress',
@@ -14946,6 +15143,55 @@ const EXAM = {
         ['Expanded CAPM uses β_peer and adds SP + IP + SCRP; build-up = R_f + ERP + SP + SCRP.', 'Build-up approach'],
         ['EM ERP = developed ERP + λ × CRP; CRP = sovereign spread (× σ_equity/σ_bond per Damodaran).', 'ERP(emerging market)'],
         ['GCAPM: global index, low betas for EMs; ICAPM: global market factor + currency factor.', 'International CAPM (ICAPM)'],
+      ],
+    },
+  },
+  'corp.3': {
+    about: [
+      'Reading 16 sorts corporate actions by what they do to the size of the company: investments (equity stakes, joint ventures, acquisitions) make it bigger, divestments (sales of divisions, spin-offs) make it smaller, and restructurings (cost cuts, balance sheet changes, court-supervised reorganization) leave its size alone but change its costs or capital structure. Investments chase synergies (cost from economies of scale, revenue from economies of scope and cross-selling), growth, capabilities, talent or a cheap target; divestments chase liquidity, a good price, focus or regulatory compliance; restructurings address financial distress or low returns on capital. Deals cluster in booms (CEO confidence, cheap capital, overvalued stock) and come in industry waves.',
+      'Evaluating an announced deal starts with what, why, when and whether it is material (size relative to the acquirer’s EV, and fit with strategy). Valuation uses comparable company analysis, which needs a takeover premium added on top, or comparable transaction analysis, which already contains one, alongside pro forma statements that combine the two companies with synergies, deal financing, a blended tax rate and any new shares.',
+      'Expect the Alpha–Beta style of question: infer the target’s value from the price paid, compare it with mean and median multiples (the median resists outliers), compute the premium, and show the effect on leverage such as debt-to-EBITDA. For divestments, value segments with EV multiples against the conglomerate’s EV and model the proceeds; spin-offs have none.',
+    ],
+    '16.S1': {
+      s: [
+        'Investments increase a company’s size and revenue, divestments shrink it by shedding low-profit or slow-growth parts, and restructurings keep its size but improve the cost or capital structure. Synergies are cost-based (economies of scale, removing duplicate functions) or revenue-based (economies of scope, cross-selling, less competition). Investments seek synergy, growth, capabilities, talent or an undervalued target; divestments seek liquidity, a good valuation, focus or compliance; restructurings address distress or raise ROC. Deals rise in expansions (CEO confidence, cheap capital, overvalued stock) and follow industry shocks in waves. An equity investment is a stake under 50%, a JV is jointly controlled, and an acquisition is consolidated. A division sale ends exposure and raises cash; a spin-off hands new shares to existing shareholders and raises nothing. Cost restructuring uses outsourcing and offshoring; balance sheet restructuring uses sale-and-leaseback and dividend recapitalizations (cheaper debt, lower WACC, stable cash flows); reorganization is court-supervised and can end in liquidation.',
+      ],
+      n: [
+        ['Investments ↑ size; divestments ↓ size; restructuring keeps size, fixes cost and capital structure.', 'Does *not change the size*'],
+        ['Cost synergies: economies of scale, no redundant functions. Revenue: scope, cross-selling, less competition.', 'Cross-selling of products'],
+        ['Deals are cyclical (CEO confidence, low cost of capital, overvalued stock) and come in industry waves.', 'industry-specific waves'],
+        ['Equity investment < 50%, JV jointly controlled, acquisition consolidated.', 'jointly control'],
+        ['Sale of division: no further exposure, cash proceeds. Spin-off: shares to shareholders, no proceeds.', 'Generates *no proceeds*'],
+        ['Sale and leaseback: immediate cash; lease payments exceed depreciation.', 'Sale and leaseback'],
+        ['Dividend recap: debt-funded payouts replace equity with cheaper debt, lower WACC; stable cash flows.', 'Dividend recapitalization'],
+        ['Reorganization: court-approved plan in insolvency; rejected plan → liquidation.', 'insolvency'],
+      ],
+    },
+    '16.S2': {
+      s: [
+        'An initial evaluation asks what, why and when (from press releases, filings and analyst calls) and whether the deal is material, judged by size (deal value relative to the acquirer’s EV) and fit with strategy and past actions. Comparable company analysis applies multiples from peers’ current market prices (EV/EBITDA, P/E, P/S, EV/S) and then adds a takeover premium, (deal price − unaffected price) ÷ unaffected price; it is easy and assumption-light but assumes peers are fairly priced and fails for unique targets. Comparable transaction analysis uses completed deal prices, so the premium is built in, but past deals may reflect other conditions and other industries. Pro forma statements combine revenues and costs with synergies and dissynergies, add D&A, other items and deal interest, tax at the blended rate and count new shares.',
+      ],
+      n: [
+        ['Initial evaluation: what, why, when, material? Materiality = size (vs. acquirer EV) and fit.', 'Materiality: size and fit'],
+        ['CCA: current market multiples of peers + separately estimated takeover premium.', 'Takeover price = stock value from comparables + takeover premium'],
+        ['CCA cons: assumes peers fairly valued, premium added separately, target may have no true peers.', 'no true peers'],
+        ['CTA: completed deal prices, premium already included; past deals may differ in conditions or industry.', 'completed deal prices'],
+        ['Pro forma: combine revenues and costs with synergies, add deal interest, weighted average tax rate, new shares.', 'weighted average tax rate'],
+      ],
+    },
+    '16.S3': {
+      s: [
+        'Alpha pays $1 bn for 25% of Beta, implying a $4 bn market cap and, with no debt, a $4 bn EV. Beta’s peers trade at a mean EV/revenue of 5.925 (inflated by outlier Q at 9.1) and a median of 5.0, giving $4.27 bn and $3.6 bn; on the more representative median, Alpha paid about an 11% premium. Funding the stake with $1 bn of debt while adding only 25% of Beta’s $45 net income to EBITDA lifts Alpha’s debt-to-EBITDA from 2.63× to 2.92×. Divestments are judged by valuing each segment with EV/EBITDA or EV/sales against the conglomerate EV, and by pro forma ratios such as debt-to-EBITDA that drive credit ratings; spin-offs are easier to model because there are no proceeds.',
+      ],
+      n: [
+        ['Price paid ÷ stake = implied value: $1 bn ÷ 25% = $4 bn (EV too, as no debt).', 'Implied valuation'],
+        ['Median EV/Rev 5.0 → $3.6 bn; mean 5.925 skewed by outlier Q → $4.27 bn.', 'Comparable Q, an outlier'],
+        ['Premium paid = 4 ÷ 3.6 − 1 ≈ 11%.', '11%'],
+        ['Debt/EBITDA 8,671/3,297 = 2.63× → 9,671/3,308 = 2.92×.', '2.92'],
+        ['Divestment: segment multiples vs. conglomerate EV; pro forma debt-to-EBITDA; spin-offs have no proceeds.', 'conglomerate'],
+      ],
+      f: [
+        ['Implied value from a stake purchase', ['Implied equity value = price paid ÷ % stake acquired'], 'Implied valuation', 'Alpha: $1 bn ÷ 0.25 = $4 bn.'],
       ],
     },
   },
