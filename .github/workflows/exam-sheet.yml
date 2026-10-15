@@ -1,11 +1,12 @@
-# Runs on every push to GitHub: checks that the exam-day sheet (formula sheet, concise notes,
-# stars) is in step with the readings. A red ✗ on the commit means a session has no concise
-# notes or an exam line's ↗ link broke; GitHub emails the details.
+# Runs on every push to GitHub. A red ✗ on the commit means one of these failed; GitHub emails the details.
+#   1. The page loads: the script in index.html compiles and every block can render (page-check).
+#   2. The exam-day sheet (formula sheet, concise notes, stars) is in step with the readings (exam-check).
+#   3. After GitHub Pages redeploys, the live site serves this commit and it still loads (page-check --live).
 name: Exam sheet in step
 
 on:
   push:
-    paths: ['index.html', 'tools/exam-check.mjs']
+    paths: ['index.html', 'tools/exam-check.mjs', 'tools/page-check.mjs']
   workflow_dispatch:
 
 jobs:
@@ -16,11 +17,26 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Check the page loads
+        run: |
+          set -o pipefail
+          node tools/page-check.mjs | tee result.txt
       - name: Check exam notes and links
         run: |
           set -o pipefail
-          node tools/exam-check.mjs | tee result.txt
+          node tools/exam-check.mjs | tee -a result.txt
       - name: Summary
         if: always()
         run: |
-          { echo '### Exam-day sheet'; echo '```'; cat result.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          { echo '### Page and exam-day sheet'; echo '```'; cat result.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+  live:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check the live site after Pages redeploys
+        run: node tools/page-check.mjs --live

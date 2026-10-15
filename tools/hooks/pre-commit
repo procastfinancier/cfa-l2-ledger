@@ -1,9 +1,19 @@
 #!/bin/sh
-# Keeps the exam-day sheet in step with the notes: a commit that touches index.html is stopped
-# if a session has no concise notes in EXAM or an exam line's ↗ link no longer lands on a block.
+# Runs on every commit that touches index.html, against the *staged* copy (what will really be
+# pushed), not the working file — the two differ when only part of the changes is committed.
+#   1. page-check: the page script compiles and every block can render, so the site won't hang on "loading…".
+#   2. exam-check: every session has concise notes in EXAM and every exam line's ↗ link lands on a block.
 # Turned on once per clone with:  git config core.hooksPath tools/hooks
 if git diff --cached --name-only | grep -qx 'index.html'; then
-  node tools/exam-check.mjs || {
+  staged=$(mktemp "${TMPDIR:-/tmp}/staged-index.XXXXXX.html")
+  trap 'rm -f "$staged"' EXIT
+  git show :index.html > "$staged"
+  node tools/page-check.mjs "$staged" || {
+    echo ''
+    echo 'Commit stopped: the staged index.html would not load. Fix the script error above, then commit again.'
+    exit 1
+  }
+  node tools/exam-check.mjs "$staged" || {
     echo ''
     echo 'Commit stopped: update EXAM in index.html for the sessions above, then commit again.'
     exit 1

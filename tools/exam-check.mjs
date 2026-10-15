@@ -4,12 +4,13 @@
 // concise notes lands on the block it came from. The pre-commit hook and the GitHub check both run it:
 //
 //   node tools/exam-check.mjs
+//   node tools/exam-check.mjs some/file.html   # any copy, e.g. the staged one the hook writes out
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const html = fs.readFileSync(process.argv[2] ? path.resolve(process.argv[2]) : path.join(root, 'index.html'), 'utf8');
 const js = html.slice(html.indexOf('<script>') + 8, html.lastIndexOf('</script>'));
 const data = js.slice(0, js.indexOf('let selectedKey'));
 const curvePts = (fn, a, z, n) => { const p = []; for (let i = 0; i <= (n || 40); i++) { const x = a + (z - a) * i / (n || 40); p.push([x, fn(x)]); } return p; };
