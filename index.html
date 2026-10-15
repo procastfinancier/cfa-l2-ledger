@@ -986,6 +986,20 @@ const CONTENT = {
           { k: 'p', text: 'The intercept term b̂₀ is the line’s intersection with the Y-axis at X = 0. A property of the least squares method is that the intercept can be written as b̂₀ = Ȳ − b̂₁X̄, so the *regression line passes through the point (X̄, Ȳ)*, whose coordinates are the means of the independent and dependent variables.' },
           { k: 'example', id: 'p-abc', title: 'Example — Computing the slope coefficient and intercept term',
             body: ['Compute the slope coefficient and intercept term for the ABC regression example using the following information.'],
+          { k: 'plot', id: 'p-mean-plot', title: 'The regression line passes through (X̄, Ȳ) — the pencil sketch on my page', w: 440, h: 220,
+            x: [0, 10], y: [0, 10], xlabel: 'X', ylabel: 'Y',
+            series: [
+              { pts: [[0, 2], [10, 8]], c: 0, label: 'Ŷ = b̂₀ + b̂₁X', lx: 10, ly: 8, ldy: 24, anchor: 'end' },
+            ],
+            guides: [[5, 0, 5, 5], [0, 5, 5, 5]],
+            xticks: [{ v: 5, t: 'X̄' }],
+            yticks: [{ v: 2, t: 'b̂₀' }, { v: 5, t: 'Ȳ' }],
+            dots: [
+              { x: 1.5, y: 3.4 }, { x: 2.5, y: 3.0 }, { x: 3.5, y: 4.6 }, { x: 4.2, y: 3.9 },
+              { x: 6, y: 6.2 }, { x: 6.8, y: 5.4 }, { x: 8, y: 7.4 }, { x: 8.8, y: 7.9 },
+              { x: 5, y: 5, t: '(X̄, Ȳ)', dx: 8, dy: 14 },
+            ],
+            note: 'Put X = X̄ into Ŷ = b̂₀ + b̂₁X with b̂₀ = Ȳ − b̂₁X̄: Ŷ = Ȳ − b̂₁X̄ + b̂₁X̄ = *Ȳ*. The fitted line always goes through the point of means.' },
             given: [
               { label: 'Cov(S&P 500, ABC)', val: '0.000336' },
               { label: 'Var(S&P 500)', val: '0.000522' },
@@ -1328,7 +1342,19 @@ const CONTENT = {
             { title: 'Unconditional', tone: 'teal', items: ['Occurs when the variance of the residual term *doesn’t systematically increase or decrease* with changes in the value of the independent variables: no relation between the variance of the residual term and the independent variable.', 'Doesn’t result in major problems with regression.'] },
             { title: 'Conditional', tone: 'rose', items: ['Occurs when the variance of the residual term *systematically increases or decreases* with changes in the value of the independent variable. It is related to the level of (i.e. conditional on) the independent variables.', 'Conditional heteroskedasticity creates *significant problems* for statistical inference.'] },
           ] },
-          { k: 'p', text: 'On my sketch: at low values of the independent variable the points sit close to the line (low residual variance, low error); at high values they fan out (high residual variance, high error).' },
+          { k: 'plot', id: 's5-het-plot', title: 'Conditional heteroskedasticity — the pencil sketch on my page', w: 460, h: 230,
+            x: [0, 10], y: [0, 11], xlabel: 'independent variable (X)', ylabel: 'dependent variable (Y)',
+            series: [
+              { pts: [[0, 1], [10, 9]], c: 0, label: 'regression line', lx: 3.6, ly: 3.88, ldy: -14, anchor: 'end' },
+            ],
+            xticks: [{ v: 2, t: 'low X' }, { v: 8, t: 'high X' }],
+            dots: [
+              { x: 1.4, y: 2.4 }, { x: 1.8, y: 2.1 }, { x: 2.1, y: 2.9 }, { x: 2.4, y: 2.6 }, { x: 2.7, y: 3.4 }, { x: 3, y: 3.1 },
+              { x: 2.2, y: 2.75, t: 'low residual variance (low error)', noDot: true, dx: 10, dy: 30 },
+              { x: 6.8, y: 9.6 }, { x: 7.1, y: 4.9 }, { x: 7.5, y: 8.9 }, { x: 7.8, y: 5.4 }, { x: 8.2, y: 10.3 }, { x: 8.5, y: 6.1 }, { x: 8.9, y: 9.9 }, { x: 9.2, y: 6.6 },
+              { x: 7, y: 10.4, t: 'high residual variance (high error)', noDot: true, dx: -6, dy: 0, anchor: 'end' },
+            ],
+            note: 'At low values of the independent variable the points sit close to the line (low residual variance, low error); at high values they fan out (high residual variance, high error). The spread of the residuals *depends on X*: that is what makes it conditional.' },
           { k: 'sub', text: 'Effect of Heteroskedasticity on Regression Analysis' },
           { k: 'points', id: 's5-heteff', items: [
             'The coefficient estimates (the b̂ⱼ) aren’t affected.',
@@ -1469,6 +1495,16 @@ const CONTENT = {
         module: '1.S8', title: 'Dummy Variables · Intercept and Slope Dummies · Logistic Regression',
         blocks: [
           { k: 'p', text: '*Dummy variables*: suppose your independent variables can only have 2 values, like yes or no, true or false, i.e. they are binary in nature. Such independent variables are referred to as dummy variables. These variables are often used to quantify the impact of qualitative events.' },
+          { k: 'graph', id: 's7-types-dia', title: 'Extreme values — the pencil tree in my margin', w: 520, h: 160,
+            nodes: [
+              { id: 'ext', x: 260, y: 32, t1: 'Extreme value', w: 150, tone: 'slate' },
+              { id: 'ind', x: 135, y: 125, t1: 'Independent variable (X)', t2: '→ high-leverage point', w: 210, tone: 'teal' },
+              { id: 'dep', x: 385, y: 125, t1: 'Dependent variable (Y)', t2: '→ outlier', w: 210, tone: 'rose' },
+            ],
+            edges: [
+              { from: 'ext', to: 'ind' },
+              { from: 'ext', to: 'dep' },
+            ] },
           { k: 'example', id: 's8-eps', title: 'Example — Quarterly EPS with dummy variables',
             body: ['EPSₜ = 1.25 + 0.75Q₁ₜ − 0.20Q₂ₜ + 0.10Q₃ₜ, where EPSₜ = a quarterly observation of earnings per share; Q₁ₜ = 1 if period t is the 1st quarter, 0 otherwise; Q₂ₜ = 1 if period t is the 2nd quarter, 0 otherwise; Q₃ₜ = 1 if period t is the 3rd quarter, 0 otherwise.'],
             steps: [
@@ -1662,12 +1698,32 @@ const CONTENT = {
             '*Constant and finite covariance* between values at any given lag: the covariance of the time series with leading or lagged values of itself is constant.',
           ] },
           { k: 'p', text: 'If any of the 3 conditions is not met, the time series is not covariance stationary, and the statistical inferences will be invalid.' },
+          { k: 'plot', id: 's1-trend-plot', title: 'Capacity utilization: actual vs. the trend line — the pencil sketch on my page', w: 480, h: 240,
+            x: [0, 15], y: [76, 83], xlabel: 'quarter (t)', ylabel: 'capacity utilization',
+            series: [
+              { pts: [[1, 82.4], [2, 81.5], [3, 80.8], [4, 80.5], [5, 80.2], [6, 80.2], [7, 80.5], [8, 80.9], [9, 81.3], [10, 81.9], [11, 81.7], [12, 80.3], [13, 77.9], [14, 76.4]], c: 1, label: 'actual', lx: 10, ly: 81.9, ldy: -8 },
+              { pts: [[1, 81.914], [14, 79.015]], c: 0, dash: true, label: 'predicted: 82.137 − 0.223t', lx: 3, ly: 81.468, ldy: -12 },
+            ],
+            xticks: [{ v: 1, t: '2013.1' }, { v: 5, t: '2014.1' }, { v: 9, t: '2015.1' }, { v: 13, t: '2016.1' }],
+            yticks: [{ v: 77, t: '77' }, { v: 79, t: '79' }, { v: 81, t: '81' }, { v: 83, t: '83' }],
+            note: 'Plotted from the table above. The errors run in streaks (negative in 2013.2–2014.3, positive in 2014.4–2015.4, negative again in 2016): a sign of *serial correlation*, so a simple linear trend is not a good fit here.' },
           { k: 'formula', title: 'AR models', lines: [
             'First order, AR(1): xₜ = b₀ + b₁xₜ₋₁ + εₜ',
             'Second order, AR(2): xₜ = b₀ + b₁xₜ₋₁ + b₂xₜ₋₂ + εₜ',
           ] },
           { k: 'example', id: 's2-fc', title: 'Example — Forecasting',
             body: ['Suppose that an AR(1) model has been estimated and has produced the following prediction equation: xₜ = 1.2 + 0.45xₜ₋₁. Calculate a two-step-ahead forecast if the current value of x is 5.0.'],
+          { k: 'plot', id: 's1-exp-plot', title: 'Y against t is exponential — the curve sketched on my page', w: 440, h: 200,
+            x: [0, 12], y: [0, 22], xlabel: 't', ylabel: 'Y',
+            series: [
+              { pts: curvePts(t => Math.exp(0.25 * t), 0, 12, 40), c: 2, label: 'Yₜ = e^(b₀ + b₁t)', lx: 5, ly: 12, ldy: 0 },
+            ] },
+          { k: 'plot', id: 's1-log-plot', title: '… and ln Y against t is linear', w: 440, h: 200,
+            x: [0, 12], y: [0, 3.3], xlabel: 't', ylabel: 'ln Y',
+            series: [
+              { pts: [[0, 0], [12, 3]], c: 0, label: 'ln Yₜ = b₀ + b₁t', lx: 5.5, ly: 1.375, ldy: -10, anchor: 'end' },
+            ],
+            note: 'My pencil note: *Y & t → exponential; by taking logs, ln Y & t → linear*. Same data, two scales: a series growing at a *constant rate* curves upward in levels but is a *straight line* in logs, so we can fit it with linear regression.' },
             steps: [
               'One-step-ahead forecast: if xₜ = 5, xₜ₊₁ = 1.2 + 0.45(5) = *3.45*',
               'Two-step-ahead forecast: if xₜ₊₁ = 3.45, xₜ₊₂ = 1.2 + 0.45(3.45) = *2.75*',
@@ -1820,6 +1876,10 @@ const CONTENT = {
             ],
             result: 'p-value 0.0148 < 0.05 → the lag coefficient is significant at 5%' },
         ],
+          { k: 'split', id: 's3-ar-split', head: 'Make 2 models using the same data points', legs: [
+            { name: 'AR(1)', text: 'In-sample RMSE *28* · out-of-sample RMSE 34' },
+            { name: 'AR(2)', text: 'In-sample RMSE 38 · out-of-sample RMSE *32*' },
+          ] },
       },
       {
         module: '2.S4', title: 'Seasonality · Seasonal Lag · ARCH · Regression with Two Time Series · Cointegration',
