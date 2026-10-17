@@ -12,6 +12,12 @@
  *      passphrase. Do that once on each device.
  *   After any later change to this file: Deploy > Manage deployments > Edit > New version.
  *
+ * Ask AI (optional): the page's 🤖 button sends questions through this script to Claude.
+ *   1. Get an API key at console.anthropic.com (Settings > API keys) and add credit under Billing.
+ *   2. Here, open Project Settings (gear icon) > Script properties > Add script property:
+ *      name ANTHROPIC_API_KEY, value the key. Save.
+ *   3. Deploy a new version (above). Google asks once more to allow external requests: allow it.
+ *
  * Tab it keeps:
  *   Comments  one row per comment. You can edit Comment, Status (open / resolved) and Reply here;
  *             leave ID, Topic key and Updated alone.
@@ -66,6 +72,7 @@ function doPost(e) {
   try { req = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'Bad request' }); }
   if (PASSPHRASE === 'change-me') return json_({ ok: false, error: 'Set PASSPHRASE in the script, then deploy a new version' });
   if (!req || req.key !== PASSPHRASE) return json_({ ok: false, error: 'Wrong passphrase' });
+  if (req.ask) return json_(ask_(req.ask));
 
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
@@ -127,6 +134,55 @@ function onEdit(e) {
   if (!r || r.getSheet().getName() !== 'Comments' || r.getRow() < 2) return;
   if (r.getLastColumn() < 7 || r.getColumn() > 9) return;
   for (let row = r.getRow(); row <= r.getLastRow(); row++) r.getSheet().getRange(row, 10).setValue(Date.now());
+}
+
+// Ask AI: the page's 🤖 panel sends a question here, and this calls Claude with the API key kept in
+// Script properties, so the key never reaches the public page. One chat stays on one reading: the
+// page sends that reading's notes (frozen when the chat began) and the whole conversation so far,
+// assistant turns exactly as Claude returned them.
+const AI_MODEL = 'claude-opus-5-5';
+const AI_RULES = [
+  'You are a CFA Level II tutor built into my revision ledger, a page of my own notes for the exam.',
+  'When notes for a reading are attached, ground your answer in them and use their terms. If my notes are wrong or incomplete, say so plainly and give the correct version.',
+  'Answer the question first, then explain why. For a calculation, write the formula, then the numbers, step by step, then the result.',
+  'I read this on my phone: keep answers short. Use plain paragraphs, short bullet lists and **bold** for key terms. No tables, no headings and no LaTeX: write formulas in plain text, like PV = CF / (1 + r)^n.',
+].join('\n');
+
+function ask_(a) {
+  const apiKey = PropertiesService.getScriptProperties().getProperty('ANTHROPIC_API_KEY');
+  if (!apiKey) return { ok: false, error: 'Add ANTHROPIC_API_KEY in the script’s Project Settings > Script properties' };
+  const msgs = Array.isArray(a.messages) ? a.messages : [];
+  const turnsOk = msgs.length && msgs.length % 2 === 1 && msgs.every((m, i) => m && m.role === (i % 2 ? 'assistant' : 'user') && m.content);
+  if (!turnsOk) return { ok: false, error: 'Bad chat' };
+  const notes = String(a.context || '');
+  if (notes.length > 600000) return { ok: false, error: 'These notes are too long to send' };
+
+  const system = [{ type: 'text', text: AI_RULES }];
+  // Cached for an hour, so follow-up questions on the same reading don't pay for the notes again.
+  if (notes) system.push({ type: 'text', text: 'Reading on screen: ' + a.reading + '\n\nMy notes for it, as JSON from the page:\n' + notes,
+    cache_control: { type: 'ephemeral', ttl: '1h' } });
+
+  let res;
+  try {
+    res = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+      method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+      headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-beta': 'server-side-fallback-2026-07-01' },
+      // fallbacks: if a safety check declines the question, Claude retries it on another model.
+      payload: JSON.stringify({ model: AI_MODEL, max_tokens: 8000, output_config: { effort: 'medium' }, fallbacks: 'default', system, messages: msgs }),
+    });
+  } catch (err) {
+    return { ok: false, error: 'Claude took too long or could not be reached: try again' };
+  }
+  let body = {};
+  try { body = JSON.parse(res.getContentText()); } catch (err) {}
+  const code = res.getResponseCode();
+  if (code !== 200) {
+    const msg = (body.error && body.error.message) || ('HTTP ' + code);
+    if (code === 401) return { ok: false, error: 'The API key was rejected: check ANTHROPIC_API_KEY' };
+    if (code === 429 || code === 529) return { ok: false, error: 'Claude is busy: try again in a minute' };
+    return { ok: false, error: msg };
+  }
+  return { ok: true, content: body.content || [], stop: body.stop_reason, usage: body.usage };
 }
 
 function json_(o) {

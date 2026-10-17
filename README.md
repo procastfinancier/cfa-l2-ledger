@@ -31,6 +31,17 @@ On the PC, with the same URL and passphrase in `.comments-sync.json`
     node tools/comments.mjs                       # open comments
     node tools/comments.mjs resolve <id> "reply"  # resolve with a reply shown on the page
 
+## Ask AI
+
+**🤖 Ask AI** (header, or the floating 🤖 button) opens a chat with Claude about the reading on
+screen. Claude gets that reading's notes, gaps, tuition misses and exam notes, plus the section in
+view. Each reading has its own chat; **New chat** starts again. The last six chats stay on the device.
+
+Questions go through `ledger-comments.gs`, which holds the Anthropic API key, so the key never
+appears on the public page. Setup is at the top of that file: add `ANTHROPIC_API_KEY` under Script
+properties, then deploy a new version. It uses the API (billed per question at console.anthropic.com),
+not a Claude subscription. To change the model, edit `AI_MODEL` in the script.
+
 ## Revision
 
 Each notebook session has a **Revised** tick (counts passes), a **🙈 Blurt first**

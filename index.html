@@ -591,6 +591,24 @@
   .cm-chip.slate, .cm-tag.on.slate { background: var(--slate-bg); border-color: var(--slate); color: var(--slate); }
   .cm-head-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
+  /* Ask AI: a chat with Claude about the reading on screen, sent through the comments sheet script. */
+  .ai-fab { background: var(--ink); }
+  #cmFab:not([hidden]) ~ .ai-fab { bottom: 80px; }
+  .ai-head-acts { display: flex; align-items: center; gap: 6px; }
+  .ai-head-acts .cm-ghost { font-size: 12px; padding: 5px 11px; }
+  .ai-log { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+  .ai-msg { font-size: 13.5px; line-height: 1.55; border-radius: 10px; padding: 9px 12px; overflow-wrap: anywhere; }
+  .ai-msg.user { align-self: flex-end; max-width: 88%; background: var(--violet-bg); color: var(--ink); white-space: pre-wrap; }
+  .ai-msg.bot { background: var(--bg); border: 1px solid var(--line); color: var(--ink); }
+  .ai-msg.bot p { margin: 0 0 8px; }
+  .ai-msg.bot p:last-child, .ai-msg.bot ul:last-child, .ai-msg.bot ol:last-child { margin-bottom: 0; }
+  .ai-msg.bot ul, .ai-msg.bot ol { margin: 0 0 8px; padding-left: 20px; }
+  .ai-msg.bot li { margin-bottom: 3px; }
+  .ai-msg.bot code { font-family: var(--mono); font-size: 12px; background: var(--panel); border-radius: 4px; padding: 1px 4px; }
+  .ai-msg.wait { color: var(--ink-faint); font-style: italic; }
+  .ai-card { position: relative; }
+  .ai-card textarea { min-height: 64px; }
+
   /* Revision: "Revised" ticks per session, a blurt mode that hides the notes while I recall them,
      checkpoint questions I grade myself on, and spaced review of the ones I didn't get. */
   .rv-panel { border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; }
@@ -803,6 +821,7 @@
     <div class="cm-head-row">
       <button type="button" class="cm-open" id="rvOpen">📈 Revision</button>
       <button type="button" class="cm-open" id="cmOpen">💬 My comments</button>
+      <button type="button" class="cm-open" id="aiOpen">🤖 Ask AI</button>
     </div>
   </header>
   <div class="layout">
@@ -819,6 +838,16 @@
 
   <button type="button" class="cm-fab" id="cmFab" hidden aria-label="Comment on the section on screen">💬</button>
   <button type="button" class="ex-back" id="exBack" hidden></button>
+  <button type="button" class="cm-fab ai-fab" id="aiFab" aria-label="Ask AI about this reading">🤖</button>
+  <div class="cm-overlay" id="aiPanel" hidden>
+    <div class="cm-card cm-card-wide ai-card" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
+      <div class="cm-card-head"><span id="aiTitle">Ask AI</span><span class="ai-head-acts"><button type="button" class="cm-ghost" id="aiNew">New chat</button><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></span></div>
+      <div class="cm-ctx" id="aiCtx"></div>
+      <div class="ai-log" id="aiLog"></div>
+      <textarea id="aiText" placeholder="A doubt, a calculation, “explain this simply”, “quiz me”…"></textarea>
+      <div class="cm-actions"><span class="cm-sync" id="aiStatus"></span><button type="button" class="cm-primary" id="aiSend">Ask</button></div>
+    </div>
+  </div>
   <div class="cm-overlay" id="cmSheet" hidden>
     <div class="cm-card" role="dialog" aria-modal="true" aria-labelledby="cmSheetTitle">
       <div class="cm-card-head"><span id="cmSheetTitle">Add a comment</span><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></div>
@@ -20351,6 +20380,133 @@ function exInit() {
   document.getElementById('exBack').onclick = exBackGo;
 }
 
+// --- Ask AI: a chat with Claude about the reading on screen, so a doubt gets answered here rather
+// than waiting for a session with Claude Code. Questions go through the same sheet script as
+// comments (ledger-comments.gs), which holds the API key. One chat per reading; the reading's notes,
+// gaps, tuition misses and exam notes go with it, frozen when the chat starts, because Claude only
+// accepts a follow-up when everything before it is unchanged. ---
+const AI_STORE = 'ledgerAI.v1';
+const AI_KEEP = 6; // chats kept on this device, most recent first
+const AI_WHERE = /^\[Looking at: [^\n]*\]\n/;
+const ai = { chats: {}, key: null, section: '', busy: false, err: '' };
+
+function aiLoad() { try { ai.chats = JSON.parse(localStorage.getItem(AI_STORE) || '{}') || {}; } catch (e) { ai.chats = {}; } }
+function aiSave() {
+  Object.keys(ai.chats).sort((a, b) => (ai.chats[b].at || 0) - (ai.chats[a].at || 0)).slice(AI_KEEP).forEach(k => delete ai.chats[k]);
+  try { localStorage.setItem(AI_STORE, JSON.stringify(ai.chats)); } catch (e) {}
+}
+function aiTopic() { return selectedKey && CONTENT[selectedKey] ? selectedKey : 'general'; }
+function aiContext(key) {
+  if (key === 'general') return '';
+  return JSON.stringify({ notes: CONTENT[key], teachBackGaps: GAPS[key] || null, tuitionMisses: TUITION_MISSES[key] || null, examNotes: EXAM[key] || null });
+}
+function aiChat(key) {
+  if (!ai.chats[key]) ai.chats[key] = { reading: key === 'general' ? '' : cmReadingOf(key), context: aiContext(key), msgs: [], at: Date.now() };
+  return ai.chats[key];
+}
+function aiText(content) {
+  return typeof content === 'string' ? content : (content || []).filter(b => b.type === 'text').map(b => b.text).join('\n\n');
+}
+// Just enough Markdown for phone-sized answers: paragraphs, bullet and numbered lists, bold, italics, code.
+function aiMd(s) {
+  const inline = t => escapeHtml(t)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/(^|[^*\w])\*([^*\s][^*]*?)\*(?!\w)/g, '$1<i>$2</i>');
+  let html = '', para = [], list = null;
+  const endPara = () => { if (para.length) html += '<p>' + para.map(inline).join('<br>') + '</p>'; para = []; };
+  const endList = () => { if (list) html += '<' + list.tag + '>' + list.items.map(i => '<li>' + inline(i) + '</li>').join('') + '</' + list.tag + '>'; list = null; };
+  s.split('\n').forEach(line => {
+    const m = line.match(/^\s*(?:([-*•])|\d+[.)])\s+(.*)$/);
+    if (m) {
+      endPara();
+      const tag = m[1] ? 'ul' : 'ol';
+      if (list && list.tag !== tag) endList();
+      if (!list) list = { tag, items: [] };
+      list.items.push(m[2]);
+      return;
+    }
+    endList();
+    const h = line.match(/^#{1,6}\s+(.*)$/);
+    if (h) { endPara(); html += '<p><b>' + inline(h[1]) + '</b></p>'; }
+    else if (!line.trim()) endPara();
+    else para.push(line);
+  });
+  endPara(); endList();
+  return html;
+}
+
+function aiRender() {
+  const key = ai.key, chat = ai.chats[key], msgs = chat ? chat.msgs : [];
+  document.getElementById('aiCtx').innerHTML = key === 'general'
+    ? 'No reading open: general Level II questions. Open a reading to ask about its notes.'
+    : '📖 ' + escapeHtml(chat ? chat.reading : cmReadingOf(key)) + (ai.section ? '<br>Looking at: ' + escapeHtml(ai.section) : '');
+  document.getElementById('aiLog').innerHTML = msgs.map(m => m.role === 'user'
+    ? `<div class="ai-msg user">${escapeHtml(m.content.replace(AI_WHERE, ''))}</div>`
+    : `<div class="ai-msg bot">${aiMd(aiText(m.content))}</div>`).join('')
+    + (ai.busy ? '<div class="ai-msg bot wait">Thinking… usually 10–30 seconds</div>' : '')
+    + (!msgs.length && !ai.busy ? `<div class="cm-empty">${key === 'general' ? 'Ask anything about Level II.' : 'Claude sees your notes, gaps, tuition misses and exam notes for this reading.'}</div>` : '');
+  const st = document.getElementById('aiStatus');
+  st.className = 'cm-sync' + (ai.err ? ' err' : '');
+  const keyboard = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  st.textContent = ai.err || (!cm.cfg ? 'Set up sync first: My comments › Sync settings' : keyboard ? 'Ctrl+Enter to send' : '');
+  document.getElementById('aiSend').disabled = ai.busy;
+  document.getElementById('aiNew').hidden = !msgs.length;
+}
+// Shows the start of the newest message rather than the end of a long answer.
+function aiScroll() {
+  const card = document.querySelector('#aiPanel .cm-card'), last = document.getElementById('aiLog').lastElementChild;
+  if (last) card.scrollTop = last.offsetTop - 60;
+}
+function aiOpen() {
+  ai.key = aiTopic(); ai.err = '';
+  ai.section = ai.key === 'general' ? '' : cmSectionOnScreen();
+  aiRender(); cmOverlay('aiPanel', true); aiScroll();
+  setTimeout(() => document.getElementById('aiText').focus(), 50);
+}
+async function aiSend() {
+  const ta = document.getElementById('aiText');
+  const q = ta.value.trim();
+  if (!q || ai.busy) return;
+  if (!cm.cfg) { ai.err = 'Set up sync first: My comments › Sync settings'; aiRender(); return; }
+  const chat = aiChat(ai.key);
+  chat.msgs.push({ role: 'user', content: (ai.section ? '[Looking at: ' + ai.section + ']\n' : '') + q });
+  chat.at = Date.now();
+  ta.value = ''; ai.busy = true; ai.err = '';
+  aiRender(); aiScroll();
+  try {
+    const res = await fetch(cm.cfg.url, {
+      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ key: cm.cfg.key, ask: { reading: chat.reading, context: chat.context, messages: chat.msgs } })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'No answer');
+    if (!Array.isArray(data.content)) throw new Error('Deploy a new version of ledger-comments.gs to turn on Ask AI');
+    if (data.stop === 'refusal') throw new Error('Claude declined this one: try rewording it');
+    // Kept exactly as returned, thinking blocks included: follow-ups must send it back unchanged.
+    chat.msgs.push({ role: 'assistant', content: data.content });
+    if (data.stop === 'max_tokens') ai.err = 'The answer was cut off: ask it to continue';
+  } catch (err) {
+    chat.msgs.pop();
+    if (!chat.msgs.length) delete ai.chats[ai.key];
+    if (!ta.value) ta.value = q;
+    ai.err = /fetch|network|json|load/i.test(err.message) ? 'Offline, or the sheet script is not deployed' : err.message;
+  }
+  ai.busy = false;
+  aiSave(); aiRender(); aiScroll();
+}
+function aiInit() {
+  aiLoad();
+  document.getElementById('aiOpen').onclick = aiOpen;
+  document.getElementById('aiFab').onclick = aiOpen;
+  document.getElementById('aiSend').onclick = aiSend;
+  document.getElementById('aiText').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) aiSend(); });
+  document.getElementById('aiNew').onclick = () => {
+    delete ai.chats[ai.key]; ai.err = ''; aiSave(); aiRender();
+    document.getElementById('aiText').focus();
+  };
+}
+
 function cmInit() {
   cmLoad();
   pgLoad();
@@ -20438,6 +20594,7 @@ pgLoad();
 render();
 cmInit();
 exInit();
+aiInit();
 </script>
 </body>
 </html>
