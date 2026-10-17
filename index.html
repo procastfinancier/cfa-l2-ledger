@@ -1199,7 +1199,30 @@ const CONTENT = {
               "*Residuals vs. each X*: no directional pattern → residuals unrelated to the independent variables.",
               "*Normal Q-Q plot*: plots standardized residuals against a normal distribution. Normal residuals lie *on the diagonal*. Only 5% should fall below −1.65 standard deviations. In Schweser’s office-rent example, several points beyond ±2 SD (one beyond −3) and points above the line in the right tail mean *fat tails and right skew*, so the residuals are not normal.",
             ] },
-          { k: 'qa', q: "Schweser quiz 1.1: (1) least likely solved with multiple regression: predicting central bank tightening from macro data, finding a pattern in a currency’s own daily history, or testing whether momentum improves Fama–French 5-factor? (2) Y = 2.30 + 5.02X₁ − 4.55X₂: least appropriate reading? (3) least accurate assumption?", a: "(1) The *currency’s own history*: a single time series needs an *AR model*. Tightening is binary, so use *logit*. (2) “A 1% rise in X₁ raises Y by *7.32%*” is wrong: each slope holds the other X constant, so it is 5.02%. (3) “The relationship *between the X variables* is linear” is wrong: the assumption is linearity between Y and the Xs. A linear relation among the Xs is multicollinearity." },
+          { k: 'example', id: 's1-quiz1', title: 'Schweser module quiz 1.1 — Question 1',
+            body: [
+              'Which of the following investment problems is *least likely* to be addressed by using a multiple regression model?',
+              '*A.* Prediction of the likelihood of monetary tightening by the central bank using macroeconomic variables.',
+              '*B.* Uncovering a systematic pattern in the value of a currency using historical daily price data for that currency.',
+              '*C.* Determining if the five-factor Fama–French model can be improved by adding an earnings momentum factor.',
+            ],
+            result: 'B. A single series explained by its own past needs a time-series (AR) model. A is a yes/no outcome, so it uses logistic regression; C is a multiple regression with one more factor' },
+          { k: 'example', id: 's1-quiz2', title: 'Schweser module quiz 1.1 — Question 2',
+            body: [
+              'A multiple regression model with two explanatory variables was fitted as Y = 2.30 + 5.02X₁ − 4.55X₂. Which is the *least appropriate* interpretation of this model?',
+              '*A.* The forecasted value of Y is 2.30 when both X₁ and X₂ are equal to zero.',
+              '*B.* A 1% increase in X₁ would lead to a 7.32% increase in Y.',
+              '*C.* A 1% increase in X₂ would lead to a 4.55% decrease in Y.',
+            ],
+            result: 'B. Each slope holds the other variable constant, so a 1% rise in X₁ raises Y by 5.02%, not 2.30 + 5.02 = 7.32%. A (the intercept) and C are correct' },
+          { k: 'example', id: 's1-quiz3', title: 'Schweser module quiz 1.1 — Question 3',
+            body: [
+              'Which of the following *least accurately* represents an assumption of the multiple regression model?',
+              '*A.* The relationship between the X variables is linear.',
+              '*B.* The variance of the error is constant.',
+              '*C.* The residual distribution is normal.',
+            ],
+            result: 'A. The assumption is a linear relationship between Y and the Xs; an exact linear relation among the Xs is multicollinearity. B and C are assumptions 4 and 6 in the table above' },
         ],
       },
       {
@@ -1235,8 +1258,8 @@ const CONTENT = {
           ] },
           { k: 'p', text: 'To solve these two issues we have 2 solutions:' },
           { k: 'cols', id: 's2-aicbic', panes: [
-            { title: 'AIC', tone: 'teal', items: ['Used if the goal is to have a *better forecast*.', 'AIC = n × ln(SSE ÷ n) + 2(k + 1)'] },
-            { title: 'BIC', tone: 'violet', items: ['Used if the goal is a *better goodness of fit*.', 'BIC = n × ln(SSE ÷ n) + ln(n) × (k + 1)'] },
+            { title: 'AIC', tone: 'teal', items: ['*Akaike’s information criterion*', 'Used if the goal is to have a *better forecast*.', 'AIC = n × ln(SSE ÷ n) + 2(k + 1)'] },
+            { title: 'BIC', tone: 'violet', items: ['*Schwarz’s Bayesian information criterion*', 'Used if the goal is a *better goodness of fit*.', 'BIC = n × ln(SSE ÷ n) + ln(n) × (k + 1)'] },
           ] },
           { k: 'formula', title: 'AIC and BIC', lines: [
             'AIC = n × ln(SSE ÷ n) + 2(k + 1)',
