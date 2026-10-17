@@ -648,6 +648,10 @@
   .rv-check { border: 2px solid var(--ink); border-radius: 10px; padding: 12px 14px; margin-top: 18px; }
   .rv-check-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 14px; font-weight: 700; color: var(--ink); }
   .rv-check-score { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  .rv-check.rv-check-closed { border: 1px dashed var(--line); padding: 9px 13px; }
+  .rv-check.rv-check-closed .rv-row { margin-top: 8px; }
+  .rv-check-link { font-family: var(--sans); font-size: 11.5px; color: var(--ink-faint); background: none; border: none; padding: 0 0 0 6px; cursor: pointer; text-decoration: underline; }
+  .rv-check-link:hover { color: var(--violet); }
   .rv-check-hint { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin: 4px 0 10px; }
   .rv-q { border-top: 1px solid var(--line); padding: 10px 0; }
   .rv-q:last-child { padding-bottom: 0; }
@@ -21268,7 +21272,10 @@ const RV_KIND = { why: 'Why', whatif: 'What if', calc: 'Calculate', explain: 'Ex
 const RV_GRADE = { got: 'Got it', shaky: 'Shaky', miss: 'Didn’t know' };
 const PG_STORE = 'ledgerProgress.v1';
 const pg = { items: {}, dirty: {} };
-const rv = { shown: {}, blurting: {}, blurt: {}, sent: {}, queue: [], qi: 0, revealed: false, tally: null };
+const rv = { shown: {}, blurting: {}, blurt: {}, sent: {}, queue: [], qi: 0, revealed: false, tally: null, hideChecks: true, openChecks: {} };
+// "Test yourself" boxes stay folded until you choose to answer them; the choice is kept on this device.
+try { rv.hideChecks = localStorage.getItem('ledgerHideChecks') !== '0'; } catch (e) {}
+function rvCheckClosed(topic, mod) { return rv.hideChecks && !rv.openChecks[topic + '|' + mod]; }
 
 function pgLoad() {
   try { const s = JSON.parse(localStorage.getItem(PG_STORE) || '{}'); pg.items = s.items || {}; pg.dirty = s.dirty || {}; } catch (e) {}
@@ -21383,7 +21390,14 @@ function rvQHtml(topic, mod, q, g) {
 function rvCheckHtml(topic, mod) {
   const s = rvSession(topic, mod);
   if (!s.qs.length) return '';
-  return `<div class="rv-check-head">Test yourself · ${escapeHtml(mod)}<span class="rv-check-score">${s.got}/${s.qs.length} got${s.due ? ' · ' + s.due + ' due' : ''}</span></div>
+  const at = `data-topic="${topic}" data-mod="${escapeHtml(mod)}"`;
+  const score = `${s.got}/${s.qs.length} got${s.due ? ' · ' + s.due + ' due' : ''}`;
+  if (rvCheckClosed(topic, mod)) return `<div class="rv-check-head">Test yourself · ${escapeHtml(mod)}<span class="rv-check-score">${s.qs.length} question${s.qs.length > 1 ? 's' : ''} · ${score}</span></div>
+    <div class="rv-row"><button type="button" class="rv-btn" data-rv="opencheck" ${at}>Answer the questions ▸</button>
+      <button type="button" class="rv-check-link" data-rv="hidechecks" ${at}>Always show these boxes</button></div>`;
+  return `<div class="rv-check-head">Test yourself · ${escapeHtml(mod)}<span class="rv-check-score">${score}${
+      rv.hideChecks ? ` <button type="button" class="rv-check-link" data-rv="opencheck" ${at}>Hide ▴</button>`
+        : ` <button type="button" class="rv-check-link" data-rv="hidechecks" ${at}>Hide all until I want them</button>`}</span></div>
     <div class="rv-check-hint">Answer out loud or on paper <b>before</b> you reveal. “Got it” means you could have written the answer without the page; if you needed a peek, it’s Shaky.</div>
     ${s.qs.map((q, i) => rvQHtml(topic, mod, q, s.grades[i])).join('')}`;
 }
@@ -21470,6 +21484,7 @@ function rvPaintSession(sec) {
   blurt.innerHTML = on ? rvBlurtHtml(topic, mod, sec) : '';
   const check = sec.querySelector('.rv-check');
   check.hidden = !s.qs.length;
+  check.classList.toggle('rv-check-closed', rvCheckClosed(topic, mod));
   check.innerHTML = rvCheckHtml(topic, mod);
 }
 function rvRepaint() {
@@ -21561,6 +21576,11 @@ function rvHandle(a) {
     rv.sent[key] = 1;
   }
   else if (act === 'show' && q) rv.shown[rvQKey(topic, mod, q.id)] = 1;
+  else if (act === 'opencheck') rv.openChecks[topic + '|' + mod] = !rv.openChecks[topic + '|' + mod];
+  else if (act === 'hidechecks') {
+    rv.hideChecks = !rv.hideChecks; rv.openChecks = {};
+    try { localStorage.setItem('ledgerHideChecks', rv.hideChecks ? '1' : '0'); } catch (e) {}
+  }
   else if (act === 'grade' && q) {
     const g = a.getAttribute('data-g');
     rvGrade(topic, mod, q, g);
