@@ -752,6 +752,29 @@
   .ex-card-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
   .ex-kind { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--amber); background: var(--amber-bg); border-radius: 10px; padding: 2px 8px; }
   .ex-card-top .ex-acts { margin-left: auto; }
+  /* A sub-heading's ☆ stars everything under it, down to the next sub-heading. */
+  .nb-sub > .st-btn { margin-left: 8px; vertical-align: 1px; font-size: 12px; padding: 1px 5px; }
+  /* Context a starred card needs from the notes around it: the case a quiz question belongs to,
+     the question an answer block solves, or the line that introduces a table. */
+  .ex-ctx { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; background: var(--bg); border-left: 3px solid var(--line); border-radius: 0 6px 6px 0; padding: 6px 10px; margin: 0 0 9px; }
+  .ex-ctx-label { font-family: var(--mono); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); margin-right: 6px; }
+  .ex-card .nb-refinline { display: block; }
+  /* ✂ Trim: hide the lines of a starred block you already know. */
+  .ex-trim { font-family: var(--sans); font-size: 11.5px; color: var(--ink-faint); background: none; border: 1px solid var(--line); border-radius: 12px; padding: 2px 8px; cursor: pointer; }
+  .ex-trim:hover, .ex-card.trimming .ex-trim { color: var(--teal); border-color: var(--teal); }
+  .ex-card.trimming .ex-trim { background: var(--teal-bg); font-weight: 600; }
+  .ex-trim-hint { display: none; font-size: 11.5px; color: var(--teal); margin: 0 0 8px; }
+  .ex-card.trimming .ex-trim-hint { display: block; }
+  .ex-card.trimming { border-color: var(--teal); }
+  .ex-card.trimming .ex-tl { cursor: pointer; border-radius: 4px; }
+  .ex-card.trimming .ex-tl:hover { outline: 1px dashed var(--teal); outline-offset: 2px; }
+  .ex-hid { display: none !important; }
+  .ex-card.trimming .ex-hid { display: revert !important; opacity: 0.35; text-decoration: line-through; }
+  /* 📖 Reading mode: just the notes, without labels, links and buttons. */
+  #exBody.ex-clean .ex-card-top, #exBody.ex-clean .ex-acts, #exBody.ex-clean .ex-count,
+  #exBody.ex-clean .st-btn, #exBody.ex-clean .ex-trim-hint { display: none !important; }
+  #exBody.ex-clean .ex-card { border: none; padding: 0; margin-bottom: 6px; }
+  #exBody.ex-clean .ex-f { background: none; }
   .ex-overview { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 15px 10px; margin: 0 0 16px; }
   .ex-summary { font-size: 13.5px; color: var(--ink); line-height: 1.65; margin: 0 0 9px; }
   .ex-summary b { font-weight: 700; }
@@ -775,6 +798,9 @@
     .ex-read { break-inside: auto; }
     .ex-f, .ex-sess-head, .ex-note, .ex-summary { break-inside: avoid; }
     .ex-topics { display: none; }
+    .ex-card-top, .ex-count, .ex-trim-hint { display: none !important; }
+    .ex-card { border: none; padding: 0; break-inside: avoid; }
+    .nb-refinline { display: block; }
   }
 </style>
 </head>
@@ -20833,7 +20859,8 @@ function renderFlow(key) {
         ${stBtn(stKey(key, s.module, 'section'), 'section')}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
-      ${s.blocks.map((b, i) => b.k === 'sub' ? renderBlock(b, gapObj, refs)
+      ${s.blocks.map((b, i) => b.k === 'sub'
+        ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}">${escapeHtml(b.text)}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section')}</div>`
         : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}">${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b))}${renderBlock(b, gapObj, refs)}</div>`).join('')}
     </section>`;
   }).join('');
@@ -21026,7 +21053,7 @@ function cmDecorate(el) {
     const tag = s.querySelector('.nb-session-tag'), title = s.querySelector('.nb-session-title');
     const sec = (tag ? tag.textContent : '') + ' · ' + (title ? title.textContent : '');
     add(s.querySelector('.nb-session-head'), sec);
-    s.querySelectorAll('.nb-sub').forEach(sub => add(sub, sec + ' › ' + sub.textContent.trim()));
+    s.querySelectorAll('.nb-sub').forEach(sub => add(sub, sec + ' › ' + (sub.firstChild ? sub.firstChild.textContent : sub.textContent).trim()));
   });
   el.querySelectorAll('details.note-group > summary').forEach(sm => add(sm, sm.parentNode.getAttribute('data-group')));
   cmPaintButtons();
@@ -21562,8 +21589,10 @@ function rvHandle(a) {
 const EX_VIEWS = { 'exam:formulas': 'Formula sheet', 'exam:notes': 'Concise notes', 'exam:starred': 'Exam-day set' };
 const EX_ICON = { 'exam:formulas': '📐', 'exam:notes': '📝', 'exam:starred': '⭐' };
 const EX_KIND = { formula: 'Formula', example: 'Example', qa: 'Q&A', table: 'Table', flag: 'Schweser add-on', fix: 'Correction',
-  graph: 'Diagram', plot: 'Diagram', triangle: 'Diagram', timeline: 'Process', htimeline: 'Timeline', entry: 'Entry', stacks: 'Calculation' };
-const ex = { subj: 'all', starOnly: false, q: '', back: null, anchors: {} };
+  graph: 'Diagram', plot: 'Diagram', triangle: 'Diagram', timeline: 'Process', htimeline: 'Timeline', entry: 'Entry', stacks: 'Calculation',
+  cols: 'Comparison', split: 'Comparison', points: 'Points', p: 'Note' };
+const ex = { subj: 'all', starOnly: false, q: '', back: null, anchors: {}, clean: false };
+try { ex.clean = localStorage.getItem('ledgerExClean') === '1'; } catch (e) {}
 
 function exIsView(k) { return !!EX_VIEWS[k]; }
 function exHash(s) {
@@ -21628,6 +21657,47 @@ function exFormulas(topic, mod) {
   const pos = a => { const i = an.indexOf(a); return i < 0 ? 1e6 : i; };
   return out.map((f, i) => [f, i]).sort((x, y) => (pos(x[0].anchor) - pos(y[0].anchor)) || (x[1] - y[1])).map(x => x[0]);
 }
+// True when the sub-heading a block sits under has been starred, which stars the whole sub-section.
+function exSecStarred(topic, mod, anchor) {
+  const s = rvSessions(topic).find(x => x.module === mod), an = exAnchors(topic, mod), i = an.indexOf(anchor);
+  if (!s || i < 0) return false;
+  for (let j = i; j >= 0; j--) if (s.blocks[j].k === 'sub') return stOn(stKey(topic, mod, 'b:' + an[j]));
+  return false;
+}
+// What a block needs from the notes around it to make sense on its own in the exam-day set.
+function exContext(blocks, i) {
+  const b = blocks[i], prev = blocks[i - 1];
+  const m = b.k === 'example' && /^(Schweser module quiz .+ — )Question \d+$/.exec(b.title || '');
+  if (m) {
+    let j = i;
+    while (j > 0 && blocks[j - 1].k === 'example' && (blocks[j - 1].title || '').indexOf(m[1]) === 0) j--;
+    const first = blocks[j];
+    return j !== i && first.body && first.body.length === 5 ? first.body[0] : '';
+  }
+  if (b.k === 'example' && !(b.body && b.body.length) && !b.given) {
+    for (let j = i - 1; j >= 0 && j >= i - 3; j--) {
+      const p = blocks[j];
+      if (p.k === 'example' && p.body && p.body.length) return p.body.join(' ');
+      if (p.k === 'sub') break;
+    }
+  }
+  if (b.k === 'table' && prev && prev.k === 'p') return prev.text;
+  return '';
+}
+// The lines of a starred card that ✂ Trim can hide, in a fixed order so hidden lines are remembered.
+function exTrimLines(card) {
+  return Array.prototype.filter.call(card.querySelectorAll('.ex-card-body li, .ex-card-body .nb-p, .ex-card-body tbody tr, .ex-card-body .nb-result'),
+    el => !el.closest('.nb-refinline'));
+}
+function exTrimLabel(n) { return n ? '✂ ' + n + ' hidden' : '✂ Trim'; }
+function exApplyTrims(root) {
+  (root || document).querySelectorAll('.ex-card[data-trim]').forEach(card => {
+    const hide = ((pgGet(card.getAttribute('data-trim')) || {}).hide) || [];
+    exTrimLines(card).forEach((el, i) => { el.classList.add('ex-tl'); el.classList.toggle('ex-hid', hide.indexOf(i) >= 0); });
+    const b = card.querySelector('.ex-trim');
+    if (b) b.textContent = exTrimLabel(hide.length);
+  });
+}
 function exNotes(topic, mod) {
   return (((EXAM[topic] || {})[mod] || {}).n || []).map(n => ({ text: n[0], anchor: exLocate(topic, mod, n[1]), key: stKey(topic, mod, 'n:' + exHash(n[0])) }));
 }
@@ -21680,12 +21750,12 @@ function exMerged(topic, mod, ns, fs, cards) {
     : (c.notes || []).filter(n => n.type.indexOf(mod + ' ') === 0).map(n => exTermAnchor(n.term));
   const pos = a => { const i = order.indexOf(a); return i < 0 ? 1e6 : i; };
   const s = c.flow && c.flow.find(x => x.module === mod), secs = [];
-  let cur = '';
-  ((s && s.blocks) || []).forEach(b => { if (b.k === 'sub') cur = b.text; secs.push(cur); });
-  const secOf = a => secs[pos(a)] || '';
+  let cur = -1;
+  ((s && s.blocks) || []).forEach((b, i) => { if (b.k === 'sub') cur = i; secs.push(cur); });
+  const secOf = a => { const i = secs[pos(a)]; return i == null || i < 0 ? -1 : i; };
   const items = [].concat(ns.map(x => ({ t: 'n', x })), fs.map(x => ({ t: 'f', x })), cards.map(x => ({ t: 'c', x })))
     .map((it, i) => Object.assign(it, { i })).sort((p, q) => (pos(p.x.anchor) - pos(q.x.anchor)) || (p.i - q.i));
-  let html = '', run = '', buf = [], sec = '';
+  let html = '', run = '', buf = [], sec = -1;
   const flush = () => {
     if (buf.length) html += run === 'n' ? `<ul class="ex-notes">${buf.join('')}</ul>`
       : run === 'f' ? `<div class="ex-fgrid">${buf.join('')}</div>` : `<div style="margin-top:8px">${buf.join('')}</div>`;
@@ -21693,7 +21763,10 @@ function exMerged(topic, mod, ns, fs, cards) {
   };
   items.forEach(it => {
     const sc = secOf(it.x.anchor);
-    if (sc && sc !== sec) { flush(); run = ''; sec = sc; html += `<div class="nb-sub">${escapeHtml(sc)}</div>`; }
+    if (sc >= 0 && sc !== sec) {
+      flush(); run = ''; sec = sc;
+      html += `<div class="nb-sub">${escapeHtml(s.blocks[sc].text)}${stBtn(stKey(topic, mod, 'b:' + order[sc]), 'Sub-section')}</div>`;
+    }
     if (it.t !== run) { flush(); run = it.t; }
     buf.push(it.t === 'n' ? exNoteHtml(topic, mod, it.x) : it.t === 'f' ? exFormulaHtml(topic, mod, it.x) : it.x.html);
   });
@@ -21707,14 +21780,17 @@ function exBlockCards(topic, mod) {
     const s = c.flow.find(x => x.module === mod), an = exAnchors(topic, mod);
     const gaps = GAPS[topic] && !Array.isArray(GAPS[topic]) ? GAPS[topic] : null;
     (s ? s.blocks : []).forEach((b, i) => {
-      const k = stKey(topic, mod, 'b:' + an[i]);
-      if (b.k === 'formula' || !stOn(k)) return;
-      out.push({ anchor: an[i], text: JSON.stringify(b), html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts">${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>${renderBlock(b, gaps, c.refs || {})}</div>` });
+      const k = stKey(topic, mod, 'b:' + an[i]), tk = stKey(topic, mod, 'trim:' + an[i]);
+      if (b.k === 'formula' || b.k === 'sub' || !(stOn(k) || exSecStarred(topic, mod, an[i]))) return;
+      const ctx = exContext(s.blocks, i);
+      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>` +
+        `<div class="ex-trim-hint">Tap the lines you already know to hide them. Tap again to bring one back; tap ✂ when done.</div>` +
+        `${ctx ? `<div class="ex-ctx"><span class="ex-ctx-label">Context</span>${rt(ctx)}</div>` : ''}<div class="ex-card-body">${renderBlock(b, gaps, c.refs || {})}</div></div>` });
     });
   } else (c.notes || []).forEach(n => {
     const a = exTermAnchor(n.term), k = stKey(topic, mod, 'b:' + a);
     if (n.type.indexOf(mod + ' ') !== 0 || !stOn(k)) return;
-    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition')}</span></div><p class="nb-p">${escapeHtml(n.a)}</p></div>` });
+    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition')}</span></div><div class="ex-card-body"><p class="nb-p">${escapeHtml(n.a)}</p></div></div>` });
   });
   return out;
 }
@@ -21725,7 +21801,7 @@ function renderExam(el) {
   const desc = {
     'exam:formulas': 'Every formula from your readings on one sheet, session by session. ↗ opens the block it came from; ☆ adds it to the exam-day set.',
     'exam:notes': 'Each reading as a revision overview: what it covers and how the topics fit together, then every session summarised with its key points, formulas and your weak spots. ↗ opens where each line came from; ☆ adds it to the exam-day set.',
-    'exam:starred': 'Everything you have starred: whole readings and sessions bring their overview, summaries, key points and formulas; starred blocks show in full. ↗ opens each one in the notes.',
+    'exam:starred': 'Your own short version of the notes: whatever you starred, in note order under its headings. Whole readings and sessions bring their overview, summaries, key points and formulas; a starred sub-heading brings everything under it. ✂ Trim hides lines of a block you already know; 📖 Reading mode hides the buttons. ↗ opens each one in the notes.',
   }[view];
   el.innerHTML = `
     <div class="crumb">Exam-day revision</div>
@@ -21736,6 +21812,7 @@ function renderExam(el) {
       <button type="button" class="ex-chip${ex.subj === 'all' ? ' on' : ''}" data-ex="subj" data-v="all">All</button>
       ${subjects.map(s => `<button type="button" class="ex-chip${ex.subj === s.id ? ' on' : ''}" data-ex="subj" data-v="${s.id}">${escapeHtml(s.name)}</button>`).join('')}
       <input type="search" id="exQ" placeholder="Filter this sheet…" aria-label="Filter this sheet">
+      <button type="button" class="ex-chip${ex.clean ? ' on' : ''}" data-ex="clean" title="Hide labels, links and buttons: just the notes">📖 Reading mode</button>
       <button type="button" class="ex-chip" data-ex="print">🖨 Print</button>
     </div>
     <div id="exBody"></div>`;
@@ -21746,6 +21823,7 @@ function renderExam(el) {
 function exRenderBody() {
   const body = document.getElementById('exBody');
   if (!body) return;
+  body.classList.toggle('ex-clean', ex.clean);
   const view = selectedKey, q = exPlain(ex.q.trim());
   const has = s => !q || exPlain(s).includes(q);
   let html = '', nItems = 0, nRead = 0;
@@ -21758,7 +21836,7 @@ function exRenderBody() {
     exGroups(t.key).forEach(g => {
       const whole = tStar || stOn(stKey(t.key, g.module, 'section'));
       const sessHit = readHit || exPlain(g.module + ' ' + g.title).includes(q);
-      const keep = (it, text) => (sessHit || has(text)) && (!starredOnly || whole || stOn(it.key));
+      const keep = (it, text) => (sessHit || has(text)) && (!starredOnly || whole || stOn(it.key) || exSecStarred(t.key, g.module, it.anchor));
       const summary = prose && (!starredOnly || whole) ? ((exam[g.module] || {}).s || []).filter(p => sessHit || has(p)) : [];
       const fs = exFormulas(t.key, g.module).filter(f => keep(f, f.title + ' ' + f.lines.join(' ') + ' ' + f.note));
       const ns = prose ? exNotes(t.key, g.module).filter(n => keep(n, n.text)) : [];
@@ -21799,8 +21877,9 @@ function exRenderBody() {
   const what = { 'exam:formulas': 'formulas', 'exam:notes': 'key points and formulas', 'exam:starred': 'starred items' }[view];
   body.innerHTML = html ? `<div class="ex-count" style="margin-bottom:12px">${nItems} ${what} across ${nRead} reading${nRead > 1 ? 's' : ''}</div>` + html
     : `<div class="ex-empty">${view === 'exam:starred' && !q
-      ? 'Nothing starred yet. Tap ☆ on a reading, a session heading, any block in the notes (definitions, examples, formulas), or any line on the formula sheet and concise notes. Starred items gather here for the last days before the exam.'
+      ? 'Nothing starred yet. Tap ☆ on a reading, a session heading, a sub-heading (stars everything under it), any block in the notes (definitions, examples, formulas), or any line on the formula sheet and concise notes. Starred items gather here for the last days before the exam.'
       : ex.starOnly && !q ? 'Nothing starred in this view yet. Turn off “Starred only” to see everything.' : 'Nothing matches that filter.'}</div>`;
+  exApplyTrims(body);
 }
 
 function exScrollFlash(t, center) {
@@ -21848,6 +21927,25 @@ function exOpenView(view, topic, mod) {
   exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"]'), false);
 }
 function exInit() {
+  // ✂ Trim: the button switches a card into trim mode; in trim mode a tap on a line hides or restores it.
+  document.addEventListener('click', e => {
+    const btn = e.target.closest && e.target.closest('[data-trimbtn]');
+    if (btn) { e.preventDefault(); e.stopPropagation(); btn.closest('.ex-card').classList.toggle('trimming'); return; }
+    const card = e.target.closest && e.target.closest('.ex-card.trimming');
+    if (!card || e.target.closest('.ex-card-top')) return;
+    const lines = exTrimLines(card);
+    let el = e.target;
+    while (el && el !== card && lines.indexOf(el) < 0) el = el.parentElement;
+    if (!el || el === card) return;
+    e.preventDefault(); e.stopPropagation();
+    const k = card.getAttribute('data-trim'), parts = k.split('|'), idx = lines.indexOf(el);
+    const hide = (((pgGet(k) || {}).hide) || []).filter(i => i !== idx);
+    if (!el.classList.contains('ex-hid')) hide.push(idx);
+    hide.sort((a, b) => a - b);
+    pgSet(k, { reading: cmReadingOf(parts[1]), session: rvSessionLabel(parts[1], parts[2]), item: 'Trim' }, { on: false, hide });
+    el.classList.toggle('ex-hid', hide.indexOf(idx) >= 0);
+    card.querySelector('.ex-trim').textContent = exTrimLabel(hide.length);
+  }, true);
   document.addEventListener('click', e => {
     const t = e.target.closest && e.target.closest('[data-star],[data-exgo],[data-exview],[data-ex],[data-exsess]');
     if (!t) return;
@@ -21863,6 +21961,11 @@ function exInit() {
       const act = t.getAttribute('data-ex');
       if (act === 'print') { window.print(); return; }
       if (act === 'star') ex.starOnly = !ex.starOnly;
+      if (act === 'clean') {
+        ex.clean = !ex.clean;
+        try { localStorage.setItem('ledgerExClean', ex.clean ? '1' : '0'); } catch (e) {}
+        t.classList.toggle('on', ex.clean);
+      }
       if (act === 'subj') ex.subj = t.getAttribute('data-v');
       document.querySelectorAll('#exTools [data-ex="subj"]').forEach(c => c.classList.toggle('on', c.getAttribute('data-v') === ex.subj));
       const s = document.querySelector('#exTools [data-ex="star"]');
