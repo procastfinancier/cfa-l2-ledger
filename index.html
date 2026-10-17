@@ -648,6 +648,10 @@
   .rv-check { border: 2px solid var(--ink); border-radius: 10px; padding: 12px 14px; margin-top: 18px; }
   .rv-check-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 14px; font-weight: 700; color: var(--ink); }
   .rv-check-score { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  .rv-side { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); line-height: 1.3; }
+  .rv-side.done { color: var(--teal); }
+  .rv-side-bar { flex: 0 0 46px; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+  .rv-side-bar > span { display: block; height: 100%; background: var(--teal); }
   .rv-check.rv-check-closed { border: 1px dashed var(--line); padding: 9px 13px; }
   .rv-check.rv-check-closed .rv-row { margin-top: 8px; }
   .rv-check-link { font-family: var(--sans); font-size: 11.5px; color: var(--ink-faint); background: none; border: none; padding: 0 0 0 6px; cursor: pointer; text-decoration: underline; }
@@ -20797,7 +20801,7 @@ function renderSidebar() {
       const row = document.createElement('div');
       row.className = 'topic-row' + (t.key === selectedKey ? ' active' : '');
       const st = statusOf(t.key);
-      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
+      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + rvSideHtml(t.key) + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
         (cmOpenCount(t.key) ? '<span class="cm-count" title="Open comments">💬 ' + cmOpenCount(t.key) + '</span>' : '');
       row.onclick = () => { selectedKey = t.key; openSubjects.add(s.id); exBackHide(); render(); };
       topicsDiv.appendChild(row);
@@ -21796,7 +21800,18 @@ function rvRepaint() {
   rvHeader();
   if (!document.getElementById('rvPanel').hidden) rvRenderSummary();
 }
+// Revision progress under each reading in the sidebar: how many of its sessions have been marked
+// revised, and once all have, how many full passes are done.
+function rvSideHtml(topic) {
+  const r = rvTopic(topic);
+  if (!r.n) return '';
+  const pct = Math.round(100 * r.revised / r.n);
+  const label = r.revised === r.n ? '✓ Revised ' + r.n + '/' + r.n + (r.passes > 1 ? ' · ' + r.passes + ' passes' : '')
+    : r.revised ? 'Revised ' + r.revised + '/' + r.n + ' sessions' : 'Not revised yet';
+  return `<span class="rv-side${r.revised === r.n ? ' done' : ''}" title="${r.revised} of ${r.n} sessions marked revised${r.due ? ' · ' + r.due + ' questions due' : ''}"><span class="rv-side-bar"><span style="width:${pct}%"></span></span>${label}${r.due ? ' · ' + r.due + ' due' : ''}</span>`;
+}
 function rvHeader() {
+  if (typeof renderSidebar === 'function' && document.getElementById('sidebarList')) renderSidebar();
   const due = rvDueList().length;
   document.getElementById('rvOpen').textContent = '📈 Revision' + (due ? ' · ' + due + ' due' : '');
 }
