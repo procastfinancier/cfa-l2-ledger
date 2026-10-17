@@ -1394,6 +1394,17 @@ const CONTENT = {
             'F = [(SST_U − SSE_U) ÷ k] ÷ [SSE_U ÷ (n − k − 1)]',
             'F = (RSS_U ÷ k) ÷ [SSE_U ÷ (n − k − 1)] = MSR ÷ MSE',
           ] },
+          { k: 'example', id: 's3-overall-deriv', title: 'Where the three lines come from, step by step',
+            steps: [
+              '*Line 1 is the nested-model F-test you already know.* Numerator: how much *extra unexplained variation* (SSE) appears when you drop q variables, per variable dropped. Denominator: the unrestricted model’s unexplained variation per degree of freedom, i.e. its *MSE*. A big F means dropping those variables costs far more fit than random noise would.',
+              '*The overall test drops every slope.* H₀: b₁ = b₂ = … = bₖ = 0, so the variables dropped are all k of them: *q = k*.',
+              '*With no slopes, the restricted model is Y = b₀.* Its best estimate of b₀ is the mean Ȳ, so every error is (Yᵢ − Ȳ) and SSE_R = Σ(Yᵢ − Ȳ)² — which is exactly the definition of *SST*. Nothing is explained, so all variation is unexplained: *SSE_R = SST_U* (SST is the same for both models, because it depends only on Y).',
+              '*Substitute into line 1* (SSE_R → SST, q → k) and you get *line 2*: F = [(SST − SSE) ÷ k] ÷ [SSE ÷ (n − k − 1)].',
+              '*From the ANOVA identity SST = RSS + SSE*, SST − SSE = *RSS*, the variation the model explains. That gives *line 3*: F = (RSS ÷ k) ÷ [SSE ÷ (n − k − 1)].',
+              '*Name the pieces*: RSS ÷ k is the *mean square regression (MSR)*, the explained variation per independent variable; SSE ÷ (n − k − 1) is the *mean square error (MSE)*. So F = MSR ÷ MSE, with *k* and *n − k − 1* degrees of freedom, and it is always a *one-tailed* (right-tail) test.',
+              '*Numeric check* (Schweser quiz 1.2: k = 4, n = 65, SST 9,105, SSE 4,320): RSS = 9,105 − 4,320 = 4,785; MSR = 4,785 ÷ 4 = 1,196.25; MSE = 4,320 ÷ 60 = 72; F = 1,196.25 ÷ 72 = *16.61*.',
+            ],
+            result: 'Overall F = nested F with every slope dropped: q = k and SSE_R = SST, so F = RSS/k ÷ SSE/(n − k − 1) = MSR ÷ MSE' },
           { k: 'flag', title: "Predicting Y: use every coefficient (LOS 1.f)", text: "Missing from my page:", items: [
               "The prediction uses the intercept and *all* slope coefficients, *including ones that are not statistically significant*.",
               "Alternatively, drop the insignificant variable and *re-estimate*. But don’t just delete its term from the existing equation, because the remaining coefficients will change once it is re-estimated.",
