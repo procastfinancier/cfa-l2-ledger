@@ -21671,6 +21671,35 @@ function exNoteHtml(topic, mod, n) {
 function exWeakHtml(topic, mod, m) {
   return `<li class="ex-note weak"><span class="ex-note-text"><b>Tuition weak spot:</b> ${escapeHtml(m.title)}</span><span class="ex-acts">${exGoBtn(topic, mod, '')}</span></li>`;
 }
+// The exam-day set lists a session's starred key points, formulas and blocks in one stream,
+// in the order they appear in the notes, not grouped by kind, under the sub-heading each one
+// sits under in the notes (e.g. "1. Heteroskedasticity").
+function exMerged(topic, mod, ns, fs, cards) {
+  const c = CONTENT[topic];
+  const order = c.flow ? exAnchors(topic, mod)
+    : (c.notes || []).filter(n => n.type.indexOf(mod + ' ') === 0).map(n => exTermAnchor(n.term));
+  const pos = a => { const i = order.indexOf(a); return i < 0 ? 1e6 : i; };
+  const s = c.flow && c.flow.find(x => x.module === mod), secs = [];
+  let cur = '';
+  ((s && s.blocks) || []).forEach(b => { if (b.k === 'sub') cur = b.text; secs.push(cur); });
+  const secOf = a => secs[pos(a)] || '';
+  const items = [].concat(ns.map(x => ({ t: 'n', x })), fs.map(x => ({ t: 'f', x })), cards.map(x => ({ t: 'c', x })))
+    .map((it, i) => Object.assign(it, { i })).sort((p, q) => (pos(p.x.anchor) - pos(q.x.anchor)) || (p.i - q.i));
+  let html = '', run = '', buf = [], sec = '';
+  const flush = () => {
+    if (buf.length) html += run === 'n' ? `<ul class="ex-notes">${buf.join('')}</ul>`
+      : run === 'f' ? `<div class="ex-fgrid">${buf.join('')}</div>` : `<div style="margin-top:8px">${buf.join('')}</div>`;
+    buf = [];
+  };
+  items.forEach(it => {
+    const sc = secOf(it.x.anchor);
+    if (sc && sc !== sec) { flush(); run = ''; sec = sc; html += `<div class="nb-sub">${escapeHtml(sc)}</div>`; }
+    if (it.t !== run) { flush(); run = it.t; }
+    buf.push(it.t === 'n' ? exNoteHtml(topic, mod, it.x) : it.t === 'f' ? exFormulaHtml(topic, mod, it.x) : it.x.html);
+  });
+  flush();
+  return html;
+}
 // Starred blocks render as they do in the notes, in a card that says what they are.
 function exBlockCards(topic, mod) {
   const c = CONTENT[topic], out = [];
@@ -21680,12 +21709,12 @@ function exBlockCards(topic, mod) {
     (s ? s.blocks : []).forEach((b, i) => {
       const k = stKey(topic, mod, 'b:' + an[i]);
       if (b.k === 'formula' || !stOn(k)) return;
-      out.push({ text: JSON.stringify(b), html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts">${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>${renderBlock(b, gaps, c.refs || {})}</div>` });
+      out.push({ anchor: an[i], text: JSON.stringify(b), html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts">${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>${renderBlock(b, gaps, c.refs || {})}</div>` });
     });
   } else (c.notes || []).forEach(n => {
     const a = exTermAnchor(n.term), k = stKey(topic, mod, 'b:' + a);
     if (n.type.indexOf(mod + ' ') !== 0 || !stOn(k)) return;
-    out.push({ text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition')}</span></div><p class="nb-p">${escapeHtml(n.a)}</p></div>` });
+    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition')}</span></div><p class="nb-p">${escapeHtml(n.a)}</p></div>` });
   });
   return out;
 }
@@ -21744,9 +21773,9 @@ function exRenderBody() {
         <div class="ex-sess-head"><span class="nb-session-tag">${escapeHtml(g.module)}</span><span class="ex-sess-title">${escapeHtml(g.title)}</span>
           <span class="ex-acts">${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section')}</span></div>
         ${summary.map(p => `<p class="ex-summary">${rt(p)}</p>`).join('')}
+        ${view === 'exam:starred' ? exMerged(t.key, g.module, ns, fs, cards) : `
         ${ns.length || weak.length ? `${summary.length ? '<div class="ex-label">Key points</div>' : ''}<ul class="ex-notes">${ns.map(x => exNoteHtml(t.key, g.module, x)).join('')}${weak.map(m => exWeakHtml(t.key, g.module, m)).join('')}</ul>` : ''}
-        ${fs.length ? `${prose ? '<div class="ex-label">Formulas</div>' : ''}<div class="ex-fgrid">${fs.map(f => exFormulaHtml(t.key, g.module, f)).join('')}</div>` : ''}
-        ${cards.length ? `<div style="margin-top:8px">${cards.map(c => c.html).join('')}</div>` : ''}
+        ${fs.length ? `${prose ? '<div class="ex-label">Formulas</div>' : ''}<div class="ex-fgrid">${fs.map(f => exFormulaHtml(t.key, g.module, f)).join('')}</div>` : ''}`}
       </div>`;
     });
     // The reading overview: what the reading covers and how its topics connect, with the
