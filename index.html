@@ -1273,6 +1273,16 @@ const CONTENT = {
               { label: 'Age + Distance + Restaurants', values: ['3', '13,551', '*822.0*', '*835.0*'] },
             ],
             caption: 'Example — Goodness of fit for the rent model: rental price per square foot with a single factor, two factors, and all three factors (n = 191).' },
+          { k: 'example', id: 's2-rent-calc', title: 'How the AIC and BIC numbers are calculated (n = 191)',
+            body: ['Both criteria share the first part, n × ln(SSE ÷ n); only the penalty differs. AIC adds *2(k + 1)*; BIC adds *ln(n) × (k + 1)*, and ln(191) = *5.2523*. The k + 1 counts the slopes plus the intercept.'],
+            steps: [
+              '*Age (k = 1)*: SSE ÷ n = 32,627 ÷ 191 = 170.82 → ln = 5.1406 → × 191 = *981.86*. AIC = 981.86 + 2 × 2 = *985.9*. BIC = 981.86 + 5.2523 × 2 = 981.86 + 10.50 = *992.4*.',
+              '*Age + Distance (k = 2)*: SSE ÷ n = 14,997 ÷ 191 = 78.52 → ln = 4.3633 → × 191 = *833.40*. AIC = 833.40 + 2 × 3 = *839.4*. BIC = 833.40 + 5.2523 × 3 = 833.40 + 15.76 = *849.2*.',
+              '*Age + Distance + Restaurants (k = 3)*: SSE ÷ n = 13,551 ÷ 191 = 70.95 → ln = 4.2619 → × 191 = *814.03*. AIC = 814.03 + 2 × 4 = *822.0*. BIC = 814.03 + 5.2523 × 4 = 814.03 + 21.01 = *835.0*.',
+              'Adding Distance cuts SSE by more than half, so the first part falls by ≈ 148 while the penalty rises by only 2 (AIC) or 5.25 (BIC). Adding Restaurants cuts it by a further ≈ 19, still more than the extra penalty, so both criteria keep falling.',
+            ],
+            result: 'Lowest AIC (822.0) and lowest BIC (835.0): the three-factor model wins on both' },
+          { k: 'p', text: 'Calculator: SSE ÷ n, then *LN*, then × n, then add the penalty. The two-factor SSE (≈ 15,000 on my page) is backed out from its AIC as 14,997, which reproduces both 839.4 and 849.2.' },
           { k: 'qa', q: 'Which model is the most appropriate for use in generating forecasts?', a: 'The model with all three independent variables has the *lowest AIC*, hence it is the most appropriate model for generating forecasts.' },
           { k: 'qa', q: 'Which model has a better goodness of fit?', a: 'The model with all three independent variables has the *lowest BIC*, hence the best goodness of fit. Also, the adjusted R² for the three-factor model is the highest of the three models.' },
           { k: 'flag', title: "When adjusted R² falls, and a second example", text: "Missing from my page:", items: [
