@@ -54,6 +54,45 @@ Progress syncs through the same sheet as comments (`Progress` tab).
 
     node tools/comments.mjs progress              # passes, and questions still shaky or missed
 
+## Countdown and daily plan
+
+The bar at the top counts down to the exam (`EXAM_AT`, 22 Nov 2026, 9:00 IST) and
+shows how many of today's tasks are ticked. Tap it, or **📅 Daily plan** in the
+sidebar, for today's tasks, anything left over from earlier days, the mocks done,
+and the whole schedule (`PLAN` in `index.html`): one revision pass on office days
+until 31 Oct, then from 1 Nov a mock every other day with a review and second-pass
+day after each. Ticks sync through the same sheet as progress.
+
+## Test log
+
+Put a test result PDF in `Written Notes/<subject>/Test Result` and ask Claude to
+log it. Claude adds it to `TESTS` in `index.html`, tagging every question with the
+session it tests and, for a miss, the kind of mistake (didn't know it, went the
+wrong way, slip in the working, or a lucky guess). Each wrong answer also becomes a
+rose weak-spot card.
+
+**Accuracy** shows questions logged (of about 3,000), overall and latest-50
+accuracy against a 70% target, pace, a trend chart (a dot per test, five-test
+average line), and accuracy by subject and reading, weakest first. Every test
+with wrong answers comes back after 3 days under **Revise these first** to redo
+those questions.
+
+**🧪 Test log** (sidebar) turns that into what to revise next:
+
+- **Revise these first**: each session gets a verdict from the latest test on it:
+  *Dig in* (a miss I didn't know, or two or more misses), *Quick fix* (one miss) or
+  *Move on*. **Mark fixed** after the fix brings it back as a *Retest due* 5 days later.
+- **Mistakes by kind**: how to revise each kind (re-study, drill the direction, redo
+  worked examples).
+- **Tests**: score, pace against the exam's 3 minutes a question, and a reminder to
+  retake old tests.
+
+Tuition weak-spot cards can be folded: **Hide ▴** on one card, or **Hide all weak spots**
+(remembered on the device; **Always show** brings them back).
+
+Each session in the notes shows a 🧪 chip with its latest result, and 📈 Revision
+shows how many sessions the tests say to fix.
+
 ## Exam-day revision
 
 Three pages at the top of the sidebar, for the last days before the exam:

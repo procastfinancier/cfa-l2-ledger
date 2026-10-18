@@ -2,6 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script id="loadGuard">
+// If anything throws, say so at the top of the page instead of leaving it half-drawn or silently broken.
+window.addEventListener('error', function (e) {
+  if (!e.message) return;
+  var b = document.getElementById('loadErr');
+  if (!b) {
+    b = document.createElement('div'); b.id = 'loadErr';
+    b.style.cssText = 'position:sticky;top:0;z-index:99;background:#B0384D;color:#fff;font:600 13px/1.45 system-ui,sans-serif;padding:10px 14px;';
+    (document.body || document.documentElement).prepend(b);
+  }
+  b.textContent = 'Something on this page broke: ' + e.message + (e.lineno ? ' (line ' + e.lineno + ')' : '') + '. The rest of the page may be incomplete. Tell Claude what this says.';
+});
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>CFA Level II — Knowledge Ledger</title>
 <style>
@@ -147,6 +160,20 @@
   .miss-row { font-size: 12.5px; margin-bottom: 4px; line-height: 1.5; }
   .miss-row b { color: var(--rose); }
   .weak-card { border: 1px solid var(--rose); background: var(--rose-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+  .wk-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 7px; }
+  .wk-bar .miss-tag { margin-bottom: 0; }
+  .wk-mini { display: none; flex: 1 1 200px; min-width: 0; font-size: 13px; font-weight: 700; color: var(--ink); }
+  .wk-b-show, .wk-b-always { display: none; }
+  .wk-b-hide { margin-left: auto; }
+  /* Folded: the device-wide setting is "shown" and this card was hidden, or the reverse. */
+  body:not(.wk-hide) .wk.wk-flip .wk-body, body.wk-hide .wk:not(.wk-flip) .wk-body,
+  body:not(.wk-hide) .wk.wk-flip .wk-b-hide, body.wk-hide .wk:not(.wk-flip) .wk-b-hide,
+  body.wk-hide .wk-b-hideall { display: none; }
+  body:not(.wk-hide) .wk.wk-flip .wk-mini, body.wk-hide .wk:not(.wk-flip) .wk-mini,
+  body:not(.wk-hide) .wk.wk-flip .wk-b-show, body.wk-hide .wk:not(.wk-flip) .wk-b-show,
+  body.wk-hide .wk-b-always { display: inline-block; }
+  body:not(.wk-hide) .wk.wk-flip .wk-bar, body.wk-hide .wk:not(.wk-flip) .wk-bar { margin-bottom: 0; }
+  body:not(.wk-hide) .wk.wk-flip, body.wk-hide .wk:not(.wk-flip) { padding: 7px 12px; background: var(--panel); }
   .weak-title { font-size: 13.5px; font-weight: 700; color: var(--ink); margin: 2px 0 4px; line-height: 1.35; }
   .weak-sec { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--rose); text-transform: uppercase; letter-spacing: 0.05em; margin: 10px 0 4px; }
   .weak-text { font-size: 12.5px; color: var(--ink); line-height: 1.55; }
@@ -731,6 +758,114 @@
     padding: 3px 7px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink-soft); cursor: pointer; text-decoration: none;
   }
   .ex-link:hover, .ex-link:focus-visible { border-color: var(--violet); color: var(--violet); }
+  .cd-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; width: 100%; margin: 4px 0 14px; padding: 11px 16px; border: none; border-radius: 10px; background: var(--ink); color: #fff; font-family: var(--sans); font-size: 13px; text-align: left; cursor: pointer; }
+  .cd-bar .cd-time { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: 0.02em; }
+  .cd-bar .cd-what { opacity: 0.8; }
+  .cd-bar .cd-today { margin-left: auto; font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 12px; background: rgba(255, 255, 255, 0.14); }
+  .pl-today { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 14px 16px; margin-bottom: 18px; }
+  .pl-today-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .pl-today-date { font-family: var(--serif); font-size: 18px; color: var(--ink); }
+  .pl-kind { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 10px; background: var(--slate-bg); color: var(--slate); }
+  .pl-kind.mock { background: var(--rose-bg); color: var(--rose); }
+  .pl-kind.leave, .pl-kind.full { background: var(--teal-bg); color: var(--teal); }
+  .pl-kind.final, .pl-kind.exam { background: var(--amber-bg); color: var(--amber); }
+  .pl-slots { font-size: 12px; color: var(--ink-soft); margin: 2px 0 8px; line-height: 1.5; }
+  .pl-tasks { list-style: none; margin: 0; padding: 0; }
+  .pl-task { display: flex; align-items: flex-start; gap: 9px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .pl-task:last-child { border-bottom: none; }
+  .pl-task.done .pl-text { color: var(--ink-faint); text-decoration: line-through; }
+  .pl-tick { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; border-radius: 5px; border: 1.5px solid var(--ink-faint); background: var(--panel); color: #fff; font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; padding: 0; }
+  .pl-task.done .pl-tick { background: var(--teal); border-color: var(--teal); }
+  .pl-text { flex: 1; min-width: 0; }
+  .pl-when { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); margin-right: 6px; }
+  .pl-task .ex-link { margin-top: 1px; }
+  .pl-from { font-family: var(--mono); font-size: 10px; color: var(--rose); margin-right: 6px; }
+  .pl-mocks { display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 2px; }
+  .pl-mock { font: 700 10.5px/1 var(--mono); padding: 5px 7px; border-radius: 6px; border: 1px solid var(--line); color: var(--ink-soft); background: var(--panel); }
+  .pl-mock.done { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .pl-mock.opt { border-style: dashed; }
+  .pl-day { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); margin-bottom: 6px; }
+  .pl-day > summary { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 12px; cursor: pointer; font-size: 13px; color: var(--ink); list-style: none; }
+  .pl-day > summary::-webkit-details-marker { display: none; }
+  .pl-day.today { border-color: var(--ink); }
+  .pl-day.past > summary { color: var(--ink-faint); }
+  .pl-day-date { font-family: var(--mono); font-size: 11.5px; min-width: 92px; }
+  .pl-day-sum { flex: 1; min-width: 0; font-size: 12.5px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pl-day-n { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .pl-day-n.all { color: var(--teal); font-weight: 700; }
+  .pl-day .pl-tasks { padding: 0 12px 8px; }
+  @media (max-width: 640px) { .pl-day-sum { flex-basis: 100%; white-space: normal; } .cd-bar .cd-today { margin-left: 0; } }
+  .tl-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+  .tl-kpi { border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; background: var(--panel); min-width: 0; }
+  .tl-kpi-lab { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+  .tl-kpi-val { font-family: var(--serif); font-size: 24px; color: var(--ink); line-height: 1.2; margin-top: 2px; }
+  .tl-kpi-sub { font-size: 11.5px; color: var(--ink-soft); line-height: 1.4; }
+  .tl-trend { display: block; width: 100%; height: auto; }
+  .tl-grid { stroke: var(--line); stroke-width: 1; }
+  .tl-target { stroke: var(--ink-faint); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .tl-axis { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); }
+  .tl-axis-strong { fill: var(--ink); font-weight: 700; font-size: 11px; }
+  .tl-line-roll { fill: none; stroke: var(--teal); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .tl-pt-dot { fill: var(--slate); stroke: var(--panel); stroke-width: 2; }
+  .tl-pt-hit { fill: transparent; cursor: default; }
+  .tl-pt:hover .tl-pt-dot { fill: var(--ink); }
+  .tl-sub { border-bottom: 1px solid var(--line); }
+  .tl-sub > summary { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 13px; color: var(--ink); list-style: none; }
+  .tl-sub > summary::-webkit-details-marker { display: none; }
+  .tl-sub-name { font-weight: 700; flex: 0 0 150px; min-width: 0; }
+  .tl-bar { position: relative; flex: 1 1 120px; height: 8px; border-radius: 4px; background: var(--bg); min-width: 80px; }
+  .tl-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--slate); }
+  .tl-bar-fill.tl-on { background: var(--teal); }
+  .tl-bar-fill.tl-fix { background: var(--amber); }
+  .tl-bar-fill.tl-dig { background: var(--rose); }
+  .tl-bar-tgt { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: 0.55; }
+  .tl-sub-pct { font-family: var(--mono); font-weight: 700; font-size: 12px; min-width: 36px; text-align: right; }
+  .tl-sub-n { font-size: 11.5px; color: var(--ink-faint); }
+  .tl-sub-none { flex: 1; font-size: 12px; color: var(--ink-faint); font-style: italic; }
+  .tl-sub-read { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 5px 0 5px 14px; font-size: 12.5px; }
+  .tl-read-name { flex: 0 0 210px; min-width: 0; text-align: left; background: none; border: none; padding: 0; font-family: var(--sans); font-size: 12.5px; color: var(--ink); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tl-read-name:hover { color: var(--violet); }
+  .tl-badge.tl-few { border-color: var(--line); color: var(--ink-faint); }
+  @media (max-width: 640px) {
+    .tl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tl-sub-name { flex-basis: 100%; }
+    .tl-read-name { flex-basis: 100%; }
+  }
+  .tl-chip { font-family: var(--mono); font-size: 10.5px; line-height: 1; padding: 3px 7px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer; flex-shrink: 0; }
+  .tl-chip.tl-dig, .tl-badge.tl-dig, .tl-chip.tl-due, .tl-badge.tl-due { border-color: var(--rose); background: var(--rose-bg); color: var(--rose); }
+  .tl-chip.tl-fix, .tl-badge.tl-fix { border-color: var(--amber); background: var(--amber-bg); color: var(--amber); }
+  .tl-chip.tl-on, .tl-badge.tl-on, .tl-chip.tl-wait, .tl-badge.tl-wait { border-color: var(--teal); background: var(--teal-bg); color: var(--teal); }
+  .tl-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; border: 1px solid; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+  .tl-row, .tl-test { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; background: var(--panel); }
+  .tl-row { border-left: 3px solid var(--line); }
+  .tl-row.tl-dig, .tl-row.tl-due { border-left-color: var(--rose); }
+  .tl-row.tl-fix { border-left-color: var(--amber); }
+  .tl-row.tl-on, .tl-row.tl-wait { border-left-color: var(--teal); }
+  .tl-row-top, .tl-test-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tl-row-title { font-size: 13.5px; font-weight: 700; color: var(--ink); flex: 1; min-width: 0; }
+  .tl-row-meta { font-size: 12px; color: var(--ink-soft); margin: 5px 0; line-height: 1.5; }
+  .tl-row-do { font-size: 12.5px; color: var(--ink); margin: 2px 0 8px; line-height: 1.5; }
+  .tl-row-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tl-qs { list-style: none; margin: 4px 0 8px; padding: 0; font-size: 12.5px; color: var(--ink); line-height: 1.5; }
+  .tl-qs li { padding: 2px 0; }
+  .tl-qs .tl-mark { font-weight: 700; margin-right: 4px; }
+  .tl-qs .ok .tl-mark { color: var(--teal); }
+  .tl-qs .no .tl-mark { color: var(--rose); }
+  .tl-qs .why { color: var(--ink-faint); }
+  .tl-done > summary, .tl-test details > summary { cursor: pointer; font-size: 12.5px; color: var(--ink-soft); padding: 6px 0; }
+  .tl-kind { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13px; color: var(--ink); }
+  .tl-kind-n { font-family: var(--mono); font-weight: 700; font-size: 15px; min-width: 22px; }
+  .tl-kind.top .tl-kind-n { color: var(--rose); }
+  .tl-kind-fix { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; line-height: 1.5; }
+  .tl-score { margin-left: auto; font-family: var(--mono); font-weight: 700; font-size: 13px; color: var(--ink); }
+  .tl-dots { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+  .tl-dot { width: 22px; height: 22px; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; font: 700 10px var(--mono); color: #fff; }
+  .tl-dot.ok { background: var(--teal); }
+  .tl-dot.no { background: var(--rose); }
+  .tl-dot.guess { background: var(--amber); }
+  .tl-line { font-size: 12.5px; color: var(--ink); padding: 3px 0; }
+  .tl-rv { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--ink); margin: 0 0 12px; padding: 8px 10px; border-radius: 8px; background: var(--bg); }
+  .tl-rv span { flex: 1; min-width: 0; }
   .ex-nav { border-bottom: 1px solid var(--line); padding: 6px; }
   .ex-nav-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 8px 2px; }
   .ex-nav .topic-row b { font-family: var(--mono); font-size: 10.5px; color: var(--amber); margin-left: auto; }
@@ -833,6 +968,7 @@
     <h1>CFA Level II — knowledge ledger</h1>
     <p class="sub">42 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
 
+    <button type="button" class="cd-bar" id="cdBar" data-new="f-countdown"></button>
     <details class="rules-panel" id="rulesPanel">
       <summary>How this ledger works — session rules (read this first, every new chat)</summary>
       <div class="rules-body">
@@ -851,10 +987,11 @@
             </div>
           </li>
           <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
+          <li><b>Test log — tag every question.</b> When the user adds a test result (a PDF in <code>Written Notes/&lt;subject&gt;/Test Result</code>), Claude logs it in <code>TESTS</code>: every question, right or wrong, with the session it tests (<code>mod</code>), whether it was right, and for a miss the kind of mistake (<code>gap</code>, <code>flip</code>, <code>calc</code>, or <code>guess</code> for a lucky right answer). The wrong answers then go through the tuition-miss workflow above. The 🧪 Test log turns this into a Dig in / Quick fix / Move on verdict per session.</li>
           <li><b>Revision is tracked as two separate things.</b> “Revised” is a tick per notebook session (one per day; the count is the number of passes). “Understood” turns on only when the user has graded every checkpoint question for that session “Got it”. Claude writes those questions into <code>CHECKS[key][module]</code> from the session’s own notes: why it works, what changes if an input moves, a fresh calculation, and an “explain it” prompt, never a plain definition. Keep each question <code>id</code> stable once published. Shaky and missed questions come back on a 1 / 3 / 7 / 14 / 30-day schedule. When processing comments, also check <code>node tools/comments.mjs progress</code>: a question that keeps coming back Shaky or Didn’t know is a gap to explain, and Teach-back comments (blurts and explain-it answers) get graded in the reply.</li>
           <li><b>The exam-day sheet moves with the notes.</b> The formula sheet builds itself from <code>formula</code> blocks, but the concise notes are written by hand in <code>EXAM</code>: a reading overview (<code>EXAM[key].about</code>, paragraphs on what the reading covers and how its topics connect), and for each session a prose summary (<code>s</code>) plus linked key points (<code>n</code>). Concise means a real overview, not one-liners. In the same change that adds or edits a session (or a whole reading), Claude writes or updates the overview, that session’s summary and key points, adds any formula that only sits inside an example or point list as an <code>f</code> entry, and runs <code>node tools/exam-check.mjs</code>. The pre-commit hook (<code>tools/hooks</code>) stops a commit that leaves a session without exam notes or breaks a ↗ link, and the GitHub check re-runs it on every push.</li>
           <li><b>Tag what’s new.</b> Every new block Claude adds gets <code>new: 'YYYY-MM-DD'</code>, and every new button or feature gets <code>data-new="f-some-name"</code>. The page shows a NEW tag on it (and on the reading in the sidebar) until its first use: a block once it has been on screen, a feature once it is tapped. Small fixes to existing blocks are not tagged.</li>
-          <li><b>Never push a page that won’t load.</b> One script error stops the whole ledger at “loading…”. Before every commit that touches <code>index.html</code>, the pre-commit hook writes out the <em>staged</em> copy (what will really be pushed, which differs from the working file when only part of the changes is committed) and runs <code>node tools/page-check.mjs</code> (script compiles, data evaluates, every block can render) and <code>exam-check</code> on it. Claude never bypasses the hook (<code>--no-verify</code>). When committing only part of the changes, Claude builds the staged copy by matching text, never with line-number patches, and runs <code>page-check</code> on it. After every push, Claude runs <code>node tools/page-check.mjs --live</code>, which waits for GitHub Pages to serve the new commit and checks it, and only then tells the user it’s live. The GitHub check also runs both checks and the live check on every push.</li>
+          <li><b>Never push a page that won’t load.</b> One script error stops the whole ledger at “loading…”. Before every commit that touches <code>index.html</code>, the pre-commit hook writes out the <em>staged</em> copy (what will really be pushed, which differs from the working file when only part of the changes is committed) and runs <code>node tools/page-check.mjs</code> (script compiles, data evaluates, every block can render) and <code>exam-check</code> on it. Claude never bypasses the hook (<code>--no-verify</code>). When committing only part of the changes, Claude builds the staged copy by matching text, never with line-number patches, and runs <code>page-check</code> on it. After every push, Claude runs <code>node tools/page-check.mjs --live</code>, which waits for GitHub Pages to serve the new commit and checks it, and only then tells the user it’s live. The GitHub check also runs both checks and the live check on every push. The check also opens the page in headless Chrome and fails on any error at startup or when opening any reading or view. Top-level <code>const</code>/<code>let</code> must sit above the first <code>render();</code> (the page draws at that line, so anything declared below it doesn’t exist yet), and optional widgets draw through <code>safeHtml()</code> so one broken widget can’t blank the page.</li>
           <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box (apart from the 💬 comments box). It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
         </ol>
       </div>
@@ -17438,7 +17575,300 @@ const TUITION_MISSES = {
       spot: 'This is the reason both standards override the current rate method here: US GAAP switches to temporal (historical rates keep non-monetary items meaningful), and IFRS restates for inflation, then translates. Expect the question phrased as “most likely result in relatively…”, with “low values / translation losses” as the answer.',
     },
   ],
+  'econ.0': [
+    {
+      module: '5.S1',
+      title: 'Dealer spreads widen with trade size: bigger order, bigger spread',
+      questions: [
+        { ref: 'L2-R5-Q1 #3', ask: 'Which statement about foreign currency bid–ask spreads is least accurate?', picked: 'They are influenced by the time window in a trading day', answer: 'They increase as the size of the transaction decreases' },
+      ],
+      trap: "In everyday life small trades get the worst rates (a tourist at an airport kiosk), so 'smaller order → wider spread' sounded true and the false statement had to be another one. Time of day sounded like it shouldn't matter to a price.",
+      fix: "In the dealer market a big order is harder for the dealer to lay off without moving the market, so they quote a wider spread: size is DIRECT. Time of day matters too: spreads are narrowest when London and New York are both open (most liquid) and widest in thin hours. The full list from your 5.S1 tables: dealer market — interbank spread (direct), trade size (direct), relationship with the client (inverse); interbank market — how often the pair trades (inverse), time of day, volatility (direct).",
+      tackle: [
+        "For a 'least accurate' question, test each statement against the 5.S1 tables instead of hunting for the one that sounds odd.",
+        "For each factor ask: does this make holding the position riskier for the dealer? If yes, the spread widens.",
+        "Big order, high volatility, thin hours, rarely traded pair, weak relationship → wider. The reverse → narrower.",
+      ],
+      spot: "Schweser's module quiz uses the same trap: 'a smaller order size widens the dealer spread' is the false statement. Also expect: forward spreads widen with maturity.",
+    },
+    {
+      module: '5.S3',
+      title: 'Cross rate with bid–ask: dividing means bid ÷ ask, not bid ÷ bid',
+      questions: [
+        { ref: 'L2-R5-Q1 #1', ask: 'CAD/USD 1.59031 – 1.59701, GBP/USD 0.69459 – 0.69686. Implied CAD/GBP bid–ask?', picked: '2.2895 – 3.2886', answer: '2.2821 – 2.2992' },
+      ],
+      trap: "CAD/GBP = CAD/USD ÷ GBP/USD, so dividing bid by bid feels natural: 1.59031 ÷ 0.69459 = 2.2895, exactly the bid in the option you picked. But dividing by a quote is multiplying by its inverse, and inverting a quote swaps its bid and ask. The 3.2886 ask beside it (a spread of 1.0 on a rate of 2.3) should have ruled that option out on sight.",
+      fix: "Chain the quotes so the middle currency cancels (CAD/USD × USD/GBP), then multiply bid × bid and ask × ask. Flipping GBP/USD into USD/GBP swaps the sides: new bid = 1 ÷ old ask = 1 ÷ 0.69686 = 1.4350; new ask = 1 ÷ old bid = 1 ÷ 0.69459 = 1.4397. Bid = 1.59031 × 1.4350 = 2.2821; ask = 1.59701 × 1.4397 = 2.2992. If you keep the division: bid = bid ÷ ask, ask = ask ÷ bid.",
+      tackle: [
+        "Write the target as A/C and decide which quote must be flipped so the middle currency cancels.",
+        "Flip it and swap its sides: bid = 1 ÷ ask, ask = 1 ÷ bid.",
+        "Multiply bid × bid and ask × ask.",
+        "Sanity check before picking: the bid is below the ask and the spread is tiny next to the rate. An option with a huge spread is wrong without any working.",
+      ],
+      spot: "The wrong options are built from the classic slips: bid ÷ bid (2.2895), or the right ask reused as the bid (2.2992 – 2.3163). The same skill feeds triangular arbitrage in 5.S4: compare the implied cross with the dealer's quote.",
+    },
+    {
+      module: '5.S10',
+      title: 'Currency-crisis warning signs: check which way each one moves',
+      questions: [
+        { ref: 'L2-R5-Q1 #6', ask: 'Which is least likely a warning sign of an impending currency crisis?', picked: 'Liberalized capital markets that allow a free flow of capital', answer: 'Money supply relative to bank reserves shrinks' },
+      ],
+      trap: "'Liberalized' and 'free flow of capital' sound healthy, so it looked like the odd one out. But it IS on the list: open capital markets let hot money flood in and then run. The real odd one out hid its error in one word, 'shrinks': the warning sign is money supply relative to reserves GROWING.",
+      fix: "Learn the list with a direction on each, because the exam flips one word: terms of trade deteriorate ↓; fixed or partly fixed exchange rate (not floating); official reserves fall sharply ↓; currency above its long-run mean ↑; inflation ↑; capital markets liberalized; money supply relative to bank reserves ↑; banking crisis. An option with the direction reversed (terms of trade improve, reserves rise, money supply/reserves shrinks, floating rate) is NOT a warning sign.",
+      tackle: [
+        "Before reading the options, recall the eight signs, each with its arrow.",
+        "Read each option for its verb: improve / deteriorate, grow / shrink, fixed / floating.",
+        "'Least likely a warning sign' is the option whose direction is reversed, not the one that sounds most pleasant.",
+      ],
+      spot: "You got #8 right (floating rates are not a warning sign). The list is tested by reversing one direction: Schweser's module quiz uses 'terms of trade improve'.",
+    },
+    {
+      module: '5.S10',
+      title: 'Sustained fiscal deficit: currency up in the short run, down in the long run',
+      questions: [
+        { ref: 'L2-R5-Q1 #10', ask: 'Under the Mundell-Fleming model and the asset market approach, sustained expansionary fiscal policy makes the currency:', picked: 'Depreciate in the short run and depreciate in the long run', answer: 'Appreciate in the short run, depreciate in the long run' },
+      ],
+      trap: "'Deficits are bad for a currency' is only the long-run half. Jumping straight there skips the short-run channel the question names first: Mundell-Fleming.",
+      fix: "Two models, two time frames. Short run (Mundell-Fleming, high capital mobility): the government borrows more → interest rates ↑ → foreign capital flows in → currency APPRECIATES. Long run (portfolio balance / asset market): the debt keeps piling up, foreign investors want a higher return to keep holding it, and the government must eventually tighten or print money → currency DEPRECIATES.",
+      tackle: [
+        "Spot the model names: Mundell-Fleming = short run; portfolio balance / asset market = long run.",
+        "Short run: follow the interest rate (up → currency up, with mobile capital).",
+        "Long run: follow the debt (sustained deficits → currency down).",
+        "When a question names both models, expect a two-part answer that switches direction.",
+      ],
+      spot: "Low capital mobility changes the short run: expansionary fiscal policy → imports ↑ → depreciation. Check which mobility the question assumes before applying 'rates up → appreciate'.",
+    },
+  ],
 };
+// Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
+// result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
+// whether I got it (`ok`), and for a miss the kind of mistake (`why`): gap (didn't know it) · flip (knew
+// it, but went the wrong way or misread) · calc (right method, slip in the working) · guess (right, but a
+// guess, so it counts as a miss). Wrong answers also get a TUITION_MISSES weak-spot card. `mins` is the
+// time taken. A mock spans readings, so its questions carry their own `topic` (the test's `topic` is the
+// default). Keep each `id` stable: the Fixed ticks on the test log are stored against it. Quizzes I log
+// myself on the page (quick log) live in progress rows instead, and the test log merges both.
+const TESTS = [
+  { id: 'L2-R5-Q1', topic: 'econ.0', name: 'Reading 5 quiz 1', date: '2026-04-15', mins: 18.7, qs: [
+    { mod: '5.S3', what: 'Implied cross rate from two bid–ask quotes', ok: 0, why: 'flip' },
+    { mod: '5.S5', what: 'Forward premium or discount from spot and forward', ok: 1 },
+    { mod: '5.S1', what: 'What widens or narrows FX bid–ask spreads', ok: 0, why: 'flip' },
+    { mod: '5.S6', what: 'Forward rate from covered interest rate parity', ok: 1 },
+    { mod: '5.S6', what: 'Covered interest arbitrage: which way to borrow, and the profit', ok: 1 },
+    { mod: '5.S10', what: 'Warning signs of a currency crisis', ok: 0, why: 'flip' },
+    { mod: '5.S7', what: 'Absolute PPP and UIRP statements', ok: 1 },
+    { mod: '5.S10', what: 'Warning signs of a currency crisis (floating rates)', ok: 1 },
+    { mod: '5.S7', what: 'Forward rate parity and UIRP', ok: 1 },
+    { mod: '5.S10', what: 'Fiscal deficit: Mundell-Fleming short run vs. portfolio balance long run', ok: 0, why: 'flip' },
+  ] },
+];
+// Countdown and day-by-day plan to the exam. EXAM_AT drives the timer at the top of the page. PLAN has one
+// entry per day: `k` is the kind of day (work = office day, full = weekend before leave, leave, mock, final,
+// exam), and each task has its text `t`, an optional slot `w` (AM / PM / Eve) and an optional `go` link: a
+// reading 'topic|module', 'tests', or an exam view such as 'exam:formulas'. Ticks are stored against the
+// day and the task's position, so add new tasks at the end of a day rather than in the middle.
+const EXAM_AT = '2026-11-22T09:00:00+05:30';
+const PL_LEAVE = '2026-11-01';
+function plMock(n, opt) {
+  const o = opt ? ' (optional)' : '';
+  return [
+    { w: 'AM', t: 'Mock ' + n + o + ' · session 1, timed: 2 h 12 min at exam time (9:00). No phone, no notes.' },
+    { w: 'AM', t: 'Mock ' + n + o + ' · session 2, timed: 2 h 12 min after a 30-minute break.', mock: n },
+    { w: 'PM', t: 'Score it. Mark every question you guessed, even the right ones.' },
+    { w: 'PM', t: 'Save the result PDF in Written Notes/Mocks and ask Claude to log it in the Test log.', go: 'tests' },
+    { w: 'Eve', t: 'Rest. At most 30 minutes of your ⭐ exam-day set; no new topics.', go: 'exam:starred' },
+  ];
+}
+function plReview(n) {
+  return [
+    { w: 'AM', t: 'Review Mock ' + n + ': every wrong and every guessed question. For each, write why the right answer is right (about 3 h).' },
+    { w: 'AM', t: 'In the Test log: do the Quick fixes from Mock ' + n + ' and note the Dig in sessions.', go: 'tests' },
+  ];
+}
+// First pass on one reading: Concise notes and weak-spot cards (full notes only where unclear), then 20 questions.
+function plRead(go, name) {
+  return { t: name + ': 📝 Concise notes and weak-spot cards (full notes only where unclear), then 20 questions.', go };
+}
+const PL_MOCK1 = '2026-10-24';
+const PLAN = [
+  // --- First pass, before Mock 1: every reading revised and 20 questions on each. Office 10 to 7; study
+  // 5:40–8:30 AM, questions in the lunch break, and 8–10:30 PM. Today's first five tasks keep their places
+  // because their ticks are stored by position. ---
+  { d: '2026-10-18', k: 'full', tasks: [
+    { t: 'Read this plan once. Tick tasks as you finish them; anything left over carries into the next day.' },
+    { t: 'R5 · 5.S10 (Dig in): re-read policy and currency crises, then blurt the 8 warning signs, each with its arrow.', go: 'econ.0|5.S10' },
+    { t: 'R5 · 5.S1 and 5.S3 (Quick fix): spread factors and cross-rate bid/ask. Then tick Mark fixed in the Test log.', go: 'econ.0|5.S3' },
+    { t: 'R6 Economic Growth: full revision pass (3 sessions).', go: 'econ.1' },
+    { w: 'Eve', t: 'Reading quizzes on what you revised today: about 20 questions a reading. Share the result PDFs with Claude to log.', go: 'tests' },
+    { t: 'R5 Currency Exchange Rates: 📝 Concise notes for the rest of the reading, then 10 more questions (you did 10 in April).', go: 'econ.0' },
+    plRead('quant.0', 'R1 Multiple Regression'),
+    plRead('quant.1', 'R2 Time-Series Analysis'),
+    plRead('quant.2', 'R3 Machine Learning'),
+    plRead('quant.3', 'R4 Big Data Projects'),
+  ] },
+  { d: '2026-10-19', k: 'work', tasks: [
+    Object.assign(plRead('ethics.0', 'R40 Code and Standards'), { w: 'AM' }),
+    Object.assign(plRead('ethics.1', 'R41 Guidance for Standards I–VII'), { w: 'AM' }),
+    Object.assign(plRead('ethics.2', 'R42 Application of the Code: Level II cases'), { w: 'AM' }),
+    Object.assign(plRead('corp.0', 'R13 Dividends and Share Repurchases'), { w: 'PM' }),
+    Object.assign(plRead('corp.1', 'R14 ESG Considerations'), { w: 'PM' }),
+    Object.assign(plRead('corp.2', 'R15 Cost of Capital: Advanced Topics'), { w: 'PM' }),
+    Object.assign(plRead('corp.3', 'R16 Corporate Restructuring'), { w: 'PM' }),
+  ] },
+  { d: '2026-10-20', k: 'work', tasks: [
+    Object.assign(plRead('fsa.0', 'R7 Intercorporate Investments'), { w: 'AM' }),
+    Object.assign(plRead('fsa.1', 'R8 Employee Compensation'), { w: 'AM' }),
+    Object.assign(plRead('fsa.2', 'R9 Multinational Operations'), { w: 'AM' }),
+    Object.assign(plRead('fsa.3', 'R10 Analysis of Financial Institutions'), { w: 'PM' }),
+    Object.assign(plRead('fsa.4', 'R11 Evaluating Quality of Financial Reports'), { w: 'PM' }),
+    Object.assign(plRead('fsa.5', 'R12 Integration of FSA Techniques'), { w: 'PM' }),
+  ] },
+  { d: '2026-10-21', k: 'work', tasks: [
+    Object.assign(plRead('equity.0', 'R17 Equity Valuation: Applications and Processes'), { w: 'AM' }),
+    Object.assign(plRead('equity.1', 'R18 Discounted Dividend Valuation'), { w: 'AM' }),
+    Object.assign(plRead('equity.2', 'R19 Free Cash Flow Valuation'), { w: 'AM' }),
+    Object.assign(plRead('equity.3', 'R20 Market-Based Valuation: multiples'), { w: 'PM' }),
+    Object.assign(plRead('equity.4', 'R21 Residual Income Valuation'), { w: 'PM' }),
+    Object.assign(plRead('equity.5', 'R22 Private Company Valuation'), { w: 'PM' }),
+    Object.assign(plRead('alt.0', 'R30 Commodities and Commodity Derivatives'), { w: 'PM' }),
+  ] },
+  { d: '2026-10-22', k: 'work', tasks: [
+    Object.assign(plRead('fi.0', 'R23 Term Structure and Interest Rate Dynamics'), { w: 'AM' }),
+    Object.assign(plRead('fi.1', 'R24 Arbitrage-Free Valuation Framework'), { w: 'AM' }),
+    Object.assign(plRead('fi.2', 'R25 Bonds with Embedded Options'), { w: 'AM' }),
+    Object.assign(plRead('fi.3', 'R26 Credit Analysis Models'), { w: 'PM' }),
+    Object.assign(plRead('fi.4', 'R27 Credit Default Swaps'), { w: 'PM' }),
+    Object.assign(plRead('alt.1', 'R31 Types of Real Estate Investment'), { w: 'PM' }),
+    Object.assign(plRead('alt.2', 'R32 Real Estate through Publicly Traded Securities'), { w: 'PM' }),
+    Object.assign(plRead('alt.3', 'R33 Hedge Fund Strategies'), { w: 'PM' }),
+  ] },
+  { d: '2026-10-23', k: 'work', tasks: [
+    Object.assign(plRead('deriv.0', 'R28 Forward Commitments'), { w: 'AM' }),
+    Object.assign(plRead('deriv.1', 'R29 Contingent Claims'), { w: 'AM' }),
+    Object.assign(plRead('pm.0', 'R34 Economics and Investment Markets'), { w: 'PM' }),
+    Object.assign(plRead('pm.1', 'R35 Analysis of Active Portfolio Management'), { w: 'PM' }),
+    Object.assign(plRead('pm.2', 'R36 Exchange-Traded Funds'), { w: 'PM' }),
+    Object.assign(plRead('pm.3', 'R37 Using Multifactor Models'), { w: 'PM' }),
+    Object.assign(plRead('pm.4', 'R38 Measuring and Managing Market Risk'), { w: 'PM' }),
+    Object.assign(plRead('pm.5', 'R39 Backtesting and Simulation'), { w: 'PM' }),
+    { w: 'Eve', t: 'Get ready for tomorrow’s mock: calculator, timer, quiet room for 9:00–2:00. Sleep on time.' },
+  ] },
+  // --- Mock 1 on Saturday 24 October (a day off), office days to 31 October, then leave: a mock every other day. The day after a mock: review it, then a second
+  // pass of one subject and reading quizzes on its weakest readings. ---
+  { d: '2026-10-24', k: 'mock', tasks: plMock(1) },
+  { d: '2026-10-25', k: 'full', tasks: plReview(1).concat([
+    { w: 'PM', t: 'FSA second pass: R7–R12, Mock 1 misses and weak spots first.', go: 'fsa.0' },
+    { w: 'Eve', t: 'Reading quizzes on FSA’s weakest readings: 40 questions. Share the results with Claude.', go: 'tests' },
+  ]) },
+  { d: '2026-10-26', k: 'work', tasks: [
+    { w: 'AM', t: 'Anything left over from the first pass, then Equity second pass: R18–R19.', go: 'equity.1' },
+    { w: 'PM', t: 'Equity second pass: R20–R21.', go: 'equity.3' },
+    { w: 'Eve', t: 'Lunch or evening: 30 questions on Equity’s weakest readings.', go: 'tests' },
+  ] },
+  { d: '2026-10-27', k: 'work', tasks: [
+    { w: 'AM', t: 'Fixed Income second pass: R23–R25.', go: 'fi.0' },
+    { w: 'PM', t: 'Fixed Income second pass: R26–R27.', go: 'fi.3' },
+    { w: 'Eve', t: 'Lunch or evening: 30 questions on Fixed Income’s weakest readings.', go: 'tests' },
+  ] },
+  { d: '2026-10-28', k: 'work', tasks: [
+    { w: 'AM', t: 'Derivatives second pass: R28 Forward Commitments.', go: 'deriv.0' },
+    { w: 'PM', t: 'Derivatives second pass: R29 Contingent Claims.', go: 'deriv.1' },
+    { w: 'Eve', t: 'Lunch or evening: 30 questions on Derivatives.', go: 'tests' },
+  ] },
+  { d: '2026-10-29', k: 'work', tasks: [
+    { w: 'AM', t: 'Quant second pass: R1–R4.', go: 'quant.0' },
+    { w: 'PM', t: 'Economics second pass: R5–R6.', go: 'econ.0' },
+    { w: 'Eve', t: 'Lunch or evening: 30 questions on Quant and Economics’ weakest readings.', go: 'tests' },
+  ] },
+  { d: '2026-10-30', k: 'work', tasks: [
+    { w: 'AM', t: 'Ethics: full re-read of R40 and R41 Standards I–IV.', go: 'ethics.1' },
+    { w: 'PM', t: 'Ethics: R41 Standards V–VII and R42 cases.', go: 'ethics.2' },
+    { w: 'Eve', t: 'Lunch or evening: 30 Ethics questions.', go: 'tests' },
+  ] },
+  { d: '2026-10-31', k: 'work', tasks: [
+    { w: 'AM', t: 'Portfolio Management second pass: R34–R36.', go: 'pm.0' },
+    { w: 'PM', t: 'Portfolio Management second pass: R37–R39, then Corporate Issuers R13–R16 weak spots.', go: 'pm.3' },
+    { w: 'Eve', t: 'Get ready for tomorrow’s mock: calculator, timer, quiet room for 9:00–2:00. Sleep on time.' },
+  ] },
+  // --- Leave from 1 November: a mock every other day, the day after it for review and a second pass. ---
+  { d: '2026-11-01', k: 'mock', tasks: plMock(2) },
+  { d: '2026-11-02', k: 'leave', tasks: plReview(2).concat([
+    { w: 'PM', t: 'Alternatives second pass: R30–R33. Then R17 and R22.', go: 'alt.0' },
+    { w: 'PM', t: 'Reading quizzes: 40–60 questions on the readings your mocks show weakest. Share the results with Claude.', go: 'tests' },
+    { w: 'Eve', t: 'Ethics 30 min: R41 Standards I–III.', go: 'ethics.1' },
+  ]) },
+  { d: '2026-11-03', k: 'mock', tasks: plMock(3) },
+  { d: '2026-11-04', k: 'leave', tasks: plReview(3).concat([
+    { w: 'PM', t: 'Your weakest subject in the Test log’s Accuracy section: a full second pass.', go: 'tests' },
+    { w: 'PM', t: 'Reading quizzes: 40–60 questions on that subject’s readings.', go: 'tests' },
+    { w: 'Eve', t: 'Ethics 30 min: R41 Standards IV–V.', go: 'ethics.1' },
+  ]) },
+  { d: '2026-11-05', k: 'mock', tasks: plMock(4) },
+  { d: '2026-11-06', k: 'leave', tasks: plReview(4).concat([
+    { w: 'PM', t: 'Every Dig in session and Shaky reading in the Test log, worst first.', go: 'tests' },
+    { w: 'PM', t: 'Reading quizzes: 40–60 questions on those readings.', go: 'tests' },
+    { w: 'Eve', t: 'Ethics 30 min: R41 Standards VI–VII.', go: 'ethics.1' },
+  ]) },
+  { d: '2026-11-07', k: 'mock', tasks: plMock(5) },
+  { d: '2026-11-08', k: 'leave', tasks: plReview(5).concat([
+    { w: 'PM', t: 'Your second-weakest subject: a full second pass.', go: 'tests' },
+    { w: 'PM', t: 'Formula sheet: Quant, FSA, Equity and Fixed Income. Cover the right side and recall each one.', go: 'exam:formulas' },
+    { w: 'Eve', t: 'Ethics 30 min: R42 application cases.', go: 'ethics.2' },
+  ]) },
+  { d: '2026-11-09', k: 'mock', tasks: plMock(6) },
+  { d: '2026-11-10', k: 'leave', tasks: plReview(6).concat([
+    { w: 'PM', t: 'Every Dig in session and Shaky reading in the Test log, worst first.', go: 'tests' },
+    { w: 'PM', t: 'Formula sheet: Derivatives, Alternatives, PM and Economics.', go: 'exam:formulas' },
+    { w: 'Eve', t: 'Ethics: full read of R40–R42.', go: 'ethics.0' },
+  ]) },
+  { d: '2026-11-11', k: 'mock', tasks: plMock(7) },
+  { d: '2026-11-12', k: 'leave', tasks: plReview(7).concat([
+    { w: 'PM', t: 'Retest due sessions and the redo list in the Test log.', go: 'tests' },
+    { w: 'PM', t: 'Reading quizzes: 40–60 questions on readings still under 70%.', go: 'tests' },
+    { w: 'Eve', t: 'Ethics 30 min: R41 Standards I–III again.', go: 'ethics.1' },
+  ]) },
+  { d: '2026-11-13', k: 'mock', tasks: plMock(8) },
+  { d: '2026-11-14', k: 'leave', tasks: plReview(8).concat([
+    { w: 'PM', t: 'Every reading still Shaky or Dig in: weak-spot cards, then a fresh quiz on each.', go: 'tests' },
+    { w: 'PM', t: 'Formula sheet: full read, every subject.', go: 'exam:formulas' },
+    { w: 'Eve', t: 'Ethics 30 min: R41 Standards IV–VII.', go: 'ethics.1' },
+  ]) },
+  { d: '2026-11-15', k: 'mock', tasks: plMock(9, true).concat([
+    { t: 'If you skip Mock 9: spend the day on the Test log’s Dig in sessions and the formula sheet instead.', go: 'tests' },
+  ]) },
+  { d: '2026-11-16', k: 'leave', tasks: plReview(9).concat([
+    { w: 'PM', t: 'Retest due sessions and the redo list in the Test log.', go: 'tests' },
+    { w: 'Eve', t: 'Ethics 30 min: R42 cases.', go: 'ethics.2' },
+  ]) },
+  { d: '2026-11-17', k: 'mock', tasks: plMock(10, true).concat([
+    { t: 'If you skip Mock 10: Retest due sessions in the Test log, then the formula sheet.', go: 'tests' },
+  ]) },
+  { d: '2026-11-18', k: 'leave', tasks: [
+    { w: 'AM', t: 'Light review of Mock 10: wrong answers only (2 h). Share it with Claude.', go: 'tests' },
+    { w: 'PM', t: '📝 Concise notes, third pass: Ethics, Quant, Economics.', go: 'exam:notes' },
+    { w: 'Eve', t: 'Formula sheet: Quant and Economics (30 min).', go: 'exam:formulas' },
+  ] },
+  { d: '2026-11-19', k: 'leave', tasks: [
+    { w: 'AM', t: '📝 Concise notes: FSA and Corporate Issuers.', go: 'exam:notes' },
+    { w: 'PM', t: '📝 Concise notes: Equity and Fixed Income.', go: 'exam:notes' },
+    { w: 'Eve', t: 'Formula sheet: FSA, Equity and Fixed Income (30 min).', go: 'exam:formulas' },
+  ] },
+  { d: '2026-11-20', k: 'leave', tasks: [
+    { w: 'AM', t: '📝 Concise notes: Derivatives, Alternatives, Portfolio Management.', go: 'exam:notes' },
+    { w: 'PM', t: 'Your ⭐ exam-day set, then the weak-spot cards of every Dig in reading.', go: 'exam:starred' },
+    { w: 'Eve', t: 'Ethics: full read of R40–R42.', go: 'ethics.0' },
+  ] },
+  // --- Final day and exam. ---
+  { d: '2026-11-21', k: 'final', tasks: [
+    { w: 'AM', t: 'Your ⭐ exam-day set, start to finish.', go: 'exam:starred' },
+    { w: 'PM', t: 'Formula sheet once more.', go: 'exam:formulas' },
+    { w: 'PM', t: 'Pack: admission ticket, passport, two approved calculators with fresh batteries, pencils. Check the route and reporting time.' },
+    { w: 'Eve', t: 'Stop studying by 6 PM. Short walk, light dinner, sleep by 10.' },
+  ] },
+  { d: '2026-11-22', k: 'exam', tasks: [
+    { t: 'Exam day, 9 AM to 2 PM. Light breakfast, reach early, and trust the work.' },
+  ] },
+];
 // Mastery status per topic key: 'not-started' | 'progress' | 'mastered'. Set by Claude
 // directly based on how the teach-back in chat goes — no button in the UI sets this.
 const STATUS = {
@@ -20678,6 +21108,13 @@ let openSubjects = new Set();
 
 function statusOf(key) { return STATUS[key] || 'not-started'; }
 
+// Optional widgets (test log, daily plan, countdown) draw through this: if one throws, it draws nothing,
+// the rest of the page carries on, and the error is re-thrown a moment later so the red banner and the
+// load test in tools/page-check.mjs still catch it.
+function safeHtml(fn) {
+  try { return fn(); } catch (e) { setTimeout(() => { throw e; }); return ''; }
+}
+
 function render() {
   renderCoverage();
   renderSidebar();
@@ -20716,6 +21153,27 @@ function qzFold(blocks, renderOne) {
 }
 let qzHide = true;
 try { qzHide = localStorage.getItem('ledgerHideQuiz') !== '0'; } catch (e) {}
+// --- Tuition weak-spot cards: shown by default; Hide ▴ folds one card to its title, "Hide all weak spots"
+// folds every card on this device (each can still be opened with Show ▸), "Always show" undoes that.
+// A card's wk-flip class means "the opposite of the device-wide setting". ---
+let wkHide = false;
+try { wkHide = localStorage.getItem('ledgerHideWeak') === '1'; } catch (e) {}
+function wkInit() {
+  document.body.classList.toggle('wk-hide', wkHide);
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-wk]');
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    const act = t.getAttribute('data-wk');
+    if (act === 'open') t.closest('.wk').classList.toggle('wk-flip');
+    else {
+      wkHide = act === 'hideall';
+      try { localStorage.setItem('ledgerHideWeak', wkHide ? '1' : '0'); } catch (e2) {}
+      document.body.classList.toggle('wk-hide', wkHide);
+      document.querySelectorAll('.wk.wk-flip').forEach(w => w.classList.remove('wk-flip'));
+    }
+  }, true);
+}
 function qzInit() {
   document.body.classList.toggle('qz-hide', qzHide);
   document.addEventListener('click', e => {
@@ -20755,7 +21213,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold'].forEach(id => { ids[id] = 1; });
+  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -20858,8 +21316,13 @@ function hasTuitionMiss(key) { return !!(TUITION_MISSES[key] && TUITION_MISSES[k
 // logic, and a step-by-step way to tackle that question type.
 function renderWeakCard(m) {
   return `
-    <div class="weak-card">
-      <span class="miss-tag">Tuition weak spot</span>
+    <div class="weak-card wk">
+      <div class="wk-bar"><span class="miss-tag">Tuition weak spot</span><span class="wk-mini">${escapeHtml(m.title)}</span>
+        <button type="button" class="rv-check-link wk-b-show" data-wk="open">Show ▸</button>
+        <button type="button" class="rv-check-link wk-b-hide" data-wk="open" data-new="f-weak-hide">Hide ▴</button>
+        <button type="button" class="rv-check-link wk-b-hideall" data-wk="hideall">Hide all weak spots</button>
+        <button type="button" class="rv-check-link wk-b-always" data-wk="always">Always show weak spots</button></div>
+      <div class="wk-body">
       <div class="weak-title">${escapeHtml(m.title)}</div>
       <div class="weak-sec">Questions this cost you</div>
       ${(m.questions || []).map(q => `
@@ -20874,6 +21337,7 @@ function renderWeakCard(m) {
       <div class="weak-sec">How to tackle this question type</div>
       <div class="weak-text"><ol>${(m.tackle || []).map(t => '<li>' + escapeHtml(t) + '</li>').join('')}</ol></div>
       ${m.spot ? `<div class="weak-sec">How it shows up in the exam</div><div class="weak-text">${escapeHtml(m.spot)}</div>` : ''}
+      </div>
     </div>`;
 }
 
@@ -21295,6 +21759,7 @@ function renderFlow(key) {
   const gapObj = (gaps && !Array.isArray(gaps)) ? gaps : null;
   const refs = CONTENT[key].refs || {};
   const misses = TUITION_MISSES[key] || [];
+  const tl = safeHtml(() => tlSessions().filter(x => x.topic === key)) || [];
   // Every block but a sub-heading sits in a wrapper carrying its anchor, so the exam sheet can link
   // straight to it, and a ☆ to add it to the exam-day set.
   return flow.map(s => {
@@ -21307,6 +21772,7 @@ function renderFlow(key) {
         <span class="nb-session-title">${escapeHtml(s.title)}</span>
         ${s.pages ? `<span class="nb-session-pages">${escapeHtml(s.pages)}</span>` : ''}
         ${hasN ? exViewLink('notes', key, s.module, '📝 Notes') : ''}${hasF ? exViewLink('formulas', key, s.module, '📐 Formulas') : ''}
+        ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}
         ${stBtn(stKey(key, s.module, 'section'), 'section')}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
@@ -21369,6 +21835,8 @@ function setupRefCards(el) {
 function renderDetail() {
   const el = document.getElementById('detail');
   if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
+  if (selectedKey === 'tests') { safeHtml(() => tlRender(el)); return; }
+  if (selectedKey === 'plan') { safeHtml(() => plRender(el)); return; }
   if (exIsView(selectedKey)) { renderExam(el); return; }
   const meta = FLAT.find(t => t.key === selectedKey);
   const st = statusOf(selectedKey);
@@ -21384,6 +21852,7 @@ function renderDetail() {
       ${CONTENT[selectedKey].overview}
     </div>` : ''}
     ${renderWeakIndex(selectedKey)}
+    ${safeHtml(() => tlTopicHtml(selectedKey))}
     ${(CONTENT[selectedKey] && CONTENT[selectedKey].flow) ? renderFlow(selectedKey) : `
     ${(CONTENT[selectedKey] && ((CONTENT[selectedKey].compares && CONTENT[selectedKey].compares.length) || CONTENT[selectedKey].compare || CONTENT[selectedKey].notes)) ? `
     ${(CONTENT[selectedKey].compares || (CONTENT[selectedKey].compare ? [CONTENT[selectedKey].compare] : [])).map(cmp => `
@@ -21521,7 +21990,7 @@ function cmPaintButtons() {
     b.innerHTML = sec ? '💬' + (n ? ' ' + n : '') : '💬 ' + (n ? n + ' on this reading' : 'Comment');
   });
   const fab = document.getElementById('cmFab');
-  fab.hidden = !selectedKey || exIsView(selectedKey);
+  fab.hidden = !selectedKey || exIsView(selectedKey) || selectedKey === 'tests' || selectedKey === 'plan';
 }
 // The section whose heading was last scrolled past the top third of the screen.
 function cmSectionOnScreen() {
@@ -21940,6 +22409,11 @@ function rvPaintSession(sec) {
 }
 function rvRepaint() {
   if (!selectedKey) return;
+  if (selectedKey === 'tests' || selectedKey === 'plan') {
+    { const y = window.scrollY; renderDetail(); window.scrollTo(0, y); }
+    plBar();
+    return;
+  }
   document.querySelectorAll('#detail .nb-session').forEach(sec => { if (sec.querySelector('.rv-bar')) rvPaintSession(sec); });
   const p = document.getElementById('rvTopicPanel');
   if (p) p.innerHTML = rvPanelHtml(selectedKey);
@@ -21976,6 +22450,7 @@ function rvRenderSummary() {
   document.getElementById('rvSummary').innerHTML = `
     <div class="rv-meter"><div class="rv-meter-top"><span>Sessions revised, all readings</span><b>${all.revised}/${all.n}</b></div><div class="rv-track"><div class="rv-fill" style="width:${pct(all.revised, all.n)}%"></div></div></div>
     <div class="rv-meter"><div class="rv-meter-top"><span>Sessions understood</span><b>${all.understood}/${all.n}</b></div><div class="rv-track"><div class="rv-fill teal" style="width:${pct(all.understood, all.n)}%"></div></div></div>
+    ${safeHtml(tlRvHtml)}
     <div class="cm-actions">
       ${due ? `<button type="button" class="cm-primary" data-rv="review">Review all ${due} due now</button>` : '<span class="rv-note">Nothing due for review today.</span>'}
       <span class="cm-sync" id="rvSync"></span>
@@ -22204,8 +22679,8 @@ function stToggle(k, kind) {
 
 function exRenderNav() {
   const n = stCount();
-  document.getElementById('exNav').innerHTML = '<div class="ex-nav-label">Exam-day revision</div>' + Object.keys(EX_VIEWS).map(v =>
-    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>★ ' + n + '</b>' : ''}</div>`).join('');
+  document.getElementById('exNav').innerHTML = safeHtml(plNavHtml) + '<div class="ex-nav-label">Exam-day revision</div>' + Object.keys(EX_VIEWS).map(v =>
+    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>★ ' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml);
 }
 function exGoBtn(topic, mod, anchor, label) {
   return `<button type="button" class="ex-link" data-exgo="${escapeHtml(topic + '|' + mod + '|' + (anchor || ''))}" title="Open where this came from in the notes">↗ ${escapeHtml(label || mod)}</button>`;
@@ -22373,7 +22848,7 @@ function exScrollFlash(t, center) {
 }
 function exSetBack() {
   if (!selectedKey) return;
-  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || cmReadingOf(selectedKey).replace(/:.*/, '') };
+  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || (selectedKey === 'tests' ? 'Test log' : selectedKey === 'plan' ? 'Daily plan' : cmReadingOf(selectedKey)).replace(/:.*/, '') };
   const b = document.getElementById('exBack');
   b.textContent = '← Back to ' + ex.back.label; b.hidden = false;
 }
@@ -22409,7 +22884,7 @@ function exOpenView(view, topic, mod) {
   selectedKey = view; render();
   if (!topic) return;
   const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
-  exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"]'), false);
+  exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"], .tl-row[data-sess="' + esc(topic + '|' + mod) + '"]'), false);
 }
 function exInit() {
   // ✂ Trim: the button switches a card into trim mode; in trim mode a tap on a line hides or restores it.
@@ -22483,7 +22958,7 @@ function aiSave() {
 function aiTopic() { return selectedKey && CONTENT[selectedKey] ? selectedKey : 'general'; }
 function aiContext(key) {
   if (key === 'general') return '';
-  return JSON.stringify({ notes: CONTENT[key], teachBackGaps: GAPS[key] || null, tuitionMisses: TUITION_MISSES[key] || null, examNotes: EXAM[key] || null });
+  return JSON.stringify({ notes: CONTENT[key], teachBackGaps: GAPS[key] || null, tuitionMisses: TUITION_MISSES[key] || null, tests: TESTS.filter(t => t.topic === key), examNotes: EXAM[key] || null });
 }
 function aiChat(key) {
   if (!ai.chats[key]) ai.chats[key] = { reading: key === 'general' ? '' : cmReadingOf(key), context: aiContext(key), msgs: [], at: Date.now() };
@@ -22605,6 +23080,7 @@ function cmInit() {
   });
   document.getElementById('rvOpen').onclick = () => { rvRenderSummary(); cmOverlay('rvPanel', true); cmSyncNow(); };
   document.getElementById('rvSummary').addEventListener('click', e => {
+    if (e.target.closest('[data-tlopen]')) { cmOverlay('rvPanel', false); exOpenView('tests'); return; }
     const tr = e.target.closest('tr[data-topic]');
     if (!tr) return;
     const m = FLAT.find(t => t.key === tr.getAttribute('data-topic'));
@@ -22673,14 +23149,359 @@ function cmInit() {
   cmSyncNow();
 }
 
+// --- Test log: every test I've taken, turned into what to revise next and how my accuracy is moving. Tests
+// come from TESTS, which Claude fills in question by question from the result PDFs I share.
+// Sessions: each session a detailed test asked about gets a verdict from the latest test on it: Move on
+// (all right), Quick fix (one miss of a kind a short drill fixes) or Dig in (a miss I didn't know, or two
+// or more). "Mark fixed" brings it back as a retest TL_RETEST days later; a newer test replaces it.
+// Readings and subjects: accuracy over the latest questions, against TL_TARGET.
+// Wrong questions to redo: every test with misses comes back after TL_REDO days to re-attempt them; the
+// Redone tick is a star|-|-|testredo:<id> row with on: false, so it syncs and never counts as a star. ---
+const TL_RETEST = 5;
+const TL_REDO = 3;
+const TL_PACE = 3; // minutes a question in the exam: 88 questions in two sessions of 2 h 12 min
+const TL_TARGET = 70; // % to aim for: comfortably above the usual Level II pass mark
+const TL_TOTAL = 3000; // reading-quiz questions available across all readings
+const TL_WEIGHT = { ethics: '10–15%', quant: '5–10%', econ: '5–10%', fsa: '10–15%', corp: '5–10%', equity: '10–15%', fi: '10–15%', deriv: '5–10%', alt: '5–10%', pm: '10–15%' };
+const TL_WHY = {
+  gap: { label: 'Didn’t know it', short: 'Didn’t know', fix: 'Re-study the session: read it once, then 🙈 Blurt it before looking again.' },
+  flip: { label: 'Knew it, went the wrong way', short: 'Wrong way', fix: 'Don’t re-read. Write the rule as one line with its direction (X ↑ → Y ↓) and say it out loud. In the exam, underline least / most, rises / falls, bid / ask before answering.' },
+  calc: { label: 'Slip in the working', short: 'Slip', fix: 'Redo three to five of the session’s worked examples, writing every step, and check the answer makes sense before picking.' },
+  guess: { label: 'Right, but a guess', short: 'Guessed', fix: 'Count it as a miss: on another day it goes the other way. Revise it like “didn’t know it”.' },
+};
+const TL_STATE = { due: 'Retest due', dig: 'Dig in', fix: 'Quick fix', wait: 'Fixed', on: 'Move on' };
+const TL_BAND = { on: 'Move on', fix: 'Shaky', dig: 'Dig in', few: 'Too few yet' };
+const TL_DO = {
+  due: 'Answer a fresh question on it: a new quiz, the module quiz folded in the notes, or 🤖 “quiz me”.',
+  dig: 'Re-study the session and its weak-spot cards, blurt it, then tick Mark fixed.',
+  fix: 'One short pass on the weak-spot card at the top of the session, then tick Mark fixed.',
+};
+function tlRedoKey(id) { return 'star|-|-|testredo:' + id; }
+function tlMiss(q) { return !q.ok || q.why === 'guess'; }
+function tlFixKey(topic, mod) { return 'star|' + topic + '|' + mod + '|testfix'; }
+function tlTopicName(topic) { const m = FLAT.find(t => t.key === topic); return m ? m.name : topic; }
+function tlShort(topic) { return tlTopicName(topic).replace(/^Reading (\d+): /, 'R$1 · '); }
+function tlSessTitle(topic, mod) { const s = rvSessions(topic).find(x => x.module === mod); return s ? s.title : ''; }
+function tlDate(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' }); }
+// Every logged test, oldest first, as { id, topic, date, mins, qs: [{ n, topic, mod, ok, why, what }] }.
+function tlAll() {
+  return TESTS.map(t => ({ id: t.id, name: t.name, topic: t.topic, date: t.date, mins: t.mins,
+    qs: t.qs.map((q, i) => Object.assign({ n: i + 1 }, q, { topic: q.topic || t.topic })) }))
+    .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+}
+function tlQs(tests) { return tests.reduce((a, t) => a.concat(t.qs), []); }
+function tlAcc(qs) { return qs.length ? Math.round(100 * qs.filter(q => q.ok).length / qs.length) : null; }
+function tlBand(qs) { const a = tlAcc(qs); return qs.length < 5 ? 'few' : a >= 75 ? 'on' : a >= 60 ? 'fix' : 'dig'; }
+// One entry per session a detailed test asked about, judged on the latest of those tests.
+function tlSessions() {
+  const by = {}, today = rvToday();
+  tlAll().forEach(t => {
+    const mods = {};
+    t.qs.forEach(q => { if (q.mod) (mods[q.topic + '|' + q.mod] = mods[q.topic + '|' + q.mod] || []).push(q); });
+    Object.keys(mods).forEach(k => { const p = k.split('|'); by[k] = { topic: p[0], mod: p[1], test: t, qs: mods[k] }; });
+  });
+  return Object.keys(by).map(k => {
+    const s = by[k], miss = s.qs.filter(tlMiss), f = pgGet(tlFixKey(s.topic, s.mod));
+    s.got = s.qs.filter(q => !tlMiss(q)).length;
+    s.verdict = !miss.length ? 'on' : miss.some(q => q.why === 'gap') || miss.length > 1 ? 'dig' : 'fix';
+    s.fixed = f && f.at && f.test === s.test.id ? f.at : '';
+    s.retest = s.fixed ? rvAddDays(s.fixed, TL_RETEST) : '';
+    s.state = s.verdict === 'on' ? 'on' : !s.fixed ? s.verdict : s.retest <= today ? 'due' : 'wait';
+    return s;
+  });
+}
+function tlNeedsWork(s) { return s.state === 'due' || s.state === 'dig' || s.state === 'fix'; }
+// Readings: accuracy on their latest 30 questions decides the band.
+function tlReadings() {
+  const all = tlAll(), out = {};
+  all.forEach(t => t.qs.forEach(q => { (out[q.topic] = out[q.topic] || []).push(q); }));
+  return Object.keys(out).map(topic => {
+    const qs = out[topic], recent = qs.slice(-30);
+    return { topic, n: qs.length, acc: tlAcc(qs), recentAcc: tlAcc(recent), band: tlBand(recent), quizzes: all.filter(t => t.topic === topic).length };
+  });
+}
+// Tests with wrong answers, due to re-attempt TL_REDO days after the test until ticked "Redone".
+function tlRedos() {
+  const today = rvToday();
+  return tlAll().filter(t => t.qs.some(tlMiss) && !(pgGet(tlRedoKey(t.id)) || {}).at)
+    .map(t => ({ t, due: rvAddDays(t.date, TL_REDO), misses: t.qs.filter(tlMiss) }))
+    .map(r => Object.assign(r, { now: r.due <= today }));
+}
+function tlNavHtml() {
+  const n = tlSessions().filter(tlNeedsWork).length + tlRedos().filter(r => r.now).length;
+  return `<div class="ex-nav-label">Tests</div><div class="topic-row${selectedKey === 'tests' ? ' active' : ''}" data-exview="tests" data-new="f-test-log" role="button" tabindex="0"><span>🧪</span><span style="flex:1;">Test log</span>${n ? '<b>' + n + ' to do</b>' : ''}</div>`;
+}
+// The chip on a session in the notes: how it went on the latest test, and what to do. Tap → the test log.
+function tlChipHtml(s) {
+  if (!s) return '';
+  const lab = s.state === 'wait' ? 'Fixed · retest ' + rvFmt(s.retest) : TL_STATE[s.state];
+  return `<button type="button" class="tl-chip tl-${s.state}" data-exview="${escapeHtml('tests|' + s.topic + '|' + s.mod)}" title="Latest test on this session: ${s.got} of ${s.qs.length} right on ${escapeHtml(s.test.id)}. Tap for the test log.">🧪 ${s.got}/${s.qs.length} · ${lab}</button>`;
+}
+function tlTopicHtml(topic) {
+  const r = tlReadings().find(x => x.topic === topic);
+  const ts = tlAll().filter(t => t.qs.some(q => q.topic === topic));
+  const work = tlSessions().filter(s => s.topic === topic && tlNeedsWork(s)).map(s => s.mod).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  return `<section class="block"><div class="block-label">🧪 Tests on this reading</div>
+    ${r ? `<div class="tl-line"><b>${r.n} questions · ${r.acc}% right</b>${r.n > 30 ? ` · latest 30: ${r.recentAcc}%` : ''} <span class="tl-badge tl-${r.band}">${TL_BAND[r.band]}</span></div>` : '<div class="tl-line">No tests logged on this reading yet. Share a result PDF with Claude to add one.</div>'}
+    ${ts.slice(-5).reverse().map(t => { const qs = t.qs.filter(q => q.topic === topic); return `<div class="tl-line">${escapeHtml(t.id)} · ${tlDate(t.date)} · ${qs.filter(q => q.ok).length}/${qs.length} right</div>`; }).join('')}
+    ${work.length ? `<div class="tl-line">Sessions to work on: <b>${work.map(escapeHtml).join(', ')}</b>. Look for the 🧪 chip on each session below.</div>` : ''}
+    <div class="tl-row-acts" style="margin-top:6px"><button type="button" class="ex-link" data-exview="tests">Open the test log</button></div></section>`;
+}
+function tlRvHtml() {
+  const qs = tlQs(tlAll());
+  if (!qs.length) return '';
+  const ss = tlSessions(), due = ss.filter(s => s.state === 'due').length + tlRedos().filter(r => r.now).length, todo = ss.filter(s => s.state === 'dig' || s.state === 'fix').length;
+  return `<div class="tl-rv"><span>🧪 ${qs.length} questions · latest 50: <b>${tlAcc(qs.slice(-50))}%</b>${todo ? ' · ' + todo + ' session' + (todo > 1 ? 's' : '') + ' to fix' : ''}${due ? ' · ' + due + ' to redo or retest' : ''}</span><button type="button" class="cm-ghost" data-tlopen="1">Open test log</button></div>`;
+}
+function tlQHtml(q, mod) {
+  const bad = tlMiss(q), why = q.why && TL_WHY[q.why] ? TL_WHY[q.why].label : '';
+  return `<li class="${bad ? 'no' : 'ok'}"><span class="tl-mark">${bad ? '✗' : '✓'}</span>Q${q.n}${mod && q.mod ? ' · ' + escapeHtml(q.mod) : ''}${q.what ? ' ' + escapeHtml(q.what) : ''}${bad && why ? ` <span class="why">· ${why}</span>` : ''}</li>`;
+}
+function tlRowHtml(s) {
+  const lab = s.state === 'wait' ? 'Fixed · retest from ' + rvFmt(s.retest) : TL_STATE[s.state];
+  return `<div class="tl-row tl-${s.state}" data-sess="${escapeHtml(s.topic + '|' + s.mod)}">
+    <div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(s.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(s.topic, s.mod))}</span><span class="tl-badge tl-${s.state}">${lab}</span></div>
+    <div class="tl-row-meta">${escapeHtml(tlTopicName(s.topic))} · ${s.got}/${s.qs.length} right on ${escapeHtml(s.test.id)} (${tlDate(s.test.date)})</div>
+    <ul class="tl-qs">${s.qs.map(q => tlQHtml(q)).join('')}</ul>
+    ${TL_DO[s.state] ? `<div class="tl-row-do"><b>Next:</b> ${TL_DO[s.state]}</div>` : ''}
+    <div class="tl-row-acts">${exGoBtn(s.topic, s.mod, '', 'Open ' + s.mod)}${s.verdict !== 'on' ? `<button type="button" class="rv-btn${s.fixed ? ' on' : ''}" data-tlfix="${escapeHtml(s.topic + '|' + s.mod + '|' + s.test.id)}">${s.fixed ? '✓ Fixed ' + rvFmt(s.fixed) : 'Mark fixed'}</button>` : ''}</div>
+  </div>`;
+}
+function tlRedoHtml(r) {
+  return `<div class="tl-row ${r.now ? 'tl-due' : 'tl-wait'}">
+    <div class="tl-row-top"><span class="tl-row-title">${escapeHtml(r.t.id)} · ${escapeHtml(tlShort(r.t.topic))}</span><span class="tl-badge ${r.now ? 'tl-due' : 'tl-wait'}">${r.now ? 'Redo now' : 'Redo from ' + rvFmt(r.due)}</span></div>
+    <div class="tl-row-meta">Taken ${tlDate(r.t.date)} · re-attempt ${r.misses.length === 1 ? 'question' : 'questions'} <b>${r.misses.map(q => 'Q' + q.n).join(', ')}</b> without looking at the old answer.</div>
+    <div class="tl-row-acts">${exGoBtn(r.t.topic, '', '', 'Open ' + tlShort(r.t.topic).replace(/ ·.*/, ''))}<button type="button" class="rv-btn" data-tlredo="${escapeHtml(r.t.id)}">Redone ✓</button></div>
+  </div>`;
+}
+function tlTestHtml(t) {
+  const n = t.qs.length, got = t.qs.filter(q => q.ok).length, pace = t.mins / n;
+  const ago = Math.round((new Date(rvToday() + 'T12:00:00') - new Date(t.date + 'T12:00:00')) / 864e5);
+  return `<div class="tl-test">
+    <div class="tl-test-top"><b>${escapeHtml(t.id)}</b><span class="tl-row-meta" style="margin:0">${escapeHtml(t.name || tlShort(t.topic))}</span><span class="tl-score">${got}/${n} · ${Math.round(100 * got / n)}%</span></div>
+    <div class="tl-row-meta">${tlDate(t.date)}${t.mins ? ` · ${pace.toFixed(1)} min a question (exam pace ${TL_PACE})` : ''}</div>
+    <div class="tl-dots">${t.qs.map(q => `<span class="tl-dot ${!q.ok ? 'no' : q.why === 'guess' ? 'guess' : 'ok'}" title="Q${q.n}${q.mod ? ' · ' + escapeHtml(q.mod) : ''}${q.what ? ' · ' + escapeHtml(q.what) : ''}${q.why ? ' · ' + TL_WHY[q.why].short : ''}">${q.n}</span>`).join('')}</div>
+    ${ago > 30 ? `<div class="rv-note">Taken ${ago} days ago. A fresh attempt now shows what you’ve kept.</div>` : ''}
+    <details><summary>Question by question</summary><ul class="tl-qs">${t.qs.map(q => tlQHtml(q, true)).join('')}</ul></details>
+  </div>`;
+}
+// Accuracy per test over time: a dot per test, the rolling accuracy of the last five tests as the line,
+// and the target as a dashed reference line. One series, so no legend; hover a dot for its test.
+function tlTrendSvg(tests) {
+  const ts = tests.slice(-40), W = 640, H = 190, L = 36, R = 76, T = 12, B = 22, n = ts.length;
+  const x = i => L + (n === 1 ? (W - L - R) / 2 : i * (W - L - R) / (n - 1)), y = v => T + (100 - v) * (H - T - B) / 100;
+  const roll = ts.map((t, i) => tlAcc(tlQs(ts.slice(Math.max(0, i - 4), i + 1))));
+  const grid = [0, 25, 50, 75, 100].map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" class="tl-grid"/><text x="${L - 6}" y="${y(v) + 3.5}" class="tl-axis" text-anchor="end">${v}%</text>`).join('');
+  const target = `<line x1="${L}" x2="${W - R}" y1="${y(TL_TARGET)}" y2="${y(TL_TARGET)}" class="tl-target"/><text x="${W - R + 4}" y="${y(TL_TARGET) + 3.5}" class="tl-axis">Target ${TL_TARGET}%</text>`;
+  const line = n > 1 ? `<polyline points="${roll.map((v, i) => x(i) + ',' + y(v)).join(' ')}" class="tl-line-roll"/>` : '';
+  const dots = ts.map((t, i) => { const a = tlAcc(t.qs); return `<g class="tl-pt"><circle cx="${x(i)}" cy="${y(a)}" r="4.5" class="tl-pt-dot"/><circle cx="${x(i)}" cy="${y(a)}" r="11" class="tl-pt-hit"><title>${escapeHtml(t.id)} · ${tlShort(t.topic)} · ${tlDate(t.date)}\n${t.qs.filter(q => q.ok).length}/${t.qs.length} right (${a}%) · 5-test average ${roll[i]}%</title></circle></g>`; }).join('');
+  const last = n > 1 ? `<text x="${x(n - 1) + 8}" y="${y(roll[n - 1]) - 8}" class="tl-axis tl-axis-strong">${roll[n - 1]}%</text>` : '';
+  return `<svg class="tl-trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy per test over time, with a five-test rolling average and the ${TL_TARGET}% target">${grid}${target}${line}${dots}${last}</svg>`;
+}
+function tlAccuracyHtml() {
+  const tests = tlAll(), qs = tlQs(tests);
+  if (!qs.length) return '';
+  const last = qs.slice(-50), prev = qs.slice(-100, -50), d = prev.length >= 20 ? tlAcc(last) - tlAcc(prev) : null;
+  const timed = tests.filter(t => t.mins), tq = tlQs(timed).length, pace = tq ? timed.reduce((a, t) => a + t.mins, 0) / tq : 0;
+  const reads = tlReadings();
+  const subs = SUBJECTS.map(sj => {
+    const sq = qs.filter(q => q.topic.split('.')[0] === sj.id), recent = sq.slice(-50);
+    return { sj, n: sq.length, acc: tlAcc(recent), band: tlBand(recent), reads: sj.topics.map((t, i) => sj.id + '.' + i) };
+  });
+  const tested = subs.filter(x => x.n).sort((a, b) => a.acc - b.acc), untested = subs.filter(x => !x.n);
+  const kpi = (lab, val, sub) => `<div class="tl-kpi"><div class="tl-kpi-lab">${lab}</div><div class="tl-kpi-val">${val}</div>${sub ? `<div class="tl-kpi-sub">${sub}</div>` : ''}</div>`;
+  const bar = (acc, band) => `<span class="tl-bar"><span class="tl-bar-fill tl-${band}" style="width:${acc}%"></span><span class="tl-bar-tgt" style="left:${TL_TARGET}%"></span></span>`;
+  const readRow = topic => {
+    const r = reads.find(x => x.topic === topic);
+    return `<div class="tl-sub-read"><button type="button" class="tl-read-name" data-exgo="${topic}||">${escapeHtml(tlShort(topic))}</button>${r ? `${bar(r.recentAcc, r.band)}<span class="tl-sub-pct">${r.recentAcc}%</span><span class="tl-sub-n">${r.n} Q</span><span class="tl-badge tl-${r.band}">${TL_BAND[r.band]}</span>` : '<span class="tl-sub-none">Not tested yet</span>'}</div>`;
+  };
+  return `<section class="block"><div class="block-label">Accuracy</div>
+    <div class="tl-kpis">
+      ${kpi('Questions logged', qs.length.toLocaleString(), 'of about ' + TL_TOTAL.toLocaleString() + ' reading-quiz questions')}
+      ${kpi('Accuracy, all', tlAcc(qs) + '%', 'target ' + TL_TARGET + '%')}
+      ${kpi('Latest 50 questions', tlAcc(last) + '%', d == null ? 'trend shows after 70 questions' : (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d) + ' points on the 50 before')}
+      ${kpi('Pace', tq ? pace.toFixed(1) + ' min' : '—', 'a question · exam ' + TL_PACE + ' min')}
+    </div>
+    ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Each dot is a test; the line is the average of the last five. Hover a dot for its test.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
+    <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
+    ${tested.map(x => `<details class="tl-sub"><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
+    ${untested.length ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
+    <div class="cm-hint">Bands use your latest questions: 75% or more is Move on, 60–75% Shaky, under 60% Dig in. Fewer than 5 questions is too few to judge. Tap a subject to see its readings.</div>
+  </section>`;
+}
+function tlRender(el) {
+  const order = { due: 0, dig: 1, fix: 2, wait: 3, on: 4 }, fl = t => FLAT.findIndex(x => x.key === t);
+  const all = tlAll(), qs = tlQs(all), missed = qs.filter(tlMiss);
+  const ss = tlSessions().sort((a, b) => order[a.state] - order[b.state] || fl(a.topic) - fl(b.topic) ||
+    a.mod.localeCompare(b.mod, undefined, { numeric: true }));
+  const todo = ss.filter(s => s.state !== 'on'), done = ss.filter(s => s.state === 'on');
+  const redos = tlRedos().sort((a, b) => (a.due < b.due ? -1 : 1)), weak = tlReadings().filter(r => r.band === 'dig').sort((a, b) => a.recentAcc - b.recentAcc);
+  const kinds = Object.keys(TL_WHY).map(k => ({ k, n: missed.filter(q => (q.why || 'gap') === k).length, recent: missed.slice(-20).filter(q => (q.why || 'gap') === k).length }))
+    .filter(x => x.n).sort((a, b) => b.n - a.n);
+  const newest = all.slice().reverse();
+  el.innerHTML = `
+    <div class="crumb">Tests</div>
+    <h2 class="topic-title">🧪 Test log</h2>
+    <p class="topic-desc">Every quiz and mock you’ve shared, turned into what to revise next and how your accuracy is moving. Claude logs each one question by question from the result PDF.</p>
+    ${!all.length ? '<div class="rv-note">No tests logged yet.</div>' : ''}
+    ${tlAccuracyHtml()}
+    ${all.length ? `<section class="block"><div class="block-label">Revise these first</div>
+      ${redos.filter(r => r.now).map(tlRedoHtml).join('')}
+      ${weak.length ? `<div class="tl-row tl-dig"><div class="tl-row-top"><span class="tl-row-title">Readings under 60% on your latest questions</span><span class="tl-badge tl-dig">Dig in</span></div>
+        <div class="tl-row-acts" style="margin-top:6px">${weak.map(r => exGoBtn(r.topic, '', '', tlShort(r.topic).replace(/ ·.*/, '') + ' · ' + r.recentAcc + '%')).join('')}</div>
+        <div class="tl-row-do"><b>Next:</b> re-read the reading’s weak-spot cards and Concise notes, then a fresh quiz on it.</div></div>` : ''}
+      ${todo.map(tlRowHtml).join('')}
+      ${!todo.length && !weak.length && !redos.some(r => r.now) ? '<div class="rv-note">Nothing to fix right now.</div>' : ''}
+      ${redos.some(r => !r.now) ? `<details class="tl-done"><summary>Wrong questions coming up to redo · ${redos.filter(r => !r.now).length}</summary>${redos.filter(r => !r.now).map(tlRedoHtml).join('')}</details>` : ''}
+      ${done.length ? `<details class="tl-done"><summary>Move on · ${done.length} session${done.length > 1 ? 's' : ''} all right</summary>${done.map(tlRowHtml).join('')}</details>` : ''}
+    </section>` : ''}
+    ${kinds.length ? `<section class="block"><div class="block-label">Your mistakes, by kind · ${missed.length} of ${qs.length} questions</div>
+      <div class="deepdive-hint">The kind of mistake decides how to revise it, not just where. “Latest 20” shows whether a habit is fading.</div>
+      ${kinds.map((x, i) => `<div class="tl-kind${i === 0 ? ' top' : ''}"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b>${x.n === missed.length ? ' · every miss so far' : i === 0 ? ' · your most common' : ''}${missed.length > 20 ? ` · ${x.recent} of your latest 20 misses` : ''}<div class="tl-kind-fix">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
+    </section>` : ''}
+    ${all.length ? `<section class="block"><div class="block-label">Tests · newest first · ${all.length}</div>
+      ${newest.slice(0, 8).map(tlTestHtml).join('')}
+      ${newest.length > 8 ? `<details class="tl-done"><summary>Older tests · ${newest.length - 8}</summary>${newest.slice(8).map(tlTestHtml).join('')}</details>` : ''}
+    </section>` : ''}
+    <div class="cm-hint">To add a test: put the result PDF in Written Notes (a Test Result folder, or Mocks) and ask Claude to log it. Each wrong answer also becomes a rose weak-spot card in its session.</div>`;
+}
+function tlRerender() { const y = window.scrollY; render(); window.scrollTo(0, y); }
+function tlInit() {
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('[data-tlfix],[data-tlredo]');
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    if (b.hasAttribute('data-tlfix')) {
+      const p = b.getAttribute('data-tlfix').split('|'), k = tlFixKey(p[0], p[1]), cur = pgGet(k);
+      const on = !(cur && cur.at && cur.test === p[2]);
+      pgSet(k, { reading: cmReadingOf(p[0]), session: rvSessionLabel(p[0], p[1]), item: 'Test fixed' }, on ? { on: false, at: rvToday(), test: p[2] } : { on: false });
+    } else {
+      const id = b.getAttribute('data-tlredo'), t = TESTS.find(x => x.id === id);
+      pgSet(tlRedoKey(id), { reading: t ? cmReadingOf(t.topic) : '', session: '', item: 'Test redone: ' + id }, { on: false, at: rvToday() });
+    }
+    tlRerender();
+  }, true);
+}
+
+// --- Countdown and daily plan: the bar at the top counts down to EXAM_AT and shows today's tasks done;
+// 📅 Daily plan lists today's tasks (with anything left from earlier days), the mocks done, and the whole
+// schedule. A tick is a star| row with on: false, so it syncs with progress and never counts as a star. ---
+const PL_KIND = { work: 'Office day', full: 'Full study day', leave: 'Leave day', mock: 'Mock day', final: 'Last day', exam: 'Exam' };
+const PL_SLOTS = {
+  work: 'Before office 5:40–8:30 AM (AM) · questions on your phone in the lunch break · after office 8–10:30 PM (PM). About 6 hours.',
+  full: 'Weekend: aim for 8 hours. 8–11 AM, 11:30 AM–2:30 PM, 4–6 PM, and a light hour in the evening.',
+  leave: 'Leave day: about 9 hours. 7:30–11 AM, 12–3 PM, 4–6:30 PM, 8–9 PM light.',
+  mock: 'Mock day: sit it like the exam. Session 1 at 9:00, a 30-minute break, then session 2.',
+  final: 'Light day. Review only, nothing new, and stop by 6 PM.',
+  exam: 'Good luck.',
+};
+function plKey(d, i) { return 'star|-|-|plan:' + d + '#' + i; }
+function plDone(d, i) { const v = pgGet(plKey(d, i)); return !!(v && v.done); }
+function plCount(day) { return { n: day.tasks.length, done: day.tasks.filter((t, i) => plDone(day.d, i)).length }; }
+function plDayName(iso, long) { return new Date(iso + 'T12:00:00').toLocaleDateString([], long ? { weekday: 'long', day: 'numeric', month: 'long' } : { weekday: 'short', day: 'numeric', month: 'short' }); }
+function plToday() { const t = rvToday(); return PLAN.find(x => x.d === t) || null; }
+function plLeft() {
+  const ms = new Date(EXAM_AT) - Date.now();
+  if (ms <= 0) return null;
+  const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), p = n => String(n).padStart(2, '0');
+  return { d, txt: d + (d === 1 ? ' day ' : ' days ') + p(Math.floor(s % 86400 / 3600)) + ':' + p(Math.floor(s % 3600 / 60)) + ':' + p(s % 60) };
+}
+function plBar() {
+  const b = document.getElementById('cdBar');
+  if (!b) return;
+  const left = plLeft(), day = plToday(), c = day && plCount(day);
+  const leave = Math.round((new Date(PL_LEAVE + 'T12:00:00') - new Date(rvToday() + 'T12:00:00')) / 864e5);
+  b.innerHTML = left
+    ? `<span>⏳</span><span class="cd-time">${left.txt}</span><span class="cd-what">to CFA Level II · ${plDayName(EXAM_AT.slice(0, 10))}, 9 AM–2 PM${leave > 0 ? ' · leave starts in ' + leave + (leave === 1 ? ' day' : ' days') : ''}</span>${c ? `<span class="cd-today">📅 Today ${c.done}/${c.n}</span>` : ''}`
+    : '<span>🎯</span><span class="cd-time">Exam day</span><span class="cd-what">Trust the work.</span>';
+}
+function plGo(go) {
+  if (!go) return '';
+  if (go === 'tests' || /^exam:/.test(go)) {
+    const lab = go === 'tests' ? '🧪 Test log' : EX_ICON[go] + ' ' + EX_VIEWS[go];
+    return `<button type="button" class="ex-link" data-exview="${go}">${escapeHtml(lab)}</button>`;
+  }
+  const p = go.split('|'), m = FLAT.find(t => t.key === p[0]);
+  return m ? exGoBtn(p[0], p[1] || '', '', p[1] || (/Reading (\d+)/.exec(m.name) || [, ''])[1].replace(/^/, 'R')) : '';
+}
+function plTaskHtml(d, t, i, from) {
+  const done = plDone(d, i);
+  return `<li class="pl-task${done ? ' done' : ''}"><button type="button" class="pl-tick" data-pltick="${d}#${i}" aria-pressed="${done}" aria-label="Done">${done ? '✓' : ''}</button>` +
+    `<span class="pl-text">${from ? `<span class="pl-from">from ${plDayName(from)}</span>` : ''}${t.w ? `<span class="pl-when">${t.w}</span>` : ''}${escapeHtml(t.t)}</span>${plGo(t.go)}</li>`;
+}
+function plNavHtml() {
+  const day = plToday(), c = day && plCount(day);
+  return `<div class="ex-nav-label">Countdown</div><div class="topic-row${selectedKey === 'plan' ? ' active' : ''}" data-exview="plan" data-new="f-plan" role="button" tabindex="0"><span>📅</span><span style="flex:1;">Daily plan</span>${c ? '<b>' + c.done + '/' + c.n + '</b>' : ''}</div>`;
+}
+function plDayHtml(day, today) {
+  const c = plCount(day), cls = day.d === today ? ' today' : day.d < today ? ' past' : '';
+  return `<details class="pl-day${cls}"${day.d === today ? ' open' : ''}><summary><span class="pl-day-date">${plDayName(day.d)}</span><span class="pl-kind ${day.k}">${PL_KIND[day.k]}</span>` +
+    `<span class="pl-day-sum">${escapeHtml(day.tasks.map(t => t.t.replace(/(:|\.\s|\.$).*$/, '')).join(' · '))}</span><span class="pl-day-n${c.done === c.n ? ' all' : ''}">${c.done}/${c.n}</span></summary>` +
+    `<ul class="pl-tasks">${day.tasks.map((t, i) => plTaskHtml(day.d, t, i)).join('')}</ul></details>`;
+}
+function plRender(el) {
+  const today = rvToday(), day = plToday(), left = plLeft();
+  const carry = [];
+  PLAN.filter(x => x.d < today).forEach(x => x.tasks.forEach((t, i) => { if (!plDone(x.d, i) && x.k !== 'exam') carry.push({ x, t, i }); }));
+  const mocks = [];
+  PLAN.forEach(x => x.tasks.forEach((t, i) => { if (t.mock) mocks.push({ n: t.mock, d: x.d, done: plDone(x.d, i), opt: /optional/.test(t.t) }); }));
+  const next = PLAN.filter(x => x.d > today).slice(0, 2);
+  const phases = [
+    ['First pass · every reading revised and 20 questions on each, before Mock 1', x => x.d < PL_MOCK1],
+    ['Mocks · Mock 1 on 24 Oct, a second pass on office days to 31 Oct, then a mock every other day of leave; the day after each, review and a second pass', x => x.d >= PL_MOCK1 && x.k !== 'final' && x.k !== 'exam'],
+    ['Final day and exam', x => x.k === 'final' || x.k === 'exam'],
+  ];
+  el.innerHTML = `
+    <div class="crumb">Countdown</div>
+    <h2 class="topic-title">📅 Daily plan</h2>
+    <p class="topic-desc">${left ? '<b>' + left.d + ' days</b> to the exam on ' + plDayName(EXAM_AT.slice(0, 10), true) + '. ' : ''}Until Friday 23 October: every reading through its 📝 Concise notes and weak-spot cards, with 20 questions each. Mock 1 is on Saturday 24 October, your day off. Office days to Saturday 31 October take each subject through a second pass. From 1 November, the first day of leave, you sit a mock every other day, each followed by a day of review and a second pass. Tick each task as you finish it; anything left over shows up on the next day.</p>
+    ${day ? `<div class="pl-today">
+      <div class="pl-today-head"><span class="pl-today-date">Today · ${plDayName(day.d, true)}</span><span class="pl-kind ${day.k}">${PL_KIND[day.k]}</span></div>
+      <div class="pl-slots">${PL_SLOTS[day.k]}</div>
+      <ul class="pl-tasks">${day.tasks.map((t, i) => plTaskHtml(day.d, t, i)).join('')}</ul>
+    </div>` : '<div class="rv-note">No tasks planned for today.</div>'}
+    ${carry.length ? `<section class="block"><div class="block-label" style="color:var(--rose);">Left over from earlier days · ${carry.length}</div>
+      <div class="deepdive-hint">Fit these in where you can, or tick them off if you covered them another way.</div>
+      <ul class="pl-tasks">${carry.map(c => plTaskHtml(c.x.d, c.t, c.i, c.x.d)).join('')}</ul></section>` : ''}
+    <section class="block"><div class="block-label">Mocks · ${mocks.filter(m => m.done).length} of ${mocks.filter(m => !m.opt).length} done (+${mocks.filter(m => m.opt).length} optional)</div>
+      <div class="pl-mocks">${mocks.map(m => `<span class="pl-mock${m.done ? ' done' : ''}${m.opt ? ' opt' : ''}" title="${plDayName(m.d)}${m.opt ? ' · optional' : ''}">M${m.n} · ${plDayName(m.d).replace(/^\w+,?\s*/, '')}</span>`).join('')}</div>
+      <div class="cm-hint">A mock counts as done when you tick its session 2. Send each result to Claude so it goes into the 🧪 Test log.</div></section>
+    ${next.length ? `<section class="block"><div class="block-label">Coming up</div>${next.map(x => plDayHtml(x, today)).join('')}</section>` : ''}
+    <section class="block"><div class="block-label">Whole plan</div>
+      ${phases.map(([lab, f]) => `<div class="ex-label">${lab}</div>${PLAN.filter(f).map(x => plDayHtml(x, today)).join('')}`).join('')}
+    </section>`;
+}
+function plInit() {
+  safeHtml(plBar);
+  setInterval(() => safeHtml(plBar), 1000);
+  document.getElementById('cdBar').onclick = () => exOpenView('plan');
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('[data-pltick]');
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const p = b.getAttribute('data-pltick').split('#'), day = PLAN.find(x => x.d === p[0]), t = day && day.tasks[+p[1]];
+    if (!t) return;
+    pgSet(plKey(p[0], p[1]), { reading: '', session: plDayName(p[0]), item: 'Plan: ' + t.t.slice(0, 80) }, plDone(p[0], p[1]) ? { on: false } : { on: false, done: 1 });
+    const y = window.scrollY, open = [...document.querySelectorAll('#detail details.pl-day')].map(d => d.open);
+    render();
+    document.querySelectorAll('#detail details.pl-day').forEach((d, i) => { if (open[i] != null) d.open = open[i]; });
+    window.scrollTo(0, y);
+    plBar();
+  }, true);
+}
+
 document.getElementById('search').addEventListener('input', renderSidebar);
 openSubjects.add('fsa');
 pgLoad();
 render();
+
 cmInit();
 exInit();
+tlInit();
+plInit();
 nwInit();
 qzInit();
+wkInit();
 aiInit();
 </script>
 </body>
