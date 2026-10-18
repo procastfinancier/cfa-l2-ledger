@@ -832,6 +832,9 @@ window.addEventListener('error', function (e) {
     .tl-sub-name { flex-basis: 100%; }
     .tl-read-name { flex-basis: 100%; }
   }
+  .tl-filter { margin: 0 0 8px; }
+  .tl-filter-reads { padding-left: 10px; border-left: 2px solid var(--line); margin-bottom: 16px; }
+  .tl-f-n { font-family: var(--mono); font-size: 10.5px; opacity: 0.7; }
   .tl-chip { font-family: var(--mono); font-size: 10.5px; line-height: 1; padding: 3px 7px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer; flex-shrink: 0; }
   .tl-chip.tl-dig, .tl-badge.tl-dig, .tl-chip.tl-due, .tl-badge.tl-due { border-color: var(--rose); background: var(--rose-bg); color: var(--rose); }
   .tl-chip.tl-fix, .tl-badge.tl-fix { border-color: var(--amber); background: var(--amber-bg); color: var(--amber); }
@@ -21407,7 +21410,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide'].forEach(id => { ids[id] = 1; });
+  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -23527,15 +23530,41 @@ function tlTrendSvg(tests) {
   const last = n > 1 ? `<text x="${x(n - 1) + 8}" y="${y(roll[n - 1]) - 8}" class="tl-axis tl-axis-strong">${roll[n - 1]}%</text>` : '';
   return `<svg class="tl-trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy per test over time, with a five-test rolling average and the ${TL_TARGET}% target">${grid}${target}${line}${dots}${last}</svg>`;
 }
+// Filter on the test log: a subject, then optionally one of its readings. Every section follows it; a mock's
+// questions are filtered one by one, by the reading each one tests. Kept on this device only.
+const tlf = { subj: 'all', topic: 'all' };
+try { Object.assign(tlf, JSON.parse(localStorage.getItem('ledgerTlFilter') || '{}')); } catch (e) {}
+function tlMatch(topic) {
+  return (tlf.subj === 'all' || String(topic).split('.')[0] === tlf.subj) && (tlf.topic === 'all' || topic === tlf.topic);
+}
+function tlView() {
+  return tlAll().map(t => Object.assign({}, t, { qs: t.qs.filter(q => tlMatch(q.topic)) })).filter(t => t.qs.length);
+}
+function tlFilterHtml() {
+  const qs = tlQs(tlAll()), count = f => qs.filter(f).length;
+  const subs = SUBJECTS.filter(sj => count(q => q.topic.split('.')[0] === sj.id));
+  if (!subs.length) return '';
+  const chip = (attr, on, label, n) => `<button type="button" class="ex-chip${on ? ' on' : ''}" data-tlf="${attr}">${escapeHtml(label)}${n != null ? ` <span class="tl-f-n">${n}</span>` : ''}</button>`;
+  const sj = SUBJECTS.find(x => x.id === tlf.subj);
+  const reads = sj ? sj.topics.map((t, i) => sj.id + '.' + i).filter(k => count(q => q.topic === k)) : [];
+  return `<div class="ex-tools tl-filter" data-new="f-test-filter">
+      ${chip('subj|all', tlf.subj === 'all', 'All subjects', qs.length)}
+      ${subs.map(x => chip('subj|' + x.id, tlf.subj === x.id, x.name, count(q => q.topic.split('.')[0] === x.id))).join('')}
+    </div>
+    ${reads.length > 1 ? `<div class="ex-tools tl-filter tl-filter-reads">
+      ${chip('topic|all', tlf.topic === 'all', 'All of ' + sj.name, null)}
+      ${reads.map(k => chip('topic|' + k, tlf.topic === k, tlShort(k).replace(/ ·.*/, ''), count(q => q.topic === k))).join('')}
+    </div>` : ''}`;
+}
 function tlAccuracyHtml() {
-  const tests = tlAll(), qs = tlQs(tests);
+  const tests = tlView(), qs = tlQs(tests);
   if (!qs.length) return '';
   const last = qs.slice(-50), prev = qs.slice(-100, -50), d = prev.length >= 20 ? tlAcc(last) - tlAcc(prev) : null;
   const timed = tests.filter(t => t.mins), tq = tlQs(timed).length, pace = tq ? timed.reduce((a, t) => a + t.mins, 0) / tq : 0;
   const reads = tlReadings();
-  const subs = SUBJECTS.map(sj => {
+  const subs = SUBJECTS.filter(sj => tlf.subj === 'all' || sj.id === tlf.subj).map(sj => {
     const sq = qs.filter(q => q.topic.split('.')[0] === sj.id), recent = sq.slice(-50);
-    return { sj, n: sq.length, acc: tlAcc(recent), band: tlBand(recent), reads: sj.topics.map((t, i) => sj.id + '.' + i) };
+    return { sj, n: sq.length, acc: tlAcc(recent), band: tlBand(recent), reads: sj.topics.map((t, i) => sj.id + '.' + i).filter(tlMatch) };
   });
   const tested = subs.filter(x => x.n).sort((a, b) => a.acc - b.acc), untested = subs.filter(x => !x.n);
   const kpi = (lab, val, sub) => `<div class="tl-kpi"><div class="tl-kpi-lab">${lab}</div><div class="tl-kpi-val">${val}</div>${sub ? `<div class="tl-kpi-sub">${sub}</div>` : ''}</div>`;
@@ -23553,18 +23582,18 @@ function tlAccuracyHtml() {
     </div>
     ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Each dot is a test; the line is the average of the last five. Hover a dot for its test.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
     <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
-    ${tested.map(x => `<details class="tl-sub"><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
-    ${untested.length ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
+    ${tested.map(x => `<details class="tl-sub"${tlf.subj !== 'all' ? ' open' : ''}><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
+    ${untested.length && tlf.subj === 'all' ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
     <div class="cm-hint">Bands use your latest questions: 75% or more is Move on, 60–75% Shaky, under 60% Dig in. Fewer than 5 questions is too few to judge. Tap a subject to see its readings.</div>
   </section>`;
 }
 function tlRender(el) {
   const order = { due: 0, dig: 1, fix: 2, wait: 3, on: 4 }, fl = t => FLAT.findIndex(x => x.key === t);
-  const all = tlAll(), qs = tlQs(all), missed = qs.filter(tlMiss);
-  const ss = tlSessions().sort((a, b) => order[a.state] - order[b.state] || fl(a.topic) - fl(b.topic) ||
+  const all = tlView(), qs = tlQs(all), missed = qs.filter(tlMiss);
+  const ss = tlSessions().filter(x => tlMatch(x.topic)).sort((a, b) => order[a.state] - order[b.state] || fl(a.topic) - fl(b.topic) ||
     a.mod.localeCompare(b.mod, undefined, { numeric: true }));
   const todo = ss.filter(s => s.state !== 'on'), done = ss.filter(s => s.state === 'on');
-  const redos = tlRedos().sort((a, b) => (a.due < b.due ? -1 : 1)), weak = tlReadings().filter(r => r.band === 'dig').sort((a, b) => a.recentAcc - b.recentAcc);
+  const redos = tlRedos().filter(r => r.t.qs.some(q => tlMatch(q.topic))).sort((a, b) => (a.due < b.due ? -1 : 1)), weak = tlReadings().filter(r => r.band === 'dig' && tlMatch(r.topic)).sort((a, b) => a.recentAcc - b.recentAcc);
   const kinds = Object.keys(TL_WHY).map(k => ({ k, n: missed.filter(q => (q.why || 'gap') === k).length, recent: missed.slice(-20).filter(q => (q.why || 'gap') === k).length }))
     .filter(x => x.n).sort((a, b) => b.n - a.n);
   const newest = all.slice().reverse();
@@ -23572,7 +23601,8 @@ function tlRender(el) {
     <div class="crumb">Tests</div>
     <h2 class="topic-title">🧪 Test log</h2>
     <p class="topic-desc">Every quiz and mock you’ve shared, turned into what to revise next and how your accuracy is moving. Claude logs each one question by question from the result PDF.</p>
-    ${!all.length ? '<div class="rv-note">No tests logged yet.</div>' : ''}
+    ${tlFilterHtml()}
+    ${!all.length ? `<div class="rv-note">${tlAll().length ? 'No tests match this filter.' : 'No tests logged yet.'}</div>` : ''}
     ${tlAccuracyHtml()}
     ${all.length ? `<section class="block"><div class="block-label">Revise these first</div>
       ${redos.filter(r => r.now).map(tlRedoHtml).join('')}
@@ -23597,9 +23627,16 @@ function tlRender(el) {
 function tlRerender() { const y = window.scrollY; render(); window.scrollTo(0, y); }
 function tlInit() {
   document.addEventListener('click', e => {
-    const b = e.target.closest && e.target.closest('[data-tlfix],[data-tlredo]');
+    const b = e.target.closest && e.target.closest('[data-tlfix],[data-tlredo],[data-tlf]');
     if (!b) return;
     e.preventDefault(); e.stopPropagation();
+    if (b.hasAttribute('data-tlf')) {
+      const p = b.getAttribute('data-tlf').split('|');
+      if (p[0] === 'subj') { tlf.subj = p[1]; tlf.topic = 'all'; } else tlf.topic = p[1];
+      try { localStorage.setItem('ledgerTlFilter', JSON.stringify(tlf)); } catch (e2) {}
+      tlRerender();
+      return;
+    }
     if (b.hasAttribute('data-tlfix')) {
       const p = b.getAttribute('data-tlfix').split('|'), k = tlFixKey(p[0], p[1]), cur = pgGet(k);
       const on = !(cur && cur.at && cur.test === p[2]);
