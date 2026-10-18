@@ -17198,6 +17198,7 @@ const TUITION_MISSES = {
       title: 'Largest shareholder ≠ control — a board seat means significant influence',
       questions: [
         { ref: 'L2-R7-Q3 #6', ask: 'Acme buys 3% of Bandy, becomes its single largest shareholder and gets a board seat. Method?', picked: 'Acquisition method', answer: 'Equity method' },
+        { ref: 'L2-R7-Q1 #7', ask: 'IFRS: an investor owns 39% of the voting shares but has no part in policy making and no board seat. Classification?', picked: 'Investment in associates', answer: 'Investment in financial assets' },
       ],
       trap: "'Single largest shareholder' sounds like being in charge, so it pulls you toward the method used for control. But being the biggest of many small holders gives no power over the investee, and one board seat out of many is a sign of influence, not control.",
       fix: "Ask in order. 1) Is there CONTROL — a voting majority, or power through dual-class votes, contracts or VIE economics? Then consolidate (acquisition method). 2) If not, is there SIGNIFICANT INFLUENCE — any of B-T-P-M-IT (board seat, say in policy, technology dependency, material transactions, shared managers)? Then equity method, even below 20%. 3) Neither → financial asset under IFRS 9.",
@@ -17226,11 +17227,27 @@ const TUITION_MISSES = {
       spot: "The same fact pattern is asked three ways: FVPL impact on the P&L (−$4,700), FVOCI impact on the P&L (+$300), FVOCI impact on OCI (−$5,000). All three numbers will be in the options.",
     },
     {
+      module: '7.3',
+      title: 'Equity-method income is your share of earnings: dividends and market price stay out',
+      questions: [
+        { ref: 'L2-R7-Q4 #1', ask: 'Mashburn buys 25% of Humm’s 100,000 shares for $250,000. Humm earns $1 a share, pays out 40%, and trades at $12 at year end. Income statement impact?', picked: '$75,000', answer: '$25,000' },
+      ],
+      trap: "The question hands you a dividend payout and a year-end market price, and both feel like they should count. $75,000 looks like the earnings plus a market-value gain (25,000 shares × $2 = $50,000 on top of $25,000). Under the equity method neither the price nor the dividend touches income.",
+      fix: "Equity method, three lines to remember. Income statement: your share of the investee’s earnings = 25% × 100,000 × $1 = $25,000. Dividends received (25,000 × $0.40 = $10,000) are a return of capital: cash up, investment account down, no income. Market price: ignored, the investment is not marked to market. Investment account at year end = $250,000 + $25,000 − $10,000 = $265,000.",
+      tackle: [
+        "Name the method first (20–50% or significant influence → equity method).",
+        "Income = ownership % × investee net income. Nothing else.",
+        "Dividends: reduce the investment account; they are never income under the equity method.",
+        "Market price: a distractor, unless the question asks for fair value or an impairment test.",
+      ],
+      spot: "The three options are built from the three numbers: $25,000 (share of earnings, right), $10,000 (dividends, the cost-method answer) and a figure that mixes in the market price. Q4 #2 tested the balance-sheet side, which you got right.",
+    },
+    {
       module: '7.5',
       title: 'Equity vs. acquisition method: same net income, everything else bigger',
       questions: [
         { ref: 'L2-R7-Q3 #5', ask: 'Which method reports the highest net income — equity or acquisition?', picked: 'Acquisition method', answer: 'Both report the same net income' },
-        { ref: 'R7 goodwill quiz #4', ask: 'A pays $100k cash for 50% of T (US GAAP, FV = book). A has $1,000k assets; T has $160k assets, $30k liabilities. Total assets under equity / acquisition method?', picked: '$1,060,000 / $1,095,000', answer: '$1,000,000 / $1,130,000' },
+        { ref: 'L2-R7-Q4 #4', ask: 'A pays $100k cash for 50% of T (US GAAP, FV = book). A has $1,000k assets; T has $160k assets, $30k liabilities. Total assets under equity / acquisition method?', picked: '$1,060,000 / $1,095,000', answer: '$1,000,000 / $1,130,000' },
       ],
       trap: "Consolidation adds 100% of the subsidiary, so it feels like every number, net income included, must be bigger. On the balance sheet it went the other way: $1,060,000 looks like T's $60k of current assets were added under the equity method, where none of T's assets ever appear. $1,095,000 used partial goodwill, which US GAAP doesn't allow.",
       fix: "Think in two layers. NET INCOME attributable to the parent is the same under both: the acquisition method adds 100% of revenue and expenses, then takes out the NCI's share. EVERYTHING ELSE is bigger under the acquisition method: revenue, expenses, assets, liabilities, and total equity (because NCI is included). The equity method shows one line on each statement; paying cash just swaps cash for 'Investment in T', so total assets don't change.",
@@ -17243,17 +17260,33 @@ const TUITION_MISSES = {
       spot: "'Which method reports the higher X?' — the answer is 'the same' only for net income attributable to the parent (and EPS). The acquisition method reports higher revenue, assets and liabilities, so net margin and ROA are lower.",
     },
     {
+      module: '7.5',
+      title: 'Leverage under consolidation: "less favourable" is the usual case, but the investee’s own leverage decides',
+      questions: [
+        { ref: 'L2-R7-Q1 #5', ask: 'All else equal, leverage measures for a firm using consolidation will appear:', picked: 'Less favourable than for a comparable firm using the equity method', answer: 'More or less favourable depending on the leverage of the investee' },
+      ],
+      trap: "You remembered the general rule (Q1 #6 in the same quiz: the acquisition method usually reports less favourable ratios), and it is usually true. But this question asks about leverage in particular, and consolidation adds the subsidiary’s debt AND its equity (through minority interest). Whether debt-to-equity rises or falls depends on how leveraged the subsidiary is compared with the parent.",
+      fix: "Consolidation adds 100% of the subsidiary’s liabilities to the numerator and the NCI to the denominator. A subsidiary more leveraged than the parent pushes the ratio up (less favourable); a less leveraged one can pull it down. Margins and ROA are the safe calls: same net income spread over higher revenue and higher assets → lower under the acquisition method.",
+      tackle: [
+        "Check what the question asks about: profitability (margins, ROA) or leverage.",
+        "Profitability: same net income, bigger revenue and assets → less favourable under consolidation.",
+        "Leverage: both debt and equity grow, so the answer is 'it depends on the investee’s leverage' when that option is offered.",
+        "'Generally' in the question stem points to the usual case; 'all else equal' with an 'it depends' option points to the precise answer.",
+      ],
+      spot: "The same quiz asked both versions back to back (#5 and #6), so read the stem closely: 'leverage measures' vs. 'results'.",
+    },
+    {
       module: '7.7',
       title: 'Full vs. partial goodwill: debt stays the same, equity changes',
       questions: [
-        { ref: 'R7 goodwill quiz #6', ask: "Alpha owns 70% of Beta. Compared with partial goodwill, Alpha's debt-to-equity under full goodwill is:", picked: 'The same', answer: 'Lower' },
+        { ref: 'L2-R7-Q4 #6', ask: "Alpha owns 70% of Beta. Compared with partial goodwill, Alpha's debt-to-equity under full goodwill is:", picked: 'The same', answer: 'Lower' },
       ],
       trap: "Goodwill is an asset and debt doesn't move, so it's tempting to call the ratio unchanged. But the extra goodwill under the full method is matched by a bigger NCI, and NCI is part of equity — so the denominator grows.",
       fix: "Full goodwill adds the NCI's share of goodwill to BOTH sides: assets (more goodwill) and equity (NCI at fair value). Liabilities and net income don't change. So under full goodwill, total assets and equity are higher → debt-to-equity, ROA and ROE are all lower. Partial goodwill gives the reverse.",
       tackle: [
         "Write down the entry: + goodwill (asset), + NCI (equity). Nothing hits liabilities or the P&L.",
         "For each ratio, check whether assets or equity sit in the numerator or the denominator.",
-        "Framework check: US GAAP → full goodwill only; partial is an IFRS-only choice (this also cost you the $1,095k answer in quiz #4).",
+        "Framework check: US GAAP → full goodwill only; partial is an IFRS-only choice (this also cost you the $1,095k answer in Q4 #4).",
       ],
       spot: "Asked as 'compared with partial goodwill, X under full goodwill is…': D/E lower, ROA lower, ROE lower, net income the same, total assets higher.",
     },
@@ -17261,8 +17294,8 @@ const TUITION_MISSES = {
       module: '7.7',
       title: 'Goodwill impairment: detect at the reporting unit, then measure the loss',
       questions: [
-        { ref: 'R7 goodwill quiz #5', ask: 'Under US GAAP, goodwill is most likely impaired if the reporting unit’s…', picked: 'Acquired tangible assets fall in value', answer: 'Carrying value (incl. goodwill) > fair value' },
-        { ref: 'R7 goodwill quiz #8', ask: 'Goodwill $300k ($2,000k − $1,700k). Year end: carrying value $1,980k, FV $1,950k, FV of net assets $1,775k. Loss?', picked: '$30,000', answer: '$125,000 (old two-step); $30,000 under current US GAAP' },
+        { ref: 'L2-R7-Q4 #5', ask: 'Under US GAAP, goodwill is most likely impaired if the reporting unit’s…', picked: 'Acquired tangible assets fall in value', answer: 'Carrying value (incl. goodwill) > fair value' },
+        { ref: 'L2-R7-Q4 #8', ask: 'Goodwill $300k ($2,000k − $1,700k). Year end: carrying value $1,980k, FV $1,950k, FV of net assets $1,775k. Loss?', picked: '$30,000', answer: '$125,000 (old two-step); $30,000 under current US GAAP' },
       ],
       trap: "#5: 'impairment' makes you think of individual assets losing value, but goodwill can't be valued on its own, so it is tested together with the whole reporting unit. #8: $30,000 is carrying value − fair value, which is the CURRENT one-step rule. The question was written for the old two-step method, and the clue is that it gives the fair value of net assets, which only step 2 uses.",
       fix: "Detect: the reporting unit's carrying value (including goodwill) > its fair value; if not, the loss is 0. Measure under current US GAAP (ASU 2017-04): loss = carrying value − fair value, capped at goodwill. Old two-step: implied goodwill = FV of the unit − FV of its identifiable net assets; loss = book goodwill − implied goodwill ($300k − $175k = $125k). IFRS: loss = carrying value of the cash-generating unit − recoverable amount, taken from goodwill first. Never reversed under either framework.",
@@ -17314,7 +17347,7 @@ const TUITION_MISSES = {
       module: '7.9',
       title: 'What an SPE MUST have vs. what it merely usually has — separate management is not required',
       questions: [
-        { ref: 'L2-R7 · Evergreen case · Q1', ask: 'Which of the following statements regarding special purpose entities (SPEs) is LEAST accurate?', picked: 'B — in general the equity investors in an SPE can expect a limited rate of return in exchange for limited risk exposure', answer: 'C — an SPE can be a corporation, partnership or trust, but MUST establish separate management from that of the sponsor' },
+        { ref: 'L2-R7-CASE1 #1', ask: 'Which of the following statements regarding special purpose entities (SPEs) is LEAST accurate?', picked: 'B — in general the equity investors in an SPE can expect a limited rate of return in exchange for limited risk exposure', answer: 'C — an SPE can be a corporation, partnership or trust, but MUST establish separate management from that of the sponsor' },
       ],
       trap: 'Two things went wrong at once here. First, this is another "least accurate" question and the option you picked is TRUE — a limited return for limited risk is exactly how outside SPE equity is structured, because that token slice is deliberately insulated while the sponsor carries the real risk through a guarantee or first-loss piece. Second, and more pointed: you have already logged this same fact from the opposite direction. The card above records L2-R7-Q2 #1, where "the equity owners\' return is tied to the SPE\'s performance" was marked INCORRECT. "Not tied to performance" and "limited return for limited risk" are the same statement. The knowledge was in the ledger; it simply arrived phrased positively this time, and a positively-phrased true statement is the one to leave alone.',
       fix: 'Read option C for the word MUST. An SPE can take one of several legal forms — corporation, partnership or trust — but it does NOT have to have separate management, and does not need its own employees either; the sponsor\'s own people commonly run it. That single word is what turns an otherwise reasonable sentence into the false one. Check the other two and they hold up: (A) is true, because isolating assets from the sponsor makes the SPE bankruptcy-remote, so its lenders face less risk and the cost of capital falls — that is a core reason SPEs get created at all. (B) is true, as above.',
@@ -17745,6 +17778,59 @@ const TUITION_MISSES = {
 // default). Keep each `id` stable: the Fixed ticks on the test log are stored against it. Quizzes I log
 // myself on the page (quick log) live in progress rows instead, and the test log merges both.
 const TESTS = [
+  { id: 'L2-R7-Q1', topic: 'fsa.0', name: 'Reading 7 quiz 1', date: '2026-06-03', mins: 15.5, qs: [
+    { mod: '7.8', what: 'Joint ventures: equity method under IFRS and US GAAP', ok: 1 },
+    { mod: '7.9', what: 'Securitisation through an SPE', ok: 1 },
+    { mod: '7.5', what: '41% with control: acquisition method', ok: 1 },
+    { mod: '7.2', what: 'Which category is at fair value with gains outside the income statement', ok: 1 },
+    { mod: '7.5', what: 'Leverage under consolidation vs. the equity method', ok: 0, why: 'gap' },
+    { mod: '7.5', what: 'Acquisition method reports less favourable results', ok: 1 },
+    { mod: '7.1', what: '39% with no board seat or policy role: financial asset', ok: 0, why: 'gap' },
+    { mod: '7.9', what: 'VIE statements: lower cost of capital, any legal form', ok: 1 },
+    { mod: '7.5', what: '60% stake: acquisition method', ok: 1 },
+    { mod: '7.2', what: 'FVPL vs. FVOCI: what reaches the income statement', ok: 1 },
+  ] },
+  { id: 'L2-R7-Q2', topic: 'fsa.0', name: 'Reading 7 quiz 2', date: '2026-07-22', mins: 19.7, qs: [
+    { mod: '7.9', what: 'SPE statements: decision-making power and risk', ok: 0, why: 'gap' },
+    { mod: '7.2', what: 'FVOCI equity: income statement impact', ok: 0, why: 'flip' },
+    { mod: '7.3', what: 'Equity method at 15% with significant influence', ok: 1 },
+    { mod: '7.9', what: 'SPE and VIE consolidation under US GAAP and IFRS', ok: 0, why: 'gap' },
+    { mod: '7.9', what: 'SPE financed 95% with debt: who consolidates', ok: 0, why: 'gap' },
+    { mod: '7.1', what: '40% stake bought with debt: which method', ok: 1 },
+    { mod: '7.9', what: 'SPE where an unrelated firm absorbs the expected losses', ok: 0, why: 'gap' },
+    { mod: '7.9', what: 'Which firms hold a variable interest', ok: 1 },
+    { mod: '7.1', what: '18% stake in a supplier, largest shareholder', ok: 1 },
+    { mod: '7.3', what: 'Equity method: balance sheet, income and cash', ok: 1 },
+  ] },
+  { id: 'L2-R7-Q3', topic: 'fsa.0', name: 'Reading 7 quiz 3', date: '2026-08-28', mins: 17.5, qs: [
+    { mod: '7.8', what: 'Joint ventures under IFRS', ok: 0, why: 'gap' },
+    { mod: '7.5', what: 'Consolidation: same net income, different equity', ok: 1 },
+    { mod: '7.2', what: 'Reclassifying from amortised cost to FVPL', ok: 1 },
+    { mod: '7.2', what: 'FVPL equity: income statement impact', ok: 1 },
+    { mod: '7.5', what: 'Which method reports the highest net income', ok: 0, why: 'flip' },
+    { mod: '7.1', what: '3% stake with a board seat', ok: 0, why: 'gap' },
+    { mod: '7.9', what: 'Selling receivables to an SPE to move a loan off balance sheet', ok: 0, why: 'gap' },
+    { mod: '7.2', what: 'FVPL and FVOCI portfolios: where gains go', ok: 1 },
+    { mod: '7.5', what: 'Which method reports the highest assets and liabilities', ok: 1 },
+    { mod: '7.5', what: 'ROA under consolidation vs. the equity method', ok: 1 },
+  ] },
+  { id: 'L2-R7-Q4', topic: 'fsa.0', name: 'Reading 7 quiz 4', date: '2026-09-17', mins: 37.6, qs: [
+    { mod: '7.3', what: 'Equity method: income statement impact', ok: 0, why: 'gap' },
+    { mod: '7.3', what: 'Equity method: investment account at year end', ok: 1 },
+    { mod: '7.6', what: 'Where minority interest appears', ok: 1 },
+    { mod: '7.5', what: 'Total assets under the equity and acquisition methods', ok: 0, why: 'calc' },
+    { mod: '7.7', what: 'US GAAP goodwill impairment test', ok: 0, why: 'gap' },
+    { mod: '7.7', what: 'Debt-to-equity: full vs. partial goodwill', ok: 0, why: 'flip' },
+    { mod: '7.8', what: 'Joint ventures: equity method vs. proportionate consolidation', ok: 1 },
+    { mod: '7.7', what: 'US GAAP goodwill impairment loss', ok: 0, why: 'calc' },
+    { mod: '7.7', what: 'Full goodwill: ROE and debt-to-equity', ok: 1 },
+  ] },
+  { id: 'L2-R7-CASE1', topic: 'fsa.0', name: 'Reading 7 case 1 (Evergreen)', date: '2026-09-17', mins: 11.75, qs: [
+    { mod: '7.9', what: 'SPE statements: what an SPE must have', ok: 0, why: 'gap' },
+    { mod: '7.9', what: 'Primary beneficiary of a VIE', ok: 1 },
+    { mod: '7.9', what: 'Who consolidates QuickTime', ok: 1 },
+    { mod: '7.9', what: 'Conditions for a VIE under US GAAP', ok: 1 },
+  ] },
   { id: 'L2-R5-Q1', topic: 'econ.0', name: 'Reading 5 quiz 1', date: '2026-04-15', mins: 18.7, qs: [
     { mod: '5.S3', what: 'Implied cross rate from two bid–ask quotes', ok: 0, why: 'flip' },
     { mod: '5.S5', what: 'Forward premium or discount from spot and forward', ok: 1 },
@@ -23324,7 +23410,7 @@ function tlMiss(q) { return !q.ok || q.why === 'guess'; }
 function tlFixKey(topic, mod) { return 'star|' + topic + '|' + mod + '|testfix'; }
 function tlTopicName(topic) { const m = FLAT.find(t => t.key === topic); return m ? m.name : topic; }
 function tlShort(topic) { return tlTopicName(topic).replace(/^Reading (\d+): /, 'R$1 · '); }
-function tlSessTitle(topic, mod) { const s = rvSessions(topic).find(x => x.module === mod); return s ? s.title : ''; }
+function tlSessTitle(topic, mod) { const g = exGroups(topic).find(x => x.module === mod); return g ? g.title : ''; }
 function tlDate(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' }); }
 // Every logged test, oldest first, as { id, topic, date, mins, qs: [{ n, topic, mod, ok, why, what }] }.
 function tlAll() {
