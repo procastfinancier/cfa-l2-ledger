@@ -743,6 +743,7 @@ window.addEventListener('error', function (e) {
   }
   .st-btn:hover, .st-btn:focus-visible { opacity: 1; color: var(--amber); border-color: var(--amber); }
   .st-btn.on { opacity: 1; color: var(--amber); }
+  .st-btn.cov { opacity: 0.55; color: var(--amber); }
   .status-row .st-btn { font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 20px; border-color: var(--line); opacity: 1; }
   .status-row .st-btn.on { background: var(--amber-bg); border-color: var(--amber); }
   .nb-session-head .st-btn, .nb-session-head .ex-link { align-self: center; }
@@ -21441,7 +21442,7 @@ function renderNotesAccordion(key) {
   });
   const renderItem = (item) => `
         <details class="note-item" data-anchor="${exTermAnchor(item.term)}">
-          <summary><span class="note-item-dot ${item.color}"></span><span class="note-item-term">${escapeHtml(item.term)}</span>${stBtn(stKey(key, item.mod, 'b:' + exTermAnchor(item.term)), 'Definition')}</summary>
+          <summary><span class="note-item-dot ${item.color}"></span><span class="note-item-term">${escapeHtml(item.term)}</span>${stBtn(stKey(key, item.mod, 'b:' + exTermAnchor(item.term)), 'Definition', false, 'blk')}</summary>
           <div class="note-item-body">
             <div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-bottom:5px;">${escapeHtml(item.label)}</div>
             ${escapeHtml(item.a)}
@@ -21773,15 +21774,15 @@ function renderFlow(key) {
         ${s.pages ? `<span class="nb-session-pages">${escapeHtml(s.pages)}</span>` : ''}
         ${hasN ? exViewLink('notes', key, s.module, '📝 Notes') : ''}${hasF ? exViewLink('formulas', key, s.module, '📐 Formulas') : ''}
         ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}
-        ${stBtn(stKey(key, s.module, 'section'), 'section')}
+        ${stBtn(stKey(key, s.module, 'section'), 'section', false, 'sess')}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
       ${qzFold(s.blocks, (b, i) => {
         const nw = b.new && !nwSeen(nwContentId(key, s.module, anchors[i])) ? nwContentId(key, s.module, anchors[i]) : '';
         const nwAttr = nw ? ` data-newc="${escapeHtml(nw)}"` : '';
         return b.k === 'sub'
-          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
-          : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b))}${renderBlock(b, gapObj, refs)}</div>`;
+          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section', false, 'blk').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
+          : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b), false, 'blk')}${renderBlock(b, gapObj, refs)}</div>`;
       })}
     </section>`;
   }).join('');
@@ -22018,6 +22019,7 @@ function cmShowSync() {
   });
 }
 function cmRefresh() {
+  stMigrate();
   const n = cmOpenCount();
   document.getElementById('cmOpen').textContent = '💬 My comments' + (n ? ' · ' + n + ' open' : '');
   cmPaintButtons();
@@ -22609,8 +22611,10 @@ function exFormulas(topic, mod) {
   if (s) s.blocks.forEach((b, i) => {
     if (b.k === 'formula') out.push({ title: b.title || '', lines: b.lines || [], note: b.note || '', anchor: an[i], key: stKey(topic, mod, 'b:' + an[i]) });
   });
-  (((EXAM[topic] || {})[mod] || {}).f || []).forEach(f => out.push({ title: f[0], lines: f[1], note: f[3] || '',
-    anchor: exLocate(topic, mod, f[2]), key: stKey(topic, mod, 'f:' + exHash(f[0])) }));
+  (((EXAM[topic] || {})[mod] || {}).f || []).forEach(f => {
+    const anchor = exLocate(topic, mod, f[2]), legacy = stKey(topic, mod, 'f:' + exHash(f[0]));
+    out.push({ title: f[0], lines: f[1], note: f[3] || '', anchor, legacy, key: anchor ? stKey(topic, mod, 'b:' + anchor) : legacy });
+  });
   const pos = a => { const i = an.indexOf(a); return i < 0 ? 1e6 : i; };
   return out.map((f, i) => [f, i]).sort((x, y) => (pos(x[0].anchor) - pos(y[0].anchor)) || (x[1] - y[1])).map(x => x[0]);
 }
@@ -22655,23 +22659,55 @@ function exApplyTrims(root) {
     if (b) b.textContent = exTrimLabel(hide.length);
   });
 }
+// A key point or an exam-sheet formula shares the star of the block it came from, so starring it anywhere
+// (notes, concise notes, formula sheet, exam-day set) shows everywhere. One with no source block keeps its
+// own star (`legacy`), which is also the key older stars were saved under.
 function exNotes(topic, mod) {
-  return (((EXAM[topic] || {})[mod] || {}).n || []).map(n => ({ text: n[0], anchor: exLocate(topic, mod, n[1]), key: stKey(topic, mod, 'n:' + exHash(n[0])) }));
+  return (((EXAM[topic] || {})[mod] || {}).n || []).map(n => {
+    const anchor = exLocate(topic, mod, n[1]), legacy = stKey(topic, mod, 'n:' + exHash(n[0]));
+    return { text: n[0], anchor, legacy, key: anchor ? stKey(topic, mod, 'b:' + anchor) : legacy };
+  });
+}
+// Stars saved before key points shared their block's star move onto the block, once, here and after each sync.
+function stMigrate() {
+  const old = Object.keys(pg.items).filter(k => /^star\|[^|]+\|[^|]+\|[nf]:/.test(k) && stOn(k));
+  old.forEach(k => {
+    const p = k.split('|'), topic = p[1], mod = p[2];
+    if (!CONTENT[topic]) return;
+    const it = exNotes(topic, mod).concat(exFormulas(topic, mod)).find(x => x.legacy === k);
+    if (!it || it.key === k) return;
+    const meta = { reading: cmReadingOf(topic), session: rvSessionLabel(topic, mod), item: 'Star · moved onto its block' };
+    if (!stOn(it.key)) pgSet(it.key, meta, { on: true, kind: (pgGet(k) || {}).kind || 'Note' });
+    pgSet(k, meta, { on: false, moved: it.key });
+  });
 }
 
 function stKey(topic, mod, what) { return 'star|' + topic + '|' + mod + '|' + what; }
 function stOn(k) { const v = pgGet(k); return !!(v && v.on); }
 function stCount() { return Object.keys(pg.items).filter(k => /^star\|/.test(k) && stOn(k)).length; }
-function stBtn(k, kind, big) {
-  const on = stOn(k);
-  return `<button type="button" class="st-btn${on ? ' on' : ''}" data-star="${escapeHtml(k)}" data-skind="${escapeHtml(kind)}"${big ? ' data-big="1"' : ''} aria-pressed="${on}" ` +
-    `title="${on ? 'In the exam-day set. Tap to unstar' : 'Star this ' + escapeHtml(kind.toLowerCase()) + ' for the exam-day set'}">${on ? '★' : '☆'}${big ? (on ? ' Starred for exam day' : ' Star this reading') : ''}</button>`;
+// Whether an item is in the exam-day set through something above it, which is what the set itself uses:
+// a block through its starred sub-heading ('blk'); a key point or formula through its sub-heading, session
+// or reading ('line'); a session through its reading ('sess').
+function stCovered(k, ctx) {
+  if (!ctx) return false;
+  const p = k.split('|'), topic = p[1], mod = p[2], what = p.slice(3).join('|');
+  const read = stOn(stKey(topic, '-', 'reading'));
+  if (ctx === 'sess') return read;
+  const sec = what.indexOf('b:') === 0 && exSecStarred(topic, mod, what.slice(2));
+  return ctx === 'blk' ? !!sec : read || stOn(stKey(topic, mod, 'section')) || !!sec;
+}
+function stBtn(k, kind, big, ctx) {
+  const on = stOn(k), cov = !on && stCovered(k, ctx || '');
+  return `<button type="button" class="st-btn${on ? ' on' : cov ? ' cov' : ''}" data-star="${escapeHtml(k)}" data-skind="${escapeHtml(kind)}"${big ? ' data-big="1"' : ''}${ctx ? ` data-ctx="${ctx}"` : ''} aria-pressed="${on}" ` +
+    `title="${on ? 'In the exam-day set. Tap to unstar' : cov ? 'In the exam-day set through its sub-heading, session or reading. Tap to star it on its own too' : 'Star this ' + escapeHtml(kind.toLowerCase()) + ' for the exam-day set'}">${on || cov ? '★' : '☆'}${big ? (on ? ' Starred for exam day' : ' Star this reading') : ''}</button>`;
 }
 function stToggle(k, kind) {
   const parts = k.split('|'), topic = parts[1], mod = parts[2], on = !stOn(k);
   pgSet(k, { reading: cmReadingOf(topic), session: mod === '-' ? '' : rvSessionLabel(topic, mod), item: 'Star · ' + kind }, { on, kind });
+  // Every star on screen is redrawn: the same item can appear more than once, and a sub-heading, session or
+  // reading star changes what the stars below it show.
   document.querySelectorAll('.st-btn[data-star]').forEach(b => {
-    if (b.getAttribute('data-star') === k) b.outerHTML = stBtn(k, kind, b.hasAttribute('data-big'));
+    b.outerHTML = stBtn(b.getAttribute('data-star'), b.getAttribute('data-skind') || 'item', b.hasAttribute('data-big'), b.getAttribute('data-ctx') || '');
   });
   exRenderNav();
   if (exIsView(selectedKey) && (selectedKey === 'exam:starred' || ex.starOnly)) exRenderBody();
@@ -22689,11 +22725,11 @@ function exViewLink(view, topic, mod, label) {
   return `<button type="button" class="ex-link" data-exview="${escapeHtml('exam:' + view + '|' + topic + '|' + mod)}" title="This session on the exam sheet">${label}</button>`;
 }
 function exFormulaHtml(topic, mod, f) {
-  return `<div class="ex-f"><div class="ex-f-top"><span class="ex-f-title">${escapeHtml(f.title || 'Formula')}</span><span class="ex-acts">${exGoBtn(topic, mod, f.anchor)}${stBtn(f.key, 'Formula')}</span></div>
+  return `<div class="ex-f"><div class="ex-f-top"><span class="ex-f-title">${escapeHtml(f.title || 'Formula')}</span><span class="ex-acts">${exGoBtn(topic, mod, f.anchor)}${stBtn(f.key, 'Formula', false, 'line')}</span></div>
     ${f.lines.map(l => `<div class="ex-f-line">${rt(typeof l === 'string' ? l : String(l))}</div>`).join('')}${f.note ? `<div class="ex-f-note">${rt(f.note)}</div>` : ''}</div>`;
 }
 function exNoteHtml(topic, mod, n) {
-  return `<li class="ex-note"><span class="ex-note-text">${rt(n.text)}</span><span class="ex-acts">${exGoBtn(topic, mod, n.anchor)}${stBtn(n.key, 'Note')}</span></li>`;
+  return `<li class="ex-note"><span class="ex-note-text">${rt(n.text)}</span><span class="ex-acts">${exGoBtn(topic, mod, n.anchor)}${stBtn(n.key, 'Note', false, 'line')}</span></li>`;
 }
 function exWeakHtml(topic, mod, m) {
   return `<li class="ex-note weak"><span class="ex-note-text"><b>Tuition weak spot:</b> ${escapeHtml(m.title)}</span><span class="ex-acts">${exGoBtn(topic, mod, '')}</span></li>`;
@@ -22722,7 +22758,7 @@ function exMerged(topic, mod, ns, fs, cards) {
     const sc = secOf(it.x.anchor);
     if (sc >= 0 && sc !== sec) {
       flush(); run = ''; sec = sc;
-      html += `<div class="nb-sub">${escapeHtml(s.blocks[sc].text)}${stBtn(stKey(topic, mod, 'b:' + order[sc]), 'Sub-section')}</div>`;
+      html += `<div class="nb-sub">${escapeHtml(s.blocks[sc].text)}${stBtn(stKey(topic, mod, 'b:' + order[sc]), 'Sub-section', false, 'blk')}</div>`;
     }
     if (it.t !== run) { flush(); run = it.t; }
     buf.push(it.t === 'n' ? exNoteHtml(topic, mod, it.x) : it.t === 'f' ? exFormulaHtml(topic, mod, it.x) : it.x.html);
@@ -22740,14 +22776,14 @@ function exBlockCards(topic, mod) {
       const k = stKey(topic, mod, 'b:' + an[i]), tk = stKey(topic, mod, 'trim:' + an[i]);
       if (b.k === 'formula' || b.k === 'sub' || !(stOn(k) || exSecStarred(topic, mod, an[i]))) return;
       const ctx = exContext(s.blocks, i);
-      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" data-new="f-trim" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>` +
+      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" data-new="f-trim" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b), false, 'blk')}</span></div>` +
         `<div class="ex-trim-hint">Tap the lines you already know to hide them. Tap again to bring one back; tap ✂ when done.</div>` +
         `${ctx ? `<div class="ex-ctx"><span class="ex-ctx-label">Context</span>${rt(ctx)}</div>` : ''}<div class="ex-card-body">${renderBlock(b, gaps, c.refs || {})}</div></div>` });
     });
   } else (c.notes || []).forEach(n => {
     const a = exTermAnchor(n.term), k = stKey(topic, mod, 'b:' + a);
     if (n.type.indexOf(mod + ' ') !== 0 || !stOn(k)) return;
-    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition')}</span></div><div class="ex-card-body"><p class="nb-p">${escapeHtml(n.a)}</p></div></div>` });
+    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition', false, 'blk')}</span></div><div class="ex-card-body"><p class="nb-p">${escapeHtml(n.a)}</p></div></div>` });
   });
   return out;
 }
@@ -22806,7 +22842,7 @@ function exRenderBody() {
       sh += `
       <div class="ex-sess" data-sess="${escapeHtml(t.key + '|' + g.module)}">
         <div class="ex-sess-head"><span class="nb-session-tag">${escapeHtml(g.module)}</span><span class="ex-sess-title">${escapeHtml(g.title)}</span>
-          <span class="ex-acts">${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section')}</span></div>
+          <span class="ex-acts">${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section', false, 'sess')}</span></div>
         ${summary.map(p => `<p class="ex-summary">${rt(p)}</p>`).join('')}
         ${view === 'exam:starred' ? exMerged(t.key, g.module, ns, fs, cards) : `
         ${ns.length || weak.length ? `${summary.length ? '<div class="ex-label">Key points</div>' : ''}<ul class="ex-notes">${ns.map(x => exNoteHtml(t.key, g.module, x)).join('')}${weak.map(m => exWeakHtml(t.key, g.module, m)).join('')}</ul>` : ''}
@@ -23493,6 +23529,7 @@ function plInit() {
 document.getElementById('search').addEventListener('input', renderSidebar);
 openSubjects.add('fsa');
 pgLoad();
+stMigrate();
 render();
 
 cmInit();

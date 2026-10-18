@@ -108,6 +108,11 @@ Every line has a ↗ link back to the block it came from, and each session in th
 notes links forward to its 📝 / 📐 lines. Stars sync through the same sheet as
 progress (redeploy `ledger-comments.gs` once so it keeps them).
 
+Stars are connected: a key point or formula shares the star of the block it came
+from, so starring it in the notes, the concise notes, the formula sheet or the
+exam-day set shows in all of them. Anything included through a starred sub-heading,
+session or reading shows a lighter ★.
+
 ### Keeping it in step with the notes
 
 The formula sheet rebuilds itself from the notes on every page load. The concise
