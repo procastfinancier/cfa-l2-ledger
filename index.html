@@ -648,6 +648,14 @@
   .rv-check { border: 2px solid var(--ink); border-radius: 10px; padding: 12px 14px; margin-top: 18px; }
   .rv-check-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 14px; font-weight: 700; color: var(--ink); }
   .rv-check-score { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  .qz-fold { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; border: 1px dashed var(--line); border-radius: 10px; padding: 8px 12px; margin: 12px 0; }
+  .qz-title { flex: 1 1 auto; font-size: 13px; font-weight: 700; color: var(--ink); }
+  .qz-b-show, .qz-b-hide, .qz-b-always { display: none; }
+  body.qz-hide .qz-wrap:not(.qz-open) > .qz-run { display: none; }
+  body.qz-hide .qz-wrap:not(.qz-open) .qz-b-show, body.qz-hide .qz-wrap.qz-open .qz-b-hide, body.qz-hide .qz-b-always { display: inline-block; }
+  body.qz-hide .qz-b-hideall { display: none; }
+  body:not(.qz-hide) .qz-fold { border: none; padding: 0; margin: 10px 0 4px; justify-content: flex-end; }
+  body:not(.qz-hide) .qz-title { display: none; }
   .new-tag { position: absolute; top: -8px; left: 10px; z-index: 2; padding: 1px 5px; border-radius: 5px; background: var(--rose); color: #fff; font: 700 9px/1.3 var(--mono); letter-spacing: 0.04em; pointer-events: none; }
   .new-tag.inline { position: static; display: inline-block; margin-left: 6px; vertical-align: 2px; }
   .sb-tools { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 4px; }
@@ -20677,6 +20685,54 @@ function render() {
   nwObserve();
 }
 
+// --- Module quizzes: hidden everywhere by default, folded behind a bar per quiz section. "Show"
+// opens one section; "Always show quizzes" turns the hiding off on this device. Starred quiz
+// cards still show in the exam-day set, because starring one means you want it there. ---
+function qzIsBlock(b) {
+  return (b.k === 'example' && /^Schweser module quiz /.test(b.title || '')) ||
+    (b.k === 'qa' && /^(Module quiz|Schweser quiz)/.test(b.q || '')) ||
+    (b.k === 'sub' && /module quiz/i.test(b.text || ''));
+}
+function qzIsNote(it) { return /Schweser quiz/.test(it.label || it.type || ''); }
+function qzWrap(n, inner) {
+  return `<div class="qz-wrap"><div class="qz-fold"><span class="qz-title">📝 Schweser module quiz · ${n} question${n > 1 ? 's' : ''}</span>` +
+    `<button type="button" class="rv-btn qz-b-show" data-qz="open" data-new="f-quiz-fold">Show ▸</button>` +
+    `<button type="button" class="rv-check-link qz-b-hide" data-qz="open">Hide ▴</button>` +
+    `<button type="button" class="rv-check-link qz-b-always" data-qz="always">Always show quizzes</button>` +
+    `<button type="button" class="rv-check-link qz-b-hideall" data-qz="hideall">Hide all quizzes</button></div>` +
+    `<div class="qz-run">${inner}</div></div>`;
+}
+// Renders a session's blocks, wrapping each run of consecutive quiz blocks (with its "Module Quiz"
+// sub-heading) in a fold.
+function qzFold(blocks, renderOne) {
+  let html = '', run = [], n = 0;
+  const flush = () => { if (run.length) html += qzWrap(n, run.join('')); run = []; n = 0; };
+  blocks.forEach((b, i) => {
+    if (qzIsBlock(b)) { run.push(renderOne(b, i)); if (b.k !== 'sub') n++; }
+    else { flush(); html += renderOne(b, i); }
+  });
+  flush();
+  return html;
+}
+let qzHide = true;
+try { qzHide = localStorage.getItem('ledgerHideQuiz') !== '0'; } catch (e) {}
+function qzInit() {
+  document.body.classList.toggle('qz-hide', qzHide);
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-qz]');
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    const act = t.getAttribute('data-qz');
+    if (act === 'open') t.closest('.qz-wrap').classList.toggle('qz-open');
+    else {
+      qzHide = act === 'hideall';
+      try { localStorage.setItem('ledgerHideQuiz', qzHide ? '1' : '0'); } catch (e2) {}
+      document.body.classList.toggle('qz-hide', qzHide);
+      document.querySelectorAll('.qz-wrap.qz-open').forEach(w => w.classList.remove('qz-open'));
+    }
+  }, true);
+}
+
 // --- NEW tags: new content and new features carry a NEW tag until their first use. A block counts as
 // used once it has been on screen for a moment; a feature once it is tapped. What has been seen syncs
 // with revision progress (a star| row with on: false, so it never counts as a star). To tag something
@@ -20699,7 +20755,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star'].forEach(id => { ids[id] = 1; });
+  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -20934,7 +20990,8 @@ function renderNotesAccordion(key) {
     <section class="block">
       <div class="block-label">Branches off this topic</div>
       <div class="deepdive-hint">Collapsed by default — click any point to deep dive.</div>
-      ${groups[0].items.map(renderItem).join('')}
+      ${groups[0].items.filter(it => !qzIsNote(it)).map(renderItem).join('')}
+      ${groups[0].items.some(qzIsNote) ? qzWrap(groups[0].items.filter(qzIsNote).length, groups[0].items.filter(qzIsNote).map(renderItem).join('')) : ''}
     </section>`;
   }
   return `
@@ -20948,7 +21005,8 @@ function renderNotesAccordion(key) {
         <summary><span>${escapeHtml(g.key)}</span><span class="note-group-count">${g.items.length} points${weak.length ? '<span class="group-weak-badge">' + weak.length + ' weak spot' + (weak.length > 1 ? 's' : '') + '</span>' : ''}</span>${exNotes(key, g.key).length ? exViewLink('notes', key, g.key, '📝') : ''}${stBtn(stKey(key, g.key, 'section'), 'section')}</summary>
         <div class="note-group-body">
           ${weak.map(renderWeakCard).join('')}
-          ${g.items.map(renderItem).join('')}
+          ${g.items.filter(it => !qzIsNote(it)).map(renderItem).join('')}
+          ${g.items.some(qzIsNote) ? qzWrap(g.items.filter(qzIsNote).length, g.items.filter(qzIsNote).map(renderItem).join('')) : ''}
         </div>
       </details>`;
       }).join('')}
@@ -21252,13 +21310,13 @@ function renderFlow(key) {
         ${stBtn(stKey(key, s.module, 'section'), 'section')}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
-      ${s.blocks.map((b, i) => {
+      ${qzFold(s.blocks, (b, i) => {
         const nw = b.new && !nwSeen(nwContentId(key, s.module, anchors[i])) ? nwContentId(key, s.module, anchors[i]) : '';
         const nwAttr = nw ? ` data-newc="${escapeHtml(nw)}"` : '';
         return b.k === 'sub'
           ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
           : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b))}${renderBlock(b, gapObj, refs)}</div>`;
-      }).join('')}
+      })}
     </section>`;
   }).join('');
 }
@@ -22339,7 +22397,10 @@ function exGo(topic, mod, anchor) {
   let t = anchor ? el.querySelector('[data-anchor="' + esc(anchor) + '"]') : null;
   if (!t && mod) t = el.querySelector('.nb-session[data-group="' + esc(mod) + '"], details.note-group[data-group="' + esc(mod) + '"]');
   if (!t) { el.scrollIntoView({ block: 'start' }); return; }
-  for (let p = t; p && p !== el; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  for (let p = t; p && p !== el; p = p.parentElement) {
+    if (p.tagName === 'DETAILS') p.open = true;
+    if (p.classList && p.classList.contains('qz-wrap')) p.classList.add('qz-open');
+  }
   exScrollFlash(t, !!anchor);
 }
 // Opens an exam view, at one session when coming from that session's 📝 / 📐 link.
@@ -22619,6 +22680,7 @@ render();
 cmInit();
 exInit();
 nwInit();
+qzInit();
 aiInit();
 </script>
 </body>
