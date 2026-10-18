@@ -648,6 +648,8 @@
   .rv-check { border: 2px solid var(--ink); border-radius: 10px; padding: 12px 14px; margin-top: 18px; }
   .rv-check-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 14px; font-weight: 700; color: var(--ink); }
   .rv-check-score { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  .new-tag { position: absolute; top: -8px; left: 10px; z-index: 2; padding: 1px 5px; border-radius: 5px; background: var(--rose); color: #fff; font: 700 9px/1.3 var(--mono); letter-spacing: 0.04em; pointer-events: none; }
+  .new-tag.inline { position: static; display: inline-block; margin-left: 6px; vertical-align: 2px; }
   .sb-tools { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 4px; }
   .sb-tools .ex-nav-label { margin: 0; padding: 0; }
   .sb-toggle { font-family: var(--sans); font-size: 11.5px; color: var(--violet); background: none; border: 1px solid var(--line); border-radius: 12px; padding: 2px 9px; cursor: pointer; }
@@ -843,6 +845,7 @@
           <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
           <li><b>Revision is tracked as two separate things.</b> “Revised” is a tick per notebook session (one per day; the count is the number of passes). “Understood” turns on only when the user has graded every checkpoint question for that session “Got it”. Claude writes those questions into <code>CHECKS[key][module]</code> from the session’s own notes: why it works, what changes if an input moves, a fresh calculation, and an “explain it” prompt, never a plain definition. Keep each question <code>id</code> stable once published. Shaky and missed questions come back on a 1 / 3 / 7 / 14 / 30-day schedule. When processing comments, also check <code>node tools/comments.mjs progress</code>: a question that keeps coming back Shaky or Didn’t know is a gap to explain, and Teach-back comments (blurts and explain-it answers) get graded in the reply.</li>
           <li><b>The exam-day sheet moves with the notes.</b> The formula sheet builds itself from <code>formula</code> blocks, but the concise notes are written by hand in <code>EXAM</code>: a reading overview (<code>EXAM[key].about</code>, paragraphs on what the reading covers and how its topics connect), and for each session a prose summary (<code>s</code>) plus linked key points (<code>n</code>). Concise means a real overview, not one-liners. In the same change that adds or edits a session (or a whole reading), Claude writes or updates the overview, that session’s summary and key points, adds any formula that only sits inside an example or point list as an <code>f</code> entry, and runs <code>node tools/exam-check.mjs</code>. The pre-commit hook (<code>tools/hooks</code>) stops a commit that leaves a session without exam notes or breaks a ↗ link, and the GitHub check re-runs it on every push.</li>
+          <li><b>Tag what’s new.</b> Every new block Claude adds gets <code>new: 'YYYY-MM-DD'</code>, and every new button or feature gets <code>data-new="f-some-name"</code>. The page shows a NEW tag on it (and on the reading in the sidebar) until its first use: a block once it has been on screen, a feature once it is tapped. Small fixes to existing blocks are not tagged.</li>
           <li><b>Never push a page that won’t load.</b> One script error stops the whole ledger at “loading…”. Before every commit that touches <code>index.html</code>, the pre-commit hook writes out the <em>staged</em> copy (what will really be pushed, which differs from the working file when only part of the changes is committed) and runs <code>node tools/page-check.mjs</code> (script compiles, data evaluates, every block can render) and <code>exam-check</code> on it. Claude never bypasses the hook (<code>--no-verify</code>). When committing only part of the changes, Claude builds the staged copy by matching text, never with line-number patches, and runs <code>page-check</code> on it. After every push, Claude runs <code>node tools/page-check.mjs --live</code>, which waits for GitHub Pages to serve the new commit and checks it, and only then tells the user it’s live. The GitHub check also runs both checks and the live check on every push.</li>
           <li><b>Search bar covers everything.</b> The only interactive control in this file is the search box (apart from the 💬 comments box). It filters on topic names/descriptions AND on the structured content, gaps, tuition misses, status, and links — not just topic titles.</li>
         </ol>
@@ -866,7 +869,7 @@
     <div class="sidebar">
       <div class="search"><input id="search" placeholder="Search everything — topics, notes, gaps, tuition misses…" /></div>
       <div class="ex-nav" id="exNav"></div>
-      <div class="sb-tools"><span class="ex-nav-label">Subjects</span><button type="button" id="sbToggleAll" class="sb-toggle">Expand all</button></div>
+      <div class="sb-tools"><span class="ex-nav-label">Subjects</span><button type="button" id="sbToggleAll" class="sb-toggle" data-new="f-expand-all">Expand all</button></div>
       <div id="sidebarList"></div>
     </div>
     <div class="detail" id="detail">
@@ -1341,7 +1344,7 @@ const CONTENT = {
               { label: 'Age + Distance + Restaurants', values: ['3', '13,551', '*822.0*', '*835.0*'] },
             ],
             caption: 'Example — Goodness of fit for the rent model: rental price per square foot with a single factor, two factors, and all three factors (n = 191).' },
-          { k: 'example', id: 's2-rent-calc', title: 'How the AIC and BIC numbers are calculated (n = 191)',
+          { k: 'example', id: 's2-rent-calc', new: '2026-10-17', title: 'How the AIC and BIC numbers are calculated (n = 191)',
             body: ['Both criteria share the first part, n × ln(SSE ÷ n); only the penalty differs. AIC adds *2(k + 1)*; BIC adds *ln(n) × (k + 1)*, and ln(191) = *5.2523*. The k + 1 counts the slopes plus the intercept.'],
             steps: [
               '*Age (k = 1)*: SSE ÷ n = 32,627 ÷ 191 = 170.82 → ln = 5.1406 → × 191 = *981.86*. AIC = 981.86 + 2 × 2 = *985.9*. BIC = 981.86 + 5.2523 × 2 = 981.86 + 10.50 = *992.4*.',
@@ -1433,7 +1436,7 @@ const CONTENT = {
             'F = [(SST_U − SSE_U) ÷ k] ÷ [SSE_U ÷ (n − k − 1)]',
             'F = (RSS_U ÷ k) ÷ [SSE_U ÷ (n − k − 1)] = MSR ÷ MSE',
           ] },
-          { k: 'example', id: 's3-overall-deriv', title: 'Where the three lines come from, step by step',
+          { k: 'example', id: 's3-overall-deriv', new: '2026-10-17', title: 'Where the three lines come from, step by step',
             steps: [
               '*Line 1 is the nested-model F-test you already know.* Numerator: how much *extra unexplained variation* (SSE) appears when you drop q variables, per variable dropped. Denominator: the unrestricted model’s unexplained variation per degree of freedom, i.e. its *MSE*. A big F means dropping those variables costs far more fit than random noise would.',
               '*The overall test drops every slope.* H₀: b₁ = b₂ = … = bₖ = 0, so the variables dropped are all k of them: *q = k*.',
@@ -16192,7 +16195,7 @@ const CONTENT = {
             'Taking on a new or unfamiliar role means *you* must develop the skills it calls for.',
             'Continuing education is *recommended, not required*. Procedures: CE and employer training, professional designations, seminars and conferences, professional organizations, self-study.',
           ] },
-          { k: 'sub', text: 'Module Quiz 40.1, 41.1 and 41.2 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 40.1, 41.1 and 41.2 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 40.1, 41.1 — Question 1',
             body: [
               'While working on a new underwriting project, Jean Brayman, CFA, has just received information from her client that leads her to believe that the firm\'s financial statements in the registration statement overstate the firm\'s financial position. Brayman should:',
@@ -16321,7 +16324,7 @@ const CONTENT = {
               { label: 'PM trades an illiquid stock between two funds he manages to create activity before selling a large position', values: ['Violation: meant to mislead, even though fund shareholders gain.'] },
               { label: 'Member posts false information on internet boards to push the price up', values: ['Violation.'] },
             ] },
-          { k: 'sub', text: 'Module Quiz 41.3 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 41.3 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 41.3 — Question 1',
             body: [
               'Carrie Carlson, CFA, is a citizen of Emerging Market Country (EMC) with no securities laws governing the use of material nonpublic information. Carlson has clients in Emerging Market Country and in Neighboring Country (NC), which has basic laws governing the use of material nonpublic information. If Carlson has material nonpublic information on a publicly traded security, she:',
@@ -16467,7 +16470,7 @@ const CONTENT = {
             'Share client information only with *authorized co-workers* working for that client; follow firm procedures for storing electronic data.',
             'Applications: telling a charity-board friend that a client wants to give more to charity is a violation; a pension client breaking the law means go to the supervisor, try to stop it, get legal advice on disclosure and dissociate.',
           ] },
-          { k: 'sub', text: 'Module Quiz 41.4, 41.5 and 41.6 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 41.4, 41.5 and 41.6 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 41.4 — Question 1',
             body: [
               'Mary Herbst, CFA, a pension fund manager at GBH Investments, is reviewing some of FreeTime, Inc.\'s pension fund activities over the past years. Which of the following actions related to FreeTime, Inc.\'s pension fund is most likely to be a breach of her fiduciary duties?',
@@ -16592,7 +16595,7 @@ const CONTENT = {
             'On a violation: respond promptly, investigate thoroughly, increase supervision or restrict the wrongdoer.',
             'Application: a compliance head who ignores heavy trading by a trainee in a stock not on the recommended list violates IV(C).',
           ] },
-          { k: 'sub', text: 'Module Quiz 41.7 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 41.7 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 41.7 — Question 1',
             body: [
               'Connie Fletcher, CFA, works for a small money management firm that specializes in pension accounts. Recently, a friend asked her to act as an unpaid volunteer manager for the city\'s street sweep pension fund. As part of the position, the city would grant Fletcher a free parking space in front of her downtown office. Fletcher is considering the offer. Fletcher is most likely required by CFA Institute Standards to:',
@@ -16697,7 +16700,7 @@ const CONTENT = {
             'Record keeping is generally the *firm’s* responsibility.',
             'Applications: keep records of interviews, own analysis and third-party industry reports behind a report. Taking a model’s documentation to a new firm without permission violates duties to the old employer; he may use his *knowledge* of the model but must recreate the supporting documents.',
           ] },
-          { k: 'sub', text: 'Module Quiz 41.8 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 41.8 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 41.8 — Question 1',
             body: [
               'Gail Stefano, CFA, an analyst for a U.S. brokerage firm that serves U.S. investors, researches public utilities in South American emerging markets. Stefano makes the following statement in a recent report: "Based on the fact that the South American utilities sector has seen rapid growth in new service orders, we expect that most companies in the sector will be able to convert the revenue increases into significant profits. We also believe the trend will continue for the next three to five years." The report goes on to describe the major risks of investing in this market, in particular the political and exchange rate instability associated with South American countries. Stefano\'s report:',
@@ -16791,7 +16794,7 @@ const CONTENT = {
             'Firms that allow referral fees need clear approval procedures; update the employer *at least quarterly* on the nature and value of referral compensation.',
             'Applications: a banker paid a bonus per referral to the bank’s brokerage must disclose it to clients, *in writing*, with its nature and value. A consultant who picks the best manager objectively and is *then* paid by that manager violates VI(C): the possibility should have been disclosed.',
           ] },
-          { k: 'sub', text: 'Module Quiz 41.9 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 41.9 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 41.9 — Question 1',
             body: [
               'Which of the following is least likely a violation of Standard VI(B) Priority of Transactions? An analyst:',
@@ -16869,7 +16872,7 @@ const CONTENT = {
               { label: 'CFA logo on the *company* letterhead (as well as his own cards)', values: ['Violation: the logo belongs on an individual charterholder’s letterhead or card only.'] },
               { label: 'Forum username “Old_CFA_Charterholder” with no other identification', values: ['Violation: the name hides the member’s identity.'] },
             ] },
-          { k: 'sub', text: 'Module Quiz 41.10 (Schweser)' },
+          { k: 'sub', text: 'Module Quiz 41.10 (Schweser)', new: '2026-10-18' },
           { k: 'example', title: 'Schweser module quiz 41.10 — Question 1',
             body: [
               'Paula Osgood, CFA, is promoting her new money management firm by issuing an advertisement. Which of these items is least likely a violation of the professional designation Standard? The advertisement states that:',
@@ -20655,6 +20658,58 @@ function render() {
   renderCoverage();
   renderSidebar();
   renderDetail();
+  nwObserve();
+}
+
+// --- NEW tags: new content and new features carry a NEW tag until their first use. A block counts as
+// used once it has been on screen for a moment; a feature once it is tapped. What has been seen syncs
+// with revision progress (a star| row with on: false, so it never counts as a star). To tag something
+// new: give a block `new: 'YYYY-MM-DD'`, or give a button `data-new="f-some-name"`. ---
+function nwKey(id) { return 'star|-|-|new:' + id; }
+function nwSeen(id) { const v = pgGet(nwKey(id)); return !!(v && v.seen); }
+function nwMark(id) {
+  if (nwSeen(id)) return;
+  pgSet(nwKey(id), { reading: '', session: '', item: 'Seen new: ' + id }, { on: false, seen: 1 });
+  nwStyle();
+}
+function nwContentId(topic, mod, anchor) { return 'c:' + topic + '|' + mod + '|' + anchor; }
+function nwUnseenIn(topic) {
+  return rvSessions(topic).some(s => {
+    const an = exAnchors(topic, s.module);
+    return s.blocks.some((b, i) => b.new && !nwSeen(nwContentId(topic, s.module, an[i])));
+  });
+}
+// Feature tags are drawn by one generated stylesheet, so they follow every re-render without repainting.
+function nwStyle() {
+  const ids = {};
+  document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
+  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star'].forEach(id => { ids[id] = 1; });
+  let st = document.getElementById('nwStyle');
+  if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
+  st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
+    (Object.keys(ids).some(id => !nwSeen(id)) ? ` { content: 'NEW'; display: inline-block; margin-left: 5px; padding: 1px 4px; border-radius: 5px; background: var(--rose); color: #fff; font: 700 8.5px/1.3 var(--mono); letter-spacing: 0.04em; vertical-align: 1px; }` : '');
+}
+// New blocks on screen: seen after about a second in view. The tag stays until the next render, so it
+// doesn't vanish while being read.
+let _nwObs = null;
+function nwObserve() {
+  if (_nwObs) _nwObs.disconnect();
+  if (typeof IntersectionObserver === 'undefined') return;
+  const timers = new Map();
+  _nwObs = new IntersectionObserver(entries => entries.forEach(e => {
+    const id = e.target.getAttribute('data-newc');
+    if (e.isIntersecting) {
+      if (!timers.has(id)) timers.set(id, setTimeout(() => { nwMark(id); _nwObs.unobserve(e.target); renderSidebar(); }, 1200));
+    } else if (timers.has(id)) { clearTimeout(timers.get(id)); timers.delete(id); }
+  }), { threshold: 0.4 });
+  document.querySelectorAll('#detail [data-newc]').forEach(el => _nwObs.observe(el));
+}
+function nwInit() {
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-new]');
+    if (t) nwMark(t.getAttribute('data-new'));
+  }, true);
+  nwStyle();
 }
 
 function renderCoverage() {
@@ -20814,7 +20869,7 @@ function renderSidebar() {
       const row = document.createElement('div');
       row.className = 'topic-row' + (t.key === selectedKey ? ' active' : '');
       const st = statusOf(t.key);
-      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + rvSideHtml(t.key) + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
+      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + (nwUnseenIn(t.key) ? ' <span class="new-tag inline" title="New content you haven’t seen yet">NEW</span>' : '') + rvSideHtml(t.key) + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
         (cmOpenCount(t.key) ? '<span class="cm-count" title="Open comments">💬 ' + cmOpenCount(t.key) + '</span>' : '');
       row.onclick = () => { selectedKey = t.key; openSubjects.add(s.id); exBackHide(); render(); };
       topicsDiv.appendChild(row);
@@ -21181,9 +21236,13 @@ function renderFlow(key) {
         ${stBtn(stKey(key, s.module, 'section'), 'section')}
       </div>
       ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
-      ${s.blocks.map((b, i) => b.k === 'sub'
-        ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}">${escapeHtml(b.text)}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section')}</div>`
-        : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}">${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b))}${renderBlock(b, gapObj, refs)}</div>`).join('')}
+      ${s.blocks.map((b, i) => {
+        const nw = b.new && !nwSeen(nwContentId(key, s.module, anchors[i])) ? nwContentId(key, s.module, anchors[i]) : '';
+        const nwAttr = nw ? ` data-newc="${escapeHtml(nw)}"` : '';
+        return b.k === 'sub'
+          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
+          : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b))}${renderBlock(b, gapObj, refs)}</div>`;
+      }).join('')}
     </section>`;
   }).join('');
 }
@@ -21711,7 +21770,7 @@ function rvCheckHtml(topic, mod) {
   const at = `data-topic="${topic}" data-mod="${escapeHtml(mod)}"`;
   const score = `${s.got}/${s.qs.length} got${s.due ? ' · ' + s.due + ' due' : ''}`;
   if (rvCheckClosed(topic, mod)) return `<div class="rv-check-head">Test yourself · ${escapeHtml(mod)}<span class="rv-check-score">${s.qs.length} question${s.qs.length > 1 ? 's' : ''} · ${score}</span></div>
-    <div class="rv-row"><button type="button" class="rv-btn" data-rv="opencheck" ${at}>Answer the questions ▸</button>
+    <div class="rv-row"><button type="button" class="rv-btn" data-rv="opencheck" data-new="f-test-fold" ${at}>Answer the questions ▸</button>
       <button type="button" class="rv-check-link" data-rv="hidechecks" ${at}>Always show these boxes</button></div>`;
   return `<div class="rv-check-head">Test yourself · ${escapeHtml(mod)}<span class="rv-check-score">${score}${
       rv.hideChecks ? ` <button type="button" class="rv-check-link" data-rv="opencheck" ${at}>Hide ▴</button>`
@@ -22132,7 +22191,7 @@ function exBlockCards(topic, mod) {
       const k = stKey(topic, mod, 'b:' + an[i]), tk = stKey(topic, mod, 'trim:' + an[i]);
       if (b.k === 'formula' || b.k === 'sub' || !(stOn(k) || exSecStarred(topic, mod, an[i]))) return;
       const ctx = exContext(s.blocks, i);
-      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>` +
+      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" data-new="f-trim" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b))}</span></div>` +
         `<div class="ex-trim-hint">Tap the lines you already know to hide them. Tap again to bring one back; tap ✂ when done.</div>` +
         `${ctx ? `<div class="ex-ctx"><span class="ex-ctx-label">Context</span>${rt(ctx)}</div>` : ''}<div class="ex-card-body">${renderBlock(b, gaps, c.refs || {})}</div></div>` });
     });
@@ -22161,7 +22220,7 @@ function renderExam(el) {
       <button type="button" class="ex-chip${ex.subj === 'all' ? ' on' : ''}" data-ex="subj" data-v="all">All</button>
       ${subjects.map(s => `<button type="button" class="ex-chip${ex.subj === s.id ? ' on' : ''}" data-ex="subj" data-v="${s.id}">${escapeHtml(s.name)}</button>`).join('')}
       <input type="search" id="exQ" placeholder="Filter this sheet…" aria-label="Filter this sheet">
-      <button type="button" class="ex-chip${ex.clean ? ' on' : ''}" data-ex="clean" title="Hide labels, links and buttons: just the notes">📖 Reading mode</button>
+      <button type="button" class="ex-chip${ex.clean ? ' on' : ''}" data-ex="clean" data-new="f-reading-mode" title="Hide labels, links and buttons: just the notes">📖 Reading mode</button>
       <button type="button" class="ex-chip" data-ex="print">🖨 Print</button>
     </div>
     <div id="exBody"></div>`;
@@ -22543,6 +22602,7 @@ pgLoad();
 render();
 cmInit();
 exInit();
+nwInit();
 aiInit();
 </script>
 </body>
