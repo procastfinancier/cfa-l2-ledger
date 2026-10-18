@@ -1,5 +1,6 @@
 # Runs on every push to GitHub. A red ✗ on the commit means one of these failed; GitHub emails the details.
-#   1. The page loads: the script in index.html compiles and every block can render (page-check).
+#   1. The page loads: the script compiles, every block can render, and it loads in headless Chrome
+#      with no error at startup or in any view (page-check; Chrome is preinstalled on ubuntu-latest).
 #   2. The exam-day sheet (formula sheet, concise notes, stars) is in step with the readings (exam-check).
 #   3. After GitHub Pages redeploys, the live site serves this commit and it still loads (page-check --live).
 name: Exam sheet in step

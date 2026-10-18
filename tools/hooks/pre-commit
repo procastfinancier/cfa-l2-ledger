@@ -1,7 +1,8 @@
 #!/bin/sh
 # Runs on every commit that touches index.html, against the *staged* copy (what will really be
 # pushed), not the working file — the two differ when only part of the changes is committed.
-#   1. page-check: the page script compiles and every block can render, so the site won't hang on "loading…".
+#   1. page-check: the page script compiles, every block can render, and the page really loads in headless
+#      Chrome with no error at startup or when opening any reading or view (so it can't stop half-drawn).
 #   2. exam-check: every session has concise notes in EXAM and every exam line's ↗ link lands on a block.
 # Turned on once per clone with:  git config core.hooksPath tools/hooks
 if git diff --cached --name-only | grep -qx 'index.html'; then
