@@ -17640,6 +17640,101 @@ const TUITION_MISSES = {
       spot: "Low capital mobility changes the short run: expansionary fiscal policy → imports ↑ → depreciation. Check which mobility the question assumes before applying 'rates up → appreciate'.",
     },
   ],
+  'econ.1': [
+    {
+      module: '6.S2',
+      title: 'Cobb–Douglas: constant returns to scale overall, diminishing returns to capital alone',
+      questions: [
+        { ref: 'L2-R6-Q1 #1', ask: 'Y = T·Kᵅ·L¹⁻ᵅ. Which statement is most likely correct?', picked: 'The production function exhibits decreasing returns to scale', answer: 'α is capital’s share of output; a smaller α means a lower benefit from capital deepening' },
+      ],
+      trap: "You knew something in this model diminishes, and 'decreasing returns' sounded like it (you were torn between options here). But two different things are going on. Adding capital alone, with labour fixed, gives diminishing marginal returns. Scaling all inputs by x% raises output by exactly x%, because the exponents α + (1 − α) add up to 1: constant returns to scale.",
+      fix: "Keep the two apart. Returns to scale: scale K and L together → exponents sum to 1 → constant. Marginal returns: raise K/L with L fixed → each extra unit of capital adds less, because α < 1 → diminishing. α is capital’s share of output (α = rK/Y): the higher α, the more output rises from capital deepening and the slower diminishing returns bite. The answer key adds that α tends to be higher in developing economies, so 'developing markets have a lower α' is false.",
+      tackle: [
+        "Decide whether the option is about scaling all inputs (returns to scale) or adding one input (marginal returns).",
+        "All inputs: add the exponents. A sum of 1 means constant returns to scale.",
+        "One input: its exponent is below 1, so marginal returns diminish.",
+        "For α: it is capital’s share of output; a bigger α means a bigger payoff from capital deepening.",
+      ],
+      spot: "Expect 'diminishing returns' and 'decreasing returns to scale' side by side in the options. Only the first describes Cobb–Douglas.",
+    },
+    {
+      module: '6.S2',
+      title: 'Potential GDP growth: use the version that matches the inputs given',
+      questions: [
+        { ref: 'L2-R6-Q1 #10', ask: 'Labour share 60%, labour force +2%, capital +1.5%, labour productivity +2% a year. Potential GDP growth?', picked: '5.50%', answer: '4%' },
+      ],
+      trap: "5.5% is 2% + 1.5% + 2%: every growth rate in the question added together. But labour productivity growth already includes capital deepening, so adding capital growth on top counts it twice. The 60% labour share and the 1.5% capital growth are there to pull you into the Cobb–Douglas version.",
+      fix: "There are two versions, and the inputs tell you which one. Labour productivity given → potential GDP growth = labour force growth + labour productivity growth = 2% + 2% = 4%. TFP given → potential GDP growth = TFP growth + α × capital growth + (1 − α) × labour growth, as in your Azikland example (2% + 0.4 × 3% + 0.6 × 1.5% = 4.1%). Never mix the two.",
+      tackle: [
+        "Find the word 'productivity': is it labour productivity or total factor productivity?",
+        "Labour productivity → add labour force growth and labour productivity growth. Ignore capital growth and the shares.",
+        "TFP → weight capital by α and labour by (1 − α), then add TFP growth in full.",
+        "If your answer uses every number in the question, ask which of them are distractors.",
+      ],
+      spot: "Both wrong answers come from the same numbers: 5.5% from adding everything, 3.8% from treating labour productivity as TFP (2% + 0.4 × 1.5% + 0.6 × 2%).",
+    },
+    {
+      module: '6.S2',
+      title: 'Natural resources: Dutch disease hits resource-rich countries, not resource-poor ones',
+      questions: [
+        { ref: 'L2-R6-Q1 #3', ask: 'A country with relatively poor endowment of natural resources is most likely to:', picked: 'Suffer from Dutch disease', answer: 'Enjoy the technological progress of a country with a vigorous manufacturing sector' },
+      ],
+      trap: "This was a guess, and Dutch disease is the most memorable term in that part of the reading. But Dutch disease hits resource-RICH countries: foreign demand for the resource pushes the currency up and makes every other export uncompetitive. A resource-poor country has no resource to drive its currency up.",
+      fix: "Flip it round. Resource-rich: currency appreciates (Dutch disease), effort goes into extracting resources, and manufacturing with its TFP gains is crowded out. Resource-poor: buys resources through trade (access matters more than ownership), builds manufacturing, and shares in the technological progress that comes with it, like Japan. Option C, pouring effort into chasing resources, also describes a resource-rich country.",
+      tackle: [
+        "First decide whether the question is about a resource-rich or a resource-poor country.",
+        "Dutch disease, effort spent extracting resources, neglected manufacturing → resource-rich.",
+        "Growth through trade, manufacturing and TFP progress → resource-poor with access to resources.",
+      ],
+      spot: "Your notes’ module quiz tests the same idea: 'grows slower because it lacks natural resources' is incorrect.",
+    },
+    {
+      module: '6.S3',
+      title: 'Convergence: same technology means the same growth rate, not the same income',
+      questions: [
+        { ref: 'L2-R6-Q1 #2', ask: 'Which statement regarding convergence hypotheses is least accurate?', picked: 'Conditional convergence requires countries to have the same population growth rates', answer: 'Neoclassical theory says countries will eventually have the same growth rates and per capita income' },
+      ],
+      trap: "The conditional-convergence statement sounds restrictive, so it looked like the false one. It is true: conditional convergence needs the same saving rate, population growth rate and production function. The false one is the neoclassical claim, and it is the same slip your notes already have a Fix card for: same technology → same growth rates, not the same per capita income.",
+      fix: "Three hypotheses, three claims. Absolute: with the same technology, poorer countries’ growth rates converge to those of richer countries, not their income levels. Conditional: income levels converge only if the saving rate, population growth and production function are the same. Club: poorer countries converge with the richer club only if they share its institutions; outsiders can join through reforms. The neoclassical model supports conditional convergence.",
+      tackle: [
+        "For each statement ask: is it claiming the same growth rate or the same income level?",
+        "The same income level needs conditions (conditional) or club membership (club).",
+        "A statement that gives the neoclassical model the same per capita income with no conditions is wrong.",
+      ],
+      spot: "This one keeps coming back: the Fix card in 6.S3 is about the same slip. 'Least accurate' questions hide it in one word: income vs growth rate.",
+    },
+    {
+      module: '6.S3',
+      title: 'Endogenous growth: firms ignore the social return, so they under-invest in R&D',
+      questions: [
+        { ref: 'L2-R6-Q1 #4', ask: 'Which statement regarding endogenous growth theory is least likely correct?', picked: 'Economies may not reach a steady state and can permanently increase growth', answer: 'Social returns benefit society and encourage private firms to invest more aggressively in R&D' },
+        { ref: 'L2-R6-Q1 #5', ask: 'Endogenous growth theory says growth is a function of which two variables?', picked: 'Real interest rates and technological change', answer: 'The creation of knowledge capital and real interest rates' },
+      ],
+      trap: "#4: 'permanently increase growth' sounds too strong, but it is the heart of the theory: no steady state. The false statement reversed the logic: social returns do NOT encourage firms, because firms count only their own private return. #5: 'technological change' is the neoclassical answer, where technology arrives from outside the model. Endogenous theory explains where technology comes from: investment in knowledge capital.",
+      fix: "Endogenous growth as one chain: firms invest in R&D and knowledge capital → part of the benefit spills over to the whole economy (social return > private return) → firms ignore the spill-over → they invest less than is best for society → R&D subsidies are justified → returns to capital are constant at the economy level, so there is no steady state and growth can rise permanently. Technology is what the model produces, not an outside input.",
+      tackle: [
+        "Neoclassical: technology is exogenous; saving raises the level of output, not long-run growth.",
+        "Endogenous: technology comes from knowledge capital; saving and R&D can raise growth permanently.",
+        "A statement saying the social return drives private firms is reversed: the gap between the two is why firms under-invest.",
+      ],
+      spot: "It comes paired with the R&D subsidy question, which you got right (#8): subsidies are justified only by the endogenous model.",
+    },
+    {
+      module: '6.S3',
+      title: 'Open trade: specialisation by comparative advantage, then fast growth that slows',
+      questions: [
+        { ref: 'L2-R6-Q1 #9', ask: 'Statement 1: removing trade barriers and allowing free flow of capital leads countries to specialise by comparative advantage. Statement 2: developing economies short of significant diminishing returns attract investment, develop, then slow. Which are correct?', picked: 'Statement 2 only', answer: 'Both statements are correct' },
+      ],
+      trap: "Statement 1 may have looked too broad because it bundles trade barriers and capital flows together. But both appear together in your notes’ list of open-economy benefits, and specialisation by comparative advantage is the first gain from removing barriers.",
+      fix: "Benefits of open markets (your 6.S3 flag): foreign savings flow in, specialisation by comparative advantage, larger markets and economies of scale, technology sharing (higher TFP), and competition. Neoclassical path: capital flows to poorer countries where returns to capital are still high, they grow fast, then slow towards the developed steady state as diminishing returns set in. The two statements describe exactly this.",
+      tackle: [
+        "Check each statement on its own against the list of open-economy benefits.",
+        "'Grows fast, then slows' is the neoclassical convergence path, so it is true.",
+        "Don’t reject a statement just because it bundles two true ideas together.",
+      ],
+      spot: "Expect the neoclassical vs endogenous contrast with it: the open-trade gain is temporary in the neoclassical model and permanent in the endogenous model.",
+    },
+  ],
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -17661,6 +17756,18 @@ const TESTS = [
     { mod: '5.S10', what: 'Warning signs of a currency crisis (floating rates)', ok: 1 },
     { mod: '5.S7', what: 'Forward rate parity and UIRP', ok: 1 },
     { mod: '5.S10', what: 'Fiscal deficit: Mundell-Fleming short run vs. portfolio balance long run', ok: 0, why: 'flip' },
+  ] },
+  { id: 'L2-R6-Q1', topic: 'econ.1', name: 'Reading 6 quiz 1', date: '2026-10-18', mins: 19.9, qs: [
+    { mod: '6.S2', what: 'Cobb–Douglas: returns to scale and what α means (confused between options)', ok: 0, why: 'gap' },
+    { mod: '6.S3', what: 'Absolute, conditional and club convergence', ok: 0, why: 'gap' },
+    { mod: '6.S2', what: 'Natural resources: what a resource-poor country can expect (guessed)', ok: 0, why: 'gap' },
+    { mod: '6.S3', what: 'Endogenous growth: private vs social returns to R&D', ok: 0, why: 'flip' },
+    { mod: '6.S3', what: 'Endogenous growth: what drives growth', ok: 0, why: 'gap' },
+    { mod: '6.S1', what: 'What drives aggregate stock market appreciation', ok: 1 },
+    { mod: '6.S2', what: 'What drives potential GDP growth in developed countries', ok: 1 },
+    { mod: '6.S3', what: 'Which growth model supports incentives for R&D', ok: 1 },
+    { mod: '6.S3', what: 'Open trade: comparative advantage and convergence', ok: 0, why: 'gap' },
+    { mod: '6.S2', what: 'Potential GDP growth from labour force and labour productivity', ok: 0, why: 'calc' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. EXAM_AT drives the timer at the top of the page. PLAN has one
