@@ -17725,6 +17725,7 @@ const TUITION_MISSES = {
       title: 'Natural resources: Dutch disease hits resource-rich countries, not resource-poor ones',
       questions: [
         { ref: 'L2-R6-Q1 #3', ask: 'A country with relatively poor endowment of natural resources is most likely to:', picked: 'Suffer from Dutch disease', answer: 'Enjoy the technological progress of a country with a vigorous manufacturing sector' },
+        { ref: 'L2-R6-Q2 #2', ask: 'Which situation is least likely to constrain growth?', picked: 'Strong currency appreciation from demand for domestically owned natural resources', answer: 'Limited ownership of natural resources' },
       ],
       trap: "This was a guess, and Dutch disease is the most memorable term in that part of the reading. But Dutch disease hits resource-RICH countries: foreign demand for the resource pushes the currency up and makes every other export uncompetitive. A resource-poor country has no resource to drive its currency up.",
       fix: "Flip it round. Resource-rich: currency appreciates (Dutch disease), effort goes into extracting resources, and manufacturing with its TFP gains is crowded out. Resource-poor: buys resources through trade (access matters more than ownership), builds manufacturing, and shares in the technological progress that comes with it, like Japan. Option C, pouring effort into chasing resources, also describes a resource-rich country.",
@@ -17733,7 +17734,7 @@ const TUITION_MISSES = {
         "Dutch disease, effort spent extracting resources, neglected manufacturing → resource-rich.",
         "Growth through trade, manufacturing and TFP progress → resource-poor with access to resources.",
       ],
-      spot: "Your notes’ module quiz tests the same idea: 'grows slower because it lacks natural resources' is incorrect.",
+      spot: "Your notes’ module quiz tests the same idea: 'grows slower because it lacks natural resources' is incorrect. Missed twice now (Q1 #3, Q2 #2): in Q2 the strong currency was Dutch disease itself, which constrains growth, while limited ownership doesn't, as long as trade gives access.",
     },
     {
       module: '6.S3',
@@ -17756,6 +17757,7 @@ const TUITION_MISSES = {
       questions: [
         { ref: 'L2-R6-Q1 #4', ask: 'Which statement regarding endogenous growth theory is least likely correct?', picked: 'Economies may not reach a steady state and can permanently increase growth', answer: 'Social returns benefit society and encourage private firms to invest more aggressively in R&D' },
         { ref: 'L2-R6-Q1 #5', ask: 'Endogenous growth theory says growth is a function of which two variables?', picked: 'Real interest rates and technological change', answer: 'The creation of knowledge capital and real interest rates' },
+        { ref: 'L2-R6-Q2 #10', ask: '"Whenever the economy slows, someone will come along with a bold new idea that kick-starts it." Which theory?', picked: 'Exogenous growth theory', answer: 'Endogenous growth theory' },
       ],
       trap: "#4: 'permanently increase growth' sounds too strong, but it is the heart of the theory: no steady state. The false statement reversed the logic: social returns do NOT encourage firms, because firms count only their own private return. #5: 'technological change' is the neoclassical answer, where technology arrives from outside the model. Endogenous theory explains where technology comes from: investment in knowledge capital.",
       fix: "Endogenous growth as one chain: firms invest in R&D and knowledge capital → part of the benefit spills over to the whole economy (social return > private return) → firms ignore the spill-over → they invest less than is best for society → R&D subsidies are justified → returns to capital are constant at the economy level, so there is no steady state and growth can rise permanently. Technology is what the model produces, not an outside input.",
@@ -17764,7 +17766,52 @@ const TUITION_MISSES = {
         "Endogenous: technology comes from knowledge capital; saving and R&D can raise growth permanently.",
         "A statement saying the social return drives private firms is reversed: the gap between the two is why firms under-invest.",
       ],
-      spot: "It comes paired with the R&D subsidy question, which you got right (#8): subsidies are justified only by the endogenous model.",
+      spot: "It comes paired with the R&D subsidy question, which you got right (#8): subsidies are justified only by the endogenous model. Q2 #10 was a guess: ideas created inside the economy that keep growth going forever = ENDOGENOUS. 'Exogenous' means technology arrives from outside, unexplained (the neoclassical view).",
+    },
+    {
+      module: '6.S2',
+      title: 'Labour supply: the wealth effect cuts hours; immigration adds workers',
+      questions: [
+        { ref: 'L2-R6-Q2 #5', ask: 'GDP growth slowed; causes given: slower population growth, the wealth effect, rising immigration. Which least likely explains it?', picked: 'Population growth', answer: 'Immigration' },
+      ],
+      trap: "Slower population growth is the most obvious cause of slower growth, so it should have been the first one ruled OUT in a 'least likely' question. Rising immigration adds workers, so it can only offset the slowdown, never cause it.",
+      fix: "Labour input = labour force × average hours. Each factor pushes one way: population growth ↓ → labour force ↓ (constrains). Wealth effect → people choose more leisure → hours ↓ (constrains). Immigration ↑ → labour force ↑ (supports, and it can offset an ageing population). Participation ↑ → labour force ↑.",
+      tackle: [
+        "Put an arrow on each factor: does it raise or cut labour input?",
+        "'Least likely to explain a slowdown' = the one with the UP arrow.",
+        "Reread the stem's question word (least / most) before choosing.",
+      ],
+      spot: "Expect the wealth effect to be the trap: it sounds positive, but it cuts hours worked.",
+    },
+    {
+      module: '6.S2',
+      title: 'Cobb–Douglas: same GDP growth, slower labour growth → higher α',
+      questions: [
+        { ref: 'L2-R6-Q2 #9', ask: 'Ruritania and Utopia: both 4.3% potential growth, same TFP (1.8%) and capital growth (3.1%); labour growth 2.2% vs 1.7%. What did Gordon assume?', picked: 'Elasticity w.r.t. capital is higher in Ruritania', answer: 'Elasticity w.r.t. labour is lower in Utopia than Ruritania' },
+      ],
+      trap: "You had the right idea, that α must differ, but put the direction on the wrong country. Utopia's labour grows more slowly, so to reach the same 4.3% it needs MORE weight on the faster-growing input, capital: a higher α in Utopia, so a lower (1 − α).",
+      fix: "Growth = TFP + α·g(K) + (1 − α)·g(L). Ruritania: 4.3 = 1.8 + 3.1α + 2.2(1 − α) → 0.9α = 0.3 → α = 0.33, 1 − α = 0.67. Utopia: 4.3 = 1.8 + 3.1α + 1.7(1 − α) → 1.4α = 0.8 → α = 0.57, 1 − α = 0.43. TFP enters with no weight (it has no 'elasticity'), so option B is out by definition.",
+      tackle: [
+        "Find the only input that differs between the two countries.",
+        "If that input grows more slowly, the other input needs a bigger weight to hit the same total.",
+        "When in doubt, solve for α for both countries: growth − TFP = α·(gK − gL) + gL, here 2.5 = α·(3.1 − gL) + gL.",
+        "α = elasticity w.r.t. capital; 1 − α = elasticity w.r.t. labour.",
+      ],
+      spot: "Options pair 'higher in X' with 'lower in Y' for capital and labour: each is just the other said backwards, so check which one matches your α.",
+    },
+    {
+      module: '6.S3',
+      title: 'Classical growth theory = subsistence real wage',
+      questions: [
+        { ref: 'L2-R6-Q2 #6', ask: 'Which concept is uniquely associated with the classical theory of economic growth?', picked: 'Real GDP growth', answer: 'Subsistence real wage' },
+      ],
+      trap: "Real GDP growth is part of every growth theory, so it can't be 'uniquely' classical. The word 'uniquely' asks for what only this theory has.",
+      fix: "Classical (Malthus): income above the subsistence real wage → population grows → diminishing returns to labour → income falls back to subsistence. Subsistence real wage = the minimum real wage needed to stay alive. Unique to each theory: classical → subsistence wage; neoclassical → steady state, θ ÷ (1 − α); endogenous → knowledge capital, spillovers, no steady state.",
+      tackle: [
+        "'Uniquely associated' → cross out anything every theory uses (GDP growth, capital).",
+        "Match the remaining term to its theory: subsistence = classical.",
+      ],
+      spot: "Your 6.S3 Q&A covers it: if labour productivity falls, GDP per capita returns to subsistence.",
     },
     {
       module: '6.S3',
@@ -17926,6 +17973,74 @@ const TUITION_Q = {
     ],
     "p": 1,
     "a": 2
+  },
+  "L2-R6-Q2 #2": {
+    "full": [
+      "Which of the following situations is least likely to constrain growth in an economy?"
+    ],
+    "options": [
+      "A) Limited ownership of natural resources",
+      "B) Strong domestic currency appreciation due to demand for domestically owned natural resources",
+      "C) A lack of access to natural resources"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R6-Q2 #5": {
+    "full": [
+      "Jon Barnton is studying the potential rate of economic growth in Barini, a large developed economy in Western Europe. He makes the following statement:",
+      "'Barini has seen a slowdown in GDP growth over the past decade, the likely causes being a slowdown in population growth, the wealth effect and increasing immigration.'",
+      "Which of the factors stated by Barnton is least likely to explain the slowdown?"
+    ],
+    "options": [
+      "A) Population growth",
+      "B) Immigration",
+      "C) Wealth effect"
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R6-Q2 #6": {
+    "full": [
+      "Which of the following concepts is uniquely associated with the classical theory of economic growth?"
+    ],
+    "options": [
+      "A) Real GDP growth.",
+      "B) Subsistence real wage.",
+      "C) Target rate of return."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R6-Q2 #9": {
+    "full": [
+      "Ruritania and Utopia are two emerging market economies for which Jon Gordon, CFA, calculated a potential GDP growth rate of 4.3% (for both).",
+      "In calculating the identical growth rates, Gordon used the Cobb-Douglas production function and the following data:",
+      { "columns": ["Country", "Labor Growth Rate", "Capital Growth Rate", "Growth in TFP*"], "rows": [["Ruritania", "2.2%", "3.1%", "1.8%"], ["Utopia", "1.7%", "3.1%", "1.8%"]] },
+      "*Total Factor Productivity",
+      "Which of the following statements is most accurate regarding Gordon's assumptions in calculating growth rates?"
+    ],
+    "options": [
+      "A) Gordon has assumed that the elasticity of output with respect to labor is lower in Utopia than Ruritania",
+      "B) Gordon has assumed that the elasticity of output with respect to TFP is higher in Utopia than Ruritania",
+      "C) Gordon has assumed that the elasticity of output with respect to capital is higher in Ruritania than Utopia"
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R6-Q2 #10": {
+    "full": [
+      "While having lunch with a group of friends, Francine Lenser, CFA, was overheard saying the following: \"The recent boom in technological advances should keep the economy growing. Whenever the economy slows, someone will come along with a bold new idea that kick-starts it.\"",
+      "Lenser's statement most accurately reflects the:"
+    ],
+    "options": [
+      "A) exogenous growth theory.",
+      "B) neoclassical growth theory.",
+      "C) endogenous growth theory."
+    ],
+    "p": 0,
+    "a": 2,
+    "note": "Guessed. Option B is printed as 'neoclassical growth theory.D21' on the result page; the 'D21' is a stray label."
   },
   "L2-R7-Q1 #5": {
     "full": [
@@ -18266,6 +18381,18 @@ const TESTS = [
     { mod: '6.S3', what: 'Which growth model supports incentives for R&D', ok: 1 },
     { mod: '6.S3', what: 'Open trade: comparative advantage and convergence', ok: 0, why: 'gap' },
     { mod: '6.S2', what: 'Potential GDP growth from labour force and labour productivity', ok: 0, why: 'calc' },
+  ] },
+  { id: 'L2-R6-Q2', topic: 'econ.1', name: 'Reading 6 quiz 2', date: '2026-10-19', mins: 20.6, qs: [
+    { mod: '6.S2', what: 'Potential GDP growth from TFP, capital and labour (growth accounting)', ok: 1 },
+    { mod: '6.S2', what: 'Natural resources: which situation does not constrain growth', ok: 0, why: 'gap' },
+    { mod: '6.S1', what: 'Stock market appreciation vs potential GDP growth, short and long run', ok: 1 },
+    { mod: '6.S2', what: 'Human capital and public infrastructure', ok: 1 },
+    { mod: '6.S2', what: 'Labour supply: population growth, wealth effect, immigration', ok: 0, why: 'flip' },
+    { mod: '6.S3', what: 'Classical growth theory: subsistence real wage', ok: 0, why: 'gap' },
+    { mod: '6.S1', what: 'Long-run stock market growth tracks GDP growth', ok: 1 },
+    { mod: '6.S2', what: 'What raises labour productivity', ok: 1 },
+    { mod: '6.S2', what: 'Cobb–Douglas: back out α from the same potential GDP growth', ok: 0, why: 'flip' },
+    { mod: '6.S3', what: 'Endogenous growth: new ideas keep growth going (guessed)', ok: 0, why: 'gap' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. EXAM_AT drives the timer at the top of the page. PLAN has one
