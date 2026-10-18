@@ -174,6 +174,17 @@ window.addEventListener('error', function (e) {
   body.wk-hide .wk-b-always { display: inline-block; }
   body:not(.wk-hide) .wk.wk-flip .wk-bar, body.wk-hide .wk:not(.wk-flip) .wk-bar { margin-bottom: 0; }
   body:not(.wk-hide) .wk.wk-flip, body.wk-hide .wk:not(.wk-flip) { padding: 7px 12px; background: var(--panel); }
+  .weak-full p { margin: 4px 0; font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .weak-tbl { border-collapse: collapse; font-size: 12px; margin: 6px 0; }
+  .weak-tbl th, .weak-tbl td { border: 1px solid var(--line); padding: 3px 8px; text-align: right; }
+  .weak-tbl th:first-child, .weak-tbl td:first-child { text-align: left; }
+  .weak-opts { list-style: none; margin: 6px 0 2px; padding: 0; }
+  .weak-opts li { display: flex; gap: 8px; align-items: flex-start; padding: 4px 6px; border-radius: 6px; font-size: 13px; color: var(--ink-soft); line-height: 1.45; }
+  .weak-opts li.picked { color: var(--rose); background: var(--rose-bg); font-weight: 600; }
+  .weak-opts li.right { color: var(--teal); background: var(--teal-bg); font-weight: 600; }
+  .weak-mark { flex: 0 0 14px; font-weight: 700; }
+  .weak-tag { font-family: var(--mono); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 5px; border-radius: 8px; border: 1px solid currentColor; margin-left: 4px; white-space: nowrap; }
+  .weak-note { font-size: 12px; color: var(--ink-soft); font-style: italic; margin-top: 4px; }
   .weak-title { font-size: 13.5px; font-weight: 700; color: var(--ink); margin: 2px 0 4px; line-height: 1.35; }
   .weak-sec { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--rose); text-transform: uppercase; letter-spacing: 0.05em; margin: 10px 0 4px; }
   .weak-text { font-size: 12.5px; color: var(--ink); line-height: 1.55; }
@@ -990,7 +1001,7 @@ window.addEventListener('error', function (e) {
               <span><span class="sw" style="background:var(--rose);"></span><b style="color:var(--rose);">Rose "Tuition miss"</b> — the user got this wrong on an external tuition test/quiz and pasted it in for Claude to log and explain</span>
             </div>
           </li>
-          <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
+          <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct; and the full question word for word, with every option, in <code>TUITION_Q</code> keyed by its ref), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
           <li><b>Test log — tag every question.</b> When the user adds a test result (a PDF in <code>Written Notes/&lt;subject&gt;/Test Result</code>), Claude logs it in <code>TESTS</code>: every question, right or wrong, with the session it tests (<code>mod</code>), whether it was right, and for a miss the kind of mistake (<code>gap</code>, <code>flip</code>, <code>calc</code>, or <code>guess</code> for a lucky right answer). The wrong answers then go through the tuition-miss workflow above. The 🧪 Test log turns this into a Dig in / Quick fix / Move on verdict per session.</li>
           <li><b>Revision is tracked as two separate things.</b> “Revised” is a tick per notebook session (one per day; the count is the number of passes). “Understood” turns on only when the user has graded every checkpoint question for that session “Got it”. Claude writes those questions into <code>CHECKS[key][module]</code> from the session’s own notes: why it works, what changes if an input moves, a fresh calculation, and an “explain it” prompt, never a plain definition. Keep each question <code>id</code> stable once published. Shaky and missed questions come back on a 1 / 3 / 7 / 14 / 30-day schedule. When processing comments, also check <code>node tools/comments.mjs progress</code>: a question that keeps coming back Shaky or Didn’t know is a gap to explain, and Teach-back comments (blurts and explain-it answers) get graded in the reply.</li>
           <li><b>The exam-day sheet moves with the notes.</b> The formula sheet builds itself from <code>formula</code> blocks, but the concise notes are written by hand in <code>EXAM</code>: a reading overview (<code>EXAM[key].about</code>, paragraphs on what the reading covers and how its topics connect), and for each session a prose summary (<code>s</code>) plus linked key points (<code>n</code>). Concise means a real overview, not one-liners. In the same change that adds or edits a session (or a whole reading), Claude writes or updates the overview, that session’s summary and key points, adds any formula that only sits inside an example or point list as an <code>f</code> entry, and runs <code>node tools/exam-check.mjs</code>. The pre-commit hook (<code>tools/hooks</code>) stops a commit that leaves a session without exam notes or breaks a ↗ link, and the GitHub check re-runs it on every push.</li>
@@ -17772,6 +17783,404 @@ const TUITION_MISSES = {
     },
   ],
 };
+// The tuition questions behind the weak-spot cards, word for word as they were asked, keyed by the card's `ref`.
+// `full`: the question (a string per paragraph, or { columns, rows } for a table). `options`: as printed (some
+// quizzes print no letters). `p`: the option I picked, `a`: the answer, both 0-based. `note`: a remark on the key.
+// A card whose question isn't here shows its one-line summary instead.
+const TUITION_Q = {
+  "L2-R5-Q1 #1": {
+    "full": [
+      "Given the following quotes for the Canadian dollar (CAD) and the British pound (GBP), the implied CAD/GBP bid-ask quotes are closest to:",
+      "CAD/USD 1.59031 − 1.59701",
+      "GBP/USD 0.69459 − 0.69686"
+    ],
+    "options": [
+      "A) CAD/GBP 2.2992 − 2.3163.",
+      "B) CAD/GBP 2.2821 − 2.2992.",
+      "C) CAD/GBP 2.2895 − 3.2886."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R5-Q1 #3": {
+    "full": [
+      "Which of the following statements about foreign currency bid-ask spreads is least accurate? Foreign currency bid-ask spreads:"
+    ],
+    "options": [
+      "A) are a function of transaction volume and volatility.",
+      "B) are influenced by time window in a trading day.",
+      "C) increase as the size of the transaction decreases."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R5-Q1 #6": {
+    "full": [
+      "Which of the following is least likely a warning sign of an impending currency crisis?"
+    ],
+    "options": [
+      "A) Terms of trade deteriorate.",
+      "B) Money supply relative to bank reserves shrinks.",
+      "C) Liberalized capital markets that allow for a free flow of capital."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R5-Q1 #10": {
+    "full": [
+      "Under the Mundell-Fleming model and the asset market approach to exchange rate determination, a country following sustained expansionary fiscal policy would see its currency:"
+    ],
+    "options": [
+      "A) depreciate in the short-run and depreciate in the long-run.",
+      "B) appreciate in the short-run and appreciate in the long-run.",
+      "C) appreciate in the short-run and depreciate in the long-run."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R6-Q1 #1": {
+    "full": [
+      "Mark Tortal uses the Cobb-Douglas production function to analyze potential growth in emerging economies. His simple model takes the classic form Y = TKᵅL⁽¹⁻ᵅ⁾.",
+      "Using Tortal's model, which of the following statements is most likely correct?"
+    ],
+    "options": [
+      "A) developing markets typically display a lower α than developed markets",
+      "B) Aplha (α) represents the share of output allocated to capital and a smaller α indicates a lower benefit of capital deepening",
+      "C) The production function exhibits decreasing returns to scale"
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R6-Q1 #2": {
+    "full": [
+      "Which of the following statements regarding convergence hypotheses is least accurate?"
+    ],
+    "options": [
+      "A) The conditional convergence hypothesis contends that convergence of living standards requires countries to have the same population growth rates",
+      "B) The club convergence hypothesis contends that poorer countries with similar institutional features to those of richer countries will grow rapidly to catch up with their peers.",
+      "C) The neoclassical theory contends that countries will eventually have the same growth rates and per capita income"
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R6-Q1 #3": {
+    "full": [
+      "A country with relatively poor endowment of natural resources is most likely to:"
+    ],
+    "options": [
+      "A) enjoy the technological progress of a country with a vigorous manufacturing sector.",
+      "B) suffer from ‘Dutch disease’.",
+      "C) devote a disproportionate amount of its economic energy to pursuing the limited natural resources that the country has."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R6-Q1 #4": {
+    "full": [
+      "Which of the following statements regarding endogenous growth theory is least likely correct?"
+    ],
+    "options": [
+      "A) Endogenous growth theory suggests that economies may not reach a steady state growth but instead permanently increase growth",
+      "B) Endogenous growth theory suggests that private firm spending levels on R&D is often sub-optimal",
+      "C) Social returns benefit society as a whole and encourage private firms to invest more aggressively in R&D which in turn fuels growth"
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R6-Q1 #5": {
+    "full": [
+      "The endogenous growth theory contends that economic growth is a function of which of the following two economic variables?"
+    ],
+    "options": [
+      "A) Real interest rates and technological change.",
+      "B) The creation of knowledge capital and real interest rates.",
+      "C) The subsistence real wage and real interest rates."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R6-Q1 #9": {
+    "full": [
+      "Bob Forster makes the following statements regarding economic growth theories and trade barriers",
+      "Statement 1: Removing trade barriers and allowing the free flow of capital often leads to countries specializing in industries where they have comparative advantage",
+      "Statement 2: Developing economies that have not reached the point of significant diminishing returns to capital can attract investment, leading to development of their economy and an eventual slowing of growth",
+      "Which of Forster's comments are most likely correct?"
+    ],
+    "options": [
+      "A) Statement 1 only",
+      "B) Both statements are correct",
+      "C) Statement 2 only"
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R6-Q1 #10": {
+    "full": [
+      "Hemali is an emerging market economy where labor's share of GDP is 60%. The long-term trend of labor growth is 2%. Capital investment has been growing at 1.5% and is expected to continue at that rate in the future. Hemali has increased the budgetary allocation for primary and secondary education. Accordingly, economists estimate that labor productivity will increase by 2% per year.",
+      "The potential GDP growth rate for Hemali is closest to:"
+    ],
+    "options": [
+      "A) 3.80%",
+      "B) 5.50%",
+      "C) 4%"
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R7-Q1 #5": {
+    "full": [
+      "When comparing companies that hold equity investments in other corporations, which of the following statements is most accurate? All else being equal, leverage measures for a firm using consolidation will appear:"
+    ],
+    "options": [
+      "A) more or less favorable depending on the leverage of the investee company.",
+      "B) more favorable than those for a comparable firm using the equity method.",
+      "C) less favorable than those for a comparable firm using the equity method."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R7-Q1 #7": {
+    "full": [
+      "Under IFRS, where an investor owns a significant number (39%) of the voting shares of an investee but has no involvement in policy making and no Board of Directors' representation, which of the following investment classifications is most appropriate to characterize the situation?"
+    ],
+    "options": [
+      "A) Investment in financial assets.",
+      "B) Significant influence.",
+      "C) Investment in associates."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R7-Q2 #1": {
+    "full": [
+      "Which of the following statements about special purpose entities (SPE) are correct or incorrect?",
+      "Statement #1: The sponsor usually maintains the decision-making power and voting control over the SPE.",
+      "Statement #2: The equity owners of an SPE usually receive a rate of return that is tied to the performance of the SPE."
+    ],
+    "options": [
+      "A) Both are correct.",
+      "B) Only one is correct.",
+      "C) Both are incorrect."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R7-Q2 #2": {
+    "full": [
+      "Milburne Company purchased 1,000 shares of Marino Co. for $20 per share on January 1. By December 31, shares of Marino were trading at $15 per share in the open market. Marino Co. has 100,000 shares outstanding with a dividend yield of 2% at year end. Milburne choose FVOCI classification for these shares. The impact of the Marino holding on the Milburne income statement is:"
+    ],
+    "options": [
+      "A) -$5,000.",
+      "B) -$4,700.",
+      "C) $300."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R7-Q2 #4": {
+    "full": [
+      "Which of the following statements regarding special purpose entities (SPEs) is least accurate?"
+    ],
+    "options": [
+      "A) According to U.S. GAAP, if a SPE is considered a VIE, it must be only consolidated by the primary beneficiary.",
+      "B) Under IFRS, a special purpose entity must be consolidated by the entity which exercises control over that entity.",
+      "C) According to U.S. GAAP, a special purpose entity is classified as a variable interest entity (VIE) if it has at-risk equity that is sufficient to finance its own activities without additional financial support."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R7-Q2 #5": {
+    "full": [
+      "Maverick Incorporated formed a special purpose entity (SPE) to purchase and lease a 50,000 acre ranch. The SPE financed 95% of the purchase price with debt. The remaining 5% was financed with equity capital received from two separate independent investors. The lender would not make the loan without Maverick's guarantee. How should Maverick treat the SPE in its financial statements if Maverick is the lessee?"
+    ],
+    "options": [
+      "A) Each equity investor must proportionately consolidate the SPE.",
+      "B) Maverick must consolidate the SPE.",
+      "C) No firm must consolidate the SPE."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R7-Q2 #7": {
+    "full": [
+      "Mustang Corporation formed a special purpose entity (SPE) for purposes of providing research and development. An unrelated firm absorbs the expected losses of the SPE and the independent shareholders of the SPE receive the expected residual returns. Is the SPE considered a variable interest entity (VIE) according to FASB Interpretation No. 46(R) and is consolidation required by Mustang, respectively?"
+    ],
+    "options": [
+      "A) Yes ; Yes.",
+      "B) Yes ; No.",
+      "C) No ; No."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R7-Q3 #1": {
+    "full": [
+      "Under IFRS rules, which of the following accounting treatments is most preferred for joint ventures where there is shared control?"
+    ],
+    "options": [
+      "A) Equity method.",
+      "B) Acquisition method.",
+      "C) Proportionate consolidation method."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R7-Q3 #5": {
+    "full": [
+      "Which of the following methods of accounting for investments will reflect the highest net income on a company's income statement?"
+    ],
+    "options": [
+      "A) Both methods report the same net income.",
+      "B) Equity method.",
+      "C) Acquisition method."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R7-Q3 #6": {
+    "full": [
+      "Acme Corporation purchases a 3% interest in Bandy Company to become the single largest shareholder of Bandy. Acme will hold a seat on the Board of Directors of Bandy. Acme will account for its investment in Bandy using the:"
+    ],
+    "options": [
+      "A) equity method.",
+      "B) lower of cost or market method.",
+      "C) acquisition method."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R7-Q3 #7": {
+    "full": [
+      "Barrett Inc. is advised by its banker to create a special purpose entity (SPE) to convert its existing $15 million loan off-balance sheet. Under the terms of the deal, SPE would obtain a loan for $15 million from the bank with Barrett providing loan guarantee. Barrett would then sell $15 million of accounts receivable to the SPE and use the proceeds to pay off the current loan. Barrett prepares its financial statements under U.S. GAAP. Which of the following statements is most accurate regarding the impact of such an arrangement on Barrett's ratios?"
+    ],
+    "options": [
+      "A) Barrett's leverage as well as receivables turnover would remain the same.",
+      "B) Barrett's leverage would decrease and receivable turnover would increase.",
+      "C) Barrett's leverage would remain the same while receivable turnover would increase."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R7-Q4 #1": {
+    "full": [
+      "Mashburn Company acquired 25% of the 100,000 outstanding shares of Humm Co. on January 1 for $250,000 in cash. Humm Co. earned $1 per share and had a dividend payout ratio of 40%. As of December 31, Humm Co. shares were trading in the open market at $12 per share. Calculate the income statement treatment of the Humm Co. investment as of December 31."
+    ],
+    "options": [
+      "A) $75,000.",
+      "B) $25,000.",
+      "C) $10,000."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R7-Q4 #4": {
+    "full": [
+      "Company A acquired a 50% stake in Company T on January 1, 2003 by paying T's shareholders $100,000 in cash. Pre-acquisition balance sheets for the two firms are presented below:",
+      {
+        "columns": [
+          "Balance Sheet",
+          "Company A",
+          "Company T"
+        ],
+        "rows": [
+          [
+            "Current assets",
+            "$400,000",
+            "$60,000"
+          ],
+          [
+            "Fixed assets",
+            "600,000",
+            "100,000"
+          ],
+          [
+            "Total",
+            "$1,000,000",
+            "$160,000"
+          ],
+          [
+            "Current liabilities",
+            "$50,000",
+            "$ 30,000"
+          ],
+          [
+            "Common stock",
+            "350,000",
+            "60,000"
+          ],
+          [
+            "Retained earnings",
+            "600,000",
+            "70,000"
+          ],
+          [
+            "Total",
+            "$1,000,000",
+            "$160,000"
+          ]
+        ]
+      },
+      "The fair values of company T assets and liabilities was same as the book value. Company A reports under U.S. GAAP. What are the post-acquisition balance sheet values for total assets for Company A under the equity and acquisition methods of accounting respectively?"
+    ],
+    "options": [
+      "A) $1,000,000 and $1,130,000.",
+      "B) $1,000,000 and $1,095,000.",
+      "C) $1,060,000 and $1,095,000."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R7-Q4 #5": {
+    "full": [
+      "According to U.S. GAAP, goodwill is most likely to be considered impaired if the reporting unit's:"
+    ],
+    "options": [
+      "implied value of goodwill is less than book value of goodwill.",
+      "carrying value (including goodwill) is greater than its fair value.",
+      "tangible assets acquired in a business combination decrease in value."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R7-Q4 #6": {
+    "full": [
+      "Alpha Inc. owns 70% of the outstanding shares of Beta Inc. Compared to the debt-to-equity ratio under the partial goodwill method, Alpha's debt-to-equity ratio under the full goodwill method is most likely be:"
+    ],
+    "options": [
+      "the same.",
+      "lower.",
+      "higher."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R7-Q4 #8": {
+    "full": [
+      "Last year, Parent Company acquired Sub Company for $2,000,000. On the date of acquisition, the fair value of Sub's net assets was $1,700,000.",
+      "At the end of the year, the fair value of Sub is $1,950,000, and the fair value of Sub's net assets is $1,775,000. If the carrying value of Sub is $1,980,000, the impairment loss under U.S. GAAP is closest to:"
+    ],
+    "options": [
+      "$30,000.",
+      "$125,000.",
+      "$0."
+    ],
+    "p": 0,
+    "a": 1,
+    "note": "The answer key uses the old two-step test ($125,000). Under current US GAAP the loss is carrying value − fair value = $30,000, so your pick matches today’s rule; the card below explains both."
+  },
+  "L2-R7-CASE1 #1": {
+    "full": [
+      "Which of the following statements regarding special purpose entities (SPEs) is least accurate?"
+    ],
+    "options": [
+      "A) An SPE can be formed to isolate specific assets from the sponsor, thus lowering the cost of capital by protecting the assets of the SPE in the event the sponsor experiences financial distress.",
+      "B) In general, the equity investors in an SPE can expect to receive a limited rate of return on their investment in exchange for limited risk exposure.",
+      "C) An SPE can be established as one of several legal forms, such as corporations, partnerships, or trusts, but must establish separate management from that of the sponsor."
+    ],
+    "p": 1,
+    "a": 2
+  }
+};
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
 // whether I got it (`ok`), and for a miss the kind of mistake (`why`): gap (didn't know it) · flip (knew
@@ -21522,11 +21931,7 @@ function renderWeakCard(m) {
       <div class="wk-body">
       <div class="weak-title">${escapeHtml(m.title)}</div>
       <div class="weak-sec">Questions this cost you</div>
-      ${(m.questions || []).map(q => `
-        <div class="weak-q">
-          <span class="weak-ref">${escapeHtml(q.ref)}</span> ${escapeHtml(q.ask)}
-          <div><span class="weak-picked">✗ Picked: ${escapeHtml(q.picked)}</span> <span class="weak-right">✓ Answer: ${escapeHtml(q.answer)}</span></div>
-        </div>`).join('')}
+      ${(m.questions || []).map(weakQHtml).join('')}
       <div class="weak-sec">Why the wrong answer felt right</div>
       <div class="weak-text">${escapeHtml(m.trap)}</div>
       <div class="weak-sec">The logic that gets it right</div>
@@ -21536,6 +21941,26 @@ function renderWeakCard(m) {
       ${m.spot ? `<div class="weak-sec">How it shows up in the exam</div><div class="weak-text">${escapeHtml(m.spot)}</div>` : ''}
       </div>
     </div>`;
+}
+
+// One question on a weak-spot card: the full question as asked, with my pick and the answer marked, when
+// TUITION_Q has it; otherwise the one-line summary.
+function weakQHtml(q) {
+  const f = TUITION_Q[q.ref];
+  if (!f) return `
+        <div class="weak-q">
+          <span class="weak-ref">${escapeHtml(q.ref)}</span> ${escapeHtml(q.ask)}
+          <div><span class="weak-picked">✗ Picked: ${escapeHtml(q.picked)}</span> <span class="weak-right">✓ Answer: ${escapeHtml(q.answer)}</span></div>
+        </div>`;
+  const part = x => typeof x === 'string' ? `<p>${escapeHtml(x)}</p>`
+    : `<table class="weak-tbl"><thead><tr>${x.columns.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody>${x.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  return `
+        <div class="weak-q">
+          <span class="weak-ref">${escapeHtml(q.ref)}</span>
+          <div class="weak-full">${f.full.map(part).join('')}</div>
+          <ul class="weak-opts">${f.options.map((o, i) => `<li class="${i === f.a ? 'right' : i === f.p ? 'picked' : ''}"><span class="weak-mark">${i === f.a ? '✓' : i === f.p ? '✗' : '○'}</span><span>${escapeHtml(o)}${i === f.p ? ' <span class="weak-tag">your pick</span>' : ''}${i === f.a ? ' <span class="weak-tag">answer</span>' : ''}</span></li>`).join('')}</ul>
+          ${f.note ? `<div class="weak-note">${escapeHtml(f.note)}</div>` : ''}
+        </div>`;
 }
 
 function moduleGroupsOf(key) {
