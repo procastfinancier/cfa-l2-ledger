@@ -162,6 +162,13 @@ window.addEventListener('error', function (e) {
   .weak-card { border: 1px solid var(--rose); background: var(--rose-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
   .wk-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 7px; }
   .wk-bar .miss-tag { margin-bottom: 0; }
+  .wk-star .st-btn { margin: 0; }
+  .nb-wk { background: var(--rose-bg); box-shadow: inset 3px 0 0 var(--rose); border-radius: 6px; padding-left: 10px; }
+  .nb-sub.nb-wk { padding-top: 4px; padding-bottom: 4px; }
+  .wk-spots { margin: 2px 0 4px; }
+  .wk-spot { font: 700 10px/1.4 var(--mono); color: var(--rose); background: transparent; border: 1px solid var(--rose); border-radius: 9px; padding: 1px 7px; margin: 0 6px 0 4px; cursor: pointer; vertical-align: 1px; text-transform: none; letter-spacing: 0; }
+  .wk-spot:hover, .wk-spot:focus-visible { background: var(--rose); color: #fff; }
+  .wk-where { font-size: 12px; color: var(--ink-soft, var(--ink)); margin: 2px 0 6px; display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; }
   .wk-mini { display: none; flex: 1 1 200px; min-width: 0; font-size: 13px; font-weight: 700; color: var(--ink); }
   .wk-b-show, .wk-b-always { display: none; }
   .wk-b-hide { margin-left: auto; }
@@ -17210,6 +17217,7 @@ const TUITION_MISSES = {
     {
       module: '7.1',
       title: 'Largest shareholder ≠ control — a board seat means significant influence',
+      at: ["Board representation", "Influence can exist below 20%"],
       questions: [
         { ref: 'L2-R7-Q3 #6', ask: 'Acme buys 3% of Bandy, becomes its single largest shareholder and gets a board seat. Method?', picked: 'Acquisition method', answer: 'Equity method' },
         { ref: 'L2-R7-Q1 #7', ask: 'IFRS: an investor owns 39% of the voting shares but has no part in policy making and no board seat. Classification?', picked: 'Investment in associates', answer: 'Investment in financial assets' },
@@ -17227,6 +17235,7 @@ const TUITION_MISSES = {
     {
       module: '7.2',
       title: 'FVOCI equity: fair value changes skip the income statement',
+      at: ["An irrevocable election, not sale intent"],
       questions: [
         { ref: 'L2-R7-Q2 #2', ask: 'Milburne buys 1,000 shares at $20; year-end price $15, dividend yield 2%. Classified FVOCI. Income statement impact?', picked: '−$5,000', answer: '+$300' },
       ],
@@ -17243,6 +17252,7 @@ const TUITION_MISSES = {
     {
       module: '7.3',
       title: 'Equity-method income is your share of earnings: dividends and market price stay out',
+      at: ["Recorded at cost; income increases", "Dividends reduce the investment account"],
       questions: [
         { ref: 'L2-R7-Q4 #1', ask: 'Mashburn buys 25% of Humm’s 100,000 shares for $250,000. Humm earns $1 a share, pays out 40%, and trades at $12 at year end. Income statement impact?', picked: '$75,000', answer: '$25,000' },
       ],
@@ -17259,6 +17269,7 @@ const TUITION_MISSES = {
     {
       module: '7.5',
       title: 'Equity vs. acquisition method: same net income, everything else bigger',
+      at: ["Control determines WHAT gets consolidated"],
       questions: [
         { ref: 'L2-R7-Q3 #5', ask: 'Which method reports the highest net income — equity or acquisition?', picked: 'Acquisition method', answer: 'Both report the same net income' },
         { ref: 'L2-R7-Q4 #4', ask: 'A pays $100k cash for 50% of T (US GAAP, FV = book). A has $1,000k assets; T has $160k assets, $30k liabilities. Total assets under equity / acquisition method?', picked: '$1,060,000 / $1,095,000', answer: '$1,000,000 / $1,130,000' },
@@ -17276,6 +17287,7 @@ const TUITION_MISSES = {
     {
       module: '7.5',
       title: 'Leverage under consolidation: "less favourable" is the usual case, but the investee’s own leverage decides',
+      at: ["Control determines WHAT gets consolidated", "7.8::Grosses up revenue AND assets"],
       questions: [
         { ref: 'L2-R7-Q1 #5', ask: 'All else equal, leverage measures for a firm using consolidation will appear:', picked: 'Less favourable than for a comparable firm using the equity method', answer: 'More or less favourable depending on the leverage of the investee' },
       ],
@@ -17292,6 +17304,7 @@ const TUITION_MISSES = {
     {
       module: '7.7',
       title: 'Full vs. partial goodwill: debt stays the same, equity changes',
+      at: ["US GAAP: full goodwill only", "Goodwill at 100%, then full vs. partial"],
       questions: [
         { ref: 'L2-R7-Q4 #6', ask: "Alpha owns 70% of Beta. Compared with partial goodwill, Alpha's debt-to-equity under full goodwill is:", picked: 'The same', answer: 'Lower' },
       ],
@@ -17307,6 +17320,7 @@ const TUITION_MISSES = {
     {
       module: '7.7',
       title: 'Goodwill impairment: detect at the reporting unit, then measure the loss',
+      at: ["Detect at the reporting unit", "Parent/Sub impairment"],
       questions: [
         { ref: 'L2-R7-Q4 #5', ask: 'Under US GAAP, goodwill is most likely impaired if the reporting unit’s…', picked: 'Acquired tangible assets fall in value', answer: 'Carrying value (incl. goodwill) > fair value' },
         { ref: 'L2-R7-Q4 #8', ask: 'Goodwill $300k ($2,000k − $1,700k). Year end: carrying value $1,980k, FV $1,950k, FV of net assets $1,775k. Loss?', picked: '$30,000', answer: '$125,000 (old two-step); $30,000 under current US GAAP' },
@@ -17324,6 +17338,7 @@ const TUITION_MISSES = {
     {
       module: '7.8',
       title: 'Joint venture = equity method; line-by-line is only for joint operations',
+      at: ["Equity method is required for JVs"],
       questions: [
         { ref: 'L2-R7-Q3 #1', ask: 'Under IFRS, the preferred treatment for joint ventures with shared control?', picked: 'Proportionate consolidation', answer: 'Equity method' },
       ],
@@ -17339,6 +17354,7 @@ const TUITION_MISSES = {
     {
       module: '7.9',
       title: 'SPEs / VIEs: follow the losses, not the votes',
+      at: ["Who controls it, and who wins or loses"],
       questions: [
         { ref: 'L2-R7-Q2 #1', ask: "True or false: the sponsor usually holds voting control; the equity owners' return is tied to the SPE's performance.", picked: 'Both correct', answer: 'Both incorrect' },
         { ref: 'L2-R7-Q2 #4', ask: 'Least accurate: (A) only the primary beneficiary consolidates a VIE; (B) IFRS: whoever controls consolidates; (C) an SPE is a VIE if its at-risk equity IS sufficient.', picked: 'A', answer: 'C — the definition is flipped' },
@@ -17360,6 +17376,7 @@ const TUITION_MISSES = {
     {
       module: '7.9',
       title: 'What an SPE MUST have vs. what it merely usually has — separate management is not required',
+      at: ["Deliberately structured so no one holds a voting majority"],
       questions: [
         { ref: 'L2-R7-CASE1 #1', ask: 'Which of the following statements regarding special purpose entities (SPEs) is LEAST accurate?', picked: 'B — in general the equity investors in an SPE can expect a limited rate of return in exchange for limited risk exposure', answer: 'C — an SPE can be a corporation, partnership or trust, but MUST establish separate management from that of the sponsor' },
       ],
@@ -17379,6 +17396,7 @@ const TUITION_MISSES = {
     {
       module: '8.S1',
       title: 'An equity-settled grant creates no liability and no change in total equity — so it moves neither side of a leverage ratio',
+      at: ["Accounting"],
       questions: [
         { ref: 'MR-R8 · set 2 · Q2', ask: 'Which type of compensation is most likely to increase current liability for a company?', picked: 'Stock-option grants', answer: 'Salary and wages' },
         { ref: 'MR-R8 · set 2 · Q11', ask: 'A company starts a stock option grant for its senior executives. The most likely impact on the company after the grant is that leverage would be:', picked: 'Lower', answer: 'Unchanged' },
@@ -17397,6 +17415,7 @@ const TUITION_MISSES = {
     {
       module: '8.S3',
       title: 'Total share-based expense is options PLUS shares — two legs, valued on two different bases',
+      at: ["s3-value", "Upon Settlement — Option Grants"],
       questions: [
         { ref: 'L2-R8-Case 1 · Q1', ask: 'Prisma grants 150,000 at-the-money options (fair value $1.79) and 25,000 shares (stock price $16) on 1 Jan 20X1, both vesting after 3 years. The expense reported for 20X1 is closest to:', picked: '$133,333', answer: '$222,833' },
       ],
@@ -17415,6 +17434,7 @@ const TUITION_MISSES = {
     {
       module: '8.S3',
       title: 'Under IFRS a tax windfall never reaches the income statement — so any statement that says it does is the false one',
+      at: ["Tax Implication"],
       questions: [
         { ref: 'MR-R8 · set 1 · Q2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
       ],
@@ -17431,6 +17451,7 @@ const TUITION_MISSES = {
     {
       module: '8.S3',
       title: 'Treasury stock method on a stock grant — average the last two period-end balances, and the provider’s marked answer does not reconcile',
+      at: ["s3-tsm-stk"],
       questions: [
         { ref: 'MR-R8 · set 1 · Q7', ask: '25,000-share grant valued at $400,000 vesting over 3 years, average share price $17, plan started in 20X1. Potentially dilutive securities at the end of 20X1?', picked: '16,667', answer: 'Marked 21,078 — but see below; by the stated method it is 17,157, and 16,667 is the closest option' },
       ],
@@ -17448,6 +17469,7 @@ const TUITION_MISSES = {
     {
       module: '8.S3',
       title: 'Free cash flow already adds share-based compensation back — adding it a second time is the error',
+      at: ["Forecasting share-based compensation"],
       questions: [
         { ref: 'MR-R8 · set 2 · Q3', ask: 'For forecasting the dilution from future grants of share-based compensation and its effects on valuation, which of the following approaches is LEAST appropriate?', picked: 'Discount the estimated value of equity by a dilution factor', answer: 'Add share-based compensation expense estimates to free cash flow estimates AND increase the number of shares outstanding based on the same estimates' },
       ],
@@ -17465,6 +17487,7 @@ const TUITION_MISSES = {
     {
       module: '8.S6',
       title: 'PBO and plan asset changes hit the balance sheet in full immediately — it is only the income statement recognition that gets deferred',
+      at: ["Balance Sheet Effects"],
       questions: [
         { ref: 'MR-R8 · set 2 · Q8', ask: 'Which of the following statements regarding pension accounting is MOST accurate?', picked: 'A reconciliation between the funded status and the net pension asset (liability) reported on the balance sheet is required', answer: 'Changes in the projected benefit obligation (PBO) and plan assets fully and immediately affect the balance sheet' },
       ],
@@ -17481,6 +17504,7 @@ const TUITION_MISSES = {
     {
       module: '8.S7',
       title: 'Pension cost in P&L uses the EXPECTED return, and an actuarial loss is only amortised once it breaches the corridor',
+      at: ["8.S6::Expected Return on Plan Assets", "8.S6::Corridor Approach (US GAAP only)", "s7-corr"],
       questions: [
         { ref: 'MR-R8 · set 1 · Q6', ask: 'Beginning PBO 65m, beginning plan assets 60m, service cost 27m, interest cost 3m, unamortised actuarial losses 5m, actual return 7.5m, expected return 8.5m. Periodic pension cost for the year?', picked: '$27,500,000', answer: '$21,500,000' },
       ],
@@ -17500,6 +17524,7 @@ const TUITION_MISSES = {
     {
       module: '9.S6',
       title: 'The current rate method leaves every pure ratio untouched — and across methods, only an all-monetary ratio stays the same',
+      at: ["s6-pure"],
       questions: [
         { ref: 'L2-R9-Q1 #2', ask: 'Which example least accurately describes pure balance sheet and income statement ratios?', picked: 'The current ratio is a pure balance sheet ratio', answer: 'All pure balance sheet ratios are affected by the all-current translation method' },
         { ref: 'L2-R9-Q1 #10', ask: 'Which of the following ratios is unaffected by the choice between the current rate method and the temporal method?', picked: 'Accounts payable turnover', answer: 'Quick ratio' },
@@ -17518,6 +17543,7 @@ const TUITION_MISSES = {
     {
       module: '9.S8',
       title: 'In hyperinflation, non-monetary items hold their REAL value because their local-currency price rises with inflation',
+      at: ["Restating for Inflation under IFRS"],
       questions: [
         { ref: 'L2-R9-Q1 #1', ask: 'In reality, what best describes the real value of non-monetary assets and liabilities in a hyperinflationary environment?', picked: 'All non-monetary accounts are remeasured at the current rate', answer: 'Typically not affected because their local currency-denominated values increase to offset the impact of inflation' },
       ],
@@ -17534,6 +17560,7 @@ const TUITION_MISSES = {
     {
       module: '9.S2',
       title: 'Independent subsidiary → its local currency is functional → current rate. Integrated or hyperinflationary → parent’s currency → temporal',
+      at: ["Functional Currency", "Three Methods for Remeasurement / Translation of Local Currencies"],
       questions: [
         { ref: 'MR-R9 · set 1 · Q4', ask: 'Which statement describing the choice of the functional currency is LEAST accurate? The functional currency should be the same as the parent’s reporting currency if the subsidiary is:', picked: 'Highly integrated with the parent where the local currency, prices and some costs are controlled or restricted', answer: 'Mostly independent from the parent' },
         { ref: 'MR-R9 · set 1 · Q5', ask: 'Which statement regarding foreign currency translation under US GAAP is LEAST accurate? The functional currency is the:', picked: 'Parent firm’s home currency if the foreign subsidiary operates in a country with high inflation', answer: 'Parent firm’s home currency for self-contained independent foreign subsidiaries' },
@@ -17553,6 +17580,7 @@ const TUITION_MISSES = {
     {
       module: '9.S3',
       title: '“Monetary/non-monetary method” IS the temporal method — and under it, monetary items are always translated, at the CURRENT rate',
+      at: ["Monetary v/s Non-Monetary Items", "Temporal Method — Balance Sheet"],
       questions: [
         { ref: 'MR-R9 · set 1 · Q6', ask: 'Which translation method should be used under a hyperinflationary economy when using US GAAP?', picked: 'Monetary/non-monetary, because all monetary accounts are translated at the historical rate', answer: 'Temporal, because all non-monetary accounts are remeasured at the historical rate' },
         { ref: 'MR-R9 · set 3 · Q5', ask: 'Which general statement is CORRECT with respect to the temporal method? Monetary assets are:', picked: 'Not translated', answer: 'Translated at the current rate' },
@@ -17571,6 +17599,7 @@ const TUITION_MISSES = {
     {
       module: '9.S9',
       title: 'Currency effect on translated sales: work out which way the quote runs, then separate the currency effect from local growth',
+      at: ["Analysis of Sales Components"],
       questions: [
         { ref: 'MR-R9 · set 1 · Q2', ask: 'A Canadian firm owns a US subsidiary. Sales were USD 1,000,000 in both 2002 and 2003; the USD/CAD rate moved from 0.6329 to 0.7484. Impact of the change in the value of the CAD on translated sales?', picked: 'Increase by 18%', answer: 'Decline by 15%' },
         { ref: 'MR-R9 · set 1 · Q3', ask: 'A US firm owns a French subsidiary. Sales were EUR 1,000,000 in 2002 (USD/EUR 1.0620) and EUR 1,100,000 in 2003 (USD/EUR 1.1417). Impact of the change in the value of the USD on translated sales?', picked: 'Increase by 18.25%', answer: 'Increase by 7.5%' },
@@ -17589,6 +17618,7 @@ const TUITION_MISSES = {
     {
       module: '9.S6',
       title: 'Put a rate next to every line under each method before judging anything — the same rate above and below the line means no change',
+      at: ["s6-dir", "s6-assume"],
       questions: [
         { ref: 'MR-R9 · set 2 · Q10', ask: 'US parent, UK subsidiary; the USD has been appreciating against GBP. Using the current rate method, the long-term debt to equity ratio, relative to what it would have been without translation, will most likely be:', picked: 'Higher', answer: 'The same' },
         { ref: 'MR-R9 · set 2 · Q2', ask: 'Which of the following measures is unaffected by the choice between translation under the current rate method and remeasurement under the temporal method?', picked: 'Equity', answer: 'Tax expense' },
@@ -17609,6 +17639,7 @@ const TUITION_MISSES = {
     {
       module: '9.S8',
       title: 'The current rate method in hyperinflation shrinks EVERY balance to almost nothing — low values and translation losses, never high values',
+      at: ["s8-why"],
       questions: [
         { ref: 'MR-R9 · set 2 · Q4', ask: 'In a hyperinflationary economy, translation under the current rate method will most likely result in relatively:', picked: 'High balance sheet values for long-term assets', answer: 'Low balance sheet values for long-term liabilities' },
       ],
@@ -17627,6 +17658,7 @@ const TUITION_MISSES = {
     {
       module: '5.S1',
       title: 'Dealer spreads widen with trade size: bigger order, bigger spread',
+      at: ["Factors Affecting Spreads in the Dealer Market"],
       questions: [
         { ref: 'L2-R5-Q1 #3', ask: 'Which statement about foreign currency bid–ask spreads is least accurate?', picked: 'They are influenced by the time window in a trading day', answer: 'They increase as the size of the transaction decreases' },
       ],
@@ -17642,6 +17674,7 @@ const TUITION_MISSES = {
     {
       module: '5.S3',
       title: 'Cross rate with bid–ask: dividing means bid ÷ ask, not bid ÷ bid',
+      at: ["Cross rates with bid–ask spreads"],
       questions: [
         { ref: 'L2-R5-Q1 #1', ask: 'CAD/USD 1.59031 – 1.59701, GBP/USD 0.69459 – 0.69686. Implied CAD/GBP bid–ask?', picked: '2.2895 – 3.2886', answer: '2.2821 – 2.2992' },
       ],
@@ -17658,6 +17691,7 @@ const TUITION_MISSES = {
     {
       module: '5.S10',
       title: 'Currency-crisis warning signs: check which way each one moves',
+      at: ["Warning Signs of a Currency Crisis"],
       questions: [
         { ref: 'L2-R5-Q1 #6', ask: 'Which is least likely a warning sign of an impending currency crisis?', picked: 'Liberalized capital markets that allow a free flow of capital', answer: 'Money supply relative to bank reserves shrinks' },
       ],
@@ -17673,6 +17707,7 @@ const TUITION_MISSES = {
     {
       module: '5.S10',
       title: 'Sustained fiscal deficit: currency up in the short run, down in the long run',
+      at: ["Mundell-Fleming — Flexible Exchange Rate Regimes", "Portfolio Balance Approach to Exchange Rate Determination"],
       questions: [
         { ref: 'L2-R5-Q1 #10', ask: 'Under the Mundell-Fleming model and the asset market approach, sustained expansionary fiscal policy makes the currency:', picked: 'Depreciate in the short run and depreciate in the long run', answer: 'Appreciate in the short run, depreciate in the long run' },
       ],
@@ -17691,6 +17726,7 @@ const TUITION_MISSES = {
     {
       module: '6.S2',
       title: 'Cobb–Douglas: constant returns to scale overall, diminishing returns to capital alone',
+      at: ["Cobb–Douglas production function", "s2-cd-num"],
       questions: [
         { ref: 'L2-R6-Q1 #1', ask: 'Y = T·Kᵅ·L¹⁻ᵅ. Which statement is most likely correct?', picked: 'The production function exhibits decreasing returns to scale', answer: 'α is capital’s share of output; a smaller α means a lower benefit from capital deepening' },
       ],
@@ -17707,6 +17743,7 @@ const TUITION_MISSES = {
     {
       module: '6.S2',
       title: 'Potential GDP growth: use the version that matches the inputs given',
+      at: ["Growth Accounting Relations"],
       questions: [
         { ref: 'L2-R6-Q1 #10', ask: 'Labour share 60%, labour force +2%, capital +1.5%, labour productivity +2% a year. Potential GDP growth?', picked: '5.50%', answer: '4%' },
       ],
@@ -17723,6 +17760,7 @@ const TUITION_MISSES = {
     {
       module: '6.S2',
       title: 'Natural resources: Dutch disease hits resource-rich countries, not resource-poor ones',
+      at: ["Effect of Natural Resources on Economic Growth"],
       questions: [
         { ref: 'L2-R6-Q1 #3', ask: 'A country with relatively poor endowment of natural resources is most likely to:', picked: 'Suffer from Dutch disease', answer: 'Enjoy the technological progress of a country with a vigorous manufacturing sector' },
         { ref: 'L2-R6-Q2 #2', ask: 'Which situation is least likely to constrain growth?', picked: 'Strong currency appreciation from demand for domestically owned natural resources', answer: 'Limited ownership of natural resources' },
@@ -17739,6 +17777,7 @@ const TUITION_MISSES = {
     {
       module: '6.S3',
       title: 'Convergence: same technology means the same growth rate, not the same income',
+      at: ["Convergence Hypothesis"],
       questions: [
         { ref: 'L2-R6-Q1 #2', ask: 'Which statement regarding convergence hypotheses is least accurate?', picked: 'Conditional convergence requires countries to have the same population growth rates', answer: 'Neoclassical theory says countries will eventually have the same growth rates and per capita income' },
       ],
@@ -17754,6 +17793,7 @@ const TUITION_MISSES = {
     {
       module: '6.S3',
       title: 'Endogenous growth: firms ignore the social return, so they under-invest in R&D',
+      at: ["3. Endogenous Growth Theory"],
       questions: [
         { ref: 'L2-R6-Q1 #4', ask: 'Which statement regarding endogenous growth theory is least likely correct?', picked: 'Economies may not reach a steady state and can permanently increase growth', answer: 'Social returns benefit society and encourage private firms to invest more aggressively in R&D' },
         { ref: 'L2-R6-Q1 #5', ask: 'Endogenous growth theory says growth is a function of which two variables?', picked: 'Real interest rates and technological change', answer: 'The creation of knowledge capital and real interest rates' },
@@ -17771,6 +17811,7 @@ const TUITION_MISSES = {
     {
       module: '6.S2',
       title: 'Labour supply: the wealth effect cuts hours; immigration adds workers',
+      at: ["Labour Supply"],
       questions: [
         { ref: 'L2-R6-Q2 #5', ask: 'GDP growth slowed; causes given: slower population growth, the wealth effect, rising immigration. Which least likely explains it?', picked: 'Population growth', answer: 'Immigration' },
       ],
@@ -17786,6 +17827,7 @@ const TUITION_MISSES = {
     {
       module: '6.S2',
       title: 'Cobb–Douglas: same GDP growth, slower labour growth → higher α',
+      at: ["ΔY/Y = ΔT/T", "s2-azik"],
       questions: [
         { ref: 'L2-R6-Q2 #9', ask: 'Ruritania and Utopia: both 4.3% potential growth, same TFP (1.8%) and capital growth (3.1%); labour growth 2.2% vs 1.7%. What did Gordon assume?', picked: 'Elasticity w.r.t. capital is higher in Ruritania', answer: 'Elasticity w.r.t. labour is lower in Utopia than Ruritania' },
       ],
@@ -17802,6 +17844,7 @@ const TUITION_MISSES = {
     {
       module: '6.S3',
       title: 'Classical growth theory = subsistence real wage',
+      at: ["1. Classical Growth Theory"],
       questions: [
         { ref: 'L2-R6-Q2 #6', ask: 'Which concept is uniquely associated with the classical theory of economic growth?', picked: 'Real GDP growth', answer: 'Subsistence real wage' },
       ],
@@ -17816,6 +17859,7 @@ const TUITION_MISSES = {
     {
       module: '6.S3',
       title: 'Open trade: specialisation by comparative advantage, then fast growth that slows',
+      at: ["what open trade does"],
       questions: [
         { ref: 'L2-R6-Q1 #9', ask: 'Statement 1: removing trade barriers and allowing free flow of capital leads countries to specialise by comparative advantage. Statement 2: developing economies short of significant diminishing returns attract investment, develop, then slow. Which are correct?', picked: 'Statement 2 only', answer: 'Both statements are correct' },
       ],
@@ -21909,6 +21953,63 @@ function wkInit() {
       document.querySelectorAll('.wk.wk-flip').forEach(w => w.classList.remove('wk-flip'));
     }
   }, true);
+  // ⚠ on a highlighted part of the notes opens its weak-spot card and scrolls to it.
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-wkgo]');
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
+    const card = document.querySelector('#detail .weak-card[data-wkid="' + esc(t.getAttribute('data-wkgo')) + '"]');
+    if (!card) return;
+    card.classList.toggle('wk-flip', wkHide);
+    for (let p = card; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+    exScrollFlash(card, false);
+  }, true);
+}
+// Where each weak spot lives in the notes. A card's `at` lists text to find in its session (prefix another
+// session as '6.S3::text'). Text that matches a sub-heading marks the whole sub-section under it; anything
+// else marks the one block it matches. Returns { anchor: [card, …] } per session, and each card's anchors.
+function wkSpots(topic) {
+  const c = CONTENT[topic], byMod = {};
+  (TUITION_MISSES[topic] || []).forEach(m => {
+    m._at = [];
+    (m.at || []).forEach(a => {
+      const sp = a.indexOf('::'), mod = sp > 0 ? a.slice(0, sp) : m.module, f = exPlain(sp > 0 ? a.slice(sp + 2) : a);
+      const hit = [];
+      let label = '';
+      if (c && c.flow) {
+        const s = c.flow.find(x => x.module === mod), an = exAnchors(topic, mod), bl = (s && s.blocks) || [];
+        let i = bl.findIndex(b => b.k === 'sub' && exPlain(b.text) === f);
+        if (i >= 0) { label = bl[i].text; do hit.push(an[i++]); while (i < bl.length && bl[i].k !== 'sub'); }
+        else {
+          i = bl.findIndex(b => exPlain(JSON.stringify(b)).includes(f));
+          if (i >= 0) {
+            hit.push(an[i]);
+            let j = i; while (j >= 0 && bl[j].k !== 'sub') j--;
+            label = bl[i].title || (j >= 0 ? bl[j].text : s.title.split(' · ')[0]);
+          }
+        }
+      } else {
+        const a2 = exLocate(topic, mod, f), n = a2 && (c.notes || []).find(x => exTermAnchor(x.term) === a2);
+        if (a2) { hit.push(a2); label = n ? n.term : ''; }
+      }
+      hit.forEach((h, j) => {
+        const k = mod + '|' + h;
+        (byMod[k] = byMod[k] || []).indexOf(m) < 0 && byMod[k].push(m);
+        if (!j) (byMod['tag|' + k] = byMod['tag|' + k] || []).indexOf(m) < 0 && byMod['tag|' + k].push(m);
+      });
+      if (hit.length) m._at.push({ mod, anchor: hit[0], label: mod + ' · ' + label.replace(/\*/g, '') });
+    });
+  });
+  return byMod;
+}
+function wkId(m) { return 'wk-' + exHash(m.title); }
+// The ⚠ tag on a highlighted block: one button per weak spot that points at it.
+function wkSpotTags(list) {
+  return (list || []).map(m => {
+    const short = m.title.split(/: | — | = /)[0];
+    return `<button type="button" class="wk-spot" data-wkgo="${wkId(m)}" title="Weak spot: ${escapeHtml(m.title)}. Tap to open the card">⚠ ${escapeHtml(short.length > 34 ? 'Weak spot' : short)}</button>`;
+  }).join('');
 }
 function qzInit() {
   document.body.classList.toggle('qz-hide', qzHide);
@@ -21949,7 +22050,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -22049,17 +22150,20 @@ function corpusFor(key, subjectName) {
 function hasTuitionMiss(key) { return !!(TUITION_MISSES[key] && TUITION_MISSES[key].length); }
 
 // One tuition weak spot: the questions it cost, why the wrong pick felt right, the correct
-// logic, and a step-by-step way to tackle that question type.
-function renderWeakCard(m) {
+// logic, and a step-by-step way to tackle that question type. ☆ adds it to the exam-day set.
+function wkKey(topic, m) { return stKey(topic, m.module, 'w:' + exHash(m.title)); }
+function renderWeakCard(m, topic) {
+  if (!m._at) wkSpots(topic);
   return `
-    <div class="weak-card wk">
-      <div class="wk-bar"><span class="miss-tag">Tuition weak spot</span><span class="wk-mini">${escapeHtml(m.title)}</span>
+    <div class="weak-card wk" data-wkid="${wkId(m)}">
+      <div class="wk-bar"><span class="miss-tag">Tuition weak spot</span><span class="wk-star" data-new="f-weak-star">${stBtn(wkKey(topic, m), 'Weak spot', false, 'line')}</span><span class="wk-mini">${escapeHtml(m.title)}</span>
         <button type="button" class="rv-check-link wk-b-show" data-wk="open">Show ▸</button>
         <button type="button" class="rv-check-link wk-b-hide" data-wk="open" data-new="f-weak-hide">Hide ▴</button>
         <button type="button" class="rv-check-link wk-b-hideall" data-wk="hideall">Hide all weak spots</button>
         <button type="button" class="rv-check-link wk-b-always" data-wk="always">Always show weak spots</button></div>
       <div class="wk-body">
       <div class="weak-title">${escapeHtml(m.title)}</div>
+      ${m._at && m._at.length ? `<div class="wk-where">📍 In your notes: ${m._at.map(p => exGoBtn(topic, p.mod, p.anchor, p.label.length > 64 ? p.label.slice(0, 62) + '…' : p.label)).join('')}</div>` : ''}
       <div class="weak-sec">Questions this cost you</div>
       ${(m.questions || []).map(weakQHtml).join('')}
       <div class="weak-sec">Why the wrong answer felt right</div>
@@ -22117,7 +22221,7 @@ function renderWeakIndex(key) {
           <span class="weak-index-mod">${escapeHtml(m.module)}</span>
           <span>${escapeHtml(m.title)}</span>
           <span class="weak-index-count">${(m.questions || []).length} Q</span>
-        </div>` : renderWeakCard(m)).join('')}
+        </div>` : renderWeakCard(m, key)).join('')}
     </section>`;
 }
 
@@ -22191,9 +22295,10 @@ function renderNotesAccordion(key) {
     }
     groups[groupIndex[groupKey]].items.push({ color: item.color, term: item.term, a: item.a, label, idx: i, mod: groupKey });
   });
+  const spots = wkSpots(key);
   const renderItem = (item) => `
-        <details class="note-item" data-anchor="${exTermAnchor(item.term)}">
-          <summary><span class="note-item-dot ${item.color}"></span><span class="note-item-term">${escapeHtml(item.term)}</span>${stBtn(stKey(key, item.mod, 'b:' + exTermAnchor(item.term)), 'Definition', false, 'blk')}</summary>
+        <details class="note-item${spots[item.mod + '|' + exTermAnchor(item.term)] ? ' nb-wk' : ''}" data-anchor="${exTermAnchor(item.term)}">
+          <summary><span class="note-item-dot ${item.color}"></span><span class="note-item-term">${escapeHtml(item.term)}</span>${wkSpotTags(spots[item.mod + '|' + exTermAnchor(item.term)])}${stBtn(stKey(key, item.mod, 'b:' + exTermAnchor(item.term)), 'Definition', false, 'blk')}</summary>
           <div class="note-item-body">
             <div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-bottom:5px;">${escapeHtml(item.label)}</div>
             ${escapeHtml(item.a)}
@@ -22220,7 +22325,7 @@ function renderNotesAccordion(key) {
       <details class="note-group" data-group="${escapeHtml(g.key)}">
         <summary><span>${escapeHtml(g.key)}</span><span class="note-group-count">${g.items.length} points${weak.length ? '<span class="group-weak-badge">' + weak.length + ' weak spot' + (weak.length > 1 ? 's' : '') + '</span>' : ''}</span>${exNotes(key, g.key).length ? exViewLink('notes', key, g.key, '📝') : ''}${stBtn(stKey(key, g.key, 'section'), 'section')}</summary>
         <div class="note-group-body">
-          ${weak.map(renderWeakCard).join('')}
+          ${weak.map(m => renderWeakCard(m, key)).join('')}
           ${g.items.filter(it => !qzIsNote(it)).map(renderItem).join('')}
           ${g.items.some(qzIsNote) ? qzWrap(g.items.filter(qzIsNote).length, g.items.filter(qzIsNote).map(renderItem).join('')) : ''}
         </div>
@@ -22512,6 +22617,7 @@ function renderFlow(key) {
   const refs = CONTENT[key].refs || {};
   const misses = TUITION_MISSES[key] || [];
   const tl = safeHtml(() => tlSessions().filter(x => x.topic === key)) || [];
+  const spots = wkSpots(key);
   // Every block but a sub-heading sits in a wrapper carrying its anchor, so the exam sheet can link
   // straight to it, and a ☆ to add it to the exam-day set.
   return flow.map(s => {
@@ -22527,13 +22633,14 @@ function renderFlow(key) {
         ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}
         ${stBtn(stKey(key, s.module, 'section'), 'section', false, 'sess')}
       </div>
-      ${misses.filter(m => m.module === s.module).map(renderWeakCard).join('')}
+      ${misses.filter(m => m.module === s.module).map(m => renderWeakCard(m, key)).join('')}
       ${qzFold(s.blocks, (b, i) => {
         const nw = b.new && !nwSeen(nwContentId(key, s.module, anchors[i])) ? nwContentId(key, s.module, anchors[i]) : '';
         const nwAttr = nw ? ` data-newc="${escapeHtml(nw)}"` : '';
+        const wkc = spots[s.module + '|' + anchors[i]] ? ' nb-wk' : '', wk = spots['tag|' + s.module + '|' + anchors[i]];
         return b.k === 'sub'
-          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section', false, 'blk').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
-          : `<div class="nb-blk" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b), false, 'blk')}${renderBlock(b, gapObj, refs)}</div>`;
+          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}${wkc}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${wkSpotTags(wk)}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section', false, 'blk').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
+          : `<div class="nb-blk${wkc}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${wk ? `<div class="wk-spots">${wkSpotTags(wk)}</div>` : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b), false, 'blk')}${renderBlock(b, gapObj, refs)}</div>`;
       })}
     </section>`;
   }).join('');
@@ -23483,7 +23590,7 @@ function exNoteHtml(topic, mod, n) {
   return `<li class="ex-note"><span class="ex-note-text">${rt(n.text)}</span><span class="ex-acts">${exGoBtn(topic, mod, n.anchor)}${stBtn(n.key, 'Note', false, 'line')}</span></li>`;
 }
 function exWeakHtml(topic, mod, m) {
-  return `<li class="ex-note weak"><span class="ex-note-text"><b>Tuition weak spot:</b> ${escapeHtml(m.title)}</span><span class="ex-acts">${exGoBtn(topic, mod, '')}</span></li>`;
+  return `<li class="ex-note weak"><span class="ex-note-text"><b>Tuition weak spot:</b> ${escapeHtml(m.title)}</span><span class="ex-acts">${exGoBtn(topic, mod, '')}${stBtn(wkKey(topic, m), 'Weak spot', false, 'line')}</span></li>`;
 }
 // The exam-day set lists a session's starred key points, formulas and blocks in one stream,
 // in the order they appear in the notes, not grouped by kind, under the sub-heading each one
@@ -23584,7 +23691,8 @@ function exRenderBody() {
       const summary = prose && (!starredOnly || whole) ? ((exam[g.module] || {}).s || []).filter(p => sessHit || has(p)) : [];
       const fs = exFormulas(t.key, g.module).filter(f => keep(f, f.title + ' ' + f.lines.join(' ') + ' ' + f.note));
       const ns = prose ? exNotes(t.key, g.module).filter(n => keep(n, n.text)) : [];
-      const weak = view !== 'exam:notes' || (starredOnly && !whole) ? [] : (TUITION_MISSES[t.key] || []).filter(m => m.module === g.module && (sessHit || has(m.title)));
+      const weak = view === 'exam:formulas' ? [] : (TUITION_MISSES[t.key] || []).filter(m => m.module === g.module && (!starredOnly || whole || stOn(wkKey(t.key, m)))
+        && (sessHit || has(m.title + ' ' + m.trap + ' ' + m.fix)));
       const cards = view === 'exam:starred' ? exBlockCards(t.key, g.module).filter(c => sessHit || has(c.text)) : [];
       const n = fs.length + ns.length + weak.length + cards.length;
       if (!n && !summary.length) return;
@@ -23595,7 +23703,7 @@ function exRenderBody() {
         <div class="ex-sess-head"><span class="nb-session-tag">${escapeHtml(g.module)}</span><span class="ex-sess-title">${escapeHtml(g.title)}</span>
           <span class="ex-acts">${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section', false, 'sess')}</span></div>
         ${summary.map(p => `<p class="ex-summary">${rt(p)}</p>`).join('')}
-        ${view === 'exam:starred' ? exMerged(t.key, g.module, ns, fs, cards) : `
+        ${view === 'exam:starred' ? exMerged(t.key, g.module, ns, fs, cards) + weak.map(m => renderWeakCard(m, t.key)).join('') : `
         ${ns.length || weak.length ? `${summary.length ? '<div class="ex-label">Key points</div>' : ''}<ul class="ex-notes">${ns.map(x => exNoteHtml(t.key, g.module, x)).join('')}${weak.map(m => exWeakHtml(t.key, g.module, m)).join('')}</ul>` : ''}
         ${fs.length ? `${prose ? '<div class="ex-label">Formulas</div>' : ''}<div class="ex-fgrid">${fs.map(f => exFormulaHtml(t.key, g.module, f)).join('')}</div>` : ''}`}
       </div>`;
