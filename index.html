@@ -18395,14 +18395,15 @@ const TESTS = [
     { mod: '6.S3', what: 'Endogenous growth: new ideas keep growth going (guessed)', ok: 0, why: 'gap' },
   ] },
 ];
-// Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (noon the day
-// before, when studying stops to rest), then to EXAM_AT. PLAN has one
+// Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
+// end of the day before, when studying stops), then to EXAM_AT. PLAN has one
 // entry per day: `k` is the kind of day (work = office day, full = weekend before leave, leave, mock, final,
 // exam), and each task has its text `t`, an optional slot `w` (AM / PM / Eve) and an optional `go` link: a
 // reading 'topic|module', 'tests', or an exam view such as 'exam:formulas'. Ticks are stored against the
 // day and the task's position, so add new tasks at the end of a day rather than in the middle.
 const EXAM_AT = '2026-11-22T09:00:00+05:30';
-const STUDY_END = '2026-11-21T12:00:00+05:30';
+const STUDY_END = '2026-11-22T00:00:00+05:30';
+const STUDY_LAST = '2026-11-21';
 const PL_LEAVE = '2026-11-01';
 function plMock(n, opt) {
   const o = opt ? ' (optional)' : '';
@@ -18596,9 +18597,9 @@ const PLAN = [
   // --- Final day and exam. ---
   { d: '2026-11-21', k: 'final', tasks: [
     { w: 'AM', t: 'Your ⭐ exam-day set, start to finish.', go: 'exam:starred' },
-    { w: 'AM', t: 'Formula sheet once more, then stop studying at 12 noon.', go: 'exam:formulas' },
+    { w: 'AM', t: 'Formula sheet once more.', go: 'exam:formulas' },
     { w: 'PM', t: 'Pack: admission ticket, passport, two approved calculators with fresh batteries, pencils. Check the route and reporting time.' },
-    { w: 'Eve', t: 'Rest: no studying. Short walk, light dinner, sleep by 10.' },
+    { w: 'Eve', t: 'Light review only; stop studying at midnight and sleep.' },
   ] },
   { d: '2026-11-22', k: 'exam', tasks: [
     { t: 'Exam day, 9 AM to 2 PM. Light breakfast, reach early, and trust the work.' },
@@ -24212,7 +24213,7 @@ const PL_SLOTS = {
   full: 'Weekend: aim for 8 hours. 8–11 AM, 11:30 AM–2:30 PM, 4–6 PM, and a light hour in the evening.',
   leave: 'Leave day: about 9 hours. 7:30–11 AM, 12–3 PM, 4–6:30 PM, 8–9 PM light.',
   mock: 'Mock day: sit it like the exam. Session 1 at 9:00, a 30-minute break, then session 2.',
-  final: 'Last morning: review only, nothing new. Stop studying at 12 noon, then rest.',
+  final: 'Last day: review only, nothing new. Stop studying at midnight.',
   exam: 'Good luck.',
 };
 function plKey(d, i) { return 'star|-|-|plan:' + d + '#' + i; }
@@ -24233,7 +24234,7 @@ function plBar() {
   const leave = Math.round((new Date(PL_LEAVE + 'T12:00:00') - new Date(rvToday() + 'T12:00:00')) / 864e5);
   const today = c ? `<span class="cd-today">📅 Today ${c.done}/${c.n}</span>` : '';
   b.innerHTML = left
-    ? `<span>⏳</span><span class="cd-time">${left.txt}</span><span class="cd-what">of study left · stop at noon ${plDayName(STUDY_END.slice(0, 10))} · exam ${plDayName(EXAM_AT.slice(0, 10))}, 9 AM–2 PM${leave > 0 ? ' · leave starts in ' + leave + (leave === 1 ? ' day' : ' days') : ''}</span>${today}`
+    ? `<span>⏳</span><span class="cd-time">${left.txt}</span><span class="cd-what">of study left · stop at midnight after ${plDayName(STUDY_LAST)} · exam ${plDayName(EXAM_AT.slice(0, 10))}, 9 AM–2 PM${leave > 0 ? ' · leave starts in ' + leave + (leave === 1 ? ' day' : ' days') : ''}</span>${today}`
     : exam
     ? `<span>🛌</span><span class="cd-time">${exam.txt}</span><span class="cd-what">to the exam · studying is over: rest, pack and sleep early</span>${today}`
     : '<span>🎯</span><span class="cd-time">Exam day</span><span class="cd-what">Trust the work.</span>';
@@ -24277,7 +24278,7 @@ function plRender(el) {
   el.innerHTML = `
     <div class="crumb">Countdown</div>
     <h2 class="topic-title">📅 Daily plan</h2>
-    <p class="topic-desc">${left ? '<b>' + left.d + ' days</b> of study left: you stop at noon on ' + plDayName(STUDY_END.slice(0, 10), true) + ' to rest before the exam on ' + plDayName(EXAM_AT.slice(0, 10), true) + '. ' : ''}Until Friday 23 October: every reading through its 📝 Concise notes and weak-spot cards, with 20 questions each. Mock 1 is on Saturday 24 October, your day off. Office days to Saturday 31 October take each subject through a second pass. From 1 November, the first day of leave, you sit a mock every other day, each followed by a day of review and a second pass. Tick each task as you finish it; anything left over shows up on the next day.</p>
+    <p class="topic-desc">${left ? '<b>' + left.d + ' days</b> of study left: you stop at midnight at the end of ' + plDayName(STUDY_LAST, true) + ', before the exam on ' + plDayName(EXAM_AT.slice(0, 10), true) + '. ' : ''}Until Friday 23 October: every reading through its 📝 Concise notes and weak-spot cards, with 20 questions each. Mock 1 is on Saturday 24 October, your day off. Office days to Saturday 31 October take each subject through a second pass. From 1 November, the first day of leave, you sit a mock every other day, each followed by a day of review and a second pass. Tick each task as you finish it; anything left over shows up on the next day.</p>
     ${day ? `<div class="pl-today">
       <div class="pl-today-head"><span class="pl-today-date">Today · ${plDayName(day.d, true)}</span><span class="pl-kind ${day.k}">${PL_KIND[day.k]}</span></div>
       <div class="pl-slots">${PL_SLOTS[day.k]}</div>
