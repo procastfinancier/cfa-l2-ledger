@@ -163,6 +163,65 @@ window.addEventListener('error', function (e) {
   .wk-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 7px; }
   .wk-bar .miss-tag { margin-bottom: 0; }
   .wk-star .st-btn { margin: 0; }
+  /* 🧭 Mind map */
+  .mm-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; width: 100%; margin: 0 0 14px; padding: 10px 14px; font: 13.5px var(--sans); color: var(--ink); text-align: left; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--violet); border-radius: 10px; cursor: pointer; }
+  .mm-jump:hover, .mm-jump:focus-visible { border-color: var(--violet); }
+  .mm-jump span { margin-left: auto; font-weight: 600; color: var(--violet); white-space: nowrap; }
+  .ex-read .mm { margin: 10px 0 14px; }
+  .mm-tools { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin-bottom: 12px; }
+  .mm-hint { font-size: 12px; color: var(--ink-soft); flex: 1 1 260px; }
+  .mm-root { max-width: 620px; margin: 0 auto; text-align: center; border: 1.5px solid var(--ink); border-radius: 14px; padding: 10px 16px; background: var(--panel); }
+  .mm-root-t { font-family: var(--serif); font-size: 19px; margin-bottom: 4px; }
+  .mm-story { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .mm-trunks { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; padding-top: 16px; margin-bottom: 14px; }
+  .mm-trunks::before { content: ''; position: absolute; top: 0; left: 50%; height: 14px; border-left: 2px solid var(--line); }
+  .mm-trunk { font: 600 12.5px var(--sans); color: var(--ink); background: var(--mmbg); border: 1.5px solid var(--mmc); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .mm-trunk b { color: var(--mmc); font-family: var(--mono); font-size: 11px; margin-right: 3px; }
+  .mm-arrow { color: var(--ink-faint); font-size: 14px; }
+  .mm-tree, .mm-kids { list-style: none; margin: 0; padding: 0; }
+  .mm-kids { display: none; margin-left: 13px; padding-left: 16px; border-left: 2px solid var(--mmc); }
+  .mm-n.open > .mm-kids { display: block; }
+  .mm-n { position: relative; margin: 6px 0; }
+  .mm-tree > .mm-n { margin-bottom: 14px; }
+  .mm-kids > .mm-n::before { content: ''; position: absolute; left: -16px; top: 19px; width: 14px; border-top: 2px solid var(--mmc); }
+  .mm-row { display: flex; align-items: flex-start; gap: 8px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); cursor: pointer; }
+  .mm-row:hover, .mm-row:focus-visible { border-color: var(--mmc); outline: none; }
+  .mm-n.d0 > .mm-row { background: var(--mmbg); border: 1.5px solid var(--mmc); }
+  .mm-n.d0 > .mm-row .mm-t { font-size: 15px; }
+  .mm-car { flex: 0 0 14px; color: var(--mmc); font-size: 15px; line-height: 20px; transition: transform 0.15s; text-align: center; }
+  .mm-n.open > .mm-row .mm-car { transform: rotate(90deg); }
+  .mm-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .mm-t { font-weight: 650; font-size: 13.5px; line-height: 20px; }
+  .mm-mod { font: 600 10.5px var(--mono); color: var(--mmc); margin-left: 4px; white-space: nowrap; }
+  .mm-tag { font-size: 12px; color: var(--ink-soft); line-height: 1.4; }
+  .mm-wk { align-self: center; font: 700 10px/1.5 var(--mono); color: #fff; background: var(--rose); border-radius: 9px; padding: 0 6px; white-space: nowrap; }
+  .mm-more { align-self: center; font: 600 11.5px var(--sans); color: var(--mmc); background: var(--panel); border: 1px solid var(--mmc); border-radius: 8px; padding: 3px 9px; cursor: pointer; white-space: nowrap; }
+  .mm-more::after { content: ' ▾'; }
+  .mm-n.info > .mm-row .mm-more { background: var(--mmc); color: #fff; }
+  .mm-n.info > .mm-row .mm-more::after { content: ' ▴'; }
+  .mm-info { display: none; margin: 4px 0 8px 20px; padding: 10px 12px; border-left: 3px solid var(--mmc); background: var(--panel); border-radius: 0 10px 10px 0; font-size: 13px; line-height: 1.55; }
+  .mm-n.info > .mm-info { display: block; }
+  .mm-info ul { margin: 0 0 6px; padding-left: 18px; }
+  .mm-info li { margin: 2px 0; }
+  .mm-tbl { margin: 6px 0 8px; }
+  .mm-info .mm-tbl th, .mm-info .mm-tbl td { text-align: left; vertical-align: top; font-size: 12.5px; }
+  .mm-info .mm-tbl td:first-child { font-weight: 600; }
+  .mm-lab { display: block; margin: 10px 0 4px; font: 700 10.5px var(--mono); text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faint); }
+  .mm-lrow { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin: 4px 0; }
+  .mm-link { font: 600 12px var(--sans); color: var(--mmc); background: var(--panel); border: 1px solid var(--mmc); border-radius: 8px; padding: 2px 8px; cursor: pointer; }
+  .mm-why { font-size: 12px; color: var(--ink-soft); }
+  .mm-wkd { margin: 4px 0; }
+  .mm-wkd > summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--rose); }
+  .mm-wkd > .weak-card { margin-top: 6px; }
+  .mm-from { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 8px; }
+  .mm-from > summary { cursor: pointer; font-size: 12.5px; font-weight: 600; }
+  .mm-from-acts { margin: 6px 0; }
+  @media (max-width: 600px) {
+    .mm-kids { margin-left: 6px; padding-left: 12px; }
+    .mm-kids > .mm-n::before { left: -12px; width: 10px; }
+    .mm-info { margin-left: 4px; }
+    .mm-arrow { display: none; }
+  }
   .nb-wk { background: var(--rose-bg); box-shadow: inset 3px 0 0 var(--rose); border-radius: 6px; padding-left: 10px; }
   .nb-sub.nb-wk { padding-top: 4px; padding-bottom: 4px; }
   .wk-spots { margin: 2px 0 4px; }
@@ -17874,6 +17933,242 @@ const TUITION_MISSES = {
     },
   ],
 };
+// Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
+// every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
+// `from` (parts of the notes shown under "Your notes", found as in a weak-spot card's `at`), `wk` (title
+// prefixes of the weak-spot cards it tests), `links` ([node id, why] cross-links) and children `c`.
+const MINDMAP = {
+  'econ.0': {
+    story: 'A quote prices one unit of the *base* currency. Dealers trade around it with a *bid–ask spread*, and crossing quotes can expose *arbitrage* (5.S1–5.S4). *Parity conditions* tie forwards, interest rates, inflation and expected spot rates together (5.S5–5.S7). When uncovered parity fails, the *carry trade* pays, with crash risk (5.S8). In practice the *balance of payments, policy and capital flows* move currencies, sometimes into a crisis (5.S9–5.S10).',
+    branches: [
+      { id: 'q', mod: '5.S1–5.S4', tone: 'teal', t: 'Quoting and trading currencies', tag: 'Quotes, spreads, cross rates and triangular arbitrage', c: [
+        { id: 'quote', mod: '5.S1', t: 'Reading a quote', tag: 'P/B = the price of one unit of the base currency',
+          info: ['₹/USD = 50: USD is the *base* (bottom), ₹ the *price* currency (top). The quote is the price of one unit of the base.', '*Spot* = delivery now (T+2). *Forward* = a rate agreed today for an exchange on a future date.'],
+          from: ['s1-base', 's1-spotfwd'] },
+        { id: 'bidask', mod: '5.S1', t: 'Bid, ask and spread', tag: 'The dealer buys the base at the bid and sells it at the ask',
+          info: ['*Bid* = the dealer buys the base currency; *ask* = the dealer sells it. Spread = ask − bid.', 'You always get the worse side: buy the base at the ask, sell it at the bid.', 'On a four-decimal quote, 1 pip = 0.0001.'],
+          from: ['Bid Rate & Ask Rate (Offer Rate)'], c: [
+          { id: 'dealer', t: 'Dealer market spreads', tag: 'Wider with the interbank spread and trade size; narrower for good clients',
+            info: [{ columns: ['Factor', 'Effect on the dealer spread'], rows: [['Interbank spread for the pair', 'Direct'], ['Size of the trade', 'Direct: bigger order, wider spread'], ['Dealer–client relationship', 'Inverse: good relationship, narrower spread']] }],
+            from: ['Factors Affecting Spreads in the Dealer Market'], wk: ['Dealer spreads'] },
+          { id: 'interbank', t: 'Interbank market spreads', tag: 'Currencies, time of day, volatility',
+            info: [{ columns: ['Factor', 'Effect on the interbank spread'], rows: [['Heavily traded currencies', 'Narrower'], ['Time of day', 'Narrowest when London and New York are both open'], ['Volatility ↑', 'Wider']] },
+              'Forward spreads widen with maturity: less liquidity, more credit and interest rate risk.'],
+            from: ['Factors Affecting Spreads in the Interbank Market'] },
+        ] },
+        { id: 'invert', mod: '5.S2', t: 'Inverting quotes', tag: 'Flip the quote → flip the side',
+          info: ['₹/$ = 50 → $/₹ = 1 ÷ 50 = 0.02.', 'Bid (B/A) = 1 ÷ Ask (A/B); Ask (B/A) = 1 ÷ Bid (A/B).', 'Shortcut: *up the bid and multiply, down the ask and divide*.'],
+          from: ['Change of quotes for bid & ask', 's2-audgbp'], links: [['cross', 'Cross rates need each quote turned the right way up first']] },
+        { id: 'cross', mod: '5.S3', t: 'Cross rates', tag: 'The common currency cancels',
+          info: ['MXN/AUD = MXN/USD × USD/AUD.', 'With spreads: bid × bid and ask × ask, after turning each quote the right way up (and swapping its sides).', 'Check that bid < ask at the end.'],
+          from: ['Cross rates with bid–ask spreads', 's3-when-invert'], wk: ['Cross rate with bid–ask'], links: [['tri', 'A dealer cross quote away from the implied cross is an arbitrage']] },
+        { id: 'tri', mod: '5.S4', t: 'Triangular arbitrage', tag: 'Dealer cross ≠ implied cross → loop through the three currencies',
+          info: ['Compare the dealer quote (MV) with the implied cross (IV), and buy the currency that is cheap at the dealer.', 'At each leg: buying the base → ask (÷); selling the base → bid (×).', 'Profit = notional × (bid ÷ ask − 1) with the crossed bid and ask. Only one direction makes money.'],
+          from: ['s4-tri-steps', 'Alternate way to solve'] },
+      ] },
+      { id: 'fwd', mod: '5.S5–5.S7', tone: 'violet', t: 'Forwards and parity conditions', tag: 'What forwards are worth, and how rates, inflation and FX link', c: [
+        { id: 'fpoints', mod: '5.S5', t: 'Forward points', tag: 'Forward = spot + points ÷ 10,000',
+          info: ['Spot 50.2348 + 3.5 points → 50.23515.', 'Positive points → the base currency trades at a forward *premium*.'],
+          from: ['Forward quotes to forward rates'] },
+        { id: 'mtm', mod: '5.S5', t: 'Mark-to-market value of a forward', tag: 'Offset it, then discount the gain',
+          info: ['Enter the opposite forward maturing on the same day (bid if you sell the base, ask if you buy it).', 'Gain = (sell rate − buy rate) × notional, paid at maturity.', 'Discount at the *price currency* rate for the *remaining* days. A forward is worth zero at the start.'],
+          from: ['s5-yip-ans', 'Which rate discounts it'] },
+        { id: 'cirp', mod: '5.S6', t: 'Covered interest parity', tag: 'F ÷ S = (1 + R price) ÷ (1 + R base); held by arbitrage',
+          info: ['The higher-rate currency trades at a forward *discount* that cancels its extra interest.', 'Forward premium = (R(A) − R(B)) × days/360 ÷ (1 + R(B) × days/360).'],
+          from: ['Covered Interest Rate Parity — Formula'], c: [
+          { id: 'cia', t: 'Covered interest arbitrage', tag: 'MV > IV: borrow the price currency; MV < IV: borrow the base',
+            info: [{ columns: ['Market forward', 'Borrow', 'Forward contract'], rows: [['Overvalued (MV > IV)', 'Price currency', 'Sell the base forward'], ['Undervalued (MV < IV)', 'Base currency', 'Buy the base forward']] },
+              'Convert at spot, deposit, lock in the forward and repay the loan. What is left is riskless profit.'],
+            from: ['s6-steps', 's6-eur'] },
+        ] },
+        { id: 'ucirp', mod: '5.S7', t: 'Uncovered interest parity', tag: 'E(%ΔS) = R(price) − R(base); not held by arbitrage',
+          info: ['The higher-rate currency is *expected* to depreciate by the rate gap.', 'It applies when forwards aren’t available or capital is restricted, and assumes risk-neutral investors.', 'It usually fails in the short run and holds better in the long run.'],
+          from: ['Uncovered interest rate parity (quote A/B)', 's7-zar'], links: [['carry', 'The carry trade is a bet that it fails'], ['mf', 'Mundell-Fleming says the opposite in the short run']] },
+        { id: 'frp', mod: '5.S7', t: 'Forward rate parity', tag: 'F = E(S₁)',
+          info: ['The forward rate is an unbiased predictor of the future spot rate.', 'Because covered parity always holds, forward rate parity and uncovered parity hold or fail together.'],
+          from: ['Forward rate parity'] },
+        { id: 'fisher', mod: '5.S7', t: 'International Fisher effect', tag: 'Rate gap = expected inflation gap',
+          info: ['Nominal ≈ real + expected inflation (the domestic Fisher relation).', 'Real rates converge across countries (capital chases the higher real rate), so R(A) − R(B) = E(π A) − E(π B).'],
+          from: ['International Fisher Relation', 's7-fisher'] },
+        { id: 'ppp', mod: '5.S7', t: 'Purchasing power parity', tag: 'Law of one price → absolute → relative → ex-ante',
+          info: [{ columns: ['Version', 'What it says'], rows: [['Law of one price', 'Identical goods cost the same everywhere'], ['Absolute PPP', 'S(A/B) = CPI(A) ÷ CPI(B) for a basket; no tariffs, transaction or transport costs'], ['Relative PPP', '%ΔS(A/B) ≈ π(A) − π(B), with actual inflation'], ['Ex-ante PPP', 'The same with expected inflation']] },
+            'The higher-inflation currency depreciates. PPP holds only over long horizons.'],
+          from: ['Purchasing Power Parity'] },
+        { id: 'web', mod: '5.S7', t: 'How the parity conditions link up', tag: 'Only covered parity is held by arbitrage',
+          info: [{ columns: ['Condition', 'Links'], rows: [['Covered interest parity', 'Rate gap ↔ forward premium or discount'], ['Uncovered interest parity', 'Rate gap ↔ expected spot change'], ['Forward rate parity', 'Forward premium ↔ expected spot change'], ['International Fisher', 'Rate gap ↔ inflation gap'], ['Relative (ex-ante) PPP', 'Inflation gap ↔ expected spot change']] },
+            'If ex-ante PPP and the international Fisher relation both hold, uncovered parity holds.', 'For forecasting, only PPP works, and only over long horizons: the real exchange rate mean-reverts.'],
+          from: ['How the Parity Conditions Link Up'], links: [['cirp', 'Covered: the one arbitrage enforces'], ['ucirp', 'Uncovered: the expected spot change'], ['fisher', 'Fisher: interest rates and inflation'], ['ppp', 'PPP: inflation and the spot rate']] },
+      ] },
+      { id: 'b3', mod: '5.S8', tone: 'amber', t: 'When parity fails: the carry trade', tag: 'Earn the rate gap, risk a crash', c: [
+        { id: 'carry', t: 'FX carry trade', tag: 'Borrow the low-yield currency, invest in the high-yield one',
+          info: ['It pays only when uncovered parity *fails*: the high-yield currency falls by less than the rate gap.', 'Return ≈ foreign rate − funding rate − depreciation of the high-yield currency.', 'Not arbitrage: the future exchange rate isn’t locked in.'],
+          from: ['s8-cases', 's8-gbp'], links: [['ucirp', 'It is a bet against uncovered interest parity']] },
+        { id: 'crash', t: 'Crash risk', tag: 'Negative skew, fat tails',
+          info: ['Leverage and crowding: when everyone exits at once, the high-yield currency falls steeply.', 'Returns show *negative skewness* and *excess kurtosis*. Carry does best when volatility is low.'],
+          from: ['Crash Risk'] },
+      ] },
+      { id: 'b4', mod: '5.S9–5.S10', tone: 'slate', t: 'What moves exchange rates', tag: 'Balance of payments, policy, capital flows and crises', c: [
+        { id: 'bop', mod: '5.S9', t: 'Balance of payments', tag: 'Current account vs. capital (financial) account',
+          info: ['Current account: goods and services, investment income, transfers. Capital account: debt and equity flows.', 'A current account deficit is financed by a capital account surplus. Capital flows are bigger and faster, so they dominate in the short run.'],
+          from: ['s9-bop'], c: [
+          { id: 'flow', t: 'Flow supply and demand', tag: 'Deficit → currency ↓',
+            info: ['Current account deficit → less demand for the home currency → depreciation → imports dearer, exports cheaper.', 'Whether the deficit closes depends on its starting size, how far prices pass through, and price elasticity (elastic demand helps).'],
+            from: ['Flow Supply/Demand Mechanism'] },
+          { id: 'pbm', t: 'Portfolio balance', tag: 'Foreign holders rebalance away → currency ↓',
+            info: ['Countries that financed the deficit hold its assets. If they rebalance away, the deficit country’s currency falls.'],
+            from: ['Portfolio Balance Mechanism'] },
+          { id: 'debt', t: 'Debt sustainability', tag: 'Too much foreign debt → sharp fall',
+            info: ['The deficit is funded by borrowing abroad. Once debt to GDP looks unsustainable, the currency can fall fast.'],
+            from: ['Debt Sustainability Mechanism'] },
+        ] },
+        { id: 'policy', mod: '5.S10', t: 'Monetary and fiscal policy', tag: 'Three models, three horizons',
+          info: [{ columns: ['Model', 'Horizon', 'Focus'], rows: [['Mundell-Fleming', 'Short run', 'Monetary and fiscal policy; ignores inflation'], ['Monetary approach', 'Pure: always; Dornbusch: short run, then long run', 'Monetary policy, through prices'], ['Portfolio balance', 'Long run', 'Fiscal policy']] }],
+          from: ['s10-map'], c: [
+          { id: 'mf', t: 'Mundell-Fleming, flexible rates', tag: 'High mobility: follow rates. Low mobility: follow imports',
+            info: ['*High capital mobility*: rates ↑ → currency ↑. Expansionary fiscal → rates ↑ → appreciation; expansionary monetary → depreciation.', '*Low capital mobility*: anything that raises spending raises imports → depreciation.',
+              { columns: ['Monetary / fiscal', 'High mobility', 'Low mobility'], rows: [['Expansionary / expansionary', 'Uncertain', 'Depreciation'], ['Expansionary / restrictive', 'Depreciation', 'Uncertain'], ['Restrictive / expansionary', 'Appreciation', 'Uncertain'], ['Restrictive / restrictive', 'Uncertain', 'Appreciation']] }],
+            from: ['Mundell-Fleming — Flexible Exchange Rate Regimes'], wk: ['Sustained fiscal deficit'], links: [['pba', 'In the long run, portfolio balance reverses the fiscal effect'], ['ucirp', 'Uncovered parity says a high-rate currency depreciates; Mundell-Fleming ignores inflation']] },
+          { id: 'peg', t: 'Mundell-Fleming, fixed rates', tag: 'No independent monetary policy with free capital',
+            info: ['Expansionary policy weakens the currency. Defending the peg means raising rates, which reverses the policy.', 'Free capital flows, a fixed rate and independent monetary policy: you can only have two.'],
+            from: ['Mundell-Fleming — Fixed Exchange Rate Regimes'] },
+          { id: 'monetary', t: 'Monetary approach', tag: 'Pure model vs. Dornbusch overshooting',
+            info: ['*Pure*: PPP holds at all times. Money supply +x% → prices +x% → currency −x%.', '*Dornbusch*: prices are sticky, so the currency *overshoots* in the short run, then recovers toward PPP.'],
+            from: ['Monetary Approach to Exchange Rate Determination'], links: [['ppp', 'It is built on PPP']] },
+          { id: 'pba', t: 'Portfolio balance approach', tag: 'Fiscal deficit: currency up in the short run, down in the long run',
+            info: ['Short run (Mundell-Fleming, high mobility): borrowing → rates ↑ → appreciation.', 'Long run: debt piles up and foreign investors want more return. The government tightens or prints money → *depreciation*.'],
+            from: ['Portfolio Balance Approach to Exchange Rate Determination'], wk: ['Sustained fiscal deficit'] },
+        ] },
+        { id: 'capflows', mod: '5.S10', t: 'Capital flows and controls', tag: 'Pull vs. push, and why governments step in',
+          info: ['*Pull*: good domestic fundamentals attract capital. *Push*: global capital chasing returns.', 'Excess inflows → an overvalued currency, asset bubbles and credit-fuelled consumption. When they reverse → depreciation.', 'Controls aim to stop excess appreciation, keep monetary policy independent and cut inflows. Intervention works better in *emerging* markets, where reserves are large relative to trading volume.'],
+          from: ['Capital Flows', 'Effectiveness of Capital Control'], links: [['crisis', 'Sudden reversals feed currency crises']] },
+        { id: 'crisis', mod: '5.S10', t: 'Warning signs of a currency crisis', tag: 'Eight signs, each with a direction',
+          info: [{ columns: ['Sign', 'Before a crisis'], rows: [['Terms of trade', 'Deteriorate'], ['Exchange rate regime', 'Fixed or partly fixed'], ['FX reserves', 'Fall sharply'], ['Currency value', 'Above its historical mean'], ['Inflation', 'Rises'], ['Capital markets', 'Liberalised'], ['Money supply relative to bank reserves', 'Rises'], ['Banking system', 'In crisis (may coincide)']] }],
+          from: ['Warning Signs of a Currency Crisis'], wk: ['Currency-crisis warning signs'] },
+      ] },
+    ],
+  },
+  'econ.1': {
+    story: 'Growth needs the right *pre-conditions* and, in the long run, sets how fast *share prices* rise (6.S1). It is produced by *capital, labour and technology* (6.S2). Three *theories* disagree on whether growth can last and whether poor countries catch up (6.S3).',
+    branches: [
+      { id: 'b1', mod: '6.S1', tone: 'teal', t: 'Why growth matters', tag: 'What growth needs, and what it means for investors', c: [
+        { id: 'gdp', t: 'GDP vs. GDP per capita', tag: 'Output vs. standard of living',
+          info: ['*GDP* = the economy’s total output.', '*GDP per capita* = standard of living. A country can grow GDP just by adding people; living standards rise only if output *per person* rises.'],
+          from: ['s1-gdp'], links: [['perworker', 'Output per worker is what the Cobb–Douglas function explains once you divide by L']] },
+        { id: 'pre', t: 'Pre-conditions for growth', tag: 'Six of them: all direct, except tax and regulation',
+          info: ['*Direct*: saving and investment · financial markets and intermediaries · political stability, rule of law, property rights · human capital · free trade and open capital flows.', '*Inverse*: tax and regulatory burden.', 'Too little domestic saving → the country must attract *foreign* investment (FDI or portfolio).'],
+          from: ['Pre-conditions for Growth'], links: [['open', 'Free trade and capital flows come back in the open-economy argument'], ['human', 'Human capital is also an input to growth']] },
+        { id: 'shares', t: 'Growth → share prices', tag: 'ΔP = ΔGDP + Δ(E/GDP) + Δ(P/E)',
+          info: ['The value of the whole stock market depends on GDP, the share of GDP that is earnings, and the P/E multiple.'],
+          from: ['Change in Share Price'], c: [
+          { id: 'srlr', t: 'Short run vs. long run', tag: 'Long run: ΔP = ΔGDP',
+            info: ['*Short run*: the market can rise faster or slower than GDP because E/GDP and P/E move.', '*Long run*: E/GDP can’t grow forever (labour claims its share) and P/E can’t either, so both changes → 0 and *ΔP = ΔGDP*.'],
+            from: ['s1-longrun'] },
+          { id: 'gk', t: 'Grinold–Kroner link', tag: 'Real EPS growth is capped by potential GDP growth',
+            info: ['E(R) = DY + ΔEPS(real) + π − ΔS + Δ(P/E).', 'The long-run driver is *real EPS growth*, capped by *potential GDP growth*. ΔS (dilution) = net buybacks + relative dynamism (private firms that GDP captures but listed earnings don’t).'],
+            from: ['The Grinold–Kroner model'], links: [['ga', 'Potential GDP growth itself comes from growth accounting']] },
+        ] },
+        { id: 'pot', t: 'Potential GDP and investors', tag: 'Interest rates, inflation, policy, credit',
+          info: ['Potential GDP = the most an economy can produce *without upward pressure on prices*.'],
+          from: ['Potential GDP'], c: [
+          { id: 'potup', t: 'Higher potential growth', tag: 'Rates ↑, asset returns ↑, credit risk ↓',
+            info: ['Consumers expect higher future income → consume more and save less today → interest rates must ↑ to draw out saving → *asset returns ↑*.', 'Higher potential growth also *lowers credit risk* on corporate and government debt.'],
+            from: ['What happens to asset prices and interest rates'] },
+          { id: 'gap', t: 'Output gap', tag: 'Actual vs. potential GDP signals the next policy move',
+            info: [{ columns: ['Situation', 'What follows'], rows: [['Actual > potential', 'Inflation ↑ → central bank tightens (contractionary monetary policy)'], ['Actual < potential', 'Slack → expansionary fiscal policy (deficit) and monetary easing; inflation is no worry']] },
+              'Most useful to *fixed-income* investors, because the gap forecasts inflation.'],
+            from: ['s1-gap', 'What else the gap tells investors'] },
+        ] },
+      ] },
+      { id: 'b2', mod: '6.S2', tone: 'violet', t: 'What produces growth', tag: 'Capital, labour and technology, and how to measure each one’s part', c: [
+        { id: 'cd', t: 'Cobb–Douglas production function', tag: 'Y = T · Kᵅ · L¹⁻ᵅ',
+          info: ['Output comes from *capital (K)*, *labour (L)* and *technology / total factor productivity (T)*.', 'α = capital’s share of output, (1 − α) = labour’s share (typically α ≈ 0.3–0.4).'],
+          from: ['Cobb–Douglas production function'], c: [
+          { id: 'crs', t: 'Returns: all inputs vs. one input', tag: 'Constant returns to scale; diminishing returns to capital',
+            info: ['All inputs +x% → output +x%: *constant returns to scale* (the exponents add up to 1).', 'Capital alone ↑ with labour fixed → each extra unit adds less: *diminishing marginal returns*.'],
+            from: ['s2-cd-num'], wk: ['Cobb–Douglas: constant'] },
+          { id: 'perworker', t: 'Output per worker', tag: 'Y/L = T · (K/L)ᵅ',
+            info: ['Divide by L: output per worker depends on only *two* things: technology (T) and capital per worker (K/L).', 'So there are two levers: *capital deepening* and *technological progress*.'],
+            from: ['s2-perworker'], c: [
+            { id: 'deep', t: 'Capital deepening', tag: 'A move along the curve that runs out of steam',
+              info: ['More K/L raises output per worker, by less each time (diminishing returns). It stops when MPK = the rental price of capital r.', 'Developing countries (low K/L) gain more; developed countries rely on technology.'],
+              from: ['s2-perworker-num', 's2-mpk'], links: [['neo', 'Neoclassical: deepening changes the level of output, not long-run growth']] },
+            { id: 'tfp', t: 'Technological progress (TFP)', tag: 'Shifts the whole curve up',
+              info: ['Higher TFP → more output at every K/L. It does not change α.', 'It is the only way to raise output per worker *for good* in the neoclassical model.'],
+              from: ['Capital deepening vs. technological progress'], links: [['neo', 'Neoclassical steady-state growth is set by TFP growth θ'], ['endo', 'Endogenous theory explains where TFP comes from']] },
+          ] },
+          { id: 'alpha', t: 'What α means', tag: 'Capital’s share: α = rK/Y',
+            info: ['MPK = αY/K. In equilibrium MPK = r, so *α = rK/Y*.', 'Higher α → more benefit from capital deepening, and diminishing returns bite more slowly. α tends to be *higher in developing* economies.'],
+            from: ['MPK in symbols'], wk: ['Cobb–Douglas: constant', 'Cobb–Douglas: same'] },
+        ] },
+        { id: 'ga', t: 'Growth accounting', tag: 'Splits growth into where it came from',
+          info: ['The same Cobb–Douglas function, written in growth rates.'],
+          from: ['Growth Accounting Relations'], links: [['gk', 'Potential GDP growth caps long-run stock market growth']], c: [
+          { id: 'gatfp', t: 'TFP version', tag: 'ΔY/Y = ΔT/T + α·ΔK/K + (1 − α)·ΔL/L',
+            info: ['Use it when you are given *TFP growth*, capital growth and the factor shares.', 'Technology counts in full; capital and labour are weighted by their shares.', 'Same total growth but different labour growth? Back out α: growth − TFP = α·(gK − gL) + gL.'],
+            from: ['ΔY/Y = ΔT/T', 's2-azik'], wk: ['Cobb–Douglas: same'] },
+          { id: 'galp', t: 'Labour productivity version', tag: 'Labour force growth + labour productivity growth',
+            info: ['Use it when you are given *labour productivity* growth.', 'Ignore capital growth and the shares: productivity growth already includes capital deepening.'],
+            from: ['Labour productivity version'], wk: ['Potential GDP growth'] },
+          { id: 'gawhich', t: 'Which version?', tag: 'The inputs in the question decide',
+            info: [{ columns: ['Given', 'Use', 'Formula'], rows: [['TFP growth and factor shares', 'TFP version', 'ΔT/T + α·gK + (1 − α)·gL'], ['Labour productivity growth', 'Labour productivity version', 'gL + productivity growth']] },
+              'Never mix them: adding capital growth to labour productivity growth counts capital deepening twice.'],
+            wk: ['Potential GDP growth'] },
+          { id: 'resid', t: 'TFP is the residual', tag: 'Backed out, never observed',
+            info: ['TFP growth = actual growth − α·gK − (1 − α)·gL.'], from: ['TFP is the residual'] },
+        ] },
+        { id: 'inputs', t: 'What feeds the inputs', tag: 'Labour, natural resources, capital, technology', c: [
+          { id: 'labour', t: 'Labour supply', tag: 'Labour force × average hours',
+            info: [{ columns: ['Factor', 'Effect on labour input'], rows: [['Slower population growth, ageing', '↓ constrains growth'], ['Higher participation (e.g. more women working)', '↑'], ['More immigration', '↑ offsets low fertility'], ['Wealth effect, taxes, legislation, part-time work', 'Hours ↓, constrains growth']] },
+              'More labour raises GDP, but not necessarily output *per worker*.'],
+            from: ['Labour Supply'], wk: ['Labour supply'] },
+          { id: 'natres', t: 'Natural resources', tag: 'Access matters more than ownership',
+            info: ['Ownership vs. growth: *can’t say* (Brazil direct; Japan and parts of Africa inverse).', 'Resource-poor countries buy through trade and build manufacturing, with its TFP gains.', 'Resource-rich countries risk *Dutch disease*: the currency ↑ and other exports become uncompetitive.'],
+            from: ['Effect of Natural Resources on Economic Growth'], wk: ['Natural resources'] },
+          { id: 'human', t: 'Human capital', tag: 'The quality of labour',
+            info: ['Knowledge and skills raise *productivity*, not hours worked, with spillovers when skilled workers innovate.', 'Developed countries gain most from post-secondary education (innovation); developing countries from primary and secondary (adopting technology).'],
+            from: ['s2-factors'] },
+          { id: 'phys', t: 'Physical capital and infrastructure', tag: 'ICT vs. non-ICT; public infrastructure',
+            info: ['ICT investment has *network externalities* that raise TFP; non-ICT investment is the least likely to.', 'Public infrastructure complements private investment and raises TFP.'],
+            from: ['How each factor works'] },
+          { id: 'tech', t: 'Technology', tag: 'Measured by R&D spending or patents',
+            info: ['Developed countries spend most on R&D and invent; developing countries copy.'], links: [['tfp', 'Technology is T (TFP) in the production function']] },
+        ] },
+      ] },
+      { id: 'b3', mod: '6.S3', tone: 'amber', t: 'Can growth last?', tag: 'Three theories, convergence and open trade', c: [
+        { id: 'theories', t: 'Three growth theories', tag: 'Classical · neoclassical · endogenous', c: [
+          { id: 'classical', t: 'Classical (Malthus)', tag: 'Back to the subsistence wage',
+            info: ['Income above *subsistence* → population ↑ → diminishing returns to labour → GDP per capita falls back to subsistence.', 'Growth per capita is *not permanent*. Not supported by evidence.'],
+            from: ['1. Classical Growth Theory'], wk: ['Classical'] },
+          { id: 'neo', t: 'Neoclassical (Solow)', tag: 'Steady state: g* = θ ÷ (1 − α)',
+            info: ['Output per capita grows at g* = θ ÷ (1 − α); total output at G* = g* + ΔL.', 'Capital deepening and saving change the *level* of output, and growth only temporarily.', 'Technology θ is *exogenous*: it comes from outside the model.', 'Population growth is independent of economic growth (unlike classical theory).'],
+            from: ['2. Neoclassical Growth Theory'], links: [['deep', 'Diminishing returns to capital are why deepening fades'], ['cond', 'It supports conditional convergence']] },
+          { id: 'endo', t: 'Endogenous (new growth theory)', tag: 'Knowledge capital; no steady state',
+            info: ['Investment in human capital, R&D and knowledge creates technology *inside* the model.', 'Spillovers: social return > private return → firms *under-invest* in R&D → subsidies are justified.', 'Constant returns to capital across the economy → saving raises growth *permanently*.'],
+            from: ['3. Endogenous Growth Theory'], wk: ['Endogenous'], links: [['tfp', 'It explains where TFP comes from']] },
+          { id: 'cmp', t: 'Compare the three', tag: 'Where they differ',
+            info: [{ columns: ['', 'Classical', 'Neoclassical', 'Endogenous'], rows: [['Key idea', 'Subsistence wage', 'Steady state', 'Knowledge capital'], ['Technology', 'Not modelled', 'Exogenous (θ)', 'Endogenous (R&D)'], ['Returns to capital', '—', 'Diminishing', 'Constant across the economy'], ['Higher saving', '—', 'Level ↑, growth only for a while', 'Growth ↑ for good'], ['Long-run growth per capita', 'Zero', 'θ ÷ (1 − α)', 'Can keep rising'], ['R&D subsidies', '—', 'No case', 'Justified']] }],
+            wk: ['Classical', 'Endogenous'] },
+        ] },
+        { id: 'conv', t: 'Convergence', tag: 'Do poor countries catch up?',
+          info: ['Developing countries have lower output per capita. The question is whether, and on what conditions, they catch up.'],
+          from: ['Convergence Hypothesis'], c: [
+          { id: 'abs', t: 'Absolute', tag: 'Same technology → same growth rate',
+            info: ['Poorer countries’ *growth rates* converge to richer ones’, whatever their characteristics. The neoclassical model does not imply it: the same technology gives the same growth rate, not the same income.'],
+            from: ['s3-abs'], wk: ['Convergence'] },
+          { id: 'cond', t: 'Conditional', tag: 'Same saving, population growth and production function',
+            info: ['Income levels converge only if the saving rate, population growth and production function are the same. Poorer countries grow faster until they catch up. The neoclassical model supports it.'],
+            from: ['s3-cond'], wk: ['Convergence'] },
+          { id: 'club', t: 'Club', tag: 'Same institutions',
+            info: ['Poor countries with the club’s institutions (property rights, financial markets, education, health) converge. Outsiders may never converge, but they can join through reforms.'],
+            from: ['s3-club'] },
+        ] },
+        { id: 'open', t: 'Open economy and trade', tag: 'A temporary gain (neoclassical) vs. a permanent one (endogenous)',
+          info: ['Benefits: foreign savings, specialisation by comparative advantage, bigger markets and economies of scale, technology sharing, competition.', '*Neoclassical*: capital flows to poor countries, they grow fast, then slow down, so the gain is temporary. *Endogenous*: openness spurs innovation, so growth is higher for good, for all countries.', 'Outward-oriented countries tend to converge; inward-oriented ones may not.'],
+          from: ['what open trade does'], wk: ['Open trade'], links: [['neo', 'Temporary gain in the neoclassical model'], ['endo', 'Permanent gain in the endogenous model'], ['pre', 'Free trade is also a pre-condition for growth']] },
+      ] },
+    ],
+  },
+};
 // The tuition questions behind the weak-spot cards, word for word as they were asked, keyed by the card's `ref`.
 // `full`: the question (a string per paragraph, or { columns, rows } for a table). `options`: as printed (some
 // quizzes print no letters). `p`: the option I picked, `a`: the answer, both 0-based. `note`: a remark on the key.
@@ -21969,36 +22264,43 @@ function wkInit() {
 // Where each weak spot lives in the notes. A card's `at` lists text to find in its session (prefix another
 // session as '6.S3::text'). Text that matches a sub-heading marks the whole sub-section under it; anything
 // else marks the one block it matches. Returns { anchor: [card, …] } per session, and each card's anchors.
+// Finds a part of a reading's notes: `a` is a sub-heading's exact text (the whole sub-section under it),
+// any text or block id inside one block, or 'MOD::text' for another session than `defMod`. Returns the
+// session, the anchors and block indexes it covers, and a label naming it.
+function noteFind(topic, defMod, a) {
+  const c = CONTENT[topic], sp = a.indexOf('::'), mod = sp > 0 ? a.slice(0, sp) : defMod, f = exPlain(sp > 0 ? a.slice(sp + 2) : a);
+  const out = { mod, hit: [], idx: [], label: '' };
+  if (c && c.flow) {
+    const s = c.flow.find(x => x.module === mod), an = exAnchors(topic, mod), bl = (s && s.blocks) || [];
+    let i = bl.findIndex(b => b.k === 'sub' && exPlain(b.text) === f);
+    if (i >= 0) { out.label = bl[i].text; do { out.idx.push(i); out.hit.push(an[i++]); } while (i < bl.length && bl[i].k !== 'sub'); }
+    else {
+      i = bl.findIndex(b => exPlain(JSON.stringify(b)).includes(f));
+      if (i >= 0) {
+        out.idx.push(i); out.hit.push(an[i]);
+        let j = i; while (j >= 0 && bl[j].k !== 'sub') j--;
+        out.label = bl[i].title || (j >= 0 ? bl[j].text : s.title.split(' · ')[0]);
+      }
+    }
+  } else if (c) {
+    const a2 = exLocate(topic, mod, f), n = a2 && (c.notes || []).find(x => exTermAnchor(x.term) === a2);
+    if (a2) { out.hit.push(a2); out.label = n ? n.term : ''; }
+  }
+  out.label = out.label.replace(/\*/g, '');
+  return out;
+}
 function wkSpots(topic) {
-  const c = CONTENT[topic], byMod = {};
+  const byMod = {};
   (TUITION_MISSES[topic] || []).forEach(m => {
     m._at = [];
     (m.at || []).forEach(a => {
-      const sp = a.indexOf('::'), mod = sp > 0 ? a.slice(0, sp) : m.module, f = exPlain(sp > 0 ? a.slice(sp + 2) : a);
-      const hit = [];
-      let label = '';
-      if (c && c.flow) {
-        const s = c.flow.find(x => x.module === mod), an = exAnchors(topic, mod), bl = (s && s.blocks) || [];
-        let i = bl.findIndex(b => b.k === 'sub' && exPlain(b.text) === f);
-        if (i >= 0) { label = bl[i].text; do hit.push(an[i++]); while (i < bl.length && bl[i].k !== 'sub'); }
-        else {
-          i = bl.findIndex(b => exPlain(JSON.stringify(b)).includes(f));
-          if (i >= 0) {
-            hit.push(an[i]);
-            let j = i; while (j >= 0 && bl[j].k !== 'sub') j--;
-            label = bl[i].title || (j >= 0 ? bl[j].text : s.title.split(' · ')[0]);
-          }
-        }
-      } else {
-        const a2 = exLocate(topic, mod, f), n = a2 && (c.notes || []).find(x => exTermAnchor(x.term) === a2);
-        if (a2) { hit.push(a2); label = n ? n.term : ''; }
-      }
+      const { mod, hit, label } = noteFind(topic, m.module, a);
       hit.forEach((h, j) => {
         const k = mod + '|' + h;
         (byMod[k] = byMod[k] || []).indexOf(m) < 0 && byMod[k].push(m);
         if (!j) (byMod['tag|' + k] = byMod['tag|' + k] || []).indexOf(m) < 0 && byMod['tag|' + k].push(m);
       });
-      if (hit.length) m._at.push({ mod, anchor: hit[0], label: mod + ' · ' + label.replace(/\*/g, '') });
+      if (hit.length) m._at.push({ mod, anchor: hit[0], label: mod + ' · ' + label });
     });
   });
   return byMod;
@@ -22223,6 +22525,133 @@ function renderWeakIndex(key) {
           <span class="weak-index-count">${(m.questions || []).length} Q</span>
         </div>` : renderWeakCard(m, key)).join('')}
     </section>`;
+}
+
+// --- 🧭 Mind map: a reading as a tree, one branch per session. Tapping a topic opens what sits under it;
+// ▾ More opens its details, its cross-links, the weak spots it tests and the notes it comes from. Which
+// topics are open is remembered per reading on this device. ---
+function mmState(topic) {
+  try { const v = JSON.parse(localStorage.getItem('ledgerMm.' + topic) || 'null'); if (v) return new Set(v); } catch (e) {}
+  return new Set((MINDMAP[topic].branches || []).map(b => b.id));
+}
+function mmSave(topic) {
+  const ids = [...document.querySelectorAll('.mm[data-mm="' + topic + '"] .mm-n.open')].map(li => li.getAttribute('data-mmid'));
+  try { localStorage.setItem('ledgerMm.' + topic, JSON.stringify(ids)); } catch (e) {}
+}
+// Every node by id, with its branch, its parents' ids and its session (its own `mod`, else the nearest above).
+function mmIndex(topic) {
+  const out = {};
+  const walk = (n, br, up, mod) => { const m = n.mod || mod; out[n.id] = { n, br, up, mod: m }; (n.c || []).forEach(k => walk(k, br, up.concat(n.id), m)); };
+  (MINDMAP[topic].branches || []).forEach(b => walk(b, b, [], b.mod));
+  return out;
+}
+// The weak-spot cards a node tests, on its own (`own`) or anywhere under it.
+function mmWeak(topic, n, own) {
+  const cards = TUITION_MISSES[topic] || [], set = new Set();
+  const walk = x => { (x.wk || []).forEach(p => cards.forEach(m => { if (m.title.indexOf(p) === 0) set.add(m); })); if (!own) (x.c || []).forEach(walk); };
+  walk(n);
+  return [...set];
+}
+function mmHtml(topic) {
+  const map = MINDMAP[topic];
+  if (!map) return '';
+  const meta = FLAT.find(t => t.key === topic), open = mmState(topic);
+  const node = (n, br, d) => {
+    const kids = n.c || [], weak = mmWeak(topic, n).length, more = !!((n.info || []).length || (n.from || []).length || (n.links || []).length || (n.wk || []).length);
+    return `
+      <li class="mm-n d${d}${kids.length && open.has(n.id) ? ' open' : ''}" data-mmid="${escapeHtml(n.id)}" style="--mmc:var(--${br.tone});--mmbg:var(--${br.tone}-bg)">
+        <div class="mm-row" data-mmk="${kids.length ? 'kids' : 'info'}" role="button" tabindex="0">
+          <span class="mm-car">${kids.length ? '▸' : '•'}</span>
+          <span class="mm-tx"><span class="mm-t">${d === 0 ? `<span class="nb-session-tag">${escapeHtml(br.mod)}</span> ` : ''}${escapeHtml(n.t)}${d && n.mod ? ` <span class="mm-mod">${escapeHtml(n.mod)}</span>` : ''}</span>${n.tag ? `<span class="mm-tag">${rt(n.tag)}</span>` : ''}</span>
+          ${weak ? `<span class="mm-wk" title="${weak} weak spot${weak > 1 ? 's' : ''} from your tuition tests in here">⚠ ${weak}</span>` : ''}
+          ${more ? `<button type="button" class="mm-more" data-mmk="info">More</button>` : ''}
+        </div>
+        <div class="mm-info"></div>
+        ${kids.length ? `<ul class="mm-kids">${kids.map(k => node(k, br, d + 1)).join('')}</ul>` : ''}
+      </li>`;
+  };
+  return `
+    <section class="block mm" data-mm="${escapeHtml(topic)}">
+      <div class="block-label">🧭 Mind map: how this reading fits together</div>
+      <div class="mm-tools">
+        <button type="button" class="ex-chip" data-mmall="open">Expand all</button>
+        <button type="button" class="ex-chip" data-mmall="close">Collapse all</button>
+        <span class="mm-hint">Tap a topic to see what sits under it. <b>More</b> opens the details, links, weak spots and your notes.</span>
+      </div>
+      <div class="mm-root">
+        <div class="mm-root-t">${escapeHtml(meta ? meta.name.replace(/^Reading \d+:\s*/, '') : topic)}</div>
+        <div class="mm-story">${rt(map.story)}</div>
+      </div>
+      <div class="mm-trunks">${map.branches.map((b, i) => `${i ? '<span class="mm-arrow">→</span>' : ''}<button type="button" class="mm-trunk" data-mmgo="${escapeHtml(b.id)}" style="--mmc:var(--${b.tone});--mmbg:var(--${b.tone}-bg)"><b>${escapeHtml(b.mod)}</b> ${escapeHtml(b.t)}</button>`).join('')}</div>
+      <ul class="mm-tree">${map.branches.map(b => node(b, b, 0)).join('')}</ul>
+    </section>`;
+}
+// The ▾ More panel, built the first time it opens.
+function mmInfoHtml(topic, id) {
+  const idx = mmIndex(topic), it = idx[id];
+  if (!it) return '';
+  const { n, mod } = it, c = CONTENT[topic] || {}, gaps = GAPS[topic] && !Array.isArray(GAPS[topic]) ? GAPS[topic] : null;
+  const tbl = x => `<table class="weak-tbl mm-tbl"><thead><tr>${x.columns.map(h => `<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${x.rows.map(r => `<tr>${r.map(v => `<td>${rt(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  let html = '', run = [];
+  const flush = () => { if (run.length) html += `<ul>${run.join('')}</ul>`; run = []; };
+  (n.info || []).forEach(x => { if (typeof x === 'string') run.push(`<li>${rt(x)}</li>`); else { flush(); html += tbl(x); } });
+  flush();
+  if ((n.links || []).length) html += `<span class="mm-lab">Connects to</span>` + n.links.map(([to, why]) => idx[to]
+    ? `<div class="mm-lrow"><button type="button" class="mm-link" data-mmgo="${escapeHtml(to)}" style="--mmc:var(--${idx[to].br.tone})">↔ ${escapeHtml(idx[to].n.t)}</button><span class="mm-why">${rt(why)}</span></div>` : '').join('');
+  const weak = mmWeak(topic, n, true);
+  if (weak.length) html += `<span class="mm-lab" style="color:var(--rose)">Your weak spots here</span>` + weak.map(m =>
+    `<details class="mm-wkd"><summary>⚠ ${escapeHtml(m.title)}</summary>${renderWeakCard(m, topic)}</details>`).join('');
+  const seen = new Set(), parts = [];
+  (n.from || []).forEach(a => {
+    const f = noteFind(topic, mod, a), s = (c.flow || []).find(x => x.module === f.mod);
+    if (!s) return;
+    f.idx.forEach(i => {
+      if (seen.has(f.mod + i)) return;
+      seen.add(f.mod + i);
+      const b = s.blocks[i];
+      parts.push(b.k === 'sub' ? `<div class="nb-sub">${escapeHtml(b.text)}</div>` : `<div class="nb-blk">${renderBlock(b, gaps, c.refs || {})}</div>`);
+    });
+  });
+  if (parts.length) {
+    const first = noteFind(topic, mod, n.from[0]);
+    html += `<details class="mm-from"><summary>📖 Your notes on this <span class="mm-why">(${parts.length} block${parts.length > 1 ? 's' : ''})</span></summary>
+      <div class="mm-from-acts">${exGoBtn(topic, first.mod, first.hit[0], 'Open in the notes')}</div>${parts.join('')}</details>`;
+  }
+  return html || '<span class="mm-why">Nothing more on this one yet.</span>';
+}
+function mmInit() {
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-mmk],[data-mmall],[data-mmgo]');
+    const map = t && t.closest('.mm');
+    if (!map) return;
+    e.preventDefault(); e.stopPropagation();
+    const topic = map.getAttribute('data-mm');
+    const showInfo = (li, on) => {
+      const box = li.querySelector(':scope > .mm-info');
+      if (on && !box.innerHTML) box.innerHTML = safeHtml(() => mmInfoHtml(topic, li.getAttribute('data-mmid')));
+      li.classList.toggle('info', on);
+    };
+    if (t.hasAttribute('data-mmall')) {
+      const all = t.getAttribute('data-mmall') === 'open';
+      map.querySelectorAll('.mm-n').forEach(li => { if (li.querySelector(':scope > .mm-kids')) li.classList.toggle('open', all); if (!all) li.classList.remove('info'); });
+    } else if (t.hasAttribute('data-mmgo')) {
+      const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
+      const li = map.querySelector('.mm-n[data-mmid="' + esc(t.getAttribute('data-mmgo')) + '"]');
+      if (!li) return;
+      for (let p = li.parentElement; p && p !== map; p = p.parentElement) if (p.classList.contains('mm-n')) p.classList.add('open');
+      if (li.querySelector(':scope > .mm-kids')) li.classList.add('open');
+      if (!t.classList.contains('mm-trunk')) showInfo(li, true);
+      exScrollFlash(li.querySelector(':scope > .mm-row'), true);
+    } else {
+      const li = t.closest('.mm-n');
+      if (t.getAttribute('data-mmk') === 'kids') li.classList.toggle('open');
+      else showInfo(li, !li.classList.contains('info'));
+    }
+    mmSave(topic);
+  }, true);
+  document.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('mm-row')) { e.preventDefault(); e.target.click(); }
+  });
 }
 
 // Expand all / Collapse all opens or closes every subject in the sidebar at once.
@@ -22710,6 +23139,7 @@ function renderDetail() {
       <div class="overview-title">Big picture — fast revise</div>
       ${CONTENT[selectedKey].overview}
     </div>` : ''}
+    ${MINDMAP[selectedKey] ? `<button type="button" class="mm-jump" data-exview="exam:notes|${selectedKey}|mm">🧭 <b>Mind map</b> of this reading: how its topics split and connect <span>Open in 📝 Concise notes →</span></button>` : ''}
     ${renderWeakIndex(selectedKey)}
     ${safeHtml(() => tlTopicHtml(selectedKey))}
     ${(CONTENT[selectedKey] && CONTENT[selectedKey].flow) ? renderFlow(selectedKey) : `
@@ -23682,6 +24112,19 @@ function exRenderBody() {
   FLAT.filter(t => CONTENT[t.key] && (ex.subj === 'all' || t.subjectId === ex.subj)).forEach(t => {
     const tStar = stOn(stKey(t.key, '-', 'reading')), exam = EXAM[t.key] || {};
     const readHit = !q || exPlain(t.name).includes(q);
+    // A reading with a mind map shows only the map in the concise notes, in place of its summaries.
+    if (view === 'exam:notes' && !starredOnly && MINDMAP[t.key]) {
+      if (!readHit && !has(JSON.stringify(MINDMAP[t.key]))) return;
+      nRead++;
+      html += `
+    <section class="ex-read" data-read="${t.key}">
+      <div class="ex-read-head"><span class="ex-read-subj">${escapeHtml(t.subjectName)}</span>
+        <button type="button" class="ex-read-title" data-exgo="${t.key}||">${escapeHtml(t.name)}</button>
+        <span class="ex-acts" style="margin-left:auto">${stBtn(stKey(t.key, '-', 'reading'), 'reading')}</span></div>
+      ${safeHtml(() => mmHtml(t.key))}
+    </section>`;
+      return;
+    }
     let sh = '';
     const topics = [];
     exGroups(t.key).forEach(g => {
@@ -23779,7 +24222,9 @@ function exOpenView(view, topic, mod) {
   selectedKey = view; render();
   if (!topic) return;
   const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
-  exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"], .tl-row[data-sess="' + esc(topic + '|' + mod) + '"]'), false);
+  // A reading whose concise notes are its mind map lands on the map from any of its session links.
+  exScrollFlash((mod !== 'mm' && document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"], .tl-row[data-sess="' + esc(topic + '|' + mod) + '"]'))
+    || document.querySelector('.mm[data-mm="' + esc(topic) + '"]'), false);
 }
 function exInit() {
   // ✂ Trim: the button switches a card into trim mode; in trim mode a tap on a line hides or restores it.
@@ -24435,6 +24880,7 @@ plInit();
 nwInit();
 qzInit();
 wkInit();
+mmInit();
 aiInit();
 </script>
 </body>
