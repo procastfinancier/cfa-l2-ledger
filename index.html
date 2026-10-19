@@ -17948,6 +17948,41 @@ const TUITION_MISSES = {
       ],
       spot: "Expect the neoclassical vs endogenous contrast with it: the open-trade gain is temporary in the neoclassical model and permanent in the endogenous model.",
     },
+    {
+      module: '6.S3',
+      title: 'Neoclassical steady state: MPK = rental price, and G* = θ ÷ labour’s share + ΔL',
+      at: ["MPK in symbols, and where capital deepening stops", "G* = θ ÷ (1 − α) + ΔL"],
+      questions: [
+        { ref: 'L2-R6-Q3 #1', ask: 'Which concept is uniquely associated with the neoclassical theory of economic growth?', picked: 'Diminishing marginal product of capital', answer: 'In steady state, the rental price of capital equals the additional output from one more unit of capital' },
+        { ref: 'L2-R6-Q3 #2', ask: 'Sangarnio: TFP 1.8%, labour 1.1%, labour cost 0.55 of factor cost. Gurtania: 1.9%, 1.0%, 0.60. Which conclusion?', picked: 'Sangarnio has the lowest sustainable growth rate (neoclassical)', answer: 'Gurtania has a sustainable growth rate of over 4% (neoclassical)' },
+      ],
+      trap: "#1: diminishing marginal product of capital does sit in the neoclassical model, but it isn't unique to it: classical theory has diminishing returns too (to labour), and the word 'uniquely' asks for what only neoclassical theory has. #2: the table gives LABOUR's share (0.55, 0.60), and the formula divides by labour's share, 1 − α. Dividing by 0.45 and 0.40 instead (treating the given number as α) gives 5.10% vs 5.75% and makes Sangarnio the lower one, which is the option you picked.",
+      fix: "Neoclassical in one line: firms add capital until MPK = rental price r, so in steady state αY/K = r (α = rK/Y). Steady state growth: G* = θ ÷ (1 − α) + ΔL, where 1 − α = labour's share of total factor cost. Sangarnio: 1.8 ÷ 0.55 + 1.1 = 4.38%. Gurtania: 1.9 ÷ 0.60 + 1.0 = 4.17%, which is over 4%. Classical theory: growth is not sustainable at all (income returns to subsistence), so its sustainable growth rate is zero for both, and option A falls.",
+      tackle: [
+        "'Uniquely associated' → cross out anything two theories share (diminishing returns, GDP growth, capital).",
+        "Neoclassical-only terms: steady state, MPK = rental price, g* = θ ÷ (1 − α).",
+        "In a growth table, read the share's label: labour's share is already 1 − α, so divide θ by it directly.",
+        "Sanity check: θ ÷ (1 − α) is bigger than θ, and a bigger labour share means a smaller boost.",
+      ],
+      spot: "Same 'uniquely associated' format as Q2 #6 (classical → subsistence wage) and Q3 #6 (endogenous → no diminishing returns to knowledge capital, which you got). Expect one per theory.",
+    },
+    {
+      module: '6.S1',
+      title: 'Pre-conditions: FDI means real assets; financial markets help by allocating capital, not by leverage',
+      at: ["through FDI (plant, property)", "looser credit standards and more leverage"],
+      questions: [
+        { ref: 'L2-R6-Q3 #5', ask: 'Which investment by a foreign company is least likely to be FDI?', picked: 'Building a manufacturing plant', answer: 'Purchasing equity securities' },
+        { ref: 'L2-R6-Q3 #7', ask: 'Developed financial markets enhance growth by channelling investment to the best risk-adjusted projects and by encouraging leverage. Correct regarding:', picked: 'Both', answer: 'Only channelling investment to the highest risk-adjusted returns' },
+      ],
+      trap: "#5: a plant is the textbook FDI, so in a 'least likely' question it should be the first one ruled out. Buying shares or bonds is portfolio (indirect) investment. #7: 'encouraging leverage' rode along with a true statement. Your notes already carry the caution: more leverage adds risk, not growth.",
+      fix: "Foreign capital comes in two forms. FDI = building or buying property, plant and equipment directly. Portfolio (indirect) investment = buying the country's equity or fixed income securities. Financial markets and intermediaries raise growth by sending saving to the best risk-adjusted projects, creating liquid instruments and pooling small savings into large projects. The leverage and looser credit standards that come with them add risk, not growth.",
+      tackle: [
+        "FDI test: does the foreigner end up owning real assets (plant, property, equipment)? Yes → FDI. Securities → portfolio.",
+        "'Least likely' → mark each option FDI or not, and pick the one that isn't.",
+        "For a 'both' option, check each half on its own: leverage never counts as a growth driver.",
+      ],
+      spot: "Second 'least likely' slip on R6 (Q2 #5 was the same: the option you picked was the most obvious answer, not the odd one out). Circle 'least' before reading the options.",
+    },
   ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
@@ -18073,7 +18108,7 @@ const MINDMAP = {
           from: ['s1-gdp'], links: [['perworker', 'Output per worker is what the Cobb–Douglas function explains once you divide by L']] },
         { id: 'pre', t: 'Pre-conditions for growth', tag: 'Six of them: all direct, except tax and regulation',
           info: ['*Direct*: saving and investment · financial markets and intermediaries · political stability, rule of law, property rights · human capital · free trade and open capital flows.', '*Inverse*: tax and regulatory burden.', 'Too little domestic saving → the country must attract *foreign* investment (FDI or portfolio).'],
-          from: ['Pre-conditions for Growth'], links: [['open', 'Free trade and capital flows come back in the open-economy argument'], ['human', 'Human capital is also an input to growth']] },
+          from: ['Pre-conditions for Growth'], wk: ['Pre-conditions'], links: [['open', 'Free trade and capital flows come back in the open-economy argument'], ['human', 'Human capital is also an input to growth']] },
         { id: 'shares', t: 'Growth → share prices', tag: 'ΔP = ΔGDP + Δ(E/GDP) + Δ(P/E)',
           info: ['The value of the whole stock market depends on GDP, the share of GDP that is earnings, and the P/E multiple.'],
           from: ['Change in Share Price'], c: [
@@ -18158,13 +18193,13 @@ const MINDMAP = {
             from: ['1. Classical Growth Theory'], wk: ['Classical'] },
           { id: 'neo', t: 'Neoclassical (Solow)', tag: 'Steady state: g* = θ ÷ (1 − α)',
             info: ['Output per capita grows at g* = θ ÷ (1 − α); total output at G* = g* + ΔL.', 'Capital deepening and saving change the *level* of output, and growth only temporarily.', 'Technology θ is *exogenous*: it comes from outside the model.', 'Population growth is independent of economic growth (unlike classical theory).'],
-            from: ['2. Neoclassical Growth Theory'], links: [['deep', 'Diminishing returns to capital are why deepening fades'], ['cond', 'It supports conditional convergence']] },
+            from: ['2. Neoclassical Growth Theory'], wk: ['Neoclassical steady state'], links: [['deep', 'Diminishing returns to capital are why deepening fades'], ['cond', 'It supports conditional convergence']] },
           { id: 'endo', t: 'Endogenous (new growth theory)', tag: 'Knowledge capital; no steady state',
             info: ['Investment in human capital, R&D and knowledge creates technology *inside* the model.', 'Spillovers: social return > private return → firms *under-invest* in R&D → subsidies are justified.', 'Constant returns to capital across the economy → saving raises growth *permanently*.'],
             from: ['3. Endogenous Growth Theory'], wk: ['Endogenous'], links: [['tfp', 'It explains where TFP comes from']] },
           { id: 'cmp', t: 'Compare the three', tag: 'Where they differ',
             info: [{ columns: ['', 'Classical', 'Neoclassical', 'Endogenous'], rows: [['Key idea', 'Subsistence wage', 'Steady state', 'Knowledge capital'], ['Technology', 'Not modelled', 'Exogenous (θ)', 'Endogenous (R&D)'], ['Returns to capital', '—', 'Diminishing', 'Constant across the economy'], ['Higher saving', '—', 'Level ↑, growth only for a while', 'Growth ↑ for good'], ['Long-run growth per capita', 'Zero', 'θ ÷ (1 − α)', 'Can keep rising'], ['R&D subsidies', '—', 'No case', 'Justified']] }],
-            wk: ['Classical', 'Endogenous'] },
+            wk: ['Classical', 'Neoclassical steady state', 'Endogenous'] },
         ] },
         { id: 'conv', t: 'Convergence', tag: 'Do poor countries catch up?',
           info: ['Developing countries have lower output per capita. The question is whether, and on what conditions, they catch up.'],
@@ -18397,6 +18432,57 @@ const TUITION_Q = {
     "p": 0,
     "a": 2,
     "note": "Guessed. Option B is printed as 'neoclassical growth theory.D21' on the result page; the 'D21' is a stray label."
+  },
+  "L2-R6-Q3 #1": {
+    "full": [
+      "Which of the following concepts is uniquely associated with the neoclassical theory of economic growth?"
+    ],
+    "options": [
+      "A) diminishing marginal product of capital.",
+      "B) In steady state GDP growth rate is equal to growth rate in total factor productivity divided by labor's share of total factor cost.",
+      "C) In steady state, the rental price of capital is equal to additional output resulting from use of an additional unit of capital."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R6-Q3 #2": {
+    "full": [
+      "Yasmani Sandoval has gathered the following information on the economy of Sangarnio and that of Gurtania, two developed economies with strong trade links with each other.",
+      { "columns": ["Country", "TFP Growth Rate", "Labor Force Growth Rate", "Labor cost as a % of total factor cost"], "rows": [["Sangarnio", "1.8%", "1.1%", "0.55"], ["Gurtania", "1.9%", "1.0%", "0.60"]] },
+      "Which of the following conclusions is Sandoval most likely to draw?"
+    ],
+    "options": [
+      "A) According to classical growth theory, Sangarnio’s sustainable growth rate is higher than that for Gurtania",
+      "B) Gurtania has a sustainable growth rate of over 4% according to neoclassical growth theory",
+      "C) Sangarnio has the lowest sustainable growth rate according to neoclassical growth theory"
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R6-Q3 #5": {
+    "full": [
+      "Which of the following investments is least likely to be described as a foreign direct investment or FDI? When a foreign company invests in the domestic economy by:"
+    ],
+    "options": [
+      "A) purchasing equity securities.",
+      "B) building a manufacturing plant.",
+      "C) buying property and equipment."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R6-Q3 #7": {
+    "full": [
+      "Tamay Farthani, CFA, is studying the economic growth rate in several developing and developed countries. She believes there is strong evidence that well developed financial markets enhance growth prospects by channeling investment to projects with the highest risk-adjusted returns and by encouraging the use of leverage.",
+      "Farthani is correct regarding developed financial markets impact on growth regarding:"
+    ],
+    "options": [
+      "A) only the use of leverage",
+      "B) only channeling investment to projects with the highest risk-adjusted returns",
+      "C) both channeling investment to projects with the highest risk-adjusted returns and the use of leverage"
+    ],
+    "p": 2,
+    "a": 1
   },
   "L2-R7-Q1 #5": {
     "full": [
@@ -18749,6 +18835,16 @@ const TESTS = [
     { mod: '6.S2', what: 'What raises labour productivity', ok: 1 },
     { mod: '6.S2', what: 'Cobb–Douglas: back out α from the same potential GDP growth', ok: 0, why: 'flip' },
     { mod: '6.S3', what: 'Endogenous growth: new ideas keep growth going (guessed)', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R6-Q3', topic: 'econ.1', name: 'Reading 6 quiz 3', date: '2026-10-19', mins: 11.1, qs: [
+    { mod: '6.S3', what: 'Neoclassical theory, uniquely: in steady state MPK = rental price of capital', ok: 0, why: 'gap' },
+    { mod: '6.S3', what: 'Sustainable growth: classical (zero) vs neoclassical θ ÷ (1 − α) + ΔL', ok: 0, why: 'flip' },
+    { mod: '6.S3', what: 'Conditional convergence fails with low saving', ok: 1 },
+    { mod: '6.S1', what: 'Higher potential GDP growth: more consumption, not more saving', ok: 1 },
+    { mod: '6.S1', what: 'FDI vs. buying equity securities (indirect)', ok: 0, why: 'flip' },
+    { mod: '6.S3', what: 'Endogenous growth: no diminishing returns to knowledge capital', ok: 1 },
+    { mod: '6.S1', what: 'Financial markets: channelling capital helps growth, leverage does not', ok: 0, why: 'gap' },
+    { mod: '6.S1', what: 'Higher potential growth: credit spreads narrow, policy can be expansionary', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
