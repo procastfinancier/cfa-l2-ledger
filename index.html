@@ -621,7 +621,24 @@ window.addEventListener('error', function (e) {
   .cm-btn.has-n { opacity: 1; border-color: var(--violet); background: var(--violet-bg); color: var(--violet); font-weight: 700; }
   .nb-sub .cm-btn { float: right; margin-top: -1px; }
   .nb-session-head .cm-btn { align-self: center; }
-  .status-row { align-items: center; }
+  .status-row { align-items: center; flex-wrap: wrap; row-gap: 8px; }
+  .wks-tests { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px; }
+  .wks-test { font: 11px var(--mono); padding: 2px 7px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+  .wks-grp { border: 1px solid var(--rose); border-radius: 8px; background: var(--rose-bg); margin-bottom: 6px; }
+  .wks-grp > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; padding: 8px 10px; cursor: pointer; font-size: 13px; list-style: none; }
+  .wks-grp > summary::-webkit-details-marker { display: none; }
+  .wks-grp > summary::before { content: '▸'; color: var(--rose); transition: transform 0.15s; }
+  .wks-grp[open] > summary::before { transform: rotate(90deg); }
+  .wks-t { flex: 1 1 180px; font-weight: 600; color: var(--ink); }
+  .wks-n { font: 700 10.5px/1.6 var(--mono); color: #fff; background: var(--rose); border-radius: 9px; padding: 0 7px; }
+  .wks-body { padding: 0 10px 8px; }
+  .wks-body .weak-index-row { background: var(--panel); }
+  .rv-mini { order: 10; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-left: 4px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); font-size: 12px; color: var(--ink-soft); }
+  .rv-mini-lab b { font-family: var(--mono); color: var(--ink); }
+  .rv-mini-track { display: inline-block; width: 70px; height: 6px; border-radius: 3px; background: var(--slate-bg); overflow: hidden; }
+  .rv-mini-track .rv-fill { display: block; height: 100%; }
+  .rv-mini-pass { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .rv-mini-btn { font-size: 11.5px; padding: 3px 9px; }
   .status-row .cm-btn { margin-left: 2px; font-size: 12px; padding: 6px 11px; border-radius: 20px; opacity: 1; }
   .cm-count { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--violet); background: var(--violet-bg); border-radius: 10px; padding: 1px 6px; flex-shrink: 0; }
   .cm-open {
@@ -22506,24 +22523,41 @@ function moduleGroupsOf(key) {
   return new Set(notes.map(n => (/^(\d+\.[A-Za-z]*\d+)\s*·/.exec(n.type) || [])[1]).filter(Boolean));
 }
 
-// Index of weak spots at the top of a topic. Weak spots whose module has a notes group are
-// shown in full inside that group, so here they're one-line jump links; any without a
-// matching group render in full here instead.
+// ⚠ My weak spots: one section per reading joining the tests on it with the weak-spot cards. A line of test
+// results on top, then one drop-down per session that has weak spots or a test verdict to act on. Inside,
+// each weak spot jumps to its full card in the notes; a card whose session has no notes group shows in full.
 function renderWeakIndex(key) {
   const misses = TUITION_MISSES[key] || [];
-  if (!misses.length) return '';
+  const r = safeHtml(() => tlReadings().find(x => x.topic === key)) || null;
+  const ts = safeHtml(() => tlAll().filter(t => t.qs.some(q => q.topic === key))) || [];
+  const sess = safeHtml(() => tlSessions().filter(s => s.topic === key)) || [];
+  if (!misses.length && !ts.length) return '';
   const groups = moduleGroupsOf(key);
   const qCount = misses.reduce((sum, m) => sum + (m.questions || []).length, 0);
+  const mods = [...new Set(misses.map(m => m.module).concat(sess.filter(tlNeedsWork).map(s => s.mod)))]
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  const tests = ts.slice(-5).map(t => { const qs = t.qs.filter(q => q.topic === key); return `<span class="wks-test">${escapeHtml(t.id)} · ${qs.filter(q => q.ok).length}/${qs.length}</span>`; }).join('');
   return `
-    <section class="block">
-      <div class="block-label" style="color:var(--rose);">Tuition weak spots — ${misses.length} concepts behind ${qCount} wrong answers</div>
-      <div class="deepdive-hint">Each one is explained inside its module below. Tap to jump there.</div>
-      ${misses.map(m => groups.has(m.module) ? `
-        <div class="weak-index-row" data-jump="${escapeHtml(m.module)}">
-          <span class="weak-index-mod">${escapeHtml(m.module)}</span>
-          <span>${escapeHtml(m.title)}</span>
-          <span class="weak-index-count">${(m.questions || []).length} Q</span>
-        </div>` : renderWeakCard(m, key)).join('')}
+    <section class="block wks">
+      <div class="block-label" style="color:var(--rose);">⚠ My weak spots in this reading${misses.length ? ` · ${misses.length} concept${misses.length > 1 ? 's' : ''} behind ${qCount} wrong answer${qCount > 1 ? 's' : ''}` : ''}</div>
+      <div class="wks-tests">${r ? `🧪 <b>${r.n} questions · ${r.acc}% right</b>${r.n > 30 ? ` · latest 30: ${r.recentAcc}%` : ''} <span class="tl-badge tl-${r.band}">${TL_BAND[r.band]}</span>` : '🧪 No tests logged yet'}
+        ${tests}<button type="button" class="ex-link" data-exview="tests">Test log ↗</button></div>
+      ${mods.map(mod => {
+        const ms = misses.filter(m => m.module === mod), s = sess.find(x => x.mod === mod);
+        return `
+      <details class="wks-grp">
+        <summary><span class="nb-session-tag">${escapeHtml(mod)}</span><span class="wks-t">${escapeHtml(tlSessTitle(key, mod))}</span>
+          ${ms.length ? `<span class="wks-n">⚠ ${ms.length}</span>` : ''}${s ? safeHtml(() => tlChipHtml(s)) : ''}</summary>
+        <div class="wks-body">
+          ${ms.map(m => groups.has(m.module) ? `
+          <div class="weak-index-row" data-wkgo="${wkId(m)}">
+            <span>${escapeHtml(m.title)}</span>
+            <span class="weak-index-count">${(m.questions || []).length} Q</span>
+          </div>` : renderWeakCard(m, key)).join('')}
+          ${!ms.length ? '<div class="deepdive-hint">No weak-spot card yet: the 🧪 verdict comes from your latest test on this session.</div>' : ''}
+        </div>
+      </details>`;
+      }).join('')}
     </section>`;
 }
 
@@ -23140,8 +23174,7 @@ function renderDetail() {
       ${CONTENT[selectedKey].overview}
     </div>` : ''}
     ${MINDMAP[selectedKey] ? `<button type="button" class="mm-jump" data-exview="exam:notes|${selectedKey}|mm">🧭 <b>Mind map</b> of this reading: how its topics split and connect <span>Open in 📝 Concise notes →</span></button>` : ''}
-    ${renderWeakIndex(selectedKey)}
-    ${safeHtml(() => tlTopicHtml(selectedKey))}
+    ${safeHtml(() => renderWeakIndex(selectedKey))}
     ${(CONTENT[selectedKey] && CONTENT[selectedKey].flow) ? renderFlow(selectedKey) : `
     ${(CONTENT[selectedKey] && ((CONTENT[selectedKey].compares && CONTENT[selectedKey].compares.length) || CONTENT[selectedKey].compare || CONTENT[selectedKey].notes)) ? `
     ${(CONTENT[selectedKey].compares || (CONTENT[selectedKey].compare ? [CONTENT[selectedKey].compare] : [])).map(cmp => `
@@ -23639,20 +23672,11 @@ function rvPanelHtml(topic) {
   const t = rvTopic(topic);
   const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
   const due = rvDueList(topic).length;
-  return `<div class="rv-panel-title">Revision · ${t.passes ? 'pass ' + (t.passes + 1) + ' in progress' : 'first pass'}</div>
-    <div class="rv-meter"><div class="rv-meter-top"><span>Revised (read through)</span><b>${t.revised}/${t.n}</b></div><div class="rv-track"><div class="rv-fill" style="width:${pct(t.revised, t.n)}%"></div></div></div>
-    <div class="rv-meter"><div class="rv-meter-top"><span>Understood (every checkpoint question got)</span><b>${t.understood}/${t.n}</b></div><div class="rv-track"><div class="rv-fill teal" style="width:${pct(t.understood, t.n)}%"></div></div></div>
-    ${t.qs ? `<div class="rv-qstats">
-        <span><span class="rv-sw" style="background:var(--teal)"></span>${t.got} got</span>
-        <span><span class="rv-sw" style="background:var(--amber)"></span>${t.shaky} shaky</span>
-        <span><span class="rv-sw" style="background:var(--rose)"></span>${t.miss} didn’t know</span>
-        <span><span class="rv-sw" style="background:var(--line)"></span>${t.untested} not tried</span>
-      </div>
-      <div class="rv-acts">
-        ${due ? `<button type="button" class="cm-primary" data-rv="review" data-topic="${topic}">Review ${due} due now</button>` : ''}
-        <button type="button" class="cm-ghost" data-rv="quiz" data-topic="${topic}">Quiz me on this reading</button>
-      </div>`
-      : '<div class="rv-note">Checkpoint questions aren’t written for this reading yet. Ask Claude to add them; until then, track your passes with “Mark revised”.</div>'}`;
+  // One compact line beside the reading's buttons: sessions revised this pass, and the checkpoint quiz if there is one.
+  return `<span class="rv-mini-lab" title="Sessions read through on this pass">📖 Revised <b>${t.revised}/${t.n}</b></span>
+    <span class="rv-mini-track"><span class="rv-fill" style="width:${pct(t.revised, t.n)}%"></span></span>
+    <span class="rv-mini-pass">${t.passes ? 'pass ' + (t.passes + 1) : 'first pass'}</span>
+    ${t.qs ? `${due ? `<button type="button" class="cm-primary rv-mini-btn" data-rv="review" data-topic="${topic}">Review ${due} due</button>` : ''}<button type="button" class="cm-ghost rv-mini-btn" data-rv="quiz" data-topic="${topic}">Quiz me</button>` : ''}`;
 }
 
 // Adds the revision pieces onto a rendered notebook topic: the progress panel under the status
@@ -23662,10 +23686,10 @@ function rvDecorate(el) {
   const topic = selectedKey;
   const status = el.querySelector('.status-row');
   if (status) {
-    const p = document.createElement('div');
-    p.className = 'rv-panel'; p.id = 'rvTopicPanel';
+    const p = document.createElement('span');
+    p.className = 'rv-mini'; p.id = 'rvTopicPanel';
     p.innerHTML = rvPanelHtml(topic);
-    status.insertAdjacentElement('afterend', p);
+    status.appendChild(p);
   }
   el.querySelectorAll('.nb-session').forEach(sec => {
     const mod = sec.getAttribute('data-group');
@@ -24576,16 +24600,6 @@ function tlChipHtml(s) {
   if (!s) return '';
   const lab = s.state === 'wait' ? 'Fixed · retest ' + rvFmt(s.retest) : TL_STATE[s.state];
   return `<button type="button" class="tl-chip tl-${s.state}" data-exview="${escapeHtml('tests|' + s.topic + '|' + s.mod)}" title="Latest test on this session: ${s.got} of ${s.qs.length} right on ${escapeHtml(s.test.id)}. Tap for the test log.">🧪 ${s.got}/${s.qs.length} · ${lab}</button>`;
-}
-function tlTopicHtml(topic) {
-  const r = tlReadings().find(x => x.topic === topic);
-  const ts = tlAll().filter(t => t.qs.some(q => q.topic === topic));
-  const work = tlSessions().filter(s => s.topic === topic && tlNeedsWork(s)).map(s => s.mod).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-  return `<section class="block"><div class="block-label">🧪 Tests on this reading</div>
-    ${r ? `<div class="tl-line"><b>${r.n} questions · ${r.acc}% right</b>${r.n > 30 ? ` · latest 30: ${r.recentAcc}%` : ''} <span class="tl-badge tl-${r.band}">${TL_BAND[r.band]}</span></div>` : '<div class="tl-line">No tests logged on this reading yet. Share a result PDF with Claude to add one.</div>'}
-    ${ts.slice(-5).reverse().map(t => { const qs = t.qs.filter(q => q.topic === topic); return `<div class="tl-line">${escapeHtml(t.id)} · ${tlDate(t.date)} · ${qs.filter(q => q.ok).length}/${qs.length} right</div>`; }).join('')}
-    ${work.length ? `<div class="tl-line">Sessions to work on: <b>${work.map(escapeHtml).join(', ')}</b>. Look for the 🧪 chip on each session below.</div>` : ''}
-    <div class="tl-row-acts" style="margin-top:6px"><button type="button" class="ex-link" data-exview="tests">Open the test log</button></div></section>`;
 }
 function tlRvHtml() {
   const qs = tlQs(tlAll());
