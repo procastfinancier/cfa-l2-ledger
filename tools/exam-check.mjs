@@ -35,7 +35,7 @@ for (const [topic, mods] of Object.entries(EXAM)) {
 }
 // Coverage: a reading needs its overview, and every session (including one just added) its
 // summary and key points.
-// Reading 7 has no sessions, so its points are grouped by their module prefix ("7.3 · …").
+// A reading kept as a list of note cards ("7.3 · …") is grouped by its module prefix.
 for (const [topic, c] of Object.entries(CONTENT)) {
   const name = (FLAT.find(t => t.key === topic) || {}).name || topic;
   const mods = c.flow ? c.flow.map(s => s.module)
