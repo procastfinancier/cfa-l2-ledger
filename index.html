@@ -752,6 +752,13 @@ window.addEventListener('error', function (e) {
   .nb-pin.stuck .nb-session-pages, .nb-pin.stuck .rv-state { display: none; }
   .nb-pin.stuck .nb-session-head { margin-bottom: 8px; padding-bottom: 6px; }
   .nb-pin.stuck .rv-bar { margin-top: 0; padding-bottom: 8px; }
+  @media (max-width: 760px) {
+    /* Mobile: only the revision row floats; the session header scrolls away. */
+    .nb-pin { display: contents; }
+    .nb-pin .rv-bar { position: sticky; top: 0; z-index: 6; background: var(--panel); margin: -6px calc(-1 * var(--nb-px, 20px)) 0; padding: 8px var(--nb-px, 20px); }
+    .nb-pin.stuck .nb-session-head { margin-bottom: 16px; padding-bottom: 8px; }
+    .nb-pin.stuck .rv-bar { margin-top: -6px; padding-bottom: 8px; box-shadow: 0 6px 8px -6px rgba(27, 33, 48, 0.25); }
+  }
   .rv-btn {
     font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 16px;
     border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer;
@@ -26272,8 +26279,11 @@ function rvDecorate(el) {
     pin.insertAdjacentElement('afterend', blurt);
     if (!window.nbPinWatch) {
       window.nbPinWatch = true;
-      window.addEventListener('scroll', () => document.querySelectorAll('#detail .nb-pin').forEach(p =>
-        p.classList.toggle('stuck', p.parentElement.getBoundingClientRect().top < 0)), { passive: true });
+      window.addEventListener('scroll', () => document.querySelectorAll('#detail .nb-pin').forEach(p => {
+        // On mobile the pin is display: contents and only the revision bar sticks.
+        const el = getComputedStyle(p).display === 'contents' ? p.querySelector('.rv-bar') : p;
+        p.classList.toggle('stuck', p.parentElement.getBoundingClientRect().top < 0 && el.getBoundingClientRect().top <= 1);
+      }), { passive: true });
     }
     const check = document.createElement('div');
     check.className = 'rv-check';
