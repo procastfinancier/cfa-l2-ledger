@@ -913,14 +913,14 @@ window.addEventListener('error', function (e) {
   .tl-target { stroke: var(--ink-faint); stroke-width: 1.5; stroke-dasharray: 4 4; }
   .tl-axis { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); }
   .tl-axis-strong { fill: var(--ink); font-weight: 700; font-size: 11px; }
-  .tl-line-all { fill: none; stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+  .tl-line-all { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: 0.6; }
   .tl-line-subj { fill: none; stroke-width: 1.25; stroke-linejoin: round; stroke-linecap: round; opacity: 0.55; }
   .tl-legend i, .tl-trend line.tl-line-subj { opacity: 1; }
   .tl-axis-ink { fill: var(--ink-soft); }
   .tl-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); margin: 4px 0 2px; }
   .tl-legend span { display: inline-flex; align-items: center; gap: 6px; }
   .tl-legend i { display: inline-block; width: 18px; height: 0; }
-  .tl-legend i.tl-legend-all { border-top: 3.5px solid var(--ink); }
+  .tl-legend i.tl-legend-all { border-top: 2.5px solid var(--ink); }
   .tl-legend b { color: var(--ink); }
   .tl-pt-dot { fill: var(--slate); stroke: var(--panel); stroke-width: 2; }
   .tl-pt-hit { fill: transparent; cursor: default; }
@@ -28288,7 +28288,7 @@ function tlAccuracyHtml() {
       ${kpi('Latest 50 questions', tlAcc(last) + '%', d == null ? 'trend shows after 70 questions' : (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d) + ' points on the 50 before')}
       ${kpi('Pace', tq ? pace.toFixed(1) + ' min' : '—', 'a question · exam ' + TL_PACE + ' min')}
     </div>
-    ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Each dot is a test, coloured by subject. Each line is the average of that subject’s last five tests; the bold black line is all subjects together. Hover a dot for its test.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
+    ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Each dot is a test, coloured by subject. Each line is the average of that subject’s last five tests; the black line is all subjects together. Hover a dot for its test.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
     <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
     ${tested.map(x => `<details class="tl-sub"${tlf.subj !== 'all' ? ' open' : ''}><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
     ${untested.length && tlf.subj === 'all' ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
