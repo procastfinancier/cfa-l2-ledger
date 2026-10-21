@@ -1020,6 +1020,11 @@ window.addEventListener('error', function (e) {
   .ex-card-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
   .ex-kind { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--amber); background: var(--amber-bg); border-radius: 10px; padding: 2px 8px; }
   .ex-card-top .ex-acts { margin-left: auto; }
+  .ex-got { font: 600 11px/1.3 var(--mono); color: var(--teal); background: none; border: 1px solid currentColor; border-radius: 10px; padding: 2px 8px; cursor: pointer; }
+  .ex-got.undo { color: var(--ink-soft); }
+  .ex-wk { margin-top: 10px; }
+  .ex-wk > .ex-card-top { margin-bottom: 4px; }
+  .ex-wk.dropped { opacity: 0.55; }
   /* A sub-heading's ☆ stars everything under it, down to the next sub-heading. */
   .nb-sub > .st-btn { margin-left: 8px; vertical-align: 1px; font-size: 12px; padding: 1px 5px; }
   /* Context a starred card needs from the notes around it: the case a quiz question belongs to,
@@ -25831,7 +25836,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -27337,8 +27342,11 @@ const EX_ICON = { 'exam:formulas': '📐', 'exam:notes': '📝', 'exam:starred':
 const EX_KIND = { formula: 'Formula', example: 'Example', qa: 'Q&A', table: 'Table', flag: 'Schweser add-on', fix: 'Correction',
   graph: 'Diagram', plot: 'Diagram', triangle: 'Diagram', timeline: 'Process', htimeline: 'Timeline', entry: 'Entry', stacks: 'Calculation',
   cols: 'Comparison', split: 'Comparison', points: 'Points', p: 'Note' };
-const ex = { subj: 'all', starOnly: false, q: '', back: null, anchors: {}, clean: false };
-try { ex.clean = localStorage.getItem('ledgerExClean') === '1'; } catch (e) {}
+const ex = { subj: 'all', starOnly: false, q: '', back: null, anchors: {}, clean: false, allStars: false, showGot: false };
+try { ex.clean = localStorage.getItem('ledgerExClean') === '1'; ex.allStars = localStorage.getItem('ledgerExAllStars') === '1'; } catch (e) {}
+// The exam-day set is built from my mistakes, not from stars: starring turned into starring almost everything.
+// Stars made after this moment still add to it; older ones only with "★ Older stars too".
+const ST_FROM = Date.parse('2026-10-21T06:00:00Z');
 
 function exIsView(k) { return !!EX_VIEWS[k]; }
 function exHash(s) {
@@ -27406,10 +27414,10 @@ function exFormulas(topic, mod) {
   return out.map((f, i) => [f, i]).sort((x, y) => (pos(x[0].anchor) - pos(y[0].anchor)) || (x[1] - y[1])).map(x => x[0]);
 }
 // True when the sub-heading a block sits under has been starred, which stars the whole sub-section.
-function exSecStarred(topic, mod, anchor) {
+function exSecStarred(topic, mod, anchor, on) {
   const s = rvSessions(topic).find(x => x.module === mod), an = exAnchors(topic, mod), i = an.indexOf(anchor);
   if (!s || i < 0) return false;
-  for (let j = i; j >= 0; j--) if (s.blocks[j].k === 'sub') return stOn(stKey(topic, mod, 'b:' + an[j]));
+  for (let j = i; j >= 0; j--) if (s.blocks[j].k === 'sub') return (on || stOn)(stKey(topic, mod, 'b:' + an[j]));
   return false;
 }
 // What a block needs from the notes around it to make sense on its own in the exam-day set.
@@ -27484,6 +27492,30 @@ function stMigrate() {
 }
 
 function stKey(topic, mod, what) { return 'star|' + topic + '|' + mod + '|' + what; }
+// --- The exam-day set from my mistakes: every weak-spot card, the parts of the notes it points at (its `at`),
+// and checkpoint questions last graded Shaky or Didn't know. "✓ Got it" drops one (a `got:` row, on:false);
+// a dropped card comes back when a new test adds a question to it. Stars only add to the set. ---
+function stIn(k) { const it = pg.items[k]; return stOn(k) && (ex.allStars || !!(it && +it.u > ST_FROM)); }
+function exGotKey(topic, mod, what) { return stKey(topic, mod, 'got:' + what); }
+function exGot(topic, mod, what, nq) { const v = pgGet(exGotKey(topic, mod, what)); return !!(v && v.at && (nq == null || (v.nq || 0) >= nq)); }
+function exWkWhat(m) { return 'w:' + exHash(m.title); }
+function exWkLive(topic, m) { return !exGot(topic, m.module, exWkWhat(m), (m.questions || []).length); }
+// Per reading: the live weak-spot cards and the 'mod|anchor' parts of the notes they point at.
+function exAuto(topic) {
+  const spots = wkSpots(topic), live = (TUITION_MISSES[topic] || []).filter(m => exWkLive(topic, m)), at = new Set();
+  Object.keys(spots).forEach(k => { if (k.indexOf('tag|') !== 0 && spots[k].some(m => live.indexOf(m) >= 0)) at.add(k); });
+  return { live, at };
+}
+function exChecksMissed(topic, mod) {
+  return ((CHECKS[topic] || {})[mod] || []).map(q => ({ q, g: pgGet(rvQKey(topic, mod, q.id)) })).filter(x => x.g && (x.g.g === 'shaky' || x.g.g === 'miss'));
+}
+function exSetCount() {
+  const wk = Object.keys(TUITION_MISSES).reduce((n, t) => n + (TUITION_MISSES[t] || []).filter(m => exWkLive(t, m)).length, 0);
+  return wk + Object.keys(pg.items).filter(k => /^star\|/.test(k) && stIn(k)).length;
+}
+function exGotBtn(topic, mod, what, nq, dropped) {
+  return `<button type="button" class="ex-got${dropped ? ' undo' : ''}" data-exgot="${escapeHtml(exGotKey(topic, mod, what))}"${nq != null ? ` data-nq="${nq}"` : ''}${dropped ? ' data-undo="1"' : ''} data-new="f-got" title="${dropped ? 'Put it back in the exam-day set' : 'I know this now: drop it from the exam-day set'}">${dropped ? '↩ Put back' : '✓ Got it'}</button>`;
+}
 function stOn(k) { const v = pgGet(k); return !!(v && v.on); }
 function stCount() { return Object.keys(pg.items).filter(k => /^star\|/.test(k) && stOn(k)).length; }
 // Whether an item is in the exam-day set through something above it, which is what the set itself uses:
@@ -27515,9 +27547,9 @@ function stToggle(k, kind) {
 }
 
 function exRenderNav() {
-  const n = stCount();
+  const n = safeHtml(exSetCount) || 0;
   document.getElementById('exNav').innerHTML = safeHtml(plNavHtml) + '<div class="ex-nav-label">Exam-day revision</div>' + Object.keys(EX_VIEWS).map(v =>
-    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>★ ' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml);
+    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml);
 }
 function exGoBtn(topic, mod, anchor, label) {
   return `<button type="button" class="ex-link" data-exgo="${escapeHtml(topic + '|' + mod + '|' + (anchor || ''))}" title="Open where this came from in the notes">↗ ${escapeHtml(label || mod)}</button>`;
@@ -27568,23 +27600,27 @@ function exMerged(topic, mod, ns, fs, cards) {
   return html;
 }
 // Starred blocks render as they do in the notes, in a card that says what they are.
-function exBlockCards(topic, mod) {
+// `why(anchor, starKey)` says whether a block is in the set: 'auto' (a weak spot points at it), 'got' (dropped,
+// shown only with "Show dropped"), 'star', or '' (not in it).
+function exBlockCards(topic, mod, why) {
   const c = CONTENT[topic], out = [];
   if (c.flow) {
     const s = c.flow.find(x => x.module === mod), an = exAnchors(topic, mod);
     const gaps = GAPS[topic] && !Array.isArray(GAPS[topic]) ? GAPS[topic] : null;
     (s ? s.blocks : []).forEach((b, i) => {
       const k = stKey(topic, mod, 'b:' + an[i]), tk = stKey(topic, mod, 'trim:' + an[i]);
-      if (b.k === 'formula' || b.k === 'sub' || !(stOn(k) || exSecStarred(topic, mod, an[i]))) return;
+      const w = why(an[i], k);
+      if (b.k === 'formula' || b.k === 'sub' || !w) return;
       const ctx = exContext(s.blocks, i);
-      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" data-new="f-trim" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${stBtn(k, exKindOf(b), false, 'blk')}</span></div>` +
+      out.push({ anchor: an[i], text: JSON.stringify(b) + ' ' + ctx, html: `<div class="ex-card" data-trim="${escapeHtml(tk)}"><div class="ex-card-top"><span class="ex-kind">${exKindOf(b)}</span><span class="ex-acts"><button type="button" class="ex-trim" data-trimbtn="1" data-new="f-trim" title="Hide the lines you already know">✂ Trim</button>${exGoBtn(topic, mod, an[i])}${w === 'star' ? stBtn(k, exKindOf(b), false, 'blk') : exGotBtn(topic, mod, 'b:' + an[i], null, w === 'got')}</span></div>` +
         `<div class="ex-trim-hint">Tap the lines you already know to hide them. Tap again to bring one back; tap ✂ when done.</div>` +
         `${ctx ? `<div class="ex-ctx"><span class="ex-ctx-label">Context</span>${rt(ctx)}</div>` : ''}<div class="ex-card-body">${renderBlock(b, gaps, c.refs || {})}</div></div>` });
     });
   } else (c.notes || []).forEach(n => {
     const a = exTermAnchor(n.term), k = stKey(topic, mod, 'b:' + a);
-    if (n.type.indexOf(mod + ' ') !== 0 || !stOn(k)) return;
-    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${stBtn(k, 'Definition', false, 'blk')}</span></div><div class="ex-card-body"><p class="nb-p">${escapeHtml(n.a)}</p></div></div>` });
+    const w = n.type.indexOf(mod + ' ') === 0 && why(a, k);
+    if (!w) return;
+    out.push({ anchor: a, text: n.term + ' ' + n.a, html: `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Definition</span><b style="font-size:13px">${escapeHtml(n.term)}</b><span class="ex-acts">${exGoBtn(topic, mod, a)}${w === 'star' ? stBtn(k, 'Definition', false, 'blk') : exGotBtn(topic, mod, 'b:' + a, null, w === 'got')}</span></div><div class="ex-card-body"><p class="nb-p">${escapeHtml(n.a)}</p></div></div>` });
   });
   return out;
 }
@@ -27595,14 +27631,16 @@ function renderExam(el) {
   const desc = {
     'exam:formulas': 'Every formula from your readings on one sheet, session by session. ↗ opens the block it came from; ☆ adds it to the exam-day set.',
     'exam:notes': 'Each reading as a revision overview: what it covers and how the topics fit together, then every session summarised with its key points, formulas and your weak spots. ↗ opens where each line came from; ☆ adds it to the exam-day set.',
-    'exam:starred': 'Your own short version of the notes: whatever you starred, in note order under its headings. Whole readings and sessions bring their overview, summaries, key points and formulas; a starred sub-heading brings everything under it. ✂ Trim hides lines of a block you already know; 📖 Reading mode hides the buttons. ↗ opens each one in the notes.',
+    'exam:starred': 'Built from your mistakes, so there is nothing to mark: every weak-spot card from your tests, the parts of the notes it points at, and checkpoint questions you last graded Shaky or Didn’t know, in note order under their headings. Tap ✓ Got it on whatever you now know to drop it; a dropped card comes back if a later test misses it again. A ☆ you add from today also lands here. ✂ Trim hides lines of a block you already know; 📖 Reading mode hides the buttons. ↗ opens each one in the notes.',
   }[view];
   el.innerHTML = `
     <div class="crumb">Exam-day revision</div>
     <h2 class="topic-title">${EX_ICON[view]} ${EX_VIEWS[view]}</h2>
     <p class="topic-desc">${desc}</p>
     <div class="ex-tools" id="exTools">
-      ${view !== 'exam:starred' ? `<button type="button" class="ex-chip star${ex.starOnly ? ' on' : ''}" data-ex="star">★ Starred only</button>` : ''}
+      ${view !== 'exam:starred' ? `<button type="button" class="ex-chip star${ex.starOnly ? ' on' : ''}" data-ex="star">★ Starred only</button>`
+        : `<button type="button" class="ex-chip${ex.showGot ? ' on' : ''}" data-ex="got" data-new="f-show-got" title="Show what you dropped with ✓ Got it, to put any of it back">↩ Show dropped</button>
+      <button type="button" class="ex-chip star${ex.allStars ? ' on' : ''}" data-ex="allstars" data-new="f-all-stars" title="Also bring in the stars you made before the set was built from your mistakes">★ Older stars too</button>`}
       <button type="button" class="ex-chip${ex.subj === 'all' ? ' on' : ''}" data-ex="subj" data-v="all">All</button>
       ${subjects.map(s => `<button type="button" class="ex-chip${ex.subj === s.id ? ' on' : ''}" data-ex="subj" data-v="${s.id}">${escapeHtml(s.name)}</button>`).join('')}
       <input type="search" id="exQ" placeholder="Filter this sheet…" aria-label="Filter this sheet">
@@ -27622,8 +27660,10 @@ function exRenderBody() {
   const has = s => !q || exPlain(s).includes(q);
   let html = '', nItems = 0, nRead = 0;
   const starredOnly = view === 'exam:starred' || ex.starOnly, prose = view !== 'exam:formulas';
+  const tlS = view === 'exam:starred' ? safeHtml(tlSessions) || [] : [];
   FLAT.filter(t => CONTENT[t.key] && (ex.subj === 'all' || t.subjectId === ex.subj)).forEach(t => {
-    const tStar = stOn(stKey(t.key, '-', 'reading')), exam = EXAM[t.key] || {};
+    const auto = view === 'exam:starred' ? exAuto(t.key) : null, on = auto ? stIn : stOn;
+    const tStar = on(stKey(t.key, '-', 'reading')), exam = EXAM[t.key] || {};
     const readHit = !q || exPlain(t.name).includes(q);
     // A reading with a mind map shows only the map in the concise notes, in place of its summaries.
     if (view === 'exam:notes' && !starredOnly && MINDMAP[t.key]) {
@@ -27641,25 +27681,36 @@ function exRenderBody() {
     let sh = '';
     const topics = [];
     exGroups(t.key).forEach(g => {
-      const whole = tStar || stOn(stKey(t.key, g.module, 'section'));
+      const whole = tStar || on(stKey(t.key, g.module, 'section'));
       const sessHit = readHit || exPlain(g.module + ' ' + g.title).includes(q);
-      const keep = (it, text) => (sessHit || has(text)) && (!starredOnly || whole || stOn(it.key) || exSecStarred(t.key, g.module, it.anchor));
-      const summary = prose && (!starredOnly || whole) ? ((exam[g.module] || {}).s || []).filter(p => sessHit || has(p)) : [];
+      // Why a part of the notes is in the exam-day set (see exBlockCards).
+      const why = (a, k) => auto && auto.at.has(g.module + '|' + a) ? (!exGot(t.key, g.module, 'b:' + a) ? 'auto' : ex.showGot ? 'got' : '')
+        : whole || on(k) || exSecStarred(t.key, g.module, a, on) ? 'star' : '';
+      const keep = (it, text) => (sessHit || has(text)) && (!starredOnly || whole || (auto ? why(it.anchor, it.key) === 'auto' || on(it.key) || exSecStarred(t.key, g.module, it.anchor, on)
+        : stOn(it.key) || exSecStarred(t.key, g.module, it.anchor)));
+      const tl = auto && tlS.find(s => s.topic === t.key && s.mod === g.module);
       const fs = exFormulas(t.key, g.module).filter(f => keep(f, f.title + ' ' + f.lines.join(' ') + ' ' + f.note));
       const ns = prose ? exNotes(t.key, g.module).filter(n => keep(n, n.text)) : [];
-      const weak = view === 'exam:formulas' ? [] : (TUITION_MISSES[t.key] || []).filter(m => m.module === g.module && (!starredOnly || whole || stOn(wkKey(t.key, m)))
+      const weak = view === 'exam:formulas' ? [] : (TUITION_MISSES[t.key] || []).filter(m => m.module === g.module
+        && (!starredOnly || whole || on(wkKey(t.key, m)) || (auto && (ex.showGot || auto.live.indexOf(m) >= 0)))
         && (sessHit || has(m.title + ' ' + m.trap + ' ' + m.fix)));
-      const cards = view === 'exam:starred' ? exBlockCards(t.key, g.module).filter(c => sessHit || has(c.text)) : [];
-      const n = fs.length + ns.length + weak.length + cards.length;
+      const cards = auto ? exBlockCards(t.key, g.module, why).filter(c => sessHit || has(c.text)) : [];
+      const chk = auto ? exChecksMissed(t.key, g.module).filter(x => sessHit || has(x.q.q + ' ' + x.q.a)) : [];
+      const n = fs.length + ns.length + weak.length + cards.length + chk.length;
+      // A session a test says to work on, with nothing else here (say, a guessed answer with no card), brings its summary.
+      const summary = prose && (!starredOnly || whole || (auto && !n && tl && tlNeedsWork(tl))) ? ((exam[g.module] || {}).s || []).filter(p => sessHit || has(p)) : [];
       if (!n && !summary.length) return;
       nItems += n;
       topics.push(g);
       sh += `
       <div class="ex-sess" data-sess="${escapeHtml(t.key + '|' + g.module)}">
         <div class="ex-sess-head"><span class="nb-session-tag">${escapeHtml(g.module)}</span><span class="ex-sess-title">${escapeHtml(g.title)}</span>
-          <span class="ex-acts">${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section', false, 'sess')}</span></div>
+          <span class="ex-acts">${tl ? safeHtml(() => tlChipHtml(tl)) : ''}${exGoBtn(t.key, g.module, '', 'Open')}${stBtn(stKey(t.key, g.module, 'section'), 'section', false, 'sess')}</span></div>
         ${summary.map(p => `<p class="ex-summary">${rt(p)}</p>`).join('')}
-        ${view === 'exam:starred' ? exMerged(t.key, g.module, ns, fs, cards) + weak.map(m => renderWeakCard(m, t.key)).join('') : `
+        ${auto ? weak.map(m => { const live = auto.live.indexOf(m) >= 0;
+            return `<div class="ex-wk${live ? '' : ' dropped'}"><div class="ex-card-top"><span class="ex-kind">${live ? 'Your mistake' : 'Dropped'}</span><span class="ex-acts">${exGotBtn(t.key, g.module, exWkWhat(m), (m.questions || []).length, !live)}</span></div>${renderWeakCard(m, t.key)}</div>`; }).join('')
+          + chk.map(x => `<div class="ex-card"><div class="ex-card-top"><span class="ex-kind">Checkpoint · ${escapeHtml(RV_GRADE[x.g.g])}</span><span class="ex-acts">${exGoBtn(t.key, g.module, '')}</span></div><div class="ex-card-body"><p class="nb-p"><b>${rt(x.q.q)}</b></p><p class="nb-p">${rt(x.q.a)}</p></div></div>`).join('')
+          + exMerged(t.key, g.module, ns, fs, cards) : `
         ${ns.length || weak.length ? `${summary.length ? '<div class="ex-label">Key points</div>' : ''}<ul class="ex-notes">${ns.map(x => exNoteHtml(t.key, g.module, x)).join('')}${weak.map(m => exWeakHtml(t.key, g.module, m)).join('')}</ul>` : ''}
         ${fs.length ? `${prose ? '<div class="ex-label">Formulas</div>' : ''}<div class="ex-fgrid">${fs.map(f => exFormulaHtml(t.key, g.module, f)).join('')}</div>` : ''}`}
       </div>`;
@@ -27682,10 +27733,10 @@ function exRenderBody() {
       ${sh}
     </section>`;
   });
-  const what = { 'exam:formulas': 'formulas', 'exam:notes': 'key points and formulas', 'exam:starred': 'starred items' }[view];
+  const what = { 'exam:formulas': 'formulas', 'exam:notes': 'key points and formulas', 'exam:starred': 'items to go over' }[view];
   body.innerHTML = html ? `<div class="ex-count" style="margin-bottom:12px">${nItems} ${what} across ${nRead} reading${nRead > 1 ? 's' : ''}</div>` + html
     : `<div class="ex-empty">${view === 'exam:starred' && !q
-      ? 'Nothing starred yet. Tap ☆ on a reading, a session heading, a sub-heading (stars everything under it), any block in the notes (definitions, examples, formulas), or any line on the formula sheet and concise notes. Starred items gather here for the last days before the exam.'
+      ? 'Nothing left to go over: every mistake from your tests is marked ✓ Got it. New weak-spot cards land here as you log more tests; a ☆ adds anything else.'
       : ex.starOnly && !q ? 'Nothing starred in this view yet. Turn off “Starred only” to see everything.' : 'Nothing matches that filter.'}</div>`;
   exApplyTrims(body);
 }
@@ -27760,10 +27811,16 @@ function exInit() {
     card.querySelector('.ex-trim').textContent = exTrimLabel(hide.length);
   }, true);
   document.addEventListener('click', e => {
-    const t = e.target.closest && e.target.closest('[data-star],[data-exgo],[data-exview],[data-ex],[data-exsess]');
+    const t = e.target.closest && e.target.closest('[data-star],[data-exgo],[data-exview],[data-ex],[data-exsess],[data-exgot]');
     if (!t) return;
     e.preventDefault(); e.stopPropagation();
-    if (t.hasAttribute('data-exsess')) {
+    if (t.hasAttribute('data-exgot')) {
+      const k = t.getAttribute('data-exgot'), p = k.split('|'), nq = t.getAttribute('data-nq');
+      pgSet(k, { reading: cmReadingOf(p[1]), session: rvSessionLabel(p[1], p[2]), item: 'Exam-day set · ' + (t.hasAttribute('data-undo') ? 'put back' : 'got it') },
+        t.hasAttribute('data-undo') ? { on: false } : Object.assign({ on: false, at: rvToday() }, nq != null ? { nq: +nq } : {}));
+      exRenderNav(); exRenderBody();
+    }
+    else if (t.hasAttribute('data-exsess')) {
       const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
       exScrollFlash(document.querySelector('.ex-sess[data-sess="' + esc(t.getAttribute('data-exsess')) + '"]'), false);
     }
@@ -27774,6 +27831,12 @@ function exInit() {
       const act = t.getAttribute('data-ex');
       if (act === 'print') { window.print(); return; }
       if (act === 'star') ex.starOnly = !ex.starOnly;
+      if (act === 'got') { ex.showGot = !ex.showGot; t.classList.toggle('on', ex.showGot); }
+      if (act === 'allstars') {
+        ex.allStars = !ex.allStars;
+        try { localStorage.setItem('ledgerExAllStars', ex.allStars ? '1' : '0'); } catch (e) {}
+        t.classList.toggle('on', ex.allStars); exRenderNav();
+      }
       if (act === 'clean') {
         ex.clean = !ex.clean;
         try { localStorage.setItem('ledgerExClean', ex.clean ? '1' : '0'); } catch (e) {}
