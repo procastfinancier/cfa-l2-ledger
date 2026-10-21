@@ -914,7 +914,8 @@ window.addEventListener('error', function (e) {
   .tl-axis { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); }
   .tl-axis-strong { fill: var(--ink); font-weight: 700; font-size: 11px; }
   .tl-line-all { fill: none; stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
-  .tl-line-subj { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: 0.9; }
+  .tl-line-subj { fill: none; stroke-width: 1.25; stroke-linejoin: round; stroke-linecap: round; opacity: 0.55; }
+  .tl-legend i, .tl-trend line.tl-line-subj { opacity: 1; }
   .tl-axis-ink { fill: var(--ink-soft); }
   .tl-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); margin: 4px 0 2px; }
   .tl-legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -22309,7 +22310,7 @@ const PLAN = [
   { d: '2026-11-11', k: 'mock', tasks: plMock(7) },
   { d: '2026-11-12', k: 'leave', tasks: plReview(7).concat([
     { w: 'PM', t: 'Retest due sessions and the redo list in the Test log.', go: 'tests' },
-    { w: 'PM', t: 'Reading quizzes: 40–60 questions on readings still under 70%.', go: 'tests' },
+    { w: 'PM', t: 'Reading quizzes: 40–60 questions on readings still under 80%.', go: 'tests' },
     { w: 'Eve', t: 'Ethics 30 min: R41 Standards I–III again.', go: 'ethics.1' },
   ]) },
   { d: '2026-11-13', k: 'mock', tasks: plMock(8) },
@@ -28083,7 +28084,7 @@ function cmInit() {
 const TL_RETEST = 5;
 const TL_REDO = 3;
 const TL_PACE = 3; // minutes a question in the exam: 88 questions in two sessions of 2 h 12 min
-const TL_TARGET = 70; // % to aim for: comfortably above the usual Level II pass mark
+const TL_TARGET = 80; // % to aim for: well above the usual Level II pass mark
 const TL_TOTAL = 3000; // reading-quiz questions available across all readings
 const TL_WEIGHT = { ethics: '10–15%', quant: '5–10%', econ: '5–10%', fsa: '10–15%', corp: '5–10%', equity: '10–15%', fi: '10–15%', deriv: '5–10%', alt: '5–10%', pm: '10–15%' };
 const TL_WHY = {
