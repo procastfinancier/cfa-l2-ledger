@@ -555,7 +555,7 @@ window.addEventListener('error', function (e) {
     .flow-branches { flex-direction: column; }
     .module-card { width: 112px; }
     .overview-panel { padding: 12px 12px; }
-    .nb-session { padding: 14px 13px; }
+    .nb-session { padding: 14px 13px; --nb-px: 13px; }
     .nb-session-pages { margin-left: 0; width: 100%; }
     .nb-timeline, .nb-entry-body, .nb-split-row, .nb-cols, .nb-stacks { flex-direction: column; }
     /* Every one of these children carries a flex-basis for its desktop row layout (e.g.
@@ -602,7 +602,7 @@ window.addEventListener('error', function (e) {
     #app { padding: 10px 8px; }
     h1 { font-size: 18px; }
     .detail { padding: 14px 10px; }
-    .nb-session { padding: 12px 10px; }
+    .nb-session { padding: 12px 10px; --nb-px: 10px; }
     table.nb-table { font-size: 11.5px; }
     table.nb-table th, table.nb-table td { padding: 6px 7px; }
     table.nb-table tbody th { min-width: 74px; }
@@ -746,6 +746,12 @@ window.addEventListener('error', function (e) {
   .rv-acts { display: flex; flex-wrap: wrap; gap: 8px; }
   .rv-note { font-size: 12px; color: var(--ink-faint); font-style: italic; margin-top: 4px; }
   .rv-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: -6px 0 14px; }
+  .nb-pin { position: sticky; top: 0; z-index: 6; background: var(--panel); margin: -8px calc(-1 * var(--nb-px, 20px)) 0; padding: 8px var(--nb-px, 20px) 0; }
+  .nb-pin .rv-bar { margin-bottom: 0; padding-bottom: 12px; }
+  .nb-pin.stuck { box-shadow: 0 6px 8px -6px rgba(27, 33, 48, 0.25); }
+  .nb-pin.stuck .nb-session-pages, .nb-pin.stuck .rv-state { display: none; }
+  .nb-pin.stuck .nb-session-head { margin-bottom: 8px; padding-bottom: 6px; }
+  .nb-pin.stuck .rv-bar { margin-top: 0; padding-bottom: 8px; }
   .rv-btn {
     font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 16px;
     border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer;
@@ -756,7 +762,7 @@ window.addEventListener('error', function (e) {
   .rv-state.due { color: var(--rose); font-weight: 700; }
   .nb-session.rv-done .nb-session-tag { background: var(--teal-bg); color: var(--teal); }
   .nb-session.rv-done .nb-session-tag::after { content: ' ✓'; }
-  .nb-session.rv-blurting > *:not(.nb-session-head):not(.rv-bar):not(.rv-blurt) { display: none; }
+  .nb-session.rv-blurting > *:not(.nb-session-head):not(.nb-pin):not(.rv-bar):not(.rv-blurt) { display: none; }
   .rv-blurt { border: 1px dashed var(--violet); background: var(--violet-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
   .rv-blurt-title { font-size: 13px; font-weight: 700; color: var(--violet); margin-bottom: 4px; }
   .rv-blurt-hint { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 8px; }
@@ -26255,10 +26261,20 @@ function rvDecorate(el) {
     const bar = document.createElement('div');
     bar.className = 'rv-bar';
     bar.innerHTML = rvBarHtml(topic, mod);
-    sec.querySelector('.nb-session-head').insertAdjacentElement('afterend', bar);
+    // Header + revision bar stay pinned to the top while this session is on screen.
+    const head = sec.querySelector('.nb-session-head'), pin = document.createElement('div');
+    pin.className = 'nb-pin';
+    head.insertAdjacentElement('beforebegin', pin);
+    pin.appendChild(head);
+    pin.appendChild(bar);
     const blurt = document.createElement('div');
     blurt.className = 'rv-blurt';
-    bar.insertAdjacentElement('afterend', blurt);
+    pin.insertAdjacentElement('afterend', blurt);
+    if (!window.nbPinWatch) {
+      window.nbPinWatch = true;
+      window.addEventListener('scroll', () => document.querySelectorAll('#detail .nb-pin').forEach(p =>
+        p.classList.toggle('stuck', p.parentElement.getBoundingClientRect().top < 0)), { passive: true });
+    }
     const check = document.createElement('div');
     check.className = 'rv-check';
     sec.appendChild(check);
