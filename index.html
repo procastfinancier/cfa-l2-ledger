@@ -28115,7 +28115,7 @@ function tlAll() {
 }
 function tlQs(tests) { return tests.reduce((a, t) => a.concat(t.qs), []); }
 function tlAcc(qs) { return qs.length ? Math.round(100 * qs.filter(q => q.ok).length / qs.length) : null; }
-function tlBand(qs) { const a = tlAcc(qs); return qs.length < 5 ? 'few' : a >= 75 ? 'on' : a >= 60 ? 'fix' : 'dig'; }
+function tlBand(qs) { const a = tlAcc(qs); return qs.length < 5 ? 'few' : a > 75 ? 'on' : a >= 70 ? 'fix' : 'dig'; }
 // One entry per session a detailed test asked about, judged on the latest of those tests.
 function tlSessions() {
   const by = {}, today = rvToday();
@@ -28292,7 +28292,7 @@ function tlAccuracyHtml() {
     <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
     ${tested.map(x => `<details class="tl-sub"${tlf.subj !== 'all' ? ' open' : ''}><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
     ${untested.length && tlf.subj === 'all' ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
-    <div class="cm-hint">Bands use your latest questions: 75% or more is Move on, 60–75% Shaky, under 60% Dig in. Fewer than 5 questions is too few to judge. Tap a subject to see its readings.</div>
+    <div class="cm-hint">Bands use your latest questions: above 75% is Move on, 70–75% Shaky, under 70% Dig in. Fewer than 5 questions is too few to judge. Tap a subject to see its readings.</div>
   </section>`;
 }
 function tlRender(el) {
@@ -28314,7 +28314,7 @@ function tlRender(el) {
     ${tlAccuracyHtml()}
     ${all.length ? `<section class="block"><div class="block-label">Revise these first</div>
       ${redos.filter(r => r.now).map(tlRedoHtml).join('')}
-      ${weak.length ? `<div class="tl-row tl-dig"><div class="tl-row-top"><span class="tl-row-title">Readings under 60% on your latest questions</span><span class="tl-badge tl-dig">Dig in</span></div>
+      ${weak.length ? `<div class="tl-row tl-dig"><div class="tl-row-top"><span class="tl-row-title">Readings under 70% on your latest questions</span><span class="tl-badge tl-dig">Dig in</span></div>
         <div class="tl-row-acts" style="margin-top:6px">${weak.map(r => exGoBtn(r.topic, '', '', tlShort(r.topic).replace(/ ·.*/, '') + ' · ' + r.recentAcc + '%')).join('')}</div>
         <div class="tl-row-do"><b>Next:</b> re-read the reading’s weak-spot cards and Concise notes, then a fresh quiz on it.</div></div>` : ''}
       ${todo.map(tlRowHtml).join('')}
