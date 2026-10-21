@@ -18136,8 +18136,8 @@ const TUITION_MISSES = {
       title: 'An equity-settled grant creates no liability and no change in total equity — so it moves neither side of a leverage ratio',
       at: ["Accounting"],
       questions: [
-        { ref: 'MR-R8 · set 2 · Q2', ask: 'Which type of compensation is most likely to increase current liability for a company?', picked: 'Stock-option grants', answer: 'Salary and wages' },
-        { ref: 'MR-R8 · set 2 · Q11', ask: 'A company starts a stock option grant for its senior executives. The most likely impact on the company after the grant is that leverage would be:', picked: 'Lower', answer: 'Unchanged' },
+        { ref: 'L2-R8-Q2 #2', ask: 'Which type of compensation is most likely to increase current liability for a company?', picked: 'Stock-option grants', answer: 'Salary and wages' },
+        { ref: 'L2-R8-Q2 #11', ask: 'A company starts a stock option grant for its senior executives. The most likely impact on the company after the grant is that leverage would be:', picked: 'Lower', answer: 'Unchanged' },
       ],
       trap: 'Both picks assume a grant either creates something on the liability side or shifts the capital structure. It does neither. The credit for a share-based grant goes to the share-based compensation reserve, which sits INSIDE EQUITY — it is never a liability, because the firm settles the award in its own shares rather than in cash or any transfer of assets. And because retained earnings falls by exactly what the reserve gains, total equity does not move either. Choosing "lower" for leverage assumes equity went up; choosing stock options for the liability question assumes a payable exists.',
       fix: 'Run the entry and both answers fall out. Compensation expense reduces net income and therefore retained earnings, and the offsetting credit increases the share-based compensation reserve. Both legs sit inside equity, so TOTAL EQUITY IS UNCHANGED — and debt was never involved at all. Debt ÷ equity therefore does not move: leverage is flat. On the liability question, the only one of the three settled in cash is salary and wages. Short-term compensation is expensed as it vests and whatever is UNPAID at the reporting date is shown as a current liability — which is a point already on page 65 of my own notes. Options and stock grants produce no liability whatsoever.',
@@ -18155,7 +18155,7 @@ const TUITION_MISSES = {
       title: 'Total share-based expense is options PLUS shares — two legs, valued on two different bases',
       at: ["s3-value", "Upon Settlement — Option Grants"],
       questions: [
-        { ref: 'L2-R8-Case 1 · Q1', ask: 'Prisma grants 150,000 at-the-money options (fair value $1.79) and 25,000 shares (stock price $16) on 1 Jan 20X1, both vesting after 3 years. The expense reported for 20X1 is closest to:', picked: '$133,333', answer: '$222,833' },
+        { ref: 'L2-R8-CASE1 #1', ask: 'Prisma grants 150,000 at-the-money options (fair value $1.79) and 25,000 shares (stock price $16) on 1 Jan 20X1, both vesting after 3 years. The expense reported for 20X1 is closest to:', picked: '$133,333', answer: '$222,833' },
       ],
       trap: 'The figure you picked, $133,333, is 400,000 ÷ 3 — the STOCK GRANT ON ITS OWN. The option leg was dropped entirely. It is an easy thing to do because the two legs are valued on completely different bases: the options at their grant-date FAIR VALUE of $1.79 each, the shares at the grant-date STOCK PRICE of $16 each. There is also a second pull here — "at-the-money" makes the options sound worthless, since intrinsic value is nil. They are not worthless. An at-the-money option still carries TIME VALUE, and that is exactly what the $1.79 is measuring.',
       fix: 'Value each leg on its own basis, add them, then amortise the total straight line over the vesting period. Options: 150,000 × $1.79 = $268,500. Shares: 25,000 × $16 = $400,000. Total = $668,500, over 3 years = $222,833 per year. Note which prices you did NOT use: the $17 average price and the $17.50 year-end price play no part in the expense at all. They belong to the DILUTION questions later in the same case, where the treasury stock method needs an average price. The expense only ever looks at grant-date values.',
@@ -18174,7 +18174,7 @@ const TUITION_MISSES = {
       title: 'Under IFRS a tax windfall never reaches the income statement — so any statement that says it does is the false one',
       at: ["Tax Implication"],
       questions: [
-        { ref: 'MR-R8 · set 1 · Q2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
+        { ref: 'L2-R8-Q1 #2', ask: 'A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is LEAST accurate?', picked: 'The company would report a higher net income under US GAAP', answer: 'The company would report a lower tax expense in the income statement under IFRS' },
       ],
       trap: 'The option you picked is TRUE. Under US GAAP a windfall does reduce tax expense, which does raise net income — so it cannot be the least accurate statement. The question was asking you to find the one FALSE statement, and the false one is the IFRS option, because under IFRS the windfall is taken straight to equity and never touches tax expense or net income at all. Being sure that a statement is correct is the signal to move past it in a "least accurate" question, not to select it.',
       fix: 'Settle the routing before you read the options. IFRS sends tax windfalls and shortfalls DIRECTLY TO EQUITY, so IFRS tax expense and net income are untouched by the share price. US GAAP runs them through TAX EXPENSE in the income statement, so a windfall cuts tax expense and lifts net income, and a shortfall does the reverse. With that written down, the IFRS option is false by construction — it claims an income statement effect in the regime that has none.',
@@ -18191,7 +18191,7 @@ const TUITION_MISSES = {
       title: 'Treasury stock method on a stock grant — average the last two period-end balances, and the provider’s marked answer does not reconcile',
       at: ["s3-tsm-stk"],
       questions: [
-        { ref: 'MR-R8 · set 1 · Q7', ask: '25,000-share grant valued at $400,000 vesting over 3 years, average share price $17, plan started in 20X1. Potentially dilutive securities at the end of 20X1?', picked: '16,667', answer: 'Marked 21,078 — but see below; by the stated method it is 17,157, and 16,667 is the closest option' },
+        { ref: 'L2-R8-Q1 #7', ask: '25,000-share grant valued at $400,000 vesting over 3 years, average share price $17, plan started in 20X1. Potentially dilutive securities at the end of 20X1?', picked: '16,667', answer: 'Marked 21,078 — but see below; by the stated method it is 17,157, and 16,667 is the closest option' },
       ],
       trap: 'The genuine trap in this question type is the averaging. For a stock grant cash proceeds are zero, so the whole assumed-proceeds pot is the average unrecognised compensation expense — and that is the average of the LAST TWO PERIOD-END balances, not the current balance. Because the plan only started in 20X1 the prior year-end balance is nil, which halves the figure once: (266,667 + 0) ÷ 2 = 133,333. Miss that and you divide 266,667 by 17 and get far too many treasury shares.',
       fix: 'Annual expense = 400,000 ÷ 3 = 133,333, so unrecognised at the end of year one = 400,000 − 133,333 = 266,667. Average unrecognised = (266,667 + 0) ÷ 2 = 133,333. Cash proceeds are zero for a stock grant, so assumed proceeds = 133,333. Treasury shares = 133,333 ÷ 17 = 7,843. Dilutive shares = 25,000 − 7,843 = 17,157. IMPORTANT — the marked answer of 21,078 cannot be reached from this. The provider’s own explanation writes "Assumed proceeds = 0 + 133,333 = 66,667", which is arithmetically false, and then divides that 66,667 by 17 to get 3,922 treasury shares. Every line above that one is right; the slip is at that single step. Of the three options offered, 16,667 is nearest to the correct 17,157, so the answer you chose was the best available and this one should probably not be counted against you. Worth raising with the provider.',
@@ -18209,7 +18209,7 @@ const TUITION_MISSES = {
       title: 'Free cash flow already adds share-based compensation back — adding it a second time is the error',
       at: ["Forecasting share-based compensation"],
       questions: [
-        { ref: 'MR-R8 · set 2 · Q3', ask: 'For forecasting the dilution from future grants of share-based compensation and its effects on valuation, which of the following approaches is LEAST appropriate?', picked: 'Discount the estimated value of equity by a dilution factor', answer: 'Add share-based compensation expense estimates to free cash flow estimates AND increase the number of shares outstanding based on the same estimates' },
+        { ref: 'L2-R8-Q2 #3', ask: 'For forecasting the dilution from future grants of share-based compensation and its effects on valuation, which of the following approaches is LEAST appropriate?', picked: 'Discount the estimated value of equity by a dilution factor', answer: 'Add share-based compensation expense estimates to free cash flow estimates AND increase the number of shares outstanding based on the same estimates' },
       ],
       trap: 'The option you picked is one of the approved methods, not the broken one. "Least appropriate" means find the FLAWED approach — and the flaw is NOT that the marked answer also adjusts the share count, because adjusting the share count is perfectly normal. The flaw is the words "ADD share-based compensation expense estimates TO free cash flow estimates". Free cash flow is built by starting from net income and adding back noncash charges, and share-based compensation IS a noncash charge, so that add-back is ALREADY SITTING INSIDE the FCF you began with. Adding it in again counts the same noncash saving twice and overstates cash flow.',
       fix: 'The cost has to be charged exactly once, and you get to choose where. ROUTE 1 — leave FCF as normally computed. The add-back is already inside it, so the cost is not in the cash flows; charge it in the SHARE COUNT instead, either by estimating an increase in shares outstanding or by discounting the estimated equity value by a dilution factor. This is the standard route, and it is why "increase the number of shares outstanding" on its own is a perfectly good answer. ROUTE 2 — deduct share-based compensation from the FCF estimates so the cost IS in the cash flows, and then do not forecast dilutive shares at all, because you have already charged it. The broken option does neither cleanly: it adds the expense into FCF on top of an add-back that was already there.',
@@ -18227,7 +18227,7 @@ const TUITION_MISSES = {
       title: 'PBO and plan asset changes hit the balance sheet in full immediately — it is only the income statement recognition that gets deferred',
       at: ["Balance Sheet Effects"],
       questions: [
-        { ref: 'MR-R8 · set 2 · Q8', ask: 'Which of the following statements regarding pension accounting is MOST accurate?', picked: 'A reconciliation between the funded status and the net pension asset (liability) reported on the balance sheet is required', answer: 'Changes in the projected benefit obligation (PBO) and plan assets fully and immediately affect the balance sheet' },
+        { ref: 'L2-R8-Q2 #8', ask: 'Which of the following statements regarding pension accounting is MOST accurate?', picked: 'A reconciliation between the funded status and the net pension asset (liability) reported on the balance sheet is required', answer: 'Changes in the projected benefit obligation (PBO) and plan assets fully and immediately affect the balance sheet' },
       ],
       trap: 'A required reconciliation sounds plausible because so much of this module is about amounts parked in OCI waiting to be amortised — it feels as though the reported balance and the true funded status must drift apart. They do not. The net pension asset or liability on the balance sheet IS the funded status, by definition, so there is nothing to reconcile. What gets deferred is the INCOME STATEMENT recognition, never the balance sheet carrying amount.',
       fix: 'Separate the two statements and judge them one at a time. The BALANCE SHEET carries the net funded status (plan assets − PBO) in full and immediately, so any change in PBO or in plan assets appears there at once — that is why the correct option is true. The INCOME STATEMENT is where the smoothing lives: under US GAAP past service cost and actuarial gains and losses go to OCI and reach P&L over time, past service cost amortised over remaining service life and actuarial amounts via the corridor. Under IFRS, vested past service cost hits P&L immediately while remeasurements sit in OCI and are never amortised. So the third option — that actuarial assumptions and past service costs fully and immediately affect the income statement — is false under both regimes.',
@@ -18244,7 +18244,7 @@ const TUITION_MISSES = {
       title: 'Pension cost in P&L uses the EXPECTED return, and an actuarial loss is only amortised once it breaches the corridor',
       at: ["8.S6::Expected Return on Plan Assets", "8.S6::Corridor Approach (US GAAP only)", "s7-corr"],
       questions: [
-        { ref: 'MR-R8 · set 1 · Q6', ask: 'Beginning PBO 65m, beginning plan assets 60m, service cost 27m, interest cost 3m, unamortised actuarial losses 5m, actual return 7.5m, expected return 8.5m. Periodic pension cost for the year?', picked: '$27,500,000', answer: '$21,500,000' },
+        { ref: 'L2-R8-Q1 #6', ask: 'Beginning PBO 65m, beginning plan assets 60m, service cost 27m, interest cost 3m, unamortised actuarial losses 5m, actual return 7.5m, expected return 8.5m. Periodic pension cost for the year?', picked: '$27,500,000', answer: '$21,500,000' },
       ],
       trap: 'The vignette hands you BOTH returns — actual 7.5m and expected 8.5m — and an unamortised actuarial loss of 5m sitting right below the corridor. Neither figure is there to be used. Reaching for the actual return, or adding the actuarial loss as though it were automatically amortised, is exactly what those two numbers are placed to tempt. Using the actual return instead of the expected costs you 1m; adding the loss on top costs you another 5m.',
       fix: 'US GAAP pension cost in P&L = current service cost + interest cost − EXPECTED return on plan assets, plus any amortisation of past service cost and actuarial losses. So 27m + 3m − 8.5m = 21.5m. The actual return of 7.5m belongs only in the plan asset roll-forward, never in the P&L charge. The 5m loss is amortised only if it exceeds the corridor, which is 10% of the GREATER of beginning PBO (65m) or beginning plan assets (60m) = 6.5m. Since 5m is below 6.5m it stays in OCI and no amortisation enters pension cost.',
@@ -18300,9 +18300,9 @@ const TUITION_MISSES = {
       title: 'Independent subsidiary → its local currency is functional → current rate. Integrated or hyperinflationary → parent’s currency → temporal',
       at: ["Functional Currency", "Three Methods for Remeasurement / Translation of Local Currencies"],
       questions: [
-        { ref: 'MR-R9 · set 1 · Q4', ask: 'Which statement describing the choice of the functional currency is LEAST accurate? The functional currency should be the same as the parent’s reporting currency if the subsidiary is:', picked: 'Highly integrated with the parent where the local currency, prices and some costs are controlled or restricted', answer: 'Mostly independent from the parent' },
-        { ref: 'MR-R9 · set 1 · Q5', ask: 'Which statement regarding foreign currency translation under US GAAP is LEAST accurate? The functional currency is the:', picked: 'Parent firm’s home currency if the foreign subsidiary operates in a country with high inflation', answer: 'Parent firm’s home currency for self-contained independent foreign subsidiaries' },
-        { ref: 'MR-R9 · set 1 · Q10', ask: 'Which of the following situations does NOT require the use of the temporal method?', picked: 'Functional currency is some currency other than the local currency or the US dollar', answer: 'Local currency is the functional currency' },
+        { ref: 'L2-R9-Q2 #4', ask: 'Which statement describing the choice of the functional currency is LEAST accurate? The functional currency should be the same as the parent’s reporting currency if the subsidiary is:', picked: 'Highly integrated with the parent where the local currency, prices and some costs are controlled or restricted', answer: 'Mostly independent from the parent' },
+        { ref: 'L2-R9-Q2 #5', ask: 'Which statement regarding foreign currency translation under US GAAP is LEAST accurate? The functional currency is the:', picked: 'Parent firm’s home currency if the foreign subsidiary operates in a country with high inflation', answer: 'Parent firm’s home currency for self-contained independent foreign subsidiaries' },
+        { ref: 'L2-R9-Q2 #10', ask: 'Which of the following situations does NOT require the use of the temporal method?', picked: 'Functional currency is some currency other than the local currency or the US dollar', answer: 'Local currency is the functional currency' },
       ],
       trap: 'In Q4 and Q5 you picked statements that are TRUE. A highly integrated subsidiary does use the parent’s currency as its functional currency, and under US GAAP so does a subsidiary in a high-inflation country. In a “least accurate” question, a statement you can confirm is a reason to skip it, not select it. Q10 is a different slip: a functional currency that is neither the local currency nor the dollar is the THIRD case, where all three currencies differ. That case still needs the temporal method for its first leg, remeasuring local → functional, before the current rate method takes it on to dollars.',
       fix: 'One question decides everything: who runs the subsidiary? If it is self-contained, with decisions made locally, its own LOCAL currency is the functional currency. That differs from the parent’s presentation currency, so the CURRENT RATE method applies. If it is integrated, with the parent making the decisions, the PARENT’S currency is the functional currency, so the TEMPORAL method remeasures local → functional. Hyperinflation under US GAAP overrides management’s choice: the parent’s currency is deemed functional, so it is temporal. Temporal is needed whenever the books are kept in a currency other than the functional one. So the only case on the list that needs NO temporal step is local currency = functional currency.',
@@ -18320,8 +18320,8 @@ const TUITION_MISSES = {
       title: '“Monetary/non-monetary method” IS the temporal method — and under it, monetary items are always translated, at the CURRENT rate',
       at: ["Monetary v/s Non-Monetary Items", "Temporal Method — Balance Sheet"],
       questions: [
-        { ref: 'MR-R9 · set 1 · Q6', ask: 'Which translation method should be used under a hyperinflationary economy when using US GAAP?', picked: 'Monetary/non-monetary, because all monetary accounts are translated at the historical rate', answer: 'Temporal, because all non-monetary accounts are remeasured at the historical rate' },
-        { ref: 'MR-R9 · set 3 · Q5', ask: 'Which general statement is CORRECT with respect to the temporal method? Monetary assets are:', picked: 'Not translated', answer: 'Translated at the current rate' },
+        { ref: 'L2-R9-Q2 #6', ask: 'Which translation method should be used under a hyperinflationary economy when using US GAAP?', picked: 'Monetary/non-monetary, because all monetary accounts are translated at the historical rate', answer: 'Temporal, because all non-monetary accounts are remeasured at the historical rate' },
+        { ref: 'L2-R9-Q4 #5', ask: 'Which general statement is CORRECT with respect to the temporal method? Monetary assets are:', picked: 'Not translated', answer: 'Translated at the current rate' },
       ],
       trap: 'The method you picked is not wrong: “monetary/non-monetary method” is simply another name for the temporal method. What makes the option false is its REASON. Monetary items (cash, receivables, payables, debt) are remeasured at the CURRENT rate under the temporal method. It is the NON-monetary items (inventory, fixed assets, intangibles) that stay at historical rates. The option reverses that, and the correct option states it the right way round. Set 3 Q5 tests the same rule from another side. “Not translated” sounds right because, in IFRS hyperinflation restatement, monetary items are not RESTATED for inflation. That is a different step. Under the temporal method every item is still TRANSLATED, and monetary items take the current rate.',
       fix: 'Under US GAAP, hyperinflation (cumulative inflation over 100% in 3 years) makes the parent’s currency the functional currency, so the TEMPORAL method is used. Its rule: monetary items at the current rate, non-monetary items at historical rates, and the remeasurement gain or loss goes through the income statement. Using historical rates for non-monetary items is precisely why temporal suits hyperinflation: it stops land and plant from shrinking to almost nothing in the parent’s accounts. IFRS instead restates for inflation and then translates at the current rate.',
@@ -18339,8 +18339,8 @@ const TUITION_MISSES = {
       title: 'Currency effect on translated sales: work out which way the quote runs, then separate the currency effect from local growth',
       at: ["Analysis of Sales Components"],
       questions: [
-        { ref: 'MR-R9 · set 1 · Q2', ask: 'A Canadian firm owns a US subsidiary. Sales were USD 1,000,000 in both 2002 and 2003; the USD/CAD rate moved from 0.6329 to 0.7484. Impact of the change in the value of the CAD on translated sales?', picked: 'Increase by 18%', answer: 'Decline by 15%' },
-        { ref: 'MR-R9 · set 1 · Q3', ask: 'A US firm owns a French subsidiary. Sales were EUR 1,000,000 in 2002 (USD/EUR 1.0620) and EUR 1,100,000 in 2003 (USD/EUR 1.1417). Impact of the change in the value of the USD on translated sales?', picked: 'Increase by 18.25%', answer: 'Increase by 7.5%' },
+        { ref: 'L2-R9-Q2 #2', ask: 'A Canadian firm owns a US subsidiary. Sales were USD 1,000,000 in both 2002 and 2003; the USD/CAD rate moved from 0.6329 to 0.7484. Impact of the change in the value of the CAD on translated sales?', picked: 'Increase by 18%', answer: 'Decline by 15%' },
+        { ref: 'L2-R9-Q2 #3', ask: 'A US firm owns a French subsidiary. Sales were EUR 1,000,000 in 2002 (USD/EUR 1.0620) and EUR 1,100,000 in 2003 (USD/EUR 1.1417). Impact of the change in the value of the USD on translated sales?', picked: 'Increase by 18.25%', answer: 'Increase by 7.5%' },
       ],
       trap: 'Q2: the rate rising from 0.6329 to 0.7484 looks like “more”, so +18% (0.7484 ÷ 0.6329 − 1) felt right. But USD/CAD is quoted as USD per 1 CAD. A higher number means the CAD has STRENGTHENED, so each US dollar of sales now converts into FEWER Canadian dollars. The sales have to be DIVIDED by the rate, not multiplied. Q3: 18.25% is the TOTAL growth in translated sales. It mixes 10% local-currency growth with 7.5% currency appreciation, but the question asked only for the currency’s impact. (That both questions show 18.25% is a coincidence.)',
       fix: 'Step 1, translate into the parent’s currency. In A/B notation, the rate is the price of one B in A. Q2: USD/CAD = USD per CAD, so CAD sales = USD sales ÷ rate. 1,000,000 ÷ 0.6329 = CAD 1,580,028, then 1,000,000 ÷ 0.7484 = CAD 1,336,184, a 15.4% decline. Q3: USD/EUR = USD per EUR, so USD sales = EUR sales × rate. 1,000,000 × 1.0620 = USD 1,062,000, then 1,100,000 × 1.1417 = USD 1,255,870, +18.25% in total. Step 2, isolate the currency. The currency effect is the move in the translation factor alone: Q2 (0.6329 ÷ 0.7484) − 1 = −15%, Q3 (1.1417 ÷ 1.0620) − 1 = +7.5%. The pieces compound: (1 + total) = (1 + local growth) × (1 + currency effect), so 1.10 × 1.075 = 1.1825.',
@@ -18358,10 +18358,10 @@ const TUITION_MISSES = {
       title: 'Put a rate next to every line under each method before judging anything — the same rate above and below the line means no change',
       at: ["s6-dir", "s6-assume"],
       questions: [
-        { ref: 'MR-R9 · set 2 · Q10', ask: 'US parent, UK subsidiary; the USD has been appreciating against GBP. Using the current rate method, the long-term debt to equity ratio, relative to what it would have been without translation, will most likely be:', picked: 'Higher', answer: 'The same' },
-        { ref: 'MR-R9 · set 2 · Q2', ask: 'Which of the following measures is unaffected by the choice between translation under the current rate method and remeasurement under the temporal method?', picked: 'Equity', answer: 'Tax expense' },
-        { ref: 'MR-R9 · set 2 · Q1', ask: 'Which statement is MOST accurate concerning foreign currency translation?', picked: 'With FIFO, if the local currency depreciates, COGS under the temporal method is less than COGS under the current rate method', answer: 'The receivables turnover ratio is identical under both the temporal method and the current rate method' },
-        { ref: 'MR-R9 · set 3 · Q3', ask: 'Which statement regarding the effects of translation on financial statement items/ratios is MOST accurate?', picked: 'Fixed assets are relatively overstated under the temporal method compared to the local currency if the local currency has appreciated', answer: 'Depreciation in the reporting currency under the current rate method is higher than under the temporal method if the local currency has appreciated' },
+        { ref: 'L2-R9-Q3 #10', ask: 'US parent, UK subsidiary; the USD has been appreciating against GBP. Using the current rate method, the long-term debt to equity ratio, relative to what it would have been without translation, will most likely be:', picked: 'Higher', answer: 'The same' },
+        { ref: 'L2-R9-Q3 #2', ask: 'Which of the following measures is unaffected by the choice between translation under the current rate method and remeasurement under the temporal method?', picked: 'Equity', answer: 'Tax expense' },
+        { ref: 'L2-R9-Q3 #1', ask: 'Which statement is MOST accurate concerning foreign currency translation?', picked: 'With FIFO, if the local currency depreciates, COGS under the temporal method is less than COGS under the current rate method', answer: 'The receivables turnover ratio is identical under both the temporal method and the current rate method' },
+        { ref: 'L2-R9-Q4 #3', ask: 'Which statement regarding the effects of translation on financial statement items/ratios is MOST accurate?', picked: 'Fixed assets are relatively overstated under the temporal method compared to the local currency if the local currency has appreciated', answer: 'Depreciation in the reporting currency under the current rate method is higher than under the temporal method if the local currency has appreciated' },
       ],
       trap: 'All three came from deciding by feel instead of writing the rate for each line. Q10: an appreciating dollar suggested “something moves”, but long-term debt and equity (taken as a whole) are both at the current rate, so the rate cancels. Q2: equity felt safe because it is “just the balance”, but under temporal it is a MIXED rate (historical common stock plus retained earnings full of mixed-rate income), while under current rate it is the current rate. Q1: you had the FIFO direction backwards. When the local currency DEPRECIATES, the older historical rates are HIGHER (each LC bought more dollars back then), so temporal COGS at those old rates is LARGER, not smaller. Set 3 Q3 is the same slip with an APPRECIATING currency. Now the old historical rate is the LOWEST, so temporal fixed assets are UNDERSTATED, not overstated.',
       fix: 'Rate map. Current rate method: every asset and liability at the current rate, equity as a whole at the current rate, every income statement line at the average rate. Temporal: monetary items at the current rate; non-monetary items (inventory, fixed assets) at historical rates; COGS and depreciation at historical rates; revenue and other expenses, TAX EXPENSE included, at the average rate; equity mixed. So tax expense is at the average rate under both, which makes it identical (Q2). Receivables turnover is sales (average under both) over receivables (current under both), so it is identical too (Q1, option B). LTD ÷ equity under the current rate method has the current rate on top and bottom, so it is the same as before translation (Q10). The other Q1 options both get the direction wrong. Depreciating LC with FIFO: old historical rate > average rate, so temporal COGS is HIGHER. Appreciating LC: historical rate < current rate, so temporal fixed assets are LOWER and fixed asset turnover is HIGHER under temporal, not lower. Set 3 Q3, appreciating LC (historical < average < current): fixed assets at the old historical rate are UNDERSTATED under temporal. Depreciation is at the average rate under current rate but at the lower historical rate under temporal, so it is HIGHER under current rate, which makes option C true. Option A fails because leverage is a pure balance sheet ratio, unchanged by current rate translation.',
@@ -18379,7 +18379,7 @@ const TUITION_MISSES = {
       title: 'The current rate method in hyperinflation shrinks EVERY balance to almost nothing — low values and translation losses, never high values',
       at: ["s8-why"],
       questions: [
-        { ref: 'MR-R9 · set 2 · Q4', ask: 'In a hyperinflationary economy, translation under the current rate method will most likely result in relatively:', picked: 'High balance sheet values for long-term assets', answer: 'Low balance sheet values for long-term liabilities' },
+        { ref: 'L2-R9-Q3 #4', ask: 'In a hyperinflationary economy, translation under the current rate method will most likely result in relatively:', picked: 'High balance sheet values for long-term assets', answer: 'Low balance sheet values for long-term liabilities' },
       ],
       trap: '“High values for long-term assets” is what you get from the FIXES for hyperinflation, not from the current rate method itself. The temporal method keeps fixed assets at the old historical rate, and IFRS restatement inflates them by the price index. Both exist precisely because the plain current rate method produces the opposite result.',
       fix: 'Hyperinflation makes the local currency collapse, so the current (closing) rate is tiny. The current rate method multiplies EVERY asset and liability by that tiny rate, so all of them, long-term assets and long-term liabilities alike, come out very low. This is the “disappearing subsidiary” on my 9.S8 page: “the translated value reported in the parent company will disappear or decrease to a minimal value”. The exposure is net assets in a depreciating currency, so the method produces translation LOSSES, not gains (which rules out option B). Of the three options, only “low balance sheet values for long-term liabilities” fits.',
@@ -18644,6 +18644,187 @@ const TUITION_MISSES = {
         "For a 'both' option, check each half on its own: leverage never counts as a growth driver.",
       ],
       spot: "Second 'least likely' slip on R6 (Q2 #5 was the same: the option you picked was the most obvious answer, not the odd one out). Circle 'least' before reading the options.",
+    },
+  ],
+  'equity.0': [
+    {
+      module: '17.S2',
+      title: 'Comparing with peers is “relative valuation”; a closely held firm has no peer price to compare, so value it on its own (absolute)',
+      at: ["s2-models", "Absolute vs. relative, in more detail"],
+      questions: [
+        { ref: 'L2-R17-Q1 #3', ask: 'A valuation based on comparing the firm with the market value of other firms is known as a:', picked: 'Peer group valuation', answer: 'Relative valuation' },
+        { ref: 'L2-R17-CASE1 #2', ask: 'Dentice is buying 5% of Gold Star Oil, a closely held oil company. Which model is most suitable?', picked: 'Relative valuation', answer: 'Absolute valuation' },
+      ],
+      trap: '#3: “peer group valuation” sounds right because you do compare with peers, but it is not the name the curriculum uses. There are only two families: absolute and relative. #2: an oil company has listed peers, so a multiple felt natural. But Gold Star itself has no market price, and the question is what Gold Star is worth on its own cash flows.',
+      fix: 'Absolute (intrinsic) models value the firm from its own characteristics: DDM, FCFF/FCFE, residual income, asset-based. Relative models value it against the prices of similar firms: P/E, P/B, P/S, EV multiples. A closely held firm has no market price and is hard to compare, so the curriculum answer is absolute valuation. The minority, marketability and liquidity discounts then come off that value.',
+      tackle: [
+        'Name the family first: does the model use the firm’s own cash flows (absolute) or other firms’ prices (relative)?',
+        'If an option uses a made-up name (peer group, comparison, absolution valuation), it is a distractor. The two real names are absolute and relative.',
+        'Closely held or private → absolute, then apply the discounts.',
+      ],
+      spot: 'Terminology questions with three near-synonyms. Only the term in your notes counts.',
+    },
+    {
+      module: '17.S2',
+      title: 'Who owns the stake picks the model, and each use of valuation has a fixed name',
+      at: ["s2-own", "s2-apps"],
+      questions: [
+        { ref: 'L2-R17-Q2 #6', ask: 'A controlling interest suggests the most appropriate model is a:', picked: 'Dividend discount model', answer: 'Cash flow model' },
+        { ref: 'L2-R17-Q2 #7', ask: 'A valuation done to detect investors’ expectations about the variables that drive a stock’s price is used for:', picked: 'Projecting the value of corporate actions', answer: 'Reading the market' },
+      ],
+      trap: '#6: DDM is the first model of the topic, so it feels like the default. But a dividend is something the controlling owner decides, so dividends tell you nothing about what the stake is worth. #7: “future value of the variables” sounded like a forward-looking corporate action. The key words were “investors’ expectations”: that is the market’s view, not a company decision.',
+      fix: 'Ownership table: controlling interest → cash flow model (FCFF/FCFE), because the owner sets dividend policy. Minority interest → DDM, because a minority holder only ever receives the dividends. Trend forecasting → time series model. Applications: reading the market = backing out the expectations built into today’s price. Corporate actions = valuing a merger, spin-off or buyback. Fairness opinion = checking the price offered to shareholders.',
+      tackle: [
+        'Controlling or minority? Controlling → cash flows; minority → dividends.',
+        'For an application question, find the subject of the sentence: investors’ expectations → reading the market; a company decision → corporate actions; a deal price for shareholders → fairness opinion.',
+      ],
+      spot: 'R18 asks the same thing from the other side: dividends work as the cash flow only from a minority shareholder’s perspective.',
+    },
+    {
+      module: '17.S1',
+      title: 'Liquidation value = assets sold off minus liabilities; sum-of-the-parts keeps every piece running, so it is never liquidation value',
+      at: ["s1-types", "17.S2::s2-sotp"],
+      questions: [
+        { ref: 'L2-R17-Q3 #9', ask: 'A valuation based on the current market price of its assets minus liabilities is the firm’s:', picked: 'Operating value', answer: 'Liquidation value' },
+        { ref: 'L2-R17-Q2 #8', ask: 'A sum-of-the-parts value of a conglomerate would LEAST accurately be called the:', picked: 'Breakup value', answer: 'Liquidation value' },
+      ],
+      trap: '#9: “operating value” isn’t one of the five definitions. It sounded like “value of the operations”. #8: “breakup” sounds like ending the business, so it looked like the odd one out. But a breakup in SOTP means each division carries on as its own going concern.',
+      fix: 'Five definitions: fair market, investment, intrinsic, going concern and liquidation. Only liquidation value assumes the firm stops: sell the assets one by one at market and pay off the liabilities. SOTP values each division as an independent going concern, and that value is also called the breakup value or the private market value. So the one name that does not fit SOTP is liquidation value.',
+      tackle: [
+        'Ask: does the firm keep operating? Yes → going concern (SOTP, breakup and private market value are all going-concern figures). No → liquidation.',
+        '“Market value of assets − liabilities” is the definition of liquidation value word for word.',
+        'Ignore names that aren’t in the list of five (operating value, status quo value).',
+      ],
+    },
+    {
+      module: '17.S2',
+      title: '“Least likely” lists: corporate governance is neither a step of the process nor a use of valuation',
+      at: ["1. Understand the business", "s2-apps"],
+      questions: [
+        { ref: 'L2-R17-Q3 #8', ask: 'Which is LEAST likely a use of equity valuation?', picked: 'Issuing fairness opinions', answer: 'Assessing corporate governance' },
+        { ref: 'L2-R17-Q3 #11', ask: 'Which LEAST accurately represents one of the primary steps of the equity valuation process?', picked: 'Decision making', answer: 'Assessing corporate governance' },
+      ],
+      trap: 'Both times you picked a real item from the list and missed the one that doesn’t belong. The quiz took 8.4 minutes for 11 questions, and at that pace “least” is easy to skim past. Corporate governance sounds important, and that is what makes it a good distractor.',
+      fix: 'Five steps: understand the business, forecast performance, select the model, convert forecasts to a value, apply the conclusion (decision making). Uses: stock selection, reading the market, corporate actions, fairness opinions, planning and consulting, communication with analysts and investors, private business valuation, portfolio management. Governance is checked within step 1, but it is not a step or a use in its own right.',
+      tackle: [
+        'Circle “least” or “NOT” before reading the options.',
+        'Tick each option that is on the list; the one left unticked is the answer.',
+      ],
+      spot: 'Same “least likely” slip as in R6 and R9: you picked the most familiar true option. Slow down on these. The quiz took under a minute per question.',
+    },
+  ],
+  'equity.1': [
+    {
+      module: '18.S2',
+      title: 'The Gordon model discounts the NEXT dividend: never earnings, never D₀, and Pₙ uses Dₙ₊₁',
+      at: ["Gordon growth model", "s2-ggm"],
+      questions: [
+        { ref: 'L2-R18-Q3 #8', ask: 'Earnings $3.14, dividend $1.00 growing 10%, required return 15%. Gordon value?', picked: '$69.08 (3.14 × 1.10 ÷ 0.05)', answer: '$22.00 (1.00 × 1.10 ÷ 0.05)' },
+        { ref: 'L2-R18-Q2 #10', ask: 'Price $52.50; last dividend $3.00 on EPS $4.50; r = 11%, g = 5%. The price is most likely:', picked: 'Undervalued', answer: 'Correctly valued (3.00 × 1.05 ÷ 0.06 = 52.50)' },
+        { ref: 'L2-R18-Q3 #10', ask: 'Retained earnings 8m → 10m, net income 5m, 1m shares, g = 5%. Expected dividend at the end of 2003?', picked: '$3.00', answer: '$3.15' },
+        { ref: 'L2-R18-Q1 #9', ask: 'r = 10%, D₀ = $1.00, g = 6% forever. Expected price at the end of year 2?', picked: '$27.07', answer: '$29.78 (D₃ = 1.191 ÷ 0.04)' },
+      ],
+      trap: 'Twice the question also gave you EPS, and twice you put it into the formula: 3.14 × 1.1 ÷ 0.05 = 69.08 is exactly the option you picked, and 4.50 × 1.05 ÷ 0.06 = 78.75 makes $52.50 look cheap. The other two misses stopped one step short: $3.00 is D₀ (you still had to grow it by 5%), and the year-2 price needs the year-3 dividend.',
+      fix: 'V₀ = D₁ ÷ (r − g), where D₁ = D₀ × (1 + g). The cash flow is the dividend. Earnings only come in through the payout ratio. For a price at any later date: Vₙ = Dₙ₊₁ ÷ (r − g), so V₂ = D₀(1 + g)³ ÷ (r − g) = 1.191 ÷ 0.04 = 29.78. Dividends paid = opening RE + NI − closing RE = 8 + 5 − 10 = 3m → $3.00 a share (D₀), then D₁ = 3.15.',
+      tackle: [
+        'Cross out EPS unless the question gives a payout ratio.',
+        'Write D₀ and D₁ as two separate numbers before using the formula.',
+        'Price at time n → use the dividend at n + 1.',
+        'Over/undervalued: compare the value you get with the price, and if they are equal, the answer is “correctly valued”.',
+      ],
+      spot: 'Four misses on the most basic formula in the reading, all from the wrong input rather than a wrong idea. This is the cheapest fix in R18: do 10 one-line Gordon questions.',
+    },
+    {
+      module: '18.S2',
+      title: 'CAPM backwards: the risk-free rate appears twice, so collect it before solving',
+      at: ["kₑ = Rm + β(Rm − Rf)", "Solving for any one of the four inputs"],
+      questions: [
+        { ref: 'L2-R18-Q2 #8', ask: 'β = 0.8, market return 10%, Gordon discount rate 9% (retention 0.7, g 5% also given). Risk-free rate?', picked: '2.5%', answer: '5.0%' },
+      ],
+      trap: 'The retention ratio and growth rate are there to distract you. All you need is CAPM with the 9% as the answer. The slip is in the algebra: Rf is both the intercept and inside the bracket.',
+      fix: '9% = Rf + 0.8(10% − Rf) = 8% + 0.2 Rf → Rf = 1% ÷ 0.2 = 5%. In general Rf = (r − β·Rm) ÷ (1 − β).',
+      tackle: [
+        'Write CAPM in full, then expand the bracket.',
+        'Group the Rf terms: (1 − β)Rf on one side.',
+        'Check: 5% + 0.8 × 5% = 9% ✓.',
+      ],
+    },
+    {
+      module: '18.S4',
+      title: 'The required return can always be backed out: H-model directly, two-stage by trial, and you need a dividend to do it',
+      at: ["Implied Required Return", "s4-beluga", "Implied return from a two-stage DDM"],
+      questions: [
+        { ref: 'L2-R18-Q2 #2', ask: 'D₀ $2.00, 7% for two years then 5%, price $54.50. Required return?', picked: 'Can’t be determined', answer: '9% (by iteration)' },
+        { ref: 'L2-R18-Q2 #9', ask: 'D₀ $2.00, growth 7% declining over three years to 5%, price $45. Required return?', picked: '7.8%', answer: '9.8%' },
+        { ref: 'L2-R18-Q3 #6', ask: 'Which set of data is enough to back out an implied return from a two-stage DDM?', picked: 'Short- and long-term growth, stock price, trailing profits', answer: 'P/E, trailing profits, short- and long-term PEG, yield' },
+      ],
+      trap: '#2: a two-stage model has no closed-form answer for r, so it looked unsolvable. It is solvable: try each option as r and see which one gives $54.50. #9: the H-model does have a direct formula. 7.8% is roughly what you get if g_L is added to the yield term without the H × (g_S − g_L) part. #6: the option you picked had no way to get the dividend. Profits alone don’t give you D₀.',
+      fix: 'H-model: r = (D₀ ÷ P₀)[(1 + g_L) + H(g_S − g_L)] + g_L = (2 ÷ 45)[1.05 + 1.5 × 0.02] + 0.05 = 0.048 + 0.05 = 9.8%. Two-stage: plug in each option. With r = 9%, 2.14/1.09 + 2.29/1.09² + [2.29 × 1.05 ÷ 0.04]/1.09² = 54.5 ✓. To back out r you need four inputs: price, dividend, short-term growth and long-term growth. P/E × profits gives the price, the yield gives the dividend, and PEG × P/E gives the growth rates.',
+      tackle: [
+        'Never pick “can’t be determined” for an implied return. Test the options instead.',
+        'H-model: H is half the length of the declining period (3 years → H = 1.5).',
+        'For a “which data” question, tick price, D₀, g_S and g_L; the option that gives all four wins.',
+      ],
+    },
+    {
+      module: '18.S4',
+      title: 'Choose the model by the shape of growth: a steady decline is the H-model; a sudden drop is two-stage',
+      at: ["s4-h", "Life-cycle phases and which model fits"],
+      questions: [
+        { ref: 'L2-R18-Q3 #4', ask: 'Growth starts at 10%, declines steadily to 6% over five years, then stays at 6%. Most appropriate model?', picked: 'A two-stage model', answer: 'The H-model' },
+        { ref: 'L2-R18-Q3 #9', ask: 'Multistage models are computationally intensive, so they are often called:', picked: 'R-squared models', answer: 'Spreadsheet models' },
+      ],
+      trap: '#4: there are two phases (declining, then flat), so “two-stage” matched the count. But the two-stage DDM assumes growth drops suddenly from g_S to g_L. Here it declines in a straight line, which is exactly what the H-model assumes. #9 looks like a guess: R-squared belongs to regression (R1), not to valuation.',
+      fix: 'Gordon: one constant rate forever. Two-stage: high growth, then a sudden drop to stable growth. H-model: growth declines linearly from g_S to g_L, then stays at g_L. Three-stage: high, transition, mature. A model that allows any growth path year by year, worked out in a spreadsheet, is called a spreadsheet model.',
+      tackle: [
+        'Draw the growth path in two seconds: a step down → two-stage; a slope down → H-model; three phases → three-stage.',
+        '“Steadily”, “linearly” and “declining over n years” all point to the H-model.',
+      ],
+    },
+    {
+      module: '18.S4',
+      title: 'Two required returns: discount with the high-growth rate, but use the stable-phase rate inside the terminal value',
+      at: ["s4-twostage", "Estimating Terminal Value"],
+      questions: [
+        { ref: 'L2-R18-Q1 #6', ask: 'Ski, Inc.: EPS 6, 9, 13.50 in years 1–3, payout 40%, then 80% payout and 2% growth. Required return 20% in high growth, 12% in stable growth. Value?', picked: '$43.04', answer: '$71.38' },
+      ],
+      trap: '43.04 is what you get by using 20% in the terminal value as well: 11.016 ÷ (0.20 − 0.02) = 61.2 instead of 110.16. The question gives two rates because each one has its own job.',
+      fix: 'Dividends: 2.40, 3.60, 5.40; D₄ = 13.50 × 1.02 × 0.80 = 11.016. Terminal value at year 3 uses the STABLE rate: 11.016 ÷ (0.12 − 0.02) = 110.16. Then discount D₁–D₃ and the TV at the HIGH-GROWTH rate: 2.4/1.2 + 3.6/1.2² + (5.4 + 110.16)/1.2³ = 71.38.',
+      tackle: [
+        'Label each rate: “TV” next to the stable one, “discount” next to the high-growth one.',
+        'Note the payout ratio changes in year 4. Use the new one for D₄.',
+        'Sanity check: a lower rate inside the TV makes it bigger, so the answer is the larger option.',
+      ],
+    },
+    {
+      module: '18.S3',
+      title: 'PVGO is price minus E ÷ r, and it can be negative; the Gordon model fits steady payers like utilities',
+      at: ["s3-pvgo-read", "s3-ggm"],
+      questions: [
+        { ref: 'L2-R18-Q3 #1', ask: 'Earnings fixed at $4.00, price $35, r = 10%. PVGO?', picked: '+$5.00', answer: '−$5.00' },
+        { ref: 'L2-R18-Q3 #7', ask: 'The Gordon growth model is well suited for:', picked: 'Telecom companies', answer: 'Utilities' },
+      ],
+      trap: '#1: the size was right (5), but you took it as 40 − 35 instead of 35 − 40. PVGO is always the price minus the no-growth value, and here the market pays less than the no-growth value. #7: telecoms pay dividends too, but utilities are the textbook case: regulated prices, stable growth below GDP and high payouts.',
+      fix: 'P₀ = E₁ ÷ r + PVGO → PVGO = 35 − 4 ÷ 0.10 = 35 − 40 = −5. A negative PVGO means the market expects the firm to reinvest at returns below r, destroying value. The Gordon model fits firms with stable growth at or below the economy’s rate and a settled dividend policy: utilities, mature consumer staples.',
+      tackle: [
+        'Write PVGO = price − (E ÷ r) in that order every time, and keep the sign.',
+        'Gordon fit test: stable growth ≤ GDP, a long dividend record, mature business → yes.',
+      ],
+    },
+    {
+      module: '18.S5',
+      title: 'g = b × ROE, so ROE = g ÷ b, where b = 1 − dividends ÷ earnings',
+      at: ["Sustainable growth rate", "s5-bio"],
+      questions: [
+        { ref: 'L2-R18-Q1 #10', ask: 'Cantel: earnings $17, dividends $3.50, sustainable growth 11%. ROE?', picked: '17.64%', answer: '13.85%' },
+      ],
+      trap: 'You got two SGR questions right in quiz 2 going forwards (g from ROE). Going backwards is where the retention ratio went wrong. The payout is 3.50 ÷ 17 = 20.6%, so retention is 79.4%, not some other share.',
+      fix: 'b = 1 − 3.50 ÷ 17 = 0.794. ROE = g ÷ b = 0.11 ÷ 0.794 = 13.85%. Check it: 0.794 × 13.85% = 11% ✓.',
+      tackle: [
+        'Compute b first and write it down as a decimal.',
+        'Rearrange g = b × ROE for whatever is missing.',
+        'Multiply back to check you get the given g.',
+      ],
     },
   ],
 };
@@ -19778,7 +19959,7 @@ const MINDMAP = {
       { id: 'b1', mod: '17.S1', tone: 'teal', t: 'Types of value', tag: 'Which value fits which job', c: [
         { id: 'types', t: 'Five definitions', tag: 'Fair market · investment · intrinsic · going concern · liquidation',
           info: ['Intrinsic value vs. price = perceived mispricing (true mispricing + estimation error).', 'Investment value is value to a particular buyer, e.g. with synergies.'],
-          from: ['s1-types', 'Intrinsic value and perceived mispricing', 'Which definition fits which job'] },
+          from: ['s1-types', 'Intrinsic value and perceived mispricing', 'Which definition fits which job'], wk: ['Liquidation value = assets'] },
       ] },
       { id: 'b2', mod: '17.S2', tone: 'violet', t: 'The valuation process', tag: 'Five steps, business first', c: [
         { id: 'understand', t: '1 · Understand the business', tag: 'Five forces, generic strategy, quality of reports',
@@ -19788,16 +19969,16 @@ const MINDMAP = {
           from: ['s2-fc'] },
         { id: 'model', t: '3 · Select the model', tag: 'Absolute (asset, DCF) vs. relative (multiples)',
           info: [{ columns: ['Perspective', 'Model'], rows: [['Controlling interest', 'Cash flow model'], ['Minority interest', 'DDM'], ['Liquidation', 'Asset-based']] }],
-          from: ['s2-models', 's2-crit', 's2-own'], c: [
+          from: ['s2-models', 's2-crit', 's2-own'], wk: ['Comparing with peers', 'Who owns the stake'], c: [
           { id: 'sotp', t: 'Sum-of-the-parts', tag: 'Value each segment; watch the conglomerate discount',
             info: ['Discount from internal capital inefficiency, endogenous factors (poor management) and research measurement errors.'],
-            from: ['s2-sotp', 's2-why'] },
+            from: ['s2-sotp', 's2-why'], wk: ['Liquidation value = assets'] },
         ] },
         { id: 'convert', t: '4 · Convert to a value', tag: 'Sensitivity analysis and situational adjustments',
           info: ['Adjust for control premium, lack of marketability, illiquidity.'],
           from: ['s2-conv'] },
         { id: 'apply', t: '5 · Apply the conclusion', tag: 'Reading the market, fairness opinions, research reports',
-          from: ['s2-apps'] },
+          from: ['s2-apps'], wk: ['Who owns the stake', '“Least likely” lists'] },
       ] },
     ],
   },
@@ -19812,7 +19993,7 @@ const MINDMAP = {
           from: ['One-period DDM', 's1-one', 's1-two', 's1-three'] },
         { id: 'ggm', mod: '18.S2', t: 'Gordon growth model', tag: 'V₀ = D₁ ÷ (kₑ − g)',
           info: ['Needs kₑ > g, both constant forever. Very sensitive to the gap.'],
-          from: ['Gordon growth model', 's2-assume', 's2-ggm'] },
+          from: ['Gordon growth model', 's2-assume', 's2-ggm'], wk: ['The Gordon model discounts', 'CAPM backwards'] },
         { id: 'implied', mod: '18.S2', t: 'Implied growth', tag: 'g = kₑ − D₁/P₀',
           from: ['s2-implied'] },
       ] },
@@ -19821,7 +20002,7 @@ const MINDMAP = {
           from: ['No-growth company', 's3-nogrowth'] },
         { id: 'pvgo', t: 'PVGO', tag: 'V₀ = E₁/kₑ + PVGO',
           info: ['Reliable: $50 assets in place + $10 PVGO = $60; P/E 12 = 10 (zero growth) + 2 (growth).'],
-          from: ['s3-comp', 's3-pvgo', 's3-pvgo-split'] },
+          from: ['s3-comp', 's3-pvgo', 's3-pvgo-split'], wk: ['PVGO is price minus'] },
         { id: 'jpe', t: 'Justified P/E', tag: 'Leading = (1 − b) ÷ (kₑ − g) · trailing × (1 + g)',
           from: ['s3-pe', 's3-alliance'] },
         { id: 'pref', t: 'Preferred stock', tag: 'V = D ÷ k_p',
@@ -19830,19 +20011,19 @@ const MINDMAP = {
       { id: 'b3', mod: '18.S4', tone: 'amber', t: 'Multistage models', tag: 'Growth that changes over time', c: [
         { id: 'two', t: 'Two-stage DDM', tag: 'High growth, then a sudden drop to stable growth',
           info: ['Terminal value from the Gordon model or a P/E; firms with no dividend yet start with a later dividend.'],
-          from: ['s4-two', 's4-tv', 's4-nodiv', 's4-twostage'] },
+          from: ['s4-two', 's4-tv', 's4-nodiv', 's4-twostage'], wk: ['Two required returns', 'Choose the model by the shape'] },
         { id: 'h', t: 'H-model', tag: 'Growth declines linearly: V₀ = D₀(1+g_L)/(k−g_L) + D₀H(g_S−g_L)/(k−g_L)',
           info: ['H = half the high-growth period. Only an approximation.'],
-          from: ['H-model', 's4-h', 's4-omega'] },
+          from: ['H-model', 's4-h', 's4-omega'], wk: ['Choose the model by the shape', 'The required return can always'] },
         { id: 'three', t: 'Three-stage DDM', tag: 'High, transition, mature',
           from: ['s4-three', 's4-threeh'] },
         { id: 'impret', t: 'Implied required return', tag: 'kₑ = D₁/P₀ + g, or from the H-model',
-          from: ['Implied kₑ from the Gordon growth model', 's4-smyth', 's4-beluga'] },
+          from: ['Implied kₑ from the Gordon growth model', 's4-smyth', 's4-beluga'], wk: ['The required return can always'] },
       ] },
       { id: 'b4', mod: '18.S5', tone: 'slate', t: 'Where growth comes from', tag: 'g = b × ROE', c: [
         { id: 'sgr', t: 'Sustainable growth and PRAT', tag: 'Retention × profit margin × turnover × leverage',
           info: ['Assumes constant capital structure and no new equity.'],
-          from: ['Sustainable growth rate', 's5-prat', 's5-halo'] },
+          from: ['Sustainable growth rate', 's5-prat', 's5-halo'], wk: ['g = b × ROE'] },
       ] },
     ],
   },
@@ -21131,6 +21312,558 @@ const TUITION_Q = {
     ],
     "p": 1,
     "a": 2
+  },
+  "L2-R8-Q1 #2": {
+    "full": [
+      "A company is reporting a tax windfall arising from a share-based compensation plan. Which of the following is least accurate?"
+    ],
+    "options": [
+      "The company would report a higher net income under U.S. GAAP.",
+      "The company would take the gain directly to equity under IFRS.",
+      "The company would report a lower tax expense in the income statement under IFRS."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R8-Q1 #6": {
+    "full": [
+      "Federal Companies' reports under U.S. GAAP included the following information in the footnotes to its most recent financial statements:",
+      "Beginning Projected Benefit Obligation (PBO): 65,000,000",
+      "Beginning Fair Value of Plan Assets: 60,000,000",
+      "Service Cost: 27,000,000",
+      "Interest Cost: 3,000,000",
+      "Unamortized Actuarial Losses (Start of the Year): 5,000,000",
+      "Actual Return on Plan Assets: 7,500,000",
+      "Expected Return on Plan Assets: 8,500,000",
+      "Given the information above, calculate Federal's total periodic pension cost for the year."
+    ],
+    "options": [
+      "$41,000,000.00",
+      "$21,500,000.00",
+      "$27,500,000.00"
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R8-Q1 #7": {
+    "full": [
+      "The number of potentially dilutive securities for the stock grant at the end of 20X1 is closest to:"
+    ],
+    "options": [
+      "25,000.00",
+      "16,667.00",
+      "21,078.00"
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R8-Q2 #2": {
+    "full": [
+      "Which type of compensation is most likely to increase current liability for a company?"
+    ],
+    "options": [
+      "Stock-option grants.",
+      "Stock grants.",
+      "Salary and wages"
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R8-Q2 #3": {
+    "full": [
+      "For forecasting the dilution from future grants of share-based compensation and its effects on valuation, which of the following approaches is least appropriate?"
+    ],
+    "options": [
+      "Add share-based compensation expense estimates to free cash flow estimates and increase the number of shares outstanding based on the same estimates.",
+      "Deduct share-based compensation expense from estimates of free cash flows and ignore dilution.",
+      "Discount the estimated value of equity by a dilution factor."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R8-Q2 #8": {
+    "full": [
+      "Which of the following statements regarding pension accounting is most accurate?"
+    ],
+    "options": [
+      "A reconciliation between the funded status and the net pension asset (liability) reported on the balance is required.",
+      "Changes in actuarial assumptions and past service costs fully and immediately affect the income statement.",
+      "Changes in the projected benefit obligation (PBO) and plan assets fully and immediately affect the balance sheet."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R8-Q2 #11": {
+    "full": [
+      "A company wants to start a stock option grant for their senior executives. The most likely impact on the company after the grant is that the leverage would be:"
+    ],
+    "options": [
+      "lower.",
+      "unchanged.",
+      "higher."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R8-CASE1 #1": {
+    "full": [
+      "Prisma Inc. started an employee stock option and RSU grant plan. On Jan 1, 20X1, the company made a grant of 150,000 at-the-money options (maturing in five years) and 25,000 shares. The fair value of the options was $1.79 and the stock price on the date of the grant was $16. Both awards vest after 3 years. The average stock price during the year was $17 and it was $17.50 at the end of the year",
+      "The expense reported for 20X1 is closest to:"
+    ],
+    "options": [
+      "$187,033.",
+      "$222,833.",
+      "$133,333."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R9-Q1 #1": {
+    "full": [
+      "In reality, what best describes the real value of non-monetary assets and liabilities in a hyperinflationary environment?"
+    ],
+    "options": [
+      "A) Typically not affected because their local currency-denominated values decrease to offset the impact of inflation.",
+      "B) All non-monetary accounts are re-measured at the current rate.",
+      "C) Typically not affected because their local currency-denominated values increase to offset the impact of inflation."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R9-Q1 #2": {
+    "full": [
+      "Which example least accurately describes pure balance sheet and income statement ratios?"
+    ],
+    "options": [
+      "A) The current ratio is a pure balance sheet ratio.",
+      "B) When multiplying both the numerator and denominator by the current exchange rate, the current rate is cancelled.",
+      "C) All pure balance sheet ratios are affected by the all-current translation method."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R9-Q1 #10": {
+    "full": [
+      "Which of the following ratios is unaffected by the choice between the current rate method and the temporal method?"
+    ],
+    "options": [
+      "A) Accounts payable turnover.",
+      "B) Current ratio.",
+      "C) Quick ratio."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R9-Q2 #2": {
+    "full": [
+      "A Canadian firm owns a foreign subsidiary in the U.S. In 2002, sales were USD1,000,000 and the USD/CAD exchange rate was 0.6329. In 2003, sales were also USD1,000,000 but the exchange rate was 0.7484. What is the impact of the change in the value of the CAD on the parent company's translated sales? Sales will:"
+    ],
+    "options": [
+      "A) decline by 15%.",
+      "B) decrease by 18%.",
+      "C) increase by 18%."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R9-Q2 #3": {
+    "full": [
+      "A U.S. firm owns a foreign subsidiary in France. In 2002, sales were EUR 1,000,000 and the USD/EUR exchange rate was 1.0620. In 2003, sales were EUR 1,100,000 and the exchange rate was 1.1417. What is the impact of the change in the value of the USD on the parent company's translated sales?"
+    ],
+    "options": [
+      "A) Sales will increase by 18.25%.",
+      "B) Sales will decrease by 7.5%.",
+      "C) Sales will increase by 7.5%."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R9-Q2 #4": {
+    "full": [
+      "Which of the following statements describing the choice of the functional currency is least accurate? The functional currency should be the same as the parent's reporting currency if the subsidiary is:"
+    ],
+    "options": [
+      "A) mostly independent from the parent.",
+      "B) highly integrated with the parent where the local currency, prices, and some costs are controlled or restricted.",
+      "C) highly integrated with the parent where the local currency, prices, and some costs are not controlled or restricted."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R9-Q2 #5": {
+    "full": [
+      "Which of the following statements regarding the foreign currency translation under US GAAP is least accurate? The functional currency is the:"
+    ],
+    "options": [
+      "A) parent firm's home currency if the foreign subsidiary operates in a country with high inflation.",
+      "B) parent firm's home currency for self-contained independent foreign subsidiaries.",
+      "C) subsidiary's local currency for self-contained, independent foreign subsidiaries."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R9-Q2 #6": {
+    "full": [
+      "Which translation method should be used under a hyperinflationary economy when using U.S. GAAP?"
+    ],
+    "options": [
+      "A) Temporal, because all non-monetary accounts are re-measured at the historical rate.",
+      "B) All-current, because dividends are translated at the rate that applied when they were issued.",
+      "C) Monetary/non-monetary, because all monetary accounts are translated at the historical rate."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R9-Q2 #10": {
+    "full": [
+      "Which of the following situations does NOT require the use of the temporal method? The:"
+    ],
+    "options": [
+      "A) functional currency is some currency other that the local currency or the U.S. dollar.",
+      "B) foreign subsidiary is operating in a highly inflationary economy.",
+      "C) local currency is the functional currency."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R9-Q3 #1": {
+    "full": [
+      "Which of the following statements is most accurate concerning foreign currency translation?"
+    ],
+    "options": [
+      "A) In the case of an appreciating currency, the fixed asset turnover will be lower under the temporal method, as compared to the current rate method.",
+      "B) The receivables turnover ratio is identical under both the temporal method and the current rate method.",
+      "C) In the case in which a firm uses first in, first out (FIFO) inventory valuation, if the local currency depreciates the cost of good sold under the temporal method is less than the cost of goods sold using the current rate method."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R9-Q3 #2": {
+    "full": [
+      "Which of the following measures is unaffected by the choice between translation under the current rate method and remeasurement under the temporal method?"
+    ],
+    "options": [
+      "A) Tax expense.",
+      "B) Cost of goods sold.",
+      "C) Equity."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R9-Q3 #4": {
+    "full": [
+      "In a hyperinflationary economy, translation under the current rate method will most likely result in relatively:"
+    ],
+    "options": [
+      "A) low balance sheet values for long term liabilities.",
+      "B) high translation gains.",
+      "C) high balance sheet values for long term assets."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R9-Q3 #10": {
+    "full": [
+      "Portinta Inc, a U.S. based pharmaceutical company, has a UK based subsidiary, Medaze plc. The U.S. dollar has been appreciating relative to GBP over the past year. Using the current-rate method to translate a foreign subsidiary's financial statements to U.S. dollars will most likely have which of the following effects on the long-term debt to equity ratio relative to what the ratio would have been without the effects of translation?"
+    ],
+    "options": [
+      "A) The ratio will be lower.",
+      "B) The ratio will be higher.",
+      "C) The ratio will be the same."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R9-Q4 #3": {
+    "full": [
+      "Which of the following statements regarding the effects of translation on financial statement items/ratios is most accurate?"
+    ],
+    "options": [
+      "A) Leverage is higher under the current rate method as compared to under the local currency.",
+      "B) Fixed assets are realtively overstated under the temporal method compared to the local currency if the local currency has appreciated.",
+      "C) Depreciation in the reporting currency under the current rate method is higher than under the temporal method if the local currency has appreciated."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R9-Q4 #5": {
+    "full": [
+      "Which of the following general statements is CORRECT with respect to the temporal method? Monetary assets are:"
+    ],
+    "options": [
+      "A) Translated at the average rate.",
+      "B) not translated.",
+      "C) translated at the current rate."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R17-Q1 #3": {
+    "full": [
+      "A valuation of a firm based on the comparison of the firm with the market value of other firms is known as a:"
+    ],
+    "options": [
+      "peer group valuation.",
+      "relative valuation.",
+      "comparison valuation."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R17-Q2 #6": {
+    "full": [
+      "An ownership perspective can be important for an analyst determining the value of a share position. A controlling interest suggests the most appropriate model is a:"
+    ],
+    "options": [
+      "dividend discount model.",
+      "cash flow model.",
+      "time series model."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R17-Q2 #7": {
+    "full": [
+      "An analyst performing an asset valuation to detect investor's expectations about the future value of the variables that affect a stock's price is most likely using the valuation for:"
+    ],
+    "options": [
+      "generating a fairness opinion.",
+      "reading the market.",
+      "projecting the value of corporate actions."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R17-Q2 #8": {
+    "full": [
+      "The value of a conglomerate derived using a sum-of-the-parts valuation would least accurately be called the:"
+    ],
+    "options": [
+      "breakup value.",
+      "private market value.",
+      "liquidation value."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R17-Q3 #8": {
+    "full": [
+      "Which of the following is least likely a use of equity valuation?"
+    ],
+    "options": [
+      "Issuing fairness opinions.",
+      "Projecting the value of corporate actions.",
+      "Assessing Corporate governance."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R17-Q3 #9": {
+    "full": [
+      "A valuation of a firm based on the current market price of its assets - liabilities is referred to as the firm's:"
+    ],
+    "options": [
+      "operating value.",
+      "going-concern value.",
+      "liquidation value."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R17-Q3 #11": {
+    "full": [
+      "Which of the following least accurately represents one of the primary steps of the equity valuation process described by Pinto, Henry, Robinson, and Stowe?"
+    ],
+    "options": [
+      "Selecting a valuation model.",
+      "Assessing corporate governance.",
+      "Decision making."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R17-CASE1 #2": {
+    "full": [
+      "Joe Dentice has an opportunity to buy 5% of Gold Star Oil, Inc., a closely held oil company. He wants to value the company so as to make a decision on a fair price to pay for the investment.",
+      "Which of the following models would be most suitable to value Gold Star?"
+    ],
+    "options": [
+      "Absolute valuation.",
+      "Liquidation value.",
+      "Relative valuation."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R18-Q1 #6": {
+    "full": [
+      "An analyst for a small European investment bank is interested in valuing stocks by calculating the present value of its future dividends. He has compiled the following financial data for Ski, Inc.:",
+      "Earnings per Share (EPS): Year 0 $4.00 · Year 1 $6.00 · Year 2 $9.00 · Year 3 $13.50",
+      "Note: Shareholders of Ski, Inc., require a 20% return on their investment in the high growth stage compared to 12% in the stable growth stage. The dividend payout ratio of Ski, Inc., is expected to be 40% for the next three years. After year 3, the dividend payout ratio is expected to increase to 80% and the expected earnings growth will be 2%. Using the information contained in the table, what is the value of Ski, Inc.'s, stock?"
+    ],
+    "options": [
+      "A) $39.50.",
+      "B) $43.04.",
+      "C) $71.38."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R18-Q1 #9": {
+    "full": [
+      "Suppose the equity required rate of return is 10%, the dividend just paid is $1.00 and dividends are expected to grow at an annual rate of 6% forever. What is the expected price at the end of year 2?"
+    ],
+    "options": [
+      "A) $28.09.",
+      "B) $27.07.",
+      "C) $29.78."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R18-Q1 #10": {
+    "full": [
+      "If Cantel, Inc., has current earnings of $17, dividends of $3.50, and a sustainable growth rate of 11%, what is its return on equity (ROE)?"
+    ],
+    "options": [
+      "A) 13.85%.",
+      "B) 17.64%.",
+      "C) 11.91%."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R18-Q2 #2": {
+    "full": [
+      "Given that a firm's current dividend is $2.00, the forecasted growth is 7% for the next two years and 5% thereafter, and the current value of the firm's shares is $54.50, what is the required rate of return?"
+    ],
+    "options": [
+      "A) 10%.",
+      "B) Can’t be determined.",
+      "C) 9%."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R18-Q2 #8": {
+    "full": [
+      "If an asset's beta is 0.8, the expected return on the equity market is 10%, the retention ratio is 0.7, the dividend growth rate is 5%, and the appropriate discount rate for the Gordon model is 9%, the risk-free rate must be closest to:"
+    ],
+    "options": [
+      "A) 5.0%.",
+      "B) 3.8%.",
+      "C) 2.5%."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R18-Q2 #9": {
+    "full": [
+      "Given that a firm's current dividend is $2.00, the forecasted growth is 7%, declining over three years to a stable 5% thereafter, and the current value of the firm's shares is $45, what is the required rate of return?"
+    ],
+    "options": [
+      "A) 9.8%.",
+      "B) 7.8%.",
+      "C) 10.5%."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R18-Q2 #10": {
+    "full": [
+      "The current market price per share for High-on-the-Hog, Inc. is $52.50, and an analyst is using the Gordon Growth model to determine whether this is a fair price. The company paid a dividend of $3.00 last year on earnings of $4.50 a share. If the required rate of return is 11.00% and the expected grown rate in earnings and in dividends is 5%, the current market price is most likely:"
+    ],
+    "options": [
+      "A) undervalued.",
+      "B) overvalued.",
+      "C) correctly valued."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R18-Q3 #1": {
+    "full": [
+      "Xerxes, Inc. forecasts earnings to be permanently fixed at $4.00 per share. Current market price is $35 and required return is 10%. Assuming the shares are properly priced, the present value of growth opportunities is closest to:"
+    ],
+    "options": [
+      "A) -$5.00.",
+      "B) +$5.00.",
+      "C) +$3.50."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R18-Q3 #4": {
+    "full": [
+      "Which of the following models would be most appropriate for a firm that is expected to grow at an initial rate of 10%, declining steadily to 6% over a period of five years, and to remain steady at 6% thereafter?"
+    ],
+    "options": [
+      "A) The H-model.",
+      "B) The Gordon growth model.",
+      "C) A two-stage model."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R18-Q3 #6": {
+    "full": [
+      "Which of the following groups of statistics provides enough data to calculate an implied return for a stock using the two-stage DDM?"
+    ],
+    "options": [
+      "A) P/E ratio, trailing 12-month profits, short-term PEG ratio, long-term PEG ratio, yield.",
+      "B) Short-term growth rate, long-term growth rate, stock price, trailing 12-month profits.",
+      "C) Yield, stock price, historical dividend-growth rate, historical profit-growth rate."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R18-Q3 #7": {
+    "full": [
+      "The Gordon growth model is well suited for:"
+    ],
+    "options": [
+      "A) biotech firms.",
+      "B) telecom companies.",
+      "C) utilities."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R18-Q3 #8": {
+    "full": [
+      "A firm currently has earnings of $3.14, and pays a dividend of $1.00, which is expected to grow at a rate of 10%. If the required return is 15%, what is the current value of the shares using the Gordon growth model?"
+    ],
+    "options": [
+      "A) $38.98.",
+      "B) $69.08.",
+      "C) $22.00."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R18-Q3 #9": {
+    "full": [
+      "Multi-stage growth models can become computationally intensive. For this reason they are often referred to as:"
+    ],
+    "options": [
+      "A) quadratic models.",
+      "B) R-squared models.",
+      "C) spreadsheet models."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R18-Q3 #10": {
+    "full": [
+      "A company reports January 1, 2002, retained earnings of $8,000,000, December 31, 2002, retained earnings of $10,000,000, and 2002 net income of $5,000,000. The company has 1,000,000 shares outstanding and dividends are expected to grow at a rate of 5% per year. What is the expected dividend at the end of 2003?"
+    ],
+    "options": [
+      "A) $13.65.",
+      "B) $3.15.",
+      "C) $3.00."
+    ],
+    "p": 2,
+    "a": 1
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -21240,6 +21973,163 @@ const TESTS = [
     { mod: '6.S3', what: 'Endogenous growth: no diminishing returns to knowledge capital', ok: 1 },
     { mod: '6.S1', what: 'Financial markets: channelling capital helps growth, leverage does not', ok: 0, why: 'gap' },
     { mod: '6.S1', what: 'Higher potential growth: credit spreads narrow, policy can be expansionary', ok: 1 },
+  ] },
+  { id: 'L2-R8-Q1', topic: 'fsa.1', name: 'Reading 8 quiz 1', date: '2026-09-25', mins: 9.9, qs: [
+    { mod: '8.S6', what: 'Plan amendment: net pension liability rises at once', ok: 1 },
+    { mod: '8.S3', what: 'Tax windfall under US GAAP and IFRS (least accurate)', ok: 0, why: 'flip' },
+    { mod: '8.S1', what: 'Advantages of share-based pay over cash', ok: 1 },
+    { mod: '8.S2', what: 'Compensation expense is amortised over the vesting period', ok: 1 },
+    { mod: '8.S5', what: 'Definition of the PBO', ok: 1 },
+    { mod: '8.S7', what: 'Periodic pension cost: expected return, corridor', ok: 0, why: 'gap' },
+    { mod: '8.S3', what: 'Dilutive shares from a stock grant (treasury stock method)', ok: 0, why: 'calc' },
+    { mod: '8.S3', what: 'When a stock grant gives a tax windfall', ok: 1 },
+  ] },
+  { id: 'L2-R8-Q2', topic: 'fsa.1', name: 'Reading 8 quiz 2', date: '2026-09-25', mins: 20.4, qs: [
+    { mod: '8.S7', what: 'Higher discount rate and expected return: effect on the PBO', ok: 1 },
+    { mod: '8.S1', what: 'Which compensation raises current liabilities', ok: 0, why: 'gap' },
+    { mod: '8.S3', what: 'Forecasting dilution from future grants (least appropriate)', ok: 0, why: 'flip' },
+    { mod: '8.S6', what: 'Pension cost capitalised in inventory', ok: 1 },
+    { mod: '8.S7', what: 'Lower compensation growth lowers the PBO', ok: 1 },
+    { mod: '8.S7', what: 'Raise the discount rate to lower the PBO', ok: 1 },
+    { mod: '8.S7', what: 'Plan amendment vs. change in actuarial assumption', ok: 1 },
+    { mod: '8.S6', what: 'PBO and plan asset changes hit the balance sheet at once', ok: 0, why: 'gap' },
+    { mod: '8.S7', what: 'Lower expected return: no effect on PBO, higher expense', ok: 1 },
+    { mod: '8.S5', what: 'Definition of the PBO', ok: 1 },
+    { mod: '8.S1', what: 'Stock option grant: effect on leverage', ok: 0, why: 'gap' },
+    { mod: '8.S2', what: 'Vesting date', ok: 1 },
+  ] },
+  { id: 'L2-R8-CASE1', topic: 'fsa.1', name: 'Reading 8 case 1 (Prisma)', date: '2026-09-25', mins: 12.7, qs: [
+    { mod: '8.S3', what: 'Expense for options plus shares in year 1', ok: 0, why: 'calc' },
+    { mod: '8.S3', what: 'Cash outflow from share-based pay', ok: 1 },
+    { mod: '8.S3', what: 'Change in total equity from share-based pay', ok: 1 },
+    { mod: '8.S3', what: 'Settlement price above grant price: tax windfall', ok: 1 },
+    { mod: '8.S3', what: 'Net loss: basic and diluted EPS are the same', ok: 1 },
+  ] },
+  { id: 'L2-R9-Q1', topic: 'fsa.2', name: 'Reading 9 quiz 1', date: '2026-10-02', mins: 14.5, qs: [
+    { mod: '9.S8', what: 'Real value of non-monetary items under hyperinflation', ok: 0, why: 'gap' },
+    { mod: '9.S6', what: 'Pure balance sheet ratios under the current rate method (least accurate)', ok: 0, why: 'flip' },
+    { mod: '9.S3', what: 'Where the translation gain or loss goes under each method', ok: 1 },
+    { mod: '9.S8', what: 'Hyperinflation: purchasing power and currency both fall', ok: 1 },
+    { mod: '9.S3', what: 'Common stock at the historical rate', ok: 1 },
+    { mod: '9.S6', what: 'Fixed asset turnover is a mixed ratio', ok: 1 },
+    { mod: '9.S3', what: 'Temporal: revenues and expenses at the average rate', ok: 1 },
+    { mod: '9.S3', what: 'Temporal gain or loss goes to the income statement', ok: 1 },
+    { mod: '9.S3', what: 'Current rate: all liabilities at the current rate', ok: 1 },
+    { mod: '9.S6', what: 'Ratio unaffected by the choice of method', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R9-Q2', topic: 'fsa.2', name: 'Reading 9 quiz 2', date: '2026-10-03', mins: 17.5, qs: [
+    { mod: '9.S2', what: 'No CTA on the balance sheet: temporal method only', ok: 1 },
+    { mod: '9.S9', what: 'Translated sales when the parent’s currency strengthens', ok: 0, why: 'flip' },
+    { mod: '9.S9', what: 'Exchange-rate effect on translated sales, separated from local growth', ok: 0, why: 'calc' },
+    { mod: '9.S2', what: 'When the functional currency is the parent’s (least accurate)', ok: 0, why: 'flip' },
+    { mod: '9.S2', what: 'US GAAP functional currency rules (least accurate)', ok: 0, why: 'flip' },
+    { mod: '9.S3', what: 'Method for a hyperinflationary subsidiary under US GAAP', ok: 0, why: 'gap' },
+    { mod: '9.S6', what: 'Current rate method: operating margin unchanged', ok: 1 },
+    { mod: '9.S3', what: 'Current rate gain or loss is not on the income statement', ok: 1 },
+    { mod: '9.S3', what: 'Key difference between the two methods', ok: 1 },
+    { mod: '9.S2', what: 'Situation that does not need the temporal method', ok: 0, why: 'flip' },
+  ] },
+  { id: 'L2-R9-Q3', topic: 'fsa.2', name: 'Reading 9 quiz 3', date: '2026-10-03', mins: 19.75, qs: [
+    { mod: '9.S6', what: 'Receivables turnover is the same under both methods', ok: 0, why: 'flip' },
+    { mod: '9.S6', what: 'Measure unaffected by the choice of method', ok: 0, why: 'gap' },
+    { mod: '9.S6', what: 'Current rate method, dollar depreciating: ROE falls', ok: 1 },
+    { mod: '9.S8', what: 'Hyperinflation under the current rate method', ok: 0, why: 'flip' },
+    { mod: '9.S2', what: 'Local currency vs. functional currency', ok: 1 },
+    { mod: '9.S2', what: 'Functional currency is the subsidiary’s, not the parent’s, environment', ok: 1 },
+    { mod: '9.S1', what: 'Transaction gain on a foreign-currency receivable', ok: 1 },
+    { mod: '9.S3', what: 'Current rate: revenues at average, receivables at current', ok: 1 },
+    { mod: '9.S3', what: 'Inventory is not a monetary item', ok: 1 },
+    { mod: '9.S6', what: 'Current rate method: debt-to-equity unchanged', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R9-Q4', topic: 'fsa.2', name: 'Reading 9 quiz 4', date: '2026-10-04', mins: 28.5, qs: [
+    { mod: '9.S3', what: 'Temporal: non-monetary assets at historical rates', ok: 1 },
+    { mod: '9.S8', what: 'US GAAP hyperinflation: parent’s currency is functional', ok: 1 },
+    { mod: '9.S6', what: 'Local currency appreciating: depreciation and fixed assets under each method', ok: 0, why: 'flip' },
+    { mod: '9.S3', what: 'Current rate: revenues and expenses at the average rate', ok: 1 },
+    { mod: '9.S3', what: 'Temporal: monetary assets at the current rate', ok: 0, why: 'gap' },
+    { mod: '9.S2', what: 'Functional currency is translated, not remeasured, into the reporting currency', ok: 1 },
+    { mod: '9.S3', what: 'Change in retained earnings under the current rate method', ok: 1 },
+    { mod: '9.S6', what: 'Temporal method, dollar appreciating: fixed asset turnover falls', ok: 1 },
+    { mod: '9.S8', what: 'Why US GAAP prefers temporal under hyperinflation', ok: 1 },
+    { mod: '9.S4', what: 'What foreign exchange risk covers', ok: 1 },
+  ] },
+  { id: 'L2-R17-Q1', topic: 'equity.0', name: 'Reading 17 quiz 1', date: '2026-07-30', mins: 10.3, qs: [
+    { mod: '17.S2', what: 'Why use more than one model', ok: 1 },
+    { mod: '17.S1', what: 'Going-concern value', ok: 1 },
+    { mod: '17.S2', what: 'Valuing against other firms’ market values: relative valuation', ok: 0, why: 'gap' },
+    { mod: '17.S2', what: 'What the footnotes contain', ok: 1 },
+    { mod: '17.S2', what: 'Model-choice questions (least likely)', ok: 1 },
+    { mod: '17.S2', what: 'Where accounting practices are disclosed', ok: 1 },
+    { mod: '17.S1', what: 'Going-concern vs. liquidation value', ok: 1 },
+    { mod: '17.S1', what: 'PV of expected future cash flows', ok: 1 },
+    { mod: '17.S2', what: 'Quality of earnings analysis', ok: 1 },
+    { mod: '17.S2', what: 'First step of the valuation process', ok: 1 },
+  ] },
+  { id: 'L2-R17-Q2', topic: 'equity.0', name: 'Reading 17 quiz 2', date: '2026-07-30', mins: 15.3, qs: [
+    { mod: '17.S2', what: 'Peer P/E, P/S ratios: relative valuation', ok: 1 },
+    { mod: '17.S2', what: 'Quality of earnings warning signs', ok: 1 },
+    { mod: '17.S1', what: 'Why analysts’ values differ: their expectations', ok: 1 },
+    { mod: '17.S1', what: 'Overestimated growth gives too high a value', ok: 1 },
+    { mod: '17.S1', what: 'Valuation from expected cash flows: intrinsic value', ok: 1 },
+    { mod: '17.S2', what: 'Controlling interest: cash flow model', ok: 0, why: 'gap' },
+    { mod: '17.S2', what: 'Detecting investors’ expectations: reading the market', ok: 0, why: 'gap' },
+    { mod: '17.S2', what: 'Sum-of-the-parts value is not liquidation value (least accurate)', ok: 0, why: 'flip' },
+    { mod: '17.S2', what: 'Ratios for peer benchmarks', ok: 1 },
+    { mod: '17.S2', what: 'Fairness opinion', ok: 1 },
+  ] },
+  { id: 'L2-R17-Q3', topic: 'equity.0', name: 'Reading 17 quiz 3', date: '2026-08-04', mins: 8.4, qs: [
+    { mod: '17.S2', what: 'Absolute valuation', ok: 1 },
+    { mod: '17.S2', what: 'Gain on a plant sale in operating earnings', ok: 1 },
+    { mod: '17.S2', what: 'Footnotes: accounting practices', ok: 1 },
+    { mod: '17.S2', what: 'Not a use of valuation: estimating inflation', ok: 1 },
+    { mod: '17.S1', what: 'Liquidation value defined', ok: 1 },
+    { mod: '17.S1', what: 'Equity models use expected cash flows', ok: 1 },
+    { mod: '17.S2', what: 'Sensitivity to changes in expectations', ok: 1 },
+    { mod: '17.S2', what: 'Least likely a use of valuation: corporate governance', ok: 0, why: 'flip' },
+    { mod: '17.S1', what: 'Market value of assets minus liabilities: liquidation value', ok: 0, why: 'gap' },
+    { mod: '17.S1', what: 'Public equities: intrinsic value', ok: 1 },
+    { mod: '17.S2', what: 'Not one of the five steps: corporate governance', ok: 0, why: 'flip' },
+  ] },
+  { id: 'L2-R17-CASE1', topic: 'equity.0', name: 'Reading 17 case 1 (Gold Star Oil)', date: '2026-08-05', mins: 3.0, qs: [
+    { mod: '17.S2', what: 'Top-down forecast: economy, industry, company', ok: 1 },
+    { mod: '17.S2', what: 'Closely held company: absolute valuation', ok: 0, why: 'gap' },
+    { mod: '17.S2', what: 'Marketability, liquidity and minority discounts', ok: 1 },
+  ] },
+  { id: 'L2-R18-Q1', topic: 'equity.1', name: 'Reading 18 quiz 1', date: '2026-08-08', mins: 21.8, qs: [
+    { mod: '18.S4', what: 'Three-stage DDM value too high: stable growth too high', ok: 1 },
+    { mod: '18.S1', what: 'Multi-period DDM with CAPM and a sale price', ok: 1 },
+    { mod: '18.S4', what: '8% then 6%: two-stage model', ok: 1 },
+    { mod: '18.S2', what: 'Solve the DDM for the required return', ok: 1 },
+    { mod: '18.S3', what: 'PVGO = price − E/r', ok: 1 },
+    { mod: '18.S4', what: 'Multistage DDM with different required returns per stage', ok: 0, why: 'calc' },
+    { mod: '18.S5', what: 'Sustainable growth rate defined', ok: 1 },
+    { mod: '18.S4', what: 'Initial growth stage pays no dividends', ok: 1 },
+    { mod: '18.S2', what: 'Gordon price at the end of year 2 uses D₃', ok: 0, why: 'calc' },
+    { mod: '18.S5', what: 'ROE from g and the retention ratio', ok: 0, why: 'calc' },
+  ] },
+  { id: 'L2-R18-Q2', topic: 'equity.1', name: 'Reading 18 quiz 2', date: '2026-08-08', mins: 45.8, qs: [
+    { mod: '18.S5', what: 'Sustainable growth = b × ROE', ok: 1 },
+    { mod: '18.S4', what: 'Implied return from a two-stage DDM (iterate)', ok: 0, why: 'gap' },
+    { mod: '18.S5', what: 'Sustainable growth = b × ROE', ok: 1 },
+    { mod: '18.S4', what: 'Two-stage DDM value', ok: 1 },
+    { mod: '18.S4', what: 'Two-stage DDM value', ok: 1 },
+    { mod: '18.S5', what: 'Back out earnings from SGR', ok: 1 },
+    { mod: '18.S2', what: 'Higher required return lowers value', ok: 1 },
+    { mod: '18.S2', what: 'Back out the risk-free rate from CAPM', ok: 0, why: 'calc' },
+    { mod: '18.S4', what: 'Implied return from the H-model', ok: 0, why: 'gap' },
+    { mod: '18.S2', what: 'Gordon value vs. price: fairly valued', ok: 0, why: 'calc' },
+  ] },
+  { id: 'L2-R18-Q3', topic: 'equity.1', name: 'Reading 18 quiz 3', date: '2026-08-09', mins: 25.2, qs: [
+    { mod: '18.S3', what: 'PVGO can be negative', ok: 0, why: 'flip' },
+    { mod: '18.S4', what: 'Second growth stage: transition', ok: 1 },
+    { mod: '18.S2', what: 'CAPM required return', ok: 1 },
+    { mod: '18.S4', what: 'Growth declining steadily: H-model', ok: 0, why: 'gap' },
+    { mod: '18.S2', what: 'Equity risk premium from the Gordon model', ok: 1 },
+    { mod: '18.S4', what: 'Data needed for an implied return from a two-stage DDM', ok: 0, why: 'gap' },
+    { mod: '18.S3', what: 'Gordon model suits utilities', ok: 0, why: 'gap' },
+    { mod: '18.S2', what: 'Gordon value from the dividend, not earnings', ok: 0, why: 'calc' },
+    { mod: '18.S4', what: 'Multistage models are spreadsheet models', ok: 0, why: 'gap' },
+    { mod: '18.S2', what: 'Next year’s dividend from retained earnings', ok: 0, why: 'calc' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
