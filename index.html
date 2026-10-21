@@ -913,8 +913,8 @@ window.addEventListener('error', function (e) {
   .tl-target { stroke: var(--ink-faint); stroke-width: 1.5; stroke-dasharray: 4 4; }
   .tl-axis { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); }
   .tl-axis-strong { fill: var(--ink); font-weight: 700; font-size: 11px; }
-  .tl-line-all { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: 0.6; }
-  .tl-line-subj { fill: none; stroke-width: 1.25; stroke-linejoin: round; stroke-linecap: round; opacity: 0.55; }
+  .tl-line-all { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: 0.45; }
+  .tl-line-subj { fill: none; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; opacity: 0.5; }
   .tl-legend i, .tl-trend line.tl-line-subj { opacity: 1; }
   .tl-axis-ink { fill: var(--ink-soft); }
   .tl-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); margin: 4px 0 2px; }
@@ -922,7 +922,8 @@ window.addEventListener('error', function (e) {
   .tl-legend i { display: inline-block; width: 18px; height: 0; }
   .tl-legend i.tl-legend-all { border-top: 2.5px solid var(--ink); }
   .tl-legend b { color: var(--ink); }
-  .tl-pt-dot { fill: var(--slate); stroke: var(--panel); stroke-width: 2; }
+  .tl-pt-dot { fill: var(--slate); stroke: none; opacity: 0.7; }
+  .tl-pt:hover .tl-pt-dot { opacity: 1; }
   .tl-pt-hit { fill: transparent; cursor: default; }
   .tl-pt:hover .tl-pt-dot { fill: var(--ink); }
   .tl-sub { border-bottom: 1px solid var(--line); }
