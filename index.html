@@ -18963,6 +18963,69 @@ const TUITION_MISSES = {
       ],
     },
   ],
+  'quant.2': [
+    {
+      module: '3.S1',
+      title: 'Supervised learning means a labelled target: continuous Y → regression, categorical Y → classification',
+      at: ["s1-types", "s1-choose"],
+      questions: [
+        { ref: 'L2-R3-Q1 #4', ask: 'Most appropriate supervised model when (1) Y is continuous and (2) Y is categorical:', picked: 'Decision trees · Regression', answer: 'Regression · Classification' },
+        { ref: 'L2-R3-Q1 #10', ask: 'Which statement about supervised learning is MOST accurate?', picked: 'It requires human intervention in the ML process', answer: 'Typical tasks include classification and prediction' },
+      ],
+      trap: '#4: “decision trees” is a real supervised algorithm (CART), so it looked like a valid answer for a continuous Y. But the question asks for the type of task, not an algorithm, and a categorical Y is never “regression”. #10: “supervised” sounds like a human watching over it. It isn’t: the supervision comes from the labelled training data.',
+      fix: 'Supervised = the training data is labelled (the target Y is known). Its two tasks are regression (prediction) when Y is continuous and classification when Y is categorical or ordinal. Unsupervised = no target, so the tasks are clustering and dimension reduction. No type of ML needs a human in the loop once it is trained.',
+      tackle: [
+        'Ask first: is there a target? Yes → supervised. No → unsupervised.',
+        'Then ask what kind of target it is: a number → regression; a category or rank → classification.',
+        'Anything about “human intervention” is a distractor.',
+      ],
+    },
+    {
+      module: '3.S1',
+      title: 'Generalization = a model keeps its explanatory power on new, out-of-sample data',
+      at: ["Overfitting"],
+      questions: [
+        { ref: 'L2-R3-Q1 #7', ask: 'The degree to which an ML model keeps its explanatory power when predicting out of sample is called:', picked: 'Predominance', answer: 'Generalization' },
+      ],
+      trap: 'Hegemony and predominance are not ML terms; they are filler. Picking one means the word “generalization” wasn’t yet linked to overfitting in your head.',
+      fix: 'A model generalizes when it works on data it wasn’t trained on. Overfitting is the opposite: a high in-sample fit that learns the noise and fails out of sample (high variance error). Complexity reduction and cross validation are how you get a model that generalizes.',
+      tackle: [
+        '“Out of sample” in the question → think generalization or overfitting.',
+        'Rule out words that never appear in your notes.',
+      ],
+    },
+    {
+      module: '3.S2',
+      title: 'One line per algorithm: LASSO penalises the sum of |coefficients|; SVM is the widest-margin hyperplane classifier',
+      at: ["1. Penalized Regression", "2. Support Vector Machine (SVM)"],
+      questions: [
+        { ref: 'L2-R3-Q1 #3', ask: 'A penalized regression where the penalty is the sum of the absolute values of the coefficients is:', picked: 'Support vector machine (SVM)', answer: 'LASSO' },
+        { ref: 'L2-R3-Q1 #8', ask: 'A linear classifier that seeks the optimal hyperplane, typically used for classification, is:', picked: 'CART', answer: 'Support vector machine (SVM)' },
+      ],
+      trap: 'You put SVM where LASSO belonged and CART where SVM belonged. Without a one-line definition for each, the names start to blur together.',
+      fix: 'LASSO = least absolute shrinkage and selection operator: minimise SSE + λ × Σ|b|, so weak features are dropped. SVM = a linear classifier that draws the hyperplane with the widest margin between two classes. KNN = classify by the k nearest observations. CART = a tree of yes/no splits on cutoffs, for classification or regression.',
+      tackle: [
+        'Look for the giveaway word: “penalty” or “absolute values” → LASSO; “hyperplane” or “margin” → SVM; “nearest” → KNN; “tree” or “split” → CART.',
+        'Say the expansion of each acronym out loud: it usually describes the method.',
+      ],
+    },
+    {
+      module: '3.S3',
+      title: 'Too many features → dimension reduction, and PCA is how: correlated features become a few uncorrelated components',
+      at: ["1. Principal Component Analysis (PCA)", "3.S1::s1-choose"],
+      questions: [
+        { ref: 'L2-R3-Q1 #2', ask: 'The unsupervised algorithm that reduces highly correlated features into fewer uncorrelated composite variables is:', picked: 'k-means clustering', answer: 'Principal components analysis' },
+        { ref: 'L2-R3-Q1 #6', ask: 'Appropriate remedy for an excessive number of features in a data set?', picked: 'Big data analysis', answer: 'Dimension reduction' },
+      ],
+      trap: '#2: k-means is also unsupervised, so it passed the first filter. But clustering groups the observations (rows), while PCA shrinks the features (columns). #6: “big data” describes the problem (many features), it isn’t a remedy for it.',
+      fix: 'Unsupervised algorithms do one of two jobs. Fewer features → dimension reduction, done by PCA, which turns correlated features into a few uncorrelated principal components (eigenvectors of the covariance matrix). Groups of observations → clustering (k-means with a preset k, or hierarchical).',
+      tackle: [
+        'Ask whether the question is about features (columns) or observations (rows). Features → PCA; observations → clustering.',
+        '“Composite”, “uncorrelated” and “covariance matrix” all point to PCA.',
+      ],
+      spot: 'This quiz took 6.8 minutes for 10 questions (about 40 seconds each), so several answers look like guesses. These are definition questions: learn the one-line definitions and they become quick, sure points.',
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -19408,14 +19471,14 @@ const MINDMAP = {
           from: ['s1-terms'] },
         { id: 'types', t: 'Types of learning', tag: 'Labelled target → supervised; none → unsupervised',
           info: [{ columns: ['Type', 'Data', 'Typical tasks'], rows: [['Supervised', 'Labelled', 'Regression (continuous target), classification (categorical)'], ['Unsupervised', 'Unlabelled', 'Clustering, dimension reduction'], ['Deep learning', 'Neural networks', 'Image recognition, natural language processing'], ['Reinforcement', 'No labels', 'Learns from its own errors to maximise a reward']] }],
-          from: ['Types of Learning'], c: [
+          from: ['Types of Learning'], wk: ['Supervised learning means'], c: [
           { id: 'choose', t: 'Choosing an algorithm', tag: 'Is there a target? Continuous or categorical?',
             info: [{ columns: ['Situation', 'Algorithms'], rows: [['Supervised, continuous target', 'Linear and penalized regression, CART, random forest, neural networks'], ['Supervised, categorical target', 'Logit, SVM, KNN, CART, random forest, neural networks'], ['Unsupervised, too many features', 'PCA'], ['Unsupervised, grouping', 'k-means or hierarchical clustering'], ['Complex nonlinear data', 'Neural networks, deep and reinforcement learning']] }],
-            from: ['s1-choose'], links: [['cmpsup', 'The supervised algorithms compared'], ['pca', 'Too many features'], ['clus', 'Grouping'], ['nn', 'Complex data']] },
+            from: ['s1-choose'], wk: ['Supervised learning means', 'Too many features'], links: [['cmpsup', 'The supervised algorithms compared'], ['pca', 'Too many features'], ['clus', 'Grouping'], ['nn', 'Complex data']] },
         ] },
         { id: 'overfit', t: 'Overfitting', tag: 'Noise learnt as a pattern: great in-sample, poor out-of-sample',
           info: ['Comes from too many features. In-sample R² is high, but the model doesn’t *generalize* to new data.', 'Three samples: *training* (build), *validation* (tune), *test* (out-of-sample check).'],
-          from: ['Overfitting'], c: [
+          from: ['Overfitting'], wk: ['Generalization ='], c: [
           { id: 'errs', t: 'Bias, variance and base error', tag: 'Underfit → bias; overfit → variance',
             info: [{ columns: ['Error', 'Shows', 'Cause'], rows: [['Bias', 'In-sample', 'Underfit, too simple (linear models)'], ['Variance', 'Out-of-sample', 'Overfit (nonlinear models)'], ['Base', 'Both', 'Random noise']] },
               'Variance error rises with complexity, bias error falls; the best complexity minimises the total.', 'Learning curves: high bias → in- and out-of-sample accuracy meet far below target; high variance → only in-sample accuracy gets there.'],
@@ -19428,10 +19491,10 @@ const MINDMAP = {
       { id: 'b2', mod: '3.S2', tone: 'violet', t: 'Supervised algorithms', tag: 'Labelled data: predict or classify', c: [
         { id: 'pen', t: 'Penalized regression (LASSO)', tag: 'Minimise SSE + λ Σ|b|',
           info: ['The penalty rises with the number of features, so weak ones are dropped: a *parsimonious* model.', 'λ is the hyperparameter; a larger λ drops more features.', '*Regularization* pushes weak coefficients toward zero; it works for nonlinear models too.'],
-          from: ['1. Penalized Regression'] },
+          from: ['1. Penalized Regression'], wk: ['One line per algorithm'] },
         { id: 'svm', t: 'Support vector machine', tag: 'The widest boundary between two classes',
           info: ['A linear classifier: an n-dimensional hyperplane splits two classes, as far as possible from the nearest points (the *support vectors*).', '*Soft margin classification* trades a wider margin against some misclassification.', 'Uses: default vs. no default, short vs. don’t, positive vs. negative news.'],
-          from: ['2. Support Vector Machine (SVM)'] },
+          from: ['2. Support Vector Machine (SVM)'], wk: ['One line per algorithm'] },
         { id: 'knn', t: 'K-nearest neighbour', tag: 'Classify by the k closest observations',
           info: ['k is the hyperparameter: too small → high error, too large → diluted result, even k → ties.', 'Nonparametric, but needs a sensible *distance metric*; irrelevant or correlated features skew it.', 'Uses: bankruptcy, bond rating classes, custom indices.'],
           from: ['3. K-Nearest Neighbor (KNN)'] },
@@ -19448,7 +19511,7 @@ const MINDMAP = {
       { id: 'b3', mod: '3.S3', tone: 'amber', t: 'Unsupervised algorithms and neural networks', tag: 'Shrink or group the data; model complex patterns', c: [
         { id: 'pca', t: 'Principal component analysis', tag: 'Many correlated features → a few uncorrelated components',
           info: ['Components (*eigenvectors*) are linear combinations of the features; each *eigenvalue* is the share of variance it explains, the first the largest.', 'A *scree plot* shows each one’s share; keep the fewest that explain 85%–95%.', 'Hard to label: a black box.'],
-          from: ['1. Principal Component Analysis (PCA)'] },
+          from: ['1. Principal Component Analysis (PCA)'], wk: ['Too many features'] },
         { id: 'clus', t: 'Clustering', tag: 'Group by similarity, often Euclidean distance',
           info: ['Groups observations by similar attributes (*cohesion*), e.g. stocks by past performance instead of sector.', 'Uses: diversification across clusters, and spotting concentration risk.'],
           from: ['2. Clustering'], c: [
@@ -22088,6 +22151,91 @@ const TUITION_Q = {
     ],
     "p": 2,
     "a": 1
+  },
+  "L2-R3-Q1 #2": {
+    "full": [
+      "The unsupervised machine learning algorithm that reduces highly correlated features into fewer uncorrelated composite variables by transforming the feature covariance matrix best describes:"
+    ],
+    "options": [
+      "principal components analysis",
+      "k-means clustering",
+      "hierarchical clustering"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R3-Q1 #3": {
+    "full": [
+      "Considering the various supervised machine learning algorithms, a penalized regression where the penalty term is the sum of the absolute values of the regression coefficients best describes:"
+    ],
+    "options": [
+      "support vector machine (SVM).",
+      "k-nearest neighbor (KNN).",
+      "least absolute shrinkage and selection operator (LASSO)"
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R3-Q1 #4": {
+    "full": [
+      "Which supervised learning model is most appropriate (1) when the Y-variable is continuous and (2) when the Y-variable is categorical",
+      "Continuous Y-variable · Categorical Y-variable"
+    ],
+    "options": [
+      "Regression · Classification",
+      "Decision trees · Regression",
+      "Classification · Neural Networks"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R3-Q1 #6": {
+    "full": [
+      "What is the appropriate remedy in the presence of excessive number of features in a data set?"
+    ],
+    "options": [
+      "Dimension reduction.",
+      "Unsupervised learning.",
+      "Big data analysis."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R3-Q1 #7": {
+    "full": [
+      "The degree to which a machine learning model retains its explanatory power when predicting out-of-sample is most commonly described as:"
+    ],
+    "options": [
+      "hegemony.",
+      "generalization.",
+      "predominance."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R3-Q1 #8": {
+    "full": [
+      "Considering the various supervised machine learning algorithms, a linear classifier that seeks the optimal hyperplane and is typically used for classification, best describes:"
+    ],
+    "options": [
+      "support vector machine (SVM).",
+      "k-nearest neighbor (KNN).",
+      "classification and regression tree (CART)"
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R3-Q1 #10": {
+    "full": [
+      "Which of the following statements about supervised learning is most accurate?"
+    ],
+    "options": [
+      "Supervised learning requires human intervention in machine learning process.",
+      "Typical data analytics tasks for supervised learning include classification and prediction.",
+      "Supervised learning does not differentiate between tag and features."
+    ],
+    "p": 0,
+    "a": 1
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -22381,6 +22529,18 @@ const TESTS = [
     { mod: '1.S6', what: 'Insignificant t-tests, significant F-test: multicollinearity', ok: 0, why: 'gap' },
     { mod: '1.S4', what: 'Least likely misspecification: transforming a variable', ok: 0, why: 'flip' },
     { mod: '1.S6', what: 'Correlated independent variables: multicollinearity', ok: 1 },
+  ] },
+  { id: 'L2-R3-Q1', topic: 'quant.2', name: 'Reading 3 quiz 1', date: '2026-10-22', mins: 6.8, qs: [
+    { mod: '3.S1', what: 'Labelled inputs and outputs: supervised learning', ok: 1 },
+    { mod: '3.S3', what: 'Correlated features into fewer uncorrelated composites: PCA', ok: 0, why: 'gap' },
+    { mod: '3.S2', what: 'Penalty = sum of |coefficients|: LASSO', ok: 0, why: 'gap' },
+    { mod: '3.S1', what: 'Continuous Y → regression; categorical Y → classification', ok: 0, why: 'gap' },
+    { mod: '3.S1', what: 'Unsupervised learning has no labelled data', ok: 1 },
+    { mod: '3.S3', what: 'Too many features: dimension reduction', ok: 0, why: 'gap' },
+    { mod: '3.S1', what: 'Keeping explanatory power out of sample: generalization', ok: 0, why: 'gap' },
+    { mod: '3.S2', what: 'Linear classifier with the optimal hyperplane: SVM', ok: 0, why: 'gap' },
+    { mod: '3.S1', what: 'Overfitting does not raise out-of-sample accuracy', ok: 1 },
+    { mod: '3.S1', what: 'Supervised tasks: classification and prediction', ok: 0, why: 'gap' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
