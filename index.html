@@ -2031,6 +2031,11 @@ const CONTENT = {
               'EPS in Q3 = 1.25 + 0.10 = *1.35*',
               'EPS in Q4 = *1.25* (the intercept, since all three dummies are 0)',
             ] },
+          { k: 'flag', new: '2026-10-22', title: 'How many dummies: n categories → n − 1', text: 'Missing from my page:', items: [
+              'Use *one fewer dummy than categories*. The category left out is the *reference class*, and the intercept is its value (Q4 above).',
+              '4 quarters → *3* dummies. 12 months → *11*. 5 rating grades → 4.',
+              'With n dummies plus an intercept, any one dummy is an exact linear combination of the others (they always sum to 1). That breaks the “no exact linear relation among the Xs” assumption, so the model can’t be estimated.',
+            ] },
           { k: 'formula', title: 'Intercept dummy', lines: [
             'Y = b₀ + d₀D + b₁X + ε',
             'If D = 0: Y = b₀ + b₁X + ε',
@@ -17977,7 +17982,7 @@ const TUITION_MISSES = {
       title: 'R² is not the correlation: r = √R² in simple regression',
       at: ['Correlation from R² (simple regression only)', 'Variance and Analysis of Variance (ANOVA)'],
       questions: [
-        { ref: 'L2-R1-Q1 #6', ask: 'Mid-cap returns regressed on S&P 500 returns, coefficient of determination 0.599. Correlation coefficient?', picked: '0.599', answer: '0.774 (√0.599)' },
+        { ref: 'L2-R1-P1 #6', ask: 'Mid-cap returns regressed on S&P 500 returns, coefficient of determination 0.599. Correlation coefficient?', picked: '0.599', answer: '0.774 (√0.599)' },
       ],
       trap: 'The table showed one number labelled “coefficient of determination” and the question asked for the “correlation coefficient”. The names are close, so the number printed in the table looked like the answer. It is R², not r. You guessed this one, and the R² question before it (#5) was a guess too, so the whole R² / r block is shaky.',
       fix: 'R² = SSR ÷ SST = the share of the variation in Y that X explains. In simple regression R² = r², so r = √R², with the sign of the slope: √0.599 = 0.774. #5 the right way: R² = 556 ÷ 1,235 = 0.45. The trap option 0.55 is SSE ÷ SST = 679 ÷ 1,235, the share left unexplained.',
@@ -17993,7 +17998,7 @@ const TUITION_MISSES = {
       title: 'Least squares minimises Σ(actual Y − predicted Y)², the vertical errors',
       at: ['Sum of Squared Errors (SSE)'],
       questions: [
-        { ref: 'L2-R1-Q1 #9', ask: 'In a simple regression, the least squares criterion minimises the sum of squared differences between:', picked: 'The intercept term and the residual term', answer: 'The predicted and actual values of the dependent variable' },
+        { ref: 'L2-R1-P1 #9', ask: 'In a simple regression, the least squares criterion minimises the sum of squared differences between:', picked: 'The intercept term and the residual term', answer: 'The predicted and actual values of the dependent variable' },
       ],
       trap: '“Residual” is in the right family of words, so the option that mentioned it looked technical and plausible. But OLS compares each actual Y with the line’s prediction of it. The intercept is one of the things OLS chooses, not something it measures errors against.',
       fix: 'Error (residual) = Yᵢ − Ŷᵢ. OLS picks the b̂₀ and b̂₁ that make SSE = Σ(Yᵢ − Ŷᵢ)² as small as possible: the squared vertical distances from each point to the line.',
@@ -18002,6 +18007,84 @@ const TUITION_MISSES = {
         'Check that both sides of the difference are values of Y. Coefficients and intercepts are outputs, never part of an error.',
       ],
       spot: 'A definitions question that is easy to get right and cheap to lose. Read every option to the end before picking.',
+    },
+    {
+      module: '1.S4',
+      title: 'Transforming a variable is the cure for misspecification, not a cause',
+      at: ['Misspecification'],
+      questions: [
+        { ref: 'L2-R1-Q1 #9', ask: 'Which is least likely to result in misspecification of a regression model?', picked: 'Inappropriate variable form', answer: 'Transforming a variable' },
+      ],
+      trap: 'A “least likely” question with two items from the misspecification list and one fix. “Inappropriate variable form” is on the list, so picking it means answering “most likely”. “Transforming a variable” sounds like tampering with the data, but it is how you repair a wrong form or wrong scaling.',
+      fix: 'Schweser’s four misspecifications: (1) an omitted variable, (2) a variable that should be transformed (wrong form), (3) inappropriate scaling, (4) incorrectly pooled data. Transforming a variable (logs, ratios, proportions) fixes 2 and 3.',
+      tackle: [
+        'Circle “least likely” and write a small ✗ above the stem before reading the options.',
+        'Tick each option that is on the list of four. The one left unticked is the answer.',
+        'If an option is a fix (transform, split the period, add the variable), it is never a misspecification.',
+      ],
+      spot: 'You also got the pooling question right (#1), so the list itself is known. This is the same “least likely” slip as #7 in this quiz and as in R6, R9 and the R5 flips: you pick a true item from the list.',
+    },
+    {
+      module: '1.S6',
+      title: 'Breusch–Pagan tests heteroskedasticity, Breusch–Godfrey tests serial correlation',
+      at: ['Detecting Serial Correlation', 's5-bp', 'Heteroskedasticity vs. Serial Correlation vs. Multicollinearity'],
+      questions: [
+        { ref: 'L2-R1-Q1 #7', ask: 'Which is least likely a method of detecting serial correlation?', picked: 'The Breusch–Godfrey test', answer: 'The Breusch–Pagan test' },
+      ],
+      trap: 'Two tests with the same first name, in a “least likely” question. Breusch–Godfrey IS the serial-correlation test, so picking it answered “most likely”. The one that doesn’t belong is Breusch–Pagan, the heteroskedasticity test.',
+      fix: 'Breusch–PAGAN → heteroskedasticity: regress squared residuals on the Xs, BP = n × R², χ² with k df. Breusch–GODFREY → serial correlation: regress residuals on the Xs plus lagged residuals. A plot of residuals over time is the informal check for serial correlation.',
+      tackle: [
+        'Hook: Pagan = sPread (the variance spreads out); Godfrey = Gaps in time (one error leads to the next).',
+        'In a “least likely” question, mark each option ✓ (it does the job) or ✗. Pick the ✗.',
+      ],
+      spot: 'Expect the pair in both directions: “which test for heteroskedasticity?” (BP) and “which test for serial correlation?” (BG). Durbin–Watson in R2 is the other serial-correlation test, and it is invalid in AR models.',
+    },
+    {
+      module: '1.S6',
+      title: 'Insignificant t-tests with a significant F-test: multicollinearity',
+      at: ['Detecting Multicollinearity'],
+      questions: [
+        { ref: 'L2-R1-Q1 #8', ask: 'P/S, P/CF and P/B all have high p-values, but the F-test p-value is very small. Which violation?', picked: 'Conditional heteroskedasticity', answer: 'Multicollinearity' },
+      ],
+      trap: 'Conditional heteroskedasticity also distorts t-tests, so it sounded plausible. But it doesn’t make every slope look insignificant while the group is clearly significant. That exact pattern is the classic sign of multicollinearity, and three price multiples (P/S, P/CF, P/B) all move together.',
+      fix: 'Multicollinearity: the Xs share most of their variation, so the regression can’t tell which one deserves the credit. The standard errors inflate, every t-stat shrinks and the p-values rise, yet together the Xs still explain Y well (F significant, R² high). Confirm with VIF: above 5, investigate; above 10, serious. Fix it by dropping one of the correlated Xs.',
+      tackle: [
+        'Read the story: “each one is insignificant but together they matter” = multicollinearity, every time.',
+        'Look at the Xs themselves. Several ratios built on price, or several interest rates, are a giveaway.',
+        'Heteroskedasticity is signalled by a Breusch–Pagan result or a fanning residual plot, not by a t/F mismatch.',
+      ],
+      spot: 'You answered the definition (#10) and the VIF reading (#6) correctly. It’s only the symptom you need to learn. Use the 1.S6 comparison table: F significant with high R² = multicollinearity; F unreliable = heteroskedasticity or serial correlation.',
+    },
+    {
+      module: '1.S8',
+      title: 'Probability of a yes/no event (default, bankruptcy): logistic regression',
+      at: ['Logistic Regression Model'],
+      questions: [
+        { ref: 'L2-R1-Q1 #3', ask: 'A high-yield analyst wants an equation from financial ratios to estimate the probability that a company defaults. Technique?', picked: 'Multiple linear regression adjusting for heteroskedasticity', answer: 'Logistic regression model' },
+      ],
+      trap: 'The inputs are ordinary financial ratios, so a plain multiple regression felt natural, and “adjusting for heteroskedasticity” made it sound careful. But the thing being predicted is a yes/no outcome (default = 1, no default = 0). A linear model can predict probabilities below 0 or above 1. “Dummy variable regression” is the other trap: dummies are for qualitative INDEPENDENT variables.',
+      fix: 'Qualitative DEPENDENT variable (default / no default, divest / not) → logit. It models the log odds ln[P ÷ (1 − P)], is estimated by maximum likelihood, and its output is a probability between 0 and 1. Qualitative INDEPENDENT variable (month, quarter, rating) → dummy variables in an ordinary regression.',
+      tackle: [
+        'Ask first: is Y a category or a number? “Probability of …”, “will it …?” → Y is a category → logit.',
+        'Ask second: are the categories on the X side? Then use dummies.',
+        'A count or amount (how many shares, how much revenue) is a number, so it is not a qualitative dependent variable. You got this right in #5.',
+      ],
+      spot: 'You answered #5 (shares acquired is not qualitative) correctly but guessed this one. That’s the same idea seen from the other side: default probability is the textbook logit example in your notes.',
+    },
+    {
+      module: '1.S8',
+      title: 'Dummy variables: n categories → n − 1 dummies',
+      at: ['How many dummies: n categories → n − 1', 's8-eps'],
+      questions: [
+        { ref: 'L2-R1-Q1 #4', ask: 'Revenue growth may depend on the month. Using a 12-month calendar, how many dummy variables?', picked: '12', answer: '11' },
+      ],
+      trap: '12 months felt like 12 dummies. But the intercept already stands for one month (the reference class), so a twelfth dummy would duplicate it. The dummies would always sum to 1, an exact linear relation (perfect multicollinearity).',
+      fix: 'Number of dummies = number of categories − 1. 12 months → 11; 4 quarters → 3 (your EPS example: Q1–Q3 dummies, and Q4 is the intercept, 1.25).',
+      tackle: [
+        'Count the categories, subtract one, and say which category is the reference.',
+        'If an option equals the number of categories, it is the trap. If it is one more (13), it is a distractor.',
+      ],
+      spot: 'Your EPS example already used 3 dummies for 4 quarters, so the pattern is in your notes. The rule just wasn’t written down. It is now, as a flag card under that example.',
     },
   ],
   'fsa.0': [
@@ -19189,7 +19272,7 @@ const MINDMAP = {
           { id: 'missp', t: 'Types of misspecification', tag: 'Omitted · not transformed · badly scaled · wrongly pooled',
             info: [{ columns: ['Type', 'Example or effect'], rows: [['Omitted variable', 'Correlated with the other Xs → every coefficient biased and inconsistent. Uncorrelated → only the intercept is biased'], ['Variable should be transformed', 'Market cap → ln(market cap)'], ['Inappropriate scaling', 'Number of free-float shares instead of a proportion; fix with common-size data'], ['Incorrectly pooled data', 'One regression across a break (before and after 2020) instead of two']] },
               'Your page adds: measuring a qualitative variable (management quality) with error.', 'Effects: biased, inconsistent coefficients and unreliable tests.'],
-            from: ['Misspecification'], links: [['logs', 'Logs fix the second type'], ['multi', 'Dropping a collinear X is not an omitted-variable error']] },
+            from: ['Misspecification'], wk: ['Transforming a variable is the cure'], links: [['logs', 'Logs fix the second type'], ['multi', 'Dropping a collinear X is not an omitted-variable error']] },
         ] },
         { id: 'viol', mod: '1.S5', t: 'Violations: why the tests go wrong', tag: 'Error assumption → standard error → t and F → wrong conclusion',
           info: ['Coefficient standard errors are built from the SEE, so a broken error assumption distorts every t- and F-statistic.',
@@ -19201,10 +19284,10 @@ const MINDMAP = {
             from: ['1. Heteroskedasticity', 'Effect of Heteroskedasticity on Regression Analysis', 'Detecting Heteroskedasticity', 'Correcting Heteroskedasticity'] },
           { id: 'serial', mod: '1.S6', t: 'Serial correlation', tag: 'One period’s error predicts the next',
             info: ['*Positive* (the usual finance case): standard errors too small → Type I. Negative would make them too large.', 'Coefficients unaffected, *unless a lagged Y is an X* (then inconsistent).', 'Detect: *Breusch–Godfrey*: regress the residuals on the Xs plus lagged residuals; H₀: no serial correlation up to lag p.', 'Correct: *Newey–West* standard errors (they fix heteroskedasticity too).'],
-            from: ['2. Serial Correlation', 'Detecting Serial Correlation', 'Correcting Serial Correlation'] },
+            from: ['2. Serial Correlation', 'Detecting Serial Correlation', 'Correcting Serial Correlation'], wk: ['Breusch–Pagan tests heteroskedasticity'] },
           { id: 'multi', mod: '1.S6', t: 'Multicollinearity', tag: 'Xs highly correlated with each other',
             info: ['Coefficients consistent but unreliable; standard errors *too large* → Type II.', 'Classic sign: significant F and high R², but no significant t.', 'VIF = 1 ÷ (1 − R²ⱼ): 1 = none, above 5 investigate, above 10 serious.', 'Correct: drop one of the correlated Xs, use a different proxy, or get a bigger sample.'],
-            from: ['3. Multicollinearity', 'Detecting Multicollinearity', 'Correcting Multicollinearity'] },
+            from: ['3. Multicollinearity', 'Detecting Multicollinearity', 'Correcting Multicollinearity'], wk: ['Insignificant t-tests with a significant F-test'] },
           { id: 'cmp3', mod: '1.S6', t: 'Compare the three', tag: 'Two make standard errors too small (Type I), one too large (Type II)',
             info: [{ columns: ['', 'Heteroskedasticity', 'Serial correlation', 'Multicollinearity'], rows: [['Usual data', 'Cross-sectional', 'Time series', 'Any'], ['Coefficients', 'Unaffected', 'Unaffected (unless lagged Y)', 'Unreliable'], ['Standard errors', 'Too small', 'Too small', 'Too large'], ['Error', 'Type I', 'Type I', 'Type II'], ['Detect', 'Breusch–Pagan', 'Breusch–Godfrey', 'VIF'], ['Fix', 'White SEs', 'Newey–West SEs', 'Drop an X']] }],
             from: ['Heteroskedasticity vs. Serial Correlation vs. Multicollinearity'] },
@@ -19227,10 +19310,10 @@ const MINDMAP = {
           info: ['Quarterly EPS = 1.25 + 0.75Q₁ − 0.20Q₂ + 0.10Q₃. Q4 (every dummy 0) is the intercept, 1.25; Q1 = 2.00, Q2 = 1.05, Q3 = 1.35.',
             { columns: ['Dummy', 'What it shifts'], rows: [['Intercept: d₀D', 'Intercept → b₀ + d₀'], ['Slope: d₁(D × X)', 'Slope → b₁ + d₁'], ['Both', 'Intercept and slope']] },
             'Read a significant dummy as a difference *holding the other Xs constant*.'],
-          from: ['s8-eps', 'Intercept dummy', 'Slope dummy', 'Combination dummy'] },
+          from: ['s8-eps', 'Intercept dummy', 'Slope dummy', 'Combination dummy'], wk: ['Dummy variables: n categories'] },
         { id: 'logit', mod: '1.S8', t: 'Logistic regression', tag: 'A 0/1 Y: model the log odds',
           info: ['OLS can predict below 0 or above 1, so model ln[P ÷ (1 − P)] = b₀ + b₁X₁ + ….', 'odds = e^Ŷ; P = 1 ÷ (1 + e^−Ŷ). Dividend example: intercept −3.445 → odds 0.0319 → P 3.09%.', 'A slope is the change in *log odds* per unit of X. Estimated by maximum likelihood; the residuals are logistic (fatter tails than normal).'],
-          from: ['Logistic Regression Model'], links: [['dummy', 'Here the dummy is the dependent variable']], c: [
+          from: ['Logistic Regression Model'], wk: ['Probability of a yes/no event'], links: [['dummy', 'Here the dummy is the dependent variable']], c: [
           { id: 'lr', t: 'Likelihood ratio test', tag: 'The logit version of the nested F-test',
             info: ['LR = −2(LL_restricted − LL_unrestricted), χ² with q df. The log-likelihood is negative; closer to 0 = better fit.', 'Quiz 1.4: −2(−216.22 + 212.44) = 7.56 > 5.99 → the dropped variables matter.', 'No ordinary R²: a pseudo-R² only compares models with the same Y.'],
             from: ['Nested logit models use'], links: [['nested', 'Same question, different test']] },
@@ -20855,7 +20938,67 @@ const MINDMAP = {
 // quizzes print no letters). `p`: the option I picked, `a`: the answer, both 0-based. `note`: a remark on the key.
 // A card whose question isn't here shows its one-line summary instead.
 const TUITION_Q = {
-  "L2-R1-Q1 #6": {
+  "L2-R1-Q1 #3": {
+    "full": [
+      "A high-yield bond analyst is trying to develop an equation using financial ratios to estimate the probability of a company defaulting on its bonds. A technique that can be used to develop this equation is:"
+    ],
+    "options": [
+      "A) dummy variable regression.",
+      "B) logistic regression model.",
+      "C) multiple linear regression adjusting for heteroskedasticity."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R1-Q1 #4": {
+    "full": [
+      "The management of a large restaurant chain believes that revenue growth is dependent upon the month of the year. Using a standard 12 month calendar, how many dummy variables must be used in a regression model that will test whether revenue growth differs by month?"
+    ],
+    "options": [
+      "A) 13",
+      "B) 12",
+      "C) 11"
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R1-Q1 #7": {
+    "full": [
+      "Which of the following is least likely a method of detecting serial correlations?"
+    ],
+    "options": [
+      "A) A scatter plot of the residuals over time.",
+      "B) The Breusch-Godfrey test.",
+      "C) The Breusch-Pagan test."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R1-Q1 #8": {
+    "full": [
+      "An analyst runs a regression of portfolio returns on three independent variables. These independent variables are price-to-sales (P/S), price-to-cash flow (P/CF), and price-to-book (P/B). The analyst discovers that the p-values for each independent variable are relatively high. However, the F-test has a very small p-value. The analyst is puzzled and tries to figure out how the F-test can be statistically significant when the individual independent variables are not significant. What violation of regression analysis has occurred?"
+    ],
+    "options": [
+      "A) serial correlation.",
+      "B) conditional heteroskedasticity.",
+      "C) multicollinearity."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R1-Q1 #9": {
+    "full": [
+      "Which of the following is least likely to result in misspecification of a regression model?"
+    ],
+    "options": [
+      "A) Omission of an important independent variable.",
+      "B) Inappropriate variable form.",
+      "C) Transforming a variable."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R1-P1 #6": {
     "full": [
       "A simple linear regression is performed to quantify the relationship between the return on the common stocks of medium-sized companies (mid-caps) and the return on the S&P 500 index, using the monthly return on mid-cap stocks as the dependent variable and the monthly return on the S&P 500 as the independent variable. The results of the regression are shown below:",
       "Intercept: coefficient 1.71 · standard error 2.950 · t-value 0.58",
@@ -20871,7 +21014,7 @@ const TUITION_Q = {
     "p": 1,
     "a": 0
   },
-  "L2-R1-Q1 #9": {
+  "L2-R1-P1 #9": {
     "full": [
       "In a simple regression model, the least squares criterion is to minimize the sum of squared differences between:"
     ],
@@ -22212,7 +22355,7 @@ const TESTS = [
     { mod: '18.S4', what: 'Multistage models are spreadsheet models', ok: 0, why: 'gap' },
     { mod: '18.S2', what: 'Next year’s dividend from retained earnings', ok: 0, why: 'calc' },
   ] },
-  { id: 'L2-R1-Q1', topic: 'quant.0', name: 'Reading 1 quiz 1', date: '2026-10-21', mins: 21.4, qs: [
+  { id: 'L2-R1-P1', topic: 'quant.0', name: 'Reading 1 prerequisite quiz 1 (simple regression)', date: '2026-10-21', mins: 21.4, qs: [
     { mod: '1.P', what: 'Slope = Cov(X, Y) ÷ Var(X)', ok: 1 },
     { mod: '1.P', what: 'One-tailed t-test: slope ≥ 1.0 rejected at t = −1.77', ok: 1 },
     { mod: '1.P', what: 'Relative change in Y linear in X: log-lin model', ok: 1 },
@@ -22224,8 +22367,20 @@ const TESTS = [
     { mod: '1.P', what: 'Least squares minimises Σ(actual − predicted Y)²', ok: 0, why: 'flip' },
     { mod: '1.P', what: 'Predict Y from Ŷ = 2.83 + 1.5X', ok: 1 },
   ] },
-  { id: 'L2-R1-Q2', topic: 'quant.0', name: 'Reading 1 quiz 2', date: '2026-10-21', mins: 0.5, qs: [
+  { id: 'L2-R1-P2', topic: 'quant.0', name: 'Reading 1 prerequisite quiz 2 (simple regression)', date: '2026-10-21', mins: 0.5, qs: [
     { mod: '1.P', what: 'Simple regression: one dependent and one independent variable', ok: 1 },
+  ] },
+  { id: 'L2-R1-Q1', topic: 'quant.0', name: 'Reading 1 quiz 1', date: '2026-10-22', mins: 17.2, qs: [
+    { mod: '1.S4', what: 'Regime change: two sub-period regressions avoid incorrectly pooled data', ok: 1 },
+    { mod: '1.S5', what: 'Unconditional heteroskedasticity doesn’t affect inference', ok: 1, why: 'guess' },
+    { mod: '1.S8', what: 'Probability of default: logistic regression (guessed)', ok: 0, why: 'gap' },
+    { mod: '1.S8', what: '12 months → 11 dummy variables (guessed)', ok: 0, why: 'gap' },
+    { mod: '1.S8', what: 'Number of shares is not a qualitative dependent variable', ok: 1 },
+    { mod: '1.S6', what: 'VIFs of 3, 4 and 2: no multicollinearity problem', ok: 1 },
+    { mod: '1.S6', what: 'Least likely a serial-correlation test: Breusch–Pagan', ok: 0, why: 'flip' },
+    { mod: '1.S6', what: 'Insignificant t-tests, significant F-test: multicollinearity', ok: 0, why: 'gap' },
+    { mod: '1.S4', what: 'Least likely misspecification: transforming a variable', ok: 0, why: 'flip' },
+    { mod: '1.S6', what: 'Correlated independent variables: multicollinearity', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
