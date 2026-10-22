@@ -19026,6 +19026,67 @@ const TUITION_MISSES = {
       spot: 'This quiz took 6.8 minutes for 10 questions (about 40 seconds each), so several answers look like guesses. These are definition questions: learn the one-line definitions and they become quick, sure points.',
     },
   ],
+  'quant.3': [
+    {
+      module: '4.S3',
+      title: 'Precision divides by what you PREDICTED positive; recall divides by what was ACTUALLY positive; accuracy divides by everything',
+      at: ["Classification metrics", "s3-cm"],
+      questions: [
+        { ref: 'L2-R4-Q1 #1', ask: 'When evaluating the fit of an ML algorithm, it is most accurate to state that:', picked: 'Precision is the % of correctly predicted classes out of total predictions', answer: 'Recall is correctly predicted positives ÷ all actual positives' },
+      ],
+      trap: 'Each option pairs a real definition with the wrong name. The one you picked is the definition of accuracy with the label “precision”, so all three definitions were familiar but the names weren’t pinned to them.',
+      fix: 'Precision = TP ÷ (TP + FP): of everything the model called positive, how much was right. Recall = TP ÷ (TP + FN): of everything that really was positive, how much the model caught. Accuracy = (TP + TN) ÷ all: of every prediction, how much was right. F1 is the harmonic mean of precision and recall.',
+      tackle: [
+        'Read the denominator in the option: “predicted positive” → precision; “actual positive” → recall; “total predictions” → accuracy.',
+        'Memory hook: Precision = Predicted, Recall = Real.',
+      ],
+    },
+    {
+      module: '4.S3',
+      title: 'Underfit misses real patterns (treats signal as noise); overfit finds patterns that aren’t there (treats noise as signal)',
+      at: ["s3-fiterr"],
+      questions: [
+        { ref: 'L2-R4-Q1 #2', ask: 'A machine learning model is said to be underfit when:', picked: 'The model identifies spurious relationships', answer: 'The model treats true parameters as noise' },
+      ],
+      trap: 'You picked the definition of overfitting, so the two words were swapped. Both are “bad fit”, and both options describe a real problem.',
+      fix: 'Underfit = too simple (too few features or too little training): it misses true patterns, so real parameters get treated as noise. That gives high bias error, poor even in sample. Overfit = too complex (too many features): it learns the noise, finding spurious relationships. That gives high variance error: great in sample, poor out of sample. Labelled or unlabelled data is about supervised vs. unsupervised learning, not fit.',
+      tackle: [
+        'UNDER-fit = UNDER-reacts: it ignores real signal.',
+        'OVER-fit = OVER-reacts: it sees signal in noise (spurious).',
+      ],
+      spot: 'R3 asks the same thing from the overfitting side (generalization). Same idea, two readings.',
+    },
+    {
+      module: '4.S2',
+      title: 'Data exploration = EDA, feature selection, feature engineering; a word cloud explores text, histograms and scatterplots explore numbers',
+      at: ["s2-steps", "Word cloud"],
+      questions: [
+        { ref: 'L2-R4-Q1 #8', ask: 'The three primary tasks of data exploration are:', picked: 'Data collection, data curation and data preparation', answer: 'Exploratory data analysis, feature selection and feature engineering' },
+        { ref: 'L2-R4-Q1 #9', ask: 'The most appropriate way to get a high-level picture of the composition of textual content is a:', picked: 'Scatterplot', answer: 'Word cloud' },
+      ],
+      trap: '#8: the option you picked lists the steps BEFORE exploration (collection, then preparation). They are real steps of the project, just not the exploration step. #9: a scatterplot needs two numeric variables; text has to be turned into word counts first, and a word cloud shows those counts at a glance.',
+      fix: 'Five project steps: conceptualize → collect (curate) → prepare and wrangle → explore → train. Exploration has three tasks: exploratory data analysis (summaries and charts), feature selection (keep what matters) and feature engineering (transform, combine or create features). EDA charts: histograms, box plots and scatterplots for structured data; word clouds for text (bigger font = more frequent word).',
+      tackle: [
+        'Recite the five steps in order; then the step being asked about is easy to place.',
+        'Text in the question → word cloud. Numbers → histogram, box plot or scatterplot.',
+      ],
+    },
+    {
+      module: '4.S1',
+      title: 'Curation = making sure the data are right (fix bad, missing or mismatched data); moving data is transfer, and a word cloud is visualization',
+      at: ["s1-steps", "s1-prep"],
+      questions: [
+        { ref: 'L2-R4-Q1 #7', ask: 'Which use of data is most accurately described as curation?', picked: 'Creating a word cloud from analysts’ research reports', answer: 'Adjusting daily index data from two countries for their different market holidays' },
+      ],
+      trap: 'Curation sounds like “selecting and displaying”, as a museum curator does, so the word cloud felt right. In data terms it means looking after the quality of the data.',
+      fix: 'Data curation = ensuring the quality and accuracy of the data, e.g. adjusting for bad or missing data, or aligning two countries’ series for different market holidays. Retrieving data from an archive is transfer. A word cloud is a visualization used in exploration. In the project steps, curation happens with data collection, before preparation and exploration.',
+      tackle: [
+        'Ask: does the action make the data more correct? Yes → curation (or cleansing).',
+        'Moving data → transfer; showing data → visualization; building features → exploration.',
+      ],
+      spot: 'This quiz took 6.5 minutes for 9 questions. Four of the five misses were vocabulary, and each term has a one-line meaning in your notes.',
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -19552,7 +19613,7 @@ const MINDMAP = {
         { id: 'steps5', t: 'Five project steps', tag: 'Conceptualize → collect → prepare → explore → train',
           info: [{ columns: ['Structured data', 'Text data'], rows: [['Conceptualize the modelling task', 'Formulate the text problem'], ['Collect the data', 'Curate it (and annotate a target)'], ['Prepare and wrangle', 'Prepare and wrangle the text'], ['Explore', 'Explore the text'], ['Train the model', 'Train the model']] },
             'Iterative: you can go back to any step.'],
-          from: ['Steps in a Data Analysis Project'] },
+          from: ['Steps in a Data Analysis Project'], wk: ['Curation =', 'Data exploration ='] },
         { id: 'prep', t: 'Data preparation and wrangling', tag: 'Takes most of the project’s time',
           info: ['Domain experts help pick the data. Internal data: check it (README files). Vendor data via an API saves time but others have it too.'],
           from: ['s1-prep'], c: [
@@ -19578,7 +19639,7 @@ const MINDMAP = {
       { id: 'b2', mod: '4.S2', tone: 'violet', t: 'Data exploration', tag: 'Understand the data, then choose and build features', c: [
         { id: 'eda', t: 'Exploratory data analysis', tag: 'Summaries and charts before modelling',
           info: [{ columns: ['', 'One feature', 'Several features'], rows: [['Statistics', 'Mean, SD, skew, kurtosis', 'Correlation matrix'], ['Charts', 'Histogram, density plot, bar chart, box plot', 'Scatterplot, stacked bars, line graphs'], ['Tests', '—', 'ANOVA, t-tests; Spearman, chi-square']] }],
-          from: ['s2-steps', 's2-eda'] },
+          from: ['s2-steps', 's2-eda'], wk: ['Data exploration ='] },
         { id: 'fsel', t: 'Feature selection', tag: 'Keep only what adds out-of-sample power',
           info: ['A parsimonious model has less noise and better accuracy. Features can be scored and ranked; dimension reduction helps.'],
           from: ['s2-sel'], links: [['textsel', 'The text versions: DF, chi-square, MI']] },
@@ -19599,7 +19660,7 @@ const MINDMAP = {
       { id: 'b3', mod: '4.S3', tone: 'amber', t: 'Training, evaluating and tuning', tag: 'Pick the method, measure it, improve it', c: [
         { id: 'fiterr', t: 'Fitting errors', tag: 'Too little data or too few features → underfit; too many features → overfit',
           info: [{ columns: ['Cause', 'Result'], rows: [['Small training sample', 'Underfit'], ['Too few features', 'Underfit'], ['Too many features', 'Overfit']] }],
-          from: ['s3-fiterr'] },
+          from: ['s3-fiterr'], wk: ['Underfit misses'] },
         { id: 'method', t: 'Method selection', tag: 'Match the algorithm to the target and the data',
           info: [{ columns: ['Data', 'Methods'], rows: [['Labelled (supervised)', 'Regression, ensemble trees, SVM, neural networks'], ['Unlabelled', 'Clustering, dimension reduction, anomaly detection'], ['Text', 'GLMs, SVM'], ['Images', 'Neural networks, deep learning'], ['Many observations and features', 'SVM'], ['Many observations, few features', 'Neural networks']] }],
           from: ['s3-method'] },
@@ -19612,7 +19673,7 @@ const MINDMAP = {
           { id: 'metrics', t: 'Precision, recall, accuracy, F1', tag: 'Precision over predicted positives; recall over actual positives',
             info: [{ columns: ['Metric', 'Formula'], rows: [['Precision', 'TP ÷ (TP + FP)'], ['Recall (TPR)', 'TP ÷ (TP + FN)'], ['Accuracy', '(TP + TN) ÷ all'], ['F1', '2PR ÷ (P + R)'], ['FPR', 'FP ÷ (FP + TN)']] },
               'Kwah: P 0.62, R 0.86, accuracy 0.82, F1 0.72, FPR 0.19.'],
-            from: ['Classification metrics', 's3-kwah'] },
+            from: ['Classification metrics', 's3-kwah'], wk: ['Precision divides'] },
           { id: 'prtrade', t: 'Precision vs. recall', tag: 'FP costly → precision; FN costly → recall',
             info: ['To cut Type I errors (false positives), raise *precision*. A lender avoiding defaulters maximises *recall*.', 'Which error matters more is a business decision.'],
             from: ['High precision'] },
@@ -22236,6 +22297,66 @@ const TUITION_Q = {
     ],
     "p": 0,
     "a": 1
+  },
+  "L2-R4-Q1 #1": {
+    "full": [
+      "When evaluating the fit of a machine learning algorithm, it is most accurate to state that:"
+    ],
+    "options": [
+      "A) recall is the ratio of correctly predicted positive classes to all actual positive classes.",
+      "B) accuracy is the ratio of correctly predicted positive classes to all predicted positive classes.",
+      "C) precision is the percentage of correctly predicted classes out of total predictions."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R4-Q1 #2": {
+    "full": [
+      "Under which of these conditions is a machine learning model said to be underfit?"
+    ],
+    "options": [
+      "A) The input data are not labelled.",
+      "B) The model treats true parameters as noise.",
+      "C) The model identifies spurious relationships."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R4-Q1 #7": {
+    "full": [
+      "Which of the following uses of data is most accurately described as curation?"
+    ],
+    "options": [
+      "A) An investor creates a word cloud from financial analysts’ recent research reports about a company.",
+      "B) A data technician accesses an offsite archive to retrieve data that has been stored there.",
+      "C) An analyst adjusts daily stock index data from two countries for their different market holidays."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R4-Q1 #8": {
+    "full": [
+      "In big data analysis, the three primary tasks involved in data exploration are most accurately described as:"
+    ],
+    "options": [
+      "data collection, data curation, and data preparation.",
+      "exploratory data analysis, feature selection, and feature engineering.",
+      "data wrangling, data curation, and model training"
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R4-Q1 #9": {
+    "full": [
+      "In big data analysis, the most appropriate method of gaining a high-level picture of the composition of textual content is through the use of a:"
+    ],
+    "options": [
+      "scatterplot.",
+      "histogram.",
+      "word cloud."
+    ],
+    "p": 0,
+    "a": 2
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -22541,6 +22662,17 @@ const TESTS = [
     { mod: '3.S2', what: 'Linear classifier with the optimal hyperplane: SVM', ok: 0, why: 'gap' },
     { mod: '3.S1', what: 'Overfitting does not raise out-of-sample accuracy', ok: 1 },
     { mod: '3.S1', what: 'Supervised tasks: classification and prediction', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R4-Q1', topic: 'quant.3', name: 'Reading 4 quiz 1', date: '2026-10-23', mins: 6.5, qs: [
+    { mod: '4.S3', what: 'Recall = right among actual positives (precision, accuracy defined)', ok: 0, why: 'flip' },
+    { mod: '4.S3', what: 'Underfit: treats true parameters as noise', ok: 0, why: 'flip' },
+    { mod: '4.S1', what: '“Low latency, terabytes”: velocity and volume', ok: 1 },
+    { mod: '4.S1', what: 'Big data often has low veracity', ok: 1 },
+    { mod: '4.S2', what: 'Data exploration doesn’t include “feature design”', ok: 1 },
+    { mod: '4.S1', what: 'Splitting text into words: tokenization', ok: 1 },
+    { mod: '4.S1', what: 'Curation: adjusting data for market holidays', ok: 0, why: 'gap' },
+    { mod: '4.S2', what: 'Data exploration = EDA, feature selection, feature engineering', ok: 0, why: 'gap' },
+    { mod: '4.S2', what: 'High-level picture of text: word cloud', ok: 0, why: 'gap' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
