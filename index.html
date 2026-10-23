@@ -28875,6 +28875,7 @@ const TL_RETEST = 5;
 const TL_REDO = 3;
 const TL_PACE = 3; // minutes a question in the exam: 88 questions in two sessions of 2 h 12 min
 const TL_TARGET = 80; // % to aim for: well above the usual Level II pass mark
+const TL_RECENT = 176; // the latest-accuracy window: two mocks' worth of questions (88 each)
 const TL_TOTAL = 3000; // reading-quiz questions available across all readings
 const TL_WEIGHT = { ethics: '10–15%', quant: '5–10%', econ: '5–10%', fsa: '10–15%', corp: '5–10%', equity: '10–15%', fi: '10–15%', deriv: '5–10%', alt: '5–10%', pm: '10–15%' };
 const TL_WHY = {
@@ -28955,7 +28956,7 @@ function tlRvHtml() {
   const qs = tlQs(tlAll());
   if (!qs.length) return '';
   const ss = tlSessions(), due = ss.filter(s => s.state === 'due').length + tlRedos().filter(r => r.now).length, todo = ss.filter(s => s.state === 'dig' || s.state === 'fix').length;
-  return `<div class="tl-rv"><span>🧪 ${qs.length} questions · latest 50: <b>${tlAcc(qs.slice(-50))}%</b>${todo ? ' · ' + todo + ' session' + (todo > 1 ? 's' : '') + ' to fix' : ''}${due ? ' · ' + due + ' to redo or retest' : ''}</span><button type="button" class="cm-ghost" data-tlopen="1">Open test log</button></div>`;
+  return `<div class="tl-rv"><span>🧪 ${qs.length} questions · latest ${TL_RECENT}: <b>${tlAcc(qs.slice(-TL_RECENT))}%</b>${todo ? ' · ' + todo + ' session' + (todo > 1 ? 's' : '') + ' to fix' : ''}${due ? ' · ' + due + ' to redo or retest' : ''}</span><button type="button" class="cm-ghost" data-tlopen="1">Open test log</button></div>`;
 }
 function tlQHtml(q, mod) {
   const bad = tlMiss(q), why = q.why && TL_WHY[q.why] ? TL_WHY[q.why].label : '';
@@ -29057,7 +29058,7 @@ function tlFilterHtml() {
 function tlAccuracyHtml() {
   const tests = tlView(), qs = tlQs(tests);
   if (!qs.length) return '';
-  const last = qs.slice(-50), prev = qs.slice(-100, -50), d = prev.length >= 20 ? tlAcc(last) - tlAcc(prev) : null;
+  const last = qs.slice(-TL_RECENT), prev = qs.slice(-2 * TL_RECENT, -TL_RECENT), d = prev.length >= TL_RECENT / 2 ? tlAcc(last) - tlAcc(prev) : null;
   const timed = tests.filter(t => t.mins), tq = tlQs(timed).length, pace = tq ? timed.reduce((a, t) => a + t.mins, 0) / tq : 0;
   const reads = tlReadings();
   const subs = SUBJECTS.filter(sj => tlf.subj === 'all' || sj.id === tlf.subj).map(sj => {
@@ -29075,7 +29076,7 @@ function tlAccuracyHtml() {
     <div class="tl-kpis">
       ${kpi('Questions logged', qs.length.toLocaleString(), 'of about ' + TL_TOTAL.toLocaleString() + ' reading-quiz questions')}
       ${kpi('Accuracy, all', tlAcc(qs) + '%', 'target ' + TL_TARGET + '%')}
-      ${kpi('Latest 50 questions', tlAcc(last) + '%', d == null ? 'trend shows after 70 questions' : (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d) + ' points on the 50 before')}
+      ${kpi('Latest ' + Math.min(TL_RECENT, qs.length) + ' questions', tlAcc(last) + '%', (qs.length < TL_RECENT ? TL_RECENT - qs.length + ' more to fill two mocks’ worth (176) · ' : 'two mocks’ worth · ') + (d == null ? 'trend shows after ' + TL_RECENT * 1.5 + ' questions' : (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d) + ' points on the ' + TL_RECENT + ' before'))}
       ${kpi('Pace', tq ? pace.toFixed(1) + ' min' : '—', 'a question · exam ' + TL_PACE + ' min')}
     </div>
     ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Each dot is a test, coloured by subject. Each line is the average of that subject’s last five tests; the black line is all subjects together. Hover a dot for its test.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
