@@ -29009,11 +29009,12 @@ const TL_SUBJ_COLOR = {
   quant: ['#2a78d6'], econ: ['#eb6834'], fsa: ['#1baf7a'], corp: ['#eda100'], equity: ['#e87ba4'],
   fi: ['#008300'], deriv: ['#6250d6'], alt: ['#e34948'], pm: ['#2a78d6', '6 4'], ethics: ['#eb6834', '6 4'],
 };
+const TL_SUBJ_SHORT = { quant: 'Quant', econ: 'Economics', fsa: 'FSA', corp: 'Corporate', equity: 'Equity', fi: 'Fixed income', deriv: 'Derivatives', alt: 'Alternatives', pm: 'Portfolio', ethics: 'Ethics' };
 function tlSubjOf(topic) { return String(topic).split('.')[0]; }
 function tlSubjName(id) { const s = SUBJECTS.find(x => x.id === id); return s ? s.name : id; }
 // Accuracy per test, a five-test average line per subject, and a bold black line for all subjects together.
 function tlTrendSvg(tests) {
-  const ts = tests.slice(-40), W = 640, H = 200, L = 36, R = 118, T = 12, B = 22, n = ts.length;
+  const ts = tests.slice(-40), W = 640, H = 214, L = 50, R = 118, T = 12, B = 36, n = ts.length, first = tests.length - n + 1;
   const x = i => L + (n === 1 ? (W - L - R) / 2 : i * (W - L - R) / (n - 1)), y = v => T + (100 - v) * (H - T - B) / 100;
   const roll = ts.map((t, i) => tlAcc(tlQs(ts.slice(Math.max(0, i - 4), i + 1))));
   const subs = SUBJECTS.map(s => s.id).filter(id => ts.some(t => t.qs.some(q => tlSubjOf(q.topic) === id)));
@@ -29023,10 +29024,13 @@ function tlTrendSvg(tests) {
     const pts = idx.map((i, k) => [i, tlAcc(tlQs(idx.slice(Math.max(0, k - 4), k + 1).map(j => ts[j])).filter(q => tlSubjOf(q.topic) === id))]);
     const [col, dash] = TL_SUBJ_COLOR[id] || ['#888'];
     const last = pts[pts.length - 1];
-    labels.push({ y: y(last[1]), text: `${tlSubjName(id)} ${last[1]}%`, col, dash });
+    labels.push({ y: y(last[1]), text: `${TL_SUBJ_SHORT[id] || tlSubjName(id)} ${last[1]}%`, col, dash });
     return pts.length > 1 ? `<polyline points="${pts.map(p => x(p[0]) + ',' + y(p[1])).join(' ')}" class="tl-line-subj" style="stroke:${col}"${dash ? ` stroke-dasharray="${dash}"` : ''}/>` : '';
   }).join('');
-  if (n > 1) labels.push({ y: y(roll[n - 1]), text: `${multi ? 'All' : tlSubjName(subs[0] || '')} ${roll[n - 1]}%`, all: true });
+  if (n > 1) labels.push({ y: y(roll[n - 1]), text: `${multi ? 'All' : TL_SUBJ_SHORT[subs[0]] || tlSubjName(subs[0] || '')} ${roll[n - 1]}%`, all: true });
+  // x axis: quiz number in the order taken (1 = the first quiz shown), ticked every 5.
+  const xTicks = ts.map((t, i) => first + i).filter((q, i) => i === 0 || i === n - 1 || (q % 5 === 0 && i > 1 && n - 1 - i > 1)).map(q => { const i = q - first; return `<line x1="${x(i)}" x2="${x(i)}" y1="${H - B}" y2="${H - B + 4}" class="tl-grid"/><text x="${x(i)}" y="${H - B + 14}" class="tl-axis" text-anchor="middle">${q}</text>`; }).join('') +
+    `<text x="${(L + W - R) / 2}" y="${H - 4}" class="tl-axis" text-anchor="middle">Quiz number (oldest → newest)</text><text x="10" y="${(T + H - B) / 2}" class="tl-axis" text-anchor="middle" transform="rotate(-90 10 ${(T + H - B) / 2})">Accuracy</text>`;
   // End labels sit in the right margin, nudged apart so they never overlap.
   labels.sort((a, b) => a.y - b.y).forEach((l, i, a) => { if (i && l.y - a[i - 1].y < 13) l.y = a[i - 1].y + 13; });
   const labelSvg = labels.map(l => `<line x1="${W - R + 6}" x2="${W - R + 20}" y1="${l.y}" y2="${l.y}" class="${l.all ? 'tl-line-all' : 'tl-line-subj'}"${l.col ? ` style="stroke:${l.col}"` : ''}${l.dash ? ` stroke-dasharray="4 3"` : ''}/><text x="${W - R + 24}" y="${l.y + 3.5}" class="tl-axis${l.all ? ' tl-axis-strong' : ' tl-axis-ink'}">${escapeHtml(l.text)}</text>`).join('');
@@ -29035,10 +29039,10 @@ function tlTrendSvg(tests) {
   const all = n > 1 ? `<polyline points="${roll.map((v, i) => x(i) + ',' + y(v)).join(' ')}" class="tl-line-all"/>` : '';
   const dots = ts.map((t, i) => {
     const a = tlAcc(t.qs), col = multi && (TL_SUBJ_COLOR[tlSubjOf(t.topic)] || [])[0];
-    return `<g class="tl-pt"><circle cx="${x(i)}" cy="${y(a)}" r="4.5" class="tl-pt-dot"${col ? ` style="fill:${col}"` : ''}/><circle cx="${x(i)}" cy="${y(a)}" r="11" class="tl-pt-hit"><title>${escapeHtml(t.id)} · ${tlShort(t.topic)} · ${tlDate(t.date)}\n${t.qs.filter(q => q.ok).length}/${t.qs.length} right (${a}%) · 5-test average, all subjects ${roll[i]}%</title></circle></g>`;
+    return `<g class="tl-pt"><circle cx="${x(i)}" cy="${y(a)}" r="4.5" class="tl-pt-dot"${col ? ` style="fill:${col}"` : ''}/><circle cx="${x(i)}" cy="${y(a)}" r="11" class="tl-pt-hit"><title>Quiz ${first + i} · ${escapeHtml(t.id)} · ${tlShort(t.topic)} · ${tlDate(t.date)}\n${t.qs.filter(q => q.ok).length}/${t.qs.length} right (${a}%) · 5-test average, all subjects ${roll[i]}%</title></circle></g>`;
   }).join('');
   const legend = multi ? `<div class="tl-legend">${subs.map(id => { const [col, dash] = TL_SUBJ_COLOR[id] || ['#888']; return `<span><i style="border-top:2.5px ${dash ? 'dashed' : 'solid'} ${col}"></i>${escapeHtml(tlSubjName(id))}</span>`; }).join('')}<span><i class="tl-legend-all"></i><b>All subjects</b></span></div>` : '';
-  return `${legend}<svg class="tl-trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy per test over time: a five-test rolling average for ${multi ? 'each subject and for all subjects together' : 'this selection'}, against the ${TL_TARGET}% target">${grid}${target}${lines}${all}${dots}${labelSvg}</svg>`;
+  return `${legend}<svg class="tl-trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy per test over time: a five-test rolling average for ${multi ? 'each subject and for all subjects together' : 'this selection'}, against the ${TL_TARGET}% target">${grid}${xTicks}${target}${lines}${all}${dots}${labelSvg}</svg>`;
 }
 // Filter on the test log: a subject, then optionally one of its readings. Every section follows it; a mock's
 // questions are filtered one by one, by the reading each one tests. Kept on this device only.
@@ -29090,7 +29094,7 @@ function tlAccuracyHtml() {
       ${kpi('Latest ' + Math.min(TL_RECENT, qs.length) + ' questions', tlAcc(last) + '%', (qs.length < TL_RECENT ? TL_RECENT - qs.length + ' more to fill two mocks’ worth (176) · ' : 'two mocks’ worth · ') + (d == null ? 'trend shows after ' + TL_RECENT * 1.5 + ' questions' : (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d) + ' points on the ' + TL_RECENT + ' before'))}
       ${kpi('Pace', tq ? pace.toFixed(1) + ' min' : '—', 'a question · exam ' + TL_PACE + ' min')}
     </div>
-    ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Each dot is a test, coloured by subject. Each line is the average of that subject’s last five tests; the black line is all subjects together. Hover a dot for its test.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
+    ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Across: your quizzes numbered in the order you took them. Up: accuracy. Each dot is one quiz, coloured by subject; each line is the average of that subject’s last five quizzes, and the black line is all subjects together. Hover a dot for its quiz.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
     <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
     ${tested.map(x => `<details class="tl-sub"${tlf.subj !== 'all' ? ' open' : ''}><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
     ${untested.length && tlf.subj === 'all' ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
