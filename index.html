@@ -19087,6 +19087,103 @@ const TUITION_MISSES = {
       spot: 'This quiz took 6.5 minutes for 9 questions. Four of the five misses were vocabulary, and each term has a one-line meaning in your notes.',
     },
   ],
+  'ethics.0': [
+    {
+      module: '40.S1',
+      title: 'The Code is six broad duties; any option naming a specific action (document, disclose, supervise, obey the law, GIPS, protect the CFA mark) is a Standard, not the Code',
+      at: ["s1-code", "s1-std"],
+      questions: [
+        { ref: 'L2-R40-Q1 #3', ask: 'The Code of Ethics requires all of the following EXCEPT:', picked: 'Use reasonable care and exercise independent professional judgment', answer: 'Refrain from conduct that compromises the reputation or integrity of the CFA designation' },
+        { ref: 'L2-R40-Q1 #6', ask: 'Which is a component of the Code of Ethics?', picked: 'Disclose to the employer all matters that could interfere with duties or objectivity', answer: 'Strive to maintain and improve their competence and that of others' },
+        { ref: 'L2-R40-Q1 #7', ask: 'Under the Code of Ethics, members are NOT required to:', picked: 'Maintain and improve their competence and strive to maintain others’', answer: 'Comply with GIPS (voluntary)' },
+        { ref: 'L2-R40-Q2 #1', ask: 'All are components of the Code of Ethics EXCEPT:', picked: 'Striving to maintain and improve their and others’ competence', answer: 'Demonstrating diligence, independence and thoroughness when preparing investment reports' },
+      ],
+      trap: 'Every wrong option was a real obligation, just from the wrong document. Disclosing conflicts is VI(A), supervising is IV(C), protecting the CFA designation is VII(A), diligence in reports is V(A). Because they all sound ethical, they feel like they must be in the Code. Twice you also ruled out the competence component, which IS in the Code.',
+      fix: 'The Code has six components, all broad: (1) integrity, competence, diligence, respect, ethical; (2) integrity of the profession and clients’ interests above your own; (3) reasonable care and independent professional judgment; (4) practise and encourage others to practise in a way that reflects credit; (5) promote the integrity and viability of global capital markets; (6) maintain and improve your own competence and strive to improve others’. The seven Standards turn these into specific actions. GIPS is voluntary and is in neither.',
+      tackle: [
+        'Learn the six components as six short phrases: Integrity · Clients first · Reasonable care · Reflect credit · Markets · Competence.',
+        'For each option ask: is it a broad duty word-for-word from the six, or a specific action? Specific action → Standard.',
+        'In an EXCEPT/NOT question, the answer is the one that is a Standard (or nothing at all). Tick the Code items off first.',
+      ],
+      spot: '4 of your 10 R40 misses are this one distinction. Three were EXCEPT/NOT questions where you picked a true Code component.',
+    },
+    {
+      module: '40.S1',
+      title: 'The Code’s exact words: integrity, competence, diligence and respect; and practise ethically to reflect credit on members and the profession',
+      at: ["s1-code"],
+      questions: [
+        { ref: 'L2-R40-Q1 #1', ask: 'Under the Code, the goal of practising in a professional and ethical manner is to:', picked: 'Resolve conflicts between clients and employers', answer: 'Reflect credit on members and the profession' },
+        { ref: 'L2-R40-Q2 #3', ask: 'In dealing with the public, the Code requires members to act with:', picked: 'Honesty, professionalism and high ethical standards', answer: 'Integrity, competence and respect' },
+        { ref: 'L2-R40-Q2 #9', ask: 'Least likely a component of the Code: members shall act with:', picked: 'Integrity', answer: 'Humility' },
+      ],
+      trap: 'These test the Code’s exact wording. “Honesty, professionalism, high ethical standards” sounds like a paraphrase of the Code but isn’t its wording. In #9 you ruled out integrity, which is the first word of the Code, so “least likely” was probably read as “most likely”.',
+      fix: 'Component 1, word for word: act with integrity, competence, diligence, respect and in an ethical manner. Component 4: practise, and encourage others to practise, in a professional and ethical manner that will reflect credit on yourself and the profession. Humility, honesty and candor are fine virtues but they are not in the Code.',
+      tackle: [
+        'Memorise component 1 as ICDR: Integrity, Competence, Diligence, Respect.',
+        'If an option lists three virtues, check all three against ICDR. One outsider makes it wrong.',
+        'Circle “least likely” before reading the options.',
+      ],
+    },
+    {
+      module: '40.S1',
+      title: 'The Code gives no order of priority between public, clients and employer; it is Standard III(A) that puts clients first',
+      at: ["s1-code", "s1-one"],
+      questions: [
+        { ref: 'L2-R40-Q1 #9', ask: 'Elliot says the Code of Ethics tells him to always put clients first. He is:', picked: 'Correct', answer: 'Not correct: the Code gives no such ordering' },
+      ],
+      trap: '“Clients first” is a real rule, so “correct” felt safe. The catch is where the rule comes from: the question said “according to the Code of Ethics”.',
+      fix: 'Code component 1 lists the public, clients, prospects, employers, employees and colleagues with no ranking. The ranking comes from the Standards: III(A) (clients before employer before self) and VI(B) (clients and employer trades before your own).',
+      tackle: [
+        'When a question says “according to the Code”, test the statement against the six components only.',
+        'Any ranking or ordering → a Standard, not the Code.',
+      ],
+    },
+  ],
+  'ethics.1': [
+    {
+      module: '41.S5',
+      title: 'After giving a recommendation, V(C) says document it: suitability comes before the advice, not after',
+      at: ["V(C) Record Retention"],
+      questions: [
+        { ref: 'L2-R40-Q1 #4', ask: 'McCoy tells a client over lunch to double his JKM position. Under Standard V, back at the office he should:', picked: 'Verify the suitability of the recommendation before placing the order', answer: 'Document the details of the conversation and the recommendation' },
+      ],
+      trap: 'Checking suitability sounds prudent, but the advice has already been given; suitability had to be judged before recommending it. The question asks what Standard V requires now, and the step left to do is record keeping. Telling other clients would be III(B) Fair Dealing.',
+      fix: 'V(C) Record Retention: keep records that support every recommendation, action and client communication, including verbal advice. Absent a regulatory rule, keep them at least 7 years. The firm owns the records.',
+      tackle: [
+        'Note the timing: what has already happened, and what is the next step?',
+        'Advice given verbally → write it down (V(C)).',
+      ],
+    },
+    {
+      module: '41.S7',
+      title: 'Suspension follows professional misconduct or programme breaches; a misdemeanour unrelated to professional conduct is not grounds',
+      at: ["VII(A) Conduct as Participants in CFA Institute Programs"],
+      questions: [
+        { ref: 'L2-R40-Q2 #5', ask: 'Least likely a reason to suspend a member or candidate:', picked: 'Failing to return the annual Professional Conduct Statement', answer: 'A misdemeanour charge for possession of narcotics' },
+      ],
+      trap: 'A drugs charge sounds serious, and returning a form sounds minor. But the Professional Conduct Program enforces professional obligations: the annual PCS is one, exam confidentiality is another. A personal misdemeanour outside professional life is not a Code violation by itself.',
+      fix: 'Grounds for sanctions include not filing the PCS (which can mean suspension), revealing exam content (VII(A)), and professional conduct involving dishonesty, fraud or deceit (I(D)). Under I(D) only professional misconduct counts; personal behaviour is a violation only if it reflects on professional integrity (e.g. fraud, repeated substance abuse at work).',
+      tackle: [
+        'Ask: is it about professional duties or the CFA programme? Yes → can be sanctioned.',
+        'Personal, unrelated to work → least likely.',
+      ],
+    },
+    {
+      module: '41.S4',
+      title: 'IV(A): you may prepare to leave and approach clients your employer turned away, as long as you don’t compete with or harm it',
+      at: ["IV(A) Loyalty", "s4-a-leave"],
+      questions: [
+        { ref: 'L2-R42-Q1 #1', ask: 'Smith, still at Alpha (clients over $10m), solicits on his own time small clients Alpha rejected, for his new firm. Under IV(A) this is:', picked: 'Unacceptable: no activities to go into business while still employed', answer: 'Acceptable: he is not competing with his employer' },
+      ],
+      trap: 'The rule you remembered (“no soliciting before you leave”) is about the employer’s own clients. These are clients Alpha refused, so nothing is taken from Alpha. The blanket “no activities at all” option overstates the rule: preparing to compete is allowed.',
+      fix: 'IV(A) forbids harming the employer: soliciting its clients before leaving, taking client lists or records, misusing confidential information. It allows preparation on your own time that doesn’t interfere with the job (registering a firm, renting an office) and work that doesn’t compete with the employer.',
+      tackle: [
+        'Ask: does it take anything from the employer, or compete with it? No → allowed.',
+        'Options with absolute words (“may not engage in ANY activities”) are usually too strong.',
+      ],
+      spot: 'The rest of this case set (supervision, suitability, extra compensation, conflicts) went 5/5. Your Standards judgment is good; the misses are in the Code wording.',
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20976,9 +21073,9 @@ const MINDMAP = {
     branches: [
       { id: 'b1', mod: '40.S1', tone: 'teal', t: 'Code and Standards', tag: 'The framework every case is judged against', c: [
         { id: 'code', t: 'The Code: six components', tag: 'Integrity, client interests first, independence, professionalism, capital markets, competence',
-          from: ['s1-code'] },
+          from: ['s1-code'], wk: ['The Code is six broad duties', 'The Code’s exact words', 'The Code gives no order'] },
         { id: 'std', t: 'The seven Standards', tag: 'I Professionalism … VII Responsibilities as a member',
-          from: ['s1-std', 's1-one'] },
+          from: ['s1-std', 's1-one'], wk: ['The Code is six broad duties'] },
         { id: 'how', t: 'How they apply', tag: 'Candidates bound too; the stricter of law and Standards',
           from: ['s1-how'] },
       ] },
@@ -21013,7 +21110,7 @@ const MINDMAP = {
         { id: 'iiie', mod: '41.S3', t: 'III(E) Preservation of Confidentiality', tag: 'Current, former, prospective clients; illegal activity to authorities',
           from: ['III(E) Preservation of Confidentiality'] },
         { id: 'iva', mod: '41.S4', t: 'IV(A) Loyalty', tag: 'Prepare to leave, don’t solicit or take client lists before',
-          from: ['IV(A) Loyalty'] },
+          from: ['IV(A) Loyalty'], wk: ['IV(A): you may prepare'] },
         { id: 'ivb', mod: '41.S4', t: 'IV(B) Additional Compensation Arrangements', tag: 'Written consent for pay that competes with the employer',
           from: ['IV(B) Additional Compensation Arrangements'] },
         { id: 'ivc', mod: '41.S4', t: 'IV(C) Responsibilities of Supervisors', tag: 'Prevent and detect; fix inadequate compliance',
@@ -21025,7 +21122,7 @@ const MINDMAP = {
         { id: 'vb', mod: '41.S5', t: 'V(B) Communication with Clients', tag: 'Process, risks, fact vs. opinion, changes',
           from: ['V(B) Communication with Clients and Prospective Clients'] },
         { id: 'vc', mod: '41.S5', t: 'V(C) Record Retention', tag: 'Firm’s property; seven years if no other rule',
-          from: ['V(C) Record Retention'] },
+          from: ['V(C) Record Retention'], wk: ['After giving a recommendation'] },
         { id: 'via', mod: '41.S6', t: 'VI(A) Avoid or Disclose Conflicts', tag: 'Full, fair, plain-language disclosure',
           from: ['VI(A) Avoid or Disclose Conflicts'] },
         { id: 'vib', mod: '41.S6', t: 'VI(B) Priority of Transactions', tag: 'Clients, then employer, then you',
@@ -21033,7 +21130,7 @@ const MINDMAP = {
         { id: 'vic', mod: '41.S6', t: 'VI(C) Referral Fees', tag: 'Disclose before the engagement',
           from: ['VI(C) Referral Fees'] },
         { id: 'viia', mod: '41.S7', t: 'VII(A) Conduct in CFA Programs', tag: 'No cheating or revealing exam content',
-          from: ['VII(A) Conduct as Participants in CFA Institute Programs'] },
+          from: ['VII(A) Conduct as Participants in CFA Institute Programs'], wk: ['Suspension follows'] },
         { id: 'viib', mod: '41.S7', t: 'VII(B) Reference to CFA', tag: 'No implied superior performance; correct use of the marks',
           from: ['VII(B) Reference to CFA Institute, the CFA Designation, and the CFA Program'] },
       ] },
@@ -22357,6 +22454,138 @@ const TUITION_Q = {
     ],
     "p": 0,
     "a": 2
+  },
+  "L2-R40-Q1 #1": {
+    "full": [
+      "According to the Code of Ethics, when practicing in a professional and ethical manner the goal is to:"
+    ],
+    "options": [
+      "A) reflect credit on members and the profession.",
+      "B) resolve conflicts between clients and employers.",
+      "C) increase membership in CFA Institute."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R40-Q1 #3": {
+    "full": [
+      "The CFA Institute Code of Ethics specifies that CFA Institute Members and Candidates must do all of the following EXCEPT:"
+    ],
+    "options": [
+      "A) use reasonable care and exercise independent professional judgment when engaging in professional activities.",
+      "B) act with integrity, competence, diligence, respect, and in an ethical manner.",
+      "C) refrain from any conduct that compromises the reputation or integrity of the CFA designation."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R40-Q1 #4": {
+    "full": [
+      "Liam McCoy has lunch with a wealthy client whose portfolio he manages. McCoy advises the client to double his current position in the JKM Corporation due to an anticipated increase in sales. In accordance with Standard (V) Investment Analysis, Recommendations and Actions, when McCoy returns to his office he should:"
+    ],
+    "options": [
+      "A) identify other clients for whom JKM may be a suitable investment and notify them immediately of his recommendation.",
+      "B) document the details of the conversation with the client with regard to his investment recommendation.",
+      "C) verify the suitability of the investment recommendation before placing the client’s order."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R40-Q1 #6": {
+    "full": [
+      "Which of the following is a component of the Code of Ethics? CFA Institute members shall:"
+    ],
+    "options": [
+      "A) disclose to their employer all matters that reasonably could be expected to interfere with their duty to their employer or ability to make unbiased and objective recommendations.",
+      "B) strive to maintain and improve their competence and the competence of others in the profession.",
+      "C) make reasonable efforts to detect and prevent violations by those who are under their supervision."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R40-Q1 #7": {
+    "full": [
+      "According to the Code of Ethics, which of the following statements is NOT correct? CFA Institute members are required to:"
+    ],
+    "options": [
+      "A) use reasonable care and exercise independent professional judgment.",
+      "B) comply with the CFA Institute Global Investment Performance Standards.",
+      "C) maintain and improve their competence and strive to maintain the competence of others in the profession."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R40-Q1 #9": {
+    "full": [
+      "John Elliot, CFA, says that in issues of ethics he always puts the clients first according to the guidelines in the Code of Ethics. In doing so he is:"
+    ],
+    "options": [
+      "A) not correct, because his first duty is to the public.",
+      "B) correct.",
+      "C) not correct, because no such ordering or priority is given in the Code."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R40-Q2 #1": {
+    "full": [
+      "All of the following are components of the Code of Ethics EXCEPT:"
+    ],
+    "options": [
+      "A) using reasonable care and exercising independent professional judgment.",
+      "B) striving to maintain and improve their competence and the competence of others in the profession.",
+      "C) demonstrating diligence, independence, and thoroughness when preparing investment reports."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R40-Q2 #3": {
+    "full": [
+      "In dealing with the public and others, the CFA Institute Code of Ethics requires that CFA Institute members act with:"
+    ],
+    "options": [
+      "A) honesty, professionalism, and high ethical standards.",
+      "B) integrity, competence, and respect.",
+      "C) candor, skill, and honor."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R40-Q2 #5": {
+    "full": [
+      "Which of the following is least likely to be a reason for imposing a suspension on a member or candidate?"
+    ],
+    "options": [
+      "A) Failing to return the annual professional conduct statement.",
+      "B) Discussing a question from the CFA exams on social media.",
+      "C) Misdemeanor charge for possession of narcotics."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R40-Q2 #9": {
+    "full": [
+      "Which of the following is least likely a component of the Code of Ethics? In dealing with the public, clients, prospects, employers, employees, and fellow members, CFA Institute members shall act with:"
+    ],
+    "options": [
+      "A) humility.",
+      "B) respect.",
+      "C) integrity."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R42-Q1 #1": {
+    "full": [
+      "Alpha Asset Management manages portfolios for clients with more than $10 million in assets. Bob Smith, a portfolio manager at Alpha, is planning to leave Alpha to set up company Beta Investment Management, to focus exclusively on clients with less than $10 million in assets. While he is still employed at Alpha, Smith begins to solicit (on his own time) potential clients with less than $10 million in assets – clients that Alpha has previously rejected for being too small. According to the Standards of Professional Conduct IV(A) related to duties to employer, Smith's solicitation of these clients is:"
+    ],
+    "options": [
+      "A) acceptable as he is not in competition with his current employer.",
+      "B) unacceptable as he may not engage in any activities to go into business while he is still employed by Alpha.",
+      "C) unacceptable since the fact the Beta will not be in competition with Alpha is irrelevant."
+    ],
+    "p": 1,
+    "a": 0
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -22673,6 +22902,37 @@ const TESTS = [
     { mod: '4.S1', what: 'Curation: adjusting data for market holidays', ok: 0, why: 'gap' },
     { mod: '4.S2', what: 'Data exploration = EDA, feature selection, feature engineering', ok: 0, why: 'gap' },
     { mod: '4.S2', what: 'High-level picture of text: word cloud', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R40-Q1', topic: 'ethics.0', name: 'Reading 40 quiz 1', date: '2026-10-23', mins: 18.4, qs: [
+    { mod: '40.S1', what: 'Code: the goal is to reflect credit on members and the profession', ok: 0, why: 'gap' },
+    { mod: '40.S1', what: 'Reflect credit = practise in a professional and ethical manner', ok: 1 },
+    { mod: '40.S1', what: 'Not in the Code (EXCEPT): protecting the CFA designation is Standard VII', ok: 0, why: 'flip' },
+    { topic: 'ethics.1', mod: '41.S5', what: 'V(C): document the recommendation made over lunch', ok: 0, why: 'gap' },
+    { mod: '40.S1', what: 'Not in the Code: lobbying for new laws', ok: 1 },
+    { mod: '40.S1', what: 'Code component: improve your own and others’ competence', ok: 0, why: 'gap' },
+    { mod: '40.S1', what: 'Not required by the Code (NOT): complying with GIPS', ok: 0, why: 'flip' },
+    { mod: '40.S1', what: 'Not in the Code: complying with laws is Standard I(A)', ok: 1 },
+    { mod: '40.S1', what: 'The Code sets no order of priority; clients first is Standard III(A)', ok: 0, why: 'gap' },
+    { mod: '40.S1', what: 'Code component: reasonable care and independent judgment', ok: 1 },
+  ] },
+  { id: 'L2-R40-Q2', topic: 'ethics.0', name: 'Reading 40 quiz 2', date: '2026-10-23', mins: 8.8, qs: [
+    { mod: '40.S1', what: 'Not in the Code (EXCEPT): diligence in preparing reports is Standard V(A)', ok: 0, why: 'flip' },
+    { topic: 'ethics.1', mod: '41.S3', what: 'III(A): not every proxy has to be voted', ok: 1 },
+    { mod: '40.S1', what: 'Code wording: integrity, competence and respect', ok: 0, why: 'gap' },
+    { mod: '40.S1', what: 'Code: improve your and colleagues’ competence (seminars)', ok: 1 },
+    { topic: 'ethics.1', mod: '41.S7', what: 'An unrelated misdemeanour is not grounds for suspension', ok: 0, why: 'gap' },
+    { mod: '40.S1', what: 'Not in the Code: contractual provisions', ok: 1 },
+    { topic: 'ethics.1', mod: '41.S6', what: 'Priority of transactions is Standard VI', ok: 1 },
+    { mod: '40.S1', what: 'Code component: reflect credit on the profession', ok: 1 },
+    { mod: '40.S1', what: 'Least likely in the Code: humility', ok: 0, why: 'flip' },
+  ] },
+  { id: 'L2-R42-Q1', topic: 'ethics.2', name: 'Reading 42 quiz 1 (Standards cases)', date: '2026-10-23', mins: 21.3, qs: [
+    { topic: 'ethics.1', mod: '41.S4', what: 'IV(A): soliciting non-competing clients on your own time is allowed', ok: 0, why: 'gap' },
+    { topic: 'ethics.1', mod: '41.S4', what: 'IV(C): the compliance officer investigates, disciplines and prevents', ok: 1 },
+    { topic: 'ethics.1', mod: '41.S4', what: 'Non-charterholders are bound when the firm adopts the Code', ok: 1 },
+    { topic: 'ethics.1', mod: '41.S3', what: 'III(C): buying an IPO you judged overpriced is unsuitable', ok: 1 },
+    { topic: 'ethics.1', mod: '41.S4', what: 'IV(B): describe outside consulting in detail and get consent', ok: 1 },
+    { topic: 'ethics.1', mod: '41.S6', what: 'Board seat: the duty to clients comes first', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
