@@ -265,6 +265,11 @@ window.addEventListener('error', function (e) {
   .weak-index-count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft); flex-shrink: 0; }
   .group-weak-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; background: var(--rose); color: #fff; border-radius: 10px; padding: 1px 7px; margin-left: 8px; }
   .miss-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); flex-shrink: 0; margin-left: 4px; }
+  .acc-chip { display: inline-block; vertical-align: middle; flex-shrink: 0; margin-left: 4px; font: 700 10.5px/1.5 var(--mono); padding: 0 6px; border-radius: 8px; border: 1px solid currentColor; }
+  .acc-chip.acc-on { color: var(--teal); background: var(--teal-bg); }
+  .acc-chip.acc-fix { color: var(--amber); background: var(--amber-bg); }
+  .acc-chip.acc-dig { color: var(--rose); background: var(--rose-bg); }
+  .acc-chip.acc-few { color: var(--slate); background: var(--slate-bg); }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px; color: var(--ink-soft); margin: 4px 0 14px; }
   .legend span { display: inline-flex; align-items: center; gap: 5px; }
   .legend .sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
@@ -1126,7 +1131,7 @@ window.addEventListener('error', function (e) {
     <div class="stats" id="stats">loading…</div>
     <div class="legend">
       <span><span class="sw" style="background:var(--amber);"></span>Teach-back gap (Claude flagged)</span>
-      <span><span class="sw" style="background:var(--rose);"></span>Tuition miss (you got it wrong externally)</span>
+      <span><span class="acc-chip acc-dig" style="margin:0 4px 0 0">%</span>Accuracy on your latest questions (green Move on, amber Shaky, red Dig in)</span>
       <span><span class="sw" style="background:var(--teal);"></span>Mastered</span>
     </div>
     <div class="cm-head-row">
@@ -26732,6 +26737,12 @@ function corpusFor(key, subjectName) {
 }
 
 function hasTuitionMiss(key) { return !!(TUITION_MISSES[key] && TUITION_MISSES[key].length); }
+// Sidebar chip: accuracy on the latest logged questions, coloured by the Test log band. Nothing until tested.
+function accChipHtml(qs) {
+  if (!qs.length) return '';
+  const a = tlAcc(qs), b = tlBand(qs);
+  return `<span class="acc-chip acc-${b}" title="Accuracy on your latest ${qs.length} question${qs.length > 1 ? 's' : ''} · ${TL_BAND[b]}">${a}%</span>`;
+}
 
 // One tuition weak spot: the questions it cost, why the wrong pick felt right, the correct
 // logic, and a step-by-step way to tackle that question type. ☆ adds it to the exam-day set.
@@ -26966,6 +26977,7 @@ function renderSidebar() {
   if (tgl) { tgl.textContent = sbAllOpen() ? 'Collapse all' : 'Expand all'; tgl.onclick = sbToggleAll; }
   list.innerHTML = '';
   exRenderNav();
+  const allQs = tlQs(tlAll());
   SUBJECTS.forEach(s => {
     const topics = s.topics.map((t, i) => ({ ...t, key: s.id + '.' + i }))
       .filter(t => !filter || corpusFor(t.key, s.name).includes(filter));
@@ -26979,8 +26991,7 @@ function renderSidebar() {
       const st = statusOf(s.id + '.' + i);
       return '<div class="tick' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></div>';
     }).join('');
-    const subjHasMiss = s.topics.some((t, i) => hasTuitionMiss(s.id + '.' + i));
-    head.innerHTML = '<span class="subj-name">' + s.name + (subjHasMiss ? ' <span class="miss-dot" style="display:inline-block;vertical-align:middle;"></span>' : '') + '</span><div class="subj-strip">' + strip + '</div>';
+    head.innerHTML = '<span class="subj-name">' + s.name + ' ' + accChipHtml(allQs.filter(q => q.topic.split('.')[0] === s.id).slice(-50)) + '</span><div class="subj-strip">' + strip + '</div>';
     head.onclick = () => { openSubjects.has(s.id) ? openSubjects.delete(s.id) : openSubjects.add(s.id); renderSidebar(); };
     wrap.appendChild(head);
     const topicsDiv = document.createElement('div');
@@ -26989,7 +27000,7 @@ function renderSidebar() {
       const row = document.createElement('div');
       row.className = 'topic-row' + (t.key === selectedKey ? ' active' : '');
       const st = statusOf(t.key);
-      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + (nwUnseenIn(t.key) ? ' <span class="new-tag inline" title="New content you haven’t seen yet">NEW</span>' : '') + rvSideHtml(t.key) + '</span>' + (hasTuitionMiss(t.key) ? '<span class="miss-dot" title="Tuition miss logged"></span>' : '') +
+      row.innerHTML = '<span class="dot' + (st === 'mastered' ? ' mastered' : st === 'progress' ? ' progress' : '') + '"></span><span style="flex:1;">' + t.name + (nwUnseenIn(t.key) ? ' <span class="new-tag inline" title="New content you haven’t seen yet">NEW</span>' : '') + rvSideHtml(t.key) + '</span>' + accChipHtml(allQs.filter(q => q.topic === t.key).slice(-30)) +
         (cmOpenCount(t.key) ? '<span class="cm-count" title="Open comments">💬 ' + cmOpenCount(t.key) + '</span>' : '');
       row.onclick = () => { selectedKey = t.key; openSubjects.add(s.id); exBackHide(); render(); };
       topicsDiv.appendChild(row);
