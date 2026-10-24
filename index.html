@@ -19189,6 +19189,53 @@ const TUITION_MISSES = {
       spot: 'The rest of this case set (supervision, suitability, extra compensation, conflicts) went 5/5. Your Standards judgment is good; the misses are in the Code wording.',
     },
   ],
+  'fsa.3': [
+    {
+      module: '10.S1',
+      title: 'Financial institutions hold financial assets, so their direct risks are financial (credit, market, liquidity, interest rate), and failure spreads: systemic, not systematic, risk',
+      at: ["s1-diff"],
+      questions: [
+        { ref: 'L2-R10-Q1 #3', ask: 'Systemic risk in financial services is LEAST likely to:', picked: 'Be caused by interdependencies in the financial system', answer: 'Concern the co-movement of an institution’s asset values with the overall market' },
+        { ref: 'L2-R10-Q1 #8', ask: 'Compared with manufacturers, financial institutions have higher direct exposure to:', picked: 'Operational, process, political and compliance risk', answer: 'Market, credit, liquidity and interest rate risk' },
+      ],
+      trap: '#3: “systemic” and “systematic” look almost identical. Interdependence is exactly what causes systemic risk, so it was a true statement; co-movement with the market is systematic (beta) risk, a different idea. #8: every firm has operational and compliance risk. The question asks what is DIRECTLY higher for a bank, and that comes from what it owns.',
+      fix: 'A bank’s productive assets are loans and securities, so its direct risks are the risks of those assets: credit, market, liquidity and interest rate. Systemic risk = one institution’s failure spreading through the system and hurting the whole economy (contagion, e.g. Lehman 2008), caused by interconnections. Systematic risk = an asset’s co-movement with the market (beta). They are not the same.',
+      tackle: [
+        'Systemic → the SYSTEM breaks (contagion). Systematic → moves with the market (beta).',
+        'For “direct exposure”, ask what the firm owns: financial assets → financial risks.',
+      ],
+    },
+    {
+      module: '10.S1',
+      title: 'The Basel Committee writes the framework and monitors it, but has no legal power to enforce it',
+      at: ["Who writes Basel III", "s1-orgs"],
+      questions: [
+        { ref: 'L2-R10-Q1 #5', ask: 'It would be LEAST accurate to state that the Basel Committee:', picked: 'Develops international regulatory framework for banks', answer: 'Has legal authority to enforce compliance' },
+      ],
+      trap: 'You picked its main job, which is true. In a “least accurate” question the true statements are the decoys; the false one here claims a power the Committee doesn’t have.',
+      fix: 'The Basel Committee on Banking Supervision (part of the BIS) develops the international framework (Basel III: minimum capital, liquidity, stable funding) and monitors how member countries adopt it. Enforcement is left to each country’s own regulators: the Committee has no legal authority over banks.',
+      tackle: [
+        'Circle “least accurate” and test each option: true → cross it out.',
+        'International bodies (Basel Committee, FSB, IOSCO, IAIS) set standards and coordinate; national regulators enforce.',
+      ],
+    },
+    {
+      module: '10.S6',
+      title: 'P&C insurers put liquidity first (claims are unpredictable), and the combined ratio is expenses ÷ premiums: above 100% is an underwriting loss',
+      at: ["Investment returns, liquidity and capital for P&C insurers", "Combined Ratio", "P&C Insurance Company"],
+      questions: [
+        { ref: 'L2-R10-Q1 #2', ask: 'Which statement about P&C insurers is MOST likely correct?', picked: 'Mostly Level 3 assets indicates an appropriate asset base', answer: 'The priority in selecting assets should be liquidity' },
+        { ref: 'L2-R10-Q1 #9', ask: 'When analysing insurers, the combined ratio is most likely to:', picked: 'Equal net premiums earned ÷ total insurance expenses', answer: 'Indicate an underwriting loss when above 100%' },
+      ],
+      trap: '#2: the fair value hierarchy is the right tool, but the direction was flipped: Level 3 is the least liquid, so mostly Level 3 is a bad sign for a P&C insurer. #9: you picked the ratio upside down. Premiums go in the denominator, which is why “above 100%” means losing money on underwriting.',
+      fix: 'P&C claims are lumpy and unpredictable (a storm can hit at any time), so assets must be liquid: look for mostly Level 1 holdings, not high-risk long-term ones. Combined ratio = total insurance expenses ÷ net premiums earned = loss ratio + expense ratio. Above 100% = an underwriting loss. A high industry ratio means a soft market (cheap premiums); a low one means a hard market.',
+      tackle: [
+        'Liquidity: Level 1 = liquid, Level 3 = illiquid. P&C wants Level 1.',
+        'Write the combined ratio as “what we pay out ÷ what we take in”; above 1 means paying out more than you take in.',
+        'High combined ratio ↔ soft market; low ↔ hard market.',
+      ],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20027,12 +20074,12 @@ const MINDMAP = {
       { id: 'b1', mod: '10.S1', tone: 'teal', t: 'Why financial institutions are different', tag: 'Systemic, financial assets, regulated', c: [
         { id: 'diff', t: 'Three differences', tag: 'Systemic importance · financial assets · regulation',
           info: ['One failure can spread (Lehman). Assets are loans and securities, close to fair value. Regulators set capital and liquidity.'],
-          from: ['s1-diff'] },
+          from: ['s1-diff'], wk: ['Financial institutions hold financial assets'] },
         { id: 'basel', t: 'Basel III: three pillars', tag: 'Minimum capital · liquidity · stable funding',
           info: ['Capital against risk-weighted assets; enough liquid assets for a stress period; stable funding for the asset base.'],
           from: ['s1-basel'], links: [['cap', 'Capital tiers in detail'], ['liq', 'LCR and NSFR']] },
         { id: 'orgs', t: 'Global bodies', tag: 'FSB, IADI, IOSCO, IAIS',
-          from: ['s1-orgs'] },
+          from: ['s1-orgs'], wk: ['The Basel Committee writes'] },
       ] },
       { id: 'b2', mod: '10.S2–10.S5', tone: 'violet', t: 'CAMELS', tag: 'Six factors for analysing a bank', c: [
         { id: 'cap', mod: '10.S2', t: 'C · Capital adequacy', tag: 'Capital ÷ risk-weighted assets',
@@ -20062,10 +20109,10 @@ const MINDMAP = {
       ] },
       { id: 'b3', mod: '10.S6', tone: 'amber', t: 'Insurance companies', tag: 'Premiums in, claims out, float invested', c: [
         { id: 'types', t: 'P&C vs. L&H', tag: 'P&C: lumpy, short · L&H: stable, long',
-          from: ['s6-types', 'L&H insurers'] },
+          from: ['s6-types', 'L&H insurers'], wk: ['P&C insurers put liquidity first'] },
         { id: 'combined', t: 'Combined ratio', tag: 'Loss ratio + expense ratio; > 100% = underwriting loss',
           info: ['Loss ratio ÷ net premiums *earned*; expense ratio ÷ net premiums *written*.', 'ABC 92.24%: most profitable on underwriting; lowest expense ratio = most efficient.'],
-          from: ['Underwriting loss ratio', 'Combined ratio after dividends', 's6-pc-ans'] },
+          from: ['Underwriting loss ratio', 'Combined ratio after dividends', 's6-pc-ans'], wk: ['P&C insurers put liquidity first'] },
         { id: 'reserve', t: 'Loss reserves', tag: 'Management’s estimate of unpaid claims: watch the revisions',
           from: ['s6-reserve'] },
       ] },
@@ -22591,6 +22638,66 @@ const TUITION_Q = {
     ],
     "p": 1,
     "a": 0
+  },
+  "L2-R10-Q1 #2": {
+    "full": [
+      "Which of the following statements regarding Property and Casualty insurance institutions is most likely correct?"
+    ],
+    "options": [
+      "A) The suitability of assets held can be analyzed by observing the status of the assets in the fair value hierarchy. A majority of level 3 reported values indicates an appropriate asset base",
+      "B) Due to the uncertainty of payout timings and levels, the institution will usually invest in high-risk, longer term assets",
+      "C) The priority in the selection of assets should be liquidity"
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R10-Q1 #3": {
+    "full": [
+      "Systemic risk in financial services is least likely to:"
+    ],
+    "options": [
+      "A) have consequences for the economy as a whole.",
+      "B) be caused by interdependencies in the financial system.",
+      "C) concern the co-movement of an institution’s asset values with the overall market."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R10-Q1 #5": {
+    "full": [
+      "It would be least accurate to state that the Basel Committee:"
+    ],
+    "options": [
+      "A) monitors adoption and implementation of standards in member jurisdictions.",
+      "B) develops international regulatory framework for banks.",
+      "C) has legal authority to enforce compliance with supervision and accountability standards."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R10-Q1 #8": {
+    "full": [
+      "Compared to manufacturing or merchandising companies, financial institutions are most likely to have higher direct exposures to:"
+    ],
+    "options": [
+      "A) market risk, credit risk, liquidity risk, and interest rate risk.",
+      "B) operational risk, process risk, political risk, and compliance risk.",
+      "C) inflationary risk, business risk, exchange rate risk, and legal risk."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R10-Q1 #9": {
+    "full": [
+      "When analyzing insurance companies, the combined ratio is most likely to:"
+    ],
+    "options": [
+      "A) suggest a soft market when it is low.",
+      "B) indicate an underwriting loss when it is higher than 100%.",
+      "C) equal net premiums earned divided by total insurance expenses."
+    ],
+    "p": 2,
+    "a": 1
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -22938,6 +23045,18 @@ const TESTS = [
     { topic: 'ethics.1', mod: '41.S3', what: 'III(C): buying an IPO you judged overpriced is unsuitable', ok: 1 },
     { topic: 'ethics.1', mod: '41.S4', what: 'IV(B): describe outside consulting in detail and get consent', ok: 1 },
     { topic: 'ethics.1', mod: '41.S6', what: 'Board seat: the duty to clients comes first', ok: 1 },
+  ] },
+  { id: 'L2-R10-Q1', topic: 'fsa.3', name: 'Reading 10 quiz 1', date: '2026-10-24', mins: 17.4, qs: [
+    { mod: '10.S5', what: 'Not in CAMELS: levels of government support', ok: 1 },
+    { mod: '10.S6', what: 'P&C insurers: liquidity first, Level 1 assets', ok: 0, why: 'gap' },
+    { mod: '10.S1', what: 'Systemic risk is not co-movement with the market (that is systematic)', ok: 0, why: 'gap' },
+    { mod: '10.S5', what: 'Mission and culture are both outside CAMELS', ok: 1 },
+    { mod: '10.S1', what: 'The Basel Committee cannot enforce compliance', ok: 0, why: 'flip' },
+    { mod: '10.S6', what: 'Interest rate risk drives L&H capital, not P&C', ok: 1 },
+    { mod: '10.S5', what: 'Outside CAMELS: culture, currency exposure, segment information', ok: 1 },
+    { mod: '10.S1', what: 'Financial institutions’ direct exposures: market, credit, liquidity, interest rate', ok: 0, why: 'gap' },
+    { mod: '10.S6', what: 'Combined ratio above 100% = underwriting loss', ok: 0, why: 'flip' },
+    { mod: '10.S1', what: 'Financial institutions’ assets are financial, not tangible', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
