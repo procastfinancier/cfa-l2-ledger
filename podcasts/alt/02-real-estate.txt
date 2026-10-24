@@ -1,0 +1,212 @@
+Types of Real Estate Investment (R31)
+
+Ava: Welcome back to the CFA Ledger Podcast, Alternative Investments, episode two: types of real estate investment. I'm Ava.
+
+Andrew: I'm Andrew. This reading is a calculation reading in disguise. NOI, DSCR, maximum loan, cap rates, DCF with a terminal value. If you're comfortable with those, you'll pick up easy marks.
+
+Ava: Let's start with the big picture. What forms can a real estate investment take?
+
+Andrew: Four basic forms, in a two by two. Private or public, equity or debt. Private equity is direct ownership of a property. Private debt is a mortgage. Public equity is REITs and REOCs. Public debt is mortgage-backed securities, residential and commercial, so RMBS and CMBS.
+
+Ava: And the difference between a REIT and a REOC?
+
+Andrew: A REIT owns and operates property and is largely exempt from corporate tax, as long as it pays out most of its income. A REOC, a real estate operating company, is an ordinary taxable company with few restrictions.
+
+Ava: Then there's a risk ladder, from safest to riskiest.
+
+Andrew: Five rungs. One, senior debt: first mortgages and investment-grade CMBS. Two, core: stable, income-producing properties, diversified REITs, sale and leaseback deals. Three, core plus: decent property you can improve with light refurbishment or better tenants. Four, value add: property that needs real upgrades or repositioning. Five, opportunistic: new development, redevelopment, and distressed debt.
+
+Ava: Exam note: core plus is riskier than core. Schweser tests exactly that.
+
+Andrew: It does. Two more ways to classify property. By the business cycle: defensive, like health care facilities, versus cyclical, like office and industrial. And by quality, Class A to Class D. Class A is new and top quality, with high current income and limited appreciation. Class D is the oldest. The lower classes offer more room for redevelopment and capital gains.
+
+Ava: Now the numbers. Start with NOI.
+
+Andrew: Net operating income equals gross potential rental income, minus vacancy and collection losses, minus operating expenses. Operating expenses are things like insurance, property taxes, utilities, maintenance and repairs.
+
+Ava: And what's not in operating expenses?
+
+Andrew: Interest and income taxes. NOI is before financing and before income tax. It's a bit like EBIT for a property.
+
+Ava: There's a subtle distinction between gross potential rental income and gross rental income.
+
+Andrew: Gross potential uses current market rents. Gross rental income uses the rents on existing signed leases. So if rents are rising, say five percent rent inflation, gross potential is higher than gross rental income, simply because market rents have moved above the older leases.
+
+Ava: Next, the lender's two ratios.
+
+Andrew: DSCR, the debt service coverage ratio, equals first year NOI divided by debt service. Debt service is interest plus principal, or just interest for an interest-only loan. And LTV, loan to value, equals the loan amount divided by appraised value.
+
+Ava: And the lender sets limits on both. So which one sets the maximum loan?
+
+Andrew: Whichever allows the smaller loan. Let's do the Schweser example. A ten percent interest-only loan. The property is appraised at one point two million. The lender requires DSCR of at least one point five, and LTV of at most eighty percent. NOI is one hundred and thirty-five thousand.
+
+Ava: LTV first.
+
+Andrew: Eighty percent of one point two million is nine hundred and sixty thousand.
+
+Ava: Now DSCR.
+
+Andrew: Maximum debt service is NOI divided by one point five. One thirty-five thousand divided by one point five is ninety thousand dollars a year. At a ten percent interest-only rate, ninety thousand of interest supports a loan of nine hundred thousand.
+
+Ava: So the answer is nine hundred thousand, the lower of the two.
+
+Andrew: Yes, set by the DSCR. Quick check: nine hundred thousand over one point two million is an LTV of seventy-five percent, inside the limit.
+
+Ava: Then the equity investor's return.
+
+Andrew: The equity dividend rate, also called cash on cash, equals NOI minus debt service, divided by equity. Same property, bought for one point two million with that nine hundred thousand loan, so equity is three hundred thousand. Cash flow is one thirty-five minus ninety, which is forty-five thousand. Divided by three hundred thousand, that's fifteen percent.
+
+Ava: And after tax?
+
+Andrew: Land is three hundred thousand, and land isn't depreciated. So the building is nine hundred thousand, depreciated straight line over thirty years, which is thirty thousand a year. Taxable income is NOI minus interest minus depreciation: one thirty-five, minus ninety, minus thirty, equals fifteen thousand. At a twenty percent tax rate, the tax is three thousand. After-tax cash flow is forty-five minus three, forty-two thousand. Divided by three hundred thousand, that's fourteen percent.
+
+Ava: And remember, the equity dividend rate is a one-period, pretax measure. It's not an IRR.
+
+Andrew: Right. An IRR covers the whole holding period, including appreciation.
+
+Ava: Principal risks next.
+
+Andrew: Two buckets. Economic and competitive factors that hit the whole asset class: economic activity, demographics, the cost and availability of capital. And property-level risks: obsolescence, rezoning, environmental issues like floods and wildfires, and property management.
+
+Ava: What drives real estate values at the macro level?
+
+Andrew: GDP growth, wage growth, and job creation. Jobs and wages lead to more household formation, which means more demand for housing. And low mortgage rates and affordable prices boost owner-occupied housing.
+
+Ava: Now the real estate cycle. Four phases.
+
+Andrew: Recovery, expansion, oversupply, recession. The trick is to know what interest rates, NOI, debt service coverage and LTV do in each phase.
+
+Andrew: Recovery starts at the business-cycle trough. Credit is tight and nobody builds. Rates, NOI and coverage bottom out and start rising, while LTV peaks and starts falling.
+
+Andrew: In expansion, wages grow, credit improves, rents rise, and new construction starts. Rates, NOI and coverage keep rising, and LTV keeps falling.
+
+Andrew: Oversupply: the economy softens just as all those projects get delivered. Rates, NOI and coverage peak and start falling. LTV bottoms and starts rising.
+
+Andrew: And recession: everything keeps sliding. Rates, NOI and coverage keep falling. LTV keeps rising.
+
+Ava: So the pattern is simple. Rates, NOI and coverage move together. LTV moves the opposite way.
+
+Andrew: That's the shortcut. And Schweser tests the expansion phase: interest rates, NOI and coverage all rise, while LTV falls.
+
+Ava: Why does real estate belong in a portfolio?
+
+Andrew: It's a hybrid. Bond-like, because of fixed lease payments. Equity-like, because of capital appreciation. Five characteristics. Current income, and unlike a bond coupon, leases often have step-ups, inflation indexing, or for retail an overage clause, meaning higher rent once the tenant's sales pass a level. Capital appreciation, though you only measure it precisely when you sell. An inflation hedge. Diversification, through low historical correlation with stocks and bonds. And tax benefits from depreciation.
+
+Ava: And liquidity is not one of them.
+
+Andrew: Definitely not. High transaction costs and infrequent trades make real estate illiquid. That's a favourite "least likely" question.
+
+Ava: Commercial property types, quickly.
+
+Andrew: Office, hurt by work from home. Industrial and warehouse, helped by e-commerce. Retail, hurt by e-commerce. Hospitality, hotels, very cyclical through business travel. Mixed use, more than one tenant type and use. And specialty: senior housing, self-storage, data centres, cell towers, parking.
+
+Ava: Now the valuation section. First, due diligence.
+
+Andrew: Five checks. Market review and outlook. Lease review, including lease expiries, vacancy expectations and tenant improvement costs. Financial review, which checks whether the seller deferred maintenance to inflate NOI. Documentation review, including the title review for liens. And physical inspection and surveys.
+
+Ava: Schweser's example: you're buying a newly renovated building and fear the contractors weren't paid.
+
+Andrew: Then you need a public records search for contractors' liens. A financial review would miss unrecorded bills.
+
+Ava: Three valuation approaches.
+
+Andrew: The cost approach says no buyer pays more than the cost of the land plus a comparable new building. Value equals land value plus replacement cost minus depreciation and obsolescence. Best for unusual properties with few comparable sales. Weakness: estimating depreciation on old buildings is hard.
+
+Andrew: The sales comparison approach prices a property off recent sales of similar ones, adjusted for size, age, location and condition. Best when there are lots of similar sales, like single-family homes.
+
+Ava: And the adjustment direction trips people up.
+
+Andrew: You adjust the comparable to look like your property. If the comparable has an undesirable feature, adjust its price up. If it has a desirable feature, adjust down. So if the comparable is four years older and depreciation is two percent a year, on a nine million price you add seven hundred and twenty thousand.
+
+Andrew: And the income approach values the property as the present value of its future cash flows. Either direct capitalization, or DCF. Best for income-producing property, and not for an owner-occupied home.
+
+Ava: So the thirty-year-old owner-occupied house?
+
+Andrew: Sales comparison. Plenty of comparables, the cost approach struggles with depreciation, and the house produces no income.
+
+Ava: Direct capitalization.
+
+Andrew: Cap rate equals first-year NOI divided by value. Flip it, and value equals NOI one divided by the cap rate. And the key link: cap rate equals the discount rate minus the growth rate. r minus g. So with growth, the cap rate is lower than the discount rate.
+
+Ava: Simple example.
+
+Andrew: An office building with expected NOI of one hundred and seventy-five thousand and a cap rate of eight percent. Value is one seventy-five thousand divided by zero point zero eight, which is two million, one hundred and eighty-seven thousand, five hundred.
+
+Ava: And when you have to find the cap rate from a comparable?
+
+Andrew: A similar building with NOI of two hundred thousand sold for two and a half million. Cap rate is eight percent. Your building has NOI of one hundred and thirty thousand, so its value is one thirty thousand over zero point zero eight, one million six hundred and twenty-five thousand.
+
+Ava: Now DCF with a terminal cap rate.
+
+Andrew: Value is the present value of each year's NOI, plus the present value of a terminal value. The terminal value equals next year's NOI after the holding period divided by the terminal cap rate. And the terminal cap rate is r minus the long-run growth rate.
+
+Ava: Walk us through the office building example.
+
+Andrew: A three-year hold. NOI in year one is two million, it grows five percent for two years, then three percent forever. The required return is eight percent.
+
+Andrew: NOI year two is two point one million. Year three, two point two zero five million. Year four, two point two zero five times one point zero three, about two point two seven one two million.
+
+Andrew: Terminal cap rate is eight minus three, five percent. So the terminal value at the end of year three is two point two seven one two divided by zero point zero five, about forty-five point four two million.
+
+Andrew: Now discount at eight percent. Cash flows are two million in year one, two point one in year two, and in year three, two point two zero five plus forty-five point four two, which is forty-seven point six three. The value comes out at about forty-one point four six million.
+
+Ava: Note the terminal value uses year four NOI, not year three.
+
+Andrew: That's the classic trap. Same with Gordon growth: you capitalize next year's figure.
+
+Ava: And stabilized NOI?
+
+Andrew: If year-one NOI is temporarily low, say because of a renovation, capitalize the NOI as if the renovation were done, then subtract the value lost during the temporary dip.
+
+Ava: Last topic: real estate indexes.
+
+Andrew: Two families. Appraisal-based, like the NCREIF Property Index, and transaction-based.
+
+Andrew: The NCREIF index return equals NOI minus capital expenditures, plus the change in market value, all divided by beginning market value. Members submit appraisals quarterly, and the index is value weighted.
+
+Ava: And the big problem is appraisal lag.
+
+Andrew: Appraisals rely on past transactions and happen infrequently, so the index lags real prices by a quarter or more. The lag smooths the index like a moving average. So it shows lower volatility and lower correlation with other asset classes than reality. Real estate's low correlation may partly be an artefact of how the index is built.
+
+Ava: Fixes?
+
+Andrew: Unsmooth the index with an autoregressive model, or use a transaction-based index instead. There are two kinds. A repeat-sales index uses repeated sales of the same property, so it needs a property to sell twice. A hedonic index needs only one sale. A regression controls for size, age, location and so on.
+
+Ava: So appraisal-based indexes are the ones that lag, not transaction-based ones.
+
+Andrew: Exactly.
+
+Ava: Quiz time. Question one. A ten percent interest-only loan. NOI is two hundred thousand. The lender wants DSCR of at least one point six and LTV of at most eighty percent. Appraised value is one point five million. What's the maximum loan?
+
+   (pause and answer)
+
+Andrew: DSCR: two hundred thousand over one point six is one hundred and twenty-five thousand of interest, which supports a loan of one point two five million. LTV: eighty percent of one point five million is one point two million. The lower binds. Maximum loan, one point two million.
+
+Ava: Question two. In the oversupply phase of the cycle, is LTV rising or falling?
+
+   (pause and answer)
+
+Andrew: It bottoms and starts rising, because values fall.
+
+Ava: Question three. Does appraisal lag make measured real estate volatility look higher or lower than reality?
+
+   (pause and answer)
+
+Andrew: Lower. Smoothing understates both volatility and correlation.
+
+Ava: Question four. Which index needs only one sale of a property?
+
+   (pause and answer)
+
+Andrew: The hedonic index.
+
+Ava: Three things to remember.
+
+Andrew: One. Maximum loan is the lower of the LTV limit and the DSCR limit. Turn the DSCR into debt service, then into a loan.
+
+Andrew: Two. Value equals NOI one divided by the cap rate, and the cap rate equals r minus g. The terminal value uses next year's NOI.
+
+Andrew: Three. Appraisal-based indexes lag, so they understate volatility and correlation. Transaction-based indexes, repeat-sales and hedonic, avoid the lag.
+
+Ava: Next episode: publicly traded real estate. REIT rules, NAV per share, FFO and AFFO. See you there.
+

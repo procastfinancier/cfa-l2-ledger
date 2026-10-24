@@ -1078,6 +1078,32 @@ window.addEventListener('error', function (e) {
     .ex-fgrid { grid-template-columns: 1fr; }
     .ex-sess { padding-left: 9px; }
   }
+  .pd-jump { border-left-color: var(--teal); }
+  .pd-jump:hover, .pd-jump:focus-visible { border-color: var(--teal); }
+  .pd-jump span { color: var(--teal); }
+  .pd-ep { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 0 0 8px; }
+  .pd-ep.playing { border-color: var(--teal); box-shadow: inset 4px 0 0 var(--teal); }
+  .pd-ep-top { display: flex; align-items: center; gap: 12px; }
+  .pd-play { flex: none; width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--teal); color: #fff; font-size: 15px; cursor: pointer; }
+  .pd-ep.done .pd-play { background: var(--slate); }
+  .pd-ep-main { flex: 1; min-width: 0; }
+  .pd-ep-title { font: 600 14.5px var(--sans); color: var(--ink); }
+  .pd-ep-meta { font: 12px var(--mono); color: var(--ink-soft); margin-top: 2px; }
+  .pd-ep-meta b { color: var(--teal); }
+  .pd-ep-acts { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0 52px; }
+  .pd-tx { margin: 8px 0 0 52px; font: 13.5px/1.55 var(--sans); color: var(--ink); }
+  .pd-tx summary { cursor: pointer; color: var(--ink-soft); font: 12px var(--mono); }
+  .pd-tx-body p { margin: 6px 0; }
+  .pd-tx-body .pd-tx-pause { color: var(--ink-faint); font-style: italic; }
+  .pd-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; background: var(--panel); border-top: 1px solid var(--line); box-shadow: 0 -6px 18px rgba(27, 33, 48, 0.12); padding: 6px 16px 8px; }
+  .pd-bar[hidden] { display: none; }
+  .pd-bar-top { display: flex; align-items: center; gap: 8px; max-width: 900px; margin: 0 auto; }
+  .pd-bar-title { flex: 1; min-width: 0; font: 600 13px var(--sans); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pd-speed { font: 600 12px var(--mono); padding: 3px 8px; border-radius: 12px; border: 1px solid var(--teal); background: var(--teal-bg); color: var(--teal); cursor: pointer; }
+  .pd-bar audio { display: block; width: 100%; max-width: 900px; height: 40px; margin: 4px auto 0; }
+  body.pd-on { padding-bottom: 96px; }
+  body.pd-on .cm-fab, body.pd-on .ex-back { bottom: 112px; }
+  body.pd-on #cmFab:not([hidden]) ~ .ai-fab { bottom: 174px; }
   @media print {
     #app { background: none; padding: 0; }
     header, .sidebar, .cm-fab, .ex-back, .ex-tools, .st-btn, .ex-link, .cm-btn { display: none !important; }
@@ -1156,6 +1182,10 @@ window.addEventListener('error', function (e) {
   <button type="button" class="cm-fab" id="cmFab" hidden aria-label="Comment on the section on screen">💬</button>
   <button type="button" class="ex-back" id="exBack" hidden></button>
   <button type="button" class="cm-fab ai-fab" id="aiFab" aria-label="Ask AI about this reading">🤖</button>
+  <div class="pd-bar" id="pdBar" hidden>
+    <div class="pd-bar-top"><span class="pd-bar-title" id="pdTitle"></span><button type="button" class="pd-speed" id="pdSpeed" title="Playback speed">1×</button><button type="button" class="cm-x" id="pdClose" aria-label="Close the player">×</button></div>
+    <audio id="pdAudio" controls preload="none"></audio>
+  </div>
   <div class="cm-overlay" id="aiPanel" hidden>
     <div class="cm-card cm-card-wide ai-card" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
       <div class="cm-card-head"><span id="aiTitle">Ask AI</span><span class="ai-head-acts"><button type="button" class="cm-ghost" id="aiNew">New chat</button><button type="button" class="cm-x" data-cm-close aria-label="Close">×</button></span></div>
@@ -23065,6 +23095,21 @@ const TESTS = [
 // exam), and each task has its text `t`, an optional slot `w` (AM / PM / Eve) and an optional `go` link: a
 // reading 'topic|module', 'tests', or an exam view such as 'exam:formulas'. Ticks are stored against the
 // day and the task's position, so add new tasks at the end of a day rather than in the middle.
+// 🎧 Podcasts: two-voice audio revision (Ava asks, Andrew explains), one episode per reading plus a drill.
+// Each episode's MP3 and transcript (.txt) sit at f + '.mp3' / f + '.txt'. The scripts and the build
+// (edge-tts) are in OneDrive\CFA Podcasts\_build.
+const PODCASTS = [
+  { id: 'alt', name: 'Alternative investments', eps: [
+    { f: 'podcasts/alt/01-commodities', topic: 'alt.0', t: 'Commodities and Commodity Derivatives', r: 'R30', len: '16:32' },
+    { f: 'podcasts/alt/02-real-estate', topic: 'alt.1', t: 'Types of Real Estate Investment', r: 'R31', len: '16:56' },
+    { f: 'podcasts/alt/03-reits', topic: 'alt.2', t: 'Real Estate Through Publicly Traded Securities', r: 'R32', len: '13:04' },
+    { f: 'podcasts/alt/04-hedge-funds', topic: 'alt.3', t: 'Hedge Fund Strategies', r: 'R33', len: '15:11' },
+    { f: 'podcasts/alt/05-rapid-fire', topic: '', t: 'Rapid-Fire Exam Drill', r: 'R30–R33', len: '9:41' },
+  ] },
+];
+const PD_STORE = 'ledgerPodcast.v1'; // this device only: where each episode stopped, and the speed
+const PD_SPEEDS = [1, 1.25, 1.5, 1.75];
+const pd = { cur: null, seek: 0, saved: 0 };
 const EXAM_AT = '2026-11-22T09:00:00+05:30';
 const STUDY_END = '2026-11-22T00:00:00+05:30';
 const STUDY_LAST = '2026-11-21';
@@ -26758,7 +26803,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -27554,6 +27599,7 @@ function renderDetail() {
   if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
   if (selectedKey === 'tests') { safeHtml(() => tlRender(el)); return; }
   if (selectedKey === 'plan') { safeHtml(() => plRender(el)); return; }
+  if (selectedKey === 'podcasts') { safeHtml(() => pdRender(el)); return; }
   if (exIsView(selectedKey)) { renderExam(el); return; }
   const meta = FLAT.find(t => t.key === selectedKey);
   const st = statusOf(selectedKey);
@@ -27569,6 +27615,7 @@ function renderDetail() {
       ${CONTENT[selectedKey].overview}
     </div>` : ''}
     ${MINDMAP[selectedKey] ? `<button type="button" class="mm-jump" data-exview="exam:notes|${selectedKey}|mm">🧭 <b>Mind map</b> of this reading: how its topics split and connect <span>Open in 📝 Concise notes →</span></button>` : ''}
+    ${safeHtml(() => pdReadingHtml(selectedKey))}
     ${safeHtml(() => renderWeakIndex(selectedKey))}
     ${(CONTENT[selectedKey] && CONTENT[selectedKey].flow) ? renderFlow(selectedKey) : `
     ${(CONTENT[selectedKey] && ((CONTENT[selectedKey].compares && CONTENT[selectedKey].compares.length) || CONTENT[selectedKey].compare || CONTENT[selectedKey].notes)) ? `
@@ -27707,7 +27754,7 @@ function cmPaintButtons() {
     b.innerHTML = sec ? '💬' + (n ? ' ' + n : '') : '💬 ' + (n ? n + ' on this reading' : 'Comment');
   });
   const fab = document.getElementById('cmFab');
-  fab.hidden = !selectedKey || exIsView(selectedKey) || selectedKey === 'tests' || selectedKey === 'plan';
+  fab.hidden = !selectedKey || exIsView(selectedKey) || selectedKey === 'tests' || selectedKey === 'plan' || selectedKey === 'podcasts';
 }
 // The section whose heading was last scrolled past the top third of the screen.
 function cmSectionOnScreen() {
@@ -28131,7 +28178,7 @@ function rvPaintSession(sec) {
 }
 function rvRepaint() {
   if (!selectedKey) return;
-  if (selectedKey === 'tests' || selectedKey === 'plan') {
+  if (selectedKey === 'tests' || selectedKey === 'plan' || selectedKey === 'podcasts') {
     { const y = window.scrollY; renderDetail(); window.scrollTo(0, y); }
     plBar();
     return;
@@ -28477,7 +28524,7 @@ function stToggle(k, kind) {
 function exRenderNav() {
   const n = safeHtml(exSetCount) || 0;
   document.getElementById('exNav').innerHTML = safeHtml(plNavHtml) + '<div class="ex-nav-label">Exam-day revision</div>' + Object.keys(EX_VIEWS).map(v =>
-    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml);
+    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml) + safeHtml(pdNavHtml);
 }
 function exGoBtn(topic, mod, anchor, label) {
   return `<button type="button" class="ex-link" data-exgo="${escapeHtml(topic + '|' + mod + '|' + (anchor || ''))}" title="Open where this came from in the notes">↗ ${escapeHtml(label || mod)}</button>`;
@@ -28678,7 +28725,7 @@ function exScrollFlash(t, center) {
 }
 function exSetBack() {
   if (!selectedKey) return;
-  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || (selectedKey === 'tests' ? 'Test log' : selectedKey === 'plan' ? 'Daily plan' : cmReadingOf(selectedKey)).replace(/:.*/, '') };
+  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || (selectedKey === 'tests' ? 'Test log' : selectedKey === 'plan' ? 'Daily plan' : selectedKey === 'podcasts' ? 'Podcasts' : cmReadingOf(selectedKey)).replace(/:.*/, '') };
   const b = document.getElementById('exBack');
   b.textContent = '← Back to ' + ex.back.label; b.hidden = false;
 }
@@ -29339,6 +29386,161 @@ function plTaskHtml(d, t, i, from) {
   return `<li class="pl-task${done ? ' done' : ''}"><button type="button" class="pl-tick" data-pltick="${d}#${i}" aria-pressed="${done}" aria-label="Done">${done ? '✓' : ''}</button>` +
     `<span class="pl-text">${from ? `<span class="pl-from">from ${plDayName(from)}</span>` : ''}${t.w ? `<span class="pl-when">${t.w}</span>` : ''}${escapeHtml(t.t)}</span>${plGo(t.go)}</li>`;
 }
+// --- 🎧 Podcasts. One <audio> in a bar pinned to the bottom, outside #detail, so it keeps playing
+// while moving around the page. Where each episode stopped and the speed stay on this device;
+// "listened" syncs with progress as a star|-|-|pod:<name> row (on: false, so it never counts as a star).
+function pdEp(f) {
+  for (const s of PODCASTS) for (const e of s.eps) if (e.f === f) return { s, e };
+  return null;
+}
+function pdLoad() { try { return JSON.parse(localStorage.getItem(PD_STORE) || '{}') || {}; } catch (e) { return {}; } }
+function pdStore(o) { try { localStorage.setItem(PD_STORE, JSON.stringify(o)); } catch (e) {} }
+function pdPos() { return pdLoad().pos || {}; }
+function pdSetPos(f, t) {
+  const o = pdLoad();
+  o.pos = o.pos || {};
+  if (t > 5) o.pos[f] = Math.floor(t); else delete o.pos[f];
+  pdStore(o);
+}
+function pdSpeed() { const v = +pdLoad().speed; return PD_SPEEDS.indexOf(v) >= 0 ? v : 1; }
+function pdClock(sec) { sec = Math.floor(sec); return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); }
+function pdKey(f) { return 'star|-|-|pod:' + f.split('/').pop(); }
+function pdDone(f) { const v = pgGet(pdKey(f)); return !!(v && v.done); }
+function pdSetDone(f, on) {
+  const x = pdEp(f);
+  pgSet(pdKey(f), { reading: x && x.e.topic ? cmReadingOf(x.e.topic) : '', session: '', item: 'Podcast listened: ' + (x ? x.e.t : f) }, { on: false, done: on ? 1 : 0 });
+}
+function pdNavHtml() {
+  const left = PODCASTS.reduce((n, s) => n + s.eps.filter(e => !pdDone(e.f)).length, 0);
+  return `<div class="ex-nav-label">Listen</div><div class="topic-row${selectedKey === 'podcasts' ? ' active' : ''}" data-exview="podcasts" data-new="f-podcasts" role="button" tabindex="0"><span>🎧</span><span style="flex:1;">Podcasts</span>${left ? '<b>' + left + ' to hear</b>' : ''}</div>`;
+}
+function pdReadingHtml(topic) {
+  let e = null;
+  PODCASTS.forEach(s => s.eps.forEach(x => { if (x.topic === topic) e = x; }));
+  if (!e) return '';
+  return `<button type="button" class="mm-jump pd-jump" data-pdplay="${escapeHtml(e.f)}" data-new="f-pod-reading">🎧 <b>Listen</b>: this reading as a ${parseInt(e.len, 10)}-minute podcast <span>${pd.cur === e.f ? 'Playing below ↓' : 'Play ▶'}</span></button>`;
+}
+function pdEpHtml(e, i, pos) {
+  const done = pdDone(e.f), at = pos[e.f], f = escapeHtml(e.f);
+  return `<div class="pd-ep${done ? ' done' : ''}${pd.cur === e.f ? ' playing' : ''}">
+    <div class="pd-ep-top"><button type="button" class="pd-play" data-pdplay="${f}" aria-label="Play or pause ${escapeHtml(e.t)}">▶</button>
+      <div class="pd-ep-main"><div class="pd-ep-title">${i + 1}. ${escapeHtml(e.t)}</div>
+      <div class="pd-ep-meta">${escapeHtml(e.r)} · ${e.len}${at ? ' · stopped at ' + pdClock(at) : ''}${done ? ' · <b>✓ Listened</b>' : ''}</div></div></div>
+    <div class="pd-ep-acts">${e.topic ? exGoBtn(e.topic, '', '', 'Notes: ' + e.r) : ''}<a class="ex-link" href="${f}.mp3" download>⬇ Download</a><button type="button" class="ex-link" data-pddone="${f}">${done ? '↩ Not listened' : '✓ Mark listened'}</button></div>
+    <details class="pd-tx" data-pdtx="${f}"><summary>Transcript</summary><div class="pd-tx-body">Loading…</div></details>
+  </div>`;
+}
+function pdRender(el) {
+  const pos = pdPos();
+  el.innerHTML = `
+    <div class="crumb">Listen</div>
+    <h2 class="topic-title">🎧 Podcasts</h2>
+    <p class="topic-desc">Two-voice audio revision for travelling, built from these notes: Ava asks, Andrew explains, worked examples step by step. Each episode ends with a quiz that pauses for you to answer. The player stays at the bottom while you move around the page and remembers where you stopped on this device. ⬇ Download saves the MP3 for listening offline.</p>
+    ${PODCASTS.map(s => `<section class="block"><div class="block-label">${escapeHtml(s.name)} · ${s.eps.length} episodes</div>
+      ${s.eps.map((e, i) => pdEpHtml(e, i, pos)).join('')}</section>`).join('')}`;
+  pdPaint();
+}
+function pdTxHtml(txt) {
+  return txt.split(/\r?\n/).map(l => l.trim()).filter(Boolean).slice(1).map(l => {
+    if (/^\(pause/.test(l)) return '<p class="pd-tx-pause">⏸ pause and answer</p>';
+    const m = l.match(/^(Ava|Andrew):\s*(.*)$/);
+    return m ? `<p><b>${m[1]}</b> ${escapeHtml(m[2])}</p>` : `<p>${escapeHtml(l)}</p>`;
+  }).join('');
+}
+// Play buttons show ⏸ for the episode playing; the episode cards and Listen buttons follow without a re-render.
+function pdPaint() {
+  const a = document.getElementById('pdAudio'), on = a && !a.paused;
+  document.querySelectorAll('.pd-play[data-pdplay]').forEach(b => {
+    const me = b.getAttribute('data-pdplay') === pd.cur;
+    b.textContent = me && on ? '⏸' : '▶';
+    b.closest('.pd-ep').classList.toggle('playing', me);
+  });
+  document.querySelectorAll('.pd-jump[data-pdplay] span').forEach(sp => {
+    sp.textContent = sp.parentNode.getAttribute('data-pdplay') === pd.cur && on ? 'Playing below ↓' : 'Play ▶';
+  });
+}
+function pdPlay(f) {
+  const a = document.getElementById('pdAudio'), x = pdEp(f);
+  if (!a || !x) return;
+  if (pd.cur === f && a.getAttribute('src')) {
+    if (a.paused) { const p = a.play(); if (p && p.catch) p.catch(() => {}); } else a.pause();
+    return;
+  }
+  if (pd.cur) pdSetPos(pd.cur, a.currentTime);
+  pd.cur = f; pd.seek = pdPos()[f] || 0;
+  a.src = f + '.mp3';
+  a.defaultPlaybackRate = a.playbackRate = pdSpeed();
+  document.getElementById('pdTitle').textContent = x.e.r + ' · ' + x.e.t;
+  document.getElementById('pdSpeed').textContent = pdSpeed() + '×';
+  document.getElementById('pdBar').hidden = false;
+  document.body.classList.add('pd-on');
+  const p = a.play(); if (p && p.catch) p.catch(() => {});
+  try {
+    if ('mediaSession' in navigator && window.MediaMetadata) navigator.mediaSession.metadata = new MediaMetadata({ title: x.e.t, artist: 'CFA Ledger Podcast', album: 'CFA Level II · ' + x.s.name });
+  } catch (e) {}
+  pdPaint();
+}
+function pdClose() {
+  const a = document.getElementById('pdAudio');
+  if (pd.cur) pdSetPos(pd.cur, a.currentTime);
+  a.pause(); a.removeAttribute('src'); a.load();
+  pd.cur = null;
+  document.getElementById('pdBar').hidden = true;
+  document.body.classList.remove('pd-on');
+  if (selectedKey === 'podcasts') rvRepaint(); else pdPaint();
+}
+function pdInit() {
+  const a = document.getElementById('pdAudio');
+  if (!a) return;
+  a.addEventListener('loadedmetadata', () => {
+    if (pd.seek && pd.seek < a.duration - 10) a.currentTime = pd.seek;
+    pd.seek = 0;
+  });
+  a.addEventListener('timeupdate', () => {
+    if (pd.cur && Date.now() - pd.saved > 5000) { pd.saved = Date.now(); pdSetPos(pd.cur, a.currentTime); }
+  });
+  a.addEventListener('play', pdPaint);
+  a.addEventListener('pause', () => { if (pd.cur) pdSetPos(pd.cur, a.currentTime); pdPaint(); });
+  a.addEventListener('ended', () => {
+    const f = pd.cur;
+    if (!f) return;
+    pdSetPos(f, 0);
+    if (!pdDone(f)) pdSetDone(f, true);
+    rvRepaint();
+  });
+  document.getElementById('pdClose').onclick = pdClose;
+  document.getElementById('pdSpeed').onclick = () => {
+    const v = PD_SPEEDS[(PD_SPEEDS.indexOf(pdSpeed()) + 1) % PD_SPEEDS.length], o = pdLoad();
+    o.speed = v; pdStore(o);
+    a.defaultPlaybackRate = a.playbackRate = v;
+    document.getElementById('pdSpeed').textContent = v + '×';
+  };
+  try {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('seekbackward', d => { a.currentTime = Math.max(0, a.currentTime - ((d && d.seekOffset) || 15)); });
+      navigator.mediaSession.setActionHandler('seekforward', d => { a.currentTime = Math.min(a.duration || 0, a.currentTime + ((d && d.seekOffset) || 30)); });
+    }
+  } catch (e) {}
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-pdplay],[data-pddone]');
+    if (!t) return;
+    e.preventDefault();
+    if (t.hasAttribute('data-pdplay')) { pdPlay(t.getAttribute('data-pdplay')); return; }
+    const f = t.getAttribute('data-pddone');
+    pdSetDone(f, !pdDone(f));
+    rvRepaint();
+  });
+  // Transcripts load the first time they are opened.
+  document.addEventListener('toggle', e => {
+    const d = e.target;
+    if (!d.open || !d.hasAttribute || !d.hasAttribute('data-pdtx') || d.getAttribute('data-loaded')) return;
+    d.setAttribute('data-loaded', '1');
+    const body = d.querySelector('.pd-tx-body');
+    fetch(d.getAttribute('data-pdtx') + '.txt').then(r => r.ok ? r.text() : Promise.reject(r.status))
+      .then(txt => { body.innerHTML = pdTxHtml(txt); })
+      .catch(() => { body.textContent = 'Couldn’t load the transcript. Check the connection and open it again.'; d.removeAttribute('data-loaded'); });
+  }, true);
+}
 function plNavHtml() {
   const day = plToday(), c = day && plCount(day);
   return `<div class="ex-nav-label">Countdown</div><div class="topic-row${selectedKey === 'plan' ? ' active' : ''}" data-exview="plan" data-new="f-plan" role="button" tabindex="0"><span>📅</span><span style="flex:1;">Daily plan</span>${c ? '<b>' + c.done + '/' + c.n + '</b>' : ''}</div>`;
@@ -29414,6 +29616,7 @@ qzInit();
 wkInit();
 mmInit();
 aiInit();
+pdInit();
 </script>
 </body>
 </html>

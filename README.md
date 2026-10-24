@@ -93,6 +93,22 @@ Tuition weak-spot cards can be folded: **Hide ▴** on one card, or **Hide all w
 Each session in the notes shows a 🧪 chip with its latest result, and 📈 Revision
 shows how many sessions the tests say to fix.
 
+## Podcasts
+
+**🎧 Podcasts** (sidebar, under *Listen*) plays two-voice audio revision: Ava asks,
+Andrew explains, built from the notes, with a quiz at the end of each episode that
+pauses for an answer. So far: Alternative investments, R30–R33 plus a rapid-fire drill.
+Each reading with an episode also has a 🎧 **Listen** button under its title.
+
+The player is a bar pinned to the bottom of the screen, so it keeps playing while
+moving between readings. It remembers where each episode stopped and the speed
+(1× to 1.75×) on the device; **✓ Listened** syncs with progress. **⬇ Download**
+saves the MP3 for offline listening.
+
+The MP3s and transcripts live in `podcasts/<series>/`, listed in `PODCASTS` in
+`index.html`. The dialogue scripts and the build (edge-tts neural voices) are kept
+outside the repo in `OneDrive\CFA Podcasts\_build`.
+
 ## Exam-day revision
 
 Three pages at the top of the sidebar, for the last days before the exam:

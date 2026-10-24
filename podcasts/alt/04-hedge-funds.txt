@@ -1,0 +1,192 @@
+Hedge Fund Strategies (R33)
+
+Ava: Welcome to episode four of the CFA Ledger Podcast Alternative Investments series: hedge fund strategies. I'm Ava.
+
+Andrew: I'm Andrew. Very few formulas in this reading. It's a comparison reading: which strategy uses the most leverage, which is most liquid, which has a left tail, which helps a sixty-forty portfolio most. So we'll keep comparing as we go.
+
+Ava: What makes a hedge fund different from a traditional fund?
+
+Andrew: Fewer regulatory constraints. The freedom to short and use derivatives. A larger investment universe. Fairly free use of leverage. And for investors, the downsides: lock-ups, little transparency, and higher fees. The big question for an allocator is whether those fees are justified by the returns and diversification.
+
+Ava: Six strategy categories. Let's list them, and we'll go through each.
+
+Andrew: One, equity related. Two, event driven. Three, relative value. Four, opportunistic. Five, specialist. And six, multi-manager.
+
+Ava: And the strategies inside each?
+
+Andrew: Equity related: long-short equity, dedicated short and short-biased, and equity market neutral. Event driven: merger arbitrage and distressed securities. Relative value: fixed-income arbitrage and convertible bond arbitrage. Opportunistic: global macro and managed futures. Specialist: volatility trading, and reinsurance and life settlements. Multi-manager: multi-strategy funds and funds of funds.
+
+Ava: Two classification questions Schweser loves. Convertible arbitrage?
+
+Andrew: Relative value.
+
+Ava: Managed futures?
+
+Andrew: Opportunistic.
+
+Ava: Let's do the equity strategies. Long-short equity first.
+
+Andrew: Long the stocks you expect to rise, short the ones you expect to fall, usually focused on a sector. Typically forty to sixty percent net long. A typical gross exposure is seventy to ninety percent long and twenty to fifty percent short. The aim is long-only returns with about half the standard deviation.
+
+Ava: So eighty percent long and thirty-five percent short is a long-short equity fund.
+
+Andrew: Exactly the Schweser question. And remember the fee issue: part of the return is just market beta, which you could buy far more cheaply from a long-only fund.
+
+Ava: Dedicated short and short-biased.
+
+Andrew: Dedicated short funds are sixty to a hundred and twenty percent short, with no longs, tempered by cash. Short-biased funds are thirty to sixty percent net short. They hunt for overpriced stocks: bad business models, too much debt, or deceitful accounting. They use little leverage. They have negative correlation with conventional assets, but low expected returns, because markets trend upward over time.
+
+Ava: And equity market neutral.
+
+Andrew: Long undervalued stocks, short overvalued ones, sized so the betas sum to zero. The alpha comes as prices mean-revert. Because the market beta is hedged away, the returns are modest, so it needs high leverage to make them worthwhile. Low volatility, strong diversification, mostly quantitative. It does best when markets are volatile and falling.
+
+Ava: So which equity strategy uses the most leverage?
+
+Andrew: Equity market neutral. And the short strategies use the least.
+
+Ava: Three subtypes of market neutral.
+
+Andrew: Pairs trading: two similar, co-integrated stocks, long the cheap one, short the expensive one. Stub trading: long and short a subsidiary and its parent, sized to the parent's ownership stake. And multi-class trading: long and short two share classes of the same company, like voting and non-voting shares.
+
+Ava: Event-driven strategies. First, soft catalyst versus hard catalyst.
+
+Andrew: Soft catalyst means positioning before an event is announced. Hard catalyst means positioning after the announcement, while prices are still adjusting. Soft catalyst is riskier. And the main risk for all of these is event risk: the deal fails, the downgrade happens, the bankruptcy goes badly.
+
+Ava: Merger arbitrage.
+
+Andrew: In a stock-for-stock deal, you go long the target and short the acquirer. It's like writing insurance on the deal: you earn a steady premium if it completes. But if the deal fails, the target drops and the acquirer rises, and you can lose around forty percent. That's a big left tail. Managers use three hundred to five hundred percent leverage for low double-digit returns. It's relatively liquid, and the steady returns give a high Sharpe ratio.
+
+Ava: Distressed securities.
+
+Andrew: Securities of firms in or near bankruptcy. There's extra mispricing, because banks and insurers often can't hold junk securities, so they become forced sellers. The manager needs to know the liquidation order: senior secured, then junior secured, then unsecured, then convertible debt, then preferred, then common. Positions are mostly long, leverage is low, illiquidity is moderately high, and lock-ups are long. Returns are higher than other event-driven strategies, but more variable.
+
+Ava: Relative value. Fixed-income arbitrage.
+
+Andrew: Long undervalued bonds, short overvalued ones, or trades on the shape of the yield curve. Carry trades too: short the low yielder, long the high yielder. Bonds are priced efficiently, so the mispricings are tiny and leverage is substantial: four hundred percent is common, and sometimes up to fifteen hundred percent.
+
+Ava: And the risk profile.
+
+Andrew: It looks like writing puts. You collect small gains from carry and spread narrowing, but an unexpected spread widening, with all that leverage, hurts badly. Margin calls can cascade, which is what happened to LTCM in the late nineties.
+
+Ava: Convertible bond arbitrage.
+
+Andrew: A convertible is a straight bond plus a call on the stock. The convertible's implied volatility is often cheap compared with the stock's actual volatility. So the manager buys the convertible and hedges by shorting the stock, sized by the call's delta. For example, three times long the bond and two times short the equity. It works best in normal markets, with available liquidity, modest volatility and plenty of new issuance. It struggles in illiquid markets and credit stress.
+
+Ava: Opportunistic strategies. These are the top-down ones.
+
+Andrew: Right. Global macro and managed futures. Both are highly liquid and use high leverage. The key difference: global macro is more discretionary, while managed futures is mostly systematic.
+
+Ava: Global macro.
+
+Andrew: Forecast inflation, currencies, yield curves, central bank policy, and spot global trends early. Positions are directional or thematic. Leverage is often six hundred to seven hundred percent. Returns are lumpy, and low-volatility, mean-reverting markets are bad for it. It's often contrarian, and historically it has shown right-tail skew in stress, though not reliably.
+
+Ava: Managed futures.
+
+Andrew: Long and short futures, forwards and swaps. About one eighth of capital goes to margin, and the rest sits in short-term government bonds. It's extremely liquid and mostly systematic, built on momentum. Time-series momentum follows each asset's own trend. Cross-sectional momentum buys the fastest risers within an asset class and shorts the fallers. Very low correlation with stocks and bonds, and right-skewed returns in stress.
+
+Ava: Risk for managed futures?
+
+Andrew: Crowding. When everyone uses similar signals, you get herding and slippage, and signals lose power.
+
+Ava: Specialist strategies. Volatility trading.
+
+Andrew: Buy cheap volatility and sell expensive volatility, across countries and assets. Asian implied volatility, for instance, is generally cheap compared with how volatile those markets really are. Selling volatility earns an insurance-like premium in normal times, but a volatility spike can blow it up. Buying volatility has positive convexity and is a great hedge, because equity volatility is about eighty percent negatively correlated with equity returns.
+
+Ava: Minus eighty percent. That number gets tested.
+
+Andrew: It does. The tools are listed options, OTC options, VIX futures, and variance swaps. Two notes. The VIX mean-reverts, so trend-following on the VIX fails. And a variance swap is really a forward, paying realized variance minus the strike variance, times notional.
+
+Ava: And life settlements and reinsurance.
+
+Andrew: In a life settlement, a person sells their life insurance policy to the fund. The fund pays the remaining premiums and collects the death benefit. So the fund wants a low purchase price, low ongoing premiums, and an insured person likely to die sooner than the actuarial tables predict.
+
+Ava: A slightly grim strategy.
+
+Andrew: It is. And in catastrophe reinsurance, insurers pass risk to reinsurers, who pass it on to hedge funds. Both are illiquid, but almost uncorrelated with markets and the business cycle.
+
+Ava: Multi-manager. Fund of funds versus multi-strategy.
+
+Andrew: A fund of funds pools investors' money into many outside hedge funds. Benefits: diversification, manager selection, due diligence, access to closed funds, and a low entry point. Maybe a hundred thousand dollars, instead of a million per single fund.
+
+Ava: Drawbacks?
+
+Andrew: A second layer of fees. Historically "two and twenty" underneath, plus "one and ten to twenty" on top. Little transparency into the underlying funds. And no netting of performance fees: you pay incentive fees to the winners, even if the total result is poor.
+
+Ava: And multi-strategy funds.
+
+Andrew: Several strategies run in-house by one firm. Faster tactical reallocation, because of internal transparency. Better fee terms, because you usually pay incentive fees on total performance. And better risk management. But operational risk isn't diversified, since it's all under one roof. And they use more leverage, which brings left-tail blow-ups, like Amaranth in two thousand six. Historically, multi-strategy funds have outperformed funds of funds.
+
+Ava: So, compared with a multi-strategy fund, a fund of funds has?
+
+Andrew: More diversification of managers and operational risk, less transparency, and less leverage. The multi-strategy fund is the one with higher leverage.
+
+Ava: Last section. The conditional factor model.
+
+Andrew: "Conditional" means the model lets a fund behave one way in normal markets and differently in a crisis. A dummy variable switches on in crisis periods, and it captures the extra factor exposure.
+
+Ava: Which factors?
+
+Andrew: Six candidates: equity, interest rates, currency, commodities, credit, and volatility. Stepwise regression drops the highly correlated ones, interest rates and commodities, leaving four. Equity through the S and P five hundred, currency through the dollar index, credit through the Baa minus Aaa spread, and volatility through the VIX.
+
+Ava: Typical exposures?
+
+Andrew: Arbitrage strategies load on credit spreads and volatility. Event-driven and long-short equity load on equity beta.
+
+Ava: And adding hedge funds to a sixty-forty portfolio.
+
+Andrew: Put twenty percent in a hedge fund, so the weights become twenty percent hedge fund, forty-eight percent stocks and thirty-two percent bonds. For most strategies, standard deviation falls, the Sharpe and Sortino ratios rise, and in about a third of cases maximum drawdown falls.
+
+Ava: Sharpe versus Sortino.
+
+Andrew: Sharpe divides excess return by standard deviation, so it penalizes upside and downside moves alike. Sortino only penalizes downside deviation. That suits hedge funds better, because of their left-tail risk.
+
+Ava: Who wins?
+
+Andrew: The best overall risk-adjusted improvement comes from systematic futures, equity market neutral, global macro and event driven. Funds of funds and multi-strategy don't add much. The smallest maximum drawdowns come from global macro, systematic futures, merger arbitrage and equity market neutral, because they're liquid and have little equity or credit exposure in a crisis. Long-short equity, distressed and convertible arbitrage help least with drawdowns.
+
+Ava: Quiz time. Question one. Which equity strategy uses the most leverage?
+
+   (pause and answer)
+
+Andrew: Equity market neutral.
+
+Ava: Question two. In a stock-for-stock merger arbitrage, what are the positions?
+
+   (pause and answer)
+
+Andrew: Long the target, short the acquirer.
+
+Ava: Question three. Which strategy's payoff looks like writing puts, with a huge leverage of four hundred percent or more?
+
+   (pause and answer)
+
+Andrew: Fixed-income arbitrage.
+
+Ava: Question four. Global macro or managed futures: which is more systematic?
+
+   (pause and answer)
+
+Andrew: Managed futures.
+
+Ava: Question five. What's the correlation between equity volatility and equity returns?
+
+   (pause and answer)
+
+Andrew: About negative eighty percent.
+
+Ava: Question six. A life settlement fund wants policies with high or low surrender values?
+
+   (pause and answer)
+
+Andrew: Low surrender values, plus low premiums and shorter life expectancy.
+
+Ava: Three things to remember.
+
+Andrew: One. Leverage ranking: fixed-income arbitrage and global macro at the top, then merger arbitrage and equity market neutral. Short-biased and distressed use little.
+
+Andrew: Two. Left-tail strategies, like merger arbitrage, fixed-income arbitrage, convertible arbitrage and short volatility, act like writing insurance. Managed futures and long volatility give right-tail protection in stress.
+
+Andrew: Three. A fund of funds has a double fee layer and no netting of incentive fees. Multi-strategy funds have better fees and faster reallocation, but more leverage and concentrated operational risk.
+
+Ava: One episode left: the rapid-fire exam drill across all four readings. See you there.
+

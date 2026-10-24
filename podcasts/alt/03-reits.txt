@@ -1,0 +1,164 @@
+Real Estate Through Publicly Traded Securities (R32)
+
+Ava: Welcome to episode three of the CFA Ledger Podcast Alternative Investments series. Today, publicly traded real estate: REITs. I'm Ava.
+
+Andrew: And I'm Andrew. This reading has one big exam pattern: a single case where you value the same REIT four ways. Net asset value, price to FFO, price to AFFO, and a dividend discount model. We'll do all four with real numbers.
+
+Ava: First, the menu of publicly traded real estate securities.
+
+Andrew: Split into equity and debt. On the equity side, equity REITs and REOCs. Equity REITs own income-producing property, are largely exempt from corporate tax, and grow by raising rents, improving properties and buying more. REOCs are ordinary taxable companies. You choose a REOC when you can't be a REIT, for example because you develop and sell property rather than rent it out, or because your country has no REIT regime.
+
+Andrew: On the debt side, residential and commercial mortgage-backed securities, which are a far larger market than public real estate equity. And mortgage REITs, which invest mainly in mortgages and mortgage securities.
+
+Ava: Schweser asks which is not a principal type of publicly traded real estate security.
+
+Andrew: And the answer is a commingled real estate fund, a CREF. That's a private vehicle.
+
+Ava: Now the REIT rules. These are pure memory.
+
+Andrew: A REIT is a tax-efficient conduit. To stay tax exempt, it must distribute ninety to a hundred percent of taxable income as dividends, generally over ninety percent. Typically at least seventy-five percent of assets must be real estate, and at least seventy-five percent of income must come from rent or mortgage interest.
+
+Ava: And the ownership rules.
+
+Andrew: In the U.S., a REIT needs more than one hundred owners, and five or fewer owners may not hold more than fifty percent of the shares. That's the five-fifty rule. It stops family-owned trusts from qualifying.
+
+Ava: So: ninety percent payout, seventy-five, seventy-five, a hundred owners, five-fifty.
+
+Andrew: That's the whole list.
+
+Ava: Advantages of REITs over owning property directly.
+
+Andrew: Seven. Superior liquidity, because shares trade daily. Transparency, because prices and volumes are public. Tax exemption, since much of a distribution is treated as a return of capital. Predictable earnings, because rents are set by contract. Access to premium properties, like landmark buildings. Active professional management. And diversification across property types and locations.
+
+Ava: And disadvantages?
+
+Andrew: Most come from the payout rule. Limited income growth, because paying out ninety percent leaves little to reinvest, so growth may need equity issuance at a bad price. Less flexibility, because the qualifying rules restrict what they can do. And a lower diversification benefit, because REITs correlate more with equities than direct real estate does.
+
+Ava: A trap I've seen: is lower price volatility an advantage of REITs?
+
+Andrew: No. REIT market prices are more volatile than appraised values of private property. And REITs can't pass tax losses through to investors. Compared with other listed shares, REITs offer relatively high yields and stable income, and relatively low growth.
+
+Ava: Public versus private real estate, briefly.
+
+Andrew: Private gives you direct exposure, control, tax benefits like accelerated depreciation, an illiquidity premium and lower correlation with other assets. But it's illiquid, expensive, needs a big minimum, has low transparency, and appraisals lag.
+
+Andrew: Public gives you liquidity, low minimums, low entry and exit costs, professional management, transparency and limited liability. But you get higher volatility, higher correlation with stocks, prices that can drift away from NAV, and governance conflicts.
+
+Ava: Now valuation. Start with net asset value per share.
+
+Andrew: NAV per share equals assets minus liabilities, per share, at current market values, not book values. It's generally the most appropriate measure of a REIT's fundamental value. It beats book value per share, because book value uses depreciated historical cost, and real estate often appreciates while it's being depreciated on the books.
+
+Ava: And when the share price differs from NAV?
+
+Andrew: A premium or discount reflects the market's view of management, leverage and governance. A heavily levered REIT trading at a discount may struggle to refinance its debt. And NAV is what a private buyer would pay for the assets, which can differ a lot from the public price.
+
+Ava: How do you actually build NAV?
+
+Andrew: Six steps. One, start with cash NOI: last year's NOI, minus non-cash rent, plus a full year's rent from properties bought during the year. Two, grow it to next year. Three, capitalize it: divide by the market cap rate. That gives the value of the operating real estate. Four, add other assets: cash, receivables, land held for development, prepaid expenses. But ignore goodwill, deferred financing costs, and deferred tax assets. Five, subtract debt and other liabilities. Six, divide by the number of shares.
+
+Ava: What exactly is non-cash rent?
+
+Andrew: Accounting spreads rent evenly over a lease, called straight-line rent. If a lease has rising rents, the straight-line figure is higher than the cash actually received early in the lease. That gap is non-cash rent, and you strip it out to get cash NOI.
+
+Ava: Next, FFO and AFFO.
+
+Andrew: Funds from operations. FFO equals net income, plus depreciation and real estate amortization, minus gains on property sales, plus losses on property sales.
+
+Ava: Why add back depreciation?
+
+Andrew: Because accounting depreciation usually exceeds the real economic depreciation of property. And you remove gains and losses on sales because they aren't continuing income.
+
+Ava: And AFFO.
+
+Andrew: Adjusted funds from operations. AFFO equals FFO minus non-cash rent, minus recurring maintenance capital expenditures and leasing costs. It's also called cash available for distribution, or funds available for distribution.
+
+Ava: So when you go from FFO to AFFO, you subtract maintenance capex and leasing commissions.
+
+Andrew: Subtract, yes. Never add.
+
+Ava: Which is better?
+
+Andrew: AFFO is the better measure of economic income, because it deducts the spending needed to keep the properties earning. So it's a better guide to whether the dividend is sustainable. But it relies on estimates, so it's more subjective. FFO is more standardized and more widely quoted, which is why price to FFO is the most commonly used multiple.
+
+Ava: Exam trap: "price to AFFO is the most commonly used multiple." True or false?
+
+Andrew: False. It's price to FFO.
+
+Ava: Drawbacks of the multiples?
+
+Andrew: They miss the value of non-income-producing assets, like land held for development or vacant buildings. FFO ignores maintenance capex. One-off gains and accounting charges distort comparisons. And leverage isn't built into FFO or AFFO, so you need to adjust for leverage differences between REITs.
+
+Ava: And the dividend and cash flow models?
+
+Andrew: They suit REITs well because REITs pay out most of their income. Analysts use two or three-stage dividend discount models, or a DCF with a terminal value based on historical cash flow multiples.
+
+Ava: Okay. The four-way valuation. Give us the Ginzburg industrial REIT.
+
+Andrew: Here are the facts, in millions of dollars. Twelve-month cash NOI is forty. FFO is thirty. Cash is thirty. Receivables are twenty. Debt and other liabilities are two hundred and fifty. Non-cash rent is five. Recurring maintenance capex is ten. There are ten million shares. The cap rate is eight percent. The sector multiples are twelve times FFO and twenty times AFFO. The cost of equity is eleven percent. And the dividend next year is three dollars, growing four percent in each of the following two years, then three percent forever.
+
+Ava: That's a lot. Let's go one approach at a time. NAV first.
+
+Andrew: Capitalize the NOI: forty divided by zero point zero eight is five hundred. Add cash of thirty and receivables of twenty, giving five hundred and fifty. Subtract liabilities of two hundred and fifty, leaving three hundred. Divide by ten million shares. Thirty dollars per share.
+
+Ava: Price to FFO.
+
+Andrew: FFO per share is thirty million divided by ten million shares, three dollars. Times twelve. Thirty-six dollars.
+
+Ava: Price to AFFO.
+
+Andrew: AFFO is FFO of thirty, minus non-cash rent of five, minus maintenance capex of ten. That's fifteen million, or one dollar fifty per share. Times twenty. Thirty dollars.
+
+Ava: And the dividend discount model.
+
+Andrew: Dividends are three dollars in year one, three point one two in year two, and three point two four four eight in year three. The terminal value at the end of year three is the year four dividend divided by r minus g. That's three point two four four eight times one point zero three, divided by eleven minus three, which is eight percent. About forty-one dollars seventy-eight.
+
+Andrew: Now discount everything at eleven percent. The value comes out at about thirty-eight dollars and fifteen cents.
+
+Ava: So four approaches, three different answers: thirty, thirty-six, thirty, and thirty-eight fifteen.
+
+Andrew: And that's the lesson the curriculum wants. Different approaches can give quite different values.
+
+Ava: One more example, Crabtree?
+
+Andrew: Quickly. An office REIT where the NAV approach gives seventy dollars, FFO per share of seven times a ten times multiple gives seventy, AFFO per share of five times fourteen gives seventy, and a DCF gives sixty-three sixty-one. The useful detail: when the question already gives you cash NOI, you don't adjust for non-cash rent again.
+
+Ava: Quiz time. Question one. Name the U.S. ownership rule for REITs.
+
+   (pause and answer)
+
+Andrew: More than one hundred owners, and five or fewer owners can't hold more than fifty percent. The five-fifty rule.
+
+Ava: Question two. FFO is twenty million, non-cash rent is two million, and maintenance capex is three million. What's AFFO?
+
+   (pause and answer)
+
+Andrew: Twenty minus two minus three. Fifteen million.
+
+Ava: Question three. When building NAV, do you include goodwill?
+
+   (pause and answer)
+
+Andrew: No. Ignore goodwill, deferred financing costs and deferred tax assets.
+
+Ava: Question four. Which measure better shows whether a REIT's dividend is sustainable, FFO or AFFO?
+
+   (pause and answer)
+
+Andrew: AFFO, because it deducts the capex needed to keep earning the rent.
+
+Ava: Question five. Cash NOI is sixty million, the cap rate is six percent, other assets are fifty million, liabilities are four hundred million, and there are twenty million shares. What's NAV per share?
+
+   (pause and answer)
+
+Andrew: Sixty divided by zero point zero six is one billion. Plus fifty is one billion fifty million. Minus four hundred is six hundred and fifty million. Divided by twenty million shares, thirty-two dollars fifty.
+
+Ava: Three things to remember.
+
+Andrew: One. REIT rules: pay out over ninety percent, seventy-five percent of assets and income from real estate, more than a hundred owners, and the five-fifty rule.
+
+Andrew: Two. NAV equals cash NOI divided by the cap rate, plus other assets, minus liabilities, divided by shares. Leave out goodwill and deferred items.
+
+Andrew: Three. FFO is net income plus depreciation minus gains on sales. AFFO is FFO minus non-cash rent minus maintenance capex. Price to FFO is the most common multiple, while AFFO is the better economic measure.
+
+Ava: Next episode: hedge fund strategies, all six categories. See you there.
+

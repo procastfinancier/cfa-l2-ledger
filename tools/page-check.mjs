@@ -81,7 +81,7 @@ function findChrome() {
 const PROBE = `<script id="loadProbe">window.__errs=[];addEventListener('error',e=>__errs.push(String(e.message)+(e.lineno?' (line '+e.lineno+')':'')));addEventListener('unhandledrejection',e=>__errs.push('promise: '+String(e.reason)));</script>`;
 const REPORT = `<script id="loadReport">setTimeout(()=>{const r={errs:__errs.slice(),subj:document.querySelectorAll('#sidebarList .subj').length,
 stats:(document.getElementById('stats')||{}).textContent||'',bar:(document.getElementById('cdBar')||{}).textContent||'',views:[]};
-try{const ks=['plan','tests'].concat(Object.keys(EX_VIEWS),FLAT.map(t=>t.key));ks.forEach(k=>{const n=__errs.length;try{selectedKey=k;render();}catch(e){__errs.push(String(e.message));}
+try{const ks=['plan','tests','podcasts'].concat(Object.keys(EX_VIEWS),FLAT.map(t=>t.key));ks.forEach(k=>{const n=__errs.length;try{selectedKey=k;render();}catch(e){__errs.push(String(e.message));}
 if(__errs.length>n)r.views.push(k+': '+__errs.slice(n).join('; '));});}catch(e){r.views.push('view sweep: '+e.message);}
 const p=document.createElement('pre');p.id='__load';p.textContent=JSON.stringify(r);document.body.appendChild(p);},800);</script>`;
 

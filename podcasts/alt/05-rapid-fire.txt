@@ -1,0 +1,192 @@
+Rapid-Fire Exam Drill (R30 to R33)
+
+Ava: Welcome to the final episode of the CFA Ledger Podcast Alternative Investments series. This one is a rapid-fire drill across all four readings. I'm Ava.
+
+Andrew: I'm Andrew. Here's how it works. Ava asks a question, you get a few seconds of silence to answer out loud or in your head, and then I give the answer with a one-line reason. Calculation questions get a bit longer. Keep score if you like.
+
+Ava: Round one: commodities. Question one. Spot is fifty, the one-year future is fifty-five. Contango or backwardation?
+
+   (pause and answer)
+
+Andrew: Contango. Futures above spot, so basis is negative.
+
+Ava: Question two. In that market, is the roll return on a long position positive or negative?
+
+   (pause and answer)
+
+Andrew: Negative. You keep rolling into more expensive contracts.
+
+Ava: Question three. The three components of total return on a fully collateralized futures position?
+
+   (pause and answer)
+
+Andrew: Collateral return, price return, and roll return.
+
+Ava: Question four. Which theory adds consumers' long hedging, and so can explain contango?
+
+   (pause and answer)
+
+Andrew: The Hedging Pressure Hypothesis.
+
+Ava: Question five. Inventories are very low and a shortage looms. What happens to the convenience yield, and to the shape of the curve?
+
+   (pause and answer)
+
+Andrew: Convenience yield rises, which pushes futures below spot. Backwardation.
+
+Ava: Question six. Feed grain prices spike. What happens to livestock prices in the short run?
+
+   (pause and answer)
+
+Andrew: They fall, because farmers slaughter more animals. Then they rise later.
+
+Ava: Question seven. A swap that pays on the difference between two commodity prices?
+
+   (pause and answer)
+
+Andrew: A basis swap.
+
+Ava: Question eight. An index weighted by the value of global production will be heavy in which sector?
+
+   (pause and answer)
+
+Andrew: Energy.
+
+Ava: Round two: real estate. Question nine. Is interest expense included in NOI?
+
+   (pause and answer)
+
+Andrew: No. NOI is before financing costs and income taxes.
+
+Ava: Question ten. Property appraised at two million. LTV limit seventy percent. NOI one hundred and eighty thousand, minimum DSCR one point five, ten percent interest-only loan. What's the maximum loan?
+
+   (pause and answer)
+
+Andrew: LTV gives one point four million. DSCR: one eighty divided by one point five is one hundred and twenty thousand of interest, which supports one point two million. The lower binds: one point two million.
+
+Ava: Question eleven. NOI next year is five hundred thousand. Required return nine percent, growth three percent. Value by direct capitalization?
+
+   (pause and answer)
+
+Andrew: The cap rate is nine minus three, six percent. Five hundred thousand divided by zero point zero six is about eight point three three million.
+
+Ava: Question twelve. Rank these from lowest to highest risk: value add, core, opportunistic, core plus, senior debt.
+
+   (pause and answer)
+
+Andrew: Senior debt, core, core plus, value add, opportunistic.
+
+Ava: Question thirteen. During expansion, what happens to LTV?
+
+   (pause and answer)
+
+Andrew: It keeps falling, while interest rates, NOI and debt coverage rise.
+
+Ava: Question fourteen. The best valuation approach for a unique property with no comparable sales and no rental income?
+
+   (pause and answer)
+
+Andrew: The cost approach.
+
+Ava: Question fifteen. A comparable sold for five million, but it has a better location than your property. Do you adjust its price up or down?
+
+   (pause and answer)
+
+Andrew: Down. The comparable has a desirable feature your property lacks.
+
+Ava: Question sixteen. Appraisal-based indexes understate which two things?
+
+   (pause and answer)
+
+Andrew: Volatility, and correlation with other asset classes.
+
+Ava: Round three: REITs. Question seventeen. The minimum payout ratio, roughly?
+
+   (pause and answer)
+
+Andrew: Ninety percent of taxable income.
+
+Ava: Question eighteen. Net income is fifty million, depreciation twenty, and a gain on sale of property is eight. What's FFO?
+
+   (pause and answer)
+
+Andrew: Fifty plus twenty minus eight. Sixty-two million.
+
+Ava: Question nineteen. Continue. Non-cash rent is four and maintenance capex is six. AFFO?
+
+   (pause and answer)
+
+Andrew: Sixty-two minus four minus six. Fifty-two million.
+
+Ava: Question twenty. Why is NAV per share preferred over book value per share?
+
+   (pause and answer)
+
+Andrew: NAV uses current market values, while book value uses depreciated historical cost.
+
+Ava: Question twenty-one. Do REITs have higher or lower correlation with equities than direct real estate?
+
+   (pause and answer)
+
+Andrew: Higher. That's one of their disadvantages.
+
+Ava: Round four: hedge funds. Question twenty-two. Which category does merger arbitrage belong to?
+
+   (pause and answer)
+
+Andrew: Event driven.
+
+Ava: Question twenty-three. Soft catalyst or hard catalyst: which is riskier?
+
+   (pause and answer)
+
+Andrew: Soft catalyst, because the event hasn't been announced yet.
+
+Ava: Question twenty-four. A convertible's conversion price is far above the stock price. Does the convertible behave more like a bond or like a stock?
+
+   (pause and answer)
+
+Andrew: Like a bond. The call is out of the money, and delta is close to zero.
+
+Ava: Question twenty-five. Which strategy uses roughly one eighth of capital as margin and holds the rest in government bonds?
+
+   (pause and answer)
+
+Andrew: Managed futures.
+
+Ava: Question twenty-six. Why is the Sortino ratio better than the Sharpe ratio for hedge funds?
+
+   (pause and answer)
+
+Andrew: It penalizes only downside deviation, which matters because hedge funds have left-tail risk.
+
+Ava: Question twenty-seven. Adding twenty percent hedge funds to a sixty-forty portfolio. What are the new weights?
+
+   (pause and answer)
+
+Andrew: Twenty percent hedge funds, forty-eight percent stocks, thirty-two percent bonds.
+
+Ava: Question twenty-eight. The four factors left in the conditional factor model?
+
+   (pause and answer)
+
+Andrew: Equity, currency, credit, and volatility.
+
+Ava: Question twenty-nine. A fund of funds pays incentive fees to winning managers even when the total result is poor. What's that problem called?
+
+   (pause and answer)
+
+Andrew: No netting of performance fees.
+
+Ava: Final question, thirty. Which two hedge fund categories tend to give right-tail protection in market stress?
+
+   (pause and answer)
+
+Andrew: Managed futures and long volatility. Global macro historically too, though less reliably.
+
+Ava: And that's thirty. If you scored twenty-four or more, you're in good shape for Alternatives. If not, replay the episode for the reading where you slipped.
+
+Andrew: And one last tip for exam day. In Alternatives, the item sets usually lean on a handful of calculations: roll return, maximum loan, cap rate values, DCF with a terminal value, NAV per share, and FFO to AFFO. Master those six and the rest is recognition.
+
+Ava: Thanks for listening to the CFA Ledger Podcast. Good luck on the twenty-second of November.
+

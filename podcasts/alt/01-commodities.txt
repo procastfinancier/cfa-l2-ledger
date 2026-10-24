@@ -1,0 +1,222 @@
+Commodities and Commodity Derivatives (R30)
+
+Ava: Welcome to the CFA Ledger Podcast. This is the Alternative Investments series, episode one: commodities. I'm Ava.
+
+Andrew: And I'm Andrew. Over five episodes we'll walk through all four Level Two alternatives readings, and finish with a rapid-fire exam drill.
+
+Ava: Let me start with a puzzle. Imagine oil sits at exactly the same price for a whole year. You hold a long oil futures position the entire time. Did you make money, or lose money?
+
+Andrew: And the honest answer is: it depends on the shape of the futures curve. You can make money, or lose money, even though the price of oil never moved. By the end of this episode you'll know exactly why. That idea, roll return, is the exam favourite in this reading.
+
+Ava: Okay, hold that thought. Where do we start?
+
+Andrew: With the six commodity sectors. Energy, industrial metals, grains, livestock, precious metals, and softs.
+
+Ava: Give me a hook for each.
+
+Andrew: Energy is the largest sector by value. Crude oil, natural gas, refined products. Supply is moved by drilling technology, environmental restrictions, and political risk, because over half the supply comes from the Middle East. Demand follows the economic cycle, engine efficiency, and alternative energy.
+
+Andrew: Industrial metals, things like copper, aluminium, nickel and zinc, follow GDP and the business cycle, because their demand comes from construction and manufacturing. Mines and smelters are huge, high fixed cost operations, and storage is cheap.
+
+Andrew: Grains, meaning wheat, corn, soybeans and rice, have an annual growing cycle. The supply risk is weather: drought, hail, floods, pests.
+
+Andrew: Livestock, meaning hogs, cattle, sheep and poultry, depends on the price of grain, because grain is feed. And here's a nice twist. If feed gets more expensive, farmers slaughter more animals now. So the price falls today, and then rises later as herds shrink.
+
+Ava: That's a classic exam trap. Dearer feed means lower livestock prices now, higher later.
+
+Andrew: Exactly. Then precious metals, gold, silver, platinum. They can be stored indefinitely, and gold is a store of value and an inflation hedge.
+
+Andrew: And softs, the cash crops: coffee, sugar, cocoa, cotton. Grown in warm, low latitudes. Weather is the main supply factor.
+
+Ava: Schweser asks which sector is least affected by weather. I'd have guessed refined energy, but that's wrong, isn't it?
+
+Andrew: It's wrong. Refineries sit on hurricane-prone coasts, so refined products are actually very exposed to weather. The answer is precious metals.
+
+Ava: And which commodity is least seasonal?
+
+Andrew: Coffee. It's harvested somewhere in the world almost every month. Natural gas, by contrast, is more seasonal than oil, because it peaks in cold winters for heating, and in hot summers, because gas fuels the power plants that run air conditioning.
+
+Ava: A few more energy details worth keeping?
+
+Andrew: Two. Light, sweet crude, meaning low viscosity and low sulphur, is cheaper to refine, so it sells at a premium. And natural gas has to be liquefied to ship across oceans, which is costly, while crude ships cheaply.
+
+Ava: Let's talk about value. How do you value a commodity? There's no dividend, no coupon.
+
+Andrew: That's the core difference. Stocks and bonds are financial assets, valued as the present value of their cash flows. Commodities are physical assets with no cash flows at all, and they can cost you money to store and transport. So the spot price is just the discounted value of the expected future selling price. And because of storage costs, forward prices can be higher the further out you go.
+
+Ava: So if the exam asks what distinguishes valuing a commodity from valuing a non-dividend-paying stock?
+
+Andrew: Holding costs. Storage. That's the answer.
+
+Ava: Now, who actually trades these futures?
+
+Andrew: Six groups. Hedgers, speculators, arbitrageurs, exchanges, analysts, and regulators. The first three matter most.
+
+Andrew: Hedgers produce or use the commodity, so they're informed. My favourite line from the reading is that hedgers do in the futures market what they must do in the future. A corn farmer will sell corn later, so today he sells corn futures. A cattle producer must buy corn to feed the cattle, so he buys corn futures.
+
+Ava: Speculators?
+
+Andrew: They take on the commodity risk. Some have an information edge. Others earn a return just by providing liquidity: buying when the short hedgers sell, and selling when the long hedgers buy.
+
+Ava: And arbitrageurs are the ones who physically store the commodity.
+
+Andrew: Right. If the gap between futures and spot is bigger than the storage cost, they buy the physical, store it, and sell futures. If the gap is too small, they sell from inventory and go long futures. The U.S. regulator, by the way, is the CFTC.
+
+Ava: Okay, now the vocabulary that the whole reading hangs on. Basis and calendar spread.
+
+Andrew: Basis is spot price minus futures price. Calendar spread is the nearer futures price minus the more distant futures price. Notice that both are "near minus far".
+
+Ava: And contango versus backwardation.
+
+Andrew: Contango: futures prices are higher the further out you go. Futures above spot. So basis and calendar spread are both negative.
+
+Andrew: Backwardation is the reverse. Futures prices are lower further out. Futures below spot. Basis and calendar spread are both positive.
+
+Ava: My memory trick: backwardation, the curve slopes backwards, downhill. Positive basis.
+
+Andrew: That works. Now, why does a curve take one shape or the other? There are three theories.
+
+Ava: Number one, Keynes' Insurance Theory.
+
+Andrew: Producers want to cut their price risk, so they sell futures. That selling pushes futures below spot, which rewards the speculators who buy them, for providing insurance. So backwardation is the normal state. Keynes called it normal backwardation.
+
+Ava: And the problem with it?
+
+Andrew: Two problems. Buying futures in backwardated markets hasn't actually earned the extra return the theory promises. And many markets sit in contango, which would mean speculators are paid a negative amount to insure producers. That makes no sense. So if the exam asks which theory is least able to explain contango, it's the Insurance Theory.
+
+Ava: Theory number two, the Hedging Pressure Hypothesis.
+
+Andrew: It adds consumers. A baker hedges by buying wheat futures, which pushes futures prices up. So if producers' short hedging dominates, you get backwardation. If consumers' long hedging dominates, you get contango.
+
+Ava: So it can explain both shapes. Weaknesses?
+
+Andrew: Producers face more concentrated price risk than consumers, because the commodity is a small slice of a consumer's spending. Producers and consumers also speculate. And hedging pressure isn't observable, so you can't test it directly.
+
+Ava: And theory three, the Theory of Storage.
+
+Andrew: The curve's shape depends on the cost of storing the commodity, versus the benefit of holding physical inventory. That benefit is called the convenience yield, and it's high when stocks are low and a shortage looks likely.
+
+Andrew: The relationship is: futures price equals spot price times one plus the risk-free rate, plus storage costs, minus convenience yield.
+
+Ava: Say that once more, slowly.
+
+Andrew: Futures equals spot times one plus r, plus storage, minus convenience yield. Higher storage costs push futures up, toward contango. Higher convenience yield pushes futures down, toward backwardation.
+
+Ava: And none of the three is a complete theory.
+
+Andrew: Correct. Hedging pressure and convenience yield are unobservable, and firms don't readily disclose their storage costs.
+
+Ava: Now, back to my opening puzzle. The return on a futures position.
+
+Andrew: For a fully collateralized long futures position, meaning you post cash or T-bills equal to the full notional value, the total return has three parts. Collateral return, plus price return, plus roll return.
+
+Ava: Collateral return is the interest on the T-bills.
+
+Andrew: Yes. Price return is the change in the spot price, usually proxied by the near-month futures. And roll return is the gain or loss when you close the expiring contract and open a longer-dated one.
+
+Ava: And the sign of roll return?
+
+Andrew: Positive in backwardation, negative in contango. In backwardation, the new contract is cheaper than the one expiring. So for the same dollar exposure, you buy more contracts, and as time passes those cheaper futures converge up toward spot. In contango, it's the opposite: you roll into a more expensive contract and buy fewer.
+
+Ava: Let's do the Schweser numbers.
+
+Andrew: You roll July corn at three ninety-seven into November corn at four oh six. Roll return is the expiring price minus the new price, divided by the expiring price. So three ninety-seven minus four oh six, divided by three ninety-seven. That's negative two point two seven percent. Corn is in contango, so the roll return is negative.
+
+Ava: And the natural gas leg?
+
+Andrew: You roll July gas at two point three five into August at two point two two. Two point three five minus two point two two, divided by two point three five, is positive five point five three percent. Gas is in backwardation, so roll return is positive.
+
+Andrew: If you hold ten thousand dollars of exposure, you go from about four thousand two hundred and fifty-five contracts to about four thousand five hundred and four. More contracts, because the new contract is cheaper.
+
+Ava: And if gas is only eight and a half percent of the portfolio?
+
+Andrew: Then gas contributes zero point zero eight five times five point five three percent, which is about zero point four seven percent to the portfolio's roll return.
+
+Ava: So, the answer to my puzzle. Oil price flat all year, curve in backwardation and unchanged.
+
+Andrew: Price return is zero, because spot didn't move. Roll return is positive, because of backwardation. So total return is greater than the collateral return. You made money. In contango, you'd have earned less than the T-bill rate.
+
+Ava: Love it. Next, commodity swaps.
+
+Andrew: Dealers create custom swaps to raise or lower commodity exposure. One quirk: unlike rate or currency swaps, the buyer may pay a single amount up front and then receive periodic payments. There are four types to know.
+
+Andrew: One, the total return swap. The long receives the change in the commodity futures price plus collateral return, and pays a fixed amount. If the return is negative, the long pays the fixed amount plus the loss.
+
+Ava: Give me the crude oil example.
+
+Andrew: Ten million dollars notional. The long pays twenty-five basis points a month and receives the total return on WTI crude. In month one, WTI goes from forty-one fifty to forty-two ten, that's up one point four five percent. So the long receives one point four five minus zero point two five, which is one point two percent of ten million. A hundred and twenty thousand dollars.
+
+Andrew: In month two, it falls from forty-two ten to forty-one twenty, down two point one four percent. Now the long pays the loss plus the fee: two point one four plus zero point two five, which is two point three nine percent. Two hundred and thirty-nine thousand dollars, paid to the short.
+
+Ava: Swap number two.
+
+Andrew: The excess return swap. It pays the percentage by which the price exceeds a fixed or benchmark level, times notional. If the price doesn't exceed it, nothing is paid that period.
+
+Andrew: Three, the basis swap. It pays on the difference between two commodity prices. Typically one has liquid futures, and the other is the input you actually use, which has none. So liquid futures plus a basis swap hedge an illiquid input.
+
+Andrew: And four, the volatility or variance swap. Actual volatility versus a level fixed at the start. The buyer receives if actual volatility comes in higher, the seller if it's lower.
+
+Ava: Exam trap: which swap's net payment varies directly with the commodity price?
+
+Andrew: The total return swap. Not the excess return swap, which only pays above a benchmark, and not the basis swap, which pays on the gap between two prices.
+
+Ava: Last topic. Commodity indexes.
+
+Andrew: A useful index is investable, meaning you can replicate it with liquid futures. Indexes differ in four ways. Which commodities they include. How they're weighted. How they roll. And how they rebalance.
+
+Ava: Weighting first.
+
+Andrew: Equal weights, or by a factor like the value of global production. A production-value weighting gives a lot more energy than livestock or softs.
+
+Ava: Rolling.
+
+Andrew: A passive roll moves into the near month every month. An active roll picks further-out contracts with the most backwardation or the least contango, to maximise roll return.
+
+Ava: And rebalancing. This one's subtle.
+
+Andrew: Rebalancing means selling winners and buying losers. So it hurts returns when prices trend, and helps when prices are choppy and mean-reverting. If prices are choppy in the short term but trend over the long term, frequent rebalancing captures the short-term reversals, but gives up some of the long-term trend.
+
+Ava: And over long periods, does methodology matter?
+
+Andrew: Mostly over short periods. Over long periods, index returns differ mainly through the commodity mix, and no method is superior. Commodity indexes are highly correlated with each other, and have low correlation with stocks and bonds.
+
+Ava: Okay. Quiz time. I'll ask, you pause, then Andrew answers. Question one. A futures market is in backwardation. Are the basis and calendar spread positive or negative?
+
+   (pause and answer)
+
+Andrew: Both positive. Futures are below spot, and near is above far.
+
+Ava: Question two. Which theory says backwardation is the normal state of the market?
+
+   (pause and answer)
+
+Andrew: Keynes' Insurance Theory. Normal backwardation.
+
+Ava: Question three. You roll from an expiring contract at fifty into a new contract at fifty-two. Is the roll return positive or negative, and roughly how big?
+
+   (pause and answer)
+
+Andrew: Fifty minus fifty-two, over fifty. Negative four percent. The market is in contango.
+
+Ava: Question four. Who is most likely to physically store a commodity: an exchange, a speculator, or an arbitrageur?
+
+   (pause and answer)
+
+Andrew: The arbitrageur.
+
+Ava: Question five. Does frequent rebalancing help or hurt index returns when prices are trending?
+
+   (pause and answer)
+
+Andrew: It hurts. Rebalancing sells the winners that keep winning.
+
+Ava: Let's wrap up with three things to remember.
+
+Andrew: One. Total return on a collateralized futures position equals collateral return plus price return plus roll return.
+
+Andrew: Two. Roll return is positive in backwardation and negative in contango. Basis and calendar spread are positive in backwardation.
+
+Andrew: Three. Futures equals spot times one plus r, plus storage costs, minus convenience yield. High storage means contango. High convenience yield means backwardation.
+
+Ava: That's commodities. Next episode: real estate, from NOI and cap rates to the property cycle and appraisal lag. See you there.
+
