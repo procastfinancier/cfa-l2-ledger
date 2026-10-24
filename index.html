@@ -19266,6 +19266,92 @@ const TUITION_MISSES = {
       ],
     },
   ],
+  'fsa.4': [
+    {
+      module: '11.S1',
+      title: 'Earnings (results) quality = an adequate return that is sustainable; misclassifying non-operating income usually stays within GAAP but makes earnings look more sustainable than they are',
+      at: ["s1-earnings", "s1-misclass"],
+      questions: [
+        { ref: 'L2-R11-Q1 #1', ask: 'Classifying non-operating income as operating leads to stated earnings that are likely to be:', picked: 'Non-compliant with GAAP', answer: 'Compliant with GAAP but not sustainable' },
+        { ref: 'L2-R11-Q1 #3', ask: 'High results quality is most likely demonstrated by:', picked: 'GAAP-compliant financial reports that are decision-useful', answer: 'An adequate level of return that is sustainable' },
+      ],
+      trap: '#3: you picked the definition of high *reporting* quality. Results (earnings) quality is about the earnings themselves. #1: misclassification is usually a GAAP-compliant choice; what suffers is *sustainability*, because non-operating income is less likely to recur.',
+      fix: 'Two separate qualities. Reporting quality: is the information decision-useful (relevant, faithful)? Earnings (results) quality: is the level of earnings *adequate* (covers the required return) *and* *sustainable*? Classification shifting (non-operating income shown as operating) doesn’t change net income and needn’t break GAAP; it makes “core” earnings look bigger and more recurring than they are.',
+      tackle: [
+        '“Results / earnings quality” → adequate + sustainable. “Reporting quality” → decision-useful.',
+        'Misclassification → think sustainability first, not GAAP compliance.',
+      ],
+    },
+    {
+      module: '11.S2',
+      title: 'Beneish: DEPI < 1 means a faster depreciation rate than last year (not a warning), and SGI > 1 is just growth, not manipulation by itself',
+      at: ["s2-vars", "Reading the model rather than memorising it"],
+      questions: [
+        { ref: 'L2-R11-Q1 #4', ask: 'Deshmukh says (1) DEPI < 1 means assets are depreciated at a lower rate than in prior years; (2) SGI > 1 indicates revenue inflation. Which are accurate?', picked: 'Statement 1 only', answer: 'Neither statement is accurate' },
+      ],
+      trap: 'DEPI is built upside down: last year’s rate ÷ this year’s rate. So below 1 means this year’s rate is *higher*. And SGI > 1 only says sales grew: growth creates *pressure* to manipulate, but isn’t evidence of it.',
+      fix: 'DEPI = depreciation rate(t−1) ÷ depreciation rate(t). DEPI > 1 → depreciating more slowly now (e.g. stretched useful lives) → warning sign. DEPI < 1 → faster depreciation → no warning. GMI is also inverted (last year ÷ this year), so > 1 means margins got worse. SGI = sales(t) ÷ sales(t−1): > 1 is growth, which the model treats as pressure, not proof.',
+      tackle: [
+        'Two Beneish indexes put last year on top: GMI and DEPI. For both, > 1 is the bad sign.',
+        'SGI > 1 = “under pressure”, never “inflated revenue”.',
+      ],
+    },
+    {
+      module: '11.S2',
+      title: 'Recurring “one-offs” stay in operating earnings: a restructuring charge seen before is recurring; only unusual and infrequent items come out',
+      at: ["Sustainable Earnings"],
+      questions: [
+        { ref: 'L2-R11-Q1 #6', ask: 'Galaxy’s “operational earnings” exclude a restructuring charge (similar ones occurred in the past) and an extraordinary loss. For analysis, should each be included or excluded?', picked: 'Both are excluded', answer: 'One is included: the restructuring charge stays in, the extraordinary loss comes out' },
+      ],
+      trap: 'You accepted management’s label. The clue was “similar restructuring charges have occurred in the past”: a charge that keeps coming back is part of normal operations.',
+      fix: 'Judge persistence by the facts, not the company’s definition. Restructuring charges that recur are operating costs, so they belong in “operational earnings”. An item that is genuinely unusual *and* infrequent (the extraordinary loss) is excluded. Non-GAAP measures like “operational” or pro forma earnings tend to strip out recurring costs to make core earnings look bigger.',
+      tackle: [
+        'Ask “has it happened before?” If yes, it is recurring and belongs in core earnings.',
+        'Treat any company-defined earnings measure as a claim to check against the reconciliation.',
+      ],
+    },
+    {
+      module: '11.S3',
+      title: 'Revenue red flags depend on the business: a Q4 sales spike is normal for a retailer, while barter and bill-and-hold are genuine warning signs',
+      at: ["Manipulation of Financial Statements"],
+      questions: [
+        { ref: 'L2-R11-Q1 #7', ask: 'Analysing retailers, which is LEAST indicative of a potential revenue recognition problem?', picked: 'Use of barter transactions', answer: 'Disproportionate revenues in the last quarter of the calendar year' },
+      ],
+      trap: 'Barter is a real red flag, so in a “least indicative” question it was a decoy. The stem said “retailing firms”: their Christmas quarter is naturally the biggest, so a Q4 spike says little.',
+      fix: 'A last-quarter revenue spike is suspicious in a *non-seasonal* firm (pulling sales forward to hit forecasts), not in a retailer. Barter raises three doubts: did a sale really happen in substance, is it a sham, is the amount overstated? Bill-and-hold invoices the customer but keeps the goods (or ships them elsewhere), so revenue may be recognised too early.',
+      tackle: [
+        'Read the industry in the stem before judging a pattern: seasonal business → a Q4 spike is normal.',
+        'In a “least indicative” question, cross out every real red flag first.',
+      ],
+    },
+    {
+      module: '11.S5',
+      title: 'Equity method on stakes held just under 50% is a completeness problem: GAAP compliance is necessary but not sufficient for balance sheet quality',
+      at: ["s5-bs", "What lies behind each of the three"],
+      questions: [
+        { ref: 'L2-R11-Q1 #5', ask: 'Asma Pharma keeps each strategic stake just below 50% so it can use the equity method. Its balance sheet quality is best described as:', picked: 'High quality due to compliance with local GAAP', answer: 'Low quality due to lack of completeness' },
+      ],
+      trap: 'Compliance was the decoy, as in #1 and #3 of this quiz: three times “GAAP-compliant” pulled you in, but compliance is the floor, not proof of quality. The giveaway was “kept its stake just below 50% so it can use the equity method”: a deliberate choice to keep the affiliates off the balance sheet.',
+      fix: 'Balance sheet quality = completeness, unbiased measurement, clear presentation. The equity method is a one-line consolidation: it hides the affiliates’ assets and liabilities (incomplete) and flatters ROA and margins. It isn’t a measurement bias, because the investment line itself isn’t mis-valued. Several affiliates held near 50% under the equity method is a warning sign.',
+      tackle: [
+        'Something missing from the balance sheet (off-balance-sheet deals, one-line consolidation) → completeness.',
+        'A number resting on too much judgement (pension discount rate, impairment) → biased measurement.',
+      ],
+    },
+    {
+      module: '11.S5',
+      title: 'The auditor’s report is the least useful source on a business’s risks: it is historical, while the notes and MD&A carry the risk detail',
+      at: ["Sources of Information about Risks"],
+      questions: [
+        { ref: 'L2-R11-Q1 #10', ask: 'The least valuable source of information about a business’s risk is:', picked: 'Notes to financial statements', answer: 'Auditor’s report' },
+      ],
+      trap: 'The notes are one of the most useful sources: GAAP and IFRS require risk disclosures there. In a “least valuable” question, pick the backward-looking one.',
+      fix: 'Auditor’s report: historical, so of limited use (the red flags are an involuntary auditor change or a lack of independence; a clean opinion says little about risk). Notes: required disclosures on pensions, contingent obligations and financial instruments. MD&A: should name the risks unique to the business.',
+      tackle: [
+        'Rank the sources: notes and MD&A (risk detail) > financial statements > auditor’s report (backward-looking).',
+      ],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20154,10 +20240,10 @@ const MINDMAP = {
       { id: 'b1', mod: '11.S1', tone: 'teal', t: 'What quality means', tag: 'Reporting quality and earnings quality', c: [
         { id: 'spec', t: 'The quality spectrum', tag: 'Reporting: relevant, faithful · Earnings: adequate, sustainable',
           info: ['High reporting quality is needed to judge earnings quality. Low earnings can come from real bad performance or from misrepresentation.'],
-          from: ['s1-quality', 's1-earnings', 'How the two qualities relate'] },
+          from: ['s1-quality', 's1-earnings', 'How the two qualities relate'], wk: ['Earnings (results) quality'] },
         { id: 'factors', t: 'Measurement, timing and classification', tag: 'Moving items flatters the ratios',
           info: ['Selling receivables → DSO ↓; reclassifying inventory as long-term → inventory turnover ↑.'],
-          from: ['s1-factors', 's1-misclass'] },
+          from: ['s1-factors', 's1-misclass'], wk: ['Earnings (results) quality'] },
         { id: 'bias', t: 'Biased accounting and M&A', tag: 'GAAP-compliant can still be unfaithful',
           info: ['Acquisitions can buy CFO and hide weakness; choices on goodwill, restructuring and impairment shift profit between years.'],
           from: ['s1-mna', 'The biased accounting lists'] },
@@ -20165,17 +20251,17 @@ const MINDMAP = {
       { id: 'b2', mod: '11.S2–11.S3', tone: 'violet', t: 'Detecting low-quality earnings', tag: 'Models, accruals and recognition practices', c: [
         { id: 'beneish', mod: '11.S2', t: 'Beneish M-score', tag: 'Probit model, 8 variables; M > −1.78 → likely manipulator',
           info: ['DSRI, GMI, AQI, SGI, DEPI > 1 are warning signs. PPI: M = −1.53 > −1.78 → 6.30% probability.', 'Accounting data; managers can game it; predictive power is falling.'],
-          from: ['s2-tools', 'Beneish M-score', 's2-vars', 's2-ppi-ans'] },
+          from: ['s2-tools', 'Beneish M-score', 's2-vars', 's2-ppi-ans'], wk: ['Beneish: DEPI'] },
         { id: 'altman', mod: '11.S2', t: 'Altman Z-score', tag: 'Bankruptcy probability; single-period and static',
           from: ['s2-altman', 's2-alt-lim'] },
         { id: 'sustain', mod: '11.S2', t: 'Sustainable and persistent earnings', tag: 'Accruals are less persistent than cash flow',
           info: ['Earnings(t+1) = α + β earnings(t): higher β = more persistent.', 'Discretionary accruals are the red flag; positive NI with negative CFO is a major one.'],
-          from: ['s2-sustain', 'Earnings persistence regression', 's2-accruals', 's2-separate'] },
+          from: ['s2-sustain', 'Earnings persistence regression', 's2-accruals', 's2-separate'], wk: ['Recurring “one-offs”'] },
         { id: 'mean', mod: '11.S3', t: 'Mean reversion', tag: 'Extreme earnings don’t last',
           from: ['s3-mean'] },
         { id: 'rev', mod: '11.S3', t: 'Revenue recognition', tag: 'Receivables growing faster than sales',
           info: ['DSI: receivables +50% vs sales +12.6%; DSO 38 → 58 days vs industry 22.'],
-          from: ['s3-rev-steps', 's3-dsi-1', 's3-dsi-2'] },
+          from: ['s3-rev-steps', 's3-dsi-1', 's3-dsi-2'], wk: ['Revenue red flags'] },
         { id: 'exp', mod: '11.S3', t: 'Expense recognition', tag: 'Capitalizing costs, long useful lives, reserves',
           from: ['s3-exp-steps', 'What each step looks for'] },
       ] },
@@ -20184,9 +20270,9 @@ const MINDMAP = {
           info: ['Harder to manipulate than earnings, but timing (stretching payables, selling receivables) and classification choices still move CFO.'],
           from: ['s4-hq', 's4-concern', 's4-steps'] },
         { id: 'bsq', mod: '11.S5', t: 'Balance sheet quality', tag: 'Completeness, unbiased measurement, clear presentation',
-          from: ['s5-bs'] },
+          from: ['s5-bs'], wk: ['Equity method on stakes'] },
         { id: 'risk', mod: '11.S5', t: 'Where to find risk information', tag: 'Statements, notes, auditor, MD&A, filings, press',
-          from: ['s5-sources'] },
+          from: ['s5-sources'], wk: ['The auditor’s report is'] },
       ] },
     ],
   },
@@ -22728,6 +22814,95 @@ const TUITION_Q = {
     ],
     "p": 2,
     "a": 1
+  },
+  "L2-R11-Q1 #1": {
+    "full": [
+      "Classification of non-operating income as operating would lead to stated earnings that are likely to be:"
+    ],
+    "options": [
+      "A) non-compliant with GAAP.",
+      "B) compliant with GAAP but not sustainable.",
+      "C) compliant with GAAP and sustainable."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R11-Q1 #3": {
+    "full": [
+      "High results quality is most likely demonstrated by:"
+    ],
+    "options": [
+      "A) an adequate level of return that is sustainable.",
+      "B) GAAP compliant financial reports that are decision useful.",
+      "C) high level of earnings determined conservatively."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R11-Q1 #4": {
+    "full": [
+      "Pritesh Deshmukh, CFA is analyzing the financial statements of Baza Restaurants Inc. Deshmukh wants to use the Beneish model to evaluate the probability of earnings manipulation.",
+      "Deshmukh makes the following statements:",
+      "• Depreciation index of less than 1 would indicate that the company is depreciating assets at a lower rate than in prior years.",
+      "• Sales growth index of more than 1 indicates revenue inflation.",
+      "Which of the statements by Deshmukh are most accurate?"
+    ],
+    "options": [
+      "A) Statement 2 only.",
+      "B) None of the statements is accurate.",
+      "C) Statement 1 only."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R11-Q1 #5": {
+    "full": [
+      "Asma Pharma has made several strategic investments in other pharmaceutical companies. In each instance, Asma has kept its stake just below 50% so it can account for the investment using the equity method of consolidation.",
+      "Asma's balance sheet quality can be most accurately characterized as:"
+    ],
+    "options": [
+      "A) Low-quality due to lack of completeness.",
+      "B) High-quality due to compliance with local GAAP.",
+      "C) Low-quality due to bias in measurement."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R11-Q1 #6": {
+    "full": [
+      "Galaxy Company recognized a restructuring charge in its year-end income statement. Similar restructuring charges have occurred in the past. In addition, Galaxy recognized an extraordinary loss. Galaxy uses the term \"operational earnings\" when discussing its financial results. According to Galaxy, \"operational earnings\" excludes special nonrecurring transactions such as restructuring charges, discontinued operations, and extraordinary items. Should the restructuring charge and extraordinary loss be included or excluded from \"operational earnings\" for analytical purposes?"
+    ],
+    "options": [
+      "A) Both are included.",
+      "B) Both are excluded.",
+      "C) One is included."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R11-Q1 #7": {
+    "full": [
+      "Marcel Schulte is analyzing various retailing firms. Which of the following items is least indicative of a potential problem with revenue recognition and earnings quality?"
+    ],
+    "options": [
+      "A) Disproportionate revenues in the last quarter of the calendar year.",
+      "B) Use of barter transactions.",
+      "C) Implementing a “bill and hold” arrangement."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R11-Q1 #10": {
+    "full": [
+      "The least valuable source of information about a businesses' risk is:"
+    ],
+    "options": [
+      "A) Management discussion and analysis section of the annual report.",
+      "B) Auditor’s report.",
+      "C) Notes to financial statements."
+    ],
+    "p": 2,
+    "a": 1
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -23087,6 +23262,18 @@ const TESTS = [
     { mod: '10.S1', what: 'Financial institutions’ direct exposures: market, credit, liquidity, interest rate', ok: 0, why: 'gap' },
     { mod: '10.S6', what: 'Combined ratio above 100% = underwriting loss', ok: 0, why: 'flip' },
     { mod: '10.S1', what: 'Financial institutions’ assets are financial, not tangible', ok: 1 },
+  ] },
+  { id: 'L2-R11-Q1', topic: 'fsa.4', name: 'Reading 11 quiz 1', date: '2026-10-24', mins: 18.9, qs: [
+    { mod: '11.S1', what: 'Non-operating income shown as operating: GAAP-compliant but not sustainable', ok: 0, why: 'gap' },
+    { mod: '11.S4', what: 'Operating income outgrowing CFO is a warning; CFO above operating income can’t last', ok: 1 },
+    { mod: '11.S1', what: 'High results quality = an adequate return that is sustainable', ok: 0, why: 'gap' },
+    { mod: '11.S2', what: 'Beneish: DEPI < 1 is a faster depreciation rate; SGI > 1 is not revenue inflation', ok: 0, why: 'flip' },
+    { mod: '11.S5', what: 'Equity method on stakes just under 50%: low quality from lack of completeness', ok: 0, why: 'gap' },
+    { mod: '11.S2', what: 'A recurring restructuring charge stays in operating earnings; an extraordinary loss comes out', ok: 0, why: 'gap' },
+    { mod: '11.S3', what: 'Retailer: a Q4 revenue spike is least indicative; barter and bill-and-hold are red flags', ok: 0, why: 'gap' },
+    { mod: '11.S3', what: 'Earnings low in accruals mean-revert more slowly', ok: 1 },
+    { mod: '11.S5', what: 'Debt securities at market value are not biased measurement', ok: 1 },
+    { mod: '11.S5', what: 'The auditor’s report is the least valuable source on risk', ok: 0, why: 'gap' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
