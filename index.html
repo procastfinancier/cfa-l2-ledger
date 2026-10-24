@@ -7498,6 +7498,16 @@ const CONTENT = {
               'Analysts also commonly strip *unusual items* (restructuring and litigation provisions, goodwill impairment) out of EBIT before computing the EBIT margin and the burden ratios.',
             ],
             text: 'Schweser adds:' },
+          { k: 'flag', new: '2026-10-25', title: 'Analyst adjustments the tuition quizzes test: LIFO → FIFO and one-off items, always after tax',
+            items: [
+              '*LIFO → FIFO*: FIFO inventory = LIFO inventory + LIFO reserve, and FIFO COGS = LIFO COGS − (ending reserve − beginning reserve). So net income rises by the *increase* in the reserve × (1 − t). ABC Tie: reserve 62,000 → 78,000, so 450,000 + 16,000 × 0.64 = *460,240*.',
+              '*Equity*: retained earnings rise by the LIFO reserve × (1 − t); the rest (reserve × t) is deferred tax. With a LIFO liquidation likely: 1,900,000 + 125,000 × 0.64 = *1,980,000*.',
+              'When prices are *falling*, LIFO gives lower COGS, higher earnings and taxes, and lower cash flow: the reverse of rising prices.',
+              '*Normalising earnings*: add back one-off charges and take out one-off gains, each × (1 − t) when given pre-tax: 136 + (27 − 16) × 0.64 = *143.04*. Endrun: 4.7 + 2.4 × 0.64 = 6.236; 4.3 − 0.9 × 0.64 = 3.724.',
+              'A gain already stated *after tax* comes out as given. Square Door: shares = 126 ÷ 4 = 31.5m; EPS = (126 − 31.5) ÷ 31.5 = 3; price = 12 × 4 = 48, so the normalised P/E = 48 ÷ 3 = *16*.',
+              '*Goodwill* with no value apart from the firm is removed, and a reliably estimated intangible value replaces it. MKF: goodwill 500, intangibles 300 → reduce goodwill and *equity* by 200.',
+            ],
+            text: 'Not in my written notes; the R12 tuition quiz tests these Level I adjustments:' },
         ],
       },
       {
@@ -19352,6 +19362,35 @@ const TUITION_MISSES = {
       ],
     },
   ],
+  'fsa.5': [
+    {
+      module: '12.S1',
+      title: 'LIFO → FIFO: net income rises by the increase in the LIFO reserve × (1 − t), because a growing reserve means FIFO COGS was lower',
+      at: ["FIFO COGS = LIFO COGS"],
+      questions: [
+        { ref: 'L2-R12-Q1 #1', ask: 'ABC Tie (LIFO) reports 2009 net income of $450,000. FIFO inventory would be $62,000 higher in 2008 and $78,000 higher in 2009; tax 36%. Net income under FIFO?', picked: '$439,760', answer: '$460,240' },
+      ],
+      trap: 'You had the right size (16,000 × 0.64 = 10,240) but the wrong sign. The reserve grew, so LIFO charged 16,000 more to COGS than FIFO would have; switching to FIFO takes that cost out, and profit goes *up*.',
+      fix: 'FIFO COGS = LIFO COGS − (ending LIFO reserve − beginning LIFO reserve). A rising reserve (rising prices) → FIFO COGS lower → FIFO net income higher by the increase × (1 − t): 450,000 + 16,000 × 0.64 = 460,240. A falling reserve (LIFO liquidation, falling prices) works the other way.',
+      tackle: [
+        'Write Δ reserve = end − begin first. Positive → FIFO profit higher.',
+        'Sanity check: with rising prices FIFO always shows the higher profit.',
+      ],
+    },
+    {
+      module: '12.S1',
+      title: 'Normalising earnings: one-off items given pre-tax go in × (1 − t); add back charges, take out gains',
+      at: ["add back one-off charges"],
+      questions: [
+        { ref: 'L2-R12-Q1 #5', ask: 'Net income $136m includes a $27m earthquake charge and a $16m gain on asset sales, both pre-tax; tax rate 36%. Normal income?', picked: '$147.00 million', answer: '$143.04 million' },
+      ],
+      trap: '147 = 136 + 27 − 16: the right items in the right directions, but pre-tax. Net income is after tax, so each adjustment must be after tax too. You did it correctly on #8 (Endrun) in the same quiz, so this was a slip, not a gap.',
+      fix: 'Normal income = reported NI + (one-off charges − one-off gains) × (1 − t) = 136 + (27 − 16) × 0.64 = 143.04. An item already given after tax (Square Door’s $31.5m gain) comes out as it stands.',
+      tackle: [
+        'Before adding anything to net income, ask “pre-tax or after tax?” Pre-tax → × (1 − t).',
+      ],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20287,7 +20326,7 @@ const MINDMAP = {
           from: ['ROE — 5-way', '84.19%', 's1-roe-up'] },
         { id: 'adj', t: 'ROE without equity income', tag: 'Take associate income out of NI and the investment out of assets',
           info: ['Adjusted ROE is lower (21.26% → 20.51%); EBIT margin unchanged because equity income sits below EBIT.'],
-          from: ['Adjustments', 's1-dupont-adj', 's1-adj-why'] },
+          from: ['Adjustments', 's1-dupont-adj', 's1-adj-why'], wk: ['LIFO → FIFO', 'Normalising earnings'] },
       ] },
       { id: 'b2', mod: '12.S2–12.S4', tone: 'violet', t: 'Assets, capital and segments', tag: 'Where the money sits and where it goes', c: [
         { id: 'assets', mod: '12.S2', t: 'Asset base', tag: 'Goodwill rising to 29% of assets',
@@ -22903,6 +22942,30 @@ const TUITION_Q = {
     ],
     "p": 2,
     "a": 1
+  },
+  "L2-R12-Q1 #1": {
+    "full": [
+      "ABC Tie Company reports income for the year 2009 as $450,000. The notes to its financial statements state that the firm uses the last in, first out (LIFO) convention to value its inventories, and that had it used first in, first out (FIFO) instead, inventories would have been $62,000 greater for the year 2008 and $78,000 greater for the year 2009. If earnings were restated using FIFO to determine the cost of goods sold (COGS), what would the net income be for the year 2009? Assume a tax rate of 36%. Net income would have been:"
+    ],
+    "options": [
+      "A) $439,760.",
+      "B) $455,760.",
+      "C) $460,240."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R12-Q1 #5": {
+    "full": [
+      "A firm has reported net income of $136 million, but the notes to financial statements includes a statement that the results \"include a $27 million charge for non-insured earthquake damage\" and a \"gain on the sale of certain assets during restructuring of $16 million.\" If we assume that both of these items are given on a pre-tax basis and the effective tax rate is 36%, what would be the \"normal income\"?"
+    ],
+    "options": [
+      "A) $147.00 million.",
+      "B) $143.04 million.",
+      "C) $94.08 million."
+    ],
+    "p": 0,
+    "a": 1
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -23274,6 +23337,18 @@ const TESTS = [
     { mod: '11.S3', what: 'Earnings low in accruals mean-revert more slowly', ok: 1 },
     { mod: '11.S5', what: 'Debt securities at market value are not biased measurement', ok: 1 },
     { mod: '11.S5', what: 'The auditor’s report is the least valuable source on risk', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R12-Q1', topic: 'fsa.5', name: 'Reading 12 quiz 1', date: '2026-10-24', mins: 26.0, qs: [
+    { mod: '12.S1', what: 'LIFO → FIFO net income: add the increase in the LIFO reserve × (1 − t)', ok: 0, why: 'flip' },
+    { mod: '12.S1', what: 'Talking to suppliers, customers and competitors is the data-collection step', ok: 1 },
+    { mod: '12.S2', what: 'Goodwill with no separate value: remove it, keep intangibles, cut equity by the difference', ok: 1 },
+    { mod: '12.S1', what: 'Normalised P/E after taking out an after-tax one-off gain', ok: 1 },
+    { mod: '12.S1', what: 'Normal income: one-off charge and gain adjusted × (1 − t)', ok: 0, why: 'calc' },
+    { mod: '12.S1', what: 'Falling prices: LIFO gives lower COGS, higher earnings and taxes, lower cash flow', ok: 1 },
+    { mod: '12.S1', what: 'The primary goal of financial statement analysis is to support an economic decision', ok: 1 },
+    { mod: '12.S1', what: 'Normalised earnings for two years: one-off charge and gain after tax', ok: 1 },
+    { mod: '12.S1', what: 'Retained earnings + LIFO reserve × (1 − t) when a LIFO liquidation is likely', ok: 1 },
+    { mod: '12.S1', what: 'Start with the firm’s analysis framework before ratios or adjustments', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
@@ -24669,6 +24744,7 @@ const EXAM = {
         ['Framework: objective → collect (incl. talks with suppliers, competitors) → process (common-size, adjusted statements) → analyse → communicate → follow up.', 'What goes in and comes out of each step'],
         ['DuPont exposes weak margins masked by higher turnover or leverage. Higher burden *ratios* = less lost to tax/interest.', 'What “masked” looks like'],
         ['Strip equity-method income: NI ↓, assets ↓ (use *average* adjusted assets), tax burden falls, turnover rises, EBIT margin unchanged, leverage left alone.', 'Reason for not adjusting financial leverage'],
+        ['LIFO → FIFO: NI + Δ LIFO reserve × (1 − t); equity + reserve × (1 − t). Normalise: one-off items × (1 − t), unless already after tax.', 'Analyst adjustments the tuition quizzes test'],
       ],
     },
     '12.S2': {
