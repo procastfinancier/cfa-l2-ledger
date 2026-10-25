@@ -19391,6 +19391,61 @@ const TUITION_MISSES = {
       ],
     },
   ],
+  'corp.0': [
+    {
+      module: '13.S4',
+      title: 'Target payout adjustment: use this year’s expected EPS × target, not last year’s EPS',
+      at: ['Target payout adjustment model'],
+      questions: [
+        { ref: 'L2-R13-Q1 #1', ask: 'Calfee earned $4.00 last year and paid $0.30; expects $5.20 this year; target payout 30%. Expected dividend this year is $0.51. Over how many years is it adjusting?', picked: '4 years', answer: '6 years' },
+      ],
+      trap: '4 years comes from last year’s EPS: 4.00 × 0.30 − 0.30 = 0.90, and 0.21 ÷ 0.90 ≈ 4.3. The model targets the dividend on *this year’s expected* earnings.',
+      fix: 'Increase = (expected EPS × target − last dividend) × 1/n. So 0.51 − 0.30 = (5.20 × 0.30 − 0.30) × 1/n → 0.21 = 1.26 ÷ n → n = 6.',
+      tackle: [
+        'Write the formula with “expected EPS” in it before putting in numbers. Last year’s EPS is only there to fool you.',
+        'Working backwards: n = (target dividend − last dividend) ÷ (this year’s dividend − last dividend).',
+      ],
+    },
+    {
+      module: '13.S5',
+      title: 'Buyback at the market price: the share price stays the same',
+      at: ['Spencer Pharmaceuticals: share repurchase vs. cash dividend'],
+      questions: [
+        { ref: 'L2-R13-Q1 #2', ask: 'Global has 2.4m shares at $30 and uses $2.4m to buy back shares at $30. Share price after the buyback?', picked: '$31.00', answer: '$30.00' },
+      ],
+      trap: 'Fewer shares feels like a higher price, but the cash leaving the firm cuts its value by exactly what the departing shares were worth.',
+      fix: '(72m − 2.4m) ÷ (2.4m − 0.08m) = 69.6m ÷ 2.32m = $30. Buying at the market price moves value and shares in step, so the price is unchanged, just as a cash dividend of the same size leaves wealth unchanged.',
+      tackle: [
+        'Price rises only if the buyback is *below* market (or signals undervaluation); above market, it falls.',
+      ],
+    },
+    {
+      module: '13.S2',
+      title: 'Signalling: a dividend initiation can read either way, and a cut is usually negative',
+      at: ['s2-signal'],
+      questions: [
+        { ref: 'L2-R13-Q1 #5', ask: 'Observation 1: a dividend initiation is always a positive signal. Observation 2: a dividend decrease is typically a positive signal of NPV projects to fund. Which are correct?', picked: 'only one is correct', answer: 'both are incorrect' },
+      ],
+      trap: '“Always” should have stopped you on Observation 1: an initiation can also mean the firm has run out of good projects. Observation 2 describes the rare exception, not the typical reading.',
+      fix: 'Initiation = both (+ve: sharing wealth; −ve: no reinvestment opportunities). Unexpected increase = positive. Cut or omission = *typically negative*, positive only in rare cases.',
+      tackle: [
+        'In a two-statement question, absolute words (“always”, “never”) and “typically” used for a rare case make the statement false.',
+      ],
+    },
+    {
+      module: '13.S5',
+      title: 'Buyback and BVPS: price paid above BVPS → BVPS falls',
+      at: ['Impact of a share repurchase on book value per share'],
+      questions: [
+        { ref: 'L2-R13-Q1 #7', ask: 'Solar (book $500m) and Winnipeg (book $900m): both $50 a share, 50m shares, each buys back $10m. Change in BVPS?', picked: 'Solar: increase by $0.13; Winnipeg: increase by $0.16', answer: 'Solar: decrease by $0.16; Winnipeg: decrease by $0.13' },
+      ],
+      trap: 'Wrong direction. BVPS before is $10 and $18, far below the $50 paid, so every share bought takes out more book value than it carries.',
+      fix: 'Solar: 490m ÷ 49.8m = 9.84 (−0.16). Winnipeg: 890m ÷ 49.8m = 17.87 (−0.13). Price paid > BVPS → BVPS falls; < BVPS → rises.',
+      tackle: [
+        'Compare the price paid with BVPS before calculating. That gives the direction, which removes two of the three options.',
+      ],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20374,7 +20429,7 @@ const MINDMAP = {
         { id: 'clientele', mod: '13.S2', t: 'Clienteles', tag: 'Each policy attracts the investors who like it',
           from: ['Clientele Effect'] },
         { id: 'signal', mod: '13.S2', t: 'Signaling', tag: 'Unexpected increase +ve · cut −ve · initiation both',
-          from: ['s2-asym', 's2-signal'] },
+          from: ['s2-asym', 's2-signal'], wk: ['Signalling: a dividend initiation'] },
         { id: 'agency', mod: '13.S2', t: 'Agency costs', tag: 'Dividends curb overinvestment; but can hurt bondholders',
           from: ['s2-agency'] },
         { id: 'factors', mod: '13.S2', t: 'Factors behind a policy', tag: 'Investment opportunities, volatility, flexibility, tax, flotation, contracts',
@@ -20387,7 +20442,7 @@ const MINDMAP = {
         { id: 'stable', t: 'Stable dividend policy', tag: 'Smooth dividends despite volatile earnings',
           from: ['s4-stable'] },
         { id: 'target', t: 'Target payout adjustment', tag: 'Δ dividend = (expected EPS × target − last dividend) × 1/years',
-          from: ['Target payout adjustment model', 'Luna Inc.'] },
+          from: ['Target payout adjustment model', 'Luna Inc.'], wk: ['Target payout adjustment:'] },
         { id: 'constant', t: 'Constant payout ratio', tag: 'Dividends swing with earnings',
           from: ['s4-constant'] },
       ] },
@@ -20400,7 +20455,7 @@ const MINDMAP = {
           from: ['EPS after a debt-financed buyback', 'JetFun Inc.', 'EPS up does not mean wealth up'] },
         { id: 'vsdiv', t: 'Buyback vs. cash dividend', tag: 'Equal wealth, if taxes and price are the same',
           info: ['BVPS falls when the buyback price is above book value per share, rises when below.'],
-          from: ['Spencer Pharmaceuticals: share repurchase vs. cash dividend', 'Impact of a share repurchase on book value per share'] },
+          from: ['Spencer Pharmaceuticals: share repurchase vs. cash dividend', 'Impact of a share repurchase on book value per share'], wk: ['Buyback at the market price', 'Buyback and BVPS'] },
         { id: 'why', t: 'Why buy back', tag: 'Tax, signal undervaluation, flexibility, offset dilution, change capital structure',
           from: ['s5-rationales', 'The five rationales'] },
         { id: 'safety', t: 'Dividend safety', tag: 'Payout ratio · coverage · FCFE coverage',
@@ -22966,6 +23021,57 @@ const TUITION_Q = {
     ],
     "p": 0,
     "a": 1
+  },
+  "L2-R13-Q1 #1": {
+    "full": [
+      "Last year, Calfee Multimedia had earnings of $4.00 per share and paid a dividend of $0.30. In the current year, the company expects to earn $5.20 per share. Calfee has a 30% target payout ratio. If the expected dividend for this year is $0.51, what time period is Calfee most likely using in order to bring its dividend up to the target payout?"
+    ],
+    "options": [
+      "A) 5 years.",
+      "B) 6 years.",
+      "C) 4 years."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R13-Q1 #2": {
+    "full": [
+      "Global Development expects to earn $6 million next year. 40% of this amount, or $2.4 million, has been allocated for distribution to common shareholders. There are 2.4 million shares outstanding, and the market price is $30 a share. If Global uses the $2.4 million to repurchase shares at the current price of $30 per share, its share price after the repurchase will be closest to:"
+    ],
+    "options": [
+      "A) $29.00.",
+      "B) $31.00.",
+      "C) $30.00."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R13-Q1 #5": {
+    "full": [
+      "At a recent conference, \"Dividends – Are They Increasing?\", several lecturers were discussing the signaling effect and their opinions on how changes in a company's dividend policy are often viewed by investors. Linda Travis, an equity analyst at Girthmore Capital Management and one of the guest lecturers at the conference, made the following observations:",
+      "Observation 1: A dividend initiation is always viewed as a positive signal by investors. It is an indication that the company has so much cash at its disposal that it can afford to pay it out to shareholders.",
+      "Observation 2: A dividend decrease is typically a positive signal by a company's management to its shareholders. It indicates that management has a variety of positive NPV projects in its capital budget and would like to finance as many of them as possible with retained earnings.",
+      "With respect to Travis' observations"
+    ],
+    "options": [
+      "A) both are correct.",
+      "B) only one is correct.",
+      "C) both are incorrect."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R13-Q1 #7": {
+    "full": [
+      "The share prices of Solar Automotive Industries and Winnipeg Auto Unlimited are both $50 per share, and each company has 50 million shares outstanding. On September 30, both companies announced a $10 million stock buyback. Solar has a book value of $500 million, while Winnipeg has a book value of $900 million. How much did the book value per share (BVPS) of each company increase or decrease after the share repurchase?"
+    ],
+    "options": [
+      "A) Solar Automotive Industries: Decrease by $0.13; Winnipeg Auto Unlimited: Decrease by $0.13",
+      "B) Solar Automotive Industries: Increase by $0.13; Winnipeg Auto Unlimited: Increase by $0.16",
+      "C) Solar Automotive Industries: Decrease by $0.16; Winnipeg Auto Unlimited: Decrease by $0.13"
+    ],
+    "p": 1,
+    "a": 2
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -23349,6 +23455,18 @@ const TESTS = [
     { mod: '12.S1', what: 'Normalised earnings for two years: one-off charge and gain after tax', ok: 1 },
     { mod: '12.S1', what: 'Retained earnings + LIFO reserve × (1 − t) when a LIFO liquidation is likely', ok: 1 },
     { mod: '12.S1', what: 'Start with the firm’s analysis framework before ratios or adjustments', ok: 1 },
+  ] },
+  { id: 'L2-R13-Q1', topic: 'corp.0', name: 'Reading 13 quiz 1', date: '2026-10-25', mins: 20.7, qs: [
+    { mod: '13.S4', what: 'Target payout adjustment: years to reach the target, using this year’s expected EPS', ok: 0, why: 'calc' },
+    { mod: '13.S5', what: 'Buyback at the market price leaves the share price unchanged', ok: 0, why: 'gap' },
+    { mod: '13.S3', what: 'Double taxation: 35% + (1 − 35%) × 20% = 48%', ok: 1 },
+    { mod: '13.S5', what: 'Least likely a repurchase method: exercising a call provision', ok: 1 },
+    { mod: '13.S2', what: 'Signalling: initiation can read either way, a cut is usually negative', ok: 0, why: 'gap' },
+    { mod: '13.S1', what: 'Stock dividend: no effect on leverage or liquidity ratios', ok: 1 },
+    { mod: '13.S5', what: 'BVPS falls when the buyback price is above BVPS', ok: 0, why: 'flip' },
+    { mod: '13.S1', what: 'Cyclical firm in good times: special dividend', ok: 1 },
+    { mod: '13.S5', what: 'Dutch auction is a form of tender offer', ok: 1 },
+    { mod: '13.S1', what: 'Cash dividend lowers liquidity; stock dividend leaves leverage unchanged', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
