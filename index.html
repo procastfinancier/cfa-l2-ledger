@@ -66,11 +66,14 @@ window.addEventListener('error', function (e) {
   .stats { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
   .stats b { color: var(--ink); }
   .layout { display: flex; gap: 18px; align-items: flex-start; }
+  /* The sidebar stays put while the notes scroll past it: sticky to the top of the window, with its own
+     scroll when the subject list is taller than the screen. */
   .sidebar {
     width: 300px; flex-shrink: 0; background: var(--panel); border: 1px solid var(--line);
-    border-radius: 10px; overflow: hidden;
+    border-radius: 10px; position: sticky; top: 12px; max-height: calc(100vh - 24px);
+    overflow-y: auto; overscroll-behavior: contain;
   }
-  .search { padding: 10px; border-bottom: 1px solid var(--line); }
+  .search { padding: 10px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); z-index: 1; }
   .search input {
     width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px;
     font-size: 13px; font-family: var(--sans); color: var(--ink); background: var(--bg);
@@ -519,7 +522,8 @@ window.addEventListener('error', function (e) {
   .refcard-list { margin: 0; padding-left: 16px; }
   .refcard-list li { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 5px; }
   .refcard-list li b { color: var(--ink); }
-  .nb-refinline { display: none; }
+  /* The sticky sidebar now always fills the left gutter, so the question setup shows inline at every width. */
+  .refcard { display: none; }
   .nb-refinline > summary { cursor: pointer; list-style: none; font-size: 12px; font-weight: 600; color: var(--violet); background: var(--violet-bg); border: 1px solid var(--violet); border-radius: 8px; padding: 7px 11px; margin-bottom: 9px; }
   .nb-refinline > summary::-webkit-details-marker { display: none; }
   .nb-refinline > summary::after { content: ' ▸'; }
@@ -539,8 +543,7 @@ window.addEventListener('error', function (e) {
        content, so a wide table inside would push the page wider than the viewport. */
     .layout { flex-direction: column; gap: 12px; align-items: stretch; }
     .sidebar, .detail { max-width: 100%; }
-    .sidebar { width: 100%; max-height: 34vh; overflow-y: auto; }
-    .search { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+    .sidebar { width: 100%; max-height: 34vh; overflow-y: auto; position: static; }
     .topic-row { padding: 10px 8px; font-size: 13px; }
     .subj-name { font-size: 13.5px; }
     .detail { padding: 16px 14px; }
