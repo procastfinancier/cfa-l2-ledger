@@ -47,6 +47,11 @@ if (cmd === 'resolve') {
   const weak = qs.filter(p => p.v.g !== 'got');
   console.log(`\nCheckpoint questions: ${qs.length} graded, ${qs.length - weak.length} got, ${weak.length} shaky or didn't know`);
   weak.forEach(p => console.log(`  [${p.v.g}] ${p.reading} › ${p.session}\n    ${p.item}\n    key ${p.k} · history ${(p.v.hist || []).map(h => h[1]).join(' → ')}`));
+  // Review list: questions missed again in revision and not yet cleared, so Claude can write another new one.
+  const rl = rows.filter(p => p.k.startsWith('star|-|-|review:'));
+  const again = rl.filter(p => p.v.wrong && !p.v.at);
+  console.log(`\nReview list: ${rl.filter(p => p.v.at).length} cleared, ${again.length} missed again`);
+  again.forEach(p => console.log(`  ${p.k.slice(16)} · missed ${p.v.wrong}× (last ${p.v.last}) · ${p.reading}`));
 } else {
   const all = (await sync()).filter(c => c.status !== 'deleted' && (cmd === 'all' || c.status === 'open'));
   if (!all.length) console.log('No ' + (cmd === 'all' ? '' : 'open ') + 'comments.');

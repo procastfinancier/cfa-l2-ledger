@@ -951,6 +951,28 @@ window.addEventListener('error', function (e) {
   .tl-read-name { flex: 0 0 210px; min-width: 0; text-align: left; background: none; border: none; padding: 0; font-family: var(--sans); font-size: 12.5px; color: var(--ink); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tl-read-name:hover { color: var(--violet); }
   .tl-badge.tl-few { border-color: var(--line); color: var(--ink-faint); }
+  .rl-bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 10px; }
+  .rl-bar i { display: block; height: 100%; background: var(--teal); }
+  .rl-card { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .rl-card .weak-full { overflow-x: auto; }
+  .rl-opts { display: flex; flex-direction: column; gap: 6px; }
+  .rl-opt { display: flex; flex-direction: column; gap: 2px; text-align: left; font-family: var(--sans); font-size: 13px; line-height: 1.45; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; cursor: pointer; }
+  .rl-opt:hover:not([disabled]) { border-color: var(--violet); }
+  .rl-opt[disabled] { cursor: default; }
+  .rl-opt.right { border-color: var(--teal); background: var(--teal-bg); }
+  .rl-opt.wrong { border-color: var(--rose); background: var(--rose-bg); }
+  .rl-opt small { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--rose); }
+  .rl-opt.right small { color: var(--teal); }
+  .rl-verdict { font-size: 13px; font-weight: 700; }
+  .rl-verdict.ok { color: var(--teal); } .rl-verdict.no { color: var(--rose); }
+  .rl-rule { border-top: 1px solid var(--line); padding-top: 4px; }
+  .rl-rule .weak-sec { margin-top: 4px; }
+  .rl-rule-txt { font-family: var(--serif); font-size: 15px; color: var(--ink); line-height: 1.4; }
+  .rl-rule summary { cursor: pointer; font-size: 12px; color: var(--violet); margin-top: 6px; }
+  .rl-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .rv-btn.rl-got { border-color: var(--teal); background: var(--teal-bg); color: var(--teal); }
+  .rl-again { color: var(--rose); font-weight: 700; }
+  .tl-link { background: none; border: 0; padding: 0; font: inherit; color: var(--violet); text-decoration: underline; cursor: pointer; }
   @media (max-width: 640px) {
     .tl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .tl-sub-name { flex-basis: 100%; }
@@ -1147,6 +1169,7 @@ window.addEventListener('error', function (e) {
           </li>
           <li><b>Tuition-miss workflow — diagnose, don't transcribe.</b> When the user pastes questions they got wrong in tuition, Claude does NOT log one card per question. It first works out the reasoning behind each wrong pick (asking the user when the chosen option doesn't make it obvious), groups questions that share the same misconception, and writes one <code>TUITION_MISSES</code> entry per concept, tagged with the <code>module</code> it belongs to. Each entry records: the questions missed (picked vs. correct; and the full question word for word, with every option, in <code>TUITION_Q</code> keyed by its ref), why the wrong answer felt right, the logic that gets it right, how to tackle that question type step by step, and how it shows up in the exam. It renders as a rose weak-spot card inside that module's group, with an index of weak spots at the top of the topic.</li>
           <li><b>Test log — tag every question.</b> When the user adds a test result (a PDF in <code>Written Notes/&lt;subject&gt;/Test Result</code>), Claude logs it in <code>TESTS</code>: every question, right or wrong, with the session it tests (<code>mod</code>), whether it was right, and for a miss the kind of mistake (<code>gap</code>, <code>flip</code>, <code>calc</code>, or <code>guess</code> for a lucky right answer). The wrong answers then go through the tuition-miss workflow above. The 🧪 Test log turns this into a Dig in / Quick fix / Move on verdict per session.</li>
+          <li><b>Difficulty and new questions.</b> Each test in <code>TESTS</code> gets a <code>lvl</code> string, one digit per question: 1 recall, 2 apply (one rule or one calculation), 3 multi-step or vignette. Every miss gets a new question in <code>TWIN_Q</code>, keyed by the missed question’s ref. It tests the same concept with different numbers, wording or direction, and is aimed at the trap that caught the user. The 🔁 Review section in the Test log asks these, not the originals. Questions missed again in revision show in <code>node tools/comments.mjs progress</code>, and each one gets another new question.</li>
           <li><b>Revision is tracked as two separate things.</b> “Revised” is a tick per notebook session (one per day; the count is the number of passes). “Understood” turns on only when the user has graded every checkpoint question for that session “Got it”. Claude writes those questions into <code>CHECKS[key][module]</code> from the session’s own notes: why it works, what changes if an input moves, a fresh calculation, and an “explain it” prompt, never a plain definition. Keep each question <code>id</code> stable once published. Shaky and missed questions come back on a 1 / 3 / 7 / 14 / 30-day schedule. When processing comments, also check <code>node tools/comments.mjs progress</code>: a question that keeps coming back Shaky or Didn’t know is a gap to explain, and Teach-back comments (blurts and explain-it answers) get graded in the reply.</li>
           <li><b>The exam-day sheet moves with the notes.</b> The formula sheet builds itself from <code>formula</code> blocks, but the concise notes are written by hand in <code>EXAM</code>: a reading overview (<code>EXAM[key].about</code>, paragraphs on what the reading covers and how its topics connect), and for each session a prose summary (<code>s</code>) plus linked key points (<code>n</code>). Concise means a real overview, not one-liners. In the same change that adds or edits a session (or a whole reading), Claude writes or updates the overview, that session’s summary and key points, adds any formula that only sits inside an example or point list as an <code>f</code> entry, and runs <code>node tools/exam-check.mjs</code>. The pre-commit hook (<code>tools/hooks</code>) stops a commit that leaves a session without exam notes or breaks a ↗ link, and the GitHub check re-runs it on every push.</li>
           <li><b>Tag what’s new.</b> Every new block Claude adds gets <code>new: 'YYYY-MM-DD'</code>, and every new button or feature gets <code>data-new="f-some-name"</code>. The page shows a NEW tag on it (and on the reading in the sidebar) until its first use: a block once it has been on screen, a feature once it is tapped. Small fixes to existing blocks are not tagged.</li>
@@ -21678,6 +21701,113 @@ const MINDMAP = {
 // `full`: the question (a string per paragraph, or { columns, rows } for a table). `options`: as printed (some
 // quizzes print no letters). `p`: the option I picked, `a`: the answer, both 0-based. `note`: a remark on the key.
 // A card whose question isn't here shows its one-line summary instead.
+// New questions for revision: one per tuition miss, keyed by the missed question's ref. Same concept as the
+// miss, but different numbers, wording or direction, so remembering the old answer doesn't help. lvl is the
+// difficulty (1 recall, 2 apply, 3 multi-step), a is the right option (0-based), why explains it.
+const TWIN_Q = {
+  // R3 Machine Learning
+  "L2-R3-Q1 #2": { lvl: 1, full: ["An analyst has 40 highly correlated financial ratios and wants a handful of uncorrelated variables that still capture most of their variation. Which algorithm is most appropriate?"],
+    options: ["A) Principal components analysis", "B) K-means clustering", "C) LASSO"], a: 0,
+    why: "PCA turns correlated features into a few uncorrelated composites (the principal components). K-means groups observations, not features. LASSO is supervised and drops features but builds no composites." },
+  "L2-R3-Q1 #3": { lvl: 1, full: ["Which statement best describes LASSO?"],
+    options: ["A) It adds a penalty equal to the sum of the absolute values of the coefficients, which can shrink some of them to exactly zero.", "B) It finds the hyperplane that leaves the widest margin between two classes.", "C) It classifies an observation by the majority class of its nearest neighbours."], a: 0,
+    why: "LASSO = penalised regression with Σ|coefficients| as the penalty, so weak features drop out. B is SVM, C is KNN." },
+  "L2-R3-Q1 #4": { lvl: 1, full: ["An analyst has two tasks: (1) predict next month’s return on a stock, and (2) predict whether a firm will be downgraded (yes or no). Which pairing of supervised models is correct?"],
+    options: ["A) (1) Regression · (2) Classification", "B) (1) Classification · (2) Regression", "C) (1) Clustering · (2) Regression"], a: 0,
+    why: "A return is a continuous number → regression. Downgrade yes/no is a category → classification. Clustering is unsupervised, so it is never the answer for a labelled target." },
+  "L2-R3-Q1 #6": { lvl: 1, full: ["A data set has 500 features and only 300 observations. Which step most directly reduces the risk that a model overfits?"],
+    options: ["A) Dimension reduction", "B) Adding more features", "C) Switching to big data analysis"], a: 0,
+    why: "Too many features for the data → reduce the dimensions (for example with PCA). More features make overfitting worse." },
+  "L2-R3-Q1 #7": { lvl: 2, full: ["A model is 92% accurate on its training data but only 60% accurate on the test data. The model most likely:"],
+    options: ["A) generalizes well.", "B) is overfit and generalizes poorly.", "C) is underfit."], a: 1,
+    why: "Generalization = keeping explanatory power out of sample. A big drop from training to test accuracy is the sign of overfitting, so it generalizes poorly. An underfit model does badly on the training data too." },
+  "L2-R3-Q1 #8": { lvl: 1, full: ["An analyst wants to sort bonds into “default” and “no default” with a linear boundary that leaves the widest possible gap between the two groups. Which algorithm fits best?"],
+    options: ["A) Support vector machine (SVM)", "B) Classification and regression tree (CART)", "C) K-nearest neighbour (KNN)"], a: 0,
+    why: "SVM is the linear classifier that finds the optimal (widest-margin) hyperplane. CART splits with a tree of yes/no questions; KNN looks at the nearest neighbours." },
+  "L2-R3-Q1 #10": { lvl: 1, full: ["Which statement about supervised learning is most accurate?"],
+    options: ["A) It learns from labelled data, where the target (tag) for each observation is known.", "B) It has no target variable and finds structure on its own.", "C) It is used mainly for clustering."], a: 0,
+    why: "Supervised = labelled data (features plus a known tag), used for classification and prediction. B and C describe unsupervised learning." },
+  // R4 Big Data Projects
+  "L2-R4-Q1 #1": { lvl: 2, full: ["A default-prediction model gives this confusion matrix:", { columns: ["", "Actual default", "Actual no default"], rows: [["Predicted default", "60 (TP)", "20 (FP)"], ["Predicted no default", "30 (FN)", "90 (TN)"]] }, "The model’s recall is closest to:"],
+    options: ["A) 75.0%", "B) 66.7%", "C) 60.0%"], a: 1,
+    why: "Recall = TP ÷ actual positives = 60 ÷ (60 + 30) = 66.7%. Precision = TP ÷ predicted positives = 60 ÷ 80 = 75%, and accuracy = 150 ÷ 200 = 75%: both are the trap." },
+  "L2-R4-Q1 #2": { lvl: 1, full: ["A model fits its training data almost perfectly but does poorly on new data. The model is:"],
+    options: ["A) underfit: it treats true parameters as noise.", "B) overfit: it treats noise as true parameters.", "C) well generalized."], a: 1,
+    why: "Overfit = learns noise as if it were signal (spurious relationships). Underfit is the reverse: it misses real patterns, treating true parameters as noise." },
+  "L2-R4-Q1 #7": { lvl: 1, full: ["Which activity is most accurately described as data curation?"],
+    options: ["A) Removing duplicate trade records and filling in missing prices in a data set", "B) Building a word cloud from earnings call transcripts", "C) Moving a data set from a local server to cloud storage"], a: 0,
+    why: "Curation = making sure the data are right: fixing bad, missing or mismatched data. B is visualization, C is data transfer." },
+  "L2-R4-Q1 #8": { lvl: 1, full: ["Which task is least likely part of data exploration?"],
+    options: ["A) Feature engineering", "B) Exploratory data analysis", "C) Data cleansing"], a: 2,
+    why: "Data exploration = EDA, feature selection and feature engineering. Cleansing comes earlier, in data preparation and wrangling." },
+  "L2-R4-Q1 #9": { lvl: 1, full: ["Which pairing of data type and exploration tool is most appropriate?"],
+    options: ["A) Text data – word cloud", "B) Text data – scatterplot", "C) Numeric data – word cloud"], a: 0,
+    why: "A word cloud gives the high-level picture of text. Histograms and scatterplots are for numeric data." },
+  // R10 Analysis of Financial Institutions
+  "L2-R10-Q1 #2": { lvl: 2, full: ["Compared with a life insurer, a property and casualty (P&C) insurer most likely:"],
+    options: ["A) holds more liquid, shorter-term assets because the timing and size of claims are uncertain.", "B) holds longer-duration bonds to match long-dated liabilities.", "C) faces greater interest rate risk on its liabilities."], a: 0,
+    why: "P&C claims are hard to predict, so liquidity comes first. Long-duration assets and interest rate risk belong to life insurers, whose liabilities are long and predictable." },
+  "L2-R10-Q1 #3": { lvl: 1, full: ["Which best describes systemic risk?"],
+    options: ["A) The risk that the failure of one financial institution spreads to others and harms the wider economy", "B) The sensitivity of a bank’s share price to movements in the overall market", "C) The risk that a single large borrower defaults"], a: 0,
+    why: "Systemic = contagion through the financial system, with damage to the economy. B is systematic (beta) risk; C is credit risk." },
+  "L2-R10-Q1 #5": { lvl: 1, full: ["Which statement about the Basel Committee is most accurate?"],
+    options: ["A) It can fine banks that breach Basel III.", "B) It sets standards and monitors their adoption, but national regulators enforce them.", "C) It supervises banks in member countries directly."], a: 1,
+    why: "The Basel Committee writes the framework and monitors implementation. It has no legal authority to enforce; that is the job of each country’s regulator." },
+  "L2-R10-Q1 #8": { lvl: 1, full: ["Which risk is most distinctive to a bank compared with a manufacturer?"],
+    options: ["A) Interest rate risk from funding long-term loans with short-term deposits", "B) Supply chain risk", "C) Inventory obsolescence risk"], a: 0,
+    why: "A bank’s assets are financial, so its direct exposures are financial: market, credit, liquidity and interest rate risk. B and C are manufacturing risks." },
+  "L2-R10-Q1 #9": { lvl: 2, full: ["A P&C insurer has a loss ratio of 72% and an underwriting expense ratio of 31%. Its combined ratio and underwriting result are:"],
+    options: ["A) 103%, an underwriting loss", "B) 103%, an underwriting profit", "C) 41%, an underwriting profit"], a: 0,
+    why: "Combined ratio = loss ratio + expense ratio = 72% + 31% = 103%. Above 100% means claims and expenses exceed premiums: an underwriting loss." },
+  // R11 Evaluating Quality of Financial Reports
+  "L2-R11-Q1 #1": { lvl: 1, full: ["A company includes a large gain on the sale of its head-office building in operating income. Its reported operating earnings are most likely:"],
+    options: ["A) compliant with GAAP but not sustainable.", "B) non-compliant with GAAP and sustainable.", "C) compliant with GAAP and sustainable."], a: 0,
+    why: "Where a gain sits within the income statement is usually allowed by GAAP, but a one-off gain will not repeat. GAAP-compliant does not mean high quality." },
+  "L2-R11-Q1 #3": { lvl: 2, full: ["Which firm most likely shows the highest results (earnings) quality?"],
+    options: ["A) Firm X: ROE of 18%, mostly from a one-time asset sale, with GAAP-compliant, audited statements", "B) Firm Y: ROE of 12%, above its cost of equity, from core operations expected to continue", "C) Firm Z: very conservative accounting and an ROE of 4%, below its cost of equity"], a: 1,
+    why: "High results quality = an adequate return (above the cost of capital) that is sustainable. X’s return won’t last; Z’s is conservative but inadequate." },
+  "L2-R11-Q1 #4": { lvl: 3, full: ["An analyst makes two statements about the Beneish model:", "1. A days sales in receivables index (DSRI) above 1 may signal revenue inflation.", "2. A depreciation index (DEPI) above 1 means the company is depreciating its assets faster than last year.", "Which statement(s) are accurate?"],
+    options: ["A) Statement 1 only", "B) Statement 2 only", "C) Both statements"], a: 0,
+    why: "DSRI > 1: receivables are growing faster than sales, a possible sign of revenue inflation. DEPI = last year’s depreciation rate ÷ this year’s, so DEPI > 1 means a SLOWER rate now, a possible sign of inflating earnings." },
+  "L2-R11-Q1 #5": { lvl: 2, full: ["A manufacturer signs large take-or-pay purchase contracts. Within the accounting rules, the obligations are shown only in the notes, not on the balance sheet. Its balance sheet quality is best described as:"],
+    options: ["A) low, due to lack of completeness.", "B) high, because it complies with GAAP.", "C) low, due to biased measurement."], a: 0,
+    why: "Obligations kept off the balance sheet = a completeness problem. GAAP compliance is necessary but not enough. Measurement bias is about values on the balance sheet being wrong." },
+  "L2-R11-Q1 #6": { lvl: 2, full: ["A company’s “core earnings” exclude (1) a restructuring charge it has taken in four of the last five years and (2) a loss from a factory destroyed by an earthquake. For analysis, which item(s) should stay excluded from core earnings?"],
+    options: ["A) Both", "B) Only the earthquake loss", "C) Only the restructuring charge"], a: 1,
+    why: "A charge that keeps coming back is recurring, so it belongs in core earnings. Only the truly unusual and infrequent earthquake loss comes out." },
+  "L2-R11-Q1 #7": { lvl: 2, full: ["For a software company that sells multi-year licences, which is most indicative of a revenue recognition problem?"],
+    options: ["A) Higher sales of its consumer app in the holiday quarter", "B) Receivables growing much faster than revenue", "C) Revenue rising in line with the number of new customers"], a: 1,
+    why: "Receivables outgrowing revenue suggests revenue is booked before cash is likely, for example aggressive up-front recognition. A seasonal spike is normal for the business." },
+  "L2-R11-Q1 #10": { lvl: 1, full: ["Which source is most useful for learning about a company’s specific business risks?"],
+    options: ["A) The auditor’s report", "B) Management discussion and analysis (MD&A)", "C) The statement of changes in equity"], a: 1,
+    why: "The MD&A and the notes carry the risk detail. The auditor’s report is an opinion on past statements and says little about business risk." },
+  // R15 Cost of Capital: Advanced Topics
+  "L2-R15-Q1 #1": { lvl: 1, full: ["An analyst values a Brazilian utility starting from a developed-market equity risk premium. Under the country spread model, the extra premium for Brazil comes from:"],
+    options: ["A) the yield on Brazil’s US-dollar government bonds minus the US Treasury yield of the same maturity", "B) the difference between expected inflation in Brazil and in the US", "C) Brazil’s historical equity returns minus US historical equity returns"], a: 0,
+    why: "Country spread model: ERP(emerging) = ERP(developed) + the country premium, measured as the government bond yield gap (often scaled by equity-to-bond volatility). Inflation differences are not the input." },
+  "L2-R15-Q1 #2": { lvl: 2, full: ["A market index stands at 2,400. Its firms are expected to pay dividends of 60 over the next year. Long-term earnings growth is forecast at 5.5% (up from last year’s 5.0%). The long-term government bond yields 4.0%. Using the Gordon growth model, the equity risk premium is:"],
+    options: ["A) 3.5%", "B) 4.0%", "C) 1.5%"], a: 1,
+    why: "ERP = D₁/P₀ + g − r_f = 60/2,400 + 5.5% − 4.0% = 2.5% + 5.5% − 4.0% = 4.0%. Use the current growth forecast (A uses last year’s 5.0%); C forgets the dividend yield." },
+  "L2-R15-Q1 #3": { lvl: 2, full: ["Under CAPM, a stock’s required return is 10.4%, its beta is 1.2 and the risk-free rate is 3.2%. The implied equity risk premium is:"],
+    options: ["A) 6.0%", "B) 7.2%", "C) 8.7%"], a: 0,
+    why: "Required return = r_f + β × ERP → ERP = (10.4% − 3.2%) ÷ 1.2 = 6.0%. B forgets to divide by beta. You need the required return, r_f and beta, never the stock’s estimated return." },
+  "L2-R15-Q1 #4": { lvl: 1, full: ["The country risk rating model is least appropriate for estimating the equity risk premium of a stock in:"],
+    options: ["A) Vietnam", "B) Germany", "C) Nigeria"], a: 1,
+    why: "The rating model is built for emerging markets (it regresses developed-market ERPs on country risk ratings). Germany is a developed market with its own data." },
+  "L2-R15-Q1 #6": { lvl: 1, full: ["Analyst 1: “The equity risk premium is the return investors require on equities in excess of the risk-free rate.”", "Analyst 2: “The equity risk premium is the return a stock is expected to earn in excess of the risk-free rate.”", "Which analyst is correct?"],
+    options: ["A) Analyst 1 only", "B) Analyst 2 only", "C) Both"], a: 0,
+    why: "ERP is built on the REQUIRED return, not the estimated or expected return of a particular stock." },
+  "L2-R15-Q1 #8": { lvl: 2, full: ["To estimate a private company’s beta, an analyst unlevers a public comparable’s beta. The unlevered beta is then relevered using:"],
+    options: ["A) the comparable’s debt-to-equity ratio", "B) the private company’s target debt-to-equity ratio", "C) the market average debt-to-equity ratio"], a: 1,
+    why: "Unlevering strips out the comparable’s financial risk, leaving its business (market) risk. Relevering adds the subject company’s own financing, at its target D/E." },
+  "L2-R15-Q1 #9": { lvl: 1, full: ["A euro-based analyst has estimated required returns for Japanese stocks in yen. To turn them into euro required returns, she should:"],
+    options: ["A) adjust for the expected change in the yen against the euro", "B) adjust the stocks’ betas for exchange rate volatility", "C) adjust for the difference in inflation between Japan and the eurozone"], a: 0,
+    why: "Work out the return in one currency, then adjust for the expected change in the currency’s value. Beta isn’t touched." },
+  "L2-R15-Q1 #10": { lvl: 1, full: ["Which is least likely one of the types of equity risk premium estimate?"],
+    options: ["A) Historical estimates", "B) Survey estimates", "C) Arbitrage-based estimates"], a: 2,
+    why: "The types are historical, forward-looking (ex ante, such as the Gordon growth model), macroeconomic model and survey estimates. There is no “arbitrage-based” type." },
+};
+
 const TUITION_Q = {
   "L2-R1-Q1 #3": {
     "full": [
@@ -23704,7 +23834,7 @@ const TUITION_Q = {
 // default). Keep each `id` stable: the Fixed ticks on the test log are stored against it. Quizzes I log
 // myself on the page (quick log) live in progress rows instead, and the test log merges both.
 const TESTS = [
-  { id: 'L2-R7-Q1', topic: 'fsa.0', name: 'Reading 7 quiz 1', date: '2026-06-03', mins: 15.5, qs: [
+  { id: 'L2-R7-Q1', lvl: '1111222111', topic: 'fsa.0', name: 'Reading 7 quiz 1', date: '2026-06-03', mins: 15.5, qs: [
     { mod: '7.S8', what: 'Joint ventures: equity method under IFRS and US GAAP', ok: 1 },
     { mod: '7.S9', what: 'Securitisation through an SPE', ok: 1 },
     { mod: '7.S5', what: '41% with control: acquisition method', ok: 1 },
@@ -23716,7 +23846,7 @@ const TESTS = [
     { mod: '7.S5', what: '60% stake: acquisition method', ok: 1 },
     { mod: '7.S2', what: 'FVPL vs. FVOCI: what reaches the income statement', ok: 1 },
   ] },
-  { id: 'L2-R7-Q2', topic: 'fsa.0', name: 'Reading 7 quiz 2', date: '2026-07-22', mins: 19.7, qs: [
+  { id: 'L2-R7-Q2', lvl: '2222212122', topic: 'fsa.0', name: 'Reading 7 quiz 2', date: '2026-07-22', mins: 19.7, qs: [
     { mod: '7.S9', what: 'SPE statements: decision-making power and risk', ok: 0, why: 'gap' },
     { mod: '7.S2', what: 'FVOCI equity: income statement impact', ok: 0, why: 'flip' },
     { mod: '7.S3', what: 'Equity method at 15% with significant influence', ok: 1 },
@@ -23728,7 +23858,7 @@ const TESTS = [
     { mod: '7.S1', what: '18% stake in a supplier, largest shareholder', ok: 1 },
     { mod: '7.S3', what: 'Equity method: balance sheet, income and cash', ok: 1 },
   ] },
-  { id: 'L2-R7-Q3', topic: 'fsa.0', name: 'Reading 7 quiz 3', date: '2026-08-28', mins: 17.5, qs: [
+  { id: 'L2-R7-Q3', lvl: '1221222122', topic: 'fsa.0', name: 'Reading 7 quiz 3', date: '2026-08-28', mins: 17.5, qs: [
     { mod: '7.S8', what: 'Joint ventures under IFRS', ok: 0, why: 'gap' },
     { mod: '7.S5', what: 'Consolidation: same net income, different equity', ok: 1 },
     { mod: '7.S2', what: 'Reclassifying from amortised cost to FVPL', ok: 1 },
@@ -23740,7 +23870,7 @@ const TESTS = [
     { mod: '7.S5', what: 'Which method reports the highest assets and liabilities', ok: 1 },
     { mod: '7.S5', what: 'ROA under consolidation vs. the equity method', ok: 1 },
   ] },
-  { id: 'L2-R7-Q4', topic: 'fsa.0', name: 'Reading 7 quiz 4', date: '2026-09-17', mins: 37.6, qs: [
+  { id: 'L2-R7-Q4', lvl: '231312132', topic: 'fsa.0', name: 'Reading 7 quiz 4', date: '2026-09-17', mins: 37.6, qs: [
     { mod: '7.S3', what: 'Equity method: income statement impact', ok: 0, why: 'gap' },
     { mod: '7.S3', what: 'Equity method: investment account at year end', ok: 1 },
     { mod: '7.S6', what: 'Where minority interest appears', ok: 1 },
@@ -23751,13 +23881,13 @@ const TESTS = [
     { mod: '7.S7', what: 'US GAAP goodwill impairment loss', ok: 0, why: 'calc' },
     { mod: '7.S7', what: 'Full goodwill: ROE and debt-to-equity', ok: 1 },
   ] },
-  { id: 'L2-R7-CASE1', topic: 'fsa.0', name: 'Reading 7 case 1 (Evergreen)', date: '2026-09-17', mins: 11.75, qs: [
+  { id: 'L2-R7-CASE1', lvl: '3333', topic: 'fsa.0', name: 'Reading 7 case 1 (Evergreen)', date: '2026-09-17', mins: 11.75, qs: [
     { mod: '7.S9', what: 'SPE statements: what an SPE must have', ok: 0, why: 'gap' },
     { mod: '7.S9', what: 'Primary beneficiary of a VIE', ok: 1 },
     { mod: '7.S9', what: 'Who consolidates QuickTime', ok: 1 },
     { mod: '7.S9', what: 'Conditions for a VIE under US GAAP', ok: 1 },
   ] },
-  { id: 'L2-R5-Q1', topic: 'econ.0', name: 'Reading 5 quiz 1', date: '2026-04-15', mins: 18.7, qs: [
+  { id: 'L2-R5-Q1', lvl: '3222312123', topic: 'econ.0', name: 'Reading 5 quiz 1', date: '2026-04-15', mins: 18.7, qs: [
     { mod: '5.S3', what: 'Implied cross rate from two bid–ask quotes', ok: 0, why: 'flip' },
     { mod: '5.S5', what: 'Forward premium or discount from spot and forward', ok: 1 },
     { mod: '5.S1', what: 'What widens or narrows FX bid–ask spreads', ok: 0, why: 'flip' },
@@ -23769,7 +23899,7 @@ const TESTS = [
     { mod: '5.S7', what: 'Forward rate parity and UIRP', ok: 1 },
     { mod: '5.S10', what: 'Fiscal deficit: Mundell-Fleming short run vs. portfolio balance long run', ok: 0, why: 'flip' },
   ] },
-  { id: 'L2-R6-Q1', topic: 'econ.1', name: 'Reading 6 quiz 1', date: '2026-10-18', mins: 19.9, qs: [
+  { id: 'L2-R6-Q1', lvl: '2112111122', topic: 'econ.1', name: 'Reading 6 quiz 1', date: '2026-10-18', mins: 19.9, qs: [
     { mod: '6.S2', what: 'Cobb–Douglas: returns to scale and what α means (confused between options)', ok: 0, why: 'gap' },
     { mod: '6.S3', what: 'Absolute, conditional and club convergence', ok: 0, why: 'gap' },
     { mod: '6.S2', what: 'Natural resources: what a resource-poor country can expect (guessed)', ok: 0, why: 'gap' },
@@ -23781,7 +23911,7 @@ const TESTS = [
     { mod: '6.S3', what: 'Open trade: comparative advantage and convergence', ok: 0, why: 'gap' },
     { mod: '6.S2', what: 'Potential GDP growth from labour force and labour productivity', ok: 0, why: 'calc' },
   ] },
-  { id: 'L2-R6-Q2', topic: 'econ.1', name: 'Reading 6 quiz 2', date: '2026-10-19', mins: 20.6, qs: [
+  { id: 'L2-R6-Q2', lvl: '2121211131', topic: 'econ.1', name: 'Reading 6 quiz 2', date: '2026-10-19', mins: 20.6, qs: [
     { mod: '6.S2', what: 'Potential GDP growth from TFP, capital and labour (growth accounting)', ok: 1 },
     { mod: '6.S2', what: 'Natural resources: which situation does not constrain growth', ok: 0, why: 'gap' },
     { mod: '6.S1', what: 'Stock market appreciation vs potential GDP growth, short and long run', ok: 1 },
@@ -23793,7 +23923,7 @@ const TESTS = [
     { mod: '6.S2', what: 'Cobb–Douglas: back out α from the same potential GDP growth', ok: 0, why: 'flip' },
     { mod: '6.S3', what: 'Endogenous growth: new ideas keep growth going (guessed)', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R6-Q3', topic: 'econ.1', name: 'Reading 6 quiz 3', date: '2026-10-19', mins: 11.1, qs: [
+  { id: 'L2-R6-Q3', lvl: '23222122', topic: 'econ.1', name: 'Reading 6 quiz 3', date: '2026-10-19', mins: 11.1, qs: [
     { mod: '6.S3', what: 'Neoclassical theory, uniquely: in steady state MPK = rental price of capital', ok: 0, why: 'gap' },
     { mod: '6.S3', what: 'Sustainable growth: classical (zero) vs neoclassical θ ÷ (1 − α) + ΔL', ok: 0, why: 'flip' },
     { mod: '6.S3', what: 'Conditional convergence fails with low saving', ok: 1 },
@@ -23803,7 +23933,7 @@ const TESTS = [
     { mod: '6.S1', what: 'Financial markets: channelling capital helps growth, leverage does not', ok: 0, why: 'gap' },
     { mod: '6.S1', what: 'Higher potential growth: credit spreads narrow, policy can be expansionary', ok: 1 },
   ] },
-  { id: 'L2-R8-Q1', topic: 'fsa.1', name: 'Reading 8 quiz 1', date: '2026-09-25', mins: 9.9, qs: [
+  { id: 'L2-R8-Q1', lvl: '22111232', topic: 'fsa.1', name: 'Reading 8 quiz 1', date: '2026-09-25', mins: 9.9, qs: [
     { mod: '8.S6', what: 'Plan amendment: net pension liability rises at once', ok: 1 },
     { mod: '8.S3', what: 'Tax windfall under US GAAP and IFRS (least accurate)', ok: 0, why: 'flip' },
     { mod: '8.S1', what: 'Advantages of share-based pay over cash', ok: 1 },
@@ -23813,7 +23943,7 @@ const TESTS = [
     { mod: '8.S3', what: 'Dilutive shares from a stock grant (treasury stock method)', ok: 0, why: 'calc' },
     { mod: '8.S3', what: 'When a stock grant gives a tax windfall', ok: 1 },
   ] },
-  { id: 'L2-R8-Q2', topic: 'fsa.1', name: 'Reading 8 quiz 2', date: '2026-09-25', mins: 20.4, qs: [
+  { id: 'L2-R8-Q2', lvl: '222211222121', topic: 'fsa.1', name: 'Reading 8 quiz 2', date: '2026-09-25', mins: 20.4, qs: [
     { mod: '8.S7', what: 'Higher discount rate and expected return: effect on the PBO', ok: 1 },
     { mod: '8.S1', what: 'Which compensation raises current liabilities', ok: 0, why: 'gap' },
     { mod: '8.S3', what: 'Forecasting dilution from future grants (least appropriate)', ok: 0, why: 'flip' },
@@ -23827,14 +23957,14 @@ const TESTS = [
     { mod: '8.S1', what: 'Stock option grant: effect on leverage', ok: 0, why: 'gap' },
     { mod: '8.S2', what: 'Vesting date', ok: 1 },
   ] },
-  { id: 'L2-R8-CASE1', topic: 'fsa.1', name: 'Reading 8 case 1 (Prisma)', date: '2026-09-25', mins: 12.7, qs: [
+  { id: 'L2-R8-CASE1', lvl: '33333', topic: 'fsa.1', name: 'Reading 8 case 1 (Prisma)', date: '2026-09-25', mins: 12.7, qs: [
     { mod: '8.S3', what: 'Expense for options plus shares in year 1', ok: 0, why: 'calc' },
     { mod: '8.S3', what: 'Cash outflow from share-based pay', ok: 1 },
     { mod: '8.S3', what: 'Change in total equity from share-based pay', ok: 1 },
     { mod: '8.S3', what: 'Settlement price above grant price: tax windfall', ok: 1 },
     { mod: '8.S3', what: 'Net loss: basic and diluted EPS are the same', ok: 1 },
   ] },
-  { id: 'L2-R9-Q1', topic: 'fsa.2', name: 'Reading 9 quiz 1', date: '2026-10-02', mins: 14.5, qs: [
+  { id: 'L2-R9-Q1', lvl: '2211111112', topic: 'fsa.2', name: 'Reading 9 quiz 1', date: '2026-10-02', mins: 14.5, qs: [
     { mod: '9.S8', what: 'Real value of non-monetary items under hyperinflation', ok: 0, why: 'gap' },
     { mod: '9.S6', what: 'Pure balance sheet ratios under the current rate method (least accurate)', ok: 0, why: 'flip' },
     { mod: '9.S3', what: 'Where the translation gain or loss goes under each method', ok: 1 },
@@ -23846,7 +23976,7 @@ const TESTS = [
     { mod: '9.S3', what: 'Current rate: all liabilities at the current rate', ok: 1 },
     { mod: '9.S6', what: 'Ratio unaffected by the choice of method', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R9-Q2', topic: 'fsa.2', name: 'Reading 9 quiz 2', date: '2026-10-03', mins: 17.5, qs: [
+  { id: 'L2-R9-Q2', lvl: '1232212112', topic: 'fsa.2', name: 'Reading 9 quiz 2', date: '2026-10-03', mins: 17.5, qs: [
     { mod: '9.S2', what: 'No CTA on the balance sheet: temporal method only', ok: 1 },
     { mod: '9.S9', what: 'Translated sales when the parent’s currency strengthens', ok: 0, why: 'flip' },
     { mod: '9.S9', what: 'Exchange-rate effect on translated sales, separated from local growth', ok: 0, why: 'calc' },
@@ -23858,7 +23988,7 @@ const TESTS = [
     { mod: '9.S3', what: 'Key difference between the two methods', ok: 1 },
     { mod: '9.S2', what: 'Situation that does not need the temporal method', ok: 0, why: 'flip' },
   ] },
-  { id: 'L2-R9-Q3', topic: 'fsa.2', name: 'Reading 9 quiz 3', date: '2026-10-03', mins: 19.75, qs: [
+  { id: 'L2-R9-Q3', lvl: '2222112112', topic: 'fsa.2', name: 'Reading 9 quiz 3', date: '2026-10-03', mins: 19.75, qs: [
     { mod: '9.S6', what: 'Receivables turnover is the same under both methods', ok: 0, why: 'flip' },
     { mod: '9.S6', what: 'Measure unaffected by the choice of method', ok: 0, why: 'gap' },
     { mod: '9.S6', what: 'Current rate method, dollar depreciating: ROE falls', ok: 1 },
@@ -23870,7 +24000,7 @@ const TESTS = [
     { mod: '9.S3', what: 'Inventory is not a monetary item', ok: 1 },
     { mod: '9.S6', what: 'Current rate method: debt-to-equity unchanged', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R9-Q4', topic: 'fsa.2', name: 'Reading 9 quiz 4', date: '2026-10-04', mins: 28.5, qs: [
+  { id: 'L2-R9-Q4', lvl: '1121112211', topic: 'fsa.2', name: 'Reading 9 quiz 4', date: '2026-10-04', mins: 28.5, qs: [
     { mod: '9.S3', what: 'Temporal: non-monetary assets at historical rates', ok: 1 },
     { mod: '9.S8', what: 'US GAAP hyperinflation: parent’s currency is functional', ok: 1 },
     { mod: '9.S6', what: 'Local currency appreciating: depreciation and fixed assets under each method', ok: 0, why: 'flip' },
@@ -23882,7 +24012,7 @@ const TESTS = [
     { mod: '9.S8', what: 'Why US GAAP prefers temporal under hyperinflation', ok: 1 },
     { mod: '9.S4', what: 'What foreign exchange risk covers', ok: 1 },
   ] },
-  { id: 'L2-R17-Q1', topic: 'equity.0', name: 'Reading 17 quiz 1', date: '2026-07-30', mins: 10.3, qs: [
+  { id: 'L2-R17-Q1', lvl: '1111211111', topic: 'equity.0', name: 'Reading 17 quiz 1', date: '2026-07-30', mins: 10.3, qs: [
     { mod: '17.S2', what: 'Why use more than one model', ok: 1 },
     { mod: '17.S1', what: 'Going-concern value', ok: 1 },
     { mod: '17.S2', what: 'Valuing against other firms’ market values: relative valuation', ok: 0, why: 'gap' },
@@ -23894,7 +24024,7 @@ const TESTS = [
     { mod: '17.S2', what: 'Quality of earnings analysis', ok: 1 },
     { mod: '17.S2', what: 'First step of the valuation process', ok: 1 },
   ] },
-  { id: 'L2-R17-Q2', topic: 'equity.0', name: 'Reading 17 quiz 2', date: '2026-07-30', mins: 15.3, qs: [
+  { id: 'L2-R17-Q2', lvl: '1111122211', topic: 'equity.0', name: 'Reading 17 quiz 2', date: '2026-07-30', mins: 15.3, qs: [
     { mod: '17.S2', what: 'Peer P/E, P/S ratios: relative valuation', ok: 1 },
     { mod: '17.S2', what: 'Quality of earnings warning signs', ok: 1 },
     { mod: '17.S1', what: 'Why analysts’ values differ: their expectations', ok: 1 },
@@ -23906,7 +24036,7 @@ const TESTS = [
     { mod: '17.S2', what: 'Ratios for peer benchmarks', ok: 1 },
     { mod: '17.S2', what: 'Fairness opinion', ok: 1 },
   ] },
-  { id: 'L2-R17-Q3', topic: 'equity.0', name: 'Reading 17 quiz 3', date: '2026-08-04', mins: 8.4, qs: [
+  { id: 'L2-R17-Q3', lvl: '12111112111', topic: 'equity.0', name: 'Reading 17 quiz 3', date: '2026-08-04', mins: 8.4, qs: [
     { mod: '17.S2', what: 'Absolute valuation', ok: 1 },
     { mod: '17.S2', what: 'Gain on a plant sale in operating earnings', ok: 1 },
     { mod: '17.S2', what: 'Footnotes: accounting practices', ok: 1 },
@@ -23919,12 +24049,12 @@ const TESTS = [
     { mod: '17.S1', what: 'Public equities: intrinsic value', ok: 1 },
     { mod: '17.S2', what: 'Not one of the five steps: corporate governance', ok: 0, why: 'flip' },
   ] },
-  { id: 'L2-R17-CASE1', topic: 'equity.0', name: 'Reading 17 case 1 (Gold Star Oil)', date: '2026-08-05', mins: 3.0, qs: [
+  { id: 'L2-R17-CASE1', lvl: '333', topic: 'equity.0', name: 'Reading 17 case 1 (Gold Star Oil)', date: '2026-08-05', mins: 3.0, qs: [
     { mod: '17.S2', what: 'Top-down forecast: economy, industry, company', ok: 1 },
     { mod: '17.S2', what: 'Closely held company: absolute valuation', ok: 0, why: 'gap' },
     { mod: '17.S2', what: 'Marketability, liquidity and minority discounts', ok: 1 },
   ] },
-  { id: 'L2-R18-Q1', topic: 'equity.1', name: 'Reading 18 quiz 1', date: '2026-08-08', mins: 21.8, qs: [
+  { id: 'L2-R18-Q1', lvl: '2312231132', topic: 'equity.1', name: 'Reading 18 quiz 1', date: '2026-08-08', mins: 21.8, qs: [
     { mod: '18.S4', what: 'Three-stage DDM value too high: stable growth too high', ok: 1 },
     { mod: '18.S1', what: 'Multi-period DDM with CAPM and a sale price', ok: 1 },
     { mod: '18.S4', what: '8% then 6%: two-stage model', ok: 1 },
@@ -23936,7 +24066,7 @@ const TESTS = [
     { mod: '18.S2', what: 'Gordon price at the end of year 2 uses D₃', ok: 0, why: 'calc' },
     { mod: '18.S5', what: 'ROE from g and the retention ratio', ok: 0, why: 'calc' },
   ] },
-  { id: 'L2-R18-Q2', topic: 'equity.1', name: 'Reading 18 quiz 2', date: '2026-08-08', mins: 45.8, qs: [
+  { id: 'L2-R18-Q2', lvl: '2323321232', topic: 'equity.1', name: 'Reading 18 quiz 2', date: '2026-08-08', mins: 45.8, qs: [
     { mod: '18.S5', what: 'Sustainable growth = b × ROE', ok: 1 },
     { mod: '18.S4', what: 'Implied return from a two-stage DDM (iterate)', ok: 0, why: 'gap' },
     { mod: '18.S5', what: 'Sustainable growth = b × ROE', ok: 1 },
@@ -23948,7 +24078,7 @@ const TESTS = [
     { mod: '18.S4', what: 'Implied return from the H-model', ok: 0, why: 'gap' },
     { mod: '18.S2', what: 'Gordon value vs. price: fairly valued', ok: 0, why: 'calc' },
   ] },
-  { id: 'L2-R18-Q3', topic: 'equity.1', name: 'Reading 18 quiz 3', date: '2026-08-09', mins: 25.2, qs: [
+  { id: 'L2-R18-Q3', lvl: '2111221212', topic: 'equity.1', name: 'Reading 18 quiz 3', date: '2026-08-09', mins: 25.2, qs: [
     { mod: '18.S3', what: 'PVGO can be negative', ok: 0, why: 'flip' },
     { mod: '18.S4', what: 'Second growth stage: transition', ok: 1 },
     { mod: '18.S2', what: 'CAPM required return', ok: 1 },
@@ -23960,7 +24090,7 @@ const TESTS = [
     { mod: '18.S4', what: 'Multistage models are spreadsheet models', ok: 0, why: 'gap' },
     { mod: '18.S2', what: 'Next year’s dividend from retained earnings', ok: 0, why: 'calc' },
   ] },
-  { id: 'L2-R1-P1', topic: 'quant.0', name: 'Reading 1 prerequisite quiz 1 (simple regression)', date: '2026-10-21', mins: 21.4, qs: [
+  { id: 'L2-R1-P1', lvl: '1212221111', topic: 'quant.0', name: 'Reading 1 prerequisite quiz 1 (simple regression)', date: '2026-10-21', mins: 21.4, qs: [
     { mod: '1.P', what: 'Slope = Cov(X, Y) ÷ Var(X)', ok: 1 },
     { mod: '1.P', what: 'One-tailed t-test: slope ≥ 1.0 rejected at t = −1.77', ok: 1 },
     { mod: '1.P', what: 'Relative change in Y linear in X: log-lin model', ok: 1 },
@@ -23972,10 +24102,10 @@ const TESTS = [
     { mod: '1.P', what: 'Least squares minimises Σ(actual − predicted Y)²', ok: 0, why: 'flip' },
     { mod: '1.P', what: 'Predict Y from Ŷ = 2.83 + 1.5X', ok: 1 },
   ] },
-  { id: 'L2-R1-P2', topic: 'quant.0', name: 'Reading 1 prerequisite quiz 2 (simple regression)', date: '2026-10-21', mins: 0.5, qs: [
+  { id: 'L2-R1-P2', lvl: '1', topic: 'quant.0', name: 'Reading 1 prerequisite quiz 2 (simple regression)', date: '2026-10-21', mins: 0.5, qs: [
     { mod: '1.P', what: 'Simple regression: one dependent and one independent variable', ok: 1 },
   ] },
-  { id: 'L2-R1-Q1', topic: 'quant.0', name: 'Reading 1 quiz 1', date: '2026-10-22', mins: 17.2, qs: [
+  { id: 'L2-R1-Q1', lvl: '2111121221', topic: 'quant.0', name: 'Reading 1 quiz 1', date: '2026-10-22', mins: 17.2, qs: [
     { mod: '1.S4', what: 'Regime change: two sub-period regressions avoid incorrectly pooled data', ok: 1 },
     { mod: '1.S5', what: 'Unconditional heteroskedasticity doesn’t affect inference', ok: 1, why: 'guess' },
     { mod: '1.S8', what: 'Probability of default: logistic regression (guessed)', ok: 0, why: 'gap' },
@@ -23987,7 +24117,7 @@ const TESTS = [
     { mod: '1.S4', what: 'Least likely misspecification: transforming a variable', ok: 0, why: 'flip' },
     { mod: '1.S6', what: 'Correlated independent variables: multicollinearity', ok: 1 },
   ] },
-  { id: 'L2-R3-Q1', topic: 'quant.2', name: 'Reading 3 quiz 1', date: '2026-10-22', mins: 6.8, qs: [
+  { id: 'L2-R3-Q1', lvl: '1111111111', topic: 'quant.2', name: 'Reading 3 quiz 1', date: '2026-10-22', mins: 6.8, qs: [
     { mod: '3.S1', what: 'Labelled inputs and outputs: supervised learning', ok: 1 },
     { mod: '3.S3', what: 'Correlated features into fewer uncorrelated composites: PCA', ok: 0, why: 'gap' },
     { mod: '3.S2', what: 'Penalty = sum of |coefficients|: LASSO', ok: 0, why: 'gap' },
@@ -23999,7 +24129,7 @@ const TESTS = [
     { mod: '3.S1', what: 'Overfitting does not raise out-of-sample accuracy', ok: 1 },
     { mod: '3.S1', what: 'Supervised tasks: classification and prediction', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R4-Q1', topic: 'quant.3', name: 'Reading 4 quiz 1', date: '2026-10-23', mins: 6.5, qs: [
+  { id: 'L2-R4-Q1', lvl: '221111211', topic: 'quant.3', name: 'Reading 4 quiz 1', date: '2026-10-23', mins: 6.5, qs: [
     { mod: '4.S3', what: 'Recall = right among actual positives (precision, accuracy defined)', ok: 0, why: 'flip' },
     { mod: '4.S3', what: 'Underfit: treats true parameters as noise', ok: 0, why: 'flip' },
     { mod: '4.S1', what: '“Low latency, terabytes”: velocity and volume', ok: 1 },
@@ -24010,7 +24140,7 @@ const TESTS = [
     { mod: '4.S2', what: 'Data exploration = EDA, feature selection, feature engineering', ok: 0, why: 'gap' },
     { mod: '4.S2', what: 'High-level picture of text: word cloud', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R40-Q1', topic: 'ethics.0', name: 'Reading 40 quiz 1', date: '2026-10-23', mins: 18.4, qs: [
+  { id: 'L2-R40-Q1', lvl: '1122112121', topic: 'ethics.0', name: 'Reading 40 quiz 1', date: '2026-10-23', mins: 18.4, qs: [
     { mod: '40.S1', what: 'Code: the goal is to reflect credit on members and the profession', ok: 0, why: 'gap' },
     { mod: '40.S1', what: 'Reflect credit = practise in a professional and ethical manner', ok: 1 },
     { mod: '40.S1', what: 'Not in the Code (EXCEPT): protecting the CFA designation is Standard VII', ok: 0, why: 'flip' },
@@ -24022,7 +24152,7 @@ const TESTS = [
     { mod: '40.S1', what: 'The Code sets no order of priority; clients first is Standard III(A)', ok: 0, why: 'gap' },
     { mod: '40.S1', what: 'Code component: reasonable care and independent judgment', ok: 1 },
   ] },
-  { id: 'L2-R40-Q2', topic: 'ethics.0', name: 'Reading 40 quiz 2', date: '2026-10-23', mins: 8.8, qs: [
+  { id: 'L2-R40-Q2', lvl: '221121111', topic: 'ethics.0', name: 'Reading 40 quiz 2', date: '2026-10-23', mins: 8.8, qs: [
     { mod: '40.S1', what: 'Not in the Code (EXCEPT): diligence in preparing reports is Standard V(A)', ok: 0, why: 'flip' },
     { topic: 'ethics.1', mod: '41.S3', what: 'III(A): not every proxy has to be voted', ok: 1 },
     { mod: '40.S1', what: 'Code wording: integrity, competence and respect', ok: 0, why: 'gap' },
@@ -24033,7 +24163,7 @@ const TESTS = [
     { mod: '40.S1', what: 'Code component: reflect credit on the profession', ok: 1 },
     { mod: '40.S1', what: 'Least likely in the Code: humility', ok: 0, why: 'flip' },
   ] },
-  { id: 'L2-R42-Q1', topic: 'ethics.2', name: 'Reading 42 quiz 1 (Standards cases)', date: '2026-10-23', mins: 21.3, qs: [
+  { id: 'L2-R42-Q1', lvl: '222222', topic: 'ethics.2', name: 'Reading 42 quiz 1 (Standards cases)', date: '2026-10-23', mins: 21.3, qs: [
     { topic: 'ethics.1', mod: '41.S4', what: 'IV(A): soliciting non-competing clients on your own time is allowed', ok: 0, why: 'gap' },
     { topic: 'ethics.1', mod: '41.S4', what: 'IV(C): the compliance officer investigates, disciplines and prevents', ok: 1 },
     { topic: 'ethics.1', mod: '41.S4', what: 'Non-charterholders are bound when the firm adopts the Code', ok: 1 },
@@ -24041,7 +24171,7 @@ const TESTS = [
     { topic: 'ethics.1', mod: '41.S4', what: 'IV(B): describe outside consulting in detail and get consent', ok: 1 },
     { topic: 'ethics.1', mod: '41.S6', what: 'Board seat: the duty to clients comes first', ok: 1 },
   ] },
-  { id: 'L2-R10-Q1', topic: 'fsa.3', name: 'Reading 10 quiz 1', date: '2026-10-24', mins: 17.4, qs: [
+  { id: 'L2-R10-Q1', lvl: '1221121121', topic: 'fsa.3', name: 'Reading 10 quiz 1', date: '2026-10-24', mins: 17.4, qs: [
     { mod: '10.S5', what: 'Not in CAMELS: levels of government support', ok: 1 },
     { mod: '10.S6', what: 'P&C insurers: liquidity first, Level 1 assets', ok: 0, why: 'gap' },
     { mod: '10.S1', what: 'Systemic risk is not co-movement with the market (that is systematic)', ok: 0, why: 'gap' },
@@ -24053,7 +24183,7 @@ const TESTS = [
     { mod: '10.S6', what: 'Combined ratio above 100% = underwriting loss', ok: 0, why: 'flip' },
     { mod: '10.S1', what: 'Financial institutions’ assets are financial, not tangible', ok: 1 },
   ] },
-  { id: 'L2-R11-Q1', topic: 'fsa.4', name: 'Reading 11 quiz 1', date: '2026-10-24', mins: 18.9, qs: [
+  { id: 'L2-R11-Q1', lvl: '2213222211', topic: 'fsa.4', name: 'Reading 11 quiz 1', date: '2026-10-24', mins: 18.9, qs: [
     { mod: '11.S1', what: 'Non-operating income shown as operating: GAAP-compliant but not sustainable', ok: 0, why: 'gap' },
     { mod: '11.S4', what: 'Operating income outgrowing CFO is a warning; CFO above operating income can’t last', ok: 1 },
     { mod: '11.S1', what: 'High results quality = an adequate return that is sustainable', ok: 0, why: 'gap' },
@@ -24065,7 +24195,7 @@ const TESTS = [
     { mod: '11.S5', what: 'Debt securities at market value are not biased measurement', ok: 1 },
     { mod: '11.S5', what: 'The auditor’s report is the least valuable source on risk', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R12-Q1', topic: 'fsa.5', name: 'Reading 12 quiz 1', date: '2026-10-24', mins: 26.0, qs: [
+  { id: 'L2-R12-Q1', lvl: '3123321321', topic: 'fsa.5', name: 'Reading 12 quiz 1', date: '2026-10-24', mins: 26.0, qs: [
     { mod: '12.S1', what: 'LIFO → FIFO net income: add the increase in the LIFO reserve × (1 − t)', ok: 0, why: 'flip' },
     { mod: '12.S1', what: 'Talking to suppliers, customers and competitors is the data-collection step', ok: 1 },
     { mod: '12.S2', what: 'Goodwill with no separate value: remove it, keep intangibles, cut equity by the difference', ok: 1 },
@@ -24077,7 +24207,7 @@ const TESTS = [
     { mod: '12.S1', what: 'Retained earnings + LIFO reserve × (1 − t) when a LIFO liquidation is likely', ok: 1 },
     { mod: '12.S1', what: 'Start with the firm’s analysis framework before ratios or adjustments', ok: 1 },
   ] },
-  { id: 'L2-R13-Q1', topic: 'corp.0', name: 'Reading 13 quiz 1', date: '2026-10-25', mins: 20.7, qs: [
+  { id: 'L2-R13-Q1', lvl: '3221212112', topic: 'corp.0', name: 'Reading 13 quiz 1', date: '2026-10-25', mins: 20.7, qs: [
     { mod: '13.S4', what: 'Target payout adjustment: years to reach the target, using this year’s expected EPS', ok: 0, why: 'calc' },
     { mod: '13.S5', what: 'Buyback at the market price leaves the share price unchanged', ok: 0, why: 'gap' },
     { mod: '13.S3', what: 'Double taxation: 35% + (1 − 35%) × 20% = 48%', ok: 1 },
@@ -24089,7 +24219,7 @@ const TESTS = [
     { mod: '13.S5', what: 'Dutch auction is a form of tender offer', ok: 1 },
     { mod: '13.S1', what: 'Cash dividend lowers liquidity; stock dividend leaves leverage unchanged', ok: 1 },
   ] },
-  { id: 'L2-R14-Q1', topic: 'corp.1', name: 'Reading 14 quiz 1', date: '2026-10-25', mins: 11.3, qs: [
+  { id: 'L2-R14-Q1', lvl: '21211111222', topic: 'corp.1', name: 'Reading 14 quiz 1', date: '2026-10-25', mins: 11.3, qs: [
     { mod: '14.S2', what: 'NOT a principal–agent problem: a manager sitting on another company’s board', ok: 1 },
     { mod: '14.S1', what: 'Principal–agent problem between shareholders and directors', ok: 1 },
     { mod: '14.S3', what: 'Least likely ESG use: fixed income looking for upside', ok: 1 },
@@ -24102,7 +24232,7 @@ const TESTS = [
     { mod: '14.S3', what: 'Governance considerations are the most consistent across companies', ok: 0, why: 'gap' },
     { mod: '14.S1', what: 'EXCEPT a principal–agent problem: two directors in a relationship', ok: 1 },
   ] },
-  { id: 'L2-R15-Q1', topic: 'corp.2', name: 'Reading 15 quiz 1', date: '2026-10-25', mins: 18.7, qs: [
+  { id: 'L2-R15-Q1', lvl: '1221112221', topic: 'corp.2', name: 'Reading 15 quiz 1', date: '2026-10-25', mins: 18.7, qs: [
     { mod: '15.S3', what: 'Emerging-market premium: the bond yield gap (country spread model)', ok: 0, why: 'gap' },
     { mod: '15.S2', what: 'Gordon growth ERP = D₁/P₀ + g − R_f', ok: 0, why: 'calc' },
     { mod: '15.S3', what: 'Least useful when backing ERP out of a required return: the stock’s estimated return', ok: 0, why: 'flip' },
@@ -24114,7 +24244,7 @@ const TESTS = [
     { mod: '15.S3', what: 'Currency: home-currency return, then adjust for expected FX changes', ok: 0, why: 'gap' },
     { mod: '15.S2', what: 'Least likely an ERP estimate type: “extemporized” (ex-ante is forward-looking)', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R16-Q1', topic: 'corp.3', name: 'Reading 16 quiz 1', date: '2026-10-26', mins: 16.5, qs: [
+  { id: 'L2-R16-Q1', lvl: '212121222', topic: 'corp.3', name: 'Reading 16 quiz 1', date: '2026-10-26', mins: 16.5, qs: [
     { mod: '16.S2', what: 'Least likely a CCA advantage: it assumes the market prices peers fairly', ok: 1 },
     { mod: '16.S1', what: 'Regulatory compliance motivates divestments', ok: 1 },
     { mod: '16.S2', what: 'Least accurate on materiality: dropping an unrelated business is material', ok: 0, why: 'flip' },
@@ -24125,7 +24255,7 @@ const TESTS = [
     { mod: '16.S3', what: 'Sum-of-the-parts check and spin-offs are easier to model', ok: 1 },
     { mod: '16.S2', what: 'Least likely a CTA disadvantage: prices come from actual deals', ok: 0, why: 'flip' },
   ] },
-  { id: 'L2-R19-Q1', topic: 'equity.2', name: 'Reading 19 quiz 1', date: '2026-10-27', mins: 21.2, qs: [
+  { id: 'L2-R19-Q1', lvl: '1233121132', topic: 'equity.2', name: 'Reading 19 quiz 1', date: '2026-10-27', mins: 21.2, qs: [
     { mod: '19.S4', what: 'A little leverage adds value through the interest tax shield', ok: 1 },
     { mod: '19.S4', what: 'Working capital is financed at the target debt ratio', ok: 1 },
     { mod: '19.S6', what: 'Two-stage FCFF value with a lower stable WACC', ok: 1, why: 'guess' },
@@ -24137,7 +24267,7 @@ const TESTS = [
     { mod: '19.S5', what: 'Equity = FCFF₁ ÷ (WACC − g) − debt', ok: 0, why: 'calc' },
     { mod: '19.S1', what: 'Minority stake in a dividend payer: DDM', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R19-Q2', topic: 'equity.2', name: 'Reading 19 quiz 2', date: '2026-10-28', mins: 18.5, qs: [
+  { id: 'L2-R19-Q2', lvl: '2212211222', topic: 'equity.2', name: 'Reading 19 quiz 2', date: '2026-10-28', mins: 18.5, qs: [
     { mod: '19.S6', what: 'Terminal value uses a lower required return than high growth', ok: 0, why: 'gap' },
     { mod: '19.S5', what: 'Single-stage FCFE: 50 × 1.05 ÷ (12% − 5%)', ok: 1 },
     { mod: '19.S1', what: 'Dividends can be higher than FCFE', ok: 1 },
@@ -24150,7 +24280,7 @@ const TESTS = [
     { mod: '19.S5', what: 'Stable-growth FCFF suits capex close to depreciation', ok: 0, why: 'gap' },
   ] },
   // The R20 quiz 1 PDF shows a time of 00:00:09, so its time isn't logged.
-  { id: 'L2-R20-Q1', topic: 'equity.3', name: 'Reading 20 quiz 1', date: '2026-10-28', mins: 0, qs: [
+  { id: 'L2-R20-Q1', lvl: '2211112221', topic: 'equity.3', name: 'Reading 20 quiz 1', date: '2026-10-28', mins: 0, qs: [
     { mod: '20.S1', what: 'Leading P/S well above the peer median → overvalued, sell', ok: 1 },
     { mod: '20.S4', what: 'Justified P/S = margin × (1 − b)(1 + g) ÷ (r − g)', ok: 1 },
     { mod: '20.S1', what: 'The warranted or intrinsic multiple is the justified multiple', ok: 0, why: 'gap' },
@@ -24162,7 +24292,7 @@ const TESTS = [
     { mod: '20.S5', what: 'EV/EBITDA, taking off cash and investments', ok: 1 },
     { mod: '20.S6', what: 'PEG is questionable for low-growth firms', ok: 0, why: 'gap' },
   ] },
-  { id: 'L2-R20-Q2', topic: 'equity.3', name: 'Reading 20 quiz 2', date: '2026-10-28', mins: 27.3, qs: [
+  { id: 'L2-R20-Q2', lvl: '3211212122', topic: 'equity.3', name: 'Reading 20 quiz 2', date: '2026-10-28', mins: 27.3, qs: [
     { mod: '20.S6', what: 'Weighted harmonic mean P/E: 27 ÷ 3 = 9.00', ok: 0, why: 'calc' },
     { mod: '20.S3', what: 'Trailing P/E on underlying EPS (add back one-offs)', ok: 1 },
     { mod: '20.S2', what: 'FCFE is the cash flow closest to valuation theory', ok: 1 },
@@ -27893,7 +28023,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-review-list', 'f-test-levels'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -28028,6 +28158,11 @@ function renderWeakCard(m, topic) {
 
 // One question on a weak-spot card: the full question as asked, with my pick and the answer marked, when
 // TUITION_Q has it; otherwise the one-line summary.
+// One line of a question as printed: a paragraph, or a table given as { columns, rows }.
+function weakPartHtml(x) {
+  return typeof x === 'string' ? `<p>${escapeHtml(x)}</p>`
+    : `<table class="weak-tbl"><thead><tr>${x.columns.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody>${x.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
 function weakQHtml(q) {
   const f = TUITION_Q[q.ref];
   if (!f) return `
@@ -28035,8 +28170,7 @@ function weakQHtml(q) {
           <span class="weak-ref">${escapeHtml(q.ref)}</span> ${escapeHtml(q.ask)}
           <div><span class="weak-picked">✗ Picked: ${escapeHtml(q.picked)}</span> <span class="weak-right">✓ Answer: ${escapeHtml(q.answer)}</span></div>
         </div>`;
-  const part = x => typeof x === 'string' ? `<p>${escapeHtml(x)}</p>`
-    : `<table class="weak-tbl"><thead><tr>${x.columns.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody>${x.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const part = weakPartHtml;
   return `
         <div class="weak-q">
           <span class="weak-ref">${escapeHtml(q.ref)}</span>
@@ -30158,6 +30292,16 @@ const TL_DO = {
   dig: 'Re-study the session and its weak-spot cards, blurt it, then tick Mark fixed.',
   fix: 'One short pass on the weak-spot card at the top of the session, then tick Mark fixed.',
 };
+// Difficulty of each question: a test's `lvl` string has one digit per question, in order.
+const TL_LVL = {
+  1: { label: 'Recall: one fact or definition', fix: 'Misses here are knowledge gaps. Re-read the weak-spot card, then blurt the rule.' },
+  2: { label: 'Apply: one rule or one calculation', fix: 'Redo the session’s worked examples and circle the direction words (least, most, EXCEPT, rises, falls).' },
+  3: { label: 'Multi-step: vignettes, several steps, a trap plus a calculation', fix: 'Exam technique. Do item sets timed, read the question before the vignette, and write each step.' },
+};
+function tlLvlOf(ref) {
+  const m = /^(.*) #(\d+)$/.exec(ref), t = m && TESTS.find(x => x.id === m[1]);
+  return t && t.lvl ? +t.lvl[+m[2] - 1] || 0 : 0;
+}
 function tlRedoKey(id) { return 'star|-|-|testredo:' + id; }
 function tlMiss(q) { return !q.ok || q.why === 'guess'; }
 function tlFixKey(topic, mod) { return 'star|' + topic + '|' + mod + '|testfix'; }
@@ -30168,7 +30312,7 @@ function tlDate(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString([],
 // Every logged test, oldest first, as { id, topic, date, mins, qs: [{ n, topic, mod, ok, why, what }] }.
 function tlAll() {
   return TESTS.map(t => ({ id: t.id, name: t.name, topic: t.topic, date: t.date, mins: t.mins,
-    qs: t.qs.map((q, i) => Object.assign({ n: i + 1 }, q, { topic: q.topic || t.topic })) }))
+    qs: t.qs.map((q, i) => Object.assign({ n: i + 1, lvl: t.lvl ? +t.lvl[i] || 0 : 0 }, q, { topic: q.topic || t.topic })) }))
     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 }
 function tlQs(tests) { return tests.reduce((a, t) => a.concat(t.qs), []); }
@@ -30227,7 +30371,7 @@ function tlRvHtml() {
 }
 function tlQHtml(q, mod) {
   const bad = tlMiss(q), why = q.why && TL_WHY[q.why] ? TL_WHY[q.why].label : '';
-  return `<li class="${bad ? 'no' : 'ok'}"><span class="tl-mark">${bad ? '✗' : '✓'}</span>Q${q.n}${mod && q.mod ? ' · ' + escapeHtml(q.mod) : ''}${q.what ? ' ' + escapeHtml(q.what) : ''}${bad && why ? ` <span class="why">· ${why}</span>` : ''}</li>`;
+  return `<li class="${bad ? 'no' : 'ok'}"><span class="tl-mark">${bad ? '✗' : '✓'}</span>Q${q.n}${mod && q.mod ? ' · ' + escapeHtml(q.mod) : ''}${q.what ? ' ' + escapeHtml(q.what) : ''}${bad && why ? ` <span class="why">· ${why}</span>` : ''}${q.lvl ? ` <span class="why">· L${q.lvl}</span>` : ''}</li>`;
 }
 function tlRowHtml(s) {
   const lab = s.state === 'wait' ? 'Fixed · retest from ' + rvFmt(s.retest) : TL_STATE[s.state];
@@ -30245,6 +30389,58 @@ function tlRedoHtml(r) {
     <div class="tl-row-meta">Taken ${tlDate(r.t.date)} · re-attempt ${r.misses.length === 1 ? 'question' : 'questions'} <b>${r.misses.map(q => 'Q' + q.n).join(', ')}</b> without looking at the old answer.</div>
     <div class="tl-row-acts">${exGoBtn(r.t.topic, '', '', 'Open ' + tlShort(r.t.topic).replace(/ ·.*/, ''))}<button type="button" class="rv-btn" data-tlredo="${escapeHtml(r.t.id)}">Redone ✓</button></div>
   </div>`;
+}
+// Review wrong answers: every question on a weak-spot card that TUITION_Q holds in full, one at a time. It asks
+// the new question from TWIN_Q when there is one (the original otherwise), then shows the answer, the card's rule
+// and the question I missed. "Got it" clears it for good (a star|-|-|review:<ref> row with on: false, so it syncs
+// and never counts as a star; a wrong pick adds to its `wrong` count); "Again" puts it at the back for this visit.
+let rlQueue = null, rlScope = '', rlPick = null;
+function rlKey(ref) { return 'star|-|-|review:' + ref; }
+function rlCleared(ref) { return !!(pgGet(rlKey(ref)) || {}).at; }
+function rlItems() {
+  const out = [], seen = {}, fl = t => FLAT.findIndex(x => x.key === t);
+  Object.keys(TUITION_MISSES).forEach(topic => TUITION_MISSES[topic].forEach(m => (m.questions || []).forEach(q => {
+    if (seen[q.ref] || !TUITION_Q[q.ref]) return;
+    seen[q.ref] = 1;
+    out.push({ ref: q.ref, topic, mod: m.module, rule: m.title, fix: m.fix, q: TUITION_Q[q.ref], twin: TWIN_Q[q.ref] || null });
+  })));
+  // New questions first, then the originals still waiting for one.
+  return out.sort((a, b) => !a.twin - !b.twin || fl(a.topic) - fl(b.topic) || a.ref.localeCompare(b.ref, undefined, { numeric: true }));
+}
+function rlHtml() {
+  const all = rlItems().filter(x => tlMatch(x.topic));
+  if (!all.length) return '';
+  const left = all.filter(x => !rlCleared(x.ref)).map(x => x.ref), scope = tlf.subj + '|' + tlf.topic;
+  if (rlQueue === null || rlScope !== scope) { rlQueue = left.slice(); rlScope = scope; rlPick = null; }
+  rlQueue = rlQueue.filter(r => left.includes(r));
+  left.forEach(r => { if (!rlQueue.includes(r)) rlQueue.push(r); });
+  const x = all.find(i => i.ref === rlQueue[0]), done = all.length - left.length;
+  let card = `<div class="rv-note">All ${all.length} cleared. New wrong answers appear here as tests are logged.</div>`;
+  if (x) {
+    const f = x.twin || x.q, on = rlPick !== null, wrong = (pgGet(rlKey(x.ref)) || {}).wrong || 0;
+    const lv = x.twin ? x.twin.lvl : tlLvlOf(x.ref);
+    const opts = f.options.map((o, i) => {
+      const cls = !on ? '' : i === f.a ? ' right' : i === rlPick ? ' wrong' : '';
+      const tags = !on ? [] : [i === f.a ? 'Answer' : i === rlPick ? 'Your answer now' : '', i === f.p && i !== f.a ? 'Your pick in the quiz' : ''].filter(Boolean);
+      return `<button type="button" class="rl-opt${cls}" data-rl="pick:${i}"${on ? ' disabled' : ''}><span>${escapeHtml(o)}</span>${tags.length ? `<small>${tags.join(' · ')}</small>` : ''}</button>`;
+    }).join('');
+    card = `<div class="rl-card">
+      <div class="tl-row-meta" style="margin:0"><span class="nb-session-tag">${escapeHtml(x.mod)}</span> ${escapeHtml(tlShort(x.topic))} · ${x.twin ? 'New question on ' + escapeHtml(x.ref) : escapeHtml(x.ref)}${lv ? ` · <b title="${TL_LVL[lv].label}">L${lv}</b>` : ''}${wrong ? ` · <span class="rl-again">missed ${wrong}× here</span>` : ''}</div>
+      <div class="weak-full">${f.full.map(weakPartHtml).join('')}</div>
+      <div class="rl-opts">${opts}</div>
+      ${on ? `<div class="rl-verdict ${rlPick === f.a ? 'ok' : 'no'}">${rlPick === f.a ? '✓ Right this time.' : '✗ Still wrong. Read the rule and send it round again.'}</div>
+      <div class="rl-rule"><div class="weak-sec">Remember</div><div class="rl-rule-txt">${escapeHtml(x.rule)}</div>
+        ${x.twin ? `<div class="weak-text" style="margin-top:4px">${escapeHtml(x.twin.why)}</div>` : ''}
+        ${x.fix ? `<details><summary>${x.twin ? 'Why you missed the original' : 'Why'}</summary><div class="weak-text">${escapeHtml(x.fix)}</div></details>` : ''}
+        ${x.twin ? `<details><summary>The question you missed in the quiz</summary>${weakQHtml({ ref: x.ref })}</details>` : ''}</div>
+      <div class="rl-acts">${exGoBtn(x.topic, x.mod, '', 'Open ' + x.mod)}<span style="flex:1"></span><button type="button" class="rv-btn" data-rl="again">Again</button><button type="button" class="rv-btn rl-got" data-rl="got:${escapeHtml(x.ref)}">Got it ✓</button></div>` : ''}
+    </div>`;
+  }
+  return `<section class="block"><div class="block-label" data-new="f-review-list">🔁 Review wrong answers · ${left.length} left of ${all.length}</div>
+    <div class="rl-bar"><i style="width:${Math.round(100 * done / all.length)}%"></i></div>
+    ${card}
+    <div class="cm-hint">Answer from memory, then tap an option. Got it clears the question for good; Again puts it at the back of the pile. The filter above narrows it to a subject or reading.${done ? ` <button type="button" class="tl-link" data-rl="reset">Bring back the ${done} cleared</button>` : ''}</div>
+  </section>`;
 }
 function tlTestHtml(t) {
   const n = t.qs.length, got = t.qs.filter(q => q.ok).length, pace = t.mins / n;
@@ -30374,6 +30570,7 @@ function tlRender(el) {
   const redos = tlRedos().filter(r => r.t.qs.some(q => tlMatch(q.topic))).sort((a, b) => (a.due < b.due ? -1 : 1)), weak = tlReadings().filter(r => r.band === 'dig' && tlMatch(r.topic)).sort((a, b) => a.recentAcc - b.recentAcc);
   const kinds = Object.keys(TL_WHY).map(k => ({ k, n: missed.filter(q => (q.why || 'gap') === k).length, recent: missed.slice(-20).filter(q => (q.why || 'gap') === k).length }))
     .filter(x => x.n).sort((a, b) => b.n - a.n);
+  const lvls = [1, 2, 3].map(l => { const q = qs.filter(x => x.lvl === l); return { l, n: q.length, got: q.filter(x => x.ok).length, acc: tlAcc(q) }; }).filter(x => x.n);
   const newest = all.slice().reverse();
   el.innerHTML = `
     <div class="crumb">Tests</div>
@@ -30381,6 +30578,7 @@ function tlRender(el) {
     <p class="topic-desc">Every quiz and mock you’ve shared, turned into what to revise next and how your accuracy is moving. Claude logs each one question by question from the result PDF.</p>
     ${tlFilterHtml()}
     ${!all.length ? `<div class="rv-note">${tlAll().length ? 'No tests match this filter.' : 'No tests logged yet.'}</div>` : ''}
+    ${safeHtml(rlHtml)}
     ${tlAccuracyHtml()}
     ${all.length ? `<section class="block"><div class="block-label">Revise these first</div>
       ${redos.filter(r => r.now).map(tlRedoHtml).join('')}
@@ -30396,6 +30594,10 @@ function tlRender(el) {
       <div class="deepdive-hint">The kind of mistake decides how to revise it, not just where. “Latest 20” shows whether a habit is fading.</div>
       ${kinds.map((x, i) => `<div class="tl-kind${i === 0 ? ' top' : ''}"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b>${x.n === missed.length ? ' · every miss so far' : i === 0 ? ' · your most common' : ''}${missed.length > 20 ? ` · ${x.recent} of your latest 20 misses` : ''}<div class="tl-kind-fix">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
     </section>` : ''}
+    ${lvls.length ? `<section class="block"><div class="block-label" data-new="f-test-levels">By difficulty · ${qs.length} questions</div>
+      <div class="deepdive-hint">Every question is rated L1 to L3. Where your accuracy drops tells you what to practise, not just what to re-read.</div>
+      ${lvls.map(x => `<div class="tl-kind${x.acc === Math.min(...lvls.map(y => y.acc)) ? ' top' : ''}"><span class="tl-kind-n">${x.acc}%</span><div><b>L${x.l} · ${TL_LVL[x.l].label}</b> · ${x.got} of ${x.n} right<div class="tl-kind-fix">${TL_LVL[x.l].fix}</div></div></div>`).join('')}
+    </section>` : ''}
     ${all.length ? `<section class="block"><div class="block-label">Tests · newest first · ${all.length}</div>
       ${newest.slice(0, 8).map(tlTestHtml).join('')}
       ${newest.length > 8 ? `<details class="tl-done"><summary>Older tests · ${newest.length - 8}</summary>${newest.slice(8).map(tlTestHtml).join('')}</details>` : ''}
@@ -30405,9 +30607,32 @@ function tlRender(el) {
 function tlRerender() { const y = window.scrollY; render(); window.scrollTo(0, y); }
 function tlInit() {
   document.addEventListener('click', e => {
-    const b = e.target.closest && e.target.closest('[data-tlfix],[data-tlredo],[data-tlf]');
+    const b = e.target.closest && e.target.closest('[data-tlfix],[data-tlredo],[data-tlf],[data-rl]');
     if (!b) return;
     e.preventDefault(); e.stopPropagation();
+    if (b.hasAttribute('data-rl')) {
+      const [act, arg] = b.getAttribute('data-rl').split(/:(.*)/);
+      nwMark('f-review-list');
+      if (act === 'pick') {
+        rlPick = +arg;
+        const it = rlItems().find(x => x.ref === rlQueue[0]), f = it && (it.twin || it.q);
+        if (it && f && rlPick !== f.a) {
+          const k = rlKey(it.ref), cur = pgGet(k) || {};
+          pgSet(k, { reading: cmReadingOf(it.topic), session: rvSessionLabel(it.topic, it.mod), item: 'Review missed: ' + it.ref }, { on: false, wrong: (cur.wrong || 0) + 1, last: rvToday() });
+        }
+      }
+      else if (act === 'again') { rlQueue.push(rlQueue.shift()); rlPick = null; }
+      else if (act === 'got') {
+        const it = rlItems().find(x => x.ref === arg);
+        pgSet(rlKey(arg), { reading: it ? cmReadingOf(it.topic) : '', session: it ? rvSessionLabel(it.topic, it.mod) : '', item: 'Review cleared: ' + arg }, Object.assign({}, pgGet(rlKey(arg)), { on: false, at: rvToday() }));
+        rlPick = null;
+      } else if (act === 'reset') {
+        rlItems().filter(x => tlMatch(x.topic) && rlCleared(x.ref)).forEach(x => pgSet(rlKey(x.ref), { reading: cmReadingOf(x.topic), session: '', item: 'Review brought back: ' + x.ref }, { on: false }));
+        rlQueue = null;
+      }
+      tlRerender();
+      return;
+    }
     if (b.hasAttribute('data-tlf')) {
       const p = b.getAttribute('data-tlf').split('|');
       if (p[0] === 'subj') { tlf.subj = p[1]; tlf.topic = 'all'; } else tlf.topic = p[1];
