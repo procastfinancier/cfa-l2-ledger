@@ -8589,6 +8589,15 @@ const CONTENT = {
               "Identify company traits that justify a higher or lower SCRP.",
               "Estimate k_e with the *expanded CAPM* and the *build-up* approach.",
             ] },
+          { k: 'flag', new: '2026-10-28', title: 'What the R15 tuition quiz tests beyond my notes: the ERP’s definition, unlevered beta, currency and country-risk models',
+            items: [
+              '*ERP = required return on equity − risk-free rate*, not an *estimated* return minus R_f. Working back from a stock’s required return (= R_f + β × ERP) you need R_f and beta; the stock’s estimated return plays no part.',
+              'Four kinds of ERP estimate: *historical*, *forward-looking (ex-ante)*, *macroeconomic model* and *survey*. “Ex-ante” just means forward-looking.',
+              '*Unlevering* a comparable company’s beta strips out its financial-leverage risk and *isolates market (business) risk*; you then relever it at the private company’s own leverage. The formula assumes the company’s debt is high grade.',
+              '*Currency risk*: work out the required return in your home currency, then adjust it for *expected changes in the exchange rate*. Don’t adjust beta, and don’t use inflation differences.',
+              '*Country spread model*: emerging-market premium ≈ EM government bond yield − developed-market bond yield, added to the developed-market ERP. *Country risk rating model*: starts from a developed-market model and modifies it with emerging-market inputs, so it gives a premium for an *emerging* market, not for any foreign market.',
+            ],
+            text: 'Not in my written notes; the R15 tuition quiz tests these:' },
           { k: 'example', title: 'Schweser module quiz 15.1–15.2 — Question 5',
             body: [
               'Sizemore trades at $25, is expected to pay $1.00 a year for three years and to be worth $34 in three years. Based on DDM, its cost of equity is closest to:',
@@ -9833,6 +9842,14 @@ const CONTENT = {
               'Module quiz: discounting FCFE at the WACC (too low) *overstates* equity; discounting FCFF at kₑ (too high) *understates* firm value.',
             ],
             text: 'Schweser adds:' },
+          { k: 'flag', new: '2026-10-28', title: 'Sanity checks on a multistage value: the stable-phase rate, and what makes a value too low or too high',
+            items: [
+              'The required return in the *stable* phase should be *lower* than in high growth, because a mature firm is less risky. Prentice Paint (17% → 15%) and Medina (20% → 10%) already do this.',
+              '*Extremely low value*: capex far above depreciation in the *stable* phase (growth has stopped but heavy reinvestment hasn’t), or a required return too high for a stable firm. Fix: grow capex more slowly than depreciation in the transition, or set capex = depreciation once growth is stable.',
+              '*Extremely high value*: a stable growth rate that is too high (it should be close to the economy’s long-run growth), or a high-growth period that is too long.',
+              'The *stable-growth FCFF* model suits firms growing about as fast as the economy, with capex *not much above* depreciation.',
+            ],
+            text: 'Not in my written notes; the R19 tuition quizzes test these:' },
         ],
       },
       {
@@ -19449,6 +19466,177 @@ const TUITION_MISSES = {
       ],
     },
   ],
+  'corp.1': [
+    {
+      module: '14.S2',
+      title: 'Two-tier board: a supervisory board oversees a management board',
+      at: ['s2-board'],
+      questions: [
+        { ref: 'L2-R14-Q1 #7', ask: 'The boards in a two-tier board of directors are most likely structured as a:', picked: 'external board and an internal board', answer: 'supervisory board and a management board' },
+      ],
+      trap: 'External/internal (and executive/non-executive) describe the *directors* on a one-tier board, not two separate boards.',
+      fix: 'One-tier: a single board mixing executive (internal) and non-executive (external) directors. Two-tier (Germany, Russia, Argentina): a supervisory board oversees a management board.',
+      tackle: ['Two tiers = two boards, one above the other: supervisory on top, management below.'],
+    },
+    {
+      module: '14.S3',
+      title: 'ESG factors: security is not one of the three, and governance looks the same across firms',
+      at: ['Board structure looks similar across companies'],
+      questions: [
+        { ref: 'L2-R14-Q1 #5', ask: 'Which least accurately describes one of the nontraditional “ESG” business factors?', picked: 'environmental risk exposures', answer: 'security risk exposures' },
+        { ref: 'L2-R14-Q1 #10', ask: 'Greatest consistency across companies in ESG considerations related to:', picked: 'environmental', answer: 'corporate governance' },
+      ],
+      trap: '#5 is a negation question: you picked a real ESG factor (E). #10: environmental and social factors change with the industry; board structure doesn’t.',
+      fix: 'ESG = environmental, social, governance; “security” is not a pillar. Governance (board structure, pay, votes) is broadly the same in every company; E and S differ sharply by industry (a bank’s data security vs. an energy firm’s emissions).',
+      tackle: ['On “least accurately”, mark each option T or F and pick the F.'],
+    },
+    {
+      module: '14.S1',
+      title: 'Principal–agent problem: the textbook case is an agent using an information edge for itself',
+      at: ['s1-conflicts'],
+      questions: [
+        { ref: 'L2-R14-Q1 #9', ask: 'An example of the principal–agent problem is when:', picked: 'a board of directors take advantage of their position at the expense of the shareholders', answer: 'a lawyer recommends protracted legal proceedings to her client' },
+      ],
+      trap: 'Your answer is defensible: directors are agents of shareholders, and Q2 of the same quiz said so. The key wants the clean textbook case, where a hired expert profits from knowing more than the client.',
+      fix: 'Principal–agent problem = one party is paid to act for another, knows more than them, and uses that edge for itself: a lawyer billing for drawn-out cases, a CEO empire-building.',
+      tackle: ['When two answers fit, pick the one that shows delegation plus an information edge most plainly.'],
+    },
+  ],
+  'corp.2': [
+    {
+      module: '15.S3',
+      title: 'Country risk: the country spread model uses the bond yield gap; the rating model is for emerging markets',
+      at: ['s3-intl'],
+      questions: [
+        { ref: 'L2-R15-Q1 #1', ask: 'Best way to build a risk premium for an Eastern European company, given good German data:', picked: 'difference between the inflation rates of both markets', answer: 'difference between the bond yields of both markets' },
+        { ref: 'L2-R15-Q1 #4', ask: 'The country risk rating model:', picked: 'determines a risk premium for any foreign market', answer: 'determines a risk premium for an emerging market' },
+      ],
+      trap: 'Inflation differences are a currency idea, not a risk premium. And the rating model is built for the developed-to-emerging gap, not for any foreign market.',
+      fix: 'Country spread model: CRP = EM government bond yield − developed-market bond yield, added to the developed ERP (× λ). Country risk rating model: a developed-market model adjusted with emerging-market inputs.',
+      tackle: ['“Emerging market” plus “risk premium” → think sovereign yield spread first.'],
+    },
+    {
+      module: '15.S2',
+      title: 'Gordon growth ERP: dividend yield + growth − risk-free rate',
+      at: ['Forward-looking: strengths, and the DDM (Gordon growth) estimate'],
+      questions: [
+        { ref: 'L2-R15-Q1 #2', ask: 'Index 1,190.45, next-year dividends 35.71, consensus growth up to 6.2% from 4.5%, long bond 5.0%. ERP?', picked: '1.2%', answer: '4.2%' },
+      ],
+      trap: '1.2% = 6.2% − 5.0%: you left out the dividend yield. (2.5% is the other trap: last year’s 4.5% growth.)',
+      fix: 'ERP = D₁/P₀ + g − R_f = 35.71 ÷ 1,190.45 + 6.2% − 5.0% = 3.0% + 6.2% − 5.0% = 4.2%. Use the *current* consensus growth.',
+      tackle: ['Write the three terms (DY, g, R_f) before you calculate, and tick each one off.'],
+    },
+    {
+      module: '15.S2',
+      title: 'ERP is the required return minus the risk-free rate, and the four kinds of estimate',
+      at: ['15.S3::What the R15 tuition quiz tests beyond my notes'],
+      questions: [
+        { ref: 'L2-R15-Q1 #6', ask: 'The equity risk premium is the difference between:', picked: 'the estimated equity return and the risk-free return', answer: 'the required equity return and the risk-free return' },
+        { ref: 'L2-R15-Q1 #3', ask: 'Deriving the ERP for a stock from its required return, which is least useful?', picked: 'Historical 10-year Treasury bond rates', answer: 'The stock’s estimated return' },
+        { ref: 'L2-R15-Q1 #10', ask: 'Types of ERP estimates are least likely to include:', picked: 'ex-ante estimates', answer: 'extemporized estimates' },
+      ],
+      trap: 'Required vs. estimated: the ERP is what investors *demand*, so it is built from the required return. Then two negation questions: T-bond rates are needed (they give R_f), and “ex-ante” is a real type (forward-looking).',
+      fix: 'ERP = required return − R_f. From required return = R_f + β × ERP you need R_f and β, nothing else. Four estimate types: historical, forward-looking (ex-ante), macroeconomic model, survey.',
+      tackle: ['If an option word is unfamiliar (“extemporized”), it is usually the made-up one in a “least likely” question.'],
+    },
+    {
+      module: '15.S3',
+      title: 'Unlevering beta isolates market risk; currency risk is handled after the home-currency return',
+      at: ['What the R15 tuition quiz tests beyond my notes'],
+      questions: [
+        { ref: 'L2-R15-Q1 #8', ask: 'Unlevering a public comparable’s beta for a private company accomplishes what?', picked: 'Establishing a baseline level of leverage', answer: 'Isolating market risk' },
+        { ref: 'L2-R15-Q1 #9', ask: 'To compensate for exchange-rate fluctuations, calculate the return in the home currency, then adjust:', picked: 'for expected changes in the foreign country’s inflation rate', answer: 'for expected changes in the foreign country’s currency value' },
+      ],
+      trap: 'Unlevering removes the comparable’s leverage; it doesn’t set a baseline. And the currency adjustment is to the currency itself, not to inflation.',
+      fix: 'Unlever β → business (market) risk alone → relever at the target’s D/E. Foreign stocks: required return in the home currency, then adjust for the expected change in the exchange rate.',
+      tackle: ['Ask what each step removes or adds: unlevering removes leverage risk; the FX step adds the currency move.'],
+    },
+  ],
+  'corp.3': [
+    {
+      module: '16.S2',
+      title: 'Least-accurate questions on deal analysis: you picked a true statement twice',
+      at: ['s2-cta', 'The four-step process, and materiality in numbers'],
+      questions: [
+        { ref: 'L2-R16-Q1 #3', ask: 'Which statement about materiality is least accurate?', picked: 'Materiality is evaluated based on transaction size and fit.', answer: 'Divesting an unrelated business after years of diversifying is immaterial.' },
+        { ref: 'L2-R16-Q1 #9', ask: 'Which is least likely a disadvantage of comparable transaction analysis?', picked: 'Historical transactions may have occurred under different conditions.', answer: 'Estimates of value come directly from prices of actual completed deals.' },
+      ],
+      trap: 'Both picks are true statements from your notes. In #9 the answer is CTA’s main *advantage*, worded to look like a disadvantage.',
+      fix: 'Materiality = size and fit; reversing a diversification strategy is *material* (it signals a change of strategy). CTA advantages: real deal prices, takeover premium already included. Disadvantages: old and few deals, different conditions, assumes past deals were priced right.',
+      tackle: ['Negation routine: circle “least”, mark T/F on each option, pick the F.'],
+    },
+    {
+      module: '16.S1',
+      title: 'Sale vs. spin-off: a unit many buyers want is sold, not spun off',
+      at: ['More on each action'],
+      questions: [
+        { ref: 'L2-R16-Q1 #5', ask: 'S1: opportunistic restructuring improves return on capital. S2: units sought by several acquirers are likely spun off rather than sold. Which is correct?', picked: 'Statement 2 only', answer: 'Statement 1 only' },
+      ],
+      trap: 'Competing bidders mean a high price, which is a reason to *sell*. A spin-off is for units nobody will pay well for, or where the parent wants to give shareholders the upside.',
+      fix: 'Several interested buyers → sell for cash. Opportunistic restructuring (S1) is the textbook definition: change the balance sheet, costs or model to improve ROIC.',
+      tackle: ['In two-statement questions, test each statement alone before looking at the options.'],
+    },
+    {
+      module: '16.S2',
+      title: 'Takeover premium: measure from the unaffected price, before the run-up',
+      at: ['Takeover premium'],
+      questions: [
+        { ref: 'L2-R16-Q1 #7', ask: 'Offer $65; stock was $48 last week and rose to $55 on anticipation. Offer premium?', picked: '18%', answer: '35%' },
+      ],
+      trap: '18% = (65 − 55) ÷ 55: you used the price already inflated by the deal rumour.',
+      fix: 'Premium = (DP − UP) ÷ UP, where UP is the *unaffected* price before any announcement or leak: (65 − 48) ÷ 48 = 35.4%.',
+      tackle: ['If the question gives two earlier prices, the unaffected one is the earlier, pre-rumour price.'],
+    },
+  ],
+  'equity.2': [
+    {
+      module: '19.S6',
+      title: 'Multistage sanity checks: the stable-phase rate, and what makes a value too low or too high',
+      at: ['Sanity checks on a multistage value'],
+      questions: [
+        { ref: 'L2-R19-Q1 #6', ask: 'Most likely reason for an extremely low three-stage FCFE value? Capex significantly:', picked: 'higher than depreciation during the high-growth phase', answer: 'higher than depreciation in the stable-growth phase' },
+        { ref: 'L2-R19-Q2 #1', ask: 'In the two-stage FCFE model, the required return for the terminal value should be:', picked: 'equal to the average required rate of return for the industry', answer: 'lower than the required rate of return used for the high-growth phase' },
+        { ref: 'L2-R19-Q2 #5', ask: 'An extremely low stable-growth FCFE value can result from all EXCEPT:', picked: 'the required rate of return is too high for a stable firm', answer: 'the expected growth rate is too high for a stable firm' },
+        { ref: 'L2-R19-Q2 #10', ask: 'The stable-growth FCFF model is most useful for firms that:', picked: 'are growing at a rate significantly lower than the economy', answer: 'have capital expenditures not significantly higher than depreciation' },
+      ],
+      trap: 'All four test one idea: what a *stable* firm looks like. Heavy capex is normal in high growth but kills value if it carries into the stable phase. Too-high growth makes the value too *high*, not low.',
+      fix: 'Stable phase: growth ≈ economy, capex ≈ depreciation, a lower required return (less risk). Too low a value: stable capex ≫ depreciation, or r too high. Too high: stable g too high, or the high-growth period too long.',
+      tackle: ['Picture the terminal-value fraction FCF ÷ (r − g): what shrinks the top or grows the bottom makes the value low.'],
+    },
+    {
+      module: '19.S5',
+      title: 'Equity value from FCFF: discount at the WACC, then subtract debt',
+      at: ['s5-kvw'],
+      questions: [
+        { ref: 'L2-R19-Q1 #9', ask: 'FCFF next year $4.0m, kₑ 12%, WACC 10%, debt $30m, g 5%. Value of equity?', picked: '$44,440,000', answer: '$50,000,000' },
+      ],
+      trap: '$44.44m is not firm value minus debt. FCFF belongs to all capital providers, so it is discounted at the WACC (not kₑ), and only then is debt taken off.',
+      fix: 'Firm = 4.0 ÷ (10% − 5%) = $80m; equity = 80 − 30 = $50m.',
+      tackle: ['Match the flow to the rate: FCFF ↔ WACC ↔ firm; FCFE ↔ kₑ ↔ equity.'],
+    },
+    {
+      module: '19.S1',
+      title: 'Minority stake in a dividend payer: use the DDM',
+      at: ['perspective is that of a'],
+      questions: [
+        { ref: 'L2-R19-Q1 #10', ask: 'Valuing a minority position in a dividend-paying multinational, the most appropriate model is:', picked: 'FCFE approach', answer: 'The Dividend Discount approach' },
+      ],
+      trap: 'FCFE assumes you control the payout; a minority holder only ever receives the dividends the board chooses to pay.',
+      fix: 'Minority + dividend payer → DDM. Control (or no dividends, or dividends far from FCF) → FCFE/FCFF.',
+      tackle: ['Ask “who decides the payout?” If not the investor, value the dividends.'],
+    },
+    {
+      module: '19.S4',
+      title: 'More borrowing raises FCFE in the year the money comes in',
+      at: ['FCFE = FCFF − Int(1 − T) + Net borrowing'],
+      questions: [
+        { ref: 'L2-R19-Q2 #8', ask: 'An increase in financial leverage will cause FCFE to:', picked: 'decrease in the year the borrowing occurred', answer: 'increase in the year the borrowing occurred' },
+      ],
+      trap: 'Direction flip: you thought of the higher interest. Interest does cut FCFE in later years, but in the year of borrowing the new debt is cash in.',
+      fix: 'FCFE = FCFF − Int(1 − T) + net borrowing. Net borrowing > 0 → FCFE up that year.',
+      tackle: ['Read “in the year the borrowing occurred” as “net borrowing term only”.'],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20474,14 +20662,14 @@ const MINDMAP = {
         { id: 'own', t: 'Ownership structures', tag: '% owned may not equal control',
           info: ['Pyramids and cross-shareholdings let a group control with a small economic stake.'],
           from: ['s1-ownership', 's1-structures'] },
-        { id: 'conflict', t: 'Ownership vs. voting power', tag: 'Four combinations, four kinds of conflict',
+        { id: 'conflict', wk: ['Principal–agent problem: the textbook'], t: 'Ownership vs. voting power', tag: 'Four combinations, four kinds of conflict',
           info: ['Dispersed/dispersed: principal–agent (managers vs. shareholders). Concentrated: principal–principal (controlling vs. minority).'],
           from: ['s1-conflicts'] },
         { id: 'infl', t: 'Influential shareholders', tag: 'Banks, families, state, institutions, group companies, PE, activists',
           from: ['s1-influential', 'More on the influential shareholders'] },
       ] },
       { id: 'b2', mod: '14.S2', tone: 'violet', t: 'Evaluating governance', tag: 'Board, pay and votes', c: [
-        { id: 'board', t: 'Board policies and practices', tag: 'Structure, independence, committees, skills, tenure',
+        { id: 'board', wk: ['Two-tier board'], t: 'Board policies and practices', tag: 'Structure, independence, committees, skills, tenure',
           info: ['CEO duality (chair = CEO) weakens oversight.'],
           from: ['s2-board'] },
         { id: 'pay', t: 'Executive compensation', tag: 'Does pay align management with value creation?',
@@ -20491,10 +20679,10 @@ const MINDMAP = {
           from: ['s2-votes'] },
       ] },
       { id: 'b3', mod: '14.S3', tone: 'amber', t: 'ESG in analysis', tag: 'Find the factors, then put them in the numbers', c: [
-        { id: 'data', t: 'Finding ESG information', tag: 'Data providers · industry bodies · proprietary methods',
+        { id: 'data', wk: ['ESG factors: security'], t: 'Finding ESG information', tag: 'Data providers · industry bodies · proprietary methods',
           info: ['Materiality and time horizon decide which factors matter.'],
           from: ['s3-data', 's3-sources'] },
-        { id: 'fieq', t: 'Bonds vs. equity', tag: 'Bonds: downside risk · equity: upside and downside',
+        { id: 'fieq', wk: ['ESG factors: security'], t: 'Bonds vs. equity', tag: 'Bonds: downside risk · equity: upside and downside',
           info: ['Green bonds: same issuer credit; may trade at a small premium (greenium).'],
           from: ['s3-fi-eq', 's3-green'] },
         { id: 'integ', t: 'ESG integration', tag: 'Adjust forecasts, asset values, spreads or the discount rate',
@@ -20516,12 +20704,12 @@ const MINDMAP = {
           from: ['s1-debt', 's1-nontraded', 'Rate implicit in the lease', 's1-matrix', 's1-crr'] },
       ] },
       { id: 'b2', mod: '15.S2', tone: 'violet', t: 'The equity risk premium', tag: 'Historical vs. forward-looking', c: [
-        { id: 'hist', t: 'Historical ERP', tag: 'Index, period, arithmetic vs. geometric, T-bill vs. bond',
+        { id: 'hist', wk: ['ERP is the required return'], t: 'Historical ERP', tag: 'Index, period, arithmetic vs. geometric, T-bill vs. bond',
           info: ['Weaknesses: assumes constant mean and variance; the ERP is countercyclical; survivorship bias.'],
           from: ['s2-hist', 's2-hist-factors', 's2-weak'] },
         { id: 'survey', t: 'Survey estimates', tag: 'Expert consensus',
           from: ['s2-survey'] },
-        { id: 'gk', t: 'Grinold–Kroner', tag: 'ERP = DY + ΔP/E + i + G − ΔS − R_f',
+        { id: 'gk', wk: ['Gordon growth ERP'], t: 'Grinold–Kroner', tag: 'ERP = DY + ΔP/E + i + G − ΔS − R_f',
           info: ['i from TIPS: (1 + nominal YTM) ÷ (1 + real YTM) − 1. ΔS = change in shares (buybacks reduce it).'],
           from: ['Grinold–Kroner model', 'Patrick McGill'] },
       ] },
@@ -20530,9 +20718,9 @@ const MINDMAP = {
           from: ['Cogenics and Betagenics', 'Bond yield plus risk premium'] },
         { id: 'capm', t: 'CAPM and multifactor models', tag: 'Fama–French 3 and 5 factors: SMB, HML, RMW, CMA',
           from: ['Using the CAPM', 'Fama–French models', 'Fulton Corp.'] },
-        { id: 'private', t: 'Private companies', tag: 'Expanded CAPM or build-up, with SP, IP and SCRP',
+        { id: 'private', wk: ['Unlevering beta isolates'], t: 'Private companies', tag: 'Expanded CAPM or build-up, with SP, IP and SCRP',
           from: ['s3-private', 's3-scrp', 'Cost of equity for private companies'] },
-        { id: 'intl', t: 'International', tag: 'Add a country risk premium; global and international CAPM',
+        { id: 'intl', wk: ['Country risk: the country spread', 'Unlevering beta isolates'], t: 'International', tag: 'Add a country risk premium; global and international CAPM',
           info: ['Country-spread: ERP(EM) = ERP(developed) + λ × CRP.'],
           from: ['s3-intl', 'Country risk premium', 's3-extended'] },
       ] },
@@ -20550,19 +20738,19 @@ const MINDMAP = {
           from: ['s1-drivers'] },
         { id: 'inv', t: 'Investments', tag: 'Equity stake < 50% · JV · acquisition',
           from: ['s1-investments'] },
-        { id: 'div', t: 'Divestments', tag: 'Sale, spin-off, carve-out',
+        { id: 'div', wk: ['Sale vs. spin-off'], t: 'Divestments', tag: 'Sale, spin-off, carve-out',
           info: ['Sale: no further exposure, cash in. Spin-off: shares to existing holders, no cash.'],
           from: ['s1-divest'] },
         { id: 'restr', t: 'Restructuring', tag: 'Cost, balance sheet, reorganisation; LBOs',
           from: ['s1-restructuring', 'Leveraged buyout'] },
       ] },
       { id: 'b2', mod: '16.S2', tone: 'violet', t: 'Evaluating a deal', tag: 'Screen, value, model', c: [
-        { id: 'initial', t: 'Initial evaluation', tag: 'What, why, when, is it material?',
+        { id: 'initial', wk: ['Least-accurate questions on deal analysis'], t: 'Initial evaluation', tag: 'What, why, when, is it material?',
           from: ['s2-initial'] },
         { id: 'cca', t: 'Comparable company analysis', tag: 'Peer multiples, then add a takeover premium',
           info: ['Takeover premium = (deal price − unaffected price) ÷ unaffected price.'],
           from: ['s2-cca', 'Takeover premium'] },
-        { id: 'cta', t: 'Comparable transaction analysis', tag: 'Premium already in the deal prices; fewer, older data points',
+        { id: 'cta', wk: ['Least-accurate questions on deal analysis', 'Takeover premium: measure'], t: 'Comparable transaction analysis', tag: 'Premium already in the deal prices; fewer, older data points',
           from: ['s2-cta'] },
         { id: 'pf', t: 'Pro forma statements', tag: 'Combine, adjust for synergies, financing and fees',
           from: ['s2-proforma'] },
@@ -20655,7 +20843,7 @@ const MINDMAP = {
       { id: 'b1', mod: '19.S1', tone: 'teal', t: 'FCFF vs. FCFE', tag: 'Which cash flow, which rate', c: [
         { id: 'def', t: 'Definitions', tag: 'FCFF → WACC → firm value · FCFE → kₑ → equity value',
           from: ['s1-def'] },
-        { id: 'when', t: 'When to use which', tag: 'Stable leverage → FCFE · changing or negative FCFE → FCFF',
+        { id: 'when', wk: ['Minority stake in a dividend payer'], t: 'When to use which', tag: 'Stable leverage → FCFE · changing or negative FCFE → FCFF',
           info: ['FCF beats dividends when payout is low or unrelated to value, or for a control view.'],
           from: ['s1-when', 's1-pref'] },
       ] },
@@ -20667,14 +20855,14 @@ const MINDMAP = {
           from: ['s3-ncc', 'Deferred taxes and restructuring provisions'] },
         { id: 'fcinv', mod: '19.S3', t: 'Fixed capital investment', tag: 'Capex − proceeds from asset sales',
           from: ['Fixed capital investment', 's3-fcinv', 's3-airbrush'] },
-        { id: 'fcfe', mod: '19.S4', t: 'FCFE', tag: 'FCFF − Int(1 − T) + net borrowing',
+        { id: 'fcfe', wk: ['More borrowing raises FCFE'], mod: '19.S4', t: 'FCFE', tag: 'FCFF − Int(1 − T) + net borrowing',
           info: ['Target debt ratio form: NI − (1 − DR)(FCInv − Dep) − (1 − DR)WCInv.', 'Dividends, buybacks and share issues don’t change FCFF or FCFE.'],
           from: ['FCFE from FCFF', 'Forecasting FCFE with a target debt ratio', 's4-fin'] },
       ] },
       { id: 'b3', mod: '19.S5–19.S7', tone: 'amber', t: 'Valuation models', tag: 'Single-stage, multistage, errors', c: [
-        { id: 'single', mod: '19.S5', t: 'Single-stage', tag: 'FCFF₁ ÷ (WACC − g) · FCFE₁ ÷ (kₑ − g)',
+        { id: 'single', wk: ['Equity value from FCFF', 'Multistage sanity checks'], mod: '19.S5', t: 'Single-stage', tag: 'FCFF₁ ÷ (WACC − g) · FCFE₁ ÷ (kₑ − g)',
           from: ['Single-stage models', 's5-kvw', 's5-ridgeway'] },
-        { id: 'multi', mod: '19.S6', t: 'Two- and three-stage', tag: 'Forecast components, then a terminal value',
+        { id: 'multi', wk: ['Multistage sanity checks'], mod: '19.S6', t: 'Two- and three-stage', tag: 'Forecast components, then a terminal value',
           from: ['s6-sioux', 's6-sioux-v'] },
         { id: 'tvpe', mod: '19.S6', t: 'Terminal value from P/E', tag: 'Trailing P/E × Eₙ or leading P/E × Eₙ₊₁',
           from: ['Terminal value from a P/E multiple', 's6-polar'] },
@@ -23075,6 +23263,285 @@ const TUITION_Q = {
     ],
     "p": 1,
     "a": 2
+  },
+  "L2-R14-Q1 #5": {
+    "full": [
+      "Which of the following least accurately describes one of the nontraditional \"ESG\" business factors that may be critical to a company's long-term sustainability?"
+    ],
+    "options": [
+      "A) security risk exposures",
+      "B) environmental risk exposures",
+      "C) governance risk exposures"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R14-Q1 #7": {
+    "full": [
+      "The boards in a two-tier board of directors are most likely to be structured as a:"
+    ],
+    "options": [
+      "A) executive board and a non-executive board.",
+      "B) external board and an internal board.",
+      "C) supervisory board and a management board."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R14-Q1 #9": {
+    "full": [
+      "Which of the following best describes the principal-agent problem? An example of the principal-agent problem is when:"
+    ],
+    "options": [
+      "A) a lawyer recommends protracted legal proceedings to her client.",
+      "B) owners of the firm gain at the expense of the employees.",
+      "C) a board of directors take advantage of their position at the expense of the shareholders."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R14-Q1 #10": {
+    "full": [
+      "In the process of identifying and evaluating ESG-related risk exposures and investment opportunities, there is greatest consistency across companies in considerations related to:"
+    ],
+    "options": [
+      "A) environmental.",
+      "B) social.",
+      "C) corporate governance."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R15-Q1 #1": {
+    "full": [
+      "Candace Elwince is attempting to calculate the required return of Skeun Inc., a machine-toolmanufacturer in a small Eastern European country. Elwince has solid data from the Germanmarket but is not sure how to account for the exchange-rate risk Skeun investors wouldface. Her best choice for creating a risk premium is the:"
+    ],
+    "options": [
+      "A) difference between the bond yields of both markets.",
+      "B) Gordon Growth model.",
+      "C) difference between the inflation rates of both markets."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R15-Q1 #2": {
+    "full": [
+      "Currently the market index stands at 1,190.45. Firms in the index are expected to pay cumulative dividends of 35.71 over the coming year. The consensus 5 year earnings growth forecast for these firms is expected to increase to 6.2% up from last year's forecast of 4.5%.The long-term government bond is yielding 5.0%. According to the Gordon growth model, what is the equity risk premium?"
+    ],
+    "options": [
+      "A) 2.5%.",
+      "B) 1.2%.",
+      "C) 4.2%."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R15-Q1 #3": {
+    "full": [
+      "An analyst attempting to derive the equity risk premium for a stock starting from the required return for that stock would find which of the following statistics least useful?"
+    ],
+    "options": [
+      "A) Historical 10-year Treasury bond rates.",
+      "B) The stock's beta.",
+      "C) The stock's estimated return."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R15-Q1 #4": {
+    "full": [
+      "The country risk rating model:"
+    ],
+    "options": [
+      "A) determines a risk premium for an emerging market.",
+      "B) determines a risk premium for any foreign market.",
+      "C) depends on forecasts of exchange rates."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R15-Q1 #6": {
+    "full": [
+      "The equity risk premium is the difference between:"
+    ],
+    "options": [
+      "A) the required equity return and the risk-free return.",
+      "B) estimated equity returns and estimated bond returns.",
+      "C) the estimated equity return and the risk-free return."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R15-Q1 #8": {
+    "full": [
+      "In the process of estimating beta for a private company, unlevering the beta calculated for the publicly traded comparable company accomplishes what goal?"
+    ],
+    "options": [
+      "A) Establishing a baseline level of leverage.",
+      "B) Isolating market risk.",
+      "C) Improving the accuracy of the estimate in the event that the private company's debt is of low quality."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R15-Q1 #9": {
+    "full": [
+      "Junior analyst Quentin Haggard is struggling with a required return calculation. His main concern is compensating for exchange rate fluctuations between the country where his company is based and the home country of a portfolio of stocks he is analyzing. Haggard should calculate the return in his home country's currency, then adjust:"
+    ],
+    "options": [
+      "A) for expected changes in the foreign country's inflation rate.",
+      "B) for expected changes in the foreign country's currency value.",
+      "C) the beta to account for exchange-rate fluctuations."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R15-Q1 #10": {
+    "full": [
+      "Types of estimates of the equity risk premium are least likely to include:"
+    ],
+    "options": [
+      "A) ex-ante estimates.",
+      "B) macroeconomic model estimates.",
+      "C) extemporized estimates."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R16-Q1 #3": {
+    "full": [
+      "Which of the following statements about materiality is least accurate?"
+    ],
+    "options": [
+      "A) The divestment of an unrelated business for a company that had previously been diversifying into such businesses is immaterial.",
+      "B) Materiality is evaluated based on transaction size and fit.",
+      "C) Cost restructuring may be evaluated as estimated savings as a percentage of sales."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R16-Q1 #5": {
+    "full": [
+      "Peter Small, CFA, makes the following statements:",
+      "Statement 1: In an opportunistic restructuring, a business changes its balancesheet composition, cuts costs, or alters its business model to improve the return on capital.",
+      "Statement 2: Moderate- to large-sized business units sought by several potential acquirers might be expected to be spun off as opposed to sold.",
+      "Which statement is correct?"
+    ],
+    "options": [
+      "A) Statement 2 only.",
+      "B) Neither statement is correct.",
+      "C) Statement 1 only."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R16-Q1 #7": {
+    "full": [
+      "Petra Zimuth, CFA, is analyzing an announced acquisition. Under the terms, Apollo, Inc., is to be taken over by Bastille, Inc., at a price of $65 per share. Last week, Apollo stock was trading at a price of $48 and increased to $55 in anticipation of the announcement. The offer premium is closest to:"
+    ],
+    "options": [
+      "A) 35%.",
+      "B) 44%.",
+      "C) 18%."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R16-Q1 #9": {
+    "full": [
+      "Which of the following is least likely a disadvantage of comparable transaction analysis (CTA)?"
+    ],
+    "options": [
+      "A) Historical transactions may have occurred under different conditions.",
+      "B) Estimates of value are derived directly from recent prices for actual deals completed in the marketplace.",
+      "C) The CTA approach implicitly assumes that the M&A market valued past transactions appropriately."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R19-Q1 #6": {
+    "full": [
+      "What is the most likely reason that you get an extremely low value from the three-stage FCFE model? Capital expenditures are significantly:"
+    ],
+    "options": [
+      "A) higher than depreciation during the high-growth phase.",
+      "B) less than depreciation during the high-growth phase.",
+      "C) higher than depreciation in the stable-growth phase."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R19-Q1 #9": {
+    "full": [
+      "Industrial Light currently has: Expected free cash flow to the firm in one year = $4.0 million. Cost of equity = 12%. Weighted average cost of capital = 10%. Total debt = $30.0 million. Long-term expected growth rate = 5%. What is the value of equity?"
+    ],
+    "options": [
+      "A) $50,000,000.",
+      "B) $44,440,000.",
+      "C) $80,000,000."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R19-Q1 #10": {
+    "full": [
+      "An analyst is performing an equity valuation for a minority equity position in a dividend paying multinational. The appropriate model for this analysis is most likely:"
+    ],
+    "options": [
+      "A) FCFF approach.",
+      "B) FCFE approach.",
+      "C) The Dividend Discount approach."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R19-Q2 #1": {
+    "full": [
+      "In the two-stage FCFE model, the required rate of return for calculating terminal value should be:"
+    ],
+    "options": [
+      "A) higher than the required rate of return used for the high-growth phase.",
+      "B) equal to the average required rate of return for the industry.",
+      "C) lower than the required rate of return used for the high-growth phase."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R19-Q2 #5": {
+    "full": [
+      "In the stable-growth FCFE model, an extremely low value can result from all of the following EXCEPT:"
+    ],
+    "options": [
+      "A) the required rate of return is too high for a stable firm.",
+      "B) the expected growth rate is too high for a stable firm.",
+      "C) capital expenditures are too high relative to depreciation."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R19-Q2 #8": {
+    "full": [
+      "An increase in financial leverage will cause free cash flow to equity (FCFE) to:"
+    ],
+    "options": [
+      "A) decrease or increase, depending on its circumstances.",
+      "B) increase in the year the borrowing occurred.",
+      "C) decrease in the year the borrowing occurred."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R19-Q2 #10": {
+    "full": [
+      "The stable-growth free cash flow to the firm (FCFF) model is most useful in valuing firms that:"
+    ],
+    "options": [
+      "A) have capital expenditures that are not significantly higher than depreciation.",
+      "B) have capital expenditures that are significantly higher than depreciation.",
+      "C) are growing at a rate significantly lower than that of the overall economy."
+    ],
+    "p": 2,
+    "a": 0
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -23470,6 +23937,66 @@ const TESTS = [
     { mod: '13.S1', what: 'Cyclical firm in good times: special dividend', ok: 1 },
     { mod: '13.S5', what: 'Dutch auction is a form of tender offer', ok: 1 },
     { mod: '13.S1', what: 'Cash dividend lowers liquidity; stock dividend leaves leverage unchanged', ok: 1 },
+  ] },
+  { id: 'L2-R14-Q1', topic: 'corp.1', name: 'Reading 14 quiz 1', date: '2026-10-25', mins: 11.3, qs: [
+    { mod: '14.S2', what: 'NOT a principal–agent problem: a manager sitting on another company’s board', ok: 1 },
+    { mod: '14.S1', what: 'Principal–agent problem between shareholders and directors', ok: 1 },
+    { mod: '14.S3', what: 'Least likely ESG use: fixed income looking for upside', ok: 1 },
+    { mod: '14.S1', what: 'Least likely to curb the principal–agent problem: more information asymmetry', ok: 1 },
+    { mod: '14.S3', what: 'Least accurately an ESG factor: security risk', ok: 0, why: 'flip' },
+    { mod: '14.S2', what: 'CEO duality: the CEO is also board chair', ok: 1 },
+    { mod: '14.S2', what: 'Two-tier board: supervisory board over a management board', ok: 0, why: 'gap' },
+    { mod: '14.S1', what: 'Principal–agent problem: the agent acts for itself, not the principal', ok: 1 },
+    { mod: '14.S1', what: 'Principal–agent example: a lawyer recommending drawn-out proceedings', ok: 0, why: 'gap' },
+    { mod: '14.S3', what: 'Governance considerations are the most consistent across companies', ok: 0, why: 'gap' },
+    { mod: '14.S1', what: 'EXCEPT a principal–agent problem: two directors in a relationship', ok: 1 },
+  ] },
+  { id: 'L2-R15-Q1', topic: 'corp.2', name: 'Reading 15 quiz 1', date: '2026-10-25', mins: 18.7, qs: [
+    { mod: '15.S3', what: 'Emerging-market premium: the bond yield gap (country spread model)', ok: 0, why: 'gap' },
+    { mod: '15.S2', what: 'Gordon growth ERP = D₁/P₀ + g − R_f', ok: 0, why: 'calc' },
+    { mod: '15.S3', what: 'Least useful when backing ERP out of a required return: the stock’s estimated return', ok: 0, why: 'flip' },
+    { mod: '15.S3', what: 'Country risk rating model gives an emerging-market premium', ok: 0, why: 'gap' },
+    { mod: '15.S3', what: 'Developing-country premium: country spread model', ok: 1 },
+    { mod: '15.S2', what: 'ERP = required equity return − risk-free rate', ok: 0, why: 'gap' },
+    { mod: '15.S2', what: 'Arithmetic mean and short-term bonds both raise the historical ERP', ok: 1 },
+    { mod: '15.S3', what: 'Unlevering a comparable’s beta isolates market risk', ok: 0, why: 'gap' },
+    { mod: '15.S3', what: 'Currency: home-currency return, then adjust for expected FX changes', ok: 0, why: 'gap' },
+    { mod: '15.S2', what: 'Least likely an ERP estimate type: “extemporized” (ex-ante is forward-looking)', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R16-Q1', topic: 'corp.3', name: 'Reading 16 quiz 1', date: '2026-10-26', mins: 16.5, qs: [
+    { mod: '16.S2', what: 'Least likely a CCA advantage: it assumes the market prices peers fairly', ok: 1 },
+    { mod: '16.S1', what: 'Regulatory compliance motivates divestments', ok: 1 },
+    { mod: '16.S2', what: 'Least accurate on materiality: dropping an unrelated business is material', ok: 0, why: 'flip' },
+    { mod: '16.S2', what: 'The first step is initial evaluation', ok: 1 },
+    { mod: '16.S1', what: 'A unit many buyers want is sold, not spun off', ok: 0, why: 'gap' },
+    { mod: '16.S1', what: 'Deals done in weaker times create more value; deals are cyclical', ok: 1 },
+    { mod: '16.S2', what: 'Takeover premium from the unaffected price: (65 − 48) ÷ 48', ok: 0, why: 'calc' },
+    { mod: '16.S3', what: 'Sum-of-the-parts check and spin-offs are easier to model', ok: 1 },
+    { mod: '16.S2', what: 'Least likely a CTA disadvantage: prices come from actual deals', ok: 0, why: 'flip' },
+  ] },
+  { id: 'L2-R19-Q1', topic: 'equity.2', name: 'Reading 19 quiz 1', date: '2026-10-27', mins: 21.2, qs: [
+    { mod: '19.S4', what: 'A little leverage adds value through the interest tax shield', ok: 1 },
+    { mod: '19.S4', what: 'Working capital is financed at the target debt ratio', ok: 1 },
+    { mod: '19.S6', what: 'Two-stage FCFF value with a lower stable WACC', ok: 1, why: 'guess' },
+    { mod: '19.S6', what: 'Three-stage FCFE value with the debt ratio', ok: 1, why: 'guess' },
+    { mod: '19.S4', what: 'Optimal capital structure minimises the cost of capital', ok: 1 },
+    { mod: '19.S6', what: 'Extremely low three-stage value: capex far above depreciation in the stable phase', ok: 0, why: 'gap' },
+    { mod: '19.S5', what: 'Single-stage models need r > g', ok: 1 },
+    { mod: '19.S5', what: 'Lower FCFE → lower value', ok: 1 },
+    { mod: '19.S5', what: 'Equity = FCFF₁ ÷ (WACC − g) − debt', ok: 0, why: 'calc' },
+    { mod: '19.S1', what: 'Minority stake in a dividend payer: DDM', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R19-Q2', topic: 'equity.2', name: 'Reading 19 quiz 2', date: '2026-10-28', mins: 18.5, qs: [
+    { mod: '19.S6', what: 'Terminal value uses a lower required return than high growth', ok: 0, why: 'gap' },
+    { mod: '19.S5', what: 'Single-stage FCFE: 50 × 1.05 ÷ (12% − 5%)', ok: 1 },
+    { mod: '19.S1', what: 'Dividends can be higher than FCFE', ok: 1 },
+    { mod: '19.S2', what: 'FCFF from net income', ok: 1 },
+    { mod: '19.S6', what: 'EXCEPT a cause of a very low value: growth too high (that makes it very high)', ok: 0, why: 'flip' },
+    { mod: '19.S1', what: 'FCFE takes the control perspective', ok: 1 },
+    { mod: '19.S1', what: 'FCF models work best when FCF tracks profitability', ok: 1 },
+    { mod: '19.S4', what: 'More borrowing raises FCFE in the year it happens', ok: 0, why: 'flip' },
+    { mod: '19.S2', what: 'FCFF per share from EPS', ok: 1 },
+    { mod: '19.S5', what: 'Stable-growth FCFF suits capex close to depreciation', ok: 0, why: 'gap' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
@@ -25113,6 +25640,7 @@ const EXAM = {
         ['GCAPM: global index, low betas for EMs; ICAPM: global market factor + currency factor.', 'International CAPM (ICAPM)'],
         ['Developed-only global ops → GCAPM/ICAPM; EM exposure → CRP if history is representative.', 'Exposure to *developing* markets'],
         ['Beta: regress excess returns on the index; private firm → leverage-adjusted comparable beta. Build-up R_f + ERP = average large-cap return (no beta).', 'average large public company'],
+        ['ERP = *required* return − R_f. Unlevering β isolates market risk. FX: home-currency return, then adjust for the expected currency move. Country risk rating model = EM premium.', 'isolates market (business) risk'],
       ],
     },
   },
@@ -25340,6 +25868,7 @@ const EXAM = {
         ['Multi-stage: forecast each year’s FCFE, terminal value when growth settles, discount at the rate for each stage.', 'terminal value and present value'],
         ['FCFE at the WACC overstates equity; FCFF at kₑ understates firm value.', 'discounting FCFE at the WACC'],
         ['FCFF and FCFE growth rates usually differ.', 'FCFF and FCFE growth rates are usually *different*'],
+        ['Stable phase: lower r, g ≈ economy, capex ≈ dep. Too low a value → stable capex ≫ dep or r too high; too high → stable g too high.', 'Sanity checks on a multistage value'],
       ],
     },
     '19.S7': {
