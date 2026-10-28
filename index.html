@@ -10293,6 +10293,14 @@ const CONTENT = {
               'Backtesting multiple-based screens: avoid *look-ahead bias*.',
             ],
             text: 'Schweser adds:' },
+          { k: 'flag', new: '2026-10-28', title: 'What the R20 tuition quizzes test beyond my notes: “warranted” multiples, PEG mechanics, the weighted harmonic mean',
+            items: [
+              'A *justified* multiple is also called the *warranted* or *intrinsic* multiple: the fair value of the multiple, from fundamentals. It is not the multiple implied by the market price or by historical growth.',
+              'PEG takes g as a *whole number*: 12.75 ÷ 8.5 = *1.50*, not 12.75 ÷ 0.085 = 150.',
+              'PEG is *meaningless* for negative expected growth, *undefined* at zero growth and *questionable* for low-growth firms. It uses *earnings* growth, not dividend growth.',
+              'Weighted harmonic mean P/E = 1 ÷ Σ wᵢ × (E/P)ᵢ, with wᵢ = each stock’s share of portfolio value. AAA $12 / EPS $1, BBB $15 / EPS $2: 1 ÷ [(12/27)(1/12) + (15/27)(2/15)] = 27 ÷ 3 = *9.00*. The unweighted harmonic mean, 2 ÷ (1/12 + 1/7.5) = 9.23, ignores the weights.',
+            ],
+            text: 'Not in my written notes; the R20 tuition quizzes test these:' },
         ],
       },
     ],
@@ -19637,6 +19645,65 @@ const TUITION_MISSES = {
       tackle: ['Read “in the year the borrowing occurred” as “net borrowing term only”.'],
     },
   ],
+  'equity.3': [
+    {
+      module: '20.S6',
+      title: 'PEG: growth as a whole number, and where PEG breaks down',
+      at: ['What the R20 tuition quizzes test beyond my notes', 's6-peg'],
+      questions: [
+        { ref: 'L2-R20-Q2 #5', ask: 'Leading P/E 12.75, 5-year consensus growth 8.5%. PEG?', picked: '150.00', answer: '1.50' },
+        { ref: 'L2-R20-Q1 #10', ask: '“PEG gives meaningful results for all equities, regardless of the growth rate.” Correct?', picked: 'Yes, because the computation of the PEG ratio does include the rate of expected dividend growth', answer: 'No, because the PEG ratio generates highly questionable results for low-growth companies' },
+      ],
+      trap: '150 comes from dividing by 0.085. And PEG divides by growth, so it is only as good as g: low g makes it unreliable, zero g undefined, negative g meaningless.',
+      fix: 'PEG = P/E ÷ g with g in percent: 12.75 ÷ 8.5 = 1.50. A “works for every stock” claim about PEG is false.',
+      tackle: ['A PEG near 1–2 is normal; an answer like 150 or 0.015 means the units are wrong.'],
+    },
+    {
+      module: '20.S6',
+      title: 'Weighted harmonic mean P/E: weight by value, not a simple average',
+      at: ['weighted harmonic mean', 'What the R20 tuition quizzes test beyond my notes'],
+      questions: [
+        { ref: 'L2-R20-Q2 #1', ask: 'AAA $12 / EPS $1, BBB $15 / EPS $2. Weighted harmonic mean P/E?', picked: '9.23', answer: '9' },
+      ],
+      trap: '9.23 is the *unweighted* harmonic mean of 12 and 7.5. The question asks for the weighted one.',
+      fix: '1 ÷ [(12/27)(1/12) + (15/27)(2/15)] = 27 ÷ 3 = 9.00: total price ÷ total EPS.',
+      tackle: ['With one share of each, the weighted harmonic mean P/E is just Σ price ÷ Σ EPS.'],
+    },
+    {
+      module: '20.S1',
+      title: 'Justified = warranted = intrinsic, from a DCF model (comparables use the law of one price)',
+      at: ['s1-two', 'What the R20 tuition quizzes test beyond my notes'],
+      questions: [
+        { ref: 'L2-R20-Q1 #3', ask: 'The warranted or intrinsic price multiple is called the:', picked: 'multiple implied by historical growth', answer: 'justified price multiple' },
+        { ref: 'L2-R20-Q2 #7', ask: 'Most accurate about the method of forecasted fundamentals:', picked: 'It relies on the Law of One Price', answer: 'It relates multiples to company fundamentals using a DCF model' },
+      ],
+      trap: 'The two methods got swapped. The law of one price and benchmarks belong to *comparables*; forecasted fundamentals derive the justified (warranted, intrinsic) multiple from a DCF.',
+      fix: 'Fundamentals → DCF → justified multiple → absolute verdict. Comparables → law of one price → peer benchmark → relative verdict.',
+      tackle: ['“Warranted”, “intrinsic”, “justified” or “DCF” → fundamentals. “Benchmark”, “peers” or “law of one price” → comparables.'],
+    },
+    {
+      module: '20.S4',
+      title: 'P/B rises with ROE',
+      at: ['P/B ↑ as *ROE* ↑'],
+      questions: [
+        { ref: 'L2-R20-Q1 #7', ask: 'An increase in ROE will cause a P/B multiple to:', picked: 'decrease', answer: 'increase' },
+      ],
+      trap: 'Direction flip. ROE is in the numerator of (ROE − g) ÷ (r − g).',
+      fix: 'Justified P/B = (ROE − g) ÷ (r − g): ROE up → P/B up. More return on each unit of book value is worth more per unit of book value.',
+      tackle: ['For any direction question on a justified multiple, write the formula and see which side the input sits on.'],
+    },
+    {
+      module: '20.S6',
+      title: 'SUE: a surprise means more when past forecast errors are small',
+      at: ['Earnings surprise & SUE', 'a given surprise is more meaningful'],
+      questions: [
+        { ref: 'L2-R20-Q2 #10', ask: 'Interpreting SUE, a given size forecast error is:', picked: 'scaled by the earnings surprise', answer: 'more meaningful the smaller the historical size of forecast errors' },
+      ],
+      trap: 'SUE scales the surprise by the *standard deviation* of past surprises, not by the surprise itself.',
+      fix: 'SUE = (reported − expected EPS) ÷ SD of past surprises. A small SD makes the same surprise a bigger SUE, so it means more.',
+      tackle: ['Read SUE like a z-score: the same miss stands out more when misses are usually small.'],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -20876,9 +20943,9 @@ const MINDMAP = {
     branches: [
       { id: 'b1', mod: '20.S1–20.S3', tone: 'teal', t: 'Multiples and their uses', tag: 'Which multiple, and its weak spots', c: [
         { id: 'two', mod: '20.S1', t: 'Fundamentals vs. comparables', tag: 'Justified from a model vs. benchmark from peers',
-          from: ['s1-rel', 's1-two', 's1-comtronics', 's1-mk'] },
+          from: ['s1-rel', 's1-two', 's1-comtronics', 's1-mk'], wk: ['Justified = warranted'] },
         { id: 'pe', mod: '20.S2', t: 'P/E', tag: 'Earnings power; useless with negative EPS',
-          from: ['s2-pe'] },
+          from: ['s2-pe'], wk: ['Weighted harmonic mean P/E'] },
         { id: 'pb', mod: '20.S2', t: 'P/B', tag: 'Positive even with losses; suits banks',
           from: ['s2-pb'] },
         { id: 'ps', mod: '20.S2', t: 'P/S', tag: 'Works for distressed firms; ignores costs',
@@ -20894,7 +20961,7 @@ const MINDMAP = {
         { id: 'jpe', mod: '20.S4', t: 'Justified P/E', tag: '(1 − b) ÷ (kₑ − g): g up, kₑ down → P/E up',
           from: ['Justified P/E', 's4-pe-f'] },
         { id: 'jpb', mod: '20.S4', t: 'Justified P/B', tag: '(ROE − g) ÷ (kₑ − g)',
-          from: ['s4-pb-d', 's4-pb-f'] },
+          from: ['s4-pb-d', 's4-pb-f'], wk: ['P/B rises with ROE'] },
         { id: 'jps', mod: '20.S4', t: 'Justified P/S', tag: 'Margin × (1 − b)(1 + g) ÷ (kₑ − g)',
           from: ['s4-ps-d', 's4-ps-f'] },
         { id: 'jpcf', mod: '20.S5', t: 'Justified P/CF and dividend yield', tag: 'P/CF inverse to kₑ; yield direct to kₑ',
@@ -20909,11 +20976,11 @@ const MINDMAP = {
           info: ['Fed: earnings yield < Treasury yield → market overvalued.', 'Yardeni: P/E = 1 ÷ (CBY − k × LTEG).'],
           from: ['Earnings yield', 'Yardeni model'] },
         { id: 'peg', t: 'PEG', tag: 'P/E ÷ g: lower looks cheaper',
-          from: ['PEG', 's6-peg'] },
+          from: ['PEG', 's6-peg'], wk: ['PEG:'] },
         { id: 'xb', t: 'Cross-border', tag: 'Accounting differences hit P/B and P/E most, P/CF least',
           from: ['s6-xb'] },
         { id: 'mom', t: 'Momentum indicators', tag: 'Earnings surprise and SUE',
-          from: ['s6-mom', 'Earnings surprise & SUE'] },
+          from: ['s6-mom', 'Earnings surprise & SUE'], wk: ['SUE:'] },
       ] },
     ],
   },
@@ -23542,6 +23609,90 @@ const TUITION_Q = {
     ],
     "p": 2,
     "a": 0
+  },
+  "L2-R20-Q1 #3": {
+    "full": [
+      "The warranted or intrinsic price multiple is called the:"
+    ],
+    "options": [
+      "A) multiple implied by historical growth.",
+      "B) multiple implied by the market price.",
+      "C) justified price multiple."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R20-Q1 #7": {
+    "full": [
+      "An increase in return on equity (ROE) will cause a price-to-book (P/B) multiple to:"
+    ],
+    "options": [
+      "A) decrease.",
+      "B) increase.",
+      "C) there is insufficient information to tell."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R20-Q1 #10": {
+    "full": [
+      "At a regional security analysts conference, Sandeep Singh made the following comment: \"A PEG ratio is a very useful valuation metric because it generates meaningful results for all equities, regardless of the rate of dividend growth.\" Is Singh correct?"
+    ],
+    "options": [
+      "A) Yes, because the expected dividend growth rate is cancelled out in the computation of the PEG ratio.",
+      "B) Yes, because the computation of the PEG ratio does include the rate of expected dividend growth.",
+      "C) No, because the PEG ratio generates highly questionable results for low-growth companies."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R20-Q2 #1": {
+    "full": [
+      "An analyst is calculating the weighted harmonic mean P/E ratio of a 2-stock portfolio. Stocks AAA and BBB have prices of $12 and $15, respectively, and EPS of $1 and $2, respectively. Which of the following is the weighted harmonic mean P/E of the portfolio closest to?"
+    ],
+    "options": [
+      "A) 9",
+      "B) 9.23",
+      "C) 9.75"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R20-Q2 #5": {
+    "full": [
+      "Good Sports, Inc., (GSI) has a leading price-to-earnings (P/E) ratio of 12.75 and a 5-year consensus growth rate forecast of 8.5%. What is the firm's P/E to growth (PEG) ratio?"
+    ],
+    "options": [
+      "A) 150.00.",
+      "B) 1.50.",
+      "C) 0.67."
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R20-Q2 #7": {
+    "full": [
+      "Which of the following statements about the method of forecasted fundamentals in price multiple valuation is most accurate?"
+    ],
+    "options": [
+      "A) It values an asset relative to a benchmark value of the multiple.",
+      "B) It relies on the Law of One Price.",
+      "C) It relates multiples to company fundamentals using a discounted cash flow (DCF) model."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R20-Q2 #10": {
+    "full": [
+      "In interpreting the standardized unexpected earnings (SUE) momentum measure, it can be concluded that a given size forecast error is:"
+    ],
+    "options": [
+      "A) scaled by the earnings surprise.",
+      "B) more meaningful the larger the historical size of forecast errors.",
+      "C) more meaningful the smaller the historical size of forecast errors."
+    ],
+    "p": 0,
+    "a": 2
   }
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
@@ -23997,6 +24148,31 @@ const TESTS = [
     { mod: '19.S4', what: 'More borrowing raises FCFE in the year it happens', ok: 0, why: 'flip' },
     { mod: '19.S2', what: 'FCFF per share from EPS', ok: 1 },
     { mod: '19.S5', what: 'Stable-growth FCFF suits capex close to depreciation', ok: 0, why: 'gap' },
+  ] },
+  // The R20 quiz 1 PDF shows a time of 00:00:09, so its time isn't logged.
+  { id: 'L2-R20-Q1', topic: 'equity.3', name: 'Reading 20 quiz 1', date: '2026-10-28', mins: 0, qs: [
+    { mod: '20.S1', what: 'Leading P/S well above the peer median → overvalued, sell', ok: 1 },
+    { mod: '20.S4', what: 'Justified P/S = margin × (1 − b)(1 + g) ÷ (r − g)', ok: 1 },
+    { mod: '20.S1', what: 'The warranted or intrinsic multiple is the justified multiple', ok: 0, why: 'gap' },
+    { mod: '20.S6', what: 'PEG = (P/E) ÷ EPS growth', ok: 1 },
+    { mod: '20.S3', what: 'Underlying earnings exclude non-recurring items', ok: 1 },
+    { mod: '20.S6', what: 'PEG is meaningless for negative growth', ok: 1 },
+    { mod: '20.S4', what: 'Higher ROE raises P/B', ok: 0, why: 'flip' },
+    { mod: '20.S4', what: 'Justified leading P/E = 0.40 ÷ (16% − 6%)', ok: 1 },
+    { mod: '20.S5', what: 'EV/EBITDA, taking off cash and investments', ok: 1 },
+    { mod: '20.S6', what: 'PEG is questionable for low-growth firms', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R20-Q2', topic: 'equity.3', name: 'Reading 20 quiz 2', date: '2026-10-28', mins: 27.3, qs: [
+    { mod: '20.S6', what: 'Weighted harmonic mean P/E: 27 ÷ 3 = 9.00', ok: 0, why: 'calc' },
+    { mod: '20.S3', what: 'Trailing P/E on underlying EPS (add back one-offs)', ok: 1 },
+    { mod: '20.S2', what: 'FCFE is the cash flow closest to valuation theory', ok: 1 },
+    { mod: '20.S6', what: 'NOT a cross-border difference: intra-country indicators', ok: 1 },
+    { mod: '20.S6', what: 'PEG = 12.75 ÷ 8.5 (growth as a whole number)', ok: 0, why: 'calc' },
+    { mod: '20.S2', what: 'Against P/S: it ignores cost structures', ok: 1 },
+    { mod: '20.S1', what: 'Forecasted fundamentals use a DCF model, not the law of one price', ok: 0, why: 'flip' },
+    { mod: '20.S2', what: 'Earnings yield works when EPS is negative', ok: 1 },
+    { mod: '20.S6', what: 'Predicted P/E from a regression', ok: 1 },
+    { mod: '20.S6', what: 'SUE: a surprise means more when past errors are small', ok: 0, why: 'gap' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
@@ -25949,6 +26125,7 @@ const EXAM = {
         ['PEG: lower is more attractive; ignores risk, nonlinearity and growth duration.', 'PEG ratio does *not account for risk*'],
         ['Cross-border: P/B, P/E, EV/EBITDA most hurt by accounting differences; *P/FCFE* least.', 'Multiple least affected'],
         ['Index P/E: use the *weighted harmonic mean*.', 'weighted harmonic mean'],
+        ['Weighted harmonic mean P/E = Σ price ÷ Σ EPS (27 ÷ 3 = 9.00). PEG: g in percent (12.75 ÷ 8.5 = 1.50); useless for low, zero or negative g.', 'What the R20 tuition quizzes test beyond my notes'],
       ],
     },
   },
