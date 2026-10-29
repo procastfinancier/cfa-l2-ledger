@@ -1,0 +1,83 @@
+TITLE: Volatility, the Tree and Bonds with Options (R24 and R25)
+
+AVA: Welcome back to Connecting the Dots, the fixed income series of the CFA Ledger Podcast. I'm Ava.
+ANDREW: And I'm Andrew. Last time we built the ground floor: the spot curve, forwards, par, spreads. Today we add the second engine: volatility. And then the option layer on top.
+AVA: Let's start with a puzzle. Interest rate volatility doubles overnight. The curve doesn't move at all. What happens to the price of a plain, option-free government bond?
+ANDREW: Nothing. Not a cent. And by the end of this episode you'll know exactly why, and why the same news hits a callable bond hard.
+[PAUSE 1]
+AVA: So, the binomial interest rate tree. Plain English, please.
+ANDREW: The spot curve tells you about rates on average. But rates won't follow one neat path. They'll wobble. The tree is a map of possible paths. Each period, the rate either goes up or down, with equal probability.
+AVA: And the rates at each node, are they spot rates?
+ANDREW: No, and this is a trap Schweser loves. The rates at the nodes are one-period forward rates. The rate that will apply for the next period, if we end up at that node.
+AVA: And how far apart are the up and down rates?
+ANDREW: That's where volatility comes in. In the lognormal model, the up rate equals the down rate times e to the power of two sigma. So higher volatility means the tree fans out wider. The good paths get better and the bad paths get worse.
+AVA: Here's my analogy. The spot curve is the weather forecast's average temperature. Volatility is how wild the weather might be around that average. Same average, but a stormier spread of outcomes.
+ANDREW: Good. Now the crucial step. The tree is calibrated. We choose the rates so that when we use the tree to price plain, option-free benchmark bonds, we get exactly their market prices. That's what makes it arbitrage-free.
+AVA: And that's the answer to the puzzle.
+ANDREW: Yes. If volatility goes up, we re-calibrate. The tree gets wider, but it's forced to give the same prices for option-free bonds. So a plain bond's value doesn't depend on volatility at all.
+AVA: Like a forecast that has to agree with the temperature we already know today.
+ANDREW: Exactly. So here's the rule: in a calibrated tree, volatility only matters once there's an option. A plain bond's payments never change, whatever path rates take. But an option's payoff depends on the path. If rates fall below a level, the issuer calls. If rates rise above a level, the investor puts. So the shape of the paths matters.
+AVA: And two ways to value off the tree.
+ANDREW: Backward induction, where you start at maturity and work back node by node. And pathwise valuation, where you list every path, value the bond along each, and average. They always give the same answer. And Monte Carlo is the big-computer version. It needs a volatility input too, and a drift adjustment so it still prices the benchmark bonds correctly. More paths make the estimate more precise, but not necessarily closer to true value.
+AVA: Quick note on the models.
+ANDREW: Two families. Equilibrium models, like C.I.R. and Vasicek, start from a view of the economy. In C.I.R. volatility rises with the square root of the rate, so rates can't go negative. In Vasicek volatility is constant, so rates can go negative. Their prices may not match the market. Arbitrage-free models, like Ho-Lee and K.W.F., take today's curve as given, and calibrate a time-dependent drift so prices match. Same calibration idea as our tree.
+[PAUSE 1]
+AVA: Now the option layer. Reading twenty-five. Two equations run the whole reading.
+ANDREW: Callable bond equals straight bond minus the call option. Putable bond equals straight bond plus the put option.
+AVA: Why minus for the call?
+ANDREW: Because the issuer owns the call. The investor has sold it to them. Think of a home loan you can repay early. If rates fall, you refinance, and the bank loses its nice high-paying loan. The bank is like the callable bondholder. That right to refinance belongs to the borrower, and the lender pays for it by accepting a lower price.
+AVA: And the put?
+ANDREW: The investor owns the put. If rates rise, the investor hands the bond back at par and reinvests at the new higher rates. That's worth something, so it's added to the price.
+AVA: And now the single most useful hook in all of fixed income.
+ANDREW: Volatility helps whoever owns the option.
+AVA: Let's run it.
+ANDREW: Volatility up. The call is worth more. The issuer owns it, so the callable bond's price falls. The put is worth more. The investor owns it, so the putable bond's price rises. The straight bond doesn't change, because of the calibrated tree.
+AVA: Think of an option as an umbrella. When the forecast gets stormier, an umbrella is worth more, to whoever is holding it.
+ANDREW: And the same rule handles floaters. A capped floater equals a straight floater minus a cap. The cap protects the issuer, so volatility up means the capped floater falls. A floored floater equals a straight floater plus a floor. The floor protects the investor, so volatility up means it rises.
+AVA: Now the rate level. What happens when rates rise?
+ANDREW: The call gets less valuable, because the issuer is less likely to refinance. The put gets more valuable, because the investor is more likely to hand the bond back. So when rates rise, the putable bond falls the least, the callable falls less than a straight bond while the call still matters, and the straight bond falls the most.
+AVA: And when rates fall?
+ANDREW: The callable rises, but it's capped near the call price. Nobody pays much above the call price for a bond the issuer is about to buy back. The putable rises like a straight bond, because the put is now worthless.
+AVA: And the curve shape. This one surprises people.
+ANDREW: It does. When the curve slopes upward, the forward rates in the tree are high. So it's less likely that rates fall below the coupon, which means the call is worth less. And it's more likely they rise, so the put is worth more. As the curve flattens or inverts, the call gains value and the put loses value.
+AVA: Hook: steep curve, cheap call. Flat curve, dear call.
+[PAUSE 1]
+AVA: Now OAS, the option-adjusted spread.
+ANDREW: Remember the spread stack from episode one? The Z-spread is a constant spread over the spot curve. But for a callable bond, part of that Z-spread isn't pay for credit or liquidity. It's pay for the call option you sold to the issuer.
+AVA: So the OAS takes that piece out.
+ANDREW: Yes. The OAS is the constant spread added to every node of the tree, so that the model value equals the market price. Because the tree already values the option, what's left is the spread after paying for the option.
+AVA: Analogy?
+ANDREW: Comparing two cars, one with a sunroof. To compare fairly, you strip out the value of the sunroof. OAS strips out the value of the option, so you can compare bonds like for like.
+AVA: And the option cost?
+ANDREW: Option cost in basis points equals the Z-spread minus the OAS. For a callable, the investor is short the option, so the OAS is below the Z-spread. For a putable, the investor is long the option, so the OAS is above the Z-spread.
+AVA: And the classic question: you assume higher volatility. What happens to the OAS of a callable bond?
+ANDREW: It falls. Here's why. Higher volatility means the model says the call is worth more. So the model value of the callable falls. But the market price hasn't changed. To get the model back up to the market price, you need to discount at a lower spread. So the OAS falls.
+AVA: And for a putable?
+ANDREW: The mirror image. Higher volatility means the put is worth more, the model value rises, so you need a higher OAS to bring it back down to the price.
+AVA: And how do you use OAS?
+ANDREW: Compare bonds with similar risk. Higher OAS means cheap, undervalued. Lower OAS means rich, overvalued.
+[PAUSE 1]
+AVA: Duration and convexity with options.
+ANDREW: Because the cash flows change when rates change, you must use effective duration. And both callable and putable bonds have effective duration no greater than a straight bond.
+AVA: When does the callable's duration shrink?
+ANDREW: When rates fall. The call comes into the money, the bond is likely to be repaid early, so it behaves like a short bond.
+AVA: And the putable's?
+ANDREW: When rates rise. The put comes into the money, so it behaves like a short bond.
+AVA: Then one-sided durations. I'll be honest, I flipped this in my own notes.
+ANDREW: And there's a fix card for it in the Ledger. Here's the way to never flip it. The option shortens the side it protects. A callable is capped when rates fall, so the price can't rise much. Its down-duration is the small one. Callable: up-duration bigger than down-duration.
+AVA: And a putable has a floor when rates rise, so the price can't fall much. Its up-duration is the small one. Putable: down-duration bigger than up-duration.
+ANDREW: Exactly. And convexity follows. A callable near the money has negative convexity. Its price curve bends over, because the upside is capped. A putable has positive convexity, even more than a straight bond, because the downside is floored.
+AVA: And key rate durations?
+ANDREW: A plain par bond has all its key rate duration at its maturity. A callable that's likely to be called shifts its key rate duration toward the call date. A putable that's likely to be put shifts it toward the put date. The bond behaves like a shorter bond.
+[PAUSE 1]
+AVA: Last topic. Convertibles. The bond that's half a stock.
+ANDREW: A convertible lets the investor swap the bond for a fixed number of shares. That's the conversion ratio. Conversion value equals share price times the conversion ratio. And the minimum value of a convertible is the greater of its straight bond value and its conversion value.
+AVA: So it has a floor, the straight value, and an upside, the shares.
+ANDREW: Right. When the share price is low, the convertible is "busted". It trades near its straight value and behaves like a bond. When the share price is high, it trades near conversion value and behaves like the stock.
+AVA: And the market conversion price?
+ANDREW: The bond price divided by the conversion ratio. That's the effective price per share you pay through the convertible. Minus the actual share price gives you the market conversion premium per share.
+AVA: So what moves a convertible?
+ANDREW: Use the ownership rule again. Share price up: value up. Share price volatility up: the investor owns a call on the stock, so value up. If the convertible is also callable, interest rate volatility up makes the issuer's call worth more, so value down. Rates up: the straight bond floor drops, which hurts most when it's busted. And higher dividends hurt, because they reduce the value of a call on the stock.
+AVA: Recap time. Node rates in the tree are forward rates. Volatility fans the tree out, but the tree is calibrated, so plain bonds don't change. Volatility only matters when there's an option. Callable equals straight minus call, putable equals straight plus put. Volatility helps the owner of the option. A steep curve means a cheap call and a dear put. OAS is what's left after paying for the option, and higher volatility lowers a callable's OAS. The option shortens the side it protects. And a convertible is a bond floor plus a call on the stock.
+ANDREW: Next episode, the third engine: default. And you'll see the same option idea come back in a completely different reading.
+AVA: See you then.

@@ -1,0 +1,72 @@
+TITLE: Default Risk, Credit Models and CDS (R26 and R27)
+
+AVA: Welcome back to Connecting the Dots. I'm Ava.
+ANDREW: And I'm Andrew. We've built the curves, and we've added volatility and options. Today, the third engine: the chance you don't get paid. Reading twenty-six on credit models, and reading twenty-seven on credit default swaps.
+AVA: And I'm told the big reveal of this episode is that credit risk is secretly another option.
+ANDREW: It is. Hold that thought.
+[PAUSE 1]
+AVA: Let's start simple. You lend money to a friend's business. What do you worry about?
+ANDREW: Two things. How likely they are not to pay. And if they don't pay, how much do I lose. That's the whole of credit risk in two numbers. The probability of default, P.D. And the loss given default, L.G.D.
+AVA: And L.G.D. comes from the recovery rate.
+ANDREW: Loss given default equals the exposure times one minus the recovery rate. If you'd get back forty percent, you lose sixty percent.
+AVA: Then expected loss.
+ANDREW: Expected loss equals probability of default times loss given default. Do that for each year, discount each one back at the risk-free rate, and add them up. That total is the C.V.A., the credit valuation adjustment.
+AVA: And the price of a risky bond?
+ANDREW: The value it would have if it were default-free, minus the C.V.A. So the risk-free curve from episode one is still the ground floor. Credit just takes a slice off.
+AVA: And the shortcut everyone should memorise.
+ANDREW: Credit spread is approximately the annual probability of default times the loss given default. Say the yearly default chance is two percent and you'd lose sixty percent. Two percent times sixty percent is one point two percent. So roughly a hundred and twenty basis points of spread.
+AVA: Now a trap. Is the default probability you get from market prices the same as the historical default rate?
+ANDREW: No. The risk-neutral probability, the one implied by prices, is higher than the actual historical probability. Because the market price also includes a premium for bearing the risk, and for illiquidity.
+AVA: So let's run the what-ifs. Probability of default goes up.
+ANDREW: Expected loss up, C.V.A. up, spread up, price down.
+AVA: Recovery rate goes up.
+ANDREW: Loss given default down, expected loss down, C.V.A. down, spread down, price up.
+AVA: Simple chain. Bad news widens spreads, good news tightens them.
+[PAUSE 1]
+AVA: Okay. The big reveal. The structural model.
+ANDREW: Picture a company with assets, and debt with a face value due in the future. On the due date, if the assets are worth more than the debt, the shareholders pay the debt and keep the rest. If the assets are worth less, the shareholders just walk away and hand the company to the lenders.
+AVA: So the shareholders have a choice.
+ANDREW: And a choice is an option. Equity is a call option on the firm's assets, with a strike equal to the face value of the debt. And the debt is a risk-free bond minus a put option on the firm's assets. The lenders have written that put to the shareholders. It's the right to default.
+AVA: And now we can bring in our hook from last episode.
+ANDREW: Volatility helps whoever owns the option. Who owns the default put? The shareholders. So when the firm's asset volatility goes up, the put is worth more, debt is worth less, and the credit spread widens. And equity, being a call, is actually worth more.
+AVA: So here's the connection. A corporate bondholder is a bit like a callable bondholder.
+ANDREW: Yes. Both have sold an option. In reading twenty-five the option is on interest rates. In reading twenty-six it's on the firm's assets. In both cases, more volatility hurts the bondholder.
+AVA: What else moves the structural model?
+ANDREW: Leverage. More debt relative to assets puts the default put closer to the money. So the spread widens and equity falls. And asset value rising does the opposite. The put moves out of the money, so the spread tightens.
+AVA: And the other family, the reduced-form models.
+ANDREW: They don't model the balance sheet as an option. They just treat default as a random event that arrives with some intensity, the hazard rate, linked to things like the economy. They fit market data better, and they need less information about the company. But they don't explain why a firm defaults.
+[PAUSE 1]
+AVA: Then the term structure of credit spreads. How does the spread change with maturity?
+ANDREW: For a high-quality issuer, it slopes upward. There's very little risk now, but over a long time a lot can go wrong. So long maturities carry a bigger spread.
+AVA: And a distressed issuer?
+ANDREW: Flat, or even inverted. The danger is right now. If the company defaults, every bond, short or long, pays roughly the same recovery. So their prices converge, and short bonds can carry the highest spread.
+AVA: Hook: safe firms slope up, distressed firms invert.
+ANDREW: And spreads move with the cycle. They widen in downturns, most for low-quality issuers, and narrow in expansions.
+[PAUSE 1]
+AVA: Reading twenty-seven. Credit default swaps. The analogy is insurance, right?
+ANDREW: Very close. The protection buyer pays a regular premium, the spread. If a credit event happens, the protection seller pays out. The difference from home insurance is that you can buy protection on a company whose bonds you don't own.
+AVA: So who's long credit and who's short?
+ANDREW: The protection seller is long credit. They're like someone who owns the bond. They earn the spread and lose if the company gets into trouble. The protection buyer is short credit. Like someone who's shorted the bond.
+AVA: Hook: the buyer of protection likes bad news.
+ANDREW: When the spread widens, the buyer's contract becomes more valuable, because they locked in cheap insurance. The seller loses.
+AVA: Now the link to reading twenty-six.
+ANDREW: This is my favourite one. The CDS spread is approximately the hazard rate times the loss given default. That is the same formula as the bond's credit spread: probability of default times loss given default. One formula, two readings. That's why bond spreads and CDS spreads normally move together.
+AVA: And when they don't, there's a basis trade.
+ANDREW: Right. If the bond's credit spread, meaning its yield minus M.R.R., is bigger than the CDS spread, you buy the bond and buy protection. You've removed the credit risk and you pocket the difference.
+AVA: Now the upfront premium. This confuses people because CDS have standard coupons.
+ANDREW: Today, CDS contracts pay a fixed, standard coupon, like one percent or five percent. But the fair spread for the company is usually different. So they settle the gap with a payment at the start.
+AVA: And the formula?
+ANDREW: Upfront premium, as a percentage of notional, is roughly the CDS spread minus the fixed coupon, times the CDS duration. If the fair spread is higher than the coupon, the buyer isn't paying enough each year, so the buyer pays upfront. If the fair spread is lower, the seller pays upfront.
+AVA: And the CDS price?
+ANDREW: A hundred minus the upfront premium, per hundred of notional.
+AVA: And valuing it later?
+ANDREW: Change in value is roughly the change in spread, times the CDS duration, times the notional. Spread widens, the buyer gains.
+AVA: Quick example?
+ANDREW: Spread falls from three hundred to two hundred and fifty basis points. That's half a percent. Duration four, notional ten million. Half a percent times four times ten million is two hundred thousand. And because spreads fell, it's the seller who gains.
+AVA: Last few CDS facts.
+ANDREW: Settlement can be physical, where the buyer delivers a bond and gets par, or cash. With physical settlement the buyer delivers the cheapest-to-deliver bond, the one trading lowest. An index CDS covers many names with equal weights. When one name defaults, it's paid out and removed, and the notional falls by its weight.
+AVA: And a CDS curve trade?
+ANDREW: Buy long-dated protection and sell short-dated protection. That makes money if the credit curve steepens, meaning long spreads rise relative to short ones. The reverse is a bet on flattening. And notice this is the same steepening and flattening language as the yield curve in episode one. It's just the credit curve now.
+AVA: Recap. Credit risk is probability of default and loss given default. Expected loss, discounted and summed, gives C.V.A., and the risky bond is the default-free value minus C.V.A. Credit spread is about P.D. times L.G.D. In the structural model, equity is a call on the assets, and debt is risk-free debt minus a put. So asset volatility and leverage widen spreads. Safe firms slope up, distressed firms invert. A CDS buyer is short credit and likes bad news. The CDS spread is about hazard times L.G.D., the same formula as the bond. Spread above the coupon, the buyer pays upfront. And value change is the spread change times duration times notional.
+ANDREW: Next and final episode, we connect everything. Five shocks, traced through all five readings, and then a rapid-fire drill.
+AVA: See you there.

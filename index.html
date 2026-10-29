@@ -448,6 +448,11 @@ window.addEventListener('error', function (e) {
 
   .nb-qa { border-left: 3px solid var(--amber); background: var(--amber-bg); border-radius: 0 8px 8px 0; padding: 9px 13px; margin-bottom: 12px; }
   .nb-q { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.5; }
+  .nb-see { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 14px; }
+  .nb-see-label { font-size: 11.5px; font-weight: 700; color: var(--ink-soft); margin-right: 2px; }
+  .nb-reveal { border-left: 3px solid var(--violet); background: var(--violet-bg); border-radius: 0 8px 8px 0; padding: 9px 13px; margin-bottom: 10px; }
+  .nb-reveal summary { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.5; cursor: pointer; }
+  .nb-reveal[open] summary { margin-bottom: 2px; }
   .nb-a { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; margin-top: 4px; }
   .nb-a::before { content: 'A. '; font-weight: 700; color: var(--amber); }
   .nb-q::before { content: 'Q. '; color: var(--amber); }
@@ -1310,6 +1315,7 @@ const SUBJECTS = [
     { name: 'Reading 25: Valuation and Analysis of Bonds with Embedded Options', desc: 'R25 · Sessions 25.S1–25.S7, following your written notes, with Schweser additions — European, American and Bermudan options, callable, putable and extendible bonds, valuing call and put options on the tree, volatility, rate level and curve shape, OAS, effective duration and convexity, one-sided and key rate durations, capped and floored floaters, convertible bonds' },
     { name: 'Reading 26: Credit Analysis Models', desc: 'R26 · Sessions 26.S1–26.S4, following your written notes, with Schweser additions — exposure, recovery, LGD, hazard rate, survival, expected loss and CVA, IRR on default, risk-neutral PD, relative credit risk, scores and ratings, structural and reduced-form models, implied CVA, credit spread components, term structure of credit spreads' },
     { name: 'Reading 27: Credit Default Swaps', desc: 'R27 · Sessions 27.S1–27.S2, following your written notes, with Schweser additions — protection buyer and seller, CDS spread and standard coupons, upfront premium, single-name and index CDS, credit events and settlement preference, hazard rate, protection and premium legs, CDS price, value after inception, credit curve, naked, long/short, curve and basis trades' },
+    { name: '🔗 FI Connections: How R23–R27 Fit Together', desc: 'FIC · Cross-reading map of fixed income — spot, forward and par, the spread stack, theories and duration, the calibrated tree, who owns the option, OAS, credit as an option, PD × LGD, CDS, five shock chains, a master what-if grid, memory hooks and traps' },
   ]},
   { id: 'deriv', name: 'Derivatives', topics: [
     { name: 'Reading 28: Pricing and Valuation of Forward Commitments', desc: 'R28 · Sessions 28.S1–28.S11, following your written notes, with Schweser additions — forward pricing and arbitrage, forward value, FRAs, interest rate, currency and equity swaps, bond futures' },
@@ -11110,6 +11116,7 @@ const CONTENT = {
       {
         module: '23.S1', title: 'Spot Rates · Forward Rates · Yield to Maturity',
         blocks: [
+          { k: 'see', id: 'fic-link', label: '🔗 How this reading connects to the rest of FI', items: [['fi.5', 'FIC.1', 'FI Connections'], ['fi.5', 'FIC.8', 'Five shock chains']], new: '2026-10-29' },
           { k: 'sub', text: 'Spot Rate' },
           { k: 'points', id: 's1-spot', items: [
             'Spot rates are the annualized market interest rates for a *single payment* to be received in the future.',
@@ -11583,6 +11590,7 @@ const CONTENT = {
       {
         module: '24.S1', title: 'The Arbitrage-Free Valuation Framework',
         blocks: [
+          { k: 'see', id: 'fic-link', label: '🔗 How this reading connects to the rest of FI', items: [['fi.5', 'FIC.1', 'FI Connections'], ['fi.5', 'FIC.8', 'Five shock chains']], new: '2026-10-29' },
           { k: 'sub', text: '2 Types of Arbitrage Opportunity' },
           { k: 'points', id: 's1-types', items: [
             '1. *Value additivity*: the value of the whole differs from the sum of its parts (e.g. stripping and reconstitution).',
@@ -11859,6 +11867,7 @@ const CONTENT = {
       {
         module: '25.S1', title: 'Bonds with Embedded Options · Types · Callable, Putable and Extendible Bonds',
         blocks: [
+          { k: 'see', id: 'fic-link', label: '🔗 How this reading connects to the rest of FI', items: [['fi.5', 'FIC.1', 'FI Connections'], ['fi.5', 'FIC.8', 'Five shock chains']], new: '2026-10-29' },
           { k: 'points', id: 's1-app', title: 'Application of embedded options', items: [
             'Manage interest rate risk.',
             'Issue the bonds at an attractive coupon rate.',
@@ -12290,6 +12299,7 @@ const CONTENT = {
       {
         module: '26.S1', title: 'Measures of Credit Risk · CVA · Risk-Neutral Probability of Default',
         blocks: [
+          { k: 'see', id: 'fic-link', label: '🔗 How this reading connects to the rest of FI', items: [['fi.5', 'FIC.1', 'FI Connections'], ['fi.5', 'FIC.8', 'Five shock chains']], new: '2026-10-29' },
           { k: 'p', text: 'Credit risk: 1. risk of default; 2. risk of *worsening credit quality* — this can happen even if there is no default.' },
           { k: 'sub', text: 'Measures of Credit Risk' },
           { k: 'points', id: 's1-measures', items: [
@@ -12640,6 +12650,7 @@ const CONTENT = {
       {
         module: '27.S1', title: 'Credit Default Swaps · CDS Spread · Single-Name and Index CDS · Settlement',
         blocks: [
+          { k: 'see', id: 'fic-link', label: '🔗 How this reading connects to the rest of FI', items: [['fi.5', 'FIC.1', 'FI Connections'], ['fi.5', 'FIC.8', 'Five shock chains']], new: '2026-10-29' },
           { k: 'cols', id: 's1-sides', panes: [
             { title: 'Protection seller', tone: 'teal', items: ['*Long* CDS.', 'Purchased credit risk.'] },
             { title: 'Protection buyer', tone: 'violet', items: ['*Short* CDS.', 'Sold credit risk.'] },
@@ -12822,6 +12833,1483 @@ const CONTENT = {
             result: 'A' },
         ],
       },
+    ],
+  },
+  'fi.5': {
+    flow: [
+      {
+        "module": "FIC.1",
+        "title": "The One-Picture Story · Three Engines",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "One sentence for all of fixed income",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "formula",
+            "id": "c1-one",
+            "title": "The master sentence",
+            "lines": [
+              "*Price* = cash flows ÷ (*risk-free spot curve* + *spreads*), adjusted for any *option* someone owns."
+            ],
+            "note": "Each FI reading adds one layer to this sentence.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "timeline",
+            "id": "c1-layers",
+            "steps": [
+              {
+                "name": "R23 · Curves",
+                "text": "Spot, forward, par, YTM; swap curve and spreads. The *root*: time value."
+              },
+              {
+                "name": "R24 · Tree",
+                "text": "Forwards become node rates; *volatility* fans the tree. Calibrated to market."
+              },
+              {
+                "name": "R25 · Options",
+                "text": "Callable, putable, capped, floored, convertible. *Who owns the option?*"
+              },
+              {
+                "name": "R26 · Default",
+                "text": "PD × LGD → CVA → spread. Credit is *another option* (the default put)."
+              },
+              {
+                "name": "R27 · CDS",
+                "text": "Credit risk traded on its own. CDS spread ≈ hazard × LGD."
+              }
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "The three engines",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c1-engines",
+            "items": [
+              "*1. Rate level and shape*: parallel shifts, steepening, flattening, curvature (R23 → everything).",
+              "*2. Volatility*: of rates (R24, R25) or of the firm’s assets (R26).",
+              "*3. Default risk*: PD, LGD, recovery (R26, R27).",
+              "Every “what if” question on the exam is one of these three engines moving. Find the engine first, then follow the chain."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.0",
+                "23.S1",
+                "R23 spot & forward"
+              ],
+              [
+                "fi.1",
+                "24.S3",
+                "R24 the tree"
+              ],
+              [
+                "fi.2",
+                "25.S2",
+                "R25 option bonds"
+              ],
+              [
+                "fi.3",
+                "26.S1",
+                "R26 CVA"
+              ],
+              [
+                "fi.4",
+                "27.S2",
+                "R27 CDS pricing"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.2",
+        "title": "The Curve Family · Shape Rule · Forward vs Expected Spot",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "How the curves are built from each other",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Relationship",
+              "Memory hook"
+            ],
+            "rows": [
+              {
+                "label": "Forwards → Spot",
+                "values": [
+                  "(1+S₃)³ = (1+S₁)(1+1y1y)(1+2y1y). *Spot = geometric average of forwards*",
+                  "Spot = average speed of the trip so far"
+                ]
+              },
+              {
+                "label": "Spot → Forward",
+                "values": [
+                  "(1+S₍ⱼ₊ₖ₎)^(j+k) = (1+Sⱼ)ʲ (1+F(j,k))ᵏ. *The forward links two spots*",
+                  "Forward = speed on the next leg"
+                ]
+              },
+              {
+                "label": "Spot → Par",
+                "values": [
+                  "Par rate = coupon that makes PV at spots = 100. *Weighted average of spots*",
+                  "Par = average of averages"
+                ]
+              },
+              {
+                "label": "Par → Spot",
+                "values": [
+                  "*Bootstrapping*: peel par bonds one maturity at a time",
+                  "Climb the ladder"
+                ]
+              },
+              {
+                "label": "Spot → YTM",
+                "values": [
+                  "YTM = the single rate giving the same price; a cash-flow-weighted average of spots",
+                  ""
+                ]
+              },
+              {
+                "label": "Forward price",
+                "values": [
+                  "F(j,k) = P(j+k) ÷ P(j): the *forward pricing model*",
+                  "Indifference: long zero = short zero + forward"
+                ]
+              }
+            ],
+            "id": "c2-build",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Shape rule",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Order",
+              "Why"
+            ],
+            "rows": [
+              {
+                "label": "Upward sloping",
+                "values": [
+                  "*Forward > Spot > Par*",
+                  "Marginal rate (forward) is above the average (spot); par is pulled down by earlier, lower spots"
+                ]
+              },
+              {
+                "label": "Downward sloping",
+                "values": [
+                  "*Par > Spot > Forward*",
+                  "Mirror image"
+                ]
+              },
+              {
+                "label": "Flat",
+                "values": [
+                  "All equal",
+                  "Nothing to average"
+                ]
+              }
+            ],
+            "id": "c2-shape",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “The forward runs ahead, par lags behind.”",
+            "a": "Forward = marginal rate, spot = average, par = average of averages. Whichever way the curve moves, the forward moves furthest and par least. Example: S₁ = 2%, S₂ = 3% → 1y1y ≈ 4.01%, 2-yr par ≈ 2.985%.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Forward vs expected spot → value and riding the curve",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Bond priced off today’s forwards is…",
+              "Action"
+            ],
+            "rows": [
+              {
+                "label": "Future spot = forward",
+                "values": [
+                  "Fairly priced; *all maturities earn the same*",
+                  "No edge"
+                ]
+              },
+              {
+                "label": "Future spot < forward",
+                "values": [
+                  "*Undervalued* (cheap)",
+                  "Buy longer maturities"
+                ]
+              },
+              {
+                "label": "Future spot > forward",
+                "values": [
+                  "Overvalued",
+                  "Stay short"
+                ]
+              }
+            ],
+            "id": "c2-fwdexp",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c2-ride",
+            "items": [
+              "*Riding the yield curve* = the “< forward” case taken to its limit: an *upward* curve that *stays unchanged*. Buy a bond *longer* than your horizon; it rolls down to a lower yield and a higher price.",
+              "Your R23 example: 1-year returns of 3% · 5.01% · 7.03%. The longest bond wins by rolling down the slide."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.0",
+                "23.S1",
+                "23.S1 spot & forward"
+              ],
+              [
+                "fi.0",
+                "23.S2",
+                "23.S2 par & bootstrapping"
+              ],
+              [
+                "fi.0",
+                "23.S3",
+                "23.S3 riding the curve"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.3",
+        "title": "Spread Stack · Theories · Duration Family · Policy and the Curve",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Spread stack, from the government curve up",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Measured over",
+              "What it is"
+            ],
+            "rows": [
+              {
+                "label": "I-spread",
+                "values": [
+                  "Swap rate (same tenor)",
+                  "Bond yield − swap rate"
+                ]
+              },
+              {
+                "label": "Swap spread",
+                "values": [
+                  "Government yield (same tenor)",
+                  "Swap rate (the *fixed* leg) − government yield"
+                ]
+              },
+              {
+                "label": "Z-spread",
+                "values": [
+                  "*Every* government spot rate",
+                  "One constant spread that makes PV = price"
+                ]
+              },
+              {
+                "label": "OAS",
+                "values": [
+                  "Every node of the tree",
+                  "Z-spread with the option’s value removed (FIC.5)"
+                ]
+              },
+              {
+                "label": "TED",
+                "values": [
+                  "3m T-bill",
+                  "3m MRR − 3m T-bill: bank credit vs government"
+                ]
+              },
+              {
+                "label": "MRR–OIS",
+                "values": [
+                  "OIS",
+                  "Bank credit and liquidity stress"
+                ]
+              }
+            ],
+            "id": "c3-stack",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c3-stack-pts",
+            "items": [
+              "Time value lives in the *benchmark*; the spread is only pay for credit, illiquidity and options.",
+              "Wider TED or MRR–OIS → more stress in the banking system."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Term-structure theories: what does the forward mean?",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Forward =",
+              "What a slope means"
+            ],
+            "rows": [
+              {
+                "label": "Unbiased / pure expectations",
+                "values": [
+                  "*E(future spot)*",
+                  "Up = rates expected to rise; risk neutral"
+                ]
+              },
+              {
+                "label": "Local expectations",
+                "values": [
+                  "Short-horizon returns = risk-free rate",
+                  "Allows risk premiums for longer horizons"
+                ]
+              },
+              {
+                "label": "Liquidity preference",
+                "values": [
+                  "*E(S) + liquidity premium*",
+                  "Upward bias; an upward curve can even mean rates are expected to fall; downward still possible"
+                ]
+              },
+              {
+                "label": "Segmented markets",
+                "values": [
+                  "No link",
+                  "Each maturity has its own supply and demand"
+                ]
+              },
+              {
+                "label": "Preferred habitat",
+                "values": [
+                  "E(S) + premium",
+                  "Investors leave their habitat if paid enough"
+                ]
+              }
+            ],
+            "id": "c3-theory",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “The premium sits on the forward.”",
+            "a": "F = E(S) + premium, so forwards *overstate* expected future spots. That is the same reason riding the curve pays: future spots come in below the forwards.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Duration family and curve-shape risk",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Captures",
+              "Limit"
+            ],
+            "rows": [
+              {
+                "label": "Macaulay",
+                "values": [
+                  "Weighted-average time to cash flows",
+                  "No price sensitivity"
+                ]
+              },
+              {
+                "label": "Modified",
+                "values": [
+                  "Price sensitivity to *YTM*",
+                  "Option-free bonds only"
+                ]
+              },
+              {
+                "label": "Effective",
+                "values": [
+                  "Parallel shift of the *benchmark curve*",
+                  "Misses shape changes"
+                ]
+              },
+              {
+                "label": "Key rate",
+                "values": [
+                  "One point on the curve",
+                  "Σ KRDs = effective duration"
+                ]
+              }
+            ],
+            "id": "c3-dur",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c3-shape",
+            "items": [
+              "*Level* explains most curve moves, then *steepness*, then *curvature*. KRDs show which move hurts you.",
+              "Volatility term structure: *short-term* rate vol is usually *higher* (monetary policy uncertainty); long-term vol is lower (inflation and the real economy)."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Monetary policy → curve shape",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Short end",
+              "Long end",
+              "Name"
+            ],
+            "rows": [
+              {
+                "label": "Contractionary (rates ↑)",
+                "values": [
+                  "↑↑",
+                  "↑",
+                  "*Bear flattening*"
+                ]
+              },
+              {
+                "label": "Expansionary (rates ↓)",
+                "values": [
+                  "↓↓",
+                  "↓",
+                  "*Bull steepening*"
+                ]
+              },
+              {
+                "label": "Inflation expectations ↑",
+                "values": [
+                  "",
+                  "↑",
+                  "Steeper"
+                ]
+              },
+              {
+                "label": "Flight to quality",
+                "values": [
+                  "",
+                  "↓ (govts)",
+                  "Spreads widen"
+                ]
+              }
+            ],
+            "id": "c3-policy",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “Bear flattens, bull steepens.”",
+            "a": "Bear = yields up (prices down); bull = yields down. The central bank pushes the short end, so the short end moves more and decides flatten vs steepen.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.0",
+                "23.S4",
+                "23.S4 spreads"
+              ],
+              [
+                "fi.0",
+                "23.S5",
+                "23.S5 theories"
+              ],
+              [
+                "fi.0",
+                "23.S6",
+                "23.S6 duration & curve risk"
+              ],
+              [
+                "fi.0",
+                "23.S7",
+                "23.S7 policy"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.4",
+        "title": "The Tree · Why Volatility Needs an Option",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "From curve to paths",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c4-tree",
+            "items": [
+              "Node rates are *one-period forward rates*, not spot rates.",
+              "Lognormal tree: *r_up = r_down × e^(2σ)*. σ ↑ → the tree fans out wider.",
+              "The tree is *calibrated* so it prices option-free benchmark bonds exactly at market → *arbitrage-free*.",
+              "⇒ *An option-free bond’s value does not depend on σ.* σ only matters once an option exists (FIC.5).",
+              "Backward induction = pathwise valuation (always the same value). Monte Carlo needs a σ input and a *drift adjustment*; more paths = more precise, not necessarily closer to true value."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c4-arb",
+            "items": [
+              "Arbitrage-free value = value from stripping into zeros at spot rates. Price ≠ value → *stripping* (sell the pieces) or *reconstitution* (buy the pieces).",
+              "*Equilibrium models* take a view on the economy, so prices may not match: CIR (vol ∝ √r, no negative rates), Vasicek (constant vol, negative rates possible).",
+              "*Arbitrage-free models* take the curve as given: Ho–Lee, KWF; drift θₜ calibrated to market prices."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “Calibrated tree: σ only matters with an option.”",
+            "a": "A plain bond’s cash flows are the same on every path, and the tree is forced to match its price. An option’s payoff depends on the path, so a wider tree changes its value.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.1",
+                "24.S1",
+                "24.S1 arbitrage-free"
+              ],
+              [
+                "fi.1",
+                "24.S2",
+                "24.S2 backward induction"
+              ],
+              [
+                "fi.1",
+                "24.S3",
+                "24.S3 building the tree"
+              ],
+              [
+                "fi.1",
+                "24.S4",
+                "24.S4 models"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.5",
+        "title": "Options on the Bond · OAS · Duration and Convexity · Convertibles",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "The identities and the ownership rule",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "formula",
+            "id": "c5-ident",
+            "title": "Who owns the option?",
+            "lines": [
+              "Callable = Straight − Call (*issuer* owns the call)",
+              "Putable = Straight + Put (*investor* owns the put)",
+              "Capped floater = Straight floater − Cap (issuer) · Floored floater = Straight floater + Floor (investor)",
+              "Convertible = Straight + call on the stock (investor) − issuer call + investor put (if any)"
+            ],
+            "note": "Master hook: *volatility helps whoever OWNS the option.*",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "What-if for option bonds",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Call value",
+              "Callable",
+              "Put value",
+              "Putable",
+              "Straight"
+            ],
+            "rows": [
+              {
+                "label": "Rate volatility ↑",
+                "values": [
+                  "↑",
+                  "*↓*",
+                  "↑",
+                  "*↑*",
+                  "unchanged"
+                ]
+              },
+              {
+                "label": "Rate level ↑",
+                "values": [
+                  "↓",
+                  "↓ (less than straight)",
+                  "↑",
+                  "↓ (least: floor)",
+                  "↓"
+                ]
+              },
+              {
+                "label": "Rate level ↓",
+                "values": [
+                  "↑",
+                  "↑ but *capped* near call price",
+                  "↓",
+                  "↑ like straight",
+                  "↑"
+                ]
+              },
+              {
+                "label": "Curve: upward → flat/inverted",
+                "values": [
+                  "*↑*",
+                  "↓",
+                  "*↓*",
+                  "↓",
+                  "—"
+                ]
+              }
+            ],
+            "id": "c5-whatif",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "p",
+            "text": "Curve-shape logic: an upward curve means high forwards in the tree, so rates are less likely to fall below the coupon → *low call value, high put value*. Flattening raises the call and lowers the put. Hook: *steep curve, cheap call.*",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "OAS: the spread after paying for the option",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c5-oas",
+            "items": [
+              "*OAS* = constant spread added to every tree node so model value = market price.",
+              "*Option cost (bps) = Z-spread − OAS.* Callable: investor short the call → *OAS < Z*. Putable: investor long the put → *OAS > Z*.",
+              "*Assumed σ ↑*: callable → call worth more → model value ↓ → OAS needed to match price *↓*. Putable → OAS ↑.",
+              "Compare bonds of the same risk: *higher OAS = cheap*, lower OAS = rich."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “OAS is what’s left after you pay for the option.”",
+            "a": "Like valuing a car with the sunroof stripped out: OAS removes the option so bonds compare like for like.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Duration and convexity with options",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Effective duration",
+              "One-sided",
+              "Convexity"
+            ],
+            "rows": [
+              {
+                "label": "Callable",
+                "values": [
+                  "≤ straight; *shrinks as rates fall*",
+                  "*Up-duration > down-duration*",
+                  "*Negative* near the money"
+                ]
+              },
+              {
+                "label": "Putable",
+                "values": [
+                  "≤ straight; *shrinks as rates rise*",
+                  "*Down-duration > up-duration* (your fix card)",
+                  "*Positive*, more than straight"
+                ]
+              },
+              {
+                "label": "Floater",
+                "values": [
+                  "≈ time to next reset",
+                  "",
+                  ""
+                ]
+              },
+              {
+                "label": "Straight",
+                "values": [
+                  "—",
+                  "Up ≈ down",
+                  "Positive"
+                ]
+              }
+            ],
+            "id": "c5-dur",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c5-krd",
+            "items": [
+              "Hook: *the option shortens the side it protects.* Callable is capped when rates fall → small down-duration. Putable is floored when rates rise → small up-duration.",
+              "KRDs: a par option-free bond has all KRD at maturity; a likely-called callable shifts KRD toward the *call date*; a likely-put putable toward the *put date*."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Convertibles: half bond, half stock",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Convertible value"
+            ],
+            "rows": [
+              {
+                "label": "Share price ↑",
+                "values": [
+                  "↑ (strongly when deep in the money)"
+                ]
+              },
+              {
+                "label": "Share price volatility ↑",
+                "values": [
+                  "↑ (investor owns the stock call)"
+                ]
+              },
+              {
+                "label": "Rate volatility ↑ (if callable)",
+                "values": [
+                  "↓ (issuer’s call worth more)"
+                ]
+              },
+              {
+                "label": "Rate level ↑",
+                "values": [
+                  "↓ (straight-value floor falls; most when busted)"
+                ]
+              },
+              {
+                "label": "Dividends ↑",
+                "values": [
+                  "↓ (hurts the stock call)"
+                ]
+              }
+            ],
+            "id": "c5-conv",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "p",
+            "text": "Conversion value = share price × conversion ratio. *Minimum value = max(straight value, conversion value).* Market conversion price = bond price ÷ conversion ratio. Busted (near straight value) behaves like a bond; near conversion value behaves like the stock.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.2",
+                "25.S2",
+                "25.S2 valuing"
+              ],
+              [
+                "fi.2",
+                "25.S3",
+                "25.S3 vol & curve"
+              ],
+              [
+                "fi.2",
+                "25.S4",
+                "25.S4 OAS"
+              ],
+              [
+                "fi.2",
+                "25.S5",
+                "25.S5 duration"
+              ],
+              [
+                "fi.2",
+                "25.S6",
+                "25.S6 floaters"
+              ],
+              [
+                "fi.2",
+                "25.S7",
+                "25.S7 convertibles"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.6",
+        "title": "Credit: PD × LGD · Credit as an Option · Credit Curves",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "The core chain",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "formula",
+            "id": "c6-chain",
+            "title": "From default risk to price",
+            "lines": [
+              "LGD = Exposure × (1 − Recovery)",
+              "Expected loss = PD × LGD → PV each year → *CVA = Σ PV(EL)*",
+              "Value of risky bond = value if default-free − CVA",
+              "*Credit spread ≈ annual PD × LGD* (≈ hazard × LGD)"
+            ],
+            "note": "Risk-neutral PD (from prices) > actual PD: prices include risk and liquidity premiums.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Expected loss",
+              "CVA",
+              "Credit spread",
+              "Bond price"
+            ],
+            "rows": [
+              {
+                "label": "PD / hazard rate ↑",
+                "values": [
+                  "↑",
+                  "↑",
+                  "↑",
+                  "↓"
+                ]
+              },
+              {
+                "label": "Recovery rate ↑",
+                "values": [
+                  "↓",
+                  "↓",
+                  "↓",
+                  "↑"
+                ]
+              },
+              {
+                "label": "LGD ↑",
+                "values": [
+                  "↑",
+                  "↑",
+                  "↑",
+                  "↓"
+                ]
+              },
+              {
+                "label": "Risk-free rate ↑",
+                "values": [
+                  "—",
+                  "↓ slightly (discounted more)",
+                  "—",
+                  "↓ (time value)"
+                ]
+              }
+            ],
+            "id": "c6-whatif",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Structural model: credit is an option",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c6-struct",
+            "items": [
+              "*Equity = call on the firm’s assets*, strike = face value of debt.",
+              "*Risky debt = risk-free debt − put on the firm’s assets.* Bondholders have written the default put to the shareholders."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Default put",
+              "Debt value",
+              "Credit spread",
+              "Equity"
+            ],
+            "rows": [
+              {
+                "label": "Asset volatility ↑",
+                "values": [
+                  "↑",
+                  "↓",
+                  "↑",
+                  "↑"
+                ]
+              },
+              {
+                "label": "Leverage ↑",
+                "values": [
+                  "↑",
+                  "↓",
+                  "↑",
+                  "↓"
+                ]
+              },
+              {
+                "label": "Asset value ↑",
+                "values": [
+                  "↓",
+                  "↑",
+                  "↓",
+                  "↑"
+                ]
+              }
+            ],
+            "id": "c6-structtbl",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "The bridge from R25 to R26",
+            "a": "A corporate bondholder is like a callable bondholder: both have *sold* an option, so σ ↑ hurts both. In R25 the option is on rates; in R26 on the firm’s assets. Same rule: volatility helps the owner (here, the shareholders).",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "p",
+            "text": "*Reduced-form models*: default is a random event with an exogenous *hazard rate* linked to macro variables. Fit market data better and need less firm data, but don’t explain *why* firms default.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Term structure of credit spreads",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Shape",
+              "Why"
+            ],
+            "rows": [
+              {
+                "label": "High quality",
+                "values": [
+                  "*Upward sloping*",
+                  "Little risk now; more room to deteriorate over time"
+                ]
+              },
+              {
+                "label": "Distressed / high yield",
+                "values": [
+                  "*Flat or inverted*",
+                  "Default risk is high *now*; prices converge to recovery whatever the maturity"
+                ]
+              }
+            ],
+            "id": "c6-curve",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "p",
+            "text": "Spreads *widen in downturns, most for low quality*, and narrow in expansions. Hook: *safe firms slope up, distressed firms invert.*",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.3",
+                "26.S1",
+                "26.S1 CVA"
+              ],
+              [
+                "fi.3",
+                "26.S2",
+                "26.S2 structural"
+              ],
+              [
+                "fi.3",
+                "26.S3",
+                "26.S3 spread"
+              ],
+              [
+                "fi.3",
+                "26.S4",
+                "26.S4 credit curves"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.7",
+        "title": "CDS: Credit Risk as Its Own Contract",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Who is who",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Pays",
+              "Gets",
+              "Economically"
+            ],
+            "rows": [
+              {
+                "label": "Protection buyer",
+                "values": [
+                  "Spread (fixed coupon + upfront)",
+                  "Payout on a credit event",
+                  "*Short credit* (like shorting the bond)"
+                ]
+              },
+              {
+                "label": "Protection seller",
+                "values": [
+                  "—",
+                  "The spread",
+                  "*Long credit* (like owning the bond)"
+                ]
+              }
+            ],
+            "id": "c7-who",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “The buyer of protection likes bad news.”",
+            "a": "Spread widens → buyer gains, seller loses.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "The pricing links",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "formula",
+            "id": "c7-price",
+            "title": "CDS formulas",
+            "lines": [
+              "*CDS spread ≈ hazard rate × LGD* (same as the bond spread in R26)",
+              "Upfront % ≈ (CDS spread − fixed coupon) × CDS duration · spread > coupon → *buyer* pays",
+              "CDS price per 100 = 100 − upfront %",
+              "Δ value ≈ Δspread × CDS duration × notional · spread ↑ → buyer gains"
+            ],
+            "note": "The shared formula “spread ≈ PD × LGD” is *the link between R26 and R27*.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "CDS spread",
+              "Upfront paid by buyer",
+              "Buyer’s position"
+            ],
+            "rows": [
+              {
+                "label": "Hazard rate / PD ↑",
+                "values": [
+                  "↑",
+                  "↑",
+                  "↑"
+                ]
+              },
+              {
+                "label": "Recovery rate ↑",
+                "values": [
+                  "↓",
+                  "↓",
+                  "↓"
+                ]
+              },
+              {
+                "label": "Time passes, nothing else",
+                "values": [
+                  "—",
+                  "—",
+                  "Drifts toward 0 as duration shrinks"
+                ]
+              }
+            ],
+            "id": "c7-whatif",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Trades that connect back to the curves",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c7-trades",
+            "items": [
+              "*Curve trade (steepener)*: buy long-dated, sell short-dated protection → gains if the credit curve steepens. Reverse for flattening. Same steepen/flatten language as the yield curve in R23.",
+              "*Basis trade*: bond credit spread (yield − MRR) vs CDS spread. Bond spread > CDS spread → buy the bond and buy protection.",
+              "Settlement: physical or cash; physical → buyer delivers the *cheapest-to-deliver*.",
+              "Index CDS: equal weights; a defaulted name is paid out and removed, notional falls by its weight."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "fi.4",
+                "27.S1",
+                "27.S1 CDS basics"
+              ],
+              [
+                "fi.4",
+                "27.S2",
+                "27.S2 pricing & trades"
+              ]
+            ],
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.8",
+        "title": "Connecting the Dots: Five Chains · Master What-If Grid",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Chain A · The central bank raises rates",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c8-a",
+            "items": [
+              "1. Short ↑↑, long ↑ → *bear flattening* (R23).",
+              "2. Spots ↑ → forwards (the tree’s node rates) ↑ (R23 → R24).",
+              "3. All prices ↓: straight falls most, *putable least* (put floors it; small up-duration), callable less than straight while the call matters (R25).",
+              "4. Call worth less → callable behaves like straight; effective duration ↑, negative convexity fades (R25).",
+              "5. Flatter curve → call value ↑, put value ↓ (R25 curve-shape rule).",
+              "6. Slowdown → PD ↑ → spreads widen, most for HY (R26) → CDS spreads ↑ → *protection buyers gain* (R27)."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Chain B · Rate volatility ↑, curve unchanged",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c8-b",
+            "items": [
+              "1. Tree fans out (R24); *straight bonds unchanged* (calibrated).",
+              "2. Call ↑ → callable ↓; put ↑ → putable ↑; cap ↑ → capped floater ↓; floor ↑ → floored floater ↑ (R25).",
+              "3. At a fixed price, the *callable’s OAS ↓* (R25).",
+              "4. Callable convertible: issuer call ↑ → value ↓ (R25)."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Chain C · Asset volatility or leverage ↑",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c8-c",
+            "items": [
+              "1. The default put bondholders sold is worth more (R26, structural).",
+              "2. Debt ↓, credit spread ↑; equity ↑ when asset vol rises (it’s a call).",
+              "3. Hazard rate ↑ → CVA ↑ (R26).",
+              "4. CDS spread ↑ → buyer gains ≈ Δspread × duration × notional (R27).",
+              "5. Toward distress, the credit curve *flattens or inverts* (R26); a steepener can lose as the short end blows out (R27)."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Chain D · Curve unchanged, time passes (upward curve)",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c8-d",
+            "items": [
+              "1. Forwards were above today’s spots, but spots stayed put → future spots < forwards (R23).",
+              "2. Longer bonds *roll down* the curve; yield ↓, price ↑ → *riding the curve* wins.",
+              "3. Liquidity preference: part of the extra return is the premium for holding longer (R23)."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Chain E · Expected recovery improves",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c8-e",
+            "items": [
+              "1. LGD ↓ → EL ↓ → CVA ↓ → spread ↓ → bond price ↑ (R26).",
+              "2. CDS spread ↓ → *protection seller gains* (R27).",
+              "3. Cheapest-to-deliver option worth less to the buyer (R27)."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Master grid: what if X goes UP?",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "table",
+            "columns": [
+              "Spot/fwd",
+              "Straight",
+              "Callable",
+              "Putable",
+              "Callable OAS",
+              "Callable eff. duration",
+              "Credit spread",
+              "CDS buyer"
+            ],
+            "rows": [
+              {
+                "label": "Rate level",
+                "values": [
+                  "↑",
+                  "↓",
+                  "↓ (less)",
+                  "↓ (least)",
+                  "—",
+                  "↑ (call fades)",
+                  "≈ / ↑ in a slowdown",
+                  "≈ / ↑"
+                ]
+              },
+              {
+                "label": "Curve steepens",
+                "values": [
+                  "long end ↑",
+                  "long ↓",
+                  "call ↓ → helps",
+                  "put ↑ → helps",
+                  "—",
+                  "—",
+                  "—",
+                  "—"
+                ]
+              },
+              {
+                "label": "Curve flattens / inverts",
+                "values": [
+                  "—",
+                  "—",
+                  "call ↑ → hurts",
+                  "put ↓ → hurts",
+                  "—",
+                  "—",
+                  "HY curve may invert",
+                  "—"
+                ]
+              },
+              {
+                "label": "Rate volatility",
+                "values": [
+                  "—",
+                  "*unchanged*",
+                  "↓",
+                  "↑",
+                  "*↓*",
+                  "↓",
+                  "—",
+                  "—"
+                ]
+              },
+              {
+                "label": "PD / hazard",
+                "values": [
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "↑",
+                  "*↑ gains*"
+                ]
+              },
+              {
+                "label": "Recovery rate",
+                "values": [
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "↓",
+                  "↓ loses"
+                ]
+              },
+              {
+                "label": "Asset vol / leverage",
+                "values": [
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "↑",
+                  "↑ gains"
+                ]
+              }
+            ],
+            "id": "c8-grid",
+            "caption": "— = no direct effect.",
+            "new": "2026-10-29"
+          }
+        ]
+      },
+      {
+        "module": "FIC.9",
+        "title": "Memory Hooks · Exam Traps · Trace It Yourself",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Eleven memory hooks",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c9-hooks",
+            "items": [
+              "1. *The forward runs ahead, par lags.* Up: F > S > Par. Down: Par > S > F.",
+              "2. *The premium sits on the forward.* F = E(S) + premium → forwards overstate expected spots.",
+              "3. *Below the forward, ride it.* Expected spot < forward → bond cheap → buy longer and roll down.",
+              "4. *Bear flattens, bull steepens.* The central bank moves the short end.",
+              "5. *Calibrated tree: σ only matters with an option.*",
+              "6. *Volatility helps the option’s owner.* Callable ↓, putable ↑, capped ↓, floored ↑, convertible ↑ (stock vol), corporate bond ↓ (asset vol).",
+              "7. *OAS = what’s left after paying for the option.* Callable OAS < Z; σ ↑ → OAS ↓.",
+              "8. *The option shortens the side it protects.* Callable: small down-duration. Putable: small up-duration.",
+              "9. *Spread ≈ PD × LGD*, in bonds and CDS alike.",
+              "10. *Protection buyer = short credit = likes bad news.* Spread > coupon → buyer pays upfront.",
+              "11. *Safe firms slope up, distressed firms invert.*"
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Exam traps across readings",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "points",
+            "id": "c9-traps",
+            "items": [
+              "Tree node rates are *forward* rates, not spot rates.",
+              "*Effective duration only captures parallel shifts*; you need KRDs for shape.",
+              "Higher σ does *not* change an option-free bond’s value.",
+              "σ ↑ → callable *OAS falls* (many say rises).",
+              "Liquidity preference *can* produce a downward curve.",
+              "The swap rate is the *fixed* leg; I-spread is over swaps, Z-spread over government spots.",
+              "The upfront premium is paid by the *buyer* only when spread > coupon.",
+              "Higher recovery lowers the CDS spread; leverage ↑ raises it.",
+              "Risk-neutral PD *>* actual PD."
+            ],
+            "new": "2026-10-29"
+          },
+          {
+            "k": "sub",
+            "text": "Trace it yourself (tap to reveal)",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "reveal",
+            "q": "1. Rate volatility falls. Putable bond price, its OAS and its option cost?",
+            "a": "Put ↓ → putable ↓. At the given price, OAS ↓. Option cost (OAS − Z for a putable) ↓.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "reveal",
+            "q": "2. A downward-sloping curve becomes upward sloping. Callable vs putable?",
+            "a": "Call value ↓ (callable gains relative to straight); put value ↑ (putable gains).",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "reveal",
+            "q": "3. A firm issues debt to buy back shares. Bond spread and CDS buyer?",
+            "a": "Leverage ↑ → default put ↑ → spread ↑ → CDS buyer gains.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "reveal",
+            "q": "4. Upward curve; you expect future spots = today’s spots. 2-year horizon: 2-year or 5-year bond?",
+            "a": "The 5-year: ride the curve.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "reveal",
+            "q": "5. CDS spread 300 → 250 bps, duration 4, notional 10m. Who gains, how much?",
+            "a": "The seller: 0.50% × 4 × 10m ≈ 200,000.",
+            "new": "2026-10-29"
+          },
+          {
+            "k": "p",
+            "text": "🎧 The *Fixed Income: Connecting the Dots* podcast (4 episodes, about 45 min) talks through all of this. Episode 4 is an 18-question drill with pauses.",
+            "new": "2026-10-29"
+          }
+        ]
+      }
     ],
   },
   'deriv.0': {
@@ -18051,6 +19539,7 @@ const GAPS = {
   'fi.2': {},
   'fi.3': {},
   'fi.4': {},
+  'fi.5': {},
   'deriv.0': {},
   'deriv.1': {},
   'alt.0': {},
@@ -21230,6 +22719,283 @@ const MINDMAP = {
       ] },
     ],
   },
+  'fi.5': {
+    "story": "One sentence runs all of fixed income: *price = cash flows ÷ (spot curve + spreads), adjusted for whoever owns an option*. The curves (R23) become the tree’s node rates (R24); volatility only matters once an option exists (R25); credit is another option plus PD × LGD (R26); and a CDS trades that credit risk alone (R27).",
+    "branches": [
+      {
+        "id": "b1",
+        "mod": "FIC.1–FIC.3",
+        "tone": "teal",
+        "t": "Engine 1 · Rates and the curve",
+        "tag": "Spot is the root; forwards, par and spreads hang off it",
+        "c": [
+          {
+            "id": "story",
+            "mod": "FIC.1",
+            "t": "The master sentence",
+            "tag": "Cash flows ÷ (spot + spreads), adjusted for options",
+            "from": [
+              "c1-one",
+              "c1-engines"
+            ]
+          },
+          {
+            "id": "build",
+            "mod": "FIC.2",
+            "t": "Spot, forward, par",
+            "tag": "Up: F > S > Par · “the forward runs ahead”",
+            "from": [
+              "c2-build",
+              "c2-shape"
+            ],
+            "links": [
+              [
+                "ride",
+                "The same forwards decide whether riding pays"
+              ]
+            ]
+          },
+          {
+            "id": "ride",
+            "mod": "FIC.2",
+            "t": "Forward vs expected spot",
+            "tag": "Spot < forward → cheap → ride the curve",
+            "from": [
+              "c2-fwdexp",
+              "c2-ride"
+            ],
+            "links": [
+              [
+                "theory",
+                "Liquidity premium explains why forwards overstate"
+              ]
+            ]
+          },
+          {
+            "id": "stack",
+            "mod": "FIC.3",
+            "t": "Spread stack",
+            "tag": "Govt → swap spread → I-spread; Z over spots",
+            "from": [
+              "c3-stack",
+              "c3-stack-pts"
+            ],
+            "links": [
+              [
+                "oas",
+                "OAS takes one more floor off"
+              ]
+            ]
+          },
+          {
+            "id": "theory",
+            "mod": "FIC.3",
+            "t": "Term-structure theories",
+            "tag": "Premium sits on the forward",
+            "from": [
+              "c3-theory"
+            ]
+          },
+          {
+            "id": "dur",
+            "mod": "FIC.3",
+            "t": "Duration family and policy",
+            "tag": "ED = parallel, KRD = shape · bear flattens, bull steepens",
+            "from": [
+              "c3-dur",
+              "c3-policy"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b2",
+        "mod": "FIC.4–FIC.5",
+        "tone": "violet",
+        "t": "Engine 2 · Volatility and options",
+        "tag": "Volatility helps whoever owns the option",
+        "c": [
+          {
+            "id": "tree",
+            "mod": "FIC.4",
+            "t": "Calibrated tree",
+            "tag": "Node rates = forwards; σ only matters with an option",
+            "from": [
+              "c4-tree",
+              "c4-arb"
+            ],
+            "links": [
+              [
+                "build",
+                "Its node rates are the forward rates"
+              ]
+            ]
+          },
+          {
+            "id": "own",
+            "mod": "FIC.5",
+            "t": "Who owns the option",
+            "tag": "Callable = S − call · putable = S + put",
+            "from": [
+              "c5-ident",
+              "c5-whatif"
+            ],
+            "links": [
+              [
+                "struct",
+                "Same rule in credit: shareholders own the default put"
+              ]
+            ]
+          },
+          {
+            "id": "oas",
+            "mod": "FIC.5",
+            "t": "OAS",
+            "tag": "Option cost = Z − OAS · σ ↑ → callable OAS ↓",
+            "from": [
+              "c5-oas"
+            ]
+          },
+          {
+            "id": "odur",
+            "mod": "FIC.5",
+            "t": "Duration and convexity",
+            "tag": "The option shortens the side it protects",
+            "from": [
+              "c5-dur",
+              "c5-krd"
+            ]
+          },
+          {
+            "id": "conv",
+            "mod": "FIC.5",
+            "t": "Convertibles",
+            "tag": "Bond floor + stock call",
+            "from": [
+              "c5-conv"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b3",
+        "mod": "FIC.6–FIC.7",
+        "tone": "rose",
+        "t": "Engine 3 · Default",
+        "tag": "Spread ≈ PD × LGD, in bonds and CDS",
+        "c": [
+          {
+            "id": "cva",
+            "mod": "FIC.6",
+            "t": "PD, LGD, CVA",
+            "tag": "Risky value = default-free − CVA",
+            "from": [
+              "c6-chain",
+              "c6-whatif"
+            ],
+            "links": [
+              [
+                "cds",
+                "Same formula prices the CDS"
+              ]
+            ]
+          },
+          {
+            "id": "struct",
+            "mod": "FIC.6",
+            "t": "Credit as an option",
+            "tag": "Debt = risk-free − put · asset vol ↑ → spread ↑",
+            "from": [
+              "c6-struct",
+              "c6-structtbl"
+            ],
+            "links": [
+              [
+                "own",
+                "Like a callable holder: both sold an option"
+              ]
+            ]
+          },
+          {
+            "id": "ccurve",
+            "mod": "FIC.6",
+            "t": "Credit curves",
+            "tag": "Safe slope up, distressed invert",
+            "from": [
+              "c6-curve"
+            ]
+          },
+          {
+            "id": "cds",
+            "mod": "FIC.7",
+            "t": "CDS pricing and value",
+            "tag": "Buyer short credit · upfront ≈ (spread − coupon) × dur",
+            "from": [
+              "c7-who",
+              "c7-price",
+              "c7-whatif"
+            ]
+          },
+          {
+            "id": "trades",
+            "mod": "FIC.7",
+            "t": "Curve and basis trades",
+            "tag": "Steepener: buy long, sell short protection",
+            "from": [
+              "c7-trades"
+            ],
+            "links": [
+              [
+                "ccurve",
+                "Distress inverts the curve and hurts a steepener"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b4",
+        "mod": "FIC.8–FIC.9",
+        "tone": "amber",
+        "t": "Connecting the dots",
+        "tag": "Five chains, one grid, eleven hooks",
+        "c": [
+          {
+            "id": "chains",
+            "mod": "FIC.8",
+            "t": "Five shock chains",
+            "tag": "Hike · vol ↑ · leverage ↑ · time · recovery ↑",
+            "from": [
+              "c8-a",
+              "c8-b",
+              "c8-c",
+              "c8-d",
+              "c8-e"
+            ]
+          },
+          {
+            "id": "grid",
+            "mod": "FIC.8",
+            "t": "Master what-if grid",
+            "tag": "Every driver × every output",
+            "from": [
+              "c8-grid"
+            ]
+          },
+          {
+            "id": "hooks",
+            "mod": "FIC.9",
+            "t": "Hooks and traps",
+            "tag": "Eleven hooks, nine traps, five drills",
+            "from": [
+              "c9-hooks",
+              "c9-traps"
+            ]
+          }
+        ]
+      }
+    ]
+  },
   'deriv.0': {
     story: 'A forward’s *price* is set so no one can arbitrage it: carry the spot forward at the risk-free rate, less benefits, plus costs; any gap is cash-and-carry or reverse cash-and-carry (28.S1). The compounding convention depends on the underlying (28.S2). Its *value* later is the PV of the change in forward price (28.S3); the same logic prices index and bond forwards (28.S4), *FRAs* (28.S5) and *swaps*, where the fixed rate makes fixed and floating legs equal (28.S6–28.S8), extended to *currency* and *equity* swaps (28.S9–28.S10) and *bond futures* with a conversion factor (28.S11).',
     branches: [
@@ -24322,6 +26088,12 @@ const PODCASTS = [
     { f: 'podcasts/alt/04-hedge-funds', topic: 'alt.3', t: 'Hedge Fund Strategies', r: 'R33', len: '15:11' },
     { f: 'podcasts/alt/05-rapid-fire', topic: '', t: 'Rapid-Fire Exam Drill', r: 'R30–R33', len: '9:41' },
   ] },
+  { id: 'fi', name: 'Fixed income: connecting the dots', eps: [
+    { f: 'podcasts/fi/01-curve-family', topic: 'fi.5', t: 'The Curve Family: Spot, Forward, Par and Spreads', r: 'R23', len: '12:21' },
+    { f: 'podcasts/fi/02-tree-and-options', topic: '', t: 'Volatility, the Tree and Bonds with Options', r: 'R24–R25', len: '12:07' },
+    { f: 'podcasts/fi/03-credit-and-cds', topic: '', t: 'Default Risk, Credit Models and CDS', r: 'R26–R27', len: '9:32' },
+    { f: 'podcasts/fi/04-connect-the-dots', topic: '', t: 'Five Shocks and a Rapid-Fire Drill', r: 'R23–R27', len: '11:12' },
+  ] },
 ];
 const PD_STORE = 'ledgerPodcast.v1'; // this device only: where each episode stopped, and the speed
 const PD_SPEEDS = [1, 1.25, 1.5, 1.75];
@@ -24560,6 +26332,7 @@ const STATUS = {
   'fi.2': 'progress',
   'fi.3': 'progress',
   'fi.4': 'progress',
+  'fi.5': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
   'alt.0': 'progress',
@@ -26704,6 +28477,203 @@ const EXAM = {
       ],
     },
   },
+  'fi.5': {
+    "about": [
+      "FI Connections ties R23–R27 into one picture: every price is cash flows discounted at the risk-free spot curve plus spreads, adjusted for whoever owns an option. Three engines move everything: rate level and shape, volatility, and default risk.",
+      "The curves (R23) feed the tree (R24), the tree values options (R25), credit is another option plus PD × LGD (R26), and a CDS trades that credit risk on its own (R27). The unifying rule: volatility helps whoever owns the option."
+    ],
+    "FIC.1": {
+      "s": [
+        "Price = cash flows ÷ (spot curve + spreads), adjusted for options. Each reading adds a layer; three engines (rates, volatility, default) drive every what-if."
+      ],
+      "n": [
+        [
+          "Price = CFs ÷ (spot curve + spreads), adjusted for options.",
+          "The master sentence"
+        ],
+        [
+          "Three engines: rate level/shape, volatility, default risk.",
+          "The three engines"
+        ]
+      ]
+    },
+    "FIC.2": {
+      "s": [
+        "Spot = geometric average of forwards; par = weighted average of spots. Upward curve: forward > spot > par. Future spots below the forwards make longer bonds cheap; riding an unchanged upward curve is the extreme case."
+      ],
+      "n": [
+        [
+          "Upward: F > S > Par; downward: Par > S > F.",
+          "Forward > Spot > Par"
+        ],
+        [
+          "Future spot < forward → bond undervalued → buy longer.",
+          "Undervalued"
+        ],
+        [
+          "Riding the curve: upward and unchanged curve, buy longer than horizon.",
+          "Riding the yield curve"
+        ]
+      ]
+    },
+    "FIC.3": {
+      "s": [
+        "Spreads stack on the government curve (swap spread, I-spread, Z-spread, OAS). Theories differ on what a forward means; any premium sits on the forward. Effective duration sees parallel shifts, KRDs see shape. Bear flattens, bull steepens."
+      ],
+      "n": [
+        [
+          "Z-spread is over every government spot rate; I-spread over swaps.",
+          "One constant spread that makes PV = price"
+        ],
+        [
+          "F = E(S) + premium → forwards overstate expected spots.",
+          "The premium sits on the forward"
+        ],
+        [
+          "Σ KRDs = effective duration; effective duration misses shape.",
+          "Σ KRDs = effective duration"
+        ],
+        [
+          "Tightening = bear flattening; easing = bull steepening.",
+          "Bear flattening"
+        ]
+      ]
+    },
+    "FIC.4": {
+      "s": [
+        "Node rates are one-period forwards; σ fans the tree, but calibration keeps option-free bond values unchanged, so σ only matters when an option exists."
+      ],
+      "n": [
+        [
+          "Node rates = one-period forward rates.",
+          "one-period forward rates"
+        ],
+        [
+          "r_up = r_down × e^(2σ).",
+          "r_up = r_down × e^(2σ)"
+        ],
+        [
+          "Option-free bond value does not depend on σ.",
+          "does not depend on σ"
+        ]
+      ]
+    },
+    "FIC.5": {
+      "s": [
+        "Callable = straight − call; putable = straight + put. Volatility helps the option owner. OAS = Z − option cost; σ ↑ lowers a callable’s OAS. The option shortens the side it protects. A convertible is a bond floor plus a stock call."
+      ],
+      "n": [
+        [
+          "σ ↑: callable ↓, putable ↑, straight unchanged.",
+          "Rate volatility ↑"
+        ],
+        [
+          "Option cost = Z − OAS; callable OAS < Z, putable OAS > Z.",
+          "Option cost (bps) = Z-spread − OAS"
+        ],
+        [
+          "σ ↑ → callable OAS ↓.",
+          "OAS needed to match price"
+        ],
+        [
+          "Callable up-dur > down-dur; putable down-dur > up-dur.",
+          "Up-duration > down-duration"
+        ],
+        [
+          "Convertible min value = max(straight, conversion value).",
+          "Minimum value = max(straight value, conversion value)"
+        ]
+      ]
+    },
+    "FIC.6": {
+      "s": [
+        "EL = PD × LGD; CVA = Σ PV(EL); risky value = default-free − CVA; spread ≈ PD × LGD. In the structural model debt = risk-free − put, so asset vol and leverage widen spreads. Safe firms’ credit curves slope up, distressed ones invert."
+      ],
+      "n": [
+        [
+          "Credit spread ≈ annual PD × LGD.",
+          "Credit spread ≈ annual PD × LGD"
+        ],
+        [
+          "Debt = risk-free debt − put on assets; equity = call.",
+          "Risky debt = risk-free debt − put"
+        ],
+        [
+          "Asset vol ↑ → spread ↑, equity ↑.",
+          "Asset volatility ↑"
+        ],
+        [
+          "Distressed: flat or inverted credit curve.",
+          "Flat or inverted"
+        ]
+      ]
+    },
+    "FIC.7": {
+      "s": [
+        "Protection buyer is short credit and gains when spreads widen. CDS spread ≈ hazard × LGD, the same formula as the bond spread. Upfront ≈ (spread − coupon) × duration; value change ≈ Δspread × duration × notional."
+      ],
+      "n": [
+        [
+          "Buyer = short credit, gains when spread widens.",
+          "Short credit"
+        ],
+        [
+          "CDS spread ≈ hazard × LGD (= R26 spread formula).",
+          "CDS spread ≈ hazard rate × LGD"
+        ],
+        [
+          "Upfront ≈ (spread − coupon) × duration; buyer pays if spread > coupon.",
+          "Upfront % ≈ (CDS spread − fixed coupon)"
+        ],
+        [
+          "Bond spread > CDS spread → buy bond + buy protection.",
+          "Basis trade"
+        ]
+      ]
+    },
+    "FIC.8": {
+      "s": [
+        "Five shocks traced through all five readings: a rate hike, rate volatility up, leverage up, an unchanged curve over time, and better recovery. The master grid shows each driver’s effect on curves, option bonds, OAS, duration, spreads and CDS."
+      ],
+      "n": [
+        [
+          "Hike: bear flattening → putable falls least → spreads and CDS ↑.",
+          "bear flattening"
+        ],
+        [
+          "Rate vol ↑: straight unchanged, callable ↓, putable ↑, OAS ↓.",
+          "straight bonds unchanged"
+        ],
+        [
+          "Leverage ↑: default put ↑ → spread ↑ → CDS buyer gains.",
+          "The default put bondholders sold"
+        ],
+        [
+          "Recovery ↑: spread ↓ → protection seller gains.",
+          "protection seller gains"
+        ]
+      ]
+    },
+    "FIC.9": {
+      "s": [
+        "Eleven hooks, cross-reading traps and five trace-it-yourself chains."
+      ],
+      "n": [
+        [
+          "Volatility helps the option’s owner.",
+          "Volatility helps the option’s owner"
+        ],
+        [
+          "The option shortens the side it protects.",
+          "The option shortens the side it protects"
+        ],
+        [
+          "Risk-neutral PD > actual PD.",
+          "Risk-neutral PD"
+        ]
+      ]
+    }
+  },
   'deriv.0': {
     about: [
       'Reading 28 prices and values *forward commitments*: forwards, futures, FRAs and swaps. Two ideas run through all of it. *Pricing* sets the contract rate at initiation so that no arbitrage is possible, which makes the contract worth zero at the start: the forward price is the spot price carried forward at the risk-free rate, less benefits and plus costs of holding the asset. *Valuation* later is the gain or loss from the agreed price versus the price you could lock in today, discounted for the time left.',
@@ -28694,6 +30664,13 @@ function renderBlock(b, gaps, refs) {
         ${b.lines.map(l => `<div class="nb-formula-line">${rt(l)}</div>`).join('')}
         ${b.note ? `<div class="nb-formula-note">${rt(b.note)}</div>` : ''}
       </div>`;
+      break;
+    case 'see':
+      // Jump buttons to the sessions a cross-reading block draws on: items are [topic, module, label].
+      body = `<div class="nb-see"><span class="nb-see-label">${escapeHtml(b.label || '🔗 In the notes')}</span>${b.items.map(i => exGoBtn(i[0], i[1], '', i[2])).join('')}</div>`;
+      break;
+    case 'reveal':
+      body = `<details class="nb-reveal"><summary>${rt(b.q)}</summary><div class="nb-a">${rt(b.a)}</div></details>`;
       break;
     case 'qa':
       body = `<div class="nb-qa"><div class="nb-q">${rt(b.q)}</div><div class="nb-a">${rt(b.a)}</div></div>`;

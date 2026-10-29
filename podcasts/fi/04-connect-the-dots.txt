@@ -1,0 +1,113 @@
+TITLE: Connecting the Dots - Five Shocks and a Rapid-Fire Drill (R23 to R27)
+
+AVA: Welcome to the final episode of Connecting the Dots. I'm Ava.
+ANDREW: And I'm Andrew. Today there's nothing new to learn. We take five shocks and trace each one through all five fixed income readings. Then a rapid-fire drill, with a pause after each question so you can answer out loud before we do.
+AVA: First, remind us of the three engines.
+ANDREW: Rate level and shape. Volatility. Default risk. Every shock is one of them.
+[PAUSE 1]
+AVA: Shock one. The central bank raises rates to fight inflation.
+ANDREW: Step one, the shape. The central bank pushes the short end, so short rates jump a lot and long rates rise a little. Yields up is bearish, and the short end rising more is flattening. So, bear flattening.
+AVA: Step two, the curves.
+ANDREW: Spot rates rise, so forward rates rise, and those forward rates are the node rates in the tree. The whole tree shifts up.
+AVA: Step three, bond prices.
+ANDREW: All prices fall, but not equally. The straight bond falls the most. The putable falls the least, because the put floors its price. That's why its up-duration is small. And the callable falls less than a straight bond while the call still matters.
+AVA: Step four, what happens to the callable's options.
+ANDREW: Higher rates make the call less valuable. So the callable starts to behave like a straight bond. Its effective duration lengthens, and its negative convexity fades.
+AVA: Step five, the flatter curve.
+ANDREW: A flatter curve raises the value of the call and lowers the value of the put. So there's a small second effect working against the first.
+AVA: Step six, credit.
+ANDREW: Tighter money slows the economy. Probabilities of default rise, credit spreads widen, most for high yield. CDS spreads widen, and protection buyers gain.
+AVA: That's one decision going through all five readings.
+[PAUSE 1]
+AVA: Shock two. Interest rate volatility rises, but the curve doesn't move.
+ANDREW: The tree fans out wider. But it's calibrated, so plain bonds don't change at all.
+AVA: And the bonds with options?
+ANDREW: Volatility helps the owner. Call worth more, so callable down. Put worth more, so putable up. Cap worth more, so capped floater down. Floor worth more, so floored floater up.
+AVA: And the OAS of the callable, at today's price?
+ANDREW: It falls. The model now charges more for the option, so less spread is left over.
+AVA: And a callable convertible?
+ANDREW: The issuer's call is worth more, so the convertible is worth less.
+[PAUSE 1]
+AVA: Shock three. A company borrows heavily to buy back its own shares.
+ANDREW: Leverage goes up. In the structural model, the default put that bondholders have written moves closer to the money. So the debt is worth less, and the credit spread widens.
+AVA: And the reduced-form view?
+ANDREW: The hazard rate rises, so C.V.A. rises and the bond price falls.
+AVA: And the CDS market?
+ANDREW: The CDS spread widens. The protection buyer gains roughly the change in spread times duration times notional. And if the company slides towards distress, its credit curve flattens or inverts. So someone holding long-dated protection against short-dated protection, a steepener, may actually lose as the short end blows out.
+AVA: That's a nice subtle one. Distress hits the short end hardest.
+[PAUSE 1]
+AVA: Shock four. Nothing happens. The upward-sloping curve stays exactly where it is, and a year goes by.
+ANDREW: The curve was pricing in forward rates above today's spots. But spots stayed put. So future spots came in below the forwards.
+AVA: Which means?
+ANDREW: Bonds were cheap relative to what actually happened. A bond longer than your horizon rolls down the curve, its yield falls, its price rises. That's riding the yield curve.
+AVA: And the theory behind it?
+ANDREW: Liquidity preference. Forwards include a premium, so they overstate future rates. Part of your extra return is that premium, paid to you for holding longer bonds.
+[PAUSE 1]
+AVA: Shock five. Markets decide that recoveries on this company's debt will be higher than they thought.
+ANDREW: Loss given default falls. Expected loss falls, C.V.A. falls, the credit spread narrows, and the bond price rises.
+AVA: And CDS?
+ANDREW: The CDS spread narrows, so the protection seller gains. And the cheapest-to-deliver option is worth less to the buyer, because the deliverable bonds are all worth more.
+[PAUSE 1]
+AVA: Okay, rapid-fire drill. I'll ask, you'll get a few seconds to answer out loud, then Andrew gives the answer. Ready?
+ANDREW: Ready.
+AVA: Question one. The spot curve slopes upward. Put forward, spot and par in order, highest first.
+[PAUSE 5]
+ANDREW: Forward, then spot, then par. The forward runs ahead, par lags.
+AVA: Question two. In the binomial tree, are the node rates spot rates or forward rates?
+[PAUSE 4]
+ANDREW: One-period forward rates.
+AVA: Question three. Volatility rises. What happens to an option-free bond's value in a calibrated tree?
+[PAUSE 4]
+ANDREW: Nothing. Volatility only matters when there's an option.
+AVA: Question four. Volatility rises. What happens to the callable bond, and the putable bond?
+[PAUSE 5]
+ANDREW: Callable falls, putable rises. Volatility helps the owner of the option.
+AVA: Question five. You assume higher volatility. What happens to a callable bond's OAS?
+[PAUSE 5]
+ANDREW: It falls. The model says the call is worth more, so less spread is needed to match the price.
+AVA: Question six. Which is bigger for a putable bond, the up-duration or the down-duration?
+[PAUSE 5]
+ANDREW: The down-duration. The put floors the price when rates rise, so the up-duration is small. The option shortens the side it protects.
+AVA: Question seven. The yield curve goes from upward sloping to flat. What happens to the value of a call option, and of a put option?
+[PAUSE 5]
+ANDREW: Call value rises. Put value falls.
+AVA: Question eight. A callable has a Z-spread of a hundred and eighty basis points and an OAS of a hundred and forty. What's the option cost?
+[PAUSE 5]
+ANDREW: Forty basis points. Z-spread minus OAS.
+AVA: Question nine. Can liquidity preference theory explain a downward-sloping yield curve?
+[PAUSE 4]
+ANDREW: Yes, if rates are expected to fall by more than the liquidity premium.
+AVA: Question ten. The central bank cuts rates. What's the curve move called?
+[PAUSE 4]
+ANDREW: Bull steepening.
+AVA: Question eleven. Annual default probability three percent, recovery forty percent. Rough credit spread?
+[PAUSE 6]
+ANDREW: Three percent times sixty percent, so one point eight percent, about a hundred and eighty basis points.
+AVA: Question twelve. In the structural model, the firm's asset volatility rises. What happens to the credit spread and to the equity?
+[PAUSE 5]
+ANDREW: Spread widens, equity rises. Shareholders own the call on the assets and the default put.
+AVA: Question thirteen. Is the risk-neutral default probability higher or lower than the historical one?
+[PAUSE 4]
+ANDREW: Higher. Prices include risk and liquidity premiums.
+AVA: Question fourteen. What shape is the credit spread curve for a distressed issuer?
+[PAUSE 4]
+ANDREW: Flat or inverted.
+AVA: Question fifteen. CDS spread four hundred basis points, standard coupon five hundred. Who pays the upfront premium?
+[PAUSE 6]
+ANDREW: The seller. The spread is below the coupon, so the buyer is overpaying each year, and the seller compensates them upfront.
+AVA: Question sixteen. CDS spread rises from two hundred to two hundred and sixty basis points. Duration five, notional twenty million. Who gains, and roughly how much?
+[PAUSE 8]
+ANDREW: The protection buyer. Sixty basis points times five times twenty million is six hundred thousand.
+AVA: Question seventeen. A bond's credit spread is higher than its CDS spread. What's the basis trade?
+[PAUSE 5]
+ANDREW: Buy the bond and buy protection.
+AVA: Question eighteen. Last one. What single formula links reading twenty-six and reading twenty-seven?
+[PAUSE 4]
+ANDREW: Spread is roughly probability of default times loss given default. It works for the bond's credit spread and for the CDS spread.
+[PAUSE 1]
+AVA: Let's finish with the eleven hooks, all in one go.
+ANDREW: One. The forward runs ahead, par lags. Two. The premium sits on the forward. Three. Below the forward, ride it. Four. Bear flattens, bull steepens. Five. In a calibrated tree, volatility only matters with an option. Six. Volatility helps the option's owner. Seven. OAS is what's left after paying for the option. Eight. The option shortens the side it protects. Nine. Spread is about P.D. times L.G.D., in bonds and in CDS. Ten. The protection buyer is short credit and likes bad news. Eleven. Safe firms slope up, distressed firms invert.
+AVA: And the one-sentence summary of all of fixed income?
+ANDREW: Cash flows, discounted at the spot curve plus spreads, adjusted for whoever owns an option. Three engines move it: rates, volatility, and default.
+AVA: That's the end of Connecting the Dots. Good luck on the twenty-second of November.
+ANDREW: You've got this.

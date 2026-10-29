@@ -1,0 +1,87 @@
+TITLE: The Curve Family - Spot, Forward, Par and Spreads (R23)
+
+AVA: Welcome to the CFA Ledger Podcast. This is a special Fixed Income series called Connecting the Dots. I'm Ava.
+ANDREW: And I'm Andrew. Over four episodes we're not going to re-teach every formula in the five fixed income readings. Instead we'll show you how they all plug into each other, so that when the exam says "rates rise" or "volatility goes up", you can follow the effect all the way through.
+AVA: So let's start with the big picture. Andrew, if you had to sum up all of fixed income in one sentence?
+ANDREW: Every bond price is its cash flows, discounted at the risk-free spot curve plus some spreads, and then adjusted for any option that someone owns.
+AVA: Say that again, slowly.
+ANDREW: Cash flows. Discounted at the spot curve, plus spreads. Adjusted for options. That's it. And each reading adds one layer. Reading twenty-three builds the curves. Reading twenty-four adds volatility, through the binomial tree. Reading twenty-five adds options on the bond. Reading twenty-six adds the risk of default. And reading twenty-seven takes that default risk out and trades it on its own, as a credit default swap.
+AVA: So it's like a building. The spot curve is the ground floor, and every reading adds a floor on top.
+ANDREW: Exactly. And there are only three engines that move anything in this building. One: the level and shape of rates. Two: volatility. Three: default risk. Every "what if" question on the exam is one of those three engines moving.
+[PAUSE 1]
+AVA: Okay, ground floor. The spot rate. What is it, in plain English?
+ANDREW: A spot rate is the yield on a zero-coupon bond. One payment, at one date. So the two-year spot rate is simply: what return do I earn, per year, if I lock my money away for two years, starting today?
+AVA: And the forward rate?
+ANDREW: A forward rate is a rate for a future period, agreed today. The one-year rate, one year from now. People write it as one-y-one-y.
+AVA: Here's the analogy I like. Think of a road trip. The spot rate is your average speed for the whole trip so far. The forward rate is your speed on the next leg.
+ANDREW: That's a great one, because it explains the shape rule straight away. If you're speeding up, your speed on the next leg must be higher than your average so far. So when the spot curve is rising, the forward rate sits above the spot rate.
+AVA: Give us numbers.
+ANDREW: Say the one-year spot is two percent and the two-year spot is three percent. To average three percent over two years, having only earned two percent in year one, year two must earn about four percent. That four percent is the one-year forward rate, one year from now. Four is above three.
+AVA: And the par rate?
+ANDREW: The par rate is the coupon that makes a bond price exactly at a hundred. A coupon bond pays you something every year, and each coupon is discounted at its own spot rate. So the par rate is a kind of weighted average of the spot rates along the way.
+AVA: So in our example?
+ANDREW: The two-year par rate comes out at about two point nine eight percent, just under the three percent spot, because the first coupon was discounted at the lower two percent rate.
+AVA: So upward-sloping curve: forward four, spot three, par just under three.
+ANDREW: Forward, then spot, then par. And when the curve slopes down, everything flips: par on top, then spot, then forward at the bottom. And if the curve is flat, all three are equal.
+AVA: The hook from our notes is: the forward runs ahead, par lags behind.
+ANDREW: Because the forward is the marginal rate, the spot is the average, and par is an average of averages. Whichever way the curve is moving, the forward moves furthest and par moves least.
+AVA: And YTM fits in there too?
+ANDREW: Yield to maturity is the one single rate that gives you the same price. It's another cash-flow-weighted average of the spot rates. So for a coupon bond on a rising curve, YTM sits a little below the spot rate for the same maturity.
+AVA: And going the other way, from par rates back to spot rates, that's bootstrapping.
+ANDREW: Climbing the ladder. You take the one-year par bond, get the one-year spot. Use that to strip the first coupon out of the two-year par bond, and get the two-year spot. And so on, one rung at a time.
+[PAUSE 1]
+AVA: Now the forward pricing model. This sounds technical, but it's just common sense, isn't it?
+ANDREW: It is. The price of a forward contract on a zero is the long zero's price divided by the short zero's price. And the logic is indifference. Buying a three-year zero today must give the same result as buying a one-year zero and locking in a two-year forward for the rest. If it didn't, someone would arbitrage it.
+AVA: Which brings us to the most practical idea in this reading. Forward rates versus the spot rates that actually turn up later.
+ANDREW: Right. Bonds are priced off today's forward rates. So the question is: will future spot rates turn out higher, lower, or the same as today's forwards?
+AVA: Case one: they turn out exactly equal to the forwards.
+ANDREW: Then every bond, whatever its maturity, earns the same return over your horizon. Our notes' example: three bonds, and all three return three percent. No edge anywhere.
+AVA: Case two: future spot rates turn out lower than the forwards.
+ANDREW: Then today's bond prices were built on rates that were too high. So the bonds are cheap. Undervalued. You want the longer maturities.
+AVA: And the extreme version of that is the curve simply staying where it is.
+ANDREW: That's riding the yield curve. The curve slopes upward and doesn't move. You buy a bond longer than your holding period. As time passes, it slides down the curve to a shorter maturity, where yields are lower, so its price goes up. In our notes the three bonds returned three percent, five point zero one percent, and seven point zero three percent. The longest bond won, just by rolling down the hill.
+AVA: So: picture a slide in a playground. You climb up to the long end, and time pushes you down the slope. The steeper the slide, the more you gain.
+ANDREW: Perfect. And the opposite case, future spots above the forwards, means the bonds were overpriced, so you stay short.
+[PAUSE 1]
+AVA: Let's do the term structure theories, because they're really all answering one question. What does a forward rate mean?
+ANDREW: Yes. Pure, or unbiased, expectations theory says the forward rate is simply the market's expected future spot rate. No risk premium. Investors are risk neutral. So an upward curve means rates are expected to rise.
+AVA: Local expectations?
+ANDREW: A softer version. Over short holding periods, every bond earns the risk-free rate. But it allows risk premiums over longer periods.
+AVA: Liquidity preference?
+ANDREW: Investors want extra pay for lending long. So the forward rate equals the expected spot rate plus a liquidity premium. That gives the curve an upward bias. And here's the trap: an upward curve doesn't prove rates will rise. Rates could even be expected to fall, and the premium is big enough to still tilt the curve up.
+AVA: And the classic exam twist: can liquidity preference produce a downward-sloping curve?
+ANDREW: Yes it can. If rates are expected to fall sharply enough, the fall beats the premium. Schweser tests exactly that.
+AVA: Segmented markets and preferred habitat?
+ANDREW: Segmented markets says each maturity is its own island, with its own supply and demand. Forward rates tell you nothing. Preferred habitat says investors have a favourite maturity, but they'll leave it if you pay them enough. So again there's a premium.
+AVA: The hook here is: the premium always sits on the forward side.
+ANDREW: Forward equals expected spot plus premium. So forward rates tend to overstate where rates actually end up. Which, by the way, connects straight back to riding the curve. If forwards overstate future rates, future spots come in lower than the forwards, and longer bonds earn more.
+AVA: Oh, nice. So the theories and the riding strategy are the same idea seen from two sides.
+ANDREW: That's what connecting the dots means.
+[PAUSE 1]
+AVA: Now spreads. I always picture this as a stack of floors.
+ANDREW: Go on.
+AVA: Bottom floor: the government curve. On top of that, the swap curve. The gap between them is the swap spread: swap rate minus government yield for the same maturity. On top of the swap curve sits the corporate bond. The gap between the bond's yield and the swap rate is the I-spread.
+ANDREW: And remember, the swap rate is the fixed leg of the swap. That's a Schweser trap.
+AVA: Then the Z-spread.
+ANDREW: The Z-spread is one constant spread that you add to every single government spot rate, so that the discounted cash flows equal the bond's price. It uses the whole curve, not just one yield. So it's more accurate than a simple yield gap.
+AVA: And the two banking stress gauges.
+ANDREW: The TED spread: three-month bank rate, MRR, minus the three-month T-bill. And the MRR to OIS spread. Both measure bank credit and liquidity risk. When they widen, the banking system is nervous.
+AVA: And the big point about all spreads?
+ANDREW: The time value of money lives in the benchmark curve, not in the spread. The spread is only the extra pay for credit risk, liquidity, and options. Hold on to that, because in episode two the OAS is just this same stack with one more floor taken off.
+[PAUSE 1]
+AVA: Duration. There's a family of them.
+ANDREW: Macaulay duration is the weighted average time until you get your cash back. Modified duration is the price sensitivity to the bond's own yield to maturity, and it only works for option-free bonds. Effective duration measures sensitivity to a parallel shift in the whole benchmark curve, and it works with options. And key rate durations measure sensitivity to one point on the curve at a time.
+AVA: And the link between them?
+ANDREW: Add up all the key rate durations and you get the effective duration. Effective duration only sees parallel moves. Key rate durations see changes in shape.
+AVA: And the curve moves in three ways.
+ANDREW: Level, steepness and curvature. Level, a parallel shift, explains most of the movement. Then steepness. Then curvature, the butterfly.
+AVA: And volatility has a term structure too.
+ANDREW: Short-term rates are usually more volatile, because they're driven by uncertainty about what the central bank will do. Long-term volatility is lower, and it's driven by inflation and the real economy.
+[PAUSE 1]
+AVA: Last piece for this episode. Monetary policy and the shape of the curve.
+ANDREW: The central bank controls the short end. So when it tightens, short rates jump a lot and long rates rise a little. Rates up means bond prices down, which is bearish. And the short end rising more means the curve flattens. Bear flattening.
+AVA: And when it eases, short rates fall a lot, prices rise, that's bullish, and the curve steepens. Bull steepening.
+ANDREW: Hook: bear flattens, bull steepens. Bear means yields up, bull means yields down. The short end moves more because that's where the central bank pushes.
+AVA: Quick recap before we go. Spot is the average speed, forward is the next leg. On an upward curve: forward, then spot, then par. If future spots come in below the forwards, longer bonds win, and riding the curve is the extreme case. Theories all ask what the forward means, and any premium sits on the forward side. Spreads stack: government, swap spread, swap curve, I-spread, the bond. Effective duration sees parallel moves, key rate durations see shape. And bear flattens, bull steepens.
+ANDREW: Next episode we add volatility, and see why it changes nothing for a plain bond and everything for a bond with an option.
+AVA: See you there.
