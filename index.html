@@ -26089,10 +26089,10 @@ const PODCASTS = [
     { f: 'podcasts/alt/05-rapid-fire', topic: '', t: 'Rapid-Fire Exam Drill', r: 'R30–R33', len: '9:41' },
   ] },
   { id: 'fi', name: 'Fixed income: connecting the dots', eps: [
-    { f: 'podcasts/fi/01-curve-family', topic: 'fi.5', t: 'The Curve Family: Spot, Forward, Par and Spreads', r: 'R23', len: '12:21' },
-    { f: 'podcasts/fi/02-tree-and-options', topic: '', t: 'Volatility, the Tree and Bonds with Options', r: 'R24–R25', len: '12:07' },
-    { f: 'podcasts/fi/03-credit-and-cds', topic: '', t: 'Default Risk, Credit Models and CDS', r: 'R26–R27', len: '9:32' },
-    { f: 'podcasts/fi/04-connect-the-dots', topic: '', t: 'Five Shocks and a Rapid-Fire Drill', r: 'R23–R27', len: '11:12' },
+    { f: 'podcasts/fi/01-curve-family', topic: 'fi.5', mod: 'FIC.1', covers: 'FIC.1–FIC.3', t: 'The Curve Family: Spot, Forward, Par and Spreads', r: 'R23', len: '12:21' },
+    { f: 'podcasts/fi/02-tree-and-options', topic: 'fi.5', mod: 'FIC.4', covers: 'FIC.4–FIC.5', t: 'Volatility, the Tree and Bonds with Options', r: 'R24–R25', len: '12:07' },
+    { f: 'podcasts/fi/03-credit-and-cds', topic: 'fi.5', mod: 'FIC.6', covers: 'FIC.6–FIC.7', t: 'Default Risk, Credit Models and CDS', r: 'R26–R27', len: '9:32' },
+    { f: 'podcasts/fi/04-connect-the-dots', topic: 'fi.5', mod: 'FIC.8', covers: 'FIC.8–FIC.9', t: 'Five Shocks and a Rapid-Fire Drill', r: 'R23–R27', len: '11:12' },
   ] },
 ];
 const PD_STORE = 'ledgerPodcast.v1'; // this device only: where each episode stopped, and the speed
@@ -29993,7 +29993,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-review-list', 'f-test-levels'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -30727,7 +30727,7 @@ function renderFlow(key) {
   return flow.map(s => {
     const anchors = exAnchors(key, s.module);
     const hasF = exFormulas(key, s.module).length, hasN = exNotes(key, s.module).length;
-    return `
+    return `${safeHtml(() => pdSessionHtml(key, s.module))}
     <section class="nb-session" data-group="${escapeHtml(s.module)}">
       <div class="nb-session-head">
         <span class="nb-session-tag${s.tone === 'teal' ? ' teal' : ''}">${escapeHtml(s.module)}</span>
@@ -32706,9 +32706,16 @@ function pdNavHtml() {
   const left = PODCASTS.reduce((n, s) => n + s.eps.filter(e => !pdDone(e.f)).length, 0);
   return `<div class="ex-nav-label">Listen</div><div class="topic-row${selectedKey === 'podcasts' ? ' active' : ''}" data-exview="podcasts" data-new="f-podcasts" role="button" tabindex="0"><span>🎧</span><span style="flex:1;">Podcasts</span>${left ? '<b>' + left + ' to hear</b>' : ''}</div>`;
 }
+// An episode with `mod` sits above that session instead, for a reading split across several episodes.
+function pdSessionHtml(topic, mod) {
+  let e = null, n = 0, of = 0;
+  PODCASTS.forEach(s => s.eps.forEach((x, i) => { if (x.topic === topic && x.mod === mod) { e = x; n = i + 1; of = s.eps.length; } }));
+  if (!e) return '';
+  return `<button type="button" class="mm-jump pd-jump" data-pdplay="${escapeHtml(e.f)}" data-new="f-pod-session">🎧 <b>Listen · episode ${n} of ${of}</b> ${escapeHtml(e.t)} · ${parseInt(e.len, 10)} min, covers ${escapeHtml(e.covers || mod)} <span>${pd.cur === e.f ? 'Playing below ↓' : 'Play ▶'}</span></button>`;
+}
 function pdReadingHtml(topic) {
   let e = null;
-  PODCASTS.forEach(s => s.eps.forEach(x => { if (x.topic === topic) e = x; }));
+  PODCASTS.forEach(s => s.eps.forEach(x => { if (x.topic === topic && !x.mod) e = x; }));
   if (!e) return '';
   return `<button type="button" class="mm-jump pd-jump" data-pdplay="${escapeHtml(e.f)}" data-new="f-pod-reading">🎧 <b>Listen</b>: this reading as a ${parseInt(e.len, 10)}-minute podcast <span>${pd.cur === e.f ? 'Playing below ↓' : 'Play ▶'}</span></button>`;
 }
