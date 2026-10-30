@@ -406,6 +406,31 @@ window.addEventListener('error', function (e) {
   .nb-plot-tick { fill: var(--ink-soft); font-size: 10.5px; }
   .nb-plot-axlabel { fill: var(--ink-faint); font-size: 10.5px; font-style: italic; }
   .nb-plot-dot { fill: var(--ink); }
+  /* Question diagrams: a tree or cash-flow timeline drawn inside a worked example or quiz question.
+     Unknowns show as ?; "Fill in the answers" swaps in the solved values. Kept readable on phones by
+     scrolling sideways inside the frame rather than shrinking the text. */
+  .nb-example .nb-dia { margin: 8px 0 10px; }
+  .nb-dia svg.q-min { min-width: 420px; }
+  .nb-dia .ans { display: none; }
+  .nb-dia.filled .ans { display: inline; }
+  .nb-dia.filled .qq { display: none; }
+  .nb-dia text.ans, .nb-dia tspan.ans { fill: var(--teal); font-weight: 700; }
+  .nb-dia .qv { fill: var(--amber); font-weight: 700; }
+  .nb-dia-fill { margin-top: 6px; }
+  .nb-cf-axis { stroke: var(--ink-soft); stroke-width: 1.4; fill: none; }
+  .nb-cf-tick { stroke: var(--ink-soft); stroke-width: 1.2; }
+  .nb-cf-tlab { fill: var(--ink-faint); font-family: var(--mono); font-size: 10px; text-anchor: middle; }
+  .nb-cf-flow { fill: var(--ink); font-size: 12px; font-weight: 700; text-anchor: middle; }
+  .nb-cf-flow.neg { fill: var(--rose); }
+  .nb-cf-flow2 { fill: var(--ink-soft); font-size: 10.5px; text-anchor: middle; }
+  .nb-cf-stem { stroke: var(--ink-faint); stroke-width: 1.2; }
+  .nb-cf-rlab { fill: var(--ink-faint); font-size: 10.5px; font-style: italic; text-anchor: end; }
+  .nb-cf-cell { fill: var(--ink); font-size: 11px; text-anchor: middle; }
+  .nb-cf-span { stroke: var(--teal); stroke-width: 1.3; fill: none; }
+  .nb-cf-span.violet { stroke: var(--violet); } .nb-cf-span.amber { stroke: var(--amber); } .nb-cf-span.rose { stroke: var(--rose); }
+  .nb-cf-head { fill: var(--teal); }
+  .nb-cf-head.violet { fill: var(--violet); } .nb-cf-head.amber { fill: var(--amber); } .nb-cf-head.rose { fill: var(--rose); }
+  .nb-cf-slab { fill: var(--ink); font-size: 11px; text-anchor: middle; }
 
   .nb-split { margin-bottom: 14px; }
   .nb-split-head { text-align: center; font-size: 13px; font-weight: 700; color: var(--ink); border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 9px 12px; max-width: 340px; margin: 0 auto 4px; }
@@ -11142,7 +11167,14 @@ const CONTENT = {
               "If the spot curve is *not* flat, a coupon bond’s YTM is a *weighted average* of the spot rates, closest to the spot rate at maturity because the principal dominates.",
               "Expected return = YTM only under the three conditions on my page. The second implies the bond is *option-free with no default risk*; the third (reinvesting at the YTM) is the *least realistic*. *Realized* return uses the actual reinvestment rates.",
             ] },
-          { k: 'example', title: "Example — Price and YTM of a coupon bond from spot rates (Schweser)", body: [
+          { k: 'example', title: "Example — Price and YTM of a coupon bond from spot rates (Schweser)", new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, rp: 62, w: 570, title: 'Each cash flow at its own spot rate',
+              flows: [{ t: 0, v: 'Price = ?', a: 'Price = 922.64', neg: 1 }, { t: 1, v: '40' }, { t: 2, v: '40' }, { t: 3, v: '1,040' }],
+              rows: [
+                { label: 'Spot rate', cells: ['', 'S₁ 5%', 'S₂ 6%', 'S₃ 7%'] },
+                { label: 'PV', cells: ['', { q: '40 ÷ 1.05 = ?', a: '38.10' }, { q: '40 ÷ 1.06² = ?', a: '35.60' }, { q: '1,040 ÷ 1.07³ = ?', a: '848.95' }] },
+              ],
+              spans: [{ from: 0, to: 3, label: 'One rate for all three, y₃ = ?', a: 'y₃ ≈ 6.94%: between S₁ and S₃, nearest S₃', tone: 'amber' }] }, body: [
               "Three-year, 4% annual-pay, $1,000 bond. S₁ = 5%, S₂ = 6%, S₃ = 7%.",
             ], steps: [
               "Price = 40 ÷ 1.05 + 40 ÷ 1.06² + 1,040 ÷ 1.07³ = 38.10 + 35.60 + 848.95 = *$922.64*.",
@@ -11154,7 +11186,15 @@ const CONTENT = {
               "The long spot rate is the *geometric mean* of the one-period spot rate and the one-period forward rates: (1 + S₃)³ = (1 + S₁)(1 + f(1,1))(1 + f(2,1)).",
               "Upward-sloping spot curve → f(j,k) > S(j+k) and the forward curve lies *above* the spot curve (it also rises as j increases); downward-sloping → below.",
             ] },
-          { k: 'example', title: "Example — Forward price and forward rate (Schweser)", body: [
+          { k: 'example', title: "Example — Forward price and forward rate (Schweser)", new: '2026-10-30',
+            dia: { k: 'cflow', n: 5, title: 'Two spot rates from today, one forward rate between them',
+              flows: [{ t: 2, v: 'F(2,3) = ?', a: 'F(2,3) = 0.8082', v2: 'price agreed today' }, { t: 5, v: '$1', v2: 'zero matures' }],
+              spans: [
+                { from: 0, to: 2, label: 'S₂ = 4%', tone: 'violet', row: 0 },
+                { from: 2, to: 5, label: 'f(2,3) = ?', a: 'f(2,3) ≈ 7.35%', tone: 'amber', row: 0 },
+                { from: 0, to: 5, label: 'S₅ = 6%', tone: 'violet', row: 1 },
+              ],
+              note: 'Same money either way: (1.06)⁵ = (1.04)² × (1 + f(2,3))³.' }, body: [
               "S₂ = 4%, S₅ = 6%. Find the forward price in two years of a three-year $1 zero, and f(2,3).",
             ], steps: [
               "P₂ = 1 ÷ 1.04² = 0.9246; P₅ = 1 ÷ 1.06⁵ = 0.7473.",
@@ -11209,7 +11249,15 @@ const CONTENT = {
             'If expected spot rates are the *same as forward rates*, holding a long-term bond or a short-term bond will give the *same returns* over the investment horizon.',
             'If expected spot rates are different from forward rates, or are *lower than forward rates*, then holding a long-term bond for short investment horizons would yield *higher returns*.',
           ] },
-          { k: 'example', id: 's3-evol', title: 'Example — Spot rate evolution (case 1: expected spot rates = forward rates)',
+          { k: 'example', id: 's3-evol', title: 'Example — Spot rate evolution (case 1: expected spot rates = forward rates)', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 80, title: 'Buy today, sell at the 1-year horizon', labels: ['Today', 'Yr 1', 'Yr 2', 'Yr 3'],
+              rows: [
+                { label: '1-yr zero', cells: [{ q: 'buy ?', a: 'buy 970.87' }, '1,000'] },
+                { label: '2-yr zero', cells: [{ q: 'buy ?', a: 'buy 924.56' }, { q: 'sell ? @5.01%', a: 'sell 952.29' }, '(1,000)'] },
+                { label: '3-yr zero', cells: [{ q: 'buy ?', a: 'buy 863.84' }, { q: 'sell ? @6.01%', a: 'sell 889.82' }, '', '(1,000)'] },
+              ],
+              spans: [{ from: 0, to: 1, label: '1-year return on each = ?', a: '3% · 3% · 3%', tone: 'amber' }],
+              note: 'Today’s prices use today’s spot rates (3%, 4%, 5%). At year 1 the longer zeros are sold at the year-1 rate shown. Bracketed flows fall after the horizon.' },
             body: ['Jane Doshi, CFA, has collected benchmark spot rates as shown below. Calculate the 1-year holding period return of a 1-year, a 2-year and a 3-year zero-coupon bond (FV 1,000).'],
             given: [
               { label: 'Spot rates today (1, 2, 3 yr)', val: '3.00% · 4.00% · 5.00%' },
@@ -11221,7 +11269,15 @@ const CONTENT = {
               '3-year zero: P₀ = 1000 ÷ 1.05³ = *863.84*; sell at P₁ = 1000 ÷ 1.0601² = *889.82*; return = (889.82 − 863.84) ÷ 863.84 = *3%*',
             ],
             result: 'All three bonds return 3% — because the expected spot rates were the same as today’s forward rates (1y1y = 5.01%, 1y2y = 6.01%)' },
-          { k: 'example', id: 's3-unch', title: 'Example — Spot rate evolution (case 2: the yield curve stays unchanged)',
+          { k: 'example', id: 's3-unch', title: 'Example — Spot rate evolution (case 2: the yield curve stays unchanged)', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 80, title: 'Same bonds, curve unchanged at year 1', labels: ['Today', 'Yr 1', 'Yr 2', 'Yr 3'],
+              rows: [
+                { label: '1-yr zero', cells: [{ q: 'buy ?', a: 'buy 970.87' }, '1,000'] },
+                { label: '2-yr zero', cells: [{ q: 'buy ?', a: 'buy 924.56' }, { q: 'sell ? @3%', a: 'sell 970.87' }, '(1,000)'] },
+                { label: '3-yr zero', cells: [{ q: 'buy ?', a: 'buy 863.84' }, { q: 'sell ? @4%', a: 'sell 924.56' }, '', '(1,000)'] },
+              ],
+              spans: [{ from: 0, to: 1, label: '1-year return on each = ?', a: '3% · 5.01% · 7.03%', tone: 'amber' }],
+              note: 'Today’s prices use today’s spot rates (3%, 4%, 5%). At year 1 the longer zeros are sold at the year-1 rate shown. Bracketed flows fall after the horizon.' },
             body: ['When the yield curve is expected to remain the same, i.e. unchanged, then holding a long-term bond for a short investment horizon will yield higher returns.'],
             steps: [
               '1-year zero: P₀ = 970.87 → 1000; return = *3%*',
@@ -11297,7 +11353,11 @@ const CONTENT = {
             'I-spread = yield on the bond − swap rate',
           ] },
           { k: 'sub', text: 'Z-Spread' },
-          { k: 'example', id: 's4-z', title: 'Example — Z-spread',
+          { k: 'example', id: 's4-z', title: 'Example — Z-spread', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, title: 'One spread added to every spot rate',
+              flows: [{ t: 0, v: 'Price 980', neg: 1 }, { t: 1, v: '50' }, { t: 2, v: '50' }, { t: 3, v: '1,050' }],
+              rows: [{ label: 'Discount at', cells: ['', '3% + z', '4% + z', '5% + z'] }],
+              spans: [{ from: 0, to: 3, label: 'z = ?', a: 'z ≈ 0.81% (at z = 0 the price is 1,001.80)', tone: 'amber' }] },
             body: ['Government spot rates: S₁ = 3%, S₂ = 4%, S₃ = 5%. Consider a corporate bond with a 5% coupon, 3 years to maturity and FV $1,000. Suppose the bond is currently trading at 980. Find the Z-spread.'],
             steps: [
               'We cannot use government spot rates to find the price of a corporate bond. If we do so we will get a higher price, because corporate bonds have more risk, hence the spot rate should be higher.',
@@ -11345,7 +11405,18 @@ const CONTENT = {
               "Interpolated rate = lower rate + (1.6 − 1.5) × (upper rate − lower rate) ÷ (2 − 1.5) → 1.6-year swap rate = *1.38%*.",
               "I-spread = 2.35% − 1.38% = *0.97%* (97 bp).",
             ] },
-          { k: 'example', title: "Example — Pricing a bond off the spot curve plus a Z-spread (Schweser)", body: [
+          { k: 'example', title: "Example — Pricing a bond off the spot curve plus a Z-spread (Schweser)", new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, title: 'One-year forward rates, period by period',
+              flows: [{ t: 0, v: 'Price = ?', a: 'Price ≈ 97.33', neg: 1 }, { t: 1, v: '5' }, { t: 2, v: '5' }, { t: 3, v: '105' }],
+              rows: [
+                { label: 'Spot rate', cells: ['', 'S₁ 3%', { q: 'S₂ = ?', a: '4.02%' }, { q: 'S₃ = ?', a: '5.07%' }] },
+                { label: 'Spot + 1%', cells: ['', '4%', { q: '?', a: '5.02%' }, { q: '?', a: '6.07%' }] },
+              ],
+              spans: [
+                { from: 0, to: 1, label: 'S₁ 3%', tone: 'violet', row: 0 },
+                { from: 1, to: 2, label: '1y1y 5.051%', tone: 'violet', row: 0 },
+                { from: 2, to: 3, label: '2y1y 7.198%', tone: 'violet', row: 0 },
+              ] }, body: [
               "Three-year 5% annual-pay ABC bond, Z-spread 100 bp. Benchmark one-year rates: S₁ = 3%, 1y1y = 5.051%, 2y1y = 7.198%.",
             ], steps: [
               "Spot rates: S₂ = (1.03 × 1.05051)^½ − 1 = 4.02%; S₃ = (1.03 × 1.05051 × 1.07198)^⅓ − 1 = 5.07%.",
@@ -11650,7 +11721,22 @@ const CONTENT = {
             'The term “backward” is used because in order to determine the value of a bond today at Node 0, you need to know the values that the bond can take at the year-1 nodes.',
             'To determine the values of the bond at the year-1 nodes, you need to know the possible values of the bond at the year-2 nodes.',
           ] },
-          { k: 'example', id: 's2-tree', title: 'Example — Valuing an option-free bond with the binomial model',
+          { k: 'example', id: 's2-tree', title: 'Example — Valuing an option-free bond with the binomial model', new: '2026-10-30',
+            dia: { k: 'graph', title: '7% bond on the tree (per 1,000 par)', w: 560, h: 252,
+              nodes: [
+                { id: 'r', x: 88, y: 122, t1: '4.5749%', t2: 'V = ?', a2: 'V = 1,030.00', w: 168 },
+                { id: 'u', x: 300, y: 60, t1: '7.1826%', t2: 'V = ?', a2: '1,070 ÷ 1.071826 = 998.30', w: 200 },
+                { id: 'd', x: 300, y: 184, t1: '5.3210%', t2: 'V = ?', a2: '1,070 ÷ 1.053210 = 1,015.94', w: 200 },
+                { id: 'uu', x: 496, y: 26, t1: '1,070', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'ud', x: 496, y: 122, t1: '1,070', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'dd', x: 496, y: 218, t1: '1,070', t2: 'par + coupon', w: 104, tone: 'teal' },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 },
+                { from: 'u', to: 'uu', plain: 1 }, { from: 'u', to: 'ud', plain: 1 },
+                { from: 'd', to: 'ud', plain: 1 }, { from: 'd', to: 'dd', plain: 1 },
+              ],
+              tags: [{ x: 88, y: 249, text: 't = 0' }, { x: 300, y: 249, text: 't = 1' }, { x: 496, y: 249, text: 't = 2' }], note: 'Each node: (average of the two values ahead + coupon) ÷ (1 + node rate). Pathwise: the two paths give 1,021.56 and 1,038.43.' },
             body: ['A 7% annual-coupon bond has two years to maturity (FV 1,000). The interest rate tree is shown below. Fill in the tree and calculate the value of the bond today. Do the same in pathwise valuation.'],
             given: [
               { label: 'Node 0 (year 0–1)', val: '4.5749%' },
@@ -11687,7 +11773,22 @@ const CONTENT = {
               '*C.* a different value when rate volatility is high, because the pathwise method uses equal weights.',
             ],
             result: 'A. The two methods always give the same value' },
-          { k: 'example', title: 'Schweser module quiz 24.2 — Question 4',
+          { k: 'example', title: 'Schweser module quiz 24.2 — Question 4', new: '2026-10-30',
+            dia: { k: 'graph', title: 'A 3-year tree: rates at t = 0, 1 and 2', w: 500, h: 270,
+              nodes: [
+                { id: 'r', x: 60, y: 126, t1: 'i₀', w: 60 },
+                { id: 'u', x: 240, y: 71, t1: 'i₁,U', w: 70 },
+                { id: 'd', x: 240, y: 181, t1: 'i₁,L', w: 70 },
+                { id: 'uu', x: 420, y: 26, t1: 'i₂,UU', w: 80 },
+                { id: 'ud', x: 420, y: 126, t1: 'i₂,UL', w: 80 },
+                { id: 'dd', x: 420, y: 226, t1: 'i₂,LL', w: 80 },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: 'U' }, { from: 'r', to: 'd', label: 'D', ly: 14 },
+                { from: 'u', to: 'uu', label: 'U' }, { from: 'u', to: 'ud', label: 'D', ly: 14 },
+                { from: 'd', to: 'ud', label: 'U' }, { from: 'd', to: 'dd', label: 'D', ly: 14 },
+              ],
+              tags: [{ x: 250, y: 264, text: 'Paths through the tree = ?', a: '4 paths: UU, UD, DU, DD (UD and DU meet at the middle)' }] },
             body: [
               'Dane averaged five paths through her 3-year tree to get $975.17. Her pathwise valuation is:',
               '*A.* correct.',
@@ -11737,7 +11838,22 @@ const CONTENT = {
             'As stated earlier, adjacent forward rates (for the same period) are *two standard deviations apart* (calculated as e^(2σ)). Hence, knowing one of the forward rates (out of many) for a particular nodal period allows us to compute the other forward rates for that period in the tree.',
             'The *middle forward rate* (or mid-point in case of an even number of rates) in a period is approximately equal to the *implied (from the benchmark spot rate curve) one-period forward rate* for that period.',
           ] },
-          { k: 'example', id: 's3-build', title: 'Example — Binomial interest rate tree',
+          { k: 'example', id: 's3-build', title: 'Example — Binomial interest rate tree', new: '2026-10-30',
+            dia: { k: 'graph', title: 'Partial tree, σ = 20%', w: 500, h: 292,
+              nodes: [
+                { id: 'r', x: 60, y: 138, t1: '3%', t2: 'i₀', w: 80 },
+                { id: 'u', x: 240, y: 80, t1: '5.7883%', t2: 'i₁,U', w: 100 },
+                { id: 'd', x: 240, y: 196, t1: 'A = ?', a1: 'A = 3.88%', t2: 'i₁,L', w: 100, tone: 'slate' },
+                { id: 'uu', x: 420, y: 28, t1: 'B = ?', a1: 'B = 10.74%', t2: 'i₂,UU', w: 110, tone: 'slate' },
+                { id: 'ud', x: 420, y: 138, t1: 'C = ?', a1: 'C = 7.199%', t2: 'i₂,UL', w: 110, tone: 'slate' },
+                { id: 'dd', x: 420, y: 248, t1: 'D = ?', a1: 'D = 4.83%', t2: 'i₂,LL', w: 110, tone: 'slate' },
+              ],
+              edges: [
+                { from: 'r', to: 'u' }, { from: 'r', to: 'd' },
+                { from: 'u', to: 'uu' }, { from: 'u', to: 'ud' }, { from: 'd', to: 'ud' }, { from: 'd', to: 'dd' },
+              ],
+              tags: [{ x: 60, y: 288, text: 't = 0' }, { x: 240, y: 288, text: 't = 1' }, { x: 420, y: 288, text: 't = 2' }],
+              note: 'Neighbours in a column differ by e^(2σ) = e^0.40. The middle node C sits near the implied forward rate 2y1y.' },
             body: ['Xi Nguyen, CFA, has collected the following information on the par rate curve, spot rates and forward rates. Nguyen has asked a colleague, Alok Nath, to generate a binomial interest rate tree consistent with this data and an assumed volatility of 20%. Nath completed a partial interest rate tree shown below (1-yr forward rates): Time 0 = 3%; Time 1 = 5.7883% (upper) and A (lower); Time 2 = B, C, D. 1) Calculate the forward rate indicated by A. 2) Estimate the forward rate indicated by C. 3) Estimate forward rates B and D.'],
             given: [
               { label: 'Maturity 1 · par 3% · spot', val: '3.000%' },
@@ -11767,7 +11883,22 @@ const CONTENT = {
               '*C.* Neither assumption is correct.',
             ],
             result: 'A. Lognormal means *higher* volatility at higher rates' },
-          { k: 'example', title: 'Schweser module quiz 24.1 — Question 5',
+          { k: 'example', title: 'Schweser module quiz 24.1 — Question 5', new: '2026-10-30',
+            dia: { k: 'graph', title: '5% bond on the FIData tree (per 1,000 par)', w: 560, h: 252,
+              nodes: [
+                { id: 'r', x: 88, y: 122, t1: '4.5749%', t2: 'V = ?', a2: 'V = 992.88', w: 168 },
+                { id: 'u', x: 300, y: 60, t1: '7.1826%', t2: 'V = ?', a2: '1,050 ÷ 1.071826 = 979.63', w: 200 },
+                { id: 'd', x: 300, y: 184, t1: '5.3210%', t2: 'V = ?', a2: '1,050 ÷ 1.053210 = 996.95', w: 200 },
+                { id: 'uu', x: 496, y: 26, t1: '1,050', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'ud', x: 496, y: 122, t1: '1,050', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'dd', x: 496, y: 218, t1: '1,050', t2: 'par + coupon', w: 104, tone: 'teal' },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 },
+                { from: 'u', to: 'uu', plain: 1 }, { from: 'u', to: 'ud', plain: 1 },
+                { from: 'd', to: 'ud', plain: 1 }, { from: 'd', to: 'dd', plain: 1 },
+              ],
+              tags: [{ x: 88, y: 249, text: 't = 0' }, { x: 300, y: 249, text: 't = 1' }, { x: 496, y: 249, text: 't = 2' }] },
             body: [
               'Using backward induction on FIData’s tree, the value of a 2-year, 5% annual-pay $1,000 bond is closest to:',
               '*A.* $900.',
@@ -11910,7 +12041,22 @@ const CONTENT = {
           ] },
           { k: 'fix', title: 'Callable bond price < normal bond price, because the demand for the normal bond ↑',
             text: 'The price is lower because the investor is *short the call*: the issuer holds the right to take the bond back exactly when it is worth more (rates fall), so the investor pays less by the value of that call, V_callable = V_straight − V_call. Demand has nothing to do with it.' },
-          { k: 'example', id: 's2-cp', title: 'Example — Valuation of call and put options',
+          { k: 'example', id: 's2-cp', title: 'Example — Valuation of call and put options', new: '2026-10-30',
+            dia: { k: 'graph', title: 'Straight (S), callable (C) and putable (P) on one tree, per 1,000 par', w: 600, h: 236,
+              nodes: [
+                { id: 'r', x: 118, y: 112, t1: '4.5749%', t2: 'S ? · C ? · P ?', a2: 'S 1,029.99 · C 1,022.38 · P 1,030.81', w: 226 },
+                { id: 'u', x: 362, y: 50, t1: '7.1826%', t2: 'S ? · C ? · P ?', a2: 'S 998.30 · C 998.30 · P 1,000 put', w: 216 },
+                { id: 'd', x: 362, y: 174, t1: '5.3210%', t2: 'S ? · C ? · P ?', a2: 'S 1,015.94 · C 1,000 called · P 1,015.94', w: 216 },
+                { id: 'uu', x: 548, y: 18, t1: '1,070', w: 80, tone: 'teal' },
+                { id: 'ud', x: 548, y: 112, t1: '1,070', w: 80, tone: 'teal' },
+                { id: 'dd', x: 548, y: 206, t1: '1,070', w: 80, tone: 'teal' },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 },
+                { from: 'u', to: 'uu', plain: 1 }, { from: 'u', to: 'ud', plain: 1 }, { from: 'd', to: 'ud', plain: 1 }, { from: 'd', to: 'dd', plain: 1 },
+              ],
+              tags: [{ x: 118, y: 232, text: 't = 0' }, { x: 362, y: 232, text: 't = 1 · call or put at 1,000' }, { x: 548, y: 232, text: 't = 2' }],
+              note: 'Issuer calls where value > 1,000 (cap the node at 1,000); investor puts where value < 1,000 (floor it at 1,000).' },
             body: ['Consider a 2-yr, 7% annual-pay, $100 par bond callable in 1 yr at $100. Also consider a 2-yr, 7% annual-pay, $100 par bond putable in 1 yr at $100. The interest rate tree at 15% assumed volatility is as given below (4.5749% at node 0; 7.1826% and 5.3210% at year 1). Values shown per 1,000 of par.'],
             steps: [
               'Normal bond: year-1 nodes 998.30 (upper) and 1,015.94 (lower); [(998.30 + 1,015.94) ÷ 2 + 70] ÷ 1.045749 = (1,007.12 + 70) ÷ 1.045749 = *1,030* (1,029.99)',
@@ -11927,7 +12073,22 @@ const CONTENT = {
               "Each node’s value = *average* of the PVs of the two next-period values (coupon included), discounted at that node’s rate.",
               "Schweser shows the same example per $100 par: V_call = 102.999 − 102.238 = *$0.76*, V_put = 103.081 − 102.999 = *$0.082*.",
             ] },
-          { k: 'example', title: 'Schweser module quiz 25.1–25.2 — Question 2',
+          { k: 'example', title: 'Schweser module quiz 25.1–25.2 — Question 2', new: '2026-10-30',
+            dia: { k: 'graph', title: 'Option-free 12% bond (per 100 par)', w: 560, h: 252,
+              nodes: [
+                { id: 'r', x: 88, y: 122, t1: '4.5749%', t2: 'V = ?', a2: 'V = 112.282', w: 168 },
+                { id: 'u', x: 300, y: 60, t1: '7.1826%', t2: 'V = ?', a2: '112 ÷ 1.071826 = 104.494', w: 200 },
+                { id: 'd', x: 300, y: 184, t1: '5.3210%', t2: 'V = ?', a2: '112 ÷ 1.053210 = 106.341', w: 200 },
+                { id: 'uu', x: 496, y: 26, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'ud', x: 496, y: 122, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'dd', x: 496, y: 218, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 },
+                { from: 'u', to: 'uu', plain: 1 }, { from: 'u', to: 'ud', plain: 1 },
+                { from: 'd', to: 'ud', plain: 1 }, { from: 'd', to: 'dd', plain: 1 },
+              ],
+              tags: [{ x: 88, y: 249, text: 't = 0' }, { x: 300, y: 249, text: 't = 1' }, { x: 496, y: 249, text: 't = 2' }] },
             body: [
               'Binomial tree: today’s one-year rate 4.5749%; year-1 rates 7.1826% (up) and 5.3210% (down). The bond pays a 12% annual coupon and matures in two years.',
               'The value today of an option-free 12% annual-coupon bond with two years to maturity is closest to:',
@@ -11936,7 +12097,22 @@ const CONTENT = {
               '*C.* 112.282.',
             ],
             result: 'C. Year-1 values: 112 ÷ 1.071826 = 104.494 and 112 ÷ 1.053210 = 106.341. Today: ½(104.494 + 12 + 106.341 + 12) ÷ 1.045749 = 112.282' },
-          { k: 'example', title: 'Schweser module quiz 25.1–25.2 — Question 3',
+          { k: 'example', title: 'Schweser module quiz 25.1–25.2 — Question 3', new: '2026-10-30',
+            dia: { k: 'graph', title: 'Callable at 105 at year 1', w: 560, h: 252,
+              nodes: [
+                { id: 'r', x: 88, y: 122, t1: '4.5749%', t2: 'V = ?', a2: 'V = 111.640 · call = 0.642', w: 168 },
+                { id: 'u', x: 300, y: 60, t1: '7.1826% · call at 105', t2: 'V = ?', a2: '104.494 (not called)', w: 200 },
+                { id: 'd', x: 300, y: 184, t1: '5.3210% · call at 105', t2: 'V = ?', a2: '106.341 → 105 called', w: 200 },
+                { id: 'uu', x: 496, y: 26, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'ud', x: 496, y: 122, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'dd', x: 496, y: 218, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 },
+                { from: 'u', to: 'uu', plain: 1 }, { from: 'u', to: 'ud', plain: 1 },
+                { from: 'd', to: 'ud', plain: 1 }, { from: 'd', to: 'dd', plain: 1 },
+              ],
+              tags: [{ x: 88, y: 249, text: 't = 0' }, { x: 300, y: 249, text: 't = 1' }, { x: 496, y: 249, text: 't = 2' }] },
             body: [
               'If the bond is callable at 105 at the end of Year 1, the callable bond value and the embedded call value are closest to:',
               '*A.* 110.573 and 1.709.',
@@ -11944,7 +12120,22 @@ const CONTENT = {
               '*C.* 111.640 and 0.642.',
             ],
             result: 'C. The down node is capped at 105: ½(104.494 + 12 + 105 + 12) ÷ 1.045749 = 111.640. Call = 112.282 − 111.640 = 0.642' },
-          { k: 'example', title: 'Schweser module quiz 25.1–25.2 — Question 4',
+          { k: 'example', title: 'Schweser module quiz 25.1–25.2 — Question 4', new: '2026-10-30',
+            dia: { k: 'graph', title: 'Putable at 105 at year 1', w: 560, h: 252,
+              nodes: [
+                { id: 'r', x: 88, y: 122, t1: '4.5749%', t2: 'V = ?', a2: 'V = 112.523 · put = 0.241', w: 168 },
+                { id: 'u', x: 300, y: 60, t1: '7.1826% · put at 105', t2: 'V = ?', a2: '104.494 → 105 put', w: 200 },
+                { id: 'd', x: 300, y: 184, t1: '5.3210% · put at 105', t2: 'V = ?', a2: '106.341 (not put)', w: 200 },
+                { id: 'uu', x: 496, y: 26, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'ud', x: 496, y: 122, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+                { id: 'dd', x: 496, y: 218, t1: '112', t2: 'par + coupon', w: 104, tone: 'teal' },
+              ],
+              edges: [
+                { from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 },
+                { from: 'u', to: 'uu', plain: 1 }, { from: 'u', to: 'ud', plain: 1 },
+                { from: 'd', to: 'ud', plain: 1 }, { from: 'd', to: 'dd', plain: 1 },
+              ],
+              tags: [{ x: 88, y: 249, text: 't = 0' }, { x: 300, y: 249, text: 't = 1' }, { x: 496, y: 249, text: 't = 2' }] },
             body: [
               'If the bond is instead putable at 105 at the end of Year 1, the putable bond value and the embedded put value are closest to:',
               '*A.* 112.523 and 0.241.',
@@ -12177,7 +12368,16 @@ const CONTENT = {
           { k: 'formula', title: 'Floored floater', lines: [
             'Value of floored floater = value of straight floater + value of the embedded floor',
           ] },
-          { k: 'example', title: "Example — Capped and floored floater (Schweser, Albright)", body: [
+          { k: 'example', title: "Example — Capped and floored floater (Schweser, Albright)", new: '2026-10-30',
+            dia: { k: 'graph', title: 'Floater capped at 6%: coupon set at each node, paid a year later', w: 600, h: 214,
+              nodes: [
+                { id: 'r', x: 130, y: 107, t1: '4.5749%', t2: 'V = ?', a2: 'V = 99.47 · cap = 0.53', w: 200 },
+                { id: 'u', x: 445, y: 42, t1: '7.1826% → cap 6%', t2: 'V = ?', a2: '106 ÷ 1.071826 = 98.90', w: 230, tone: 'rose' },
+                { id: 'd', x: 445, y: 172, t1: '5.3210% · under the cap', t2: 'V = ?', a2: '105.321 ÷ 1.053210 = 100', w: 230 },
+              ],
+              edges: [{ from: 'r', to: 'u', label: '0.5' }, { from: 'r', to: 'd', label: '0.5', ly: 14 }],
+              tags: [{ x: 130, y: 208, text: 't = 0' }, { x: 445, y: 208, text: 't = 1' }],
+              note: 'Floor at 5% instead: only today’s 4.5749% is below it, so the year-1 coupon becomes 5.' }, body: [
               "$100 par, 2-year floater paying MRR in arrears, same credit as the swap curve. MRR tree: 4.5749% at node 0; 7.1826% (upper) and 5.3210% (lower) at year 1.",
             ], steps: [
               "Straight floater: coupon = required return, so value = *$100*.",
@@ -12316,7 +12516,16 @@ const CONTENT = {
             'CVA = Σ PV of expected loss for each period',
             'CVA = price of risk-free bond − price of risky bond',
           ] },
-          { k: 'example', id: 's1-cva', title: 'Example — Credit measures',
+          { k: 'example', id: 's1-cva', title: 'Example — Credit measures', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 96, title: 'Hazard 2% · recovery 60% · benchmark 3%',
+              flows: [{ t: 3, v: '100', v2: 'zero matures' }],
+              rows: [
+                { label: 'Exposure', cells: ['', { q: '?', a: '94.26' }, { q: '?', a: '97.09' }, '100'] },
+                { label: 'LGD (40%)', cells: ['', { q: '?', a: '37.70' }, { q: '?', a: '38.83' }, { q: '?', a: '40.00' }] },
+                { label: 'P(default)', cells: ['', '2%', { q: '?', a: '1.96%' }, { q: '?', a: '1.92%' }] },
+                { label: 'PV of EL', cells: ['', { q: '?', a: '0.732' }, { q: '?', a: '0.717' }, { q: '?', a: '0.703' }] },
+              ],
+              spans: [{ from: 3, to: 0, arrow: 1, label: 'CVA = sum of PV of expected loss = ?', a: 'CVA = 2.1527', tone: 'amber' }] },
             body: ['A 3-yr, $100 par, zero-coupon corporate bond has a hazard rate of 2% per year. Its recovery rate is 60% and the benchmark rate curve is flat at 3%. Calculate the expected exposure, probability of survival, probability of default, loss given default and CVA.'],
             steps: [
               'Expected exposure₃ = 100; exposure₂ = PV of exposure at t3 + CF₂ = 97.087 + 0; exposure₁ = 94.26 + 0',
@@ -12335,7 +12544,14 @@ const CONTENT = {
             'Benchmark bond with no credit risk = 100 ÷ 1.03³ = 91.51',
             'Value of credit-risky bond = value of credit-risk-free bond − CVA = 91.51 − 2.15 = 89.36',
           ] },
-          { k: 'example', id: 's1-irr', title: 'Example — IRR calculation',
+          { k: 'example', id: 's1-irr', title: 'Example — IRR calculation', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 90, rp: 62, w: 580, title: 'Pay 89.36 today; default at the end of a year pays 60% of that year’s exposure',
+              flows: [{ t: 0, v: '−89.36', v2: 'price paid', neg: 1 }],
+              rows: [
+                { label: 'Default at 1', cells: ['', { q: '60% × 94.26 = ?', a: '56.56 → IRR −36.71%' }] },
+                { label: 'Default at 2', cells: ['', '', { q: '60% × 97.09 = ?', a: '58.25 → IRR −19.26%' }] },
+                { label: 'Default at 3', cells: ['', '', '', { q: '60% × 100 = ?', a: '60 → IRR −12.43%' }] },
+              ] },
             body: ['Zero-coupon bond: FV = 100, maturity = 3 yrs, IR = 3%, recovery rate = 60%, hazard rate = 2% (price 89.36). Calculate the IRR if the bond defaults at the end of year 1, year 2 and year 3.'],
             steps: [
               'Scenario 1 — bond defaults at the end of the 3rd year: N = 3, PV = −89.36, PMT = 0, FV = 60 (60% of 100) → CPT I/Y = *−12.43%*',
@@ -12387,7 +12603,12 @@ const CONTENT = {
               '*C.* greater than 1.25%.',
             ],
             result: 'B. In the first year, PD equals the hazard rate' },
-          { k: 'example', title: 'Schweser module quiz 26.1 — Question 3',
+          { k: 'example', title: 'Schweser module quiz 26.1 — Question 3', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 80, title: 'Survive each year in turn', labels: ['Today', 'Yr 1', 'Yr 2', 'Yr 3'],
+              rows: [
+                { label: 'Hazard', cells: ['', '1.25%', '1.25%', '1.25%'] },
+                { label: 'Survival', cells: ['100%', { q: '?', a: '98.75%' }, { q: '?', a: '97.52%' }, { q: '?', a: '96.30%' }] },
+              ] },
             body: [
               'With a 1.25% annual hazard rate, the probability that the bond does not default over the next three years is closest to:',
               '*A.* 94.32%.',
@@ -12411,7 +12632,11 @@ const CONTENT = {
               '*C.* independent of the assumed recovery rate.',
             ],
             result: 'A. A higher recovery means less loss per default, so a higher PD is needed to explain the same price' },
-          { k: 'example', title: 'Schweser module quiz 26.2 — Question 1',
+          { k: 'example', title: 'Schweser module quiz 26.2 — Question 1', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 90, rp: 62, w: 580, title: 'Default in year 2, recovery 45%',
+              flows: [{ t: 0, v: '−89.49', v2: 'price paid', neg: 1 }, { t: 3, v: '100', v2: 'if no default' }],
+              rows: [{ label: 'Default at 2', cells: ['', '', { q: '45% × exposure = ?', a: '45% × 97.09 = 43.69' }] }],
+              spans: [{ from: 0, to: 2, label: 'IRR over 2 years = ?', a: 'IRR = −30.13%', tone: 'amber' }] },
             body: [
               'A 3-year zero-coupon corporate bond trades at $89.49; the benchmark curve is flat at 3%. With a 45% recovery rate, the IRR if it defaults in Year 2 is:',
               '*A.* −24.66%.',
@@ -12513,7 +12738,14 @@ const CONTENT = {
             'VND = value of the risky bond assuming it doesn’t default, i.e. using risk-free rates',
             'CVA = VND − value of risky debt',
           ] },
-          { k: 'example', id: 's3-implied', title: 'Example — CVA implied in the market price',
+          { k: 'example', id: 's3-implied', title: 'Example — CVA implied in the market price', new: '2026-10-30',
+            dia: { k: 'cflow', n: 5, title: 'Same cash flows, two discount rates',
+              flows: [{ t: 1, v: '3.5' }, { t: 2, v: '3.5' }, { t: 3, v: '3.5' }, { t: 4, v: '3.5' }, { t: 5, v: '103.5' }],
+              spans: [
+                { from: 5, to: 0, arrow: 1, label: 'At 2% (benchmark): VND = ?', a: 'VND = 107.07', tone: 'violet' },
+                { from: 5, to: 0, arrow: 1, label: 'At 2% + 1.35% = 3.35%: price = ?', a: 'Price = 100.68' },
+                { from: 0, to: 5, label: 'CVA = VND − price = ?', a: 'CVA = 6.39', tone: 'amber' },
+              ] },
             body: ['Jack Gordon, a fixed-income analyst for Omega Bond Plc, is evaluating an EB for inclusion in the bank’s portfolio. The $100 par, 3.50%, annual-pay, 5-yr bond is currently priced with a credit spread of 135 bps over the benchmark par rate of 2%. Calculate the bond’s CVA implied in its market price.'],
             steps: [
               'VND for the bond = PV of the bond’s CF using the benchmark YTM: N = 5, PMT = 3.50, I/Y = 2, FV = 100 → CPT PV = *107.07*',
@@ -12525,7 +12757,15 @@ const CONTENT = {
               "Earlier CVA work assumed zero rate volatility. With a *benchmark binomial tree* (each node 50/50), backward induction on the risky bond’s cash flows gives its *VND*, and the node values give the *expected exposure* for each year.",
               "Schweser’s 3-year 4% bond: bottom year-2 node = 104 ÷ 1.04825 = 99.21; bottom year-1 node = [(99.21 + 97.02) ÷ 2 + 4] ÷ 1.0388 = 98.30; VND = *$97.24*. Then CVA follows from PD and recovery as before.",
             ] },
-          { k: 'example', title: 'Schweser module quiz 26.5 — Question 2',
+          { k: 'example', title: 'Schweser module quiz 26.5 — Question 2', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, lw: 96, title: 'Recovery 60% · benchmark 2.5% · year-2 PD 0.99%',
+              flows: [{ t: 1, v: '4' }, { t: 2, v: '4' }, { t: 3, v: '104' }],
+              rows: [
+                { label: 'Exposure', cells: ['', { q: '?', a: '106.89' }, { q: '?', a: '105.46' }, '104'] },
+                { label: 'P(default)', cells: ['', { q: '?', a: '1.00%' }, '0.99%', { q: '?', a: '0.98%' }] },
+                { label: 'PV of EL', cells: ['', { q: '?', a: '0.42' }, { q: '?', a: '0.40' }, { q: '?', a: '0.38' }] },
+              ],
+              spans: [{ from: 3, to: 0, arrow: 1, label: 'CVA = ?', a: 'CVA = $1.20', tone: 'amber' }] },
             body: [
               'An annual-pay 4%, 3-year corporate bond: recovery 60%, flat benchmark 2.5%, year-2 PD 0.99%. The CVA is closest to:',
               '*A.* $1.20.',
@@ -12554,7 +12794,15 @@ const CONTENT = {
             'The adjustment to price for the above 3 factors (default, liquidity, taxation) is referred to as *XVA*.',
             'Considering only default risk, it is termed *CVA*.',
           ] },
-          { k: 'example', id: 's4-change', title: 'Example — Changes in probability of default and recovery rate',
+          { k: 'example', id: 's4-change', title: 'Example — Changes in probability of default and recovery rate', new: '2026-10-30',
+            dia: { k: 'cflow', n: 3, title: 'XYZ 3% bond at $102, benchmark 1.75%',
+              flows: [{ t: 0, v: 'Price 102', neg: 1 }, { t: 1, v: '3' }, { t: 2, v: '3' }, { t: 3, v: '103' }],
+              rows: [{ label: 'Exposure', cells: ['', { q: '?', a: '105.44' }, { q: '?', a: '104.23' }, '103'] }],
+              spans: [
+                { from: 3, to: 0, arrow: 1, label: 'At 1.75%: VND = ?', a: 'VND = 103.62', tone: 'violet' },
+                { from: 0, to: 3, label: 'Q1: hazard 1.25%, RR 70% → value = ?', a: 'CVA 1.12 → value 102.50 > 102: undervalued' },
+                { from: 0, to: 3, label: 'Q2: YTM at 102 = ?', a: 'YTM 2.30% → spread 0.55%', tone: 'amber' },
+              ] },
             body: ['Joao De Silva, a junior analyst, works for a regional bank. Currently, De Silva is evaluating a 3-yr, annual-pay, 3% XYZ corporate bond priced at $102. The benchmark yield curve is flat at 1.75%. De Silva prepared the table below assuming a hazard rate of 1.25% and a recovery rate of 70%. Q1: Using De Silva’s estimates of hazard rate and recovery rate, the XYZ bond is currently most likely: A. undervalued, B. overvalued, C. fairly priced. Q2: Using the market price of the bond, the credit spread on the XYZ bond is closest to: A. 0.44%, B. 0.49%, C. 0.55%. Q3: Assuming the market price changes to reflect Collin’s expectations of P_D and recovery rate (PD = 1.5%, RR = 60%), the new credit spread would be closest to: A. 0.52%, B. 0.61%, C. 0.79%.'],
             steps: [
               'Q1: VND: N = 3, PMT = 3, I/Y = 1.75, FV = 100 → PV = *103.62*. Value of risky bond = VND − CVA = 103.62 − 1.12 = *102.5*. Market value 102 < intrinsic value 102.5 → *A. undervalued*',
@@ -12717,7 +12965,12 @@ const CONTENT = {
             '*LGD*: expected lossₜ = hazard rateₜ × loss given defaultₜ.',
             '*Coupon rate*: the cash payment made by the protection buyer on the CDS.',
           ] },
-          { k: 'example', id: 's2-hazard', title: 'Example — Hazard rate',
+          { k: 'example', id: 's2-hazard', title: 'Example — Hazard rate', new: '2026-10-30',
+            dia: { k: 'cflow', n: 5, lw: 80, title: 'Hazard rate rising 1% a year', labels: ['Today', 'Yr 1', 'Yr 2', 'Yr 3', 'Yr 4', 'Yr 5'],
+              rows: [
+                { label: 'Hazard', cells: ['', '2%', '3%', '4%', '5%', '6%'] },
+                { label: 'Survival', cells: ['100%', { q: '?', a: '98.00%' }, { q: '?', a: '95.06%' }, { q: '?', a: '91.26%' }, { q: '?', a: '86.69%' }, { q: '?', a: '81.49%' }] },
+              ] },
             body: ['Consider a 5-yr senior CDS on Xeon Corp. Xeon’s hazard rate is 2% and increases by 1% per year. Compute the survival rate in 5 yrs.'],
             steps: [
               'The hazard rates for the 5 years are 2%, 3%, 4%, 5% and 6%.',
@@ -29961,7 +30214,11 @@ function qzInit() {
     if (!t) return;
     e.preventDefault(); e.stopPropagation();
     const act = t.getAttribute('data-qz');
-    if (act === 'open') t.closest('.qz-wrap').classList.toggle('qz-open');
+    if (act === 'open') {
+      const w = t.closest('.qz-wrap');
+      w.classList.toggle('qz-open');
+      if (!w.classList.contains('qz-open')) w.querySelectorAll('.nb-dia.filled').forEach(d => diaFill(d, false));
+    }
     else {
       qzHide = act === 'hideall';
       try { localStorage.setItem('ledgerHideQuiz', qzHide ? '1' : '0'); } catch (e2) {}
@@ -29969,6 +30226,16 @@ function qzInit() {
       document.querySelectorAll('.qz-wrap.qz-open').forEach(w => w.classList.remove('qz-open'));
     }
   }, true);
+  // Question diagrams: "Fill in the answers" toggles the solved values on the tree or timeline.
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-dia-fill]');
+    if (t) diaFill(t.closest('.nb-dia'), !t.closest('.nb-dia').classList.contains('filled'));
+  });
+}
+function diaFill(d, on) {
+  d.classList.toggle('filled', on);
+  const btn = d.querySelector('[data-dia-fill]');
+  if (btn) btn.textContent = on ? 'Back to the question ▴' : 'Fill in the answers ▸';
 }
 
 // --- NEW tags: new content and new features carry a NEW tag until their first use. A block counts as
@@ -29993,7 +30260,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -30540,14 +30807,70 @@ function renderGraph(b) {
   const node = n => {
     const [w, h] = size(n);
     return `<g class="nb-dia-node${n.tone ? ' ' + n.tone : ''}"><rect x="${f(n.x - w / 2)}" y="${f(n.y - h / 2)}" width="${w}" height="${h}" rx="6"></rect>` +
-      `<text class="t1" x="${n.x}" y="${f(n.t2 ? n.y - 3 : n.y + 4.5)}">${escapeHtml(n.t1)}</text>` +
-      (n.t2 ? `<text class="t2" x="${n.x}" y="${f(n.y + 11)}">${escapeHtml(n.t2)}</text>` : '') + '</g>';
+      `<text class="t1" x="${n.x}" y="${f(n.t2 ? n.y - 3 : n.y + 4.5)}">${diaQA(n.t1, n.a1)}</text>` +
+      (n.t2 ? `<text class="t2" x="${n.x}" y="${f(n.y + 11)}">${diaQA(n.t2, n.a2)}</text>` : '') + '</g>';
   };
-  const tag = t => `<text class="nb-dia-tag" x="${t.x}" y="${t.y}">${escapeHtml(t.text)}</text>`;
+  const tag = t => `<text class="nb-dia-tag" x="${t.x}" y="${t.y}">${diaQA(t.text, t.a)}</text>`;
+  const fill = diaHasAns(b.nodes) || diaHasAns(b.tags);
   return `<div class="nb-dia">${b.title ? `<div class="nb-dia-title">${escapeHtml(b.title)}</div>` : ''}
-    <svg viewBox="0 0 ${W} ${H}" style="max-width:${W}px" role="img" aria-label="${escapeHtml(b.title || 'Diagram')}">
+    <svg${fill ? ' class="q-min"' : ''} viewBox="0 0 ${W} ${H}" style="max-width:${W}px" role="img" aria-label="${escapeHtml(b.title || 'Diagram')}">
       ${(b.edges || []).map(edge).join('')}${b.nodes.map(node).join('')}${(b.tags || []).map(tag).join('')}
-    </svg>${b.note ? `<div class="nb-tri-note">${rt(b.note)}</div>` : ''}</div>`;
+    </svg>${b.note ? `<div class="nb-tri-note">${rt(b.note)}</div>` : ''}${fill ? diaFillBtn() : ''}</div>`;
+}
+
+// Text that is a question until "Fill in the answers": `q` shows (any ? in amber) and `a`, if given,
+// replaces it once filled. Used inside <text> elements of trees and timelines.
+function diaQA(q, a) {
+  const show = escapeHtml(q || '').replace(/\?/g, '<tspan class="qv">?</tspan>');
+  return a == null ? show : `<tspan class="qq">${show}</tspan><tspan class="ans">${escapeHtml(a)}</tspan>`;
+}
+function diaHasAns(list) {
+  return (list || []).some(x => x.a != null || x.a1 != null || x.a2 != null ||
+    (x.cells || []).some(c => c && typeof c === 'object' && c.a != null));
+}
+function diaFillBtn() {
+  return `<button type="button" class="rv-check-link nb-dia-fill" data-dia-fill data-new="f-dia-fill">Fill in the answers ▸</button>`;
+}
+
+// Cash-flow timeline for a question: ticks 0…n, cash flows above the line (`flows`: t, v, optional v2
+// second line, neg for money paid), labelled rows beneath it (`rows`: label, cells indexed by t, each a
+// string or { q, a }), then brackets or arrows spanning periods (`spans`: from, to, label, a, arrow puts
+// a head at `to`, tone, row to share a line). Anything with an `a` shows its question text until the
+// answers are filled in. `lw` and `rp` widen the left label column and the right margin.
+function renderCflow(b) {
+  const flows = b.flows || [], rows = b.rows || [], spans = b.spans || [];
+  // A row value at t = 0 sits under the first tick, so push the axis clear of the row labels.
+  const LW = rows.length ? (b.lw || 92) : 34, L = LW + (rows.some(r => r.cells && r.cells[0]) ? 44 : 0);
+  const n = b.n, W = b.w || 540, R = b.rp || 34, f = v => v.toFixed(1);
+  const x = t => L + t * (W - L - R) / n;
+  const sRow = (s, i) => s.row == null ? i : s.row, sRows = spans.reduce((m, s, i) => Math.max(m, sRow(s, i) + 1), 0);
+  const top = flows.length ? (flows.some(c => c.v2) ? 44 : 30) : 8, ay = top + 8;
+  const rowY = i => ay + 38 + i * 18, spanY = i => ay + 38 + rows.length * 18 + 14 + i * 26;
+  const H = (spans.length ? spanY(sRows - 1) + 10 : rows.length ? rowY(rows.length - 1) + 8 : ay + 26);
+  const ticks = Array.from({ length: n + 1 }, (_, t) =>
+    `<line class="nb-cf-tick" x1="${f(x(t))}" y1="${ay - 5}" x2="${f(x(t))}" y2="${ay + 5}"></line>` +
+    `<text class="nb-cf-tlab" x="${f(x(t))}" y="${ay + 18}">${escapeHtml((b.labels || [])[t] || String(t))}</text>`).join('');
+  const flow = c => `<line class="nb-cf-stem" x1="${f(x(c.t))}" y1="${ay - 6}" x2="${f(x(c.t))}" y2="${ay - 12}"></line>` +
+    `<text class="nb-cf-flow${c.neg ? ' neg' : ''}" x="${f(x(c.t))}" y="${c.v2 ? ay - 30 : ay - 16}">${diaQA(c.v, c.a)}</text>` +
+    (c.v2 ? `<text class="nb-cf-flow2" x="${f(x(c.t))}" y="${ay - 16}">${diaQA(c.v2, c.a2)}</text>` : '');
+  const row = (r, i) => `<text class="nb-cf-rlab" x="${LW - 14}" y="${rowY(i) + 4}">${escapeHtml(r.label)}</text>` +
+    (r.cells || []).map((c, t) => c == null || c === '' ? '' : `<text class="nb-cf-cell" x="${f(x(t))}" y="${rowY(i) + 4}">${
+      typeof c === 'object' ? diaQA(c.q, c.a) : diaQA(c)}</text>`).join('');
+  const span = (s, i) => {
+    const y = spanY(sRow(s, i)), x1 = x(Math.min(s.from, s.to)), x2 = x(Math.max(s.from, s.to)), tone = s.tone ? ' ' + s.tone : '';
+    const hx = x(s.to), dir = s.to < s.from ? 1 : -1;
+    const ends = s.arrow
+      ? `<polygon class="nb-cf-head${tone}" points="${f(hx)},${y} ${f(hx + dir * 8)},${y - 4.5} ${f(hx + dir * 8)},${y + 4.5}"></polygon>`
+      : `<line class="nb-cf-span${tone}" x1="${f(x1)}" y1="${y - 4}" x2="${f(x1)}" y2="${y + 4}"></line><line class="nb-cf-span${tone}" x1="${f(x2)}" y1="${y - 4}" x2="${f(x2)}" y2="${y + 4}"></line>`;
+    return `<line class="nb-cf-span${tone}" x1="${f(x1)}" y1="${y}" x2="${f(x2)}" y2="${y}"></line>${ends}` +
+      `<text class="nb-cf-slab" x="${f((x1 + x2) / 2)}" y="${y - 6}">${diaQA(s.label, s.a)}</text>`;
+  };
+  const fill = diaHasAns(flows) || diaHasAns(rows) || diaHasAns(spans) || flows.some(c => c.a2 != null);
+  return `<div class="nb-dia">${b.title ? `<div class="nb-dia-title">${escapeHtml(b.title)}</div>` : ''}
+    <svg class="q-min" viewBox="0 0 ${W} ${H}" style="max-width:${W}px" role="img" aria-label="${escapeHtml(b.title || 'Cash-flow timeline')}">
+      <line class="nb-cf-axis" x1="${f(x(0) - 12)}" y1="${ay}" x2="${f(x(n) + 12)}" y2="${ay}"></line>
+      ${ticks}${flows.map(flow).join('')}${rows.map(row).join('')}${spans.map(span).join('')}
+    </svg>${b.note ? `<div class="nb-tri-note">${rt(b.note)}</div>` : ''}${fill ? diaFillBtn() : ''}</div>`;
 }
 
 // Points along y = fn(x), for drawing the smooth curves in `plot` blocks.
@@ -30681,6 +31004,7 @@ function renderBlock(b, gaps, refs) {
         <div class="nb-example-body">
           ${(b.body || []).map(t => `<p class="nb-p">${rt(t)}</p>`).join('')}
           ${b.given ? `<div class="nb-tablewrap"><table class="nb-table"><tbody>${b.given.map(g => `<tr><th>${rt(g.label)}</th><td>${rt(g.val)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+          ${b.dia ? (b.dia.k === 'cflow' ? renderCflow(b.dia) : renderGraph(b.dia)) : ''}
           ${b.ask ? `<p class="nb-p"><b>${escapeHtml(b.ask)}</b></p>` : ''}
           ${b.steps ? `<ol class="nb-steps">${b.steps.map(s => `<li>${rt(s)}</li>`).join('')}</ol>` : ''}
           ${b.result ? `<div class="nb-result">${rt(b.result)}</div>` : ''}
