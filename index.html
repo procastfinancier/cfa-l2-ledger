@@ -21644,6 +21644,17 @@ const TUITION_MISSES = {
   'alt.2': [
     {
       module: '32.S2',
+      title: 'Two-step dividend model for a REIT: discount D₁–D₃, plus a terminal value at year 3 built from D₄',
+      at: ['DDM'],
+      questions: [
+        { ref: 'L2-ALT-CASE1 #4', ask: 'REIT C: D₁ $4.00, growth 4.5% in years 2–3, then 4.0% forever, r = 8%. Value per share with a two-step dividend model?', picked: '$100.91 (a guess)', answer: '$100.91' },
+      ],
+      trap: 'Right answer, but a guess. The usual slips are building the terminal value from D₃ instead of D₄, or discounting it four years instead of three.',
+      fix: 'D₂ = 4.00 × 1.045 = 4.18; D₃ = 4.18 × 1.045 = 4.37; D₄ = 4.37 × 1.04 = 4.54. Terminal value at year 3 = 4.54 ÷ (0.08 − 0.04) = 113.57. Value = 4.00/1.08 + 4.18/1.08² + (4.37 + 113.57)/1.08³ = $100.91.',
+      tackle: ['Draw the timeline: dividends at years 1, 2 and 3, and the terminal value at year 3 using D₄.', 'Discount the year-3 cash flow (D₃ + terminal value) together, over three periods.'],
+    },
+    {
+      module: '32.S2',
       title: 'FFO adds back real estate depreciation; property taxes and operating expenses stay deducted',
       at: ['FFO'],
       questions: [
@@ -24073,6 +24084,9 @@ const TWIN_Q = {
   "L2-R33-Q1 #4": { lvl: 1, full: ["A hedge fund runs a net exposure of about −100%, fully short. It is best described as a:"],
     options: ["A) short-biased fund","B) dedicated short bias fund","C) equity market neutral fund"], a: 1,
     why: "About 100% net short = dedicated short. Short-biased keeps some longs (net short about 30–60%); equity market neutral is about 0." },
+  "L2-ALT-CASE1 #4": { lvl: 3, full: ["A REIT will pay a dividend of $2.50 next year. Dividends grow 6% in years 2 and 3, then 3% a year forever. The cost of equity is 9%. Using a two-step dividend discount model, the value per share is closest to:"],
+    options: ["A) $40.85", "B) $42.84", "C) $43.93"], a: 2,
+    why: "D₂ = 2.65, D₃ = 2.809, D₄ = 2.809 × 1.03 = 2.893. Terminal value at year 3 = 2.893 ÷ (0.09 − 0.03) = 48.22. Value = 2.50/1.09 + 2.65/1.09² + (2.809 + 48.22)/1.09³ = $43.93. $42.84 builds the terminal value from D₃; $40.85 discounts it over four years." },
 };
 
 const TUITION_Q = {
@@ -26199,6 +26213,20 @@ const TUITION_Q = {
     "p": 0,
     "a": 1
   },
+  "L2-ALT-CASE1 #4": {
+    "full": [
+      "Extract from the case (Exhibit 2): REIT C expects to pay a dividend of $4.00 next year. Dividends grow 4.5% in years 2 and 3, then 4.0% a year forever. Nowak uses an 8% cost of equity for all REITs.",
+      "Based on Exhibit 2, the value per share of REIT C using valuation Method 2 (discounted cash flow using a two-step dividend model) is closest to:"
+    ],
+    "options": [
+      "$55.83.",
+      "$97.57.",
+      "$100.91."
+    ],
+    "p": 2,
+    "a": 2,
+    "note": "You picked the right answer, but it was a guess."
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -26727,6 +26755,14 @@ const TESTS = [
     { mod: '33.S3', what: 'Insurance settlements: policy cash flows, premiums, death benefit', ok: 1 },
     { mod: '33.S2', what: 'L/S equity: net long 40–60%', ok: 1 },
     { mod: '33.S3', what: 'Global macro is top-down', ok: 1 },
+  ] },
+  { id: 'L2-ALT-CASE1', lvl: '133332', topic: 'alt.2', name: 'Alternatives case 1 (REITs: Lin and Nowak)', date: '2026-11-02', qs: [
+    { mod: '32.S1', what: 'REITs over REOCs in taxable accounts: no double taxation', ok: 1 },
+    { mod: '32.S2', what: 'NAV per share: NOI ÷ cap rate + cash + receivables − liabilities', ok: 1 },
+    { mod: '32.S2', what: 'P/FFO value: FFO per share × subsector multiple', ok: 1 },
+    { mod: '32.S2', what: 'Two-step dividend model: D₁–D₃ plus a terminal value at year 3 from D₄', ok: 1, why: 'guess' },
+    { mod: '32.S2', what: 'P/AFFO value: (FFO − non-cash rent − maintenance capex) per share × multiple', ok: 1 },
+    { mod: '31.S2', topic: 'alt.1', what: 'Storage REIT risk: new competing facilities (easy entry, overbuilding)', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
