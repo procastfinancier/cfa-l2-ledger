@@ -21592,6 +21592,103 @@ const TUITION_MISSES = {
       tackle: ['Read SUE like a z-score: the same miss stands out more when misses are usually small.'],
     },
   ],
+  'alt.0': [
+    {
+      module: '30.S2',
+      title: 'Convenience yield lowers the futures price, so big demand shocks push the curve into backwardation',
+      at: ['convenience yield'],
+      questions: [
+        { ref: 'L2-R30-Q1 #3', ask: 'Most accurate about the pricing of commodity futures:', picked: 'The convenience yield is positively correlated with the futures price', answer: 'Commodities hit by sudden, large demand shocks may show backwardation because of big convenience yields' },
+      ],
+      trap: 'Direction flip. The convenience yield is a benefit of holding the physical commodity, so it comes OFF the futures price: more convenience yield, lower futures price.',
+      fix: 'F ≈ S + financing + storage costs − convenience yield. A demand shock makes holding the physical valuable → convenience yield ↑ → futures ↓ → backwardation. Storage costs push futures UP, so the option saying storage makes commodity futures cheaper is backwards too.',
+      tackle: ['Write F ≈ S + storage − convenience yield before reading the options.', 'Storage ↑ → contango. Convenience yield ↑ → backwardation.'],
+    },
+    {
+      module: '30.S3',
+      title: 'Contango: each roll buys fewer, dearer contracts, and roll return is negative',
+      at: ['contango'],
+      questions: [
+        { ref: 'L2-R30-Q1 #8', ask: 'A commodity futures contract in contango will most likely:', picked: 'entail purchasing more contracts to keep the same exposure', answer: 'entail purchasing fewer contracts to keep the same exposure' },
+      ],
+      trap: 'Flip. In contango the new contract costs more than the one expiring, so the same money buys fewer contracts, not more.',
+      fix: 'Contango: futures above spot. Each roll sells the cheap expiring contract and buys a dearer one → fewer contracts, negative roll return. Backwardation is the reverse: more contracts, positive roll return.',
+      tackle: ['Ask: is the next contract dearer (contango → fewer, negative roll) or cheaper (backwardation → more, positive roll)?'],
+    },
+  ],
+  'alt.1': [
+    {
+      module: '31.S1',
+      title: 'The four quadrants: REITs and REOCs are public equity, MBS public debt; direct ownership is private equity, mortgage lending private debt',
+      at: ['Private equity'],
+      questions: [
+        { ref: 'L2-R31-Q1 #3', ask: 'Least accurately a type of publicly traded real estate security:', picked: 'Operating companies', answer: 'Direct mortgage lending' },
+        { ref: 'L2-R31-Q1 #7', ask: 'Most accurately a private equity investment in income-producing real estate:', picked: 'Investment in a REIT', answer: 'Direct ownership of real estate properties' },
+      ],
+      trap: 'The quadrants got mixed up. A REIT owns property, but you buy its shares on an exchange, so for you it is public equity. Direct mortgage lending is a private loan, not a traded security.',
+      fix: 'Public equity: REITs, REOCs. Public debt: RMBS, CMBS, mortgage REITs. Private equity: owning the property directly. Private debt: mortgage loans made by banks and insurers.',
+      tackle: ['Draw the 2×2 grid (public / private × equity / debt) and place every option in it before answering.'],
+    },
+    {
+      module: '31.S2',
+      title: 'Economic drivers: more goods and services production → demand for industrial, office and retail space',
+      at: ['GDP'],
+      questions: [
+        { ref: 'L2-R31-Q1 #4', ask: 'An increase in goods and services production most affects the value of a(n):', picked: 'health care REIT', answer: 'industrial REIT' },
+      ],
+      trap: 'Health care demand follows demographics, not how much the economy produces.',
+      fix: 'Match the driver to the property: production and GDP → industrial, office, retail. Population and household formation → residential. An ageing population → health care. Travel and consumer spending → hotels.',
+      tackle: ['Ask who needs more space when factories produce more: warehouses and industrial users.'],
+    },
+  ],
+  'alt.2': [
+    {
+      module: '32.S2',
+      title: 'FFO adds back real estate depreciation; property taxes and operating expenses stay deducted',
+      at: ['FFO'],
+      questions: [
+        { ref: 'L2-R32-Q2 #4', ask: 'An expense deducted from accounting net earnings but not from FFO:', picked: 'Property taxes', answer: 'Depreciation expense' },
+      ],
+      trap: 'Property taxes are a real cash cost of running the building, so FFO keeps them deducted.',
+      fix: 'FFO = net income + real estate depreciation + deferred tax charges − gains (+ losses) on property sales. AFFO = FFO − non-cash rent − maintenance capex.',
+      tackle: ['If it is a cash cost of operating the property, it stays in FFO. Only non-cash depreciation and one-off sale gains or losses are adjusted.'],
+    },
+    {
+      module: '32.S2',
+      title: 'NAVPS uses current market values of assets and liabilities, not book values',
+      at: ['NAVPS'],
+      questions: [
+        { ref: 'L2-R32-Q2 #8', ask: 'When calculating NAVPS, assets and liabilities are valued at:', picked: 'book value', answer: 'market value' },
+      ],
+      trap: 'Book value is historical cost less depreciation, which is exactly what NAV is meant to replace.',
+      fix: 'NAVPS = (market value of assets − market value of liabilities) ÷ shares outstanding. Property values usually come from capitalising NOI at a market cap rate.',
+      tackle: ['NAV = what a private buyer would pay today → market values.'],
+    },
+  ],
+  'alt.3': [
+    {
+      module: '33.S2',
+      title: 'L/S equity vs. market neutral: L/S is concentrated and lightly levered; EMN is diversified and heavily levered',
+      at: ['market neutral'],
+      questions: [
+        { ref: 'L2-R33-Q1 #2', ask: 'Most accurate difference between L/S equity and equity market neutral (EMN):', picked: 'EMN is less diversified than L/S but uses more leverage', answer: 'L/S has more concentrated portfolios, less leverage and higher unlevered target returns than EMN' },
+      ],
+      trap: 'Half right. EMN does use more leverage, but it is MORE diversified (many small, systematic positions), not less.',
+      fix: 'EMN: many positions, quantitative, beta near zero, small spreads, so it needs high leverage. L/S equity: fundamental stock picking, fewer names, net long, little leverage, higher unlevered return.',
+      tackle: ['Check both halves of a two-part statement. One wrong half makes the whole option wrong.'],
+    },
+    {
+      module: '33.S2',
+      title: 'Net exposure: L/S net long 40–60%, short-biased net short 30–60%, dedicated short ~100%, EMN ≈ 0',
+      at: ['net short'],
+      questions: [
+        { ref: 'L2-R33-Q1 #4', ask: 'Best represents the net short position of a short-biased fund:', picked: '100%', answer: '50%' },
+      ],
+      trap: '100% net short is a dedicated short fund. A short-biased fund keeps some long positions.',
+      fix: 'Dedicated short: about 100% short. Short-biased: net short about 30–60%. Equity market neutral: about 0. L/S equity: net long about 40–60%.',
+      tackle: ['Learn the four net-exposure figures as one line.'],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -23948,6 +24045,34 @@ const TWIN_Q = {
   "L2-R15-Q1 #10": { lvl: 1, full: ["Which is least likely one of the types of equity risk premium estimate?"],
     options: ["A) Historical estimates", "B) Survey estimates", "C) Arbitrage-based estimates"], a: 2,
     why: "The types are historical, forward-looking (ex ante, such as the Gordon growth model), macroeconomic model and survey estimates. There is no “arbitrage-based” type." },
+  // R30–R33 Alternatives
+  "L2-R30-Q1 #3": { lvl: 2, full: ["Which change would most likely move a commodity’s futures curve from contango toward backwardation?"],
+    options: ["A) Storage costs rise sharply","B) Inventories fall sharply, raising the convenience yield","C) Interest rates rise"], a: 1,
+    why: "F ≈ S + financing + storage − convenience yield. Scarce inventory makes holding the physical valuable, so the convenience yield rises and futures fall below spot. Higher storage costs or interest rates push futures up, toward contango." },
+  "L2-R30-Q1 #8": { lvl: 2, full: ["An investor keeps a fixed $10 million exposure to natural gas futures. The expiring contract is at $3.00 and the next one at $3.30. When she rolls, she will most likely:"],
+    options: ["A) buy fewer contracts and earn a negative roll return","B) buy more contracts and earn a positive roll return","C) buy fewer contracts and earn a positive roll return"], a: 0,
+    why: "The next contract is dearer, so the curve is in contango. $10 million buys fewer contracts at $3.30, and selling low to buy high gives a negative roll return." },
+  "L2-R31-Q1 #3": { lvl: 2, full: ["Which investment is a publicly traded real estate debt investment?"],
+    options: ["A) A whole loan made by a bank to an office developer","B) Commercial mortgage-backed securities (CMBS)","C) Shares in a real estate operating company (REOC)"], a: 1,
+    why: "CMBS trade publicly and are debt. A bank loan is private debt; REOC shares are public equity." },
+  "L2-R31-Q1 #4": { lvl: 2, full: ["Strong population growth and new household formation are most likely to be the key economic drivers of which property type?"],
+    options: ["A) Industrial","B) Residential (multi-family)","C) Office"], a: 1,
+    why: "New households need homes. Production and trade drive industrial demand; office-using jobs drive office demand." },
+  "L2-R31-Q1 #7": { lvl: 1, full: ["A pension fund buys a warehouse outright and leases it to tenants. In the four quadrants of real estate investment, this is:"],
+    options: ["A) private equity","B) public equity","C) private debt"], a: 0,
+    why: "Owning the property directly = private equity. Buying REIT or REOC shares would be public equity; making a mortgage loan would be private debt." },
+  "L2-R32-Q2 #4": { lvl: 2, full: ["A REIT reports net income of $50 million, real estate depreciation of $20 million and a $5 million gain on the sale of a property. Its FFO is:"],
+    options: ["A) $65 million","B) $75 million","C) $70 million"], a: 0,
+    why: "FFO = net income + real estate depreciation − gains on property sales = 50 + 20 − 5 = $65 million. $70 million forgets to take out the gain; $75 million adds it instead." },
+  "L2-R32-Q2 #8": { lvl: 2, full: ["A REIT’s properties have a book value of $400 million and an estimated market value of $650 million. Its debt has a market value of $250 million, and it has 20 million shares outstanding. Its NAVPS is:"],
+    options: ["A) $7.50","B) $20.00","C) $32.50"], a: 1,
+    why: "NAVPS = (market value of assets − market value of liabilities) ÷ shares = (650 − 250) ÷ 20 = $20.00. $7.50 uses book value; $32.50 forgets the debt." },
+  "L2-R33-Q1 #2": { lvl: 2, full: ["Compared with a long/short equity fund, an equity market neutral fund most likely has:"],
+    options: ["A) fewer positions and lower leverage","B) more positions, a beta near zero and higher leverage","C) a higher net long exposure"], a: 1,
+    why: "EMN holds many small, systematic long and short positions with beta near zero. The spreads it earns are small, so it uses more leverage. L/S equity is concentrated, net long and lightly levered." },
+  "L2-R33-Q1 #4": { lvl: 1, full: ["A hedge fund runs a net exposure of about −100%, fully short. It is best described as a:"],
+    options: ["A) short-biased fund","B) dedicated short bias fund","C) equity market neutral fund"], a: 1,
+    why: "About 100% net short = dedicated short. Short-biased keeps some longs (net short about 30–60%); equity market neutral is about 0." },
 };
 
 const TUITION_Q = {
@@ -25965,7 +26090,115 @@ const TUITION_Q = {
     ],
     "p": 0,
     "a": 2
-  }
+  },
+  "L2-R30-Q1 #3": {
+    "full": [
+      "Which of the following statements regarding the pricing of commodity futures contracts is most accurate?"
+    ],
+    "options": [
+      "The convenience yield for a commodity is positively correlated with the futures price.",
+      "The arbitrage free price of a commodities futures contract is often lower than that of a financial security futures contract due to storage costs.",
+      "Commodities that are subject to sudden and large demand shocks may exhibit backwardation in the futures market due to significant convenience yields."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R30-Q1 #8": {
+    "full": [
+      "A commodity futures contract in contango will most likely:"
+    ],
+    "options": [
+      "entail purchasing fewer contracts to maintain same value exposure to the commodity.",
+      "lead to positive roll return.",
+      "entail purchasing more contracts to maintain same value exposure to the commodity."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R31-Q1 #3": {
+    "full": [
+      "Which of the following least accurately identifies a type of publicly traded real estate security?"
+    ],
+    "options": [
+      "Operating companies",
+      "Direct mortgage lending",
+      "Investment trusts"
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R31-Q1 #4": {
+    "full": [
+      "An increase in goods and services production is most likely to be a top economic factor affecting the economic value of a(n):"
+    ],
+    "options": [
+      "industrial REIT",
+      "health care REIT",
+      "residential REIT"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R31-Q1 #7": {
+    "full": [
+      "Which of the following most accurately identifies a private equity investment in income-producing real estate?"
+    ],
+    "options": [
+      "Investment in a real estate investment trust (REIT).",
+      "Direct ownership of real estate properties",
+      "Private market mortgage lending by an insurance company"
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R32-Q2 #4": {
+    "full": [
+      "Which of the following is an expense normally deducted from accounting net earnings but not from FFO?"
+    ],
+    "options": [
+      "Property operating expenses",
+      "Depreciation expense",
+      "Property taxes"
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R32-Q2 #8": {
+    "full": [
+      "When calculating NAVPS, a real estate company's assets and liabilities are valued at their:"
+    ],
+    "options": [
+      "book value.",
+      "liquidation value.",
+      "market value."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R33-Q1 #2": {
+    "full": [
+      "Which general statement describing key differences between long/short equity (L/S) strategies and equity market neutral (EMN) is most accurate?"
+    ],
+    "options": [
+      "A) EMN strategies are less diversified than L/S strategies but typically use greater amounts of financial leverage to generate returns than L/S strategies.",
+      "B) EMN strategies rely on selecting securities with sufficient liquidity, have longer security selection time horizons, and usually have greater leverage than L/S equity strategies.",
+      "C) L/S strategies typically have more concentrated portfolios than EMN strategies, use lower leverage than EMN, and target unlevered returns that are higher than EMN."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R33-Q1 #4": {
+    "full": [
+      "Which of the following best represents the net short position of a short-biased hedge fund strategy?"
+    ],
+    "options": [
+      "A) 100%.",
+      "B) 50%.",
+      "C) 0%."
+    ],
+    "p": 0,
+    "a": 1
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -26445,6 +26678,55 @@ const TESTS = [
     { mod: '20.S2', what: 'Earnings yield works when EPS is negative', ok: 1 },
     { mod: '20.S6', what: 'Predicted P/E from a regression', ok: 1 },
     { mod: '20.S6', what: 'SUE: a surprise means more when past errors are small', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R30-Q1', lvl: '1222321212', topic: 'alt.0', name: 'Reading 30 quiz 1', date: '2026-11-01', mins: 16.0, qs: [
+    { mod: '30.S1', what: 'Commodities are physical assets', ok: 1 },
+    { mod: '30.S2', what: 'Backwardation: the basis is positive, not negative (least likely)', ok: 1 },
+    { mod: '30.S2', what: 'Demand shocks → big convenience yield → backwardation; convenience yield lowers the futures price', ok: 0, why: 'flip' },
+    { mod: '30.S2', what: 'Producers hedging short push the curve into backwardation', ok: 1 },
+    { mod: '30.S3', what: 'Refiner’s oil swap at $52: ($52 − $50 − $1) × 1m barrels', ok: 1 },
+    { mod: '30.S3', what: 'Single commodity: rebalancing return is zero', ok: 1 },
+    { mod: '30.S2', what: 'Producers only, short hedges, normal backwardation: insurance theory', ok: 1 },
+    { mod: '30.S3', what: 'Contango: roll into fewer, dearer contracts; roll return negative', ok: 0, why: 'flip' },
+    { mod: '30.S1', what: 'Political risk least affects coffee (weather and disease)', ok: 1 },
+    { mod: '30.S3', what: 'Futures below spot: roll return positive while backwardation lasts', ok: 1 },
+  ] },
+  { id: 'L2-R31-Q1', lvl: '1222111122111', topic: 'alt.1', name: 'Reading 31 quiz 1', date: '2026-11-01', mins: 10.1, qs: [
+    { mod: '31.S1', what: 'Mortgage REIT = publicly traded debt', ok: 1 },
+    { mod: '31.S3', what: 'Long holding periods: a repeat sales index is least suitable', ok: 1 },
+    { mod: '31.S1', what: 'Least accurately a public RE security: direct mortgage lending (private)', ok: 0, why: 'gap' },
+    { mod: '31.S2', what: 'More goods and services production → industrial space', ok: 0, why: 'gap' },
+    { mod: '31.S2', what: 'Non-core property: hotels and hospitality', ok: 1 },
+    { mod: '31.S1', what: 'Real estate is heterogeneous, not homogeneous', ok: 1 },
+    { mod: '31.S1', what: 'Private equity real estate = direct ownership (a REIT is public equity)', ok: 0, why: 'gap' },
+    { mod: '31.S1', what: 'Mortgage REITs for a pension plan: current income', ok: 1 },
+    { mod: '31.S2', what: 'Hotels over apartments: higher return for more management', ok: 1 },
+    { mod: '31.S3', what: 'Not a due diligence element: pipeline analysis', ok: 1 },
+    { mod: '31.S3', what: 'Due diligence mitigates unforeseen problems', ok: 1 },
+    { mod: '31.S3', what: 'Appraisal-based indices lag (smoothing)', ok: 1 },
+    { mod: '31.S1', what: 'Private RE equity is sensitive to the credit market', ok: 1 },
+  ] },
+  { id: 'L2-R32-Q2', lvl: '12112112', topic: 'alt.2', name: 'Reading 32 quiz 2', date: '2026-11-01', mins: 6.8, qs: [
+    { mod: '32.S2', what: 'NAV approach works because active private markets exist', ok: 1 },
+    { mod: '32.S2', what: 'REIT DCF: intermediate-term projections plus a terminal multiple', ok: 1 },
+    { mod: '32.S1', what: 'Public RE securities: greater liquidity', ok: 1 },
+    { mod: '32.S2', what: 'FFO adds back depreciation (property taxes stay deducted)', ok: 0, why: 'gap' },
+    { mod: '32.S2', what: 'NAVPS = ($3.0m − $2.0m) ÷ 100,000 = $10', ok: 1 },
+    { mod: '32.S1', what: 'REOCs: more operating flexibility', ok: 1 },
+    { mod: '32.S1', what: 'High REIT payout → frequent secondary equity offerings', ok: 1 },
+    { mod: '32.S2', what: 'NAVPS uses market values, not book values', ok: 0, why: 'gap' },
+  ] },
+  { id: 'L2-R33-Q1', lvl: '2211122111', topic: 'alt.3', name: 'Reading 33 quiz 1', date: '2026-11-01', mins: 8.1, qs: [
+    { mod: '33.S2', what: 'Convertible arbitrage: embedded options trade at low implied volatility', ok: 1 },
+    { mod: '33.S2', what: 'L/S vs. EMN: L/S is concentrated, less levered, higher unlevered return', ok: 0, why: 'gap' },
+    { mod: '33.S2', what: 'Merger failure is an event-driven risk', ok: 1 },
+    { mod: '33.S2', what: 'Short-biased: net short about 30–60% (100% is dedicated short)', ok: 0, why: 'gap' },
+    { mod: '33.S4', what: 'Sortino suits hedge funds’ left-tail risk', ok: 1 },
+    { mod: '33.S3', what: 'Multi-strategy vs. fund of funds: fast reallocation, clearer risk view', ok: 1 },
+    { mod: '33.S2', what: 'Institutional limits misprice distressed securities', ok: 1 },
+    { mod: '33.S3', what: 'Insurance settlements: policy cash flows, premiums, death benefit', ok: 1 },
+    { mod: '33.S2', what: 'L/S equity: net long 40–60%', ok: 1 },
+    { mod: '33.S3', what: 'Global macro is top-down', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
