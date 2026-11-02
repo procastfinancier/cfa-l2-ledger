@@ -21804,6 +21804,61 @@ const TUITION_MISSES = {
   ],
   'fi.1': [
     {
+      module: '24.S2',
+      title: 'Number of paths = 2ⁿ⁻¹, where n counts periods, not years: a 3-year semiannual bond has 6 periods → 32 paths',
+      at: ['2ⁿ⁻¹ paths'],
+      questions: [
+        { ref: 'L2-R24-Q2 #1', ask: 'Pathwise valuation of a 3-year semiannual-pay bond: how many rate paths?', picked: '4', answer: '32' },
+      ],
+      trap: 'You used 3 years as 3 periods (2² = 4). With semiannual coupons each year is two periods, so n = 6.',
+      fix: 'n = years × payments a year = 3 × 2 = 6. Paths = 2⁽⁶⁻¹⁾ = 2⁵ = 32. The first period has a known rate, which is why it is n − 1.',
+      tackle: ['Turn years into periods first (× 2 for semiannual, × 4 for quarterly).', 'Then paths = 2 to the power (periods − 1).'],
+    },
+    {
+      module: '24.S2',
+      title: 'Backward induction: each node = 0.5 × (value up + coupon) + 0.5 × (value down + coupon), discounted at that node’s rate',
+      at: ['s2-bi'],
+      questions: [
+        { ref: 'L2-R24-Q2 #7', ask: 'From maturity, backward induction in a binomial tree:', picked: 'uses a deterministic interest rate path to discount', answer: 'uses the node interest rates and their probabilities to discount' },
+      ],
+      trap: 'A single deterministic path is pathwise valuation of one path, not backward induction. Backward induction blends both branches at every node, weighted by their 50/50 probabilities.',
+      fix: 'V(node) = [0.5 × (V_up + C) + 0.5 × (V_down + C)] ÷ (1 + node rate). Repeat from maturity back to today.',
+      tackle: ['Backward induction = probability-weighted average at every node.', 'One fixed path = pathwise (and then you average many paths).'],
+    },
+    {
+      module: '24.S2',
+      title: 'Semiannual tree: halve the coupon and the node rates, then do backward induction as usual',
+      at: ['s2-tree'],
+      questions: [
+        { ref: 'L2-R24-Q2 #8', ask: '1-year 5% semiannual bond. Tree: today 6.20%; in 6 months 7.30% or 5.90%. Value?', picked: '98.67 (a guess)', answer: '98.67' },
+      ],
+      trap: 'Right answer, but a guess. The slips are using the full coupon (5) or the full annual rate instead of halving both.',
+      fix: 'Up: 102.5 ÷ 1.0365 = 98.89. Down: 102.5 ÷ 1.0295 = 99.56. Today: 0.5 × [(98.89 + 2.5) ÷ 1.031 + (99.56 + 2.5) ÷ 1.031] = 0.5 × (98.34 + 98.99) = 98.67.',
+      tackle: ['Coupon per period = 5% ÷ 2 × 100 = 2.5.', 'Rate per period = node rate ÷ 2.'],
+    },
+    {
+      module: '24.S3',
+      title: 'A tree is calibrated only if it prices the benchmark bonds at their market price (par for a par bond)',
+      at: ['s3-rules'],
+      questions: [
+        { ref: 'L2-R24-Q2 #5', ask: 'Is the 20% tree (8.9480/5.9980; 13.8180/9.2625/6.2088) calibrated properly?', picked: 'yes', answer: 'no: it is not consistent with market prices' },
+      ],
+      trap: 'Adjacent nodes were the right e^(2σ) apart, so it looked fine. But spacing is not the test: the tree must value the 3-year 7% par bond at 100, and it gives 99.44.',
+      fix: 'V₂: 107/1.13818 = 94.01; 107/1.092625 = 97.93; 107/1.062088 = 100.74. V₁,U = [(94.01 + 97.93)/2 + 7] ÷ 1.08948 = 94.51; V₁,L = [(97.93 + 100.74)/2 + 7] ÷ 1.05998 = 100.31. V₀ = [(94.51 + 100.31)/2 + 7] ÷ 1.05 = 99.44 ≠ 100.',
+      tackle: ['Calibration check = value the par benchmark on the tree; it must come out at 100.', 'Spacing of e^(2σ) is necessary but not enough.'],
+    },
+    {
+      module: '24.S1',
+      title: 'Arbitrage-free price: discount each cash flow at its own spot rate; semiannual → half the coupon, spot ÷ 2, periods × 2',
+      at: ['Stripping and Reconstitution'],
+      questions: [
+        { ref: 'L2-R24-Q2 #3', ask: '3-year 3% semiannual bond; spot rates 1.25%, 1.30%, 1.80%, 2.00%, 2.20%, 2.25% (0.5–3 years). Price?', picked: '$104.09', answer: '$102.20' },
+      ],
+      trap: 'Calculation slip in a semiannual price. Each cash flow (1.50, last one 101.50) is discounted at its own spot rate ÷ 2, raised to the number of half-years.',
+      fix: '1.50/1.00625 + 1.50/1.0065² + 1.50/1.009³ + 1.50/1.01⁴ + 1.50/1.011⁵ + 101.50/1.01125⁶ = 1.4907 + 1.4807 + 1.4602 + 1.4415 + 1.4202 + 94.9106 = $102.20.',
+      tackle: ['Coupon = 3% ÷ 2 × 100 = 1.50.', 'Rate per half-year = spot ÷ 2; exponent = number of half-years.'],
+    },
+    {
       module: '24.S3',
       title: 'An option-free bond has the same value on the spot curve and on an arbitrage-free tree, whatever the volatility',
       at: ['s3-rules'],
@@ -24318,6 +24373,22 @@ const TWIN_Q = {
   "L2-R24-Q1 #10": { lvl: 2, full: ["An analyst values the same option-free, 5-year government bond on two arbitrage-free binomial trees calibrated to the same spot curve: one assumes 10% volatility, the other 25%. Compared with the 10% tree, the 25% tree gives:"],
     options: ["A) a higher value.", "B) a lower value.", "C) the same value."], a: 2,
     why: "Both trees are calibrated to the same spot curve, so an option-free bond gets the spot-curve value on each. Volatility changes value only when a call or put is embedded (callable falls, putable rises)." },
+  // R24 quiz 2
+  "L2-R24-Q2 #1": { lvl: 2, full: ["A 2-year bond pays coupons quarterly. In pathwise valuation, the number of interest rate paths is:"],
+    options: ["A) 8","B) 128","C) 256"], a: 1,
+    why: "Periods = 2 × 4 = 8. Paths = 2⁽⁸⁻¹⁾ = 2⁷ = 128. 8 counts periods; 256 forgets the −1." },
+  "L2-R24-Q2 #3": { lvl: 3, full: ["Spot rates (annual, semiannual compounding): 0.5 year 2.0%, 1.0 year 2.4%, 1.5 years 2.8%, 2.0 years 3.0%. The price of a 2-year, 4% semiannual-pay government bond (par $100) is closest to:"],
+    options: ["A) $96.33","B) $101.95","C) $109.69"], a: 1,
+    why: "2/1.01 + 2/1.012² + 2/1.014³ + 102/1.015⁴ = 1.9802 + 1.9529 + 1.9183 + 96.1028 = $101.95. $96.33 uses the full annual rates as if per half-year; $109.69 pays the full 4 coupon each half-year." },
+  "L2-R24-Q2 #5": { lvl: 2, full: ["An analyst builds a binomial tree: adjacent nodes are e^(2σ) apart and the middle nodes sit near the implied forward rates. Valued on the tree, the 3-year benchmark par bond comes out at 100.85. The tree is:"],
+    options: ["A) calibrated properly.","B) not calibrated, because it does not match the benchmark’s market price.","C) not calibrated, because the nodes are the wrong number of standard deviations apart."], a: 1,
+    why: "Calibration means the tree prices the benchmarks at market (100 for a par bond). Correct spacing is not enough." },
+  "L2-R24-Q2 #7": { lvl: 1, full: ["In backward induction on a binomial interest rate tree, the value at each node is:"],
+    options: ["A) the present value of the higher of the two values one period ahead.","B) the probability-weighted average of the two values one period ahead plus the coupon, discounted at that node’s rate.","C) the two values one period ahead discounted at today’s spot rate."], a: 1,
+    why: "V = [0.5 × (V_up + C) + 0.5 × (V_down + C)] ÷ (1 + node rate)." },
+  "L2-R24-Q2 #8": { lvl: 3, full: ["Semiannual interest rate tree: today 5.0%; in 6 months either 6.0% or 4.4%. Value of an option-free bond with one year to maturity and a 6% coupon paid semiannually (par 100)?"],
+    options: ["A) 96.11","B) 98.47","C) 100.87"], a: 2,
+    why: "Up: 103 ÷ 1.03 = 100.00. Down: 103 ÷ 1.022 = 100.78. Today: [(100.00 + 3) + (100.78 + 3)] ÷ 2 ÷ 1.025 = 100.87. 98.47 discounts the first step at the full 5%; 96.11 uses full rates everywhere." },
 };
 
 const TUITION_Q = {
@@ -26856,6 +26927,203 @@ const TUITION_Q = {
     "a": 1,
     "note": "You picked the right answer, but it was a guess."
   },
+  "L2-R24-Q2 #1": {
+    "full": [
+      "For a 3-year, semiannual coupon payment bond, the number of interest rate paths that would be generated using the pathwise valuation is closest to:"
+    ],
+    "options": [
+      "4",
+      "64",
+      "32"
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R24-Q2 #3": {
+    "full": [
+      "The government bond spot rate curve is given below:",
+      {
+        "columns": [
+          "Maturity (years)",
+          "Spot rate"
+        ],
+        "rows": [
+          [
+            "0.5",
+            "1.25%"
+          ],
+          [
+            "1.0",
+            "1.30%"
+          ],
+          [
+            "1.5",
+            "1.80%"
+          ],
+          [
+            "2.0",
+            "2.00%"
+          ],
+          [
+            "2.5",
+            "2.20%"
+          ],
+          [
+            "3.0",
+            "2.25%"
+          ],
+          [
+            "3.5",
+            "2.28%"
+          ],
+          [
+            "4.0",
+            "2.30%"
+          ]
+        ]
+      },
+      "Compute the issue price of a 3-year, 3% semiannual coupon government bond with a par value of $100."
+    ],
+    "options": [
+      "$102.20",
+      "$104.09",
+      "$102.15"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R24-Q2 #5": {
+    "full": [
+      "Sam Roit, CFA, has collected the following information on the par rate curve, spot rates, and forward rates to generate a binomial interest rate tree consistent with this data.",
+      {
+        "columns": [
+          "Maturity",
+          "Par Rate",
+          "Spot Rate"
+        ],
+        "rows": [
+          [
+            "1",
+            "5%",
+            "5.000%"
+          ],
+          [
+            "2",
+            "6%",
+            "6.030%"
+          ],
+          [
+            "3",
+            "7%",
+            "7.097%"
+          ]
+        ]
+      },
+      "The binomial tree generated is shown below (one year forward rates) assuming a volatility level of 10%:",
+      {
+        "columns": [
+          "0",
+          "1",
+          "2"
+        ],
+        "rows": [
+          [
+            "5%",
+            "7.7099%",
+            "C"
+          ],
+          [
+            "",
+            "A",
+            "9.2625%"
+          ],
+          [
+            "",
+            "",
+            "B"
+          ]
+        ]
+      },
+      "Riot also generated another tree using the same spot rates but this time assuming a volatility level of 20% as shown below:",
+      {
+        "columns": [
+          "0",
+          "1",
+          "2"
+        ],
+        "rows": [
+          [
+            "5%",
+            "8.9480%",
+            "13.8180%"
+          ],
+          [
+            "",
+            "5.9980%",
+            "9.2625%"
+          ],
+          [
+            "",
+            "",
+            "6.2088%"
+          ]
+        ]
+      },
+      "Is the binomial tree using the 20% volatility assumption calibrated properly?"
+    ],
+    "options": [
+      "The tree is not calibrated properly because adjacent nodes are not appropriate standard deviations apart.",
+      "The tree is calibrated properly.",
+      "The tree is not calibrated properly because it is not consistent with market prices."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R24-Q2 #7": {
+    "full": [
+      "Which of the following is a correct statement concerning the backward induction technique used within the binomial interest rate tree framework? From the maturity date of a bond:"
+    ],
+    "options": [
+      "a deterministic interest rate path is used to discount the value of the bond.",
+      "the corresponding interest rates are weighted by the bond's duration to discount the value of the bond.",
+      "the corresponding interest rates and interest rate probabilities are used to discount the value of the bond."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R24-Q2 #8": {
+    "full": [
+      "Using the following interest rate tree of semiannual interest rates what is the value of an option free bond that has one year remaining to maturity and has 5% coupon rate with semi-annual coupon payments.",
+      {
+        "columns": [
+          "Today",
+          "6 months"
+        ],
+        "rows": [
+          [
+            "",
+            "7.30%"
+          ],
+          [
+            "6.20%",
+            ""
+          ],
+          [
+            "",
+            "5.90%"
+          ]
+        ]
+      }
+    ],
+    "options": [
+      "97.53.",
+      "98.67.",
+      "98.98."
+    ],
+    "p": 1,
+    "a": 1,
+    "note": "You picked the right answer, but it was a guess."
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -27434,6 +27702,18 @@ const TESTS = [
     { mod: '24.S3', what: 'Least likely a tree property: adjacent rates one SD apart (it is two)', ok: 0, why: 'gap' },
     { mod: '24.S2', what: 'Backward induction because the price at maturity is known', ok: 0, why: 'gap' },
     { mod: '24.S3', what: 'Option-free bond: spot curve and arbitrage-free tree give the same value', ok: 1, why: 'guess' },
+  ] },
+  { id: 'L2-R24-Q2', lvl: '2232313321', topic: 'fi.1', name: 'Reading 24 quiz 2', date: '2026-11-02', mins: 28.3, qs: [
+    { mod: '24.S2', what: '3-year semiannual bond: 6 periods → 2⁵ = 32 paths', ok: 0, why: 'gap' },
+    { mod: '24.S2', what: '2-year 10% bond on a tree (8.5%; 8% or 9%) = 102.659', ok: 1 },
+    { mod: '24.S1', what: '3-year 3% semiannual bond priced off half-year spot rates = $102.20', ok: 0, why: 'calc' },
+    { mod: '24.S3', what: 'Lower node = 6.25% ÷ e^(2 × 0.15) = 4.63%', ok: 1 },
+    { mod: '24.S3', what: 'Calibration: the 20% tree values the 3-year 7% par bond at 99.44, not 100', ok: 0, why: 'gap' },
+    { mod: '24.S2', what: 'More Monte Carlo paths: statistical, not fundamental, accuracy', ok: 1 },
+    { mod: '24.S2', what: 'Backward induction: rates and probabilities discount each node', ok: 0, why: 'gap' },
+    { mod: '24.S2', what: 'Semiannual tree, 1-year 5% bond = 98.67 (rates ÷ 2)', ok: 1, why: 'guess' },
+    { mod: '24.S2', what: 'Pathwise value of path 2 = $101.15', ok: 1 },
+    { mod: '24.S3', what: 'Least likely a tree property: mean reversion', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
