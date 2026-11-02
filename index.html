@@ -790,8 +790,8 @@ window.addEventListener('error', function (e) {
   .nb-pin.stuck .nb-session-pages, .nb-pin.stuck .rv-state { display: none; }
   .nb-pin.stuck .nb-session-head { margin-bottom: 8px; padding-bottom: 6px; }
   .nb-pin.stuck .rv-bar { margin-top: 0; padding-bottom: 8px; }
-  @media (max-width: 760px) {
-    /* Mobile: only the revision row floats; the session header scrolls away. */
+  @media (max-width: 760px), (max-height: 500px) {
+    /* Mobile, upright or sideways: only the revision row floats; the session header scrolls away. */
     .nb-pin { display: contents; }
     .nb-pin .rv-bar { position: sticky; top: 0; z-index: 6; background: var(--panel); margin: -6px calc(-1 * var(--nb-px, 20px)) 0; padding: 8px var(--nb-px, 20px); }
     .nb-pin.stuck .nb-session-head { margin-bottom: 16px; padding-bottom: 8px; }
