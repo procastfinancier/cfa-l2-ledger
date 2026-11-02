@@ -21802,6 +21802,65 @@ const TUITION_MISSES = {
       tackle: ['For each statement in a vignette, test it on its own before matching the answer pattern.', 'Supply/demand questions: more demand always means lower yield.'],
     },
   ],
+  'fi.1': [
+    {
+      module: '24.S3',
+      title: 'Adjacent rates in a year are e^(2σ) apart: multiply to go up a node, divide to go down',
+      at: ['s3-adj-dia'],
+      questions: [
+        { ref: 'L2-R24-Q1 #1', ask: 'σ = 10%. Year-1 upper node 7.7099%. Lower node A?', picked: '5.4223%', answer: '6.3123%' },
+      ],
+      trap: 'The question gives a second tree with σ = 20%, which is there to distract. Use the σ of the tree that holds A, and the gap is 2σ, not σ.',
+      fix: 'A = 7.7099% ÷ e^(2 × 0.10) = 7.7099% ÷ 1.2214 = 6.3123%. Check: you got C right the same way, 9.2625% × e^(0.20) = 11.3132%.',
+      tackle: ['Find the σ of the tree that holds the node you want.', 'Up a node: × e^(2σ). Down a node: ÷ e^(2σ). Only within the same year.'],
+    },
+    {
+      module: '24.S3',
+      title: 'The lognormal tree’s properties: non-negative rates, higher volatility at higher rates, adjacent rates two SDs apart',
+      at: ['s3-rules', 'lognormal random walk'],
+      questions: [
+        { ref: 'L2-R24-Q1 #8', ask: 'Least likely a property of a binomial interest rate tree:', picked: 'higher volatility at higher rates', answer: 'adjacent forward rates in a period are one standard deviation apart' },
+      ],
+      trap: 'You picked a true property. In a "least likely" question, look for the false one: adjacent rates are two standard deviations apart, e^(2σ), not one.',
+      fix: 'The lognormal model gives non-negative rates and higher volatility at higher rates. Adjacent nodes in a period differ by e^(2σ), two standard deviations.',
+      tackle: ['On "least likely", tick each option true or false before choosing.', 'Remember the 2 in e^(2σ): that is the "two standard deviations".'],
+    },
+    {
+      module: '24.S2',
+      title: 'Backward induction starts at maturity, where the bond’s value is known (par + last coupon), and works back to today',
+      at: ['Backward Induction'],
+      questions: [
+        { ref: 'L2-R24-Q1 #3', ask: 'With interest rate models, backward induction refers to determining:', picked: 'one portion of the yield curve from another', answer: 'the current value of a bond from its possible final values' },
+        { ref: 'L2-R24-Q1 #9', ask: 'Why use backward rather than forward induction to value a bond?', picked: 'the convexity of a bond changes over time', answer: 'the price of the bond is known at maturity' },
+      ],
+      trap: 'Two misses on what "backward" means. It has nothing to do with the yield curve or convexity: it means starting from the end of the tree, because that is the only point where the value is certain.',
+      fix: 'At maturity every node is worth par + coupon. Each earlier node = (average of the two values ahead + coupon) ÷ (1 + node rate). Repeat until time 0.',
+      tackle: ['"Backward" = start at maturity, the one value you know for sure.'],
+    },
+    {
+      module: '24.S2',
+      title: 'Path-dependent cash flows (MBS prepayments) cannot go on a tree: use Monte Carlo, which still needs a volatility',
+      at: ['Path Dependency'],
+      questions: [
+        { ref: 'L2-R24-Q1 #2', ask: 'A tree (backward induction) cannot value an MBS because:', picked: 'prepayments occur linearly over the life of a rate trend', answer: 'the MBS cash flows depend on the path rates have followed' },
+        { ref: 'L2-R24-Q1 #7', ask: 'Relative to the binomial model, Monte Carlo is most likely:', picked: 'more flexible as it does not need a volatility estimate', answer: 'more suitable for securities whose cash flows are path dependent' },
+      ],
+      trap: 'A tree node only knows today’s rate, not how it got there. MBS prepayments depend on the history (refinancing after rates fell), so the tree fails. Monte Carlo draws whole paths, but it generates them from an assumed volatility, so it still needs one, and it can add mean reversion.',
+      fix: 'Path dependent → Monte Carlo. Monte Carlo: needs volatility, can force mean reversion, value = average over many paths.',
+      tackle: ['MBS or prepayment in the question → think "path dependent" → Monte Carlo.', 'Any option saying Monte Carlo needs no volatility is wrong.'],
+    },
+    {
+      module: '24.S2',
+      title: 'Pathwise value: discount each cash flow by the product of (1 + rate) for every year on that path up to it',
+      at: ['Path Dependency'],
+      questions: [
+        { ref: 'L2-R24-Q1 #6', ask: '3-year 3% $100 bond, path 4 rates 2%, 2.078%, 2.2384%. Value?', picked: '$101.88', answer: '$102.58' },
+      ],
+      trap: 'Calculation slip: you got path 3 right ($101.85) but not path 4. Only the year-3 rate changed (2.2384% instead of 3.0216%), so only the last cash flow changes, and a lower rate means a higher value.',
+      fix: '3/1.02 + 3/(1.02 × 1.02078) + 103/(1.02 × 1.02078 × 1.022384) = 2.9412 + 2.8813 + 96.7589 = $102.58.',
+      tackle: ['Write the running discount factors: 1.02, then × 1.02078, then × 1.022384.', 'Sense check against the path next to it: a lower final rate should give a higher value.'],
+    },
+  ],
 };
 // Mind map per reading: how its topics split and connect. `branches` follow the sessions (`mod`, `tone`);
 // every node has a title `t`, a one-line `tag`, and optionally: `info` (lines, or { columns, rows } tables),
@@ -24223,6 +24282,28 @@ const TWIN_Q = {
   "L2-R23-Q2 #10": { lvl: 3, full: ["An analyst says: (1) “Heavy demand from pension funds for 30-year government bonds pushes 30-year yields up, according to the segmented markets theory.” (2) “Volatility estimates from an option pricing model assume constant volatility.” Which is correct?"],
     options: ["A) Both statements.","B) Only statement 2.","C) Neither statement."], a: 1,
     why: "More demand raises price and lowers yield, so (1) is wrong. Option pricing models do assume constant volatility, so (2) is right." },
+  // R24
+  "L2-R24-Q1 #1": { lvl: 2, full: ["A binomial tree assumes 15% volatility. The year-1 upper node is 6.40%. The year-1 lower node is closest to:"],
+    options: ["A) 3.51%","B) 4.74%","C) 5.51%"], a: 1,
+    why: "Lower = 6.40% ÷ e^(2 × 0.15) = 6.40% ÷ 1.3499 = 4.74%. 5.51% uses e^(σ) instead of e^(2σ); 3.51% uses e^(4σ), which is two nodes apart." },
+  "L2-R24-Q1 #8": { lvl: 1, full: ["Which is most likely a property of a binomial interest rate tree built on a lognormal random walk?"],
+    options: ["A) Rates can turn negative when they are low.","B) Volatility is the same at every rate level.","C) Adjacent rates in a period are two standard deviations apart."], a: 2,
+    why: "Adjacent rates differ by e^(2σ), two standard deviations. The lognormal model keeps rates non-negative and gives higher volatility at higher rates, so A and B are both false." },
+  "L2-R24-Q1 #3": { lvl: 1, full: ["When valuing a bond on a binomial interest rate tree by backward induction, the starting point is:"],
+    options: ["A) today’s one-year spot rate.","B) the bond’s value at maturity (par plus the final coupon) at every final node.","C) the middle forward rate of the last period."], a: 1,
+    why: "Backward induction starts at maturity, where every node is worth par + coupon, and discounts back node by node to today." },
+  "L2-R24-Q1 #9": { lvl: 1, full: ["Valuation on a binomial interest rate tree works from the last period back to today mainly because:"],
+    options: ["A) the cash flows at maturity are known at every node.","B) the last period’s rates are the most accurate.","C) discounting backward gives a more conservative value."], a: 0,
+    why: "Only the maturity value is certain (par + coupon), so it is the starting point." },
+  "L2-R24-Q1 #2": { lvl: 1, full: ["An analyst values a mortgage-backed security with Monte Carlo simulation rather than a binomial tree. The best reason is that:"],
+    options: ["A) the MBS’s prepayments depend on the path rates took, not only on the current rate.","B) an MBS has no embedded option.","C) a binomial tree cannot include a volatility assumption."], a: 0,
+    why: "Prepayments depend on the rate history (e.g. refinancing after rates fell), so cash flows are path dependent; a tree node only knows the current rate." },
+  "L2-R24-Q1 #7": { lvl: 2, full: ["Compared with a binomial interest rate tree, Monte Carlo simulation most likely:"],
+    options: ["A) needs no volatility assumption.","B) can value securities whose cash flows are path dependent.","C) cannot impose mean reversion on rates."], a: 1,
+    why: "Monte Carlo draws whole rate paths, so path-dependent cash flows work. It still needs a volatility to generate the paths, and it can add bounds for mean reversion." },
+  "L2-R24-Q1 #6": { lvl: 2, full: ["A 3-year, 4% annual-pay, $100 par bond is valued along one interest rate path: year 1 = 3.0%, year 2 = 3.5%, year 3 = 2.5%. The bond’s value on this path is closest to:"],
+    options: ["A) $101.89","B) $102.81","C) $104.19"], a: 1,
+    why: "4/1.03 + 4/(1.03 × 1.035) + 104/(1.03 × 1.035 × 1.025) = 3.8835 + 3.7522 + 95.1769 = $102.81. $101.89 uses 3.5% again in year 3; $104.19 discounts each cash flow at its own year’s rate compounded, instead of the path product." },
 };
 
 const TUITION_Q = {
@@ -26551,6 +26632,200 @@ const TUITION_Q = {
     "a": 2,
     "note": "You picked the right answer, but it was a guess."
   },
+  "L2-R24-Q1 #1": {
+    "full": [
+      "Sam Roit, CFA, has collected the following information on the par rate curve, spot rates, and forward rates to generate a binomial interest rate tree consistent with this data.",
+      {
+        "columns": [
+          "Maturity",
+          "Par Rate",
+          "Spot Rate"
+        ],
+        "rows": [
+          [
+            "1",
+            "5%",
+            "5.000%"
+          ],
+          [
+            "2",
+            "6%",
+            "6.030%"
+          ],
+          [
+            "3",
+            "7%",
+            "7.097%"
+          ]
+        ]
+      },
+      "The binomial tree generated is shown below (one year forward rates) assuming a volatility level of 10%:",
+      {
+        "columns": [
+          "0",
+          "1",
+          "2"
+        ],
+        "rows": [
+          [
+            "5%",
+            "7.7099%",
+            "C"
+          ],
+          [
+            "",
+            "A",
+            "9.2625%"
+          ],
+          [
+            "",
+            "",
+            "B"
+          ]
+        ]
+      },
+      "Riot also generated another tree using the same spot rates but this time assuming a volatility level of 20% as shown below:",
+      {
+        "columns": [
+          "0",
+          "1",
+          "2"
+        ],
+        "rows": [
+          [
+            "5%",
+            "8.9480%",
+            "13.8180%"
+          ],
+          [
+            "",
+            "5.9980%",
+            "9.2625%"
+          ],
+          [
+            "",
+            "",
+            "6.2088%"
+          ]
+        ]
+      },
+      "The one-year forward rate represented by ‘A’ is closest to:"
+    ],
+    "options": [
+      "6.3123%",
+      "5.4223%",
+      "6.7732%"
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R24-Q1 #2": {
+    "full": [
+      "A binomial model or any other model that uses the backward induction method cannot be used to value a mortgage-backed security (MBS) because:"
+    ],
+    "options": [
+      "the prepayments occur linearly over the life of an interest rate trend (either up or down).",
+      "the cash flows for an MBS only depend on the current rate, not the path that rates have followed.",
+      "the cash flows for the MBS are dependent upon the path that interest rates follow."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R24-Q1 #3": {
+    "full": [
+      "With respect to interest rate models, backward induction refers to determining:"
+    ],
+    "options": [
+      "convexity from duration.",
+      "one portion of the yield curve from another portion.",
+      "the current value of a bond based on possible final values of the bond."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R24-Q1 #6": {
+    "full": [
+      "A 3-year, 3% annual pay, $100 par bond is valued using pathwise valuation. The interest rate paths are provided below:",
+      {
+        "columns": [
+          "Path",
+          "Year 1",
+          "Year 2",
+          "Year 3"
+        ],
+        "rows": [
+          [
+            "1",
+            "2%",
+            "2.8050%",
+            "4.0787%"
+          ],
+          [
+            "2",
+            "2%",
+            "2.8050%",
+            "3.0216%"
+          ],
+          [
+            "3",
+            "2%",
+            "2.0780%",
+            "3.0216%"
+          ],
+          [
+            "4",
+            "2%",
+            "2.0780%",
+            "2.2384%"
+          ]
+        ]
+      },
+      "The value of the bond in path 4 is closest to:"
+    ],
+    "options": [
+      "$100.02",
+      "$101.88",
+      "$102.58"
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R24-Q1 #7": {
+    "full": [
+      "Relative to the binomial model, Monte Carlo method is most likely:"
+    ],
+    "options": [
+      "more suitable when valuing securities whose cash flows are interest rate path dependent.",
+      "more flexible as it does not need a volatility estimate.",
+      "less flexible in forcing interest rates to mean revert."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R24-Q1 #8": {
+    "full": [
+      "Which of the following choices is least-likely a property of a binomial interest rate tree?"
+    ],
+    "options": [
+      "Non-negative interest rates.",
+      "Higher volatility at higher rates.",
+      "Adjacent forward rates in a nodal period are one standard deviation apart."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R24-Q1 #9": {
+    "full": [
+      "Why is the backward induction methodology used to value a bond rather than a forward induction scheme?"
+    ],
+    "options": [
+      "The price of the bond is known at maturity.",
+      "Future interest rate changes are difficult to forecast.",
+      "The convexity of a bond changes over time."
+    ],
+    "p": 2,
+    "a": 0
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -27117,6 +27392,18 @@ const TESTS = [
     { mod: '23.S6', what: 'Short and long −75bp, middle −30bp: level and curvature', ok: 1 },
     { mod: '23.S6', what: 'Steepening risk: decrease key rates at the short end', ok: 1 },
     { mod: '23.S5', what: 'Option models assume constant volatility; segmentation: high demand lowers yields', ok: 1, why: 'guess' },
+  ] },
+  { id: 'L2-R24-Q1', lvl: '2112222112', topic: 'fi.1', name: 'Reading 24 quiz 1', date: '2026-11-02', mins: 15.2, qs: [
+    { mod: '24.S3', what: 'Lower node A = 7.7099% ÷ e^(2 × 0.10) = 6.3123%', ok: 0, why: 'calc' },
+    { mod: '24.S2', what: 'MBS: cash flows depend on the rate path, so no backward induction', ok: 0, why: 'gap' },
+    { mod: '24.S2', what: 'Backward induction: today’s value from the possible final values', ok: 0, why: 'gap' },
+    { mod: '24.S2', what: 'Pathwise value of path 3 (2%, 2.078%, 3.0216%) = $101.85', ok: 1 },
+    { mod: '24.S3', what: 'Upper node C = 9.2625% × e^(2 × 0.10) = 11.3132%', ok: 1 },
+    { mod: '24.S2', what: 'Pathwise value of path 4 (2%, 2.078%, 2.2384%) = $102.58', ok: 0, why: 'calc' },
+    { mod: '24.S2', what: 'Monte Carlo suits path-dependent cash flows (it still needs a volatility)', ok: 0, why: 'gap' },
+    { mod: '24.S3', what: 'Least likely a tree property: adjacent rates one SD apart (it is two)', ok: 0, why: 'gap' },
+    { mod: '24.S2', what: 'Backward induction because the price at maturity is known', ok: 0, why: 'gap' },
+    { mod: '24.S3', what: 'Option-free bond: spot curve and arbitrage-free tree give the same value', ok: 1 },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
