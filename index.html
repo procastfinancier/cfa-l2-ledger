@@ -21805,6 +21805,17 @@ const TUITION_MISSES = {
   'fi.1': [
     {
       module: '24.S3',
+      title: 'An option-free bond has the same value on the spot curve and on an arbitrage-free tree, whatever the volatility',
+      at: ['s3-rules'],
+      questions: [
+        { ref: 'L2-R24-Q1 #10', ask: 'Option-free bond valued with (1) the zero-coupon curve and (2) an arbitrage-free binomial lattice. Method 2 gives:', picked: 'the same value (a guess)', answer: 'the same value' },
+      ],
+      trap: 'Right answer, but a guess. "In the presence of volatility" tempts you to pick a higher value, but volatility only changes the value of a bond with an option. The tree is calibrated to the spot curve, so with no option it must reproduce the same price.',
+      fix: 'Rule 1 of building the tree: it must give arbitrage-free values for the benchmark bonds, i.e. the same prices as discounting at spot rates. So option-free bond: tree value = spot-curve value, at any σ. Volatility matters only once a call or put is embedded.',
+      tackle: ['Option-free + arbitrage-free tree → same value as the spot curve. No exceptions.', 'Volatility changes value only through an embedded option.'],
+    },
+    {
+      module: '24.S3',
       title: 'Adjacent rates in a year are e^(2σ) apart: multiply to go up a node, divide to go down',
       at: ['s3-adj-dia'],
       questions: [
@@ -24304,6 +24315,9 @@ const TWIN_Q = {
   "L2-R24-Q1 #6": { lvl: 2, full: ["A 3-year, 4% annual-pay, $100 par bond is valued along one interest rate path: year 1 = 3.0%, year 2 = 3.5%, year 3 = 2.5%. The bond’s value on this path is closest to:"],
     options: ["A) $101.89","B) $102.81","C) $104.19"], a: 1,
     why: "4/1.03 + 4/(1.03 × 1.035) + 104/(1.03 × 1.035 × 1.025) = 3.8835 + 3.7522 + 95.1769 = $102.81. $101.89 uses 3.5% again in year 3; $104.19 discounts each cash flow at its own year’s rate compounded, instead of the path product." },
+  "L2-R24-Q1 #10": { lvl: 2, full: ["An analyst values the same option-free, 5-year government bond on two arbitrage-free binomial trees calibrated to the same spot curve: one assumes 10% volatility, the other 25%. Compared with the 10% tree, the 25% tree gives:"],
+    options: ["A) a higher value.", "B) a lower value.", "C) the same value."], a: 2,
+    why: "Both trees are calibrated to the same spot curve, so an option-free bond gets the spot-curve value on each. Volatility changes value only when a call or put is embedded (callable falls, putable rises)." },
 };
 
 const TUITION_Q = {
@@ -26826,6 +26840,22 @@ const TUITION_Q = {
     "p": 2,
     "a": 0
   },
+  "L2-R24-Q1 #10": {
+    "full": [
+      "Suppose that we calculate the value of an option-free, fixed-rate coupon bond, discounting the cash flows using two methods:",
+      "1. the zero-coupon yield curve.",
+      "2. an arbitrage-free binomial lattice.",
+      "Compared to the first methodology, the second method is expected to produce:"
+    ],
+    "options": [
+      "a higher value in the presence of volatility.",
+      "the same value.",
+      "a lower value if the bond carries a coupon higher than the corresponding benchmark bond."
+    ],
+    "p": 1,
+    "a": 1,
+    "note": "You picked the right answer, but it was a guess."
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -27403,7 +27433,7 @@ const TESTS = [
     { mod: '24.S2', what: 'Monte Carlo suits path-dependent cash flows (it still needs a volatility)', ok: 0, why: 'gap' },
     { mod: '24.S3', what: 'Least likely a tree property: adjacent rates one SD apart (it is two)', ok: 0, why: 'gap' },
     { mod: '24.S2', what: 'Backward induction because the price at maturity is known', ok: 0, why: 'gap' },
-    { mod: '24.S3', what: 'Option-free bond: spot curve and arbitrage-free tree give the same value', ok: 1 },
+    { mod: '24.S3', what: 'Option-free bond: spot curve and arbitrage-free tree give the same value', ok: 1, why: 'guess' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
