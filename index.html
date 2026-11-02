@@ -21644,6 +21644,17 @@ const TUITION_MISSES = {
   'alt.2': [
     {
       module: '32.S2',
+      title: 'Price from P/FFO: FFO per share = net income + depreciation − gains on property sales, then × the multiple',
+      at: ['FFO and AFFO'],
+      questions: [
+        { ref: 'L2-ALT-CASE2 #5', ask: 'Net income $142,187k, depreciation $90,409k, gains on sale $2,162k, 121,944k shares, P/FFO 11.5x. Year-end price?', picked: '$21.73 (a guess)', answer: '$21.73' },
+      ],
+      trap: 'Right answer, but a guess. The usual slips are adding the gain on sale instead of taking it out, or applying the multiple to EPS instead of FFO per share.',
+      fix: 'FFO = 142,187 + 90,409 − 2,162 = 230,434. FFO per share = 230,434 ÷ 121,944 = $1.89. Price = 1.89 × 11.5 = $21.73.',
+      tackle: ['FFO adds back real estate depreciation and removes gains (or adds back losses) on property sales.', 'Divide by shares first, then multiply by P/FFO.'],
+    },
+    {
+      module: '32.S2',
       title: 'Two-step dividend model for a REIT: discount D₁–D₃, plus a terminal value at year 3 built from D₄',
       at: ['DDM'],
       questions: [
@@ -21698,6 +21709,78 @@ const TUITION_MISSES = {
       trap: '100% net short is a dedicated short fund. A short-biased fund keeps some long positions.',
       fix: 'Dedicated short: about 100% short. Short-biased: net short about 30–60%. Equity market neutral: about 0. L/S equity: net long about 40–60%.',
       tackle: ['Learn the four net-exposure figures as one line.'],
+    },
+  ],
+  'fi.0': [
+    {
+      module: '23.S2',
+      title: 'Bootstrapping: price each par bond at 100, discount the early coupons at the spot rates you already have, solve for the last one',
+      at: ['Bootstrapping'],
+      questions: [
+        { ref: 'L2-R23-Q1 #1', ask: 'Par rates 5%, 6%, 7% (years 1–3). Bootstrapped 3-year spot rate?', picked: '6.67%', answer: '7.09%' },
+        { ref: 'L2-R23-Q1 #3', ask: 'Par rates 1%, 2%, 3%, 4%, 5%. Bootstrapped 2-year spot rate?', picked: '1.50%', answer: '2.01%' },
+      ],
+      trap: 'Both picks are averages of the par rates. A spot rate is not an average: on an upward curve it sits slightly above the par rate of the same maturity.',
+      fix: '2-year: 100 = 2/1.01 + 102/(1+S₂)² → 98.02 = 102/(1+S₂)² → S₂ = 2.01%. 3-year (first quiz): S₂ = 6.03%; 100 = 7/1.05 + 7/1.0603² + 107/(1+S₃)³ → 87.11 = 107/(1+S₃)³ → S₃ = 7.09%.',
+      tackle: ['Write the par bond at 100 with the par rate as its coupon.', 'Discount every coupon except the last at the known spot rates and subtract from 100.', 'Last cash flow ÷ what is left, then take the root. On an upward curve the answer is just above the par rate.'],
+    },
+    {
+      module: '23.S1',
+      title: 'Upward spot curve: the forward curve lies above it and is steeper (downward: below it and falls faster)',
+      at: ['s1-fwd'],
+      questions: [
+        { ref: 'L2-R23-Q1 #2', ask: 'If the spot curve slopes upward, the forward curve is most likely:', picked: 'parallel to the spot curve and above it', answer: 'steeper than the spot curve and above it' },
+      ],
+      trap: 'You had "above" right but chose "parallel". A spot rate is an average of the forwards before it, so the forwards must move faster than the average.',
+      fix: 'Spot = average of the one-period forwards up to that date. For the average to keep rising, each new forward has to be above it and rising faster, so the forward curve is above and steeper.',
+      tackle: ['Think of spot as a running average of forwards: marginal (forward) above the average (spot) pulls it up.', 'Reverse it for a downward curve: below and falling faster.'],
+    },
+    {
+      module: '23.S5',
+      title: 'Liquidity preference: forward = expected spot + liquidity premium, so the curve usually slopes up but can take any shape',
+      at: ['3. Liquidity Preference Theory'],
+      questions: [
+        { ref: 'L2-R23-Q1 #4', ask: 'Under liquidity preference, expected future spot rates are most likely:', picked: 'more than the current forward rate', answer: 'less than the current forward rate' },
+        { ref: 'L2-R23-Q1 #6', ask: 'Under the liquidity theory, the yield curve:', picked: 'must be upward sloping', answer: 'may have any shape' },
+        { ref: 'L2-R23-Q2 #1', ask: 'The liquidity theory is a variation of pure expectations that explains why:', picked: 'duration is an imprecise measure', answer: 'the yield curve usually slopes upward' },
+        { ref: 'L2-R23-Q2 #2', ask: 'Rates are not expected to change. Under liquidity preference, the curve will be:', picked: 'variable', answer: 'upward sloping' },
+      ],
+      trap: 'Four misses on one theory. The premium is inside the forward rate, so E(S) = F − LP sits below F. The premium pushes the curve up, so it usually slopes up, and with flat expectations it must slope up; but steeply falling expected rates can still outweigh it, so any shape is possible.',
+      fix: 'F = E(S) + LP, with LP rising with maturity. Forwards are upward-biased estimates of future spot rates. Flat expectations + LP → upward slope. Strongly falling expectations → downward slope despite LP.',
+      tackle: ['Write F = E(S) + LP before answering any liquidity question.', '"Usually" slopes up (that is what it explains); "must" slope up is wrong.', 'Expected spot vs. forward: expected spot is lower.'],
+    },
+    {
+      module: '23.S7',
+      title: 'Flight to safety lowers long government yields: bullish flattening (tightening that lifts short rates is bearish flattening)',
+      at: ['Other Factors Affecting Bond Yields'],
+      questions: [
+        { ref: 'L2-R23-Q1 #8', ask: 'Investors rotating from risky assets into safe ones in a crisis most likely leads to:', picked: 'bearish flattening', answer: 'bullish flattening' },
+      ],
+      trap: 'Direction flip on the word "bull/bear". It describes bond prices: buying long government bonds pushes prices up (bullish) and long yields down, so the curve flattens from the long end.',
+      fix: 'Bullish = yields fall (prices rise). Bearish = yields rise. Flight to safety → demand for long Treasuries → long yields fall → bullish flattening.',
+      tackle: ['Ask first: do yields rise or fall? Fall = bullish.', 'Then ask which end moves more to get flattening vs. steepening.'],
+    },
+    {
+      module: '23.S4',
+      title: 'Swap spread = swap fixed rate − on-the-run government yield of the same maturity',
+      at: ['Swap Spread (bank vs. government)'],
+      questions: [
+        { ref: 'L2-R23-Q2 #5', ask: 'A swap spread is the difference between:', picked: 'LIBOR and the fixed rate on the swap', answer: 'the fixed rate on a swap and the Treasury yield of the same maturity' },
+      ],
+      trap: 'Mixing up the spreads. LIBOR vs. the swap fixed rate is not a quoted spread at all; the swap spread compares two fixed rates: swap vs. government.',
+      fix: 'Swap spread = swap rate − Treasury (bank vs. government). I-spread = bond yield − swap rate. TED = 3-m LIBOR − 3-m T-bill.',
+      tackle: ['Name the two curves in each spread before choosing: swap spread = swap vs. government.'],
+    },
+    {
+      module: '23.S5',
+      title: 'Option models assume constant volatility (not constant rates); under segmentation, heavy demand at a maturity lowers its yield',
+      at: ['4. Segmented Markets Theory', 's6-vol'],
+      questions: [
+        { ref: 'L2-R23-Q2 #10', ask: 'Walsh: option-model volatility assumes constant rates; segmentation shows high demand for intermediate bonds. Evaluate.', picked: 'Walsh is incorrect on both (a guess)', answer: 'Walsh is incorrect on both' },
+      ],
+      trap: 'Right answer, but a guess. Two separate errors: an option pricing model assumes constant volatility, not a constant level of rates; and high demand pushes prices up and yields down, so a high intermediate yield signals low demand, not high.',
+      fix: 'Demand ↑ → price ↑ → yield ↓ at that maturity. Option models (Black-type) hold volatility constant.',
+      tackle: ['For each statement in a vignette, test it on its own before matching the answer pattern.', 'Supply/demand questions: more demand always means lower yield.'],
     },
   ],
 };
@@ -24087,6 +24170,40 @@ const TWIN_Q = {
   "L2-ALT-CASE1 #4": { lvl: 3, full: ["A REIT will pay a dividend of $2.50 next year. Dividends grow 6% in years 2 and 3, then 3% a year forever. The cost of equity is 9%. Using a two-step dividend discount model, the value per share is closest to:"],
     options: ["A) $40.85", "B) $42.84", "C) $43.93"], a: 2,
     why: "D₂ = 2.65, D₃ = 2.809, D₄ = 2.809 × 1.03 = 2.893. Terminal value at year 3 = 2.893 ÷ (0.09 − 0.03) = 48.22. Value = 2.50/1.09 + 2.65/1.09² + (2.809 + 48.22)/1.09³ = $43.93. $42.84 builds the terminal value from D₃; $40.85 discounts it over four years." },
+  // R23 and Alternatives case 2
+  "L2-ALT-CASE2 #5": { lvl: 3, full: ["A REIT reports net income of $80,000k, depreciation on real estate of $45,000k and a gain on the sale of properties of $5,000k. It has 50,000k shares outstanding and trades at 14.0x P/FFO. The share price is closest to:"],
+    options: ["A) $22.40","B) $33.60","C) $36.40"], a: 1,
+    why: "FFO = 80,000 + 45,000 − 5,000 = 120,000; per share 2.40; × 14 = $33.60. $36.40 adds the gain instead of removing it; $22.40 applies the multiple to EPS." },
+  "L2-R23-Q1 #1": { lvl: 3, full: ["Par rates: 1-year 3.00%, 2-year 4.00%, 3-year 5.00%. Using bootstrapping, the 3-year spot rate is closest to:"],
+    options: ["A) 4.67%","B) 5.00%","C) 5.07%"], a: 2,
+    why: "S₁ = 3%. 100 = 4/1.03 + 104/(1+S₂)² → S₂ = 4.02%. 100 = 5/1.03 + 5/1.0402² + 105/(1+S₃)³ → 90.52 = 105/(1+S₃)³ → S₃ = 5.07%. On an upward curve the spot is just above the par rate, never an average." },
+  "L2-R23-Q1 #3": { lvl: 2, full: ["Par rates: 1-year 2.00%, 2-year 4.00%. Using bootstrapping, the 2-year spot rate is closest to:"],
+    options: ["A) 3.00%","B) 4.00%","C) 4.04%"], a: 2,
+    why: "100 = 4/1.02 + 104/(1+S₂)² → 96.08 = 104/(1+S₂)² → S₂ = 4.04%. 3.00% averages the par rates; 4.00% is the par rate itself." },
+  "L2-R23-Q1 #2": { lvl: 1, full: ["If the spot curve is downward sloping, the forward curve is most likely to be:"],
+    options: ["A) above the spot curve and flatter.","B) below the spot curve and steeper.","C) parallel to the spot curve and below it."], a: 1,
+    why: "Spot is an average of forwards. For the average to keep falling, each forward must be below it and falling faster: below and steeper." },
+  "L2-R23-Q1 #4": { lvl: 2, full: ["Under the liquidity preference theory, the current forward rate compared with the market’s expected future spot rate is most likely:"],
+    options: ["A) lower.","B) equal.","C) higher."], a: 2,
+    why: "F = E(S) + liquidity premium, so the forward rate is higher: an upward-biased estimate of the future spot rate." },
+  "L2-R23-Q1 #6": { lvl: 2, full: ["According to the liquidity preference theory, a downward-sloping yield curve most likely indicates that:"],
+    options: ["A) short-term rates are expected to fall steeply.","B) investors require no liquidity premium.","C) the theory does not hold."], a: 0,
+    why: "The premium pushes the curve up, so a downward slope needs expected rates to fall by more than the premium: steeply falling short rates. Any shape is possible." },
+  "L2-R23-Q2 #1": { lvl: 1, full: ["Which observation can the pure expectations theory NOT explain on its own, but the liquidity preference theory can?"],
+    options: ["A) Forward rates equal expected future spot rates.","B) Yield curves usually slope upward.","C) Yield curves sometimes slope downward."], a: 1,
+    why: "Rates are not expected to rise most of the time, yet curves usually slope up. The rising liquidity premium explains that." },
+  "L2-R23-Q2 #2": { lvl: 2, full: ["Future short-term rates are expected to fall slightly. Under the liquidity preference theory, the yield curve could be:"],
+    options: ["A) only downward sloping.","B) upward sloping, flat or downward sloping.","C) only flat."], a: 1,
+    why: "A slight expected fall can be outweighed by the liquidity premium (upward), offset by it (flat) or outweigh it (downward). Any shape is possible." },
+  "L2-R23-Q2 #5": { lvl: 1, full: ["A 5-year swap fixed rate is 3.40%, the 5-year on-the-run Treasury yields 2.95% and a 5-year corporate bond yields 4.10%. The swap spread is:"],
+    options: ["A) 0.45%","B) 0.70%","C) 1.15%"], a: 0,
+    why: "Swap spread = swap rate − Treasury = 3.40 − 2.95 = 0.45%. 0.70% is the I-spread (bond − swap) and 1.15% the G-spread (bond − Treasury)." },
+  "L2-R23-Q1 #8": { lvl: 2, full: ["A central bank raises its policy rate sharply to fight inflation. Short-term yields rise by much more than long-term yields. The move is best described as:"],
+    options: ["A) bearish flattening.","B) bullish flattening.","C) bearish steepening."], a: 0,
+    why: "Yields rise (prices fall) = bearish; short end up more than long end = flattening." },
+  "L2-R23-Q2 #10": { lvl: 3, full: ["An analyst says: (1) “Heavy demand from pension funds for 30-year government bonds pushes 30-year yields up, according to the segmented markets theory.” (2) “Volatility estimates from an option pricing model assume constant volatility.” Which is correct?"],
+    options: ["A) Both statements.","B) Only statement 2.","C) Neither statement."], a: 1,
+    why: "More demand raises price and lowers yield, so (1) is wrong. Option pricing models do assume constant volatility, so (2) is right." },
 };
 
 const TUITION_Q = {
@@ -26227,6 +26344,194 @@ const TUITION_Q = {
     "a": 2,
     "note": "You picked the right answer, but it was a guess."
   },
+  "L2-ALT-CASE2 #5": {
+    "full": [
+      "Extract from the case (Exhibit 1, Baldwin REIT, 2011, in thousands except per share): net income 142,187; depreciation and amortization 90,409; other income (gains on sale of properties) 2,162; weighted average shares outstanding 121,944; price/FFO based on year-end stock price 11.5x.",
+      "Based on Exhibit 1, the 2011 year-end share price of Baldwin was closest to:"
+    ],
+    "options": [
+      "$13.23.",
+      "$21.73.",
+      "$30.36."
+    ],
+    "p": 1,
+    "a": 1,
+    "note": "You picked the right answer, but it was a guess."
+  },
+  "L2-R23-Q1 #1": {
+    "full": [
+      "The following are some of the current par rates:",
+      {
+        "columns": [
+          "Year",
+          "Par rate"
+        ],
+        "rows": [
+          [
+            "1",
+            "5.00%"
+          ],
+          [
+            "2",
+            "6.00%"
+          ],
+          [
+            "3",
+            "7.00%"
+          ]
+        ]
+      },
+      "Using bootstrapping, the 3-year spot rate is closest to:"
+    ],
+    "options": [
+      "6.67%",
+      "7.09%",
+      "6.93%"
+    ],
+    "p": 0,
+    "a": 1
+  },
+  "L2-R23-Q1 #2": {
+    "full": [
+      "If the spot curve is upward sloping, the forward curve is most likely to be:"
+    ],
+    "options": [
+      "parallel to the spot curve and below the spot curve.",
+      "steeper than the spot curve and above the spot curve.",
+      "parallel to the spot curve and above the spot curve."
+    ],
+    "p": 2,
+    "a": 1
+  },
+  "L2-R23-Q1 #3": {
+    "full": [
+      "The following are some of the current par rates:",
+      {
+        "columns": [
+          "Year",
+          "Par rate"
+        ],
+        "rows": [
+          [
+            "1",
+            "1.00%"
+          ],
+          [
+            "2",
+            "2.00%"
+          ],
+          [
+            "3",
+            "3.00%"
+          ],
+          [
+            "4",
+            "4.00%"
+          ],
+          [
+            "5",
+            "5.00%"
+          ]
+        ]
+      },
+      "Using bootstrapping, the 2-year spot rate is closest to:"
+    ],
+    "options": [
+      "2.01%",
+      "2.25%",
+      "1.50%"
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R23-Q1 #4": {
+    "full": [
+      "Under the liquidity preference theory, expected future spot rates will most likely be:"
+    ],
+    "options": [
+      "Less than the current forward rate.",
+      "Equal to the current forward rate.",
+      "More than the current forward rate."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R23-Q1 #6": {
+    "full": [
+      "What are the implications for the shape of the yield curve according to the liquidity theory? The yield curve:"
+    ],
+    "options": [
+      "may have any shape.",
+      "is always flat.",
+      "must be upward sloping."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R23-Q1 #8": {
+    "full": [
+      "Investors may rotating money out of risky investments and into relatively safe investments during a financial crisis would most likely lead to which of the following?"
+    ],
+    "options": [
+      "Bullish flattening.",
+      "Bearish flattening.",
+      "Bearish steepening."
+    ],
+    "p": 1,
+    "a": 0
+  },
+  "L2-R23-Q2 #1": {
+    "full": [
+      "The liquidity theory of the term structure of interest rates is a variation of the pure expectations theory that explains why:"
+    ],
+    "options": [
+      "duration is an imprecise measure.",
+      "the yield curve usually slopes downward.",
+      "the yield curve usually slopes upward."
+    ],
+    "p": 0,
+    "a": 2
+  },
+  "L2-R23-Q2 #2": {
+    "full": [
+      "Assume that the interest rates in the future are not expected to differ from current spot rates. In such a case, the liquidity premium theory of the term structure of interest rates projects that the shape of the yield curve will be:"
+    ],
+    "options": [
+      "downward sloping.",
+      "variable.",
+      "upward sloping."
+    ],
+    "p": 1,
+    "a": 2
+  },
+  "L2-R23-Q2 #5": {
+    "full": [
+      "A swap spread is the difference between:"
+    ],
+    "options": [
+      "the fixed rate on an interest rate swap and the rate on a Treasury bond of maturity equal to that of the swap.",
+      "the fixed-rate and floating-rate payment rates at the inception of the swap.",
+      "LIBOR and the fixed rate on the swap."
+    ],
+    "p": 2,
+    "a": 0
+  },
+  "L2-R23-Q2 #10": {
+    "full": [
+      "Extract from the case: Martha Garret, CFA, manages fixed-income portfolios for Jones Brothers, Inc. (JBI). At a meeting, Miranda Walsh, a principal at JBI, made the following comments:",
+      "“The variance of daily interest rate changes has been trending higher over the past three months, leading us to believe that a period of high volatility is approaching in the next 12 to 18 months. However, the reliability is questionable because the volatility estimates were derived using an option pricing model, which assumes constant interest rates.”",
+      "“Also, the Treasury spot rate curve currently has a similar shape to the yield curve on Treasury coupon securities, which according to the market segmentation theory of interest rate term structure, indicates a relatively high level of demand from investors for intermediate term securities. Overzealous trading by investors unwilling to move into other maturity ranges may create mispricing and opportunities for arbitrage.”",
+      "Evaluate Walsh’s comments regarding the method used to estimate the expected increase in interest rate volatility and the term structure of interest rates."
+    ],
+    "options": [
+      "Walsh is correct only with respect to interest rate volatility.",
+      "Walsh is correct with respect to both interest rate volatility and term structure.",
+      "Walsh is incorrect with respect to both interest rate volatility and term structure."
+    ],
+    "p": 2,
+    "a": 2,
+    "note": "You picked the right answer, but it was a guess."
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -26763,6 +27068,36 @@ const TESTS = [
     { mod: '32.S2', what: 'Two-step dividend model: D₁–D₃ plus a terminal value at year 3 from D₄', ok: 1, why: 'guess' },
     { mod: '32.S2', what: 'P/AFFO value: (FFO − non-cash rent − maintenance capex) per share × multiple', ok: 1 },
     { mod: '31.S2', topic: 'alt.1', what: 'Storage REIT risk: new competing facilities (easy entry, overbuilding)', ok: 1 },
+  ] },
+  { id: 'L2-ALT-CASE2', lvl: '112233', topic: 'alt.2', name: 'Alternatives case 2 (REITs: Wang and Caudill)', date: '2026-11-02', qs: [
+    { mod: '32.S1', what: 'Liquid, high income, no double taxation: publicly traded REITs', ok: 1 },
+    { mod: '32.S1', what: 'Direct ownership over REITs/REOCs: control over property decisions', ok: 1 },
+    { mod: '31.S1', topic: 'alt.1', what: 'Health care REIT: defensive in a recession, exposed to demographics and government funding', ok: 1 },
+    { mod: '32.S2', what: 'AFFO is the best measure of current economic return', ok: 1 },
+    { mod: '32.S2', what: 'Price = FFO per share (NI + depreciation − gains on sale) × P/FFO', ok: 1, why: 'guess' },
+    { mod: '32.S2', what: 'Two-step dividend model: D₁, D₂, terminal value at year 2 from D₃', ok: 1 },
+  ] },
+  { id: 'L2-R23-Q1', lvl: '32121212', topic: 'fi.0', name: 'Reading 23 quiz 1', date: '2026-11-02', mins: 12.3, qs: [
+    { mod: '23.S2', what: 'Bootstrap the 3-year spot rate from par rates 5%, 6%, 7%', ok: 0, why: 'calc' },
+    { mod: '23.S1', what: 'Upward spot curve: forward curve above it and steeper', ok: 0, why: 'gap' },
+    { mod: '23.S2', what: 'Bootstrap the 2-year spot rate from par rates 1%, 2%', ok: 0, why: 'calc' },
+    { mod: '23.S5', what: 'Liquidity preference: expected spot rate below the forward rate', ok: 0, why: 'flip' },
+    { mod: '23.S5', what: 'Pure expectations: upward curve means rates expected to rise', ok: 1 },
+    { mod: '23.S5', what: 'Liquidity theory: the curve may have any shape', ok: 0, why: 'gap' },
+    { mod: '23.S6', what: 'Key rate duration: change the yield at one maturity', ok: 1 },
+    { mod: '23.S7', what: 'Flight to safety: bullish flattening', ok: 0, why: 'flip' },
+  ] },
+  { id: 'L2-R23-Q2', lvl: '1211112223', topic: 'fi.0', name: 'Reading 23 quiz 2', date: '2026-11-02', mins: 21.7, qs: [
+    { mod: '23.S5', what: 'Liquidity theory explains why the curve usually slopes upward', ok: 0, why: 'gap' },
+    { mod: '23.S5', what: 'Rates expected flat + liquidity premium: upward-sloping curve', ok: 0, why: 'gap' },
+    { mod: '23.S7', what: 'Expect steepening: increasing duration is least appropriate', ok: 1 },
+    { mod: '23.S6', what: 'Least important curve factor: curvature', ok: 1 },
+    { mod: '23.S4', what: 'Swap spread = swap fixed rate − Treasury yield of the same maturity', ok: 0, why: 'gap' },
+    { mod: '23.S5', what: 'Liquidity premium: long rates above expected future rates', ok: 1 },
+    { mod: '23.S1', what: 'Break-even forward: full horizon vs. part then roll over', ok: 1 },
+    { mod: '23.S6', what: 'Short and long −75bp, middle −30bp: level and curvature', ok: 1 },
+    { mod: '23.S6', what: 'Steepening risk: decrease key rates at the short end', ok: 1 },
+    { mod: '23.S5', what: 'Option models assume constant volatility; segmentation: high demand lowers yields', ok: 1, why: 'guess' },
   ] },
 ];
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
