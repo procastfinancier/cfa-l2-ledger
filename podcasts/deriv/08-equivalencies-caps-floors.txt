@@ -1,51 +1,50 @@
-TITLE: Equivalencies, Caps aur Floors (R29 Part 4)
+TITLE: Chapter 8 - Lego ke Blocks, Papa ka Cap aur Nana ji ka Floor (R29 Part 4)
 
-PRIYA: Welcome back. आज का topic exam में conceptual questions के लिए बहुत important है: equivalencies. यानी कौन सी चीज़ किन चीज़ों को जोड़कर बनती है.
-RAHUL: और इसकी चाबी एक simple table है: कौन किस direction में interest rate move होने पर जीतता है.
+PRIYA: Welcome back. Arjun का भतीजा Chintu, सात साल का, Lego से खेल रहा था. उसने दो छोटे blocks जोड़े और बोला, "चाचू, देखो, ये बड़ा वाला block बन गया!"
+PRIYA: Arjun हँसा, और उसे Meera ma'am की बात याद आई: "Derivatives भी Lego हैं, Arjun. छोटे blocks जोड़ो, बड़े बनते हैं. इसे equivalencies कहते हैं."
+RAHUL: और हर equivalency खोलने की चाबी एक ही सवाल है: interest rate बढ़े, तो कौन जीतता है?
 [PAUSE 1]
-PRIYA: बताओ.
-RAHUL: एक: long interest rate call, rates बढ़ें तो फ़ायदा. दो: long interest rate put, rates गिरें तो. तीन: long FRA, rates बढ़ें तो, क्योंकि long borrower है. चार: short FRA, rates गिरें तो. पाँच: pay-fixed swap, यानी payer swap, rates बढ़ें तो. छह: receive-fixed swap, rates गिरें तो.
-PRIYA: अब equivalency एक.
-RAHUL: Long interest rate call plus short interest rate put बराबर long FRA. Check करो. Rates बढ़ें: call से gain, short put से कोई loss नहीं, तो net gain. Long FRA में भी gain. Rates गिरें: call से कुछ नहीं, लेकिन short put पर loss. Long FRA में भी loss. Same.
-PRIYA: तो long FRA को replicate कर सकते हैं.
-RAHUL: हाँ, long call और short put से. लेकिन एक condition: call और put का strike same होना चाहिए, और वो FRA rate के बराबर होना चाहिए. तभी ये असली FRA है, और तभी इसकी setup cost zero है.
-PRIYA: Equivalency दो?
-RAHUL: बिल्कुल उल्टा. Short interest rate call plus long interest rate put बराबर short FRA. Rates बढ़ें: short call पर loss, put से कुछ नहीं, net loss. Rates गिरें: short call पर कोई loss नहीं, put से gain, net gain. Short FRA जैसा.
+PRIYA: Meera ma'am की चाबी वाली table.
+RAHUL: एक: long interest rate call, rates बढ़ें तो फ़ायदा. दो: long interest rate put, rates गिरें तो. तीन: long FRA, rates बढ़ें तो, long borrower है. चार: short FRA, rates गिरें तो. पाँच: pay-fixed swap, rates बढ़ें तो. छह: receive-fixed swap, rates गिरें तो.
 [PAUSE 1]
-PRIYA: अब equivalency तीन, cap.
-RAHUL: Interest rate calls की एक series, अलग-अलग maturities के साथ, लेकिन same exercise rate, मिलकर एक interest rate cap बनाती है. हर एक call को caplet बोलते हैं. Conditions: सारे rates same, maturities अलग. जैसे 0 by 1, 1 by 2, 2 by 3, 3 by 4 calls, सब 8 percent strike पर. ये चार caplets मिलकर 8 percent का cap.
-PRIYA: Home loan वाला example दो.
-RAHUL: बिल्कुल. सोचो तुमने floating rate पर home loan लिया, और साथ में 5 percent का cap खरीदा. Year one: rate 5 percent, loan पर 5 देना, cap से कुछ नहीं, net 5. Year two: rate 7 percent, loan पर 7, cap से 2 मिले, net 5. Year three: rate 2 percent, loan पर 2, cap से कुछ नहीं, net 2. Year four: rate 9 percent, loan पर 9, cap से 4 मिले, net 5.
-PRIYA: तो borrower कभी 5 से ज़्यादा नहीं देता.
-RAHUL: और जब rates गिरते हैं, तो उसका फ़ायदा भी मिलता है, जैसे year three में सिर्फ़ 2. यही cap की ख़ूबी है. Swap में तुम fixed पर lock हो जाते, गिरने का फ़ायदा नहीं मिलता.
+PRIYA: पहला Lego. Equivalency one.
+RAHUL: Long interest rate call plus short interest rate put equals long FRA. Check: rates बढ़ें, call से gain, short put से कोई loss नहीं, net gain. Long FRA भी gain. Rates गिरें, call से कुछ नहीं, short put पर loss, net loss. Long FRA भी loss. Same.
+RAHUL: तो Rohan का long FRA, एक long call और short put से replicate हो सकता है. Condition: दोनों का strike same, और FRA rate के बराबर. तभी ये असली FRA है, और setup cost zero.
+PRIYA: Equivalency two?
+RAHUL: उल्टा. Short call plus long put equals short FRA. Rates बढ़ें, short call पर loss, put से कुछ नहीं, net loss. Rates गिरें, short call safe, put से gain, net gain. Short FRA जैसा.
 [PAUSE 1]
-PRIYA: Equivalency चार, floor.
-RAHUL: Interest rate puts की series, अलग maturities, same exercise rate, मिलकर floor बनाती है. हर put एक floorlet है. Floor एक floating rate bond के holder को hedge करता है, जैसे कोई investor जिसके पास floating rate bond है, या कोई जिसकी income MIBOR से linked है.
-PRIYA: Example.
-RAHUL: Floating rate bond, साथ में 5 percent का floor. Year one: rate 5, floor से कुछ नहीं, net 5. Year two: rate 7, floor से कुछ नहीं, net 7. Year three: rate 2, floor से 3 मिले, net 5. Year four: rate 4, floor से 1 मिला, net 5. Bondholder कभी 5 से कम नहीं कमाता. और notes में ये table minus sign के साथ लिखी थी, cap वाली table से copy होकर. Bondholder के लिए ये income है, plus.
+PRIYA: अब Indore. पापा का home loan फिर से. Swap की बात सुनकर पापा बोले, "बेटा, fixed में फँसना भी नहीं चाहता. Rates गिरें तो उसका फ़ायदा भी चाहिए. बस ऊपर की एक limit हो."
+RAHUL: Arjun: "पापा, आपको cap चाहिए." Equivalency three. Interest rate calls की series, अलग-अलग maturities, same exercise rate, मिलकर cap बनाती है. हर call एक caplet. Conditions: सारे strike same, maturities अलग. जैसे 0 by 1, 1 by 2, 2 by 3, 3 by 4 calls, सब 8 percent पर. ये चार caplets मिलकर 8 percent cap.
+PRIYA: Arjun ने पापा के लिए 5 percent cap का हिसाब लिखा.
+RAHUL: Year one: rate 5 percent. Loan पर minus 5, cap से 0. Net minus 5. Year two: rate 7. Loan minus 7, cap plus 2, यानी 7 minus 5. Net minus 5. Year three: rate 2. Loan minus 2, cap 0. Net minus 2. Year four: rate 9. Loan minus 9, cap plus 4, यानी 9 minus 5. Net minus 5.
+PRIYA: पापा कभी 5 percent से ज़्यादा नहीं देंगे.
+RAHUL: और rates गिरे, तो फ़ायदा भी मिला, जैसे year three में सिर्फ़ 2. Swap में ये नहीं मिलता. यही cap की ख़ूबी.
 [PAUSE 1]
-PRIYA: अब equivalency पाँच. पहले Level one वाली बात याद दिलाओ.
-RAHUL: Level one में पढ़ा था: बहुत सारे long FRAs का payoff, एक payer swap जैसा है. और बहुत सारे short FRAs, एक receiver swap जैसे.
-RAHUL: अब equivalency एक कहता है: long call plus short put बराबर long FRA, एक period के लिए. इसको बहुत सारे periods तक फैलाओ. Long calls की series बराबर long cap. Short puts की series बराबर short floor. और long FRAs की series बराबर payer swap. तो: long cap plus short floor बराबर payer swap.
-PRIYA: Equivalency छह?
-RAHUL: उल्टा: short cap plus long floor बराबर receiver swap.
+PRIYA: फिर नाना जी की बारी. Retired हैं, उनकी income एक floating rate bond से आती है, MIBOR से linked. "बेटा, rates गिरे तो मेरी pension जैसी income घट जाएगी."
+RAHUL: Arjun: "नाना जी, आपको floor चाहिए." Equivalency four. Interest rate puts की series, अलग maturities, same strike, मिलकर floor. हर put एक floorlet. Floor floating rate bond के holder को hedge करता है.
+RAHUL: 5 percent floor. Year one: rate 5, floor 0, net 5. Year two: rate 7, floor 0, net 7. Year three: rate 2, floor equals 5 minus 2 equals plus 3, net 5. Year four: rate 4, floor equals 5 minus 4 equals plus 1, net 5. नाना जी कभी 5 percent से कम नहीं कमाएँगे. और notes की floor table में minus sign cap table से copy हो गया था. नाना जी के लिए ये income है, plus.
 [PAUSE 1]
-PRIYA: Equivalency सात. ये interesting है.
-RAHUL: Swap में entry का कोई price नहीं, शुरुआत में value zero. और long cap plus short floor बराबर payer swap. तो cap की value minus floor की value बराबर zero. मतलब, cap की value बराबर floor की value.
+PRIYA: अब बड़ा Lego. पहले Level one वाली बात.
+RAHUL: बहुत सारे long FRAs का payoff equals एक payer swap. बहुत सारे short FRAs equals receiver swap.
+RAHUL: Equivalency one कहता है: long call plus short put equals long FRA, एक period के लिए. इसे कई periods में फैलाओ. Calls की series equals long cap. Puts की series equals short floor. FRAs की series equals payer swap. तो equivalency five: long cap plus short floor equals payer swap.
+PRIYA: और six?
+RAHUL: Short cap plus long floor equals receiver swap.
+[PAUSE 1]
+PRIYA: Equivalency seven. Chintu भी समझ जाए ऐसे.
+RAHUL: Swap में entry का कोई price नहीं, value zero. और long cap plus short floor equals payer swap. तो cap की value minus floor की value equals zero. मतलब value of cap equals value of floor.
 PRIYA: हमेशा?
-RAHUL: नहीं, और ये trap है. ये तभी सच है जब cap और floor का strike same हो, और वो market swap fixed rate के बराबर हो, और reset dates और notional भी same हों. किसी दूसरे strike पर cap और floor की value अलग होगी.
+RAHUL: नहीं, trap है. सिर्फ़ तब, जब दोनों का strike same हो, और market swap fixed rate के बराबर, और reset dates और notional same. किसी दूसरे strike पर value अलग.
 [PAUSE 1]
-PRIYA: Equivalency आठ, swaptions के साथ.
-RAHUL: Long receiver swaption plus short payer swaption बराबर long forward receiver swap. Check: rates बढ़ें, तो receiver swaption exercise नहीं होगा, no gain. लेकिन जो payer swaption तुमने बेचा था, वो exercise होगा, तुम्हें loss. Net loss. Rates गिरें: receiver swaption exercise, gain. Payer swaption exercise नहीं, no loss. Net gain. ये एक receiver swap की तरह है, जो future में शुरू होगा. यानी forward receiver swap.
-PRIYA: Mirror image?
-RAHUL: Long payer swaption plus short receiver swaption, same strike, बराबर long forward payer swap.
-PRIYA: और Schweser की दो और equivalencies.
-RAHUL: एक: अगर strike ऐसा set करो कि payer और receiver swaption की value बराबर हो, तो वो strike market का forward swap fixed rate है. Equivalency सात जैसा ही logic.
-RAHUL: दो: long callable bond बराबर long option-free bond plus short receiver swaption. क्यों? Callable bond में issuer को अधिकार है कि rates गिरें तो bond वापस ले ले. यानी bondholder ने issuer को एक option बेचा है जो rates गिरने पर value देता है. Rates गिरने पर जीतने वाला option receiver swaption है. और bondholder ने वो बेचा है, तो short.
-PRIYA: Indian example इसका?
-RAHUL: बहुत से Indian corporate bonds और NCDs में call option होता है. जब rates गिरते हैं, company पुराने महँगे bonds call करके सस्ते में नए issue कर देती है. Investor का नुकसान, बिल्कुल short receiver swaption जैसा.
+PRIYA: Equivalency eight, swaptions वाले Lego.
+RAHUL: Long receiver swaption plus short payer swaption equals long forward receiver swap. Check: rates बढ़ें, receiver swaption exercise नहीं, no gain. Payer swaption जो बेचा था, exercise होगा, loss. Net loss. Rates गिरें, receiver swaption exercise, gain. Payer नहीं, no loss. Net gain. ये receiver swap जैसा, जो future में शुरू होगा, यानी forward receiver swap.
+RAHUL: Mirror: long payer swaption plus short receiver swaption, same strike, equals long forward payer swap.
+PRIYA: Schweser के दो और Lego.
+RAHUL: एक: strike ऐसा set करो कि payer और receiver swaption की value बराबर हो, तो वो strike market का forward swap fixed rate है. Equivalency seven जैसा logic.
+RAHUL: दो: long callable bond equals long option-free bond plus short receiver swaption. Callable bond में issuer को अधिकार है कि rates गिरें तो bond वापस ले. यानी bondholder ने issuer को ऐसा option बेचा है जो rates गिरने पर value देता है. Rates गिरने पर जीतने वाला option equals receiver swaption. Bondholder ने बेचा, तो short.
+PRIYA: नाना जी के पास एक NBFC का callable NCD भी था.
+RAHUL: हाँ, और पिछले साल rates गिरे तो company ने उसे call कर लिया, और नए NCDs सस्ते rate पर issue किए. नाना जी का नुकसान, बिल्कुल short receiver swaption जैसा.
 [PAUSE 1]
-PRIYA: Summary.
-RAHUL: एक: long call plus short put बराबर long FRA. Short call plus long put बराबर short FRA. Strike बराबर FRA rate. दो: calls की series बराबर cap, borrower को protect करता है. Puts की series बराबर floor, floating rate investor को protect करता है. तीन: long cap plus short floor बराबर payer swap. Short cap plus long floor बराबर receiver swap. चार: strike swap rate पर हो, तो cap बराबर floor. पाँच: long receiver swaption plus short payer swaption बराबर forward receiver swap. छह: callable bond बराबर straight bond plus short receiver swaption.
-PRIYA: Trick: हर बार सोचो, rates बढ़ने पर कौन जीतता है. वो एक सवाल हर equivalency खोल देता है.
-RAHUL: अगले episode में Greeks और delta hedging. मिलते हैं.
+PRIYA: Chintu के Lego के साथ diary.
+RAHUL: एक: long call plus short put equals long FRA. Short call plus long put equals short FRA. Strike equals FRA rate. दो: calls की series equals cap, पापा जैसे borrower के लिए. Puts की series equals floor, नाना जी जैसे floating income वालों के लिए. तीन: long cap plus short floor equals payer swap. Short cap plus long floor equals receiver swap. चार: strike swap rate पर, तो cap equals floor. पाँच: long receiver swaption plus short payer swaption equals forward receiver swap. छह: callable bond equals straight bond plus short receiver swaption.
+PRIYA: और चाबी: हर बार पूछो, rates बढ़े तो कौन जीता.
+RAHUL: अगले chapter में Arjun गाड़ी चलाना सीखता है, और Greeks समझता है. मिलते हैं.

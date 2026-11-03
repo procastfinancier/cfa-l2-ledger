@@ -1,143 +1,143 @@
-TITLE: Rapid-Fire Revision Drill - Derivatives (R28 + R29)
+TITLE: Chapter 10 - Exam se Pehle Meera Ma'am ka Final Mock (R28 + R29)
 
-PRIYA: नमस्ते, ये है derivatives series का आख़िरी episode, rapid-fire drill. मैं सवाल पूछूँगी, फिर कुछ seconds का pause होगा. अपने मन में answer सोचो, फिर Rahul answer देगा.
-RAHUL: Ready? चलो शुरू.
+PRIYA: नमस्ते, ये कहानी का आख़िरी chapter है. Exam से दो दिन पहले, Meera ma'am ने Arjun को cabin में बुलाया. "चलो Arjun, rapid fire. मैं पूछूँगी, तुम सोचना, फिर जवाब."
+RAHUL: और आप भी Arjun के साथ खेलिए. हर सवाल के बाद pause होगा. मन में जवाब सोचिए, फिर मैं Arjun का जवाब बताऊँगा.
 [PAUSE 1]
-PRIYA: सवाल एक. Forward price का basic formula, benefits और costs के साथ?
+PRIYA: सवाल one. Gupta ji का सोना याद है? Forward price का formula, benefits और costs के साथ?
 [PAUSE 5]
-RAHUL: Spot minus benefits का PV plus costs का PV, गुणा one plus R f की power t. Costs जोड़ो, benefits घटाओ.
-PRIYA: सवाल दो. Market forward, fair forward से महँगा है. Trade?
+RAHUL: F equals, S minus PV of benefits plus PV of costs, multiplied by, 1 plus R f, to the power t.
+PRIYA: सवाल two. Reliance का forward fair 507.34, market 510. Trade?
 [PAUSE 5]
-RAHUL: Cash-and-carry. Borrow करो, spot में खरीदो, forward बेचो.
-PRIYA: सवाल तीन. FRA, swap, cap, floor में कौन सा compounding और कितने दिन का साल?
-[PAUSE 5]
-RAHUL: Simple interest, 360 दिन. Stocks, bonds, currency में discrete, 365. Index में continuous, 365.
-PRIYA: सवाल चार. Forward expiry के बाद आने वाला dividend?
+RAHUL: Cash-and-carry. Borrow, spot buy, forward sell. Profit equals 510 minus 507.34 equals 2.66.
+PRIYA: सवाल three. Meera ma'am के तीन drawers?
+[PAUSE 6]
+RAHUL: Interest rate contracts: simple, 360. Stocks, bonds, currency: discrete, 365. Index: continuous, 365.
+PRIYA: सवाल four. Expiry के बाद आने वाला dividend?
 [PAUSE 4]
-RAHUL: Ignore करो.
-PRIYA: सवाल पाँच. Forward की value, जब आज का forward price नहीं दिया हो?
+RAHUL: Ignore.
+PRIYA: सवाल five. Forward की value, जब आज का forward price ना दिया हो?
 [PAUSE 5]
-RAHUL: आज का spot minus बचे dividends का PV, minus F zero का PV, बचे समय के लिए.
-PRIYA: सवाल छह. Short forward की value निकालते समय dividends भूल गए. Effect?
+RAHUL: S t minus PV of remaining dividends, minus F zero divided by, 1 plus R f, to the power, T minus t.
+PRIYA: सवाल six. Short forward value करते समय dividends भूल गए?
 [PAUSE 5]
-RAHUL: Short undervalued, dividends के PV जितना.
-PRIYA: सवाल सात. Futures की value हर settlement के बाद क्या होती है?
+RAHUL: Short undervalued, by PV of dividends.
+PRIYA: सवाल seven. Futures की value हर settlement के बाद?
 [PAUSE 4]
-RAHUL: Zero, क्योंकि रोज़ mark to market.
-PRIYA: सवाल आठ. Long FRA किसकी तरह है, और कब जीतता है?
+RAHUL: Zero, daily mark to market.
+PRIYA: सवाल eight. Rohan का long FRA. वो कौन है, और कब जीतता है?
 [PAUSE 5]
 RAHUL: Notional borrower. Rates बढ़ें तो जीतता है.
-PRIYA: सवाल नौ. 2 by 5 FRA का मतलब?
+PRIYA: सवाल nine. 2 by 5 FRA का मतलब?
 [PAUSE 5]
-RAHUL: दो महीने बाद expire, तीन महीने का loan, जो पाँचवें महीने ख़त्म.
-PRIYA: सवाल दस. FRA settlement पर interest की बचत को discount क्यों करते हैं?
+RAHUL: 2 महीने बाद expire, 3 महीने का loan, 5 महीने पर ख़त्म.
+PRIYA: सवाल ten. FRA settlement पर interest बचत discount क्यों?
 [PAUSE 5]
-RAHUL: बचत loan के end पर मिलती, लेकिन FRA loan की शुरुआत में settle होता है.
-PRIYA: सवाल ग्यारह. Swap fixed rate का formula?
+RAHUL: बचत loan के end पर मिलती, FRA loan की शुरुआत में settle होता है.
+PRIYA: सवाल eleven. Swap fixed rate का मंत्र?
 [PAUSE 5]
-RAHUL: One minus last Z, over sum of Z. Annual के लिए 360 बटा period के days से गुणा.
-PRIYA: सवाल बारह. Reset date पर floating rate bond का price?
+RAHUL: One minus last Z, divided by sum of Z. Annual के लिए multiplied by 360 divided by days.
+PRIYA: सवाल twelve. Reset date पर floating rate bond?
 [PAUSE 4]
 RAHUL: Par.
-PRIYA: सवाल तेरह. Rates गिर गए. Swap में कौन जीता?
+PRIYA: सवाल thirteen. RBI ने rates काटे. पापा जैसे fixed payer या receiver, कौन जीता?
 [PAUSE 4]
-RAHUL: Fixed rate receiver. Payer उसे mark to market payment करेगा.
-PRIYA: सवाल चौदह. Swap value का shortcut formula?
+RAHUL: Fixed receiver. Payer mark to market pay करेगा.
+PRIYA: सवाल fourteen. Swap value का shortcut?
 [PAUSE 5]
-RAHUL: नया SFR minus पुराना SFR, गुणा period बटा 360, गुणा notional, गुणा बचे Z का sum. Fixed payer के लिए.
-PRIYA: सवाल पंद्रह. Currency swap की तीन ख़ास बातें?
+RAHUL: New SFR minus old SFR, multiplied by days by 360, multiplied by notional, multiplied by sum of remaining Z. Fixed payer के लिए.
+PRIYA: सवाल fifteen. Auto company का currency swap. तीन ख़ास बातें?
 [PAUSE 6]
-RAHUL: दो curves, दो fixed rates. Principal शुरुआत और end में असली exchange. Foreign leg आज के spot पर convert.
-PRIYA: सवाल सोलह. Equity swap में दो settlement dates के बीच equity leg?
+RAHUL: दो curves, दो fixed rates. Principal का असली exchange, शुरू और end में. Foreign leg आज के spot पर convert.
+PRIYA: सवाल sixteen. Foreign fund का Nifty swap, दो settlement dates के बीच equity leg?
 [PAUSE 5]
-RAHUL: Notional गुणा, one plus पिछले reset से अब तक का return.
-PRIYA: सवाल सत्रह. Bond futures में delivery option किसके पास है?
+RAHUL: Notional multiplied by, 1 plus return since last reset.
+PRIYA: सवाल seventeen. Sabziwala के टमाटर. Bond futures में delivery option किसके पास?
 [PAUSE 4]
-RAHUL: Short के पास. वो cheapest to deliver bond deliver करेगा.
-PRIYA: सवाल अठारह. Quoted futures price का formula?
+RAHUL: Short के पास. Cheapest to deliver bond.
+PRIYA: सवाल eighteen. Quoted futures price?
 [PAUSE 6]
-RAHUL: 1 बटा conversion factor, गुणा, full price गुणा one plus R f की power T, minus coupons का FV, minus expiry पर accrued interest.
+RAHUL: 1 divided by conversion factor, multiplied by, full price multiplied by, 1 plus R f, to the power T, minus FV of coupons, minus accrued interest at expiry.
 [PAUSE 1]
-PRIYA: अब options. सवाल उन्नीस. Up probability का formula?
+PRIYA: अब options. सवाल nineteen. IPL वाले tree में up probability?
 [PAUSE 5]
-RAHUL: One plus R f minus D, over U minus D. Risk-neutral probability.
-PRIYA: सवाल बीस. Binomial में expected payoff किस rate से discount?
+RAHUL: 1 plus R f minus D, divided by, U minus D. Risk-neutral.
+PRIYA: सवाल twenty. Expected payoff किस rate से discount?
 [PAUSE 4]
 RAHUL: Risk-free rate.
-PRIYA: सवाल इक्कीस. American option के tree में हर node पर क्या करते हैं?
+PRIYA: सवाल twenty-one. Neha के token जैसे American option में हर node पर?
 [PAUSE 5]
-RAHUL: Exercise value और hold value compare करो, बड़ी वाली लो.
-PRIYA: सवाल बाईस. किस option में early exercise कभी नहीं होता?
+RAHUL: Exercise value और hold value compare, बड़ा लो.
+PRIYA: सवाल twenty-two. किसमें early exercise कभी नहीं?
 [PAUSE 5]
-RAHUL: बिना dividend वाले share पर American call. Deep in the money put में early exercise sense बना सकता है.
-PRIYA: सवाल तेईस. Put-call parity?
+RAHUL: बिना dividend share पर American call. Deep in the money put में sense बनता है.
+PRIYA: सवाल twenty-three. Kabir और Sameer, put-call parity?
 [PAUSE 5]
-RAHUL: Call plus X का PV बराबर share plus put. Fiduciary call बराबर protective put.
-PRIYA: सवाल चौबीस. Synthetic put?
+RAHUL: C plus PV of X equals S plus P.
+PRIYA: सवाल twenty-four. Synthetic put?
 [PAUSE 5]
 RAHUL: Long call, short share, long bond.
-PRIYA: सवाल पच्चीस. Interest rate tree में probability, और discount किस rate से?
+PRIYA: सवाल twenty-five. Interest rate tree में probability और discount rate?
 [PAUSE 5]
 RAHUL: हमेशा 50 percent. हर node अपने rate से.
-PRIYA: सवाल छब्बीस. Hedge ratio का formula?
+PRIYA: सवाल twenty-six. Hedge ratio?
 [PAUSE 5]
-RAHUL: Call up minus call down, over S up minus S down. ये delta है.
-PRIYA: सवाल सत्ताईस. Call overpriced है. Arbitrage?
+RAHUL: Call up minus call down, divided by, S up minus S down. यही delta.
+PRIYA: सवाल twenty-seven. Call overpriced. Arbitrage?
 [PAUSE 5]
 RAHUL: Call बेचो, हर call पर h shares खरीदो, borrowing से.
-PRIYA: सवाल अट्ठाईस. BSM में N of d1 और N of d2 का मतलब?
+PRIYA: सवाल twenty-eight. N of d1 और N of d2?
 [PAUSE 5]
-RAHUL: N of d1 call का delta. N of d2 call के in the money expire होने की risk-neutral probability.
-PRIYA: सवाल उनतीस. BSM में call किसके बराबर है?
+RAHUL: N of d1 call delta. N of d2 call के in the money expire होने की risk-neutral probability.
+PRIYA: सवाल twenty-nine. BSM में call किसके बराबर?
 [PAUSE 5]
-RAHUL: N of d1 shares long, plus bond short. Leveraged stock position.
-PRIYA: सवाल तीस. Dividend yield बढ़ा. Call और put पर effect?
+RAHUL: N of d1 shares long plus bond short. Leveraged stock.
+PRIYA: सवाल thirty. Dividend yield बढ़ा?
 [PAUSE 4]
 RAHUL: Call सस्ता, put महँगा.
-PRIYA: सवाल इकतीस. Currency option में dividend yield की जगह क्या?
+PRIYA: सवाल thirty-one. IT exporter का currency option. Dividend yield की जगह?
 [PAUSE 4]
-RAHUL: Foreign यानी base currency का interest rate.
-PRIYA: सवाल बत्तीस. Black model में d1 में r क्यों नहीं?
+RAHUL: Foreign यानी base currency का rate.
+PRIYA: सवाल thirty-two. Black model के d1 में r क्यों नहीं?
 [PAUSE 5]
-RAHUL: Futures price में cost of carry पहले से शामिल है.
-PRIYA: सवाल तैंतीस. Payer swaption कब exercise होता है?
+RAHUL: Futures price में cost of carry पहले से है.
+PRIYA: सवाल thirty-three. Cement company का payer swaption कब exercise?
 [PAUSE 4]
 RAHUL: जब swap fixed rate बढ़ गया हो.
-PRIYA: सवाल चौंतीस. Long cap plus short floor बराबर?
+PRIYA: सवाल thirty-four. Long cap plus short floor?
 [PAUSE 4]
 RAHUL: Payer swap.
-PRIYA: सवाल पैंतीस. Cap की value floor के बराबर कब?
+PRIYA: सवाल thirty-five. Cap equals floor कब?
 [PAUSE 5]
-RAHUL: जब दोनों का strike market swap fixed rate के बराबर हो, और reset dates और notional same हों.
-PRIYA: सवाल छत्तीस. Long callable bond बराबर?
+RAHUL: दोनों का strike market swap fixed rate पर, same reset dates और notional.
+PRIYA: सवाल thirty-six. नाना जी का callable NCD equals?
 [PAUSE 5]
 RAHUL: Option-free bond plus short receiver swaption.
-PRIYA: सवाल सैंतीस. Long receiver swaption plus short payer swaption?
+PRIYA: सवाल thirty-seven. Long receiver swaption plus short payer swaption?
 [PAUSE 5]
 RAHUL: Long forward receiver swap.
-PRIYA: सवाल अड़तीस. Gamma कहाँ सबसे ज़्यादा, और short option का gamma?
+PRIYA: सवाल thirty-eight. Gamma कहाँ max, और short option का gamma?
 [PAUSE 5]
-RAHUL: At the money पर सबसे ज़्यादा. Short option का gamma negative.
-PRIYA: सवाल उनतालीस. कौन सा input call और put दोनों को same direction में ले जाता है?
+RAHUL: At the money पर max. Short option का negative.
+PRIYA: सवाल thirty-nine. कौन से inputs call और put को same direction में?
 [PAUSE 4]
-RAHUL: Volatility, और time to maturity. Vega दोनों के लिए positive.
-PRIYA: सवाल चालीस. Theta का exception?
+RAHUL: Volatility और time to maturity.
+PRIYA: सवाल forty. Theta का exception?
 [PAUSE 4]
 RAHUL: Deep in the money European put, expiry के पास.
-PRIYA: सवाल इकतालीस. 60,000 shares, call delta 0.6. कितने calls?
+PRIYA: सवाल forty-one. Promoter के 60,000 shares, call delta 0.6. Calls?
 [PAUSE 6]
-RAHUL: 60,000 बटा 0.6, यानी 1 लाख calls, short.
-PRIYA: सवाल बयालीस. Delta-neutral portfolio share price के jump से unhedged रह गया. इसे क्या कहते हैं, और fix कैसे?
+RAHUL: 60,000 divided by 0.6 equals 1,00,000 calls, short.
+PRIYA: सवाल forty-two. Result वाले दिन share का झटका, hedge टूटा. नाम और fix?
 [PAUSE 6]
-RAHUL: Gamma risk. एक और option add करो, gamma-neutral के लिए, फिर shares से delta re-set करो.
-PRIYA: सवाल तैंतालीस. आपकी expected volatility 25, implied 22. Trade?
+RAHUL: Gamma risk. एक और option add करो gamma-neutral के लिए, फिर shares से delta re-set.
+PRIYA: सवाल forty-three. Expected volatility 25, implied 22?
 [PAUSE 5]
-RAHUL: Options underpriced, तो खरीदो.
-PRIYA: सवाल चवालीस. Implied volatility के लिए क्या चाहिए, और कैसे निकलती है?
+RAHUL: Options underpriced, खरीदो.
+PRIYA: सवाल forty-four. Implied volatility के लिए क्या चाहिए, और कैसे निकलती है?
 [PAUSE 5]
 RAHUL: Option का market price. Iteration से, कोई closed form नहीं.
 [PAUSE 1]
-PRIYA: बहुत बढ़िया. अगर किसी सवाल पर अटके, तो उस topic वाला episode दोबारा सुन लेना.
-RAHUL: और एक last tip: derivatives में हर सवाल का पहला step है, no-arbitrage सोचो. दो चीज़ों का payoff same है, तो price same होना चाहिए. यही एक idea पूरी दोनों readings चलाता है.
-PRIYA: All the best for 22 November. CFA Ledger Podcast से Priya.
+PRIYA: Meera ma'am मुस्कुराईं. "Arjun, अगर किसी सवाल पर अटके, तो उस chapter को दोबारा सुनो."
+RAHUL: फिर ma'am ने आख़िरी बात कही: "Derivatives में हर सवाल का पहला step है, no arbitrage सोचो. दो चीज़ों का payoff same है, तो price same होना चाहिए. मामा जी के प्याज़ से लेकर India VIX तक, यही एक idea पूरी दोनों readings चलाता है."
+PRIYA: 22 November को Arjun exam देने गया. और आप भी जाएँगे. All the best. CFA Ledger Podcast से Priya.
 RAHUL: और Rahul. बाय.

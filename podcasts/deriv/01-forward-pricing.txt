@@ -1,79 +1,70 @@
-TITLE: Forward Contract - Price, Arbitrage aur Value (R28 Part 1)
+TITLE: Chapter 1 - Nashik ka Pyaaz aur Forward Contract (R28 Part 1)
 
-PRIYA: नमस्ते दोस्तों, CFA Ledger Podcast में आपका स्वागत है. ये हमारी Derivatives series है, पूरी Hinglish में. मैं हूँ Priya.
-RAHUL: और मैं हूँ Rahul. Derivatives को लोग बहुत technical मानते हैं, formulas से डरते हैं. लेकिन हम इस series में हर topic को आसान भाषा में, Indian examples के साथ समझेंगे. पहले logic, फिर formula.
-PRIYA: Series का plan बता दो.
-RAHUL: दो readings हैं. Reading twenty-eight है Pricing and Valuation of Forward Commitments. इसमें forwards, FRA, swaps और bond futures आते हैं. पहले चार episodes उस पर. Reading twenty-nine है Valuation of Contingent Claims, यानी options. Binomial tree, put-call parity, Black-Scholes-Merton, Greeks, सब. उस पर अगले चार episodes. और last episode एक rapid-fire revision drill.
+PRIYA: नमस्ते दोस्तों, CFA Ledger Podcast में आपका स्वागत है. ये है हमारी Derivatives series, एक कहानी के रूप में. मैं हूँ Priya, मैं कहानी सुनाऊँगी.
+RAHUL: और मैं हूँ Rahul. कहानी में जहाँ भी कोई concept आएगा, मैं उसे आसान भाषा में खोलूँगा. और हर calculation English में होगी, step by step, ताकि exam में वैसे ही याद आए.
+PRIYA: तो कहानी का hero है Arjun. Indore का लड़का, CFA Level 2 की तैयारी कर रहा है, और अभी-अभी Mumbai के एक बड़े bank के treasury desk पर उसकी नौकरी लगी है. उसकी boss हैं Meera ma'am, बीस साल का experience, और पढ़ाने का शौक.
+RAHUL: दस chapters में Arjun की ज़िंदगी में जो problems आएँगी, वही Reading twenty-eight और twenty-nine के topics हैं. Forwards, FRA, swaps, bond futures, फिर options, binomial tree, Black-Scholes, Greeks. सब.
 [PAUSE 1]
-PRIYA: तो शुरू करते हैं. Forward contract क्या होता है, एकदम simple भाषा में?
-RAHUL: एक example लो. नासिक का एक प्याज़ का किसान है. उसे डर है कि तीन महीने बाद जब फसल आएगी, प्याज़ का भाव गिर जाएगा. और एक dhaba चलाने वाले को डर है कि भाव बढ़ जाएगा. तो दोनों आज ही एक deal कर लेते हैं: तीन महीने बाद, पच्चीस रुपये किलो पर, सौ quintal प्याज़ बिकेगा. Price आज fix, लेन-देन बाद में. यही forward contract है.
-PRIYA: इसमें long कौन है और short कौन?
-RAHUL: जो खरीदने का वादा करता है, यानी dhaba वाला, वो long है. जो बेचने का वादा करता है, यानी किसान, वो short है. Long को फ़ायदा तब होता है जब expiry पर market price, forward price से ऊपर चला जाए. Short को फ़ायदा तब, जब market price नीचे चला जाए.
-PRIYA: एक correction जो हमारे notes में भी है. Forward में exercise price नहीं होता ना?
-RAHUL: बिल्कुल सही. Exercise price option की भाषा है. Forward में हम compare करते हैं forward price से, जिसे F zero बोलते हैं. Long जीतता है जब expiry पर spot, F zero से ऊपर है. Short जीतता है जब spot, F zero से नीचे है.
-PRIYA: और शुरुआत में कोई पैसा देता है?
-RAHUL: नहीं. Forward की शुरुआत में normally कोई पैसा हाथ नहीं बदलता. Forward price ऐसे set किया जाता है कि शुरुआत में दोनों side की value zero हो. बाद में जिस side की value negative हो जाती है, वो दूसरी side की कर्ज़दार होती है. और अगर short delivery नहीं देता, तो उसे default माना जाता है.
-PRIYA: एक बात ध्यान रखनी है: forward price का मतलब contract की कीमत नहीं है.
-RAHUL: हाँ, ये बहुत common confusion है. Forward price वो price है जिस पर underlying asset future में खरीदा-बेचा जाएगा. ये एक rate भी हो सकता है, yield भी, या exchange rate भी. Contract की value अलग चीज़ है, और शुरुआत में वो zero है.
+PRIYA: Chapter one. Joining से एक हफ़्ता पहले, Arjun अपने मामा जी के गाँव गया, नासिक के पास. मामा जी प्याज़ के किसान हैं. शाम को मामा जी परेशान बैठे थे.
+PRIYA: "Arjun बेटा, तीन महीने बाद फसल आएगी. पिछली बार भाव गिरकर दस रुपये किलो हो गया था. इस बार भी गिर गया तो क्या होगा?"
+PRIYA: उसी शाम highway वाले dhaba के मालिक, Pappu भाई, आए. उनकी परेशानी उल्टी थी. "भाई साहब, पिछली बार प्याज़ साठ रुपये किलो हो गया था, मेरा पूरा margin खा गया. इस बार भी बढ़ गया तो?"
+RAHUL: और यहीं Arjun को अपनी CFA की किताब याद आई. उसने कहा, "आप दोनों आज ही एक deal कर लो. तीन महीने बाद, पच्चीस रुपये किलो पर, सौ quintal प्याज़ बिकेगा. Price आज fix, लेन-देन बाद में."
+RAHUL: यही है forward contract. आज price fix, delivery और payment future में. Pappu भाई खरीदने का वादा कर रहे हैं, तो वो long हैं. मामा जी बेचने का वादा कर रहे हैं, तो वो short हैं.
+PRIYA: मामा जी ने पूछा, "अगर तीन महीने बाद भाव चालीस हो गया तो?"
+RAHUL: तो Pappu भाई जीते. Long को फ़ायदा तब होता है जब expiry पर market price, forward price से ऊपर हो. Short को फ़ायदा तब, जब नीचे हो. और एक बात जो हमारे notes में भी correct की गई है: forward में exercise price नहीं होता, वो option की भाषा है. Forward में हम compare करते हैं forward price से, जिसे F zero बोलते हैं.
+PRIYA: Pappu भाई ने पूछा, "इस deal के लिए आज कुछ पैसा देना पड़ेगा?"
+RAHUL: नहीं. Forward की शुरुआत में normally कोई पैसा हाथ नहीं बदलता. Forward price ऐसा set होता है कि शुरुआत में दोनों की value zero हो. बाद में जिसकी value negative हो जाती है, वो दूसरे का कर्ज़दार है. और अगर short delivery ना दे, तो वो default है.
+RAHUL: और ध्यान रखो, forward price का मतलब contract की कीमत नहीं. Forward price वो भाव है जिस पर underlying future में बिकेगा. ये कोई rate, yield, या exchange rate भी हो सकता है. Contract की value अलग चीज़ है.
 [PAUSE 1]
-PRIYA: अब pricing. Forward price निकालते कैसे हैं?
-RAHUL: पूरा logic एक line का है: अगर कोई arbitrage नहीं है, तो forward price बराबर spot price, plus पैसे को hold करने का cost. इसे cost of carry बोलते हैं.
-PRIYA: थोड़ा आसान करो.
-RAHUL: सोचो तुम ज्वेलर हो, और कोई तुमसे कहता है कि तीन महीने बाद मुझे दस ग्राम सोना देना. तुम क्या करोगे? आज bank से पैसा उधार लोगे, आज सोना खरीदोगे, तीन महीने locker में रखोगे, और फिर deliver करोगे. तो तुम्हारी quote कितनी होगी? आज का सोने का भाव, plus तीन महीने का interest, plus locker का किराया. और अगर उस asset पर तुम्हें कुछ income मिलती, जैसे dividend, तो वो घटा दोगे, क्योंकि वो फ़ायदा seller को मिल रहा है, buyer को नहीं.
-PRIYA: तो formula?
-RAHUL: F बराबर S गुणा, one plus R f की power t, minus benefits का future value, plus costs का future value. या दूसरा तरीका: पहले spot में से benefits का present value घटाओ, costs का present value जोड़ो, और फिर पूरे को one plus R f की power t से गुणा करो. दोनों का answer same आता है.
-PRIYA: तो logic ये है कि seller asset hold करेगा, इसलिए उसके costs और benefits, forward price के ज़रिए buyer को transfer हो जाते हैं.
-RAHUL: एकदम. Costs जुड़ते हैं, benefits घटते हैं.
-PRIYA: अब example. Reliance का share 500 रुपये पर है, risk-free rate 6 percent है, तीन महीने का forward, कोई dividend नहीं.
-RAHUL: F बराबर 500 गुणा 1.06 की power तीन बटा बारह. Answer आता है 507.34 रुपये. यही no-arbitrage forward price है, यानी fair price.
+PRIYA: अब Arjun Mumbai पहुँचा. पहला दिन. Meera ma'am ने उसे Zaveri Bazaar के एक पुराने client, Gupta ji jeweller, की कहानी सुनाई.
+PRIYA: "Arjun, एक customer ने Gupta ji से कहा, तीन महीने बाद मुझे दस ग्राम सोना चाहिए, आज ही price बता दो. Gupta ji ने क्या quote किया होगा?"
+RAHUL: Gupta ji ने सोचा: मैं आज bank से पैसा उधार लूँगा, आज सोना खरीदूँगा, तीन महीने locker में रखूँगा, फिर deliver करूँगा. तो मेरी quote होगी: आज का भाव, plus तीन महीने का interest, plus locker का किराया. और अगर सोने पर मुझे कोई income मिलती, तो वो घटा देता, क्योंकि वो फ़ायदा seller को मिल रहा है, buyer को नहीं.
+RAHUL: यही है cost of carry model. Forward price equals spot price plus cost of carry. Formula, English में: F equals S multiplied by, one plus R f, to the power t, minus future value of benefits, plus future value of costs.
+RAHUL: या दूसरा तरीका: F equals, S minus present value of benefits plus present value of costs, और फिर पूरे को multiplied by, one plus R f, to the power t. दोनों का answer same.
+PRIYA: Meera ma'am ने कहा, "याद रखो Arjun, costs जुड़ते हैं, benefits घटते हैं. Seller asset hold करता है, तो उसके costs और benefits, forward price के ज़रिए buyer को transfer हो जाते हैं."
 [PAUSE 1]
-PRIYA: अब मज़ेदार हिस्सा. अगर market में forward 510 पर trade हो रहा है तो?
-RAHUL: तो forward महँगा है. Market value 510, intrinsic value 507.34. Rule याद रखो: buy low, sell high. महँगी चीज़ बेचो, सस्ती खरीदो. तो forward बेचो, और spot में share खरीदो. इसे cash-and-carry arbitrage बोलते हैं.
-PRIYA: Step by step बताओ.
-RAHUL: आज: forward 510 पर sell करो, इसमें कोई cash नहीं लगता. Bank से 500 रुपये उधार लो, 6 percent पर तीन महीने के लिए. उस 500 से Reliance का share खरीदो. आज का net cash flow zero. तीन महीने बाद: share forward के ज़रिए 510 में deliver करो, 510 आए. Bank को 507.34 वापस करो. Profit बचा 2.66 रुपये, बिना किसी risk के, बिना अपना पैसा लगाए.
-PRIYA: और अगर forward 502 पर trade हो रहा है?
-RAHUL: तब forward सस्ता है. तो forward खरीदो, और spot में share short sell करो. इसे reverse cash-and-carry बोलते हैं. आज: forward 502 पर buy. Share 500 पर short sell, 500 आए. वो 500 bank में 6 percent पर जमा. तीन महीने बाद: deposit निकालो, 507.34 मिले. Forward के ज़रिए share 502 में खरीदो. वो share देकर short position close करो. Profit: 507.34 minus 502, यानी 5.34 रुपये.
-PRIYA: Schweser का shortcut भी बता दो.
-RAHUL: Zero पैसे से शुरू करो. जो underpriced है वो खरीदो, जो overpriced है वो बेचो. Spot और forward में हमेशा opposite positions. Forward overpriced है तो: borrow, spot buy, forward short. Forward underpriced है तो: spot short, lend, forward long.
-PRIYA: और ये सब किन assumptions पर चलता है?
-RAHUL: तीन assumptions. एक, कोई transaction cost नहीं. दो, short selling पर कोई रोक नहीं, और उसके proceeds use कर सकते हो. तीन, risk-free rate पर जितना चाहो उधार ले सको और दे सको.
+PRIYA: फिर पहला असली काम आया. एक client ने Reliance के share पर तीन महीने का forward माँगा. Share 500 रुपये पर है, risk-free rate 6 percent, कोई dividend नहीं.
+RAHUL: Arjun ने calculate किया. F equals 500 multiplied by 1.06 to the power 3 by 12. 1.06 to the power 0.25 equals लगभग 1.014674. 500 multiplied by 1.014674 equals 507.34. तो no-arbitrage forward price है 507.34 रुपये. यही fair price है.
+PRIYA: तभी Meera ma'am ने screen दिखाई. "देखो, एक दूसरा dealer यही forward 510 पर बेच रहा है. क्या करोगे?"
+RAHUL: Arjun ने सोचा. Market price 510, fair value 507.34. Forward महँगा है. Rule: buy low, sell high. तो महँगा forward बेचो, और सस्ता share spot में खरीदो. इसे cash-and-carry arbitrage बोलते हैं.
+RAHUL: Step by step. आज: forward 510 पर sell करो, cash flow zero. Bank से 500 उधार लो, 6 percent पर, plus 500. उससे Reliance का share खरीदो, minus 500. आज net zero.
+RAHUL: तीन महीने बाद: share forward में deliver करो, plus 510. Bank का loan चुकाओ, 500 multiplied by 1.06 to the power 0.25 equals 507.34, minus 507.34. Profit equals 510 minus 507.34 equals 2.66 रुपये. बिना risk, बिना अपना पैसा.
+PRIYA: अगले दिन उल्टा हुआ. Forward 502 पर मिल रहा था.
+RAHUL: अब forward सस्ता है. तो forward खरीदो, और share spot में short sell करो. ये reverse cash-and-carry है. आज: forward 502 पर buy. Share 500 पर short sell, plus 500. वो 500 bank में 6 percent पर जमा, minus 500. तीन महीने बाद: deposit निकालो, plus 507.34. Forward से share 502 में खरीदो, minus 502. वो share देकर short close. Profit equals 507.34 minus 502 equals 5.34 रुपये.
+PRIYA: Meera ma'am का shortcut, जो Schweser में भी है.
+RAHUL: Zero पैसे से शुरू करो. Underpriced खरीदो, overpriced बेचो. Spot और forward में हमेशा opposite positions. Forward overpriced: borrow, spot buy, forward short. Forward underpriced: spot short, lend, forward long.
+PRIYA: और Arjun ने पूछा, "ma'am, ये हमेशा काम करता है?"
+RAHUL: तीन assumptions पर. एक, कोई transaction cost नहीं. दो, short selling पर कोई रोक नहीं, और उसके पैसे use कर सकते हो. तीन, risk-free rate पर unlimited borrowing और lending.
 [PAUSE 1]
-PRIYA: अब एक practical सवाल. कब simple interest use करें, कब compound, कब continuous?
-RAHUL: ये exam में बहुत important है. तीन formulas हैं. Simple interest: F बराबर S गुणा, one plus r गुणा t. Discrete compounding: F बराबर S गुणा, one plus r की power t. Continuous compounding: F बराबर S गुणा e की power r t.
-PRIYA: और किस पर कौन सा?
-RAHUL: Interest rate वाले contracts, यानी MIBOR या MRR based चीज़ें जैसे FRA, swaps, caps, floors: simple interest, और 360 days का साल. Equities, bonds, currencies: discrete compounding, 365 days. और equity indexes, जैसे Nifty: continuous compounding, 365 days.
-PRIYA: और discrete से continuous rate में convert कैसे करते हैं?
-RAHUL: Continuous rate बराबर natural log of, one plus discrete rate. जैसे 5 percent annual का continuous rate है l n of 1.05, यानी 4.879 percent. Check भी कर सकते हो: दो साल का factor, 1.05 का square 1.1025, और e की power 0.04879 गुणा 2 भी 1.1025 आता है.
+PRIYA: अब Meera ma'am ने Arjun को एक पुरानी almirah दिखाई, जिसमें तीन drawers थे. "Arjun, ये मेरा compounding का rule है. तीन drawers."
+RAHUL: पहला drawer: interest rate वाले contracts, यानी MIBOR या MRR वाले, जैसे FRA, swaps, caps, floors. Simple interest, और साल 360 दिन का. Formula: F equals S multiplied by, one plus r multiplied by t.
+RAHUL: दूसरा drawer: equities, bonds, currencies. Discrete compounding, साल 365 दिन. F equals S multiplied by, one plus r, to the power t.
+RAHUL: तीसरा drawer: equity indexes, जैसे Nifty. Continuous compounding, 365 दिन. F equals S multiplied by e to the power r t.
+PRIYA: और Arjun ने पूछा, discrete rate को continuous में कैसे बदलें?
+RAHUL: Continuous rate equals natural log of, one plus discrete rate. 5 percent annual का continuous rate equals ln of 1.05 equals 4.879 percent. Check: 1.05 squared equals 1.1025, और e to the power, 0.04879 multiplied by 2, भी 1.1025.
 [PAUSE 1]
-PRIYA: अब dividend वाला share. ये exam का favourite है.
-RAHUL: Example लो. एक share 30 रुपये पर है. Company 15वें दिन 40 पैसे dividend देगी, 85वें दिन फिर 40 पैसे, और 175वें दिन 50 पैसे. हमें 100 दिन का forward price निकालना है. Risk-free rate 5 percent, yield curve flat.
-PRIYA: पहला trap?
-RAHUL: 175वें दिन वाला dividend. वो forward की expiry, यानी 100वें दिन के बाद आता है, तो उसे ignore करो. Forward सिर्फ़ उन्हीं dividends को देखता है जो contract की life में आते हैं.
-PRIYA: फिर calculation?
-RAHUL: Future value method: 30 गुणा 1.05 की power 100 बटा 365. उसमें से पहला dividend 40 पैसे घटाओ, उसे 85 दिन carry करके, क्योंकि 15वें दिन से 100वें दिन तक 85 दिन बचे हैं. और दूसरा 40 पैसे, उसे 15 दिन carry करके. Answer आता है 29.60 रुपये.
-PRIYA: और present value method?
-RAHUL: पहले दोनों dividends का present value spot में से घटाओ: 30 minus 0.40 को 1.05 की power 15 बटा 365 से divide, minus 0.40 को 1.05 की power 85 बटा 365 से divide. फिर पूरे को 1.05 की power 100 बटा 365 से गुणा. Same answer, 29.60.
-PRIYA: Schweser का एक quiz भी था, उसमें भी यही trap था ना?
-RAHUL: हाँ. 30 डॉलर का share, 20 और 65 दिन पर 30 cent dividend, 60 दिन का forward, 5 percent rate. 65 दिन वाला dividend expiry के बाद है, तो सिर्फ़ 20 दिन वाला गिनो. Answer 29.94.
-PRIYA: और एक conceptual question: अगर कोई analyst short forward की value निकालते समय dividends भूल जाए?
-RAHUL: तो long की value, dividends के present value जितनी ज़्यादा दिखेगी, यानी overvalued. और इसलिए short की value उतनी ही कम दिखेगी, यानी undervalued, by the present value of dividends.
+PRIYA: अगला client एक PSU share पर forward चाहता था. Share 30 रुपये का. Company day 15 पर 40 पैसे dividend देगी, day 85 पर फिर 40 पैसे, और day 175 पर 50 पैसे. 100 दिन का forward. Rate 5 percent, curve flat.
+PRIYA: Arjun ने जल्दी में तीनों dividends घटा दिए. Meera ma'am मुस्कुराईं. "Day 175 वाला dividend कब आएगा, Arjun?"
+RAHUL: Forward की expiry day 100 है. Day 175 का dividend उसके बाद आता है, तो उसे ignore करो. Forward सिर्फ़ उन्हीं dividends को देखता है जो contract की life में आते हैं.
+RAHUL: Future value method: F equals 30 multiplied by 1.05 to the power 100 by 365, minus 0.4 multiplied by 1.05 to the power 85 by 365, minus 0.4 multiplied by 1.05 to the power 15 by 365.
+RAHUL: पहला dividend day 15 पर आया, expiry तक 85 दिन carry होगा. दूसरा day 85 पर आया, 15 दिन carry होगा. 30 multiplied by 1.01346 equals 30.404. पहला dividend 0.4 multiplied by 1.01142 equals 0.4046. दूसरा 0.4 multiplied by 1.00201 equals 0.4008. तो 30.404 minus 0.4046 minus 0.4008 equals 29.60 रुपये.
+RAHUL: Present value method: 30 minus 0.4 divided by 1.05 to the power 15 by 365, minus 0.4 divided by 1.05 to the power 85 by 365. ये है 30 minus 0.3992 minus 0.3955 equals 29.2053. फिर multiplied by 1.05 to the power 100 by 365, यानी multiplied by 1.01346, equals 29.60. Same answer.
+PRIYA: Meera ma'am ने एक quiz भी दिया.
+RAHUL: Share 30, dividend 0.30 day 20 और day 65 पर, 60 दिन का forward, 5 percent. Day 65 expiry के बाद, ignore. F equals, 30 minus 0.30 divided by 1.05 to the power 20 by 365, multiplied by 1.05 to the power 60 by 365. Answer 29.94.
+PRIYA: फिर दूसरा quiz: अगर कोई analyst short forward value करते समय dividends भूल जाए?
+RAHUL: Long की value dividends के PV जितनी ज़्यादा दिखेगी, overvalued. तो short undervalued, by the present value of dividends.
 [PAUSE 1]
-PRIYA: अब price और value में फ़र्क. Value of a forward क्या है?
-RAHUL: Value बस उस दिन का profit या loss है. Simple. आज अगर मैं contract बंद करूँ, तो मुझे कितना मिलेगा या देना पड़ेगा. Formula की भाषा में: sell rate minus buy rate, और उसको आज तक discount करो.
-PRIYA: वही dividend वाला example आगे बढ़ाओ.
-RAHUL: 60 दिन बाद share का भाव 30 से बढ़कर 36 हो गया. Rate अब भी 5 percent. Long position की value क्या है?
-RAHUL: Method one. Long ने day zero पर वादा किया था 29.60 में खरीदने का. अब day 60 पर, अगर कोई नया forward लिखे जो उसी day 100 पर expire हो, तो उसका price क्या होगा? 40 दिन बचे हैं, और बीच में सिर्फ़ 85वें दिन वाला 40 पैसे का dividend. तो नया forward price बराबर 36 गुणा 1.05 की power 40 बटा 365, minus 0.40 गुणा 1.05 की power 15 बटा 365. ये आता है 35.79.
-PRIYA: तो long 29.60 में खरीदेगा, और आज के हिसाब से 35.79 में बेच सकता है.
-RAHUL: हाँ, difference है 6.19 रुपये. लेकिन ये फ़ायदा day 100 पर मिलेगा, इसलिए 40 दिन discount करो: 6.19 को 1.05 की power 40 बटा 365 से divide. Value आती है 6.16 रुपये.
-PRIYA: और method two?
-RAHUL: Formula: value at time t बराबर, आज का spot minus बचे हुए benefits का PV, minus F zero का present value. यानी 36 minus 0.40 का PV, 25 दिन के लिए, क्योंकि 60वें दिन से 85वें दिन तक 25 दिन. फिर minus 29.60 का PV, 40 दिन के लिए. Answer same, 6.16.
-PRIYA: तो rule ये हुआ: अगर आज का forward price दिया है, तो method one. नहीं दिया है, तो adjusted spot वाला method two.
-RAHUL: बिल्कुल. और याद रखो, long को dividend नहीं मिलता, इसलिए spot में से उनका PV घटाते हैं.
-PRIYA: Short की value?
-RAHUL: बस long का उल्टा sign. Schweser के quiz में: share 21 पर गिर गया, F zero 29.94 था, 23 दिन बचे. Long की value minus 8.85, तो short की value plus 8.85.
-PRIYA: एक और quiz था, Macrogrow वाला.
-RAHUL: हाँ. 35 का share, 120 दिन का forward, 4 percent rate, 35वें और 125वें दिन 50 cent dividend. 125 वाला expiry के बाद, ignore. F zero आता है लगभग 34.95. 45 दिन बाद share 27.50 हो गया, अब 35वें दिन वाला dividend भी जा चुका है. Long की value: 27.50 minus 34.95 का PV, 75 दिन के लिए, यानी लगभग minus 7.17. Manager short है, तो उसकी value plus 7.17.
+PRIYA: 60 दिन बीत गए. PSU share 30 से उछलकर 36 हो गया. Client का फ़ोन आया: "मेरा long forward अब कितने का है?"
+RAHUL: Value बस आज का profit या loss है. अगर आज contract बंद करो तो क्या मिलेगा. यानी sell rate minus buy rate, discounted to today.
+RAHUL: Method one. Client ने day 0 पर 29.60 में खरीदने का वादा किया था. आज day 60 पर, अगर कोई नया forward उसी day 100 पर expire हो, तो उसका price? 40 दिन बचे, बीच में सिर्फ़ day 85 वाला 0.4 का dividend. New F equals 36 multiplied by 1.05 to the power 40 by 365, minus 0.4 multiplied by 1.05 to the power 15 by 365. 36 multiplied by 1.00536 equals 36.193, minus 0.4008, equals 35.79.
+RAHUL: तो client 29.60 में खरीदेगा और आज के हिसाब से 35.79 में बेच सकता है. Difference equals 35.79 minus 29.60 equals 6.19. ये फ़ायदा day 100 पर मिलेगा, तो 40 दिन discount करो. 6.19 divided by 1.05 to the power 40 by 365 equals 6.16 रुपये.
+RAHUL: Method two, formula: value equals, S t minus PV of remaining benefits, minus F zero divided by, one plus R f, to the power, T minus t. यानी 36 minus 0.4 divided by 1.05 to the power 25 by 365, क्योंकि day 60 से day 85 तक 25 दिन. फिर minus 29.60 divided by 1.05 to the power 40 by 365. 36 minus 0.3987 equals 35.6013. 29.60 divided by 1.00536 equals 29.442. 35.6013 minus 29.442 equals 6.16. Same.
+PRIYA: Meera ma'am का rule?
+RAHUL: आज का forward price दिया है, तो method one. नहीं दिया, तो adjusted spot वाला method two. Long को dividend नहीं मिलता, इसलिए spot में से उनका PV घटाते हैं. और short की value? Long का उल्टा sign.
+PRIYA: एक Schweser quiz Arjun ने उसी शाम solve किया.
+RAHUL: Share 21 पर गिर गया, F zero 29.94 था, 23 दिन बचे, rate 5 percent. Long value equals 21 minus 29.94 divided by 1.05 to the power 23 by 365, equals 21 minus 29.85, equals minus 8.85. Short की value plus 8.85.
+RAHUL: और Macrogrow वाला: share 35, 120 दिन, rate 4 percent, dividend 0.50 day 35 और day 125 पर. Day 125 ignore. F zero equals, 35 minus 0.50 divided by 1.04 to the power 35 by 365, multiplied by 1.04 to the power 120 by 365, लगभग 34.95. Day 45 पर share 27.50. Long value equals 27.50 minus 34.95 divided by 1.04 to the power 75 by 365, लगभग minus 7.17. Manager short है, तो plus 7.17.
 [PAUSE 1]
-PRIYA: आज का summary दो.
-RAHUL: एक: forward price बराबर spot plus cost of carry. Costs जोड़ो, benefits घटाओ. दो: अगर market का forward fair से महँगा है, तो cash-and-carry: borrow, spot buy, forward sell. सस्ता है, तो reverse. तीन: interest rate contracts में simple interest और 360, stocks और bonds में discrete और 365, index में continuous. चार: सिर्फ़ वही dividends गिनो जो expiry से पहले आते हैं. पाँच: value बराबर आज का profit या loss, जो दो तरीकों से निकलता है.
-PRIYA: अगले episode में: Nifty पर forward, bond पर forward, futures, और FRA. मिलते हैं.
+PRIYA: रात को Arjun ने अपनी diary में लिखा. Rahul, पढ़ो.
+RAHUL: एक: forward price equals spot plus cost of carry. Costs plus, benefits minus. दो: market forward महँगा, तो cash-and-carry: borrow, spot buy, forward sell. सस्ता, तो reverse. तीन: Meera ma'am के तीन drawers: interest rate, simple और 360. Stocks और bonds, discrete और 365. Index, continuous. चार: सिर्फ़ expiry से पहले वाले dividends गिनो. पाँच: value equals आज का profit या loss, दो methods से.
+PRIYA: अगले chapter में: एक foreign fund Nifty पर forward माँगेगा, एक insurance company bond पर, और Arjun का दोस्त Rohan RBI से डरकर FRA करेगा. मिलते हैं.

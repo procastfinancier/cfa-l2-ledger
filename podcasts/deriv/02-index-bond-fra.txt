@@ -1,64 +1,62 @@
-TITLE: Nifty Forward, Bond Forward, Futures aur FRA (R28 Part 2)
+TITLE: Chapter 2 - Foreign Fund, Insurance Company aur Rohan ka FRA (R28 Part 2)
 
-PRIYA: Welcome back. पिछले episode में हमने stock पर forward का price और value निकाला. आज तीन चीज़ें: equity index पर forward, bond पर forward, futures vs forwards, और फिर FRA, यानी forward rate agreement.
-RAHUL: चलो Nifty से शुरू करते हैं.
+PRIYA: Welcome back. पिछले chapter में Arjun ने मामा जी और Pappu भाई की deal करवाई, Gupta ji से cost of carry सीखा, और Reliance और PSU share पर forwards price और value किए. आज Arjun के desk पर तीन नए clients आते हैं.
 [PAUSE 1]
-PRIYA: Index पर forward में अलग क्या है?
-RAHUL: Index में पचास companies हैं. कोई ना कोई company लगभग रोज़ dividend दे रही होती है. तो हर dividend अलग से discount करना पागलपन होगा. इसलिए हम मान लेते हैं कि dividends लगातार आ रहे हैं, एक continuous dividend yield की तरह. और इसीलिए index के लिए continuous compounding use करते हैं.
-PRIYA: Formula?
-RAHUL: बिना dividend के: F बराबर S गुणा e की power r t. Dividend yield के साथ: F बराबर S गुणा e की power, r minus dividend yield, गुणा t. और अगर कोई cost भी है, तो उसे exponent में जोड़ दो: r minus benefit plus cost.
-PRIYA: Indian example.
-RAHUL: Nifty 24,000 पर है. Continuously compounded risk-free rate 6.5 percent, Nifty का continuous dividend yield 1.5 percent. 140 दिन का forward. F बराबर 24,000 गुणा e की power, 0.065 minus 0.015, यानी 0.05, गुणा 140 बटा 365. Answer आता है लगभग 24,465.
-PRIYA: Notes में S and P वाला example भी है ना?
-RAHUL: हाँ, 1,140 का index, 4.6 percent rate, 2.1 percent yield, 140 दिन, answer 1,151. Method same. और Schweser के quiz में: index 540, dividend yield 1.8 percent, rate 7 percent, 200 दिन. 540 गुणा e की power 0.052 गुणा 200 बटा 365, answer 555.61.
+PRIYA: सुबह दस बजे, Singapore के एक foreign fund का call आया. "हमें Nifty पर 140 दिन का forward चाहिए. Price बताओ."
+PRIYA: Arjun ने पूछा, "ma'am, Nifty में पचास companies हैं, सबके dividend अलग-अलग दिन. हर dividend अलग से discount करूँ?"
+RAHUL: Meera ma'am हँसीं. "नहीं. Index में कोई ना कोई company लगभग रोज़ dividend देती है. तो हम मानते हैं कि dividends लगातार बह रहे हैं, जैसे नल से पानी. उसे continuous dividend yield बोलते हैं. और इसीलिए index के लिए तीसरा drawer, continuous compounding."
+RAHUL: Formula: बिना dividend के, F equals S multiplied by e to the power r t. Dividend yield के साथ, F equals S multiplied by e to the power, r minus dividend yield, multiplied by t. और कोई cost हो तो exponent में plus cost.
+PRIYA: Numbers. Nifty 24,000 पर, continuously compounded risk-free rate 6.5 percent, dividend yield 1.5 percent.
+RAHUL: r minus dividend yield equals 0.065 minus 0.015 equals 0.05. t equals 140 divided by 365 equals 0.38356. 0.05 multiplied by 0.38356 equals 0.019178. e to the power 0.019178 equals 1.019363. 24,000 multiplied by 1.019363 equals लगभग 24,465. यही forward price.
+PRIYA: Arjun की notes में S and P वाला example भी था.
+RAHUL: Index 1,140, rate 4.6 percent, yield 2.1 percent, 140 दिन. 1,140 multiplied by e to the power, 0.025 multiplied by 0.38356, equals 1,151. और Schweser quiz: index 540, yield 1.8 percent, rate 7 percent, 200 दिन. 540 multiplied by e to the power, 0.052 multiplied by 200 by 365, equals 555.61.
 [PAUSE 1]
-PRIYA: अब bond पर forward.
-RAHUL: Bond में benefit है coupon. Logic बिल्कुल dividend जैसा. मान लो एक 7 percent का Government of India bond है, face value 1,000, semi-annual coupon. Full price, यानी accrued interest मिलाकर, 1,050 रुपये. अभी-अभी coupon मिला है, अगला coupon 35 रुपये 182 दिन बाद मिलेगा. 250 दिन का forward, risk-free rate 6 percent.
-PRIYA: Coupon 35 कैसे आया?
-RAHUL: 7 percent of 1,000 बराबर 70 साल का, semi-annual है तो आधा, 35. ये 182वें दिन मिलेगा, यानी forward expiry से 68 दिन पहले. तो F बराबर 1,050 गुणा 1.06 की power 250 बटा 365, minus 35 गुणा 1.06 की power 68 बटा 365. Answer 1,057.37.
-PRIYA: और 100 दिन बाद bond 1,090 का हो गया, तो value?
-RAHUL: Method one: नया forward price निकालो, 150 दिन बचे हैं. 1,090 गुणा 1.06 की power 150 बटा 365, minus 35 गुणा 1.06 की power 68 बटा 365. ये आता है 1,081.03. Difference 23.66. उसे 150 दिन discount करो, value 23.11.
-RAHUL: Method two: 1,090 minus coupon का PV, अब coupon 82 दिन दूर है, minus 1,057.37 का PV, 150 दिन के लिए. Same answer, 23.11. और Schweser वाला version, जहाँ सीधे आज का forward price 1,081.04 दिया है: 1,081.04 minus 1,057.37, divide by 1.06 की power 150 बटा 365. फिर से 23.11.
-PRIYA: एक quiz?
-RAHUL: 6 percent bond, full price 1,044, coupon 98 दिन बाद, flat curve 5 percent, 120 दिन का forward. Coupon 30. 1,044 minus 30 का PV, गुणा 1.05 की power 120 बटा 365. Answer 1,030.79.
+PRIYA: दोपहर को एक insurance company का treasurer आया. उसके पास Government of India का 7 percent bond था, face value 1,000, semi-annual coupon. Full price, accrued interest मिलाकर, 1,050. अभी-अभी coupon मिला था, अगला 182 दिन बाद. उसे 250 दिन का forward चाहिए था. Rate 6 percent.
+RAHUL: Meera ma'am ने कहा, "Arjun, bond का coupon बिल्कुल share के dividend जैसा benefit है. Same logic."
+RAHUL: Coupon equals 7 percent multiplied by 1,000 equals 70 साल का, divided by 2 equals 35. ये day 182 पर मिलेगा, तो expiry तक 250 minus 182 equals 68 दिन carry होगा.
+RAHUL: F equals 1,050 multiplied by 1.06 to the power 250 by 365, minus 35 multiplied by 1.06 to the power 68 by 365. 1,050 multiplied by 1.040717 equals 1,092.75. 35 multiplied by 1.010915 equals 35.38. 1,092.75 minus 35.38 equals 1,057.37.
+RAHUL: दूसरा तरीका: 1,050 minus 35 divided by 1.06 to the power 182 by 365, यानी 1,050 minus 34.00, equals 1,016.00. फिर multiplied by 1.040717 equals 1,057.37. Same.
+PRIYA: 100 दिन बाद RBI ने rates घटाने का signal दिया और bond 1,090 का हो गया. Treasurer ने पूछा, "मेरे long forward की value?"
+RAHUL: Method one: नया forward, 150 दिन बचे. 1,090 multiplied by 1.06 to the power 150 by 365 equals 1,090 multiplied by 1.024235 equals 1,116.42. Minus coupon का FV 35.38. नया F equals 1,081.03. Difference equals 1,081.03 minus 1,057.37 equals 23.66. Discount: 23.66 divided by 1.024235 equals 23.11.
+RAHUL: Method two: 1,090 minus 35 divided by 1.06 to the power 82 by 365, अब coupon 82 दिन दूर है. 35 divided by 1.013177 equals 34.54. 1,090 minus 34.54 equals 1,055.46. फिर minus 1,057.37 divided by 1.024235, यानी minus 1,032.35. 1,055.46 minus 1,032.35 equals 23.11.
+RAHUL: और Schweser वाला version, जहाँ आज का forward 1,081.04 दिया है: 1,081.04 minus 1,057.37, divided by 1.024235, equals 23.11. तीनों same.
+PRIYA: Arjun ने एक quiz भी solve किया.
+RAHUL: 6 percent bond, full price 1,044, coupon 30 day 98 पर, rate 5 percent, 120 दिन का forward. 30 divided by 1.013186 equals 29.61. 1,044 minus 29.61 equals 1,014.39. Multiplied by 1.05 to the power 120 by 365, यानी 1.016170, equals 1,030.79.
 [PAUSE 1]
-PRIYA: अब futures. Forward और futures में फ़र्क क्या है?
-RAHUL: Forward एक private deal है, जैसे किसान और dhaba वाला. Futures exchange पर trade होते हैं, जैसे NSE पर Nifty futures. Exchange पर clearinghouse हर trade की दूसरी side ले लेता है और guarantee देता है. दोनों sides को margin जमा करना पड़ता है, performance guarantee के लिए. और रोज़ mark to market होता है: रोज़ शाम को profit या loss आपके account में adjust हो जाता है.
-PRIYA: Value के हिसाब से?
-RAHUL: दोनों की value शुरुआत में zero होती है. लेकिन forward की value समय के साथ जमा होती रहती है. Futures की value हर settlement के बाद फिर से zero हो जाती है, क्योंकि profit-loss रोज़ settle हो चुका है. Value सिर्फ़ दो settlements के बीच zero से हटती है. अगर दिन में futures price बढ़ा, तो long की value उस दिन के settlement तक बढ़ी रहेगी.
-PRIYA: Bond futures में delivery पर क्या होता है? वो हम episode चार में detail में करेंगे, बस एक line.
-RAHUL: Delivery पर long pay करता है: futures price गुणा conversion factor, plus accrued interest.
+PRIYA: शाम को Arjun ने Meera ma'am से पूछा, "हम ये forwards client के साथ सीधे करते हैं. NSE पर futures भी तो हैं. फ़र्क क्या है?"
+RAHUL: Meera ma'am ने समझाया. Forward एक private deal है, जैसे मामा जी और Pappu भाई. Futures exchange पर trade होते हैं, जैसे NSE पर Nifty futures. Exchange का clearinghouse हर trade की दूसरी side ले लेता है और guarantee देता है. दोनों को margin जमा करना पड़ता है. और रोज़ mark to market: हर शाम profit या loss account में settle.
+RAHUL: Value: दोनों शुरुआत में zero. Forward की value समय के साथ जमा होती है. Futures की value हर settlement के बाद फिर zero, क्योंकि रोज़ का हिसाब हो चुका. Value सिर्फ़ दो settlements के बीच zero से हटती है. दिन में futures price बढ़ा, तो long की value उस शाम तक बढ़ी रहेगी.
+RAHUL: और bond futures में, जिनकी पूरी कहानी chapter four में है, delivery पर long pay करता है: futures price multiplied by conversion factor, plus accrued interest.
 [PAUSE 1]
-PRIYA: अब FRA. सबसे पहले, ये है क्या?
-RAHUL: Forward rate agreement, यानी आज ही एक future loan का interest rate lock कर लेना. सोचो एक company है, उसे पता है कि दो महीने बाद उसे तीन महीने का loan लेना है. उसे डर है कि RBI rates बढ़ा देगा. तो वो आज ही एक FRA कर लेती है, जो उस future loan का rate fix कर दे.
-PRIYA: FRA की maturity कब होती है?
-RAHUL: FRA की maturity वो date है जब underlying loan शुरू होता है. ऊपर के example में, दो महीने.
-PRIYA: Notation समझाओ, जैसे 1 by 4 या 2 by 3.
-RAHUL: पहला number है FRA कितने महीने में expire होगा. दूसरा number है underlying loan कब ख़त्म होगा. Difference है loan की length. तो 1 by 4 का मतलब: एक महीने बाद, तीन महीने का loan. 2 by 3 का मतलब: 60 दिन बाद, 30 दिन का loan.
-PRIYA: Long कौन है?
-RAHUL: Long FRA notional borrower है. उसे फ़ायदा होता है जब rates बढ़ते हैं, क्योंकि वो market से सस्ते rate पर borrow कर पा रहा है. अगर rate FRA rate से नीचे चला जाए, तो long, short को pay करता है. और FRA cash settled होता है, असली loan नहीं दिया जाता, इसलिए long की creditworthiness का FRA rate पर कोई असर नहीं.
-PRIYA: एक बात rates पर भी. Notes में LIBOR है, अब तो LIBOR बंद हो गया.
-RAHUL: हाँ, अब CFA इसे MRR बोलता है, market reference rate, जैसे US में SOFR. India में हम MIBOR सोच सकते हैं. ये add-on rate है, 360 दिन के basis पर. Example: 10 लाख रुपये, 30 दिन, 6 percent पर. वापस करोगे 10 लाख plus 10 लाख गुणा 0.06 गुणा 30 बटा 360, यानी 10 लाख 5 हज़ार.
+PRIYA: रात को Arjun का college friend Rohan मिलने आया. Rohan एक textile company में finance manager है. चेहरा उतरा हुआ.
+PRIYA: "यार Arjun, एक महीने बाद हमें तीन महीने का working capital loan लेना है. सब कह रहे हैं RBI अगली policy में rates बढ़ाएगा. Loan महँगा हो जाएगा. कुछ कर सकते हैं?"
+RAHUL: Arjun ने कहा, "FRA कर लो. Forward rate agreement. आज ही उस future loan का rate lock हो जाएगा."
+RAHUL: FRA यानी एक future loan के interest rate पर forward. Rohan की case में: एक महीने बाद, तीन महीने का loan. इसे 1 by 4 FRA कहते हैं. पहला number: FRA कब expire होगा, यानी loan कब शुरू. दूसरा number: loan कब ख़त्म. Difference: loan की length. 2 by 3 का मतलब: 60 दिन बाद, 30 दिन का loan. FRA की maturity वो date है जब loan शुरू होता है.
+PRIYA: Rohan ने पूछा, "मैं long बनूँगा या short?"
+RAHUL: Long FRA notional borrower है. Rates बढ़ें तो long को फ़ायदा, क्योंकि उसने कम rate lock किया. Rates FRA rate से नीचे गए, तो long, short को pay करेगा. Rohan borrower है, उसे rate बढ़ने का डर है, तो वो long FRA लेगा.
+RAHUL: और FRA cash-settled होता है. असली loan नहीं दिया जाता, बस difference का पैसा. इसलिए Rohan की company की creditworthiness का FRA rate पर कोई असर नहीं.
+PRIYA: एक बात rate की भी.
+RAHUL: पहले LIBOR था, अब CFA उसे MRR बोलता है, market reference rate, जैसे US में SOFR. हम India में MIBOR सोचेंगे. ये add-on rate है, 360 दिन basis. 10 लाख, 30 दिन, 6 percent: repay equals 10 लाख plus 10 लाख multiplied by 0.06 multiplied by 30 by 360, equals 10 लाख plus 5,000, यानी 10 लाख 5 हज़ार.
 [PAUSE 1]
-PRIYA: अब FRA rate कैसे निकालते हैं?
-RAHUL: Logic: अगर मैं 120 दिन के लिए पैसा invest करूँ, या पहले 30 दिन के लिए invest करूँ और फिर बाकी 90 दिन का rate आज lock कर लूँ, दोनों का result same होना चाहिए. वरना arbitrage.
-PRIYA: Numbers?
-RAHUL: 1 by 4 FRA, notional 10 लाख. 30 दिन का MIBOR 4 percent, 120 दिन का 5 percent. Equation: one plus 5 percent गुणा 120 बटा 360, बराबर, one plus 4 percent गुणा 30 बटा 360, गुणा, one plus x गुणा 90 बटा 360. Left side 1.0167, divide by 1.0033, आता है 1.0133. तो x गुणा 0.25 बराबर 0.0133, x बराबर 5.32 percent. यही FRA rate है.
-PRIYA: Quiz वाले में formula सीधा लगाया था ना?
-RAHUL: हाँ. 3 by 5 FRA, 90 दिन 5 percent, 150 दिन 6 percent. One plus 0.06 गुणा 150 बटा 360, divide by one plus 0.05 गुणा 90 बटा 360, minus one, गुणा 360 बटा 60. Answer लगभग 7.4 percent. और दूसरा quiz: CFO को 90 दिन बाद 90 दिन का loan hedge करना है, तो long 3 by 6 FRA. Rate: 1.0245 बटा 1.01175, minus one, गुणा 4, यानी 5.02 percent.
+PRIYA: तो FRA rate कितना होगा? 30 दिन का MIBOR 4 percent, 120 दिन का 5 percent. Notional 10 लाख.
+RAHUL: Logic: 120 दिन के लिए invest करो, या पहले 30 दिन और फिर बाकी 90 दिन का rate आज lock करो. दोनों same होने चाहिए.
+RAHUL: Equation: 1 plus 0.05 multiplied by 120 by 360, equals, 1 plus 0.04 multiplied by 30 by 360, multiplied by, 1 plus x multiplied by 90 by 360. Left side equals 1.016667. 30 दिन वाला factor equals 1.003333. 1.016667 divided by 1.003333 equals 1.013289. तो x multiplied by 0.25 equals 0.013289. x equals 0.013289 multiplied by 4 equals 5.32 percent.
+PRIYA: Arjun ने Rohan को दो quiz भी दिखाए.
+RAHUL: 3 by 5 FRA: 90 दिन 5 percent, 150 दिन 6 percent. 1 plus 0.06 multiplied by 150 by 360 equals 1.025. 1 plus 0.05 multiplied by 90 by 360 equals 1.0125. 1.025 divided by 1.0125 equals 1.012346. Minus 1 equals 0.012346. Multiplied by 360 by 60, यानी 6, equals 7.4 percent.
+RAHUL: दूसरा: CFO को 90 दिन बाद 90 दिन का loan hedge करना है, तो long 3 by 6 FRA. 180 दिन 4.9 percent, 90 दिन 4.7 percent. 1.0245 divided by 1.01175 equals 1.0126. Minus 1, multiplied by 4, equals लगभग 5.0 percent. Options में closest 5.02 percent.
 [PAUSE 1]
-PRIYA: Settlement. Expiry पर 90 दिन का rate 6 percent हो गया, FRA rate 5.32 था.
-RAHUL: Long ने 5.32 पर lock किया था, market अब 6 पर है. तो उसका फ़ायदा: 6 minus 5.32, यानी 0.68 percent, गुणा 90 बटा 360, गुणा 10 लाख. ये interest की बचत है.
-PRIYA: लेकिन ये बचत कब मिलती?
-RAHUL: यही key point है. Interest की बचत loan के end पर मिलती, यानी day 120 पर. लेकिन FRA settle होता है day 30 पर, loan की शुरुआत में. तो उस बचत को 90 दिन के लिए, नए 6 percent rate पर, discount करते हैं. Denominator: one plus 6 percent गुणा 90 बटा 360. Answer लगभग 1,675 रुपये, long को मिलेंगे.
-PRIYA: Expiry से पहले FRA की value?
-RAHUL: 10 दिन बाद value निकालनी है. अब 110 दिन का MIBOR 5.9 percent और 20 दिन का 5.7 percent. पहले नया forward rate निकालो, day 30 से day 120 का, आज यानी day 10 से देखें तो 20 से 110 दिन का. One plus 5.9 percent गुणा 110 बटा 360, बराबर, one plus 5.7 percent गुणा 20 बटा 360, गुणा, one plus x गुणा 90 बटा 360. x आता है 5.9257 percent.
-RAHUL: अब value: 5.9257 minus 5.32, गुणा 90 बटा 360, गुणा 10 लाख. ये फ़ायदा day 120 पर है, और हम खड़े हैं day 10 पर. तो इसे 110 दिन के rate से discount करो: one plus 5.9 percent गुणा 110 बटा 360. Value आती है 1,487.39 रुपये.
-PRIYA: Schweser का quiz 28.5 भी ऐसा ही है.
-RAHUL: हाँ. Bank 30 दिन पहले long 3 by 6 FRA में गया, 3 percent पर, notional 1 करोड़. अब 30 दिन बीत गए, तो ये effectively 2 by 5 FRA है, day 60 से day 150. नया FRA rate: one plus 0.032 गुणा 150 बटा 360, divide by one plus 0.026 गुणा 60 बटा 360, minus one, गुणा 4. आता है 3.584 percent. फ़ायदा: 0.584 percent गुणा 90 बटा 360 गुणा 1 करोड़, यानी 14,600. इसे day 150 से आज तक discount करो, 1.013333 से. Answer 14,407.
-PRIYA: Common mistake?
-RAHUL: लोग गलत discount rate use करते हैं. Settlement पर, loan term के rate से discount. Expiry से पहले value निकालनी हो, तो आज से loan के end तक के rate से discount.
+PRIYA: एक महीना बीता. RBI ने सच में rates बढ़ा दिए. 90 दिन का MIBOR 6 percent हो गया. Rohan ख़ुशी से फ़ोन किया. "कितना मिलेगा?"
+RAHUL: Rohan ने 5.32 पर lock किया था, market 6 पर है. Interest बचत equals, 0.06 minus 0.0532, multiplied by 90 by 360, multiplied by 10 लाख. 0.0068 multiplied by 0.25 equals 0.0017. Multiplied by 10 लाख equals 1,700.
+RAHUL: लेकिन ये बचत loan के end पर, day 120 पर मिलती. FRA settle होता है day 30 पर, loan की शुरुआत में. तो 90 दिन, नए 6 percent rate पर, discount करो. 1 plus 0.06 multiplied by 90 by 360 equals 1.015. 1,700 divided by 1.015 equals 1,675 रुपये. Rohan को मिले.
+PRIYA: और अगर बीच में, day 10 पर ही, Rohan पूछता कि मेरे FRA की value अभी क्या है?
+RAHUL: Day 10 पर 110 दिन का MIBOR 5.9 percent, 20 दिन का 5.7 percent. पहले नया forward rate, day 30 से day 120 का. 1 plus 0.059 multiplied by 110 by 360 equals 1.018028. 1 plus 0.057 multiplied by 20 by 360 equals 1.003167. 1.018028 divided by 1.003167 equals 1.014814. Minus 1, multiplied by 4, equals 5.9257 percent.
+RAHUL: Gain equals, 0.059257 minus 0.0532, multiplied by 0.25, multiplied by 10 लाख, equals 1,514.25. ये day 120 पर मिलेगा, हम day 10 पर हैं, तो 110 दिन के rate से discount: 1,514.25 divided by 1.018028 equals 1,487.39 रुपये.
+PRIYA: Schweser का एक मुश्किल quiz भी Meera ma'am ने दिया.
+RAHUL: Bank 30 दिन पहले long 3 by 6 FRA में गया, 3 percent पर, notional 1 करोड़. 30 दिन बीत गए, तो अब ये effectively 2 by 5 है, day 60 से day 150. आज 60 दिन MIBOR 2.6 percent, 150 दिन 3.2 percent.
+RAHUL: 1 plus 0.032 multiplied by 150 by 360 equals 1.013333. 1 plus 0.026 multiplied by 60 by 360 equals 1.004333. Divide: 1.008963. Minus 1, multiplied by 4, equals 3.584 percent. Gain equals 0.00584 multiplied by 0.25 multiplied by 1 करोड़ equals 14,600. Day 150 से आज तक discount: 14,600 divided by 1.013333 equals 14,407.
+PRIYA: Common गलती?
+RAHUL: Wrong discount rate. Settlement पर, loan term के rate से. Expiry से पहले value, आज से loan के end तक के rate से.
 [PAUSE 1]
-PRIYA: Summary.
-RAHUL: एक: index पर continuous compounding, F बराबर S गुणा e की power, r minus dividend yield, गुणा t. दो: bond पर coupon एक benefit है, बिल्कुल dividend जैसा. तीन: futures रोज़ mark to market होते हैं, इसलिए हर settlement के बाद value zero. चार: long FRA borrower है, rates बढ़ें तो फ़ायदा. पाँच: FRA rate निकालने के लिए लंबे period को छोटे period से divide करो. छह: FRA का payoff हमेशा discount होता है.
-PRIYA: अगले episode में swaps. मिलते हैं.
+PRIYA: रात को diary.
+RAHUL: एक: index पर continuous, F equals S multiplied by e to the power, r minus yield, multiplied by t. दो: bond का coupon, dividend जैसा benefit. तीन: futures रोज़ mark to market, हर settlement के बाद value zero. चार: long FRA equals borrower, rates बढ़ें तो फ़ायदा. पाँच: FRA rate के लिए, लंबे period का factor divided by छोटे का. छह: FRA payoff हमेशा discount होता है.
+PRIYA: अगले chapter में Arjun के पापा का home loan, और एक auto company का dollar loan. यानी swaps. मिलते हैं.
