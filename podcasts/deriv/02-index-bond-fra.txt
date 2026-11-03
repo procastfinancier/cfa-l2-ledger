@@ -1,62 +1,21 @@
-TITLE: Chapter 2 - Foreign Fund, Insurance Company aur Rohan ka FRA (R28 Part 2)
+TITLE: Chapter 2 - Nifty, Bond aur Rohan ka FRA (R28)
 
-PRIYA: Welcome back. पिछले chapter में Arjun ने मामा जी और Pappu भाई की deal करवाई, Gupta ji से cost of carry सीखा, और Reliance और PSU share पर forwards price और value किए. आज Arjun के desk पर तीन नए clients आते हैं.
+PRIYA: Arjun के desk पर तीन clients. पहला, एक foreign fund: "Nifty पर 140 दिन का forward."
+RAHUL: Index में dividends रोज़ आते हैं, तो continuous yield मानो. F equals S multiplied by e to the power, r minus yield, multiplied by t. Nifty 24,000, r 6.5 percent, yield 1.5 percent. 0.05 multiplied by 140 by 365 equals 0.0192. e to the power 0.0192 equals 1.0194. 24,000 multiplied by 1.0194 equals लगभग 24,465.
 [PAUSE 1]
-PRIYA: सुबह दस बजे, Singapore के एक foreign fund का call आया. "हमें Nifty पर 140 दिन का forward चाहिए. Price बताओ."
-PRIYA: Arjun ने पूछा, "ma'am, Nifty में पचास companies हैं, सबके dividend अलग-अलग दिन. हर dividend अलग से discount करूँ?"
-RAHUL: Meera ma'am हँसीं. "नहीं. Index में कोई ना कोई company लगभग रोज़ dividend देती है. तो हम मानते हैं कि dividends लगातार बह रहे हैं, जैसे नल से पानी. उसे continuous dividend yield बोलते हैं. और इसीलिए index के लिए तीसरा drawer, continuous compounding."
-RAHUL: Formula: बिना dividend के, F equals S multiplied by e to the power r t. Dividend yield के साथ, F equals S multiplied by e to the power, r minus dividend yield, multiplied by t. और कोई cost हो तो exponent में plus cost.
-PRIYA: Numbers. Nifty 24,000 पर, continuously compounded risk-free rate 6.5 percent, dividend yield 1.5 percent.
-RAHUL: r minus dividend yield equals 0.065 minus 0.015 equals 0.05. t equals 140 divided by 365 equals 0.38356. 0.05 multiplied by 0.38356 equals 0.019178. e to the power 0.019178 equals 1.019363. 24,000 multiplied by 1.019363 equals लगभग 24,465. यही forward price.
-PRIYA: Arjun की notes में S and P वाला example भी था.
-RAHUL: Index 1,140, rate 4.6 percent, yield 2.1 percent, 140 दिन. 1,140 multiplied by e to the power, 0.025 multiplied by 0.38356, equals 1,151. और Schweser quiz: index 540, yield 1.8 percent, rate 7 percent, 200 दिन. 540 multiplied by e to the power, 0.052 multiplied by 200 by 365, equals 555.61.
+PRIYA: दूसरा, एक insurance company. 7 percent government bond, full price 1,050, coupon 35 day 182 पर. 250 दिन का forward, rate 6 percent.
+RAHUL: Coupon equals dividend, एक benefit. F equals, 1,050 minus 35 divided by 1.06 to the power 182 by 365, multiplied by 1.06 to the power 250 by 365. यानी 1,016 multiplied by 1.0407 equals 1,057.37.
 [PAUSE 1]
-PRIYA: दोपहर को एक insurance company का treasurer आया. उसके पास Government of India का 7 percent bond था, face value 1,000, semi-annual coupon. Full price, accrued interest मिलाकर, 1,050. अभी-अभी coupon मिला था, अगला 182 दिन बाद. उसे 250 दिन का forward चाहिए था. Rate 6 percent.
-RAHUL: Meera ma'am ने कहा, "Arjun, bond का coupon बिल्कुल share के dividend जैसा benefit है. Same logic."
-RAHUL: Coupon equals 7 percent multiplied by 1,000 equals 70 साल का, divided by 2 equals 35. ये day 182 पर मिलेगा, तो expiry तक 250 minus 182 equals 68 दिन carry होगा.
-RAHUL: F equals 1,050 multiplied by 1.06 to the power 250 by 365, minus 35 multiplied by 1.06 to the power 68 by 365. 1,050 multiplied by 1.040717 equals 1,092.75. 35 multiplied by 1.010915 equals 35.38. 1,092.75 minus 35.38 equals 1,057.37.
-RAHUL: दूसरा तरीका: 1,050 minus 35 divided by 1.06 to the power 182 by 365, यानी 1,050 minus 34.00, equals 1,016.00. फिर multiplied by 1.040717 equals 1,057.37. Same.
-PRIYA: 100 दिन बाद RBI ने rates घटाने का signal दिया और bond 1,090 का हो गया. Treasurer ने पूछा, "मेरे long forward की value?"
-RAHUL: Method one: नया forward, 150 दिन बचे. 1,090 multiplied by 1.06 to the power 150 by 365 equals 1,090 multiplied by 1.024235 equals 1,116.42. Minus coupon का FV 35.38. नया F equals 1,081.03. Difference equals 1,081.03 minus 1,057.37 equals 23.66. Discount: 23.66 divided by 1.024235 equals 23.11.
-RAHUL: Method two: 1,090 minus 35 divided by 1.06 to the power 82 by 365, अब coupon 82 दिन दूर है. 35 divided by 1.013177 equals 34.54. 1,090 minus 34.54 equals 1,055.46. फिर minus 1,057.37 divided by 1.024235, यानी minus 1,032.35. 1,055.46 minus 1,032.35 equals 23.11.
-RAHUL: और Schweser वाला version, जहाँ आज का forward 1,081.04 दिया है: 1,081.04 minus 1,057.37, divided by 1.024235, equals 23.11. तीनों same.
-PRIYA: Arjun ने एक quiz भी solve किया.
-RAHUL: 6 percent bond, full price 1,044, coupon 30 day 98 पर, rate 5 percent, 120 दिन का forward. 30 divided by 1.013186 equals 29.61. 1,044 minus 29.61 equals 1,014.39. Multiplied by 1.05 to the power 120 by 365, यानी 1.016170, equals 1,030.79.
+PRIYA: Arjun ने पूछा, forward और futures में फ़र्क?
+RAHUL: Forward private deal. Futures NSE पर, clearinghouse guarantee, margin, और रोज़ mark to market. इसलिए futures की value हर settlement के बाद zero हो जाती है. Bond futures की delivery पर long pay करता है futures price multiplied by conversion factor, plus accrued interest.
 [PAUSE 1]
-PRIYA: शाम को Arjun ने Meera ma'am से पूछा, "हम ये forwards client के साथ सीधे करते हैं. NSE पर futures भी तो हैं. फ़र्क क्या है?"
-RAHUL: Meera ma'am ने समझाया. Forward एक private deal है, जैसे मामा जी और Pappu भाई. Futures exchange पर trade होते हैं, जैसे NSE पर Nifty futures. Exchange का clearinghouse हर trade की दूसरी side ले लेता है और guarantee देता है. दोनों को margin जमा करना पड़ता है. और रोज़ mark to market: हर शाम profit या loss account में settle.
-RAHUL: Value: दोनों शुरुआत में zero. Forward की value समय के साथ जमा होती है. Futures की value हर settlement के बाद फिर zero, क्योंकि रोज़ का हिसाब हो चुका. Value सिर्फ़ दो settlements के बीच zero से हटती है. दिन में futures price बढ़ा, तो long की value उस शाम तक बढ़ी रहेगी.
-RAHUL: और bond futures में, जिनकी पूरी कहानी chapter four में है, delivery पर long pay करता है: futures price multiplied by conversion factor, plus accrued interest.
+PRIYA: तीसरा, Arjun का दोस्त Rohan. "एक महीने बाद तीन महीने का loan लेना है. RBI rates बढ़ा देगा तो?"
+RAHUL: FRA करो, rate आज lock. ये 1 by 4 FRA है: 1 महीने बाद शुरू, 4 पर ख़त्म, loan 3 महीने का. Long FRA equals borrower. Rates बढ़ें तो long जीतता है. Cash settled, असली loan नहीं.
+PRIYA: Rate? 30 दिन MIBOR 4 percent, 120 दिन 5 percent.
+RAHUL: लंबा factor divided by छोटा factor. 1 plus 0.05 multiplied by 120 by 360 equals 1.01667. 1 plus 0.04 multiplied by 30 by 360 equals 1.00333. Divide: 1.01329. Minus 1, multiplied by 360 by 90: FRA rate equals 5.32 percent.
+PRIYA: एक महीने बाद RBI ने सच में बढ़ाया, 90 दिन rate 6 percent. Notional 10 लाख.
+RAHUL: Saving equals, 0.06 minus 0.0532, multiplied by 90 by 360, multiplied by 10 लाख, equals 1,700. ये loan के end पर मिलती, FRA शुरुआत में settle होता है. तो discount: 1,700 divided by, 1 plus 0.06 multiplied by 90 by 360, equals 1,700 divided by 1.015 equals 1,675.
+RAHUL: Expiry से पहले value: नया FRA rate निकालो, gap multiply करो, और आज से loan के end तक discount करो. Notes में day 10 पर ये 1,487 आता है.
 [PAUSE 1]
-PRIYA: रात को Arjun का college friend Rohan मिलने आया. Rohan एक textile company में finance manager है. चेहरा उतरा हुआ.
-PRIYA: "यार Arjun, एक महीने बाद हमें तीन महीने का working capital loan लेना है. सब कह रहे हैं RBI अगली policy में rates बढ़ाएगा. Loan महँगा हो जाएगा. कुछ कर सकते हैं?"
-RAHUL: Arjun ने कहा, "FRA कर लो. Forward rate agreement. आज ही उस future loan का rate lock हो जाएगा."
-RAHUL: FRA यानी एक future loan के interest rate पर forward. Rohan की case में: एक महीने बाद, तीन महीने का loan. इसे 1 by 4 FRA कहते हैं. पहला number: FRA कब expire होगा, यानी loan कब शुरू. दूसरा number: loan कब ख़त्म. Difference: loan की length. 2 by 3 का मतलब: 60 दिन बाद, 30 दिन का loan. FRA की maturity वो date है जब loan शुरू होता है.
-PRIYA: Rohan ने पूछा, "मैं long बनूँगा या short?"
-RAHUL: Long FRA notional borrower है. Rates बढ़ें तो long को फ़ायदा, क्योंकि उसने कम rate lock किया. Rates FRA rate से नीचे गए, तो long, short को pay करेगा. Rohan borrower है, उसे rate बढ़ने का डर है, तो वो long FRA लेगा.
-RAHUL: और FRA cash-settled होता है. असली loan नहीं दिया जाता, बस difference का पैसा. इसलिए Rohan की company की creditworthiness का FRA rate पर कोई असर नहीं.
-PRIYA: एक बात rate की भी.
-RAHUL: पहले LIBOR था, अब CFA उसे MRR बोलता है, market reference rate, जैसे US में SOFR. हम India में MIBOR सोचेंगे. ये add-on rate है, 360 दिन basis. 10 लाख, 30 दिन, 6 percent: repay equals 10 लाख plus 10 लाख multiplied by 0.06 multiplied by 30 by 360, equals 10 लाख plus 5,000, यानी 10 लाख 5 हज़ार.
-[PAUSE 1]
-PRIYA: तो FRA rate कितना होगा? 30 दिन का MIBOR 4 percent, 120 दिन का 5 percent. Notional 10 लाख.
-RAHUL: Logic: 120 दिन के लिए invest करो, या पहले 30 दिन और फिर बाकी 90 दिन का rate आज lock करो. दोनों same होने चाहिए.
-RAHUL: Equation: 1 plus 0.05 multiplied by 120 by 360, equals, 1 plus 0.04 multiplied by 30 by 360, multiplied by, 1 plus x multiplied by 90 by 360. Left side equals 1.016667. 30 दिन वाला factor equals 1.003333. 1.016667 divided by 1.003333 equals 1.013289. तो x multiplied by 0.25 equals 0.013289. x equals 0.013289 multiplied by 4 equals 5.32 percent.
-PRIYA: Arjun ने Rohan को दो quiz भी दिखाए.
-RAHUL: 3 by 5 FRA: 90 दिन 5 percent, 150 दिन 6 percent. 1 plus 0.06 multiplied by 150 by 360 equals 1.025. 1 plus 0.05 multiplied by 90 by 360 equals 1.0125. 1.025 divided by 1.0125 equals 1.012346. Minus 1 equals 0.012346. Multiplied by 360 by 60, यानी 6, equals 7.4 percent.
-RAHUL: दूसरा: CFO को 90 दिन बाद 90 दिन का loan hedge करना है, तो long 3 by 6 FRA. 180 दिन 4.9 percent, 90 दिन 4.7 percent. 1.0245 divided by 1.01175 equals 1.0126. Minus 1, multiplied by 4, equals लगभग 5.0 percent. Options में closest 5.02 percent.
-[PAUSE 1]
-PRIYA: एक महीना बीता. RBI ने सच में rates बढ़ा दिए. 90 दिन का MIBOR 6 percent हो गया. Rohan ख़ुशी से फ़ोन किया. "कितना मिलेगा?"
-RAHUL: Rohan ने 5.32 पर lock किया था, market 6 पर है. Interest बचत equals, 0.06 minus 0.0532, multiplied by 90 by 360, multiplied by 10 लाख. 0.0068 multiplied by 0.25 equals 0.0017. Multiplied by 10 लाख equals 1,700.
-RAHUL: लेकिन ये बचत loan के end पर, day 120 पर मिलती. FRA settle होता है day 30 पर, loan की शुरुआत में. तो 90 दिन, नए 6 percent rate पर, discount करो. 1 plus 0.06 multiplied by 90 by 360 equals 1.015. 1,700 divided by 1.015 equals 1,675 रुपये. Rohan को मिले.
-PRIYA: और अगर बीच में, day 10 पर ही, Rohan पूछता कि मेरे FRA की value अभी क्या है?
-RAHUL: Day 10 पर 110 दिन का MIBOR 5.9 percent, 20 दिन का 5.7 percent. पहले नया forward rate, day 30 से day 120 का. 1 plus 0.059 multiplied by 110 by 360 equals 1.018028. 1 plus 0.057 multiplied by 20 by 360 equals 1.003167. 1.018028 divided by 1.003167 equals 1.014814. Minus 1, multiplied by 4, equals 5.9257 percent.
-RAHUL: Gain equals, 0.059257 minus 0.0532, multiplied by 0.25, multiplied by 10 लाख, equals 1,514.25. ये day 120 पर मिलेगा, हम day 10 पर हैं, तो 110 दिन के rate से discount: 1,514.25 divided by 1.018028 equals 1,487.39 रुपये.
-PRIYA: Schweser का एक मुश्किल quiz भी Meera ma'am ने दिया.
-RAHUL: Bank 30 दिन पहले long 3 by 6 FRA में गया, 3 percent पर, notional 1 करोड़. 30 दिन बीत गए, तो अब ये effectively 2 by 5 है, day 60 से day 150. आज 60 दिन MIBOR 2.6 percent, 150 दिन 3.2 percent.
-RAHUL: 1 plus 0.032 multiplied by 150 by 360 equals 1.013333. 1 plus 0.026 multiplied by 60 by 360 equals 1.004333. Divide: 1.008963. Minus 1, multiplied by 4, equals 3.584 percent. Gain equals 0.00584 multiplied by 0.25 multiplied by 1 करोड़ equals 14,600. Day 150 से आज तक discount: 14,600 divided by 1.013333 equals 14,407.
-PRIYA: Common गलती?
-RAHUL: Wrong discount rate. Settlement पर, loan term के rate से. Expiry से पहले value, आज से loan के end तक के rate से.
-[PAUSE 1]
-PRIYA: रात को diary.
-RAHUL: एक: index पर continuous, F equals S multiplied by e to the power, r minus yield, multiplied by t. दो: bond का coupon, dividend जैसा benefit. तीन: futures रोज़ mark to market, हर settlement के बाद value zero. चार: long FRA equals borrower, rates बढ़ें तो फ़ायदा. पाँच: FRA rate के लिए, लंबे period का factor divided by छोटे का. छह: FRA payoff हमेशा discount होता है.
-PRIYA: अगले chapter में Arjun के पापा का home loan, और एक auto company का dollar loan. यानी swaps. मिलते हैं.
+PRIYA: मंत्र.
+RAHUL: Index, continuous. Coupon, dividend जैसा. Futures, रोज़ zero. Long FRA, borrower, rates ऊपर तो जीत. FRA rate, लंबा divided by छोटा. Payoff, हमेशा discount.

@@ -1,74 +1,20 @@
-TITLE: Chapter 9 - Marine Drive par Gaadi, Greeks aur Delta Hedging (R29 Part 5)
+TITLE: Chapter 9 - Marine Drive par Driving aur Greeks (R29)
 
-PRIYA: नमस्ते दोस्तों. Sunday सुबह, Meera ma'am Arjun को Marine Drive पर अपनी पुरानी Maruti में driving सिखा रही थीं. और जैसा उनका तरीका है, driving के साथ Greeks भी.
-PRIYA: "Arjun, गाड़ी चलाते हुए dashboard पर क्या देखते हो?" "Speed, ma'am." "और speed कितनी तेज़ी से बदल रही है, वो?" "Acceleration." "बस. यही delta और gamma हैं."
-RAHUL: Greeks बस बताते हैं: एक input बदले, तो option price कितना बदलेगा.
+PRIYA: Sunday, Marine Drive. Meera ma'am Arjun को driving सिखा रही थीं. "Dashboard पर speed देखो. Speed कितनी तेज़ी से बदल रही है, वो acceleration. यही delta और gamma."
 [PAUSE 1]
-PRIYA: पहले हर input और उसका Greek.
-RAHUL: Underlying price: Greek delta. Call direct, put inverse. Exercise price: कोई Greek नहीं. Risk-free rate: rho. Call direct, put inverse. Volatility: vega, दोनों direct. Time: theta. Benefits और costs: कोई Greek नहीं.
+RAHUL: Delta equals speed: share 1 रुपया बदले, option कितना. Call 0 से 1, put minus 1 से 0. Expiry पर in the money call का delta 1, out of the money का 0. Formula: call delta equals N of d1, put delta equals N of d1 minus 1.
+RAHUL: Example: delta 0.58, share 0.75 ऊपर. Change equals 0.58 multiplied by 0.75 equals 0.435.
 [PAUSE 1]
-PRIYA: Delta, यानी speed.
-RAHUL: Delta equals option price और share price का relation. Share 1 रुपया बदले, option कितना बदलेगा. Delta equals hedge ratio equals change in call divided by change in stock, यानी, call up minus call down, divided by, S up minus S down. Geometry में payoff line का slope. Call का delta positive, put का negative.
-PRIYA: Expiry पर?
-RAHUL: Call out of the money हो, तो delta zero, share थोड़ा हिले, call बेकार ही रहेगा. In the money हो, तो payoff line 45 degree पर, delta 1. क्यों? Expiry पर share 1 रुपया बढ़े, call भी exactly 1 रुपया बढ़ता है. Put: in the money पर minus 1, out of the money पर zero.
-RAHUL: Premium equals intrinsic value plus time value. Expiry पर time value zero, और call की intrinsic value equals max of zero and S minus X. Put की equals max of X minus S and zero.
-PRIYA: BSM से delta.
-RAHUL: बिना dividend: call delta equals N of d1, put delta equals minus N of minus d1. Dividend के साथ: call delta equals e to the power minus delta T multiplied by N of d1, put delta equals minus e to the power minus delta T multiplied by N of minus d1. और change in call approximately equals delta multiplied by change in share.
-PRIYA: Example.
-RAHUL: e to the power minus delta T multiplied by N of d1 equals 0.58. Share 0.75 रुपये बढ़ा. Change in call equals 0.58 multiplied by 0.75 equals 0.435 रुपये.
+RAHUL: Gamma equals acceleration, delta कितना बदलता है. At the money पर सबसे ज़्यादा, deep in या out पर कम. Long options का gamma positive, short का negative. Delta और gamma, bond के duration और convexity जैसे.
+RAHUL: Vega: volatility, call और put दोनों positive, at the money पर max. Rho: rate, call positive, put negative, कम important. Theta: समय, petrol जैसा जलता है, negative. Exception: deep in the money European put. Strike का कोई Greek नहीं.
 [PAUSE 1]
-PRIYA: Expiry से पहले?
-RAHUL: Ma'am ने कहा, "सीधी सड़क पर steering same रहता है, मोड़ पर हर पल बदलता है." Expiry से पहले option value एक curve है, line नहीं. Line का slope हर जगह same, curve का हर point पर अलग. तो expiry से पहले delta share price के साथ बदलता है.
-RAHUL: बिना dividend, call delta zero से 1 की तरफ़ बढ़ता है जैसे share बढ़ता है. Put delta minus 1 से zero की तरफ़. Dividend के साथ, call zero से e to the power minus delta T तक, put minus e to the power minus delta T से zero तक.
-RAHUL: Maturity के पास: out of the money option का delta zero की तरफ़. In the money call plus 1 की तरफ़, in the money put minus 1 की तरफ़.
-RAHUL: और delta linear approximation है एक curve का. छोटे move पर अच्छा, बड़े पर ख़राब. Delta, expiry से पहले वाले curve का slope है, जो payoff line से time value जितना ऊपर है.
-PRIYA: Signal पर रुके तो ma'am ने तीन quiz पूछे.
-RAHUL: एक: put delta minus 0.43, share 40 से 44. Change equals minus 0.43 multiplied by 4 equals minus 1.72. Put 1.72 घटेगा.
-RAHUL: दो: share 80, strike 50 के call और put, 15 दिन बचे. Share 1 रुपया गिरा. Call deep in the money, delta लगभग 1, तो लगभग 0.94 गिरेगा. Put deep out of the money, सिर्फ़ 0.08 के आस-पास बढ़ेगा.
-RAHUL: तीन: N of d1 equals 0.42, share 1 रुपया गिरा. Call minus 0.42. Put delta equals 0.42 minus 1 equals minus 0.58, तो put plus 0.58. Call का गिरना, put के बढ़ने से कम.
+PRIYA: सोमवार. एक promoter के 60,000 shares, call delta 0.6. Hedge?
+RAHUL: Short calls equals shares divided by delta. 60,000 divided by 0.6 equals 1,00,000 calls. Share 1 ऊपर: shares plus 60,000, calls minus 1,00,000 multiplied by 0.6 equals minus 60,000. Net zero.
+PRIYA: Problem?
+RAHUL: मोड़ पर steering बदलना पड़ता है. Delta बदलता है, तो बार-बार rebalance, यानी dynamic hedging, transaction costs. और अचानक speed breaker, जैसे result day पर 15 percent गिरावट: hedge टूटा. ये gamma risk है. Share का gamma zero है, तो fix के लिए एक और option जोड़ो, फिर delta re-set.
 [PAUSE 1]
-PRIYA: अब gamma, यानी acceleration.
-RAHUL: Gamma equals change in delta divided by change in share price. Curve पर तीन points. Point A, deep out of the money: delta लगभग zero, ज़्यादा बदलता नहीं, gamma low. Point B, at the money: curve सबसे ज़्यादा मुड़ता है, gamma highest. Point C, deep in the money: curve सीधी और steep, delta 1 पर stable, gamma lowest.
-RAHUL: Notes: gamma speculative value measure करता है, at the money पर highest. Nifty के expiry day पर at the money options इतने तेज़ क्यों भागते हैं? High gamma.
-PRIYA: Gamma का sign?
-RAHUL: Long call और long put, दोनों का gamma positive, क्योंकि option value convex curve है. Delta first-order derivative, gamma second-order. Short option का gamma negative. Same underlying, strike, expiry वाले call और put का gamma बराबर. Gamma 0.04 का मतलब: share 1 रुपया बढ़े, call delta 0.04 बढ़ेगा. Gamma घटाना है, options short करो. बढ़ाना है, खरीदो.
+PRIYA: Election से पहले India VIX आसमान पर.
+RAHUL: Implied volatility: market price से उल्टा निकाली गई volatility. कोई formula नहीं, iteration से. India VIX यही है. Trade: आपका अंदाज़ा 25 percent, implied 22, तो options सस्ते, खरीदो.
 [PAUSE 1]
-PRIYA: Ma'am ने bond से connection बताया.
-RAHUL: Duration equals bond price और YTM curve का slope, first-order. Convexity equals duration का बदलना, second-order, हमेशा positive. Delta जैसे duration, gamma जैसे convexity.
-RAHUL: Change in call equals delta multiplied by change in S, plus 0.5 multiplied by gamma multiplied by change in S squared. Percent change in bond price equals minus duration multiplied by change in YTM, plus 0.5 multiplied by convexity multiplied by change in YTM squared. Gamma जोड़ने से delta estimate सुधरता है, जैसे convexity से duration.
-[PAUSE 1]
-PRIYA: बारिश शुरू हुई. Ma'am बोलीं, "Weather ख़राब, सड़क unpredictable. ऐसे में insurance कितना valuable लगता है?"
-RAHUL: Vega. Volatility के change से option price की sensitivity. ज़्यादा volatility, ज़्यादा valuable option, call और put दोनों. Vega positive, और at the money पर सबसे ज़्यादा. Option prices volatility के प्रति बहुत sensitive, इसलिए vega बहुत important.
-PRIYA: Rho?
-RAHUL: Risk-free rate का effect. r बढ़ा, तो PV of X घटा. Call formula में PV of X minus में है, तो call बढ़ता है, rho positive. Put में plus में, तो put घटता है, rho negative. लेकिन practically rho ज़्यादा important नहीं.
-PRIYA: और theta. Ma'am ने petrol की सुई दिखाई.
-RAHUL: Theta equals समय बीतने का effect. ध्यान: ये maturity और price का relation नहीं. Longer maturity, महँगा option, positive relation. Theta है समय बीतना, inverse relation. हर बीतता दिन time value थोड़ा जलाता है, जैसे petrol. Theta normally negative.
-PRIYA: Exception?
-RAHUL: Deep in the money European put, expiry के पास. उसकी value समय के साथ बढ़ भी सकती है.
-PRIYA: Greek quiz.
-RAHUL: Least accurate statement? "Risk-free rate बढ़ने पर call घटेगा." गलत, call बढ़ता है. कौन सा input call और put पर opposite effect नहीं डालता? Volatility, दोनों बढ़ते हैं. At the money put, share 45 से 50: delta minus 0.5 से zero की तरफ़ बढ़ेगा, gamma घटेगा, put money से दूर जा रहा है. एक बढ़ा, एक घटा.
-[PAUSE 1]
-PRIYA: सोमवार को असली काम. एक promoter के पास अपनी company के 60,000 shares थे, 50 रुपये पर. बेच नहीं सकता, लेकिन अगले कुछ दिनों के गिरने से बचना चाहता था. 50 strike का call 4 रुपये में, delta 0.60.
-RAHUL: Delta-neutral hedge: long shares को short calls से ऐसे मिलाओ कि share हिले, portfolio ना हिले. Short calls equals shares hedged divided by call delta. 60,000 divided by 0.6 equals 1,00,000 calls. Long shares हैं, तो calls short.
-PRIYA: Check.
-RAHUL: Share instantly 1 रुपया बढ़ा. Shares पर gain equals 60,000 multiplied by 1 equals 60,000. हर call 0.60 बढ़ा, हमने बेचे हैं, loss equals 1,00,000 multiplied by 0.60 equals 60,000. Net equals 60,000 minus 60,000 equals zero.
-RAHUL: Puts से भी: long shares plus long puts. Put delta negative, तो long puts equals minus shares divided by put delta.
-[PAUSE 1]
-PRIYA: Ma'am ने driving की भाषा में problem बताया.
-RAHUL: "Steering एक बार set करके छोड़ दो, तो मोड़ पर गाड़ी सड़क से उतर जाएगी." Duration छोटे YTM changes पर अच्छा है, बड़े पर नहीं. वैसे ही delta hedge सिर्फ़ छोटे moves पर. YTM बदले तो duration बदलती है, share बदले तो delta बदलता है. तो hedge को बार-बार rebalance करो. इसे dynamic hedging कहते हैं, और transaction costs बढ़ते हैं.
-PRIYA: और अचानक speed breaker आ जाए?
-RAHUL: वही हुआ. Company का result आया और share एक झटके में 15 percent गिरा. Rebalance का मौका ही नहीं मिला. Delta-neutral portfolio unhedged रह गया. इसे gamma risk कहते हैं.
-RAHUL: Share का delta हर price पर 1, तो share का gamma zero. Short call का gamma negative. Portfolio का gamma negative. यही gamma risk. अगर BSM के assumptions सच होते, prices continuous, कोई jump नहीं, तो gamma risk होता ही नहीं. Gamma बताता है बिना rebalance hedge कितना ख़राब चलेगा.
-PRIYA: Fix?
-RAHUL: Share का gamma zero, shares से gamma नहीं बदलेगा. Gamma-neutral के लिए एक और option add करो, फिर shares से delta दोबारा set करो.
-[PAUSE 1]
-PRIYA: आख़िरी topic. Election results से एक हफ़्ता पहले India VIX आसमान पर था. Arjun ने पूछा, "ma'am, VIX असल में है क्या?"
-RAHUL: Implied volatility. BSM के inputs: S, X, r, T, dividend, और volatility. पहले पाँच दिखते हैं, future volatility नहीं. तो उल्टा चलो: option का market price लो, बाकी inputs डालो, और वो volatility ढूँढो जिससे BSM value equals market price. यही implied volatility. India VIX, Nifty options की implied volatility ही है, market के डर का meter.
-RAHUL: कोई closed form नहीं, trial and error से, iteration से. Historical volatility अलग है, वो past returns से. Schweser quiz: implied volatility के लिए क्या चाहिए? Market prices.
-RAHUL: Uses: एक, market की सोच समझना. Same underlying पर अलग strikes की अलग implied volatility दिखती है, जो BSM के constant volatility assumption को तोड़ती है. दो, अलग strikes और maturities को एक unit में quote करना, volatility में.
-PRIYA: Trade.
-RAHUL: Bank Nifty calls 22 percent implied volatility पर. Arjun का अंदाज़ा: असली volatility 25 percent. 25 greater than 22, तो market calls को सस्ता price कर रहा है. Calls खरीदो. Rule: overvalued option की implied volatility बहुत ज़्यादा होती है.
-[PAUSE 1]
-PRIYA: रात को diary.
-RAHUL: एक: delta equals speed, slope. Call zero से 1, put minus 1 से zero. दो: gamma equals acceleration, long options के लिए positive, at the money पर max. Delta और gamma जैसे duration और convexity. तीन: vega positive दोनों के लिए, at the money पर max. चार: rho call positive, put negative, कम important. पाँच: theta petrol जैसा जलता है, negative, exception deep in the money European put. छह: short calls equals shares divided by delta, लेकिन बार-बार rebalance, और speed breaker यानी jump से gamma risk. सात: implied volatility market price से, iteration से, जैसे India VIX.
-PRIYA: अगला chapter आख़िरी है. Exam से पहले Meera ma'am Arjun का final mock लेंगी. Pen-paper तैयार रखना.
+PRIYA: मंत्र.
+RAHUL: Delta speed, gamma acceleration, theta petrol, vega मौसम. Short calls equals shares over delta. Jump equals gamma risk. Implied volatility, market price से.

@@ -1,66 +1,23 @@
-TITLE: Chapter 7 - Black-Scholes ki Recipe, IT Exporter aur Swaption (R29 Part 3)
+TITLE: Chapter 7 - Black-Scholes ki Recipe aur Swaption (R29)
 
-PRIYA: नमस्ते. आज Arjun की माँ की रसोई से शुरू करते हैं. Arjun घर आया तो माँ दाल मखनी बना रही थीं. Arjun ने पूछा, "माँ, recipe क्या है?" माँ बोलीं, "बेटा, सात-आठ चीज़ें, सही मात्रा में, और धीमी आँच."
-PRIYA: अगले दिन Meera ma'am ने कहा, "Arjun, Black-Scholes-Merton भी एक recipe है. Ingredients छह हैं, और धीमी आँच का मतलब है continuous time."
-RAHUL: BSM वही binomial वाला no-arbitrage idea है, continuous time में. Binomial में hedge portfolio एक period के लिए riskless था. BSM में अगले एक instant के लिए. Steps को इतना छोटा करो कि tree smooth curve बन जाए.
-RAHUL: और Meera ma'am की exam tip: पूरा BSM हाथ से calculate करवाना rare है. N of d1 और N of d2 अक्सर दिए होते हैं. Focus formula पढ़ने और समझने पर.
+PRIYA: Meera ma'am: "Arjun, BSM माँ की दाल की recipe है. एक base, कई variations."
+RAHUL: BSM equals binomial, continuous time में. Assumptions: returns normal, कोई jump नहीं, rate और volatility constant और known, European, कोई friction नहीं, continuous trading, short selling allowed. Yield allowed है अगर constant हो. Trap: "underlying कोई cash flow नहीं देता" assumption नहीं है.
 [PAUSE 1]
-PRIYA: हर recipe की कुछ शर्तें होती हैं. BSM के assumptions.
-RAHUL: एक: underlying geometric Brownian motion follow करता है, यानी continuously compounded returns normally distributed. दो: prices continuous, कोई jump नहीं. तीन: underlying liquid. चार: continuous trading, हर instant. पाँच: short selling allowed, proceeds के पूरे use के साथ. छह: कोई friction नहीं, न transaction cost, न tax, न regulation, और कोई arbitrage नहीं. सात: options European. आठ: risk-free rate known और constant. नौ: volatility known और constant. दस: underlying का yield हो, तो continuous, known, constant.
-PRIYA: एक trap.
-RAHUL: BSM ये नहीं कहता कि underlying कोई cash flow नहीं देता. Yield allowed है, बस constant. Schweser quiz: कौन सा assumption नहीं है? "Underlying कोई cash flow नहीं देता." वो assumption नहीं है.
+PRIYA: कौन सा input किसे बढ़ाता है?
+RAHUL: Share price: call ऊपर, put नीचे. Strike: call नीचे, put ऊपर. Rate: call ऊपर, put नीचे. Volatility और time: दोनों ऊपर. Dividend: call नीचे, put ऊपर. Election से पहले India VIX बढ़ा, तो calls और puts दोनों महँगे.
 [PAUSE 1]
-PRIYA: अब ingredients का effect. Meera ma'am की table.
-RAHUL: Underlying price: call direct, put inverse. Exercise price: call inverse, put direct. Risk-free rate: call direct, put inverse. Volatility: दोनों direct. Time to maturity: दोनों direct. Benefits जैसे dividend: call inverse, put direct. Costs: call direct, put inverse.
-PRIYA: Volatility दोनों के लिए positive क्यों?
-RAHUL: Option में downside premium तक limited है, upside बड़ा. ज़्यादा volatility मतलब बड़े moves, और बड़े moves से holder को ही फ़ायदा. Election results से पहले India VIX ऊपर जाता है, और Nifty के calls और puts दोनों महँगे हो जाते हैं.
+PRIYA: Recipe.
+RAHUL: Call equals S multiplied by N of d1, minus PV of X multiplied by N of d2. Put equals PV of X multiplied by N of minus d2, minus S multiplied by N of minus d1. मतलब: call equals N of d1 shares खरीदो, bond से उधार लो, leveraged stock. Put equals bond plus short shares.
+RAHUL: N of d1 equals call delta. N of d2 equals call के in the money होने की risk-neutral probability. N of d1 plus N of minus d1 equals 1.
+PRIYA: Example: share 50, strike 45, T 0.5, rate 3 percent, N of d1 0.779, N of d2 0.723.
+RAHUL: PV of X equals 45 multiplied by e to the power minus 0.015 equals 44.33. Call equals 50 multiplied by 0.779 minus 44.33 multiplied by 0.723. 38.95 minus 32.05 equals 6.90. Market 7, तो call बेचो, profit 0.10.
 [PAUSE 1]
-PRIYA: अब recipe, यानी formula.
-RAHUL: Call: C zero equals S zero multiplied by N of d1, minus, X multiplied by e to the power minus r T, multiplied by N of d2. Put: P zero equals X multiplied by e to the power minus r T multiplied by N of minus d2, minus, S zero multiplied by N of minus d1.
-RAHUL: d1 equals, ln of S divided by X, plus, r plus sigma squared divided by 2, multiplied by T, सब divided by, sigma multiplied by square root of T. d2 equals d1 minus sigma multiplied by square root of T. Sigma volatility, T expiry तक का time, r continuously compounded rate, N cumulative normal probability. N of minus d equals 1 minus N of d.
-PRIYA: इसे समझें कैसे?
-RAHUL: Put को देखो. Maturity पर payoff X minus S. तो आज की value, उस payoff का PV. BSM put में e to the power minus r T बाहर निकालो, अंदर बचता है X multiplied by N of minus d2, minus, S zero multiplied by e to the power r T multiplied by N of minus d1. यानी probability-weighted X minus S का PV. Notes में भी यही लिखा है.
-RAHUL: Replication की भाषा में: call equals N of d1 shares खरीदो, और X multiplied by e to the power minus r T multiplied by N of d2 उधार लो. Call एक leveraged stock position है, long stock plus short bond. Binomial में भी long h shares plus short bond था. तो N of d1 hedge ratio है, call का delta.
-RAHUL: Put equals long bond, जिसकी value X multiplied by e to the power minus r T multiplied by N of minus d2, plus short N of minus d1 shares. N of minus d1, minus sign के साथ, put का delta.
-PRIYA: N of d2?
-RAHUL: Risk-neutral probability कि call expiry पर in the money होगा. N of minus d2, put के in the money होने की.
-RAHUL: और N of d1 plus N of minus d1 equals 1. Bell curve: d1 के left का area N of d1, right का N of minus d1. Signs ignore करो, तो call delta plus put delta equals 1. Exercise price का कोई Greek नहीं होता.
+PRIYA: Variations.
+RAHUL: Dividend: S की जगह S multiplied by e to the power minus delta T. Currency: S multiplied by e to the power minus foreign rate T, क्योंकि foreign interest dividend जैसा है. Black model, futures पर: S की जगह PV of F, और d1 में r नहीं, क्योंकि F में carry पहले से है.
+RAHUL: Interest rate options: F की जगह FRA rate, multiplied by accrual period और notional. Discount payoff date से, यानी FRA period के end से. Day count actual by 365.
 [PAUSE 1]
-PRIYA: Desk पर example. Share 50 रुपये, volatility 25 percent, continuous rate 3 percent. Strike 45, 6 महीने, T equals 0.5. Market में call 7 रुपये, put 1 रुपया. N of d1 equals 0.7792, N of d2 equals 0.723.
-RAHUL: e to the power minus 0.03 multiplied by 0.5 equals e to the power minus 0.015 equals 0.98511. X का PV equals 45 multiplied by 0.98511 equals 44.33.
-RAHUL: Call equals 50 multiplied by 0.779 minus 44.33 multiplied by 0.723. 38.95 minus 32.05 equals 6.90. Market 7.00, model 6.90. Call महँगा. Sell call at 7, और replica खरीदो: N of d1 shares long, bond short. Profit equals 7.00 minus 6.90 equals 0.10.
-RAHUL: Put equals 44.33 multiplied by, 1 minus 0.723, minus 50 multiplied by, 1 minus 0.779. 44.33 multiplied by 0.277 equals 12.28. 50 multiplied by 0.221 equals 11.05. 12.28 minus 11.05 equals 1.23. Market 1.00, model 1.23. Put सस्ता. Buy put, और replica बेचो: bond short, stock long. Profit equals 1.2294 minus 1.00 equals 0.2294.
+PRIYA: एक cement company: "एक साल बाद loan लेंगे, fixed में बदलेंगे. Rates बढ़ने का डर, लेकिन आज swap नहीं."
+RAHUL: Payer swaption खरीदो: fixed payer बनने का अधिकार, swap rate बढ़े तो exercise. Receiver swaption: fixed receiver बनने का, rate गिरे तो. Formula में FRA की जगह SFR, और discount की जगह PVA, यानी swap के discount factors का sum.
 [PAUSE 1]
-PRIYA: अब dividend वाले shares. Client ने ITC जैसे high dividend share पर call माँगा.
-RAHUL: S zero की जगह S zero multiplied by e to the power minus delta T, जहाँ delta continuous dividend yield. Call: S zero e to the power minus delta T multiplied by N of d1, minus X e to the power minus r T multiplied by N of d2. Put भी वैसे ही. d1 में r की जगह r minus delta.
-RAHUL: क्यों? Dividend जाने पर share गिरता है, और option holder को dividend नहीं मिलता. तो dividend से call सस्ता, put महँगा.
-PRIYA: Meera ma'am के quiz.
-RAHUL: दो identical shares, एक dividend देता है. Dividend वाले का call सस्ता. Answer A.
-RAHUL: ABC: share 60, strike 60, एक साल, sigma 10 percent, rate 5 percent, call 4.09. Parity से put equals 4.09 minus 60 plus 60 multiplied by e to the power minus 0.05. 60 multiplied by 0.95123 equals 57.07. 4.09 minus 60 plus 57.07 equals 1.16.
-RAHUL: Chefron, ABC जैसा, 1.4 percent dividend yield. Quick logic: dividend से call सस्ता, 4.09 से कम, तो 3.51. Full: d1 equals, ln 1 यानी 0, plus, 0.05 minus 0.014 plus 0.01 divided by 2, यानी 0.041, divided by 0.10, equals 0.41. d2 equals 0.41 minus 0.10 equals 0.31. N of d1 0.6591, N of d2 0.6217. Call equals 60 e to the power minus 0.014 multiplied by 0.6591, minus 60 e to the power minus 0.05 multiplied by 0.6217. 59.166 multiplied by 0.6591 equals 38.996. 57.074 multiplied by 0.6217 equals 35.484. 38.996 minus 35.484 equals 3.51.
-[PAUSE 1]
-PRIYA: अगला client, Bengaluru की एक IT company. हर महीने US से dollars आते हैं. "रुपया मज़बूत हुआ तो हमारी कमाई घटेगी. Dollar पर put चाहिए."
-RAHUL: Currency option. यहाँ foreign currency का interest rate dividend yield जैसा काम करता है, क्योंकि dollar hold करो तो dollar का interest मिलता है. Formula में S zero multiplied by e to the power minus r f T, जहाँ r f base या foreign currency का rate. और X वाला part price या domestic currency के rate से discount.
-RAHUL: Rupees per dollar में dollar base है, रुपया price. तो S zero dollar rate से discount, X रुपये के rate से. Forward जैसा: F equals S multiplied by, 1 plus price currency rate, divided by, 1 plus base currency rate.
-[PAUSE 1]
-PRIYA: फिर एक commodity trader आया. उसके पास futures थे, और उसे futures पर option चाहिए था.
-RAHUL: Black model. Forwards और futures पर European options, अगर futures का mark to market ignore करें. BSM में S zero की जगह futures price का PV, यानी e to the power minus r T multiplied by F.
-RAHUL: Call equals e to the power minus r T multiplied by, F multiplied by N of d1 minus X multiplied by N of d2. Put equals e to the power minus r T multiplied by, X multiplied by N of minus d2 minus F multiplied by N of minus d1. d1 equals, ln of F divided by X, plus sigma squared divided by 2 multiplied by T, divided by sigma root T.
-RAHUL: d1 में r नहीं, क्योंकि futures price में cost of carry पहले से है. Black call equals long futures, यानी PV of F multiplied by N of d1, plus short bond, PV of X multiplied by N of d2. Put equals long bond plus short futures.
-[PAUSE 1]
-PRIYA: Rohan फिर आया. "Arjun, interest rate call की value Black model से कैसे?"
-RAHUL: Interest rate option असल में FRA पर option है. M by N FRA पर call, strike X. Underlying है N minus M महीने का forward rate. Call equals accrual period, multiplied by e to the power minus r T, multiplied by, FRA rate multiplied by N of d1 minus X multiplied by N of d2, multiplied by notional.
-RAHUL: हर part: FRA N of d1 minus X N of d2, market rate और strike का gap, percent में. Multiplied by notional: रुपयों में. Accrual period: annual rate को period के लिए. e to the power वाला part: PV. Example: 2 by 5 FRA 6 percent, strike 5 percent, तो call exercise होगा उस gap पर.
-RAHUL: दो बातें. Discount payoff date से करो, यानी FRA period के end से, option expiry से नहीं, क्योंकि payment in arrears. और FRAs 30 by 360 use करते हैं, लेकिन options on FRAs actual by 365. Put equals accrual period multiplied by discount multiplied by, X N of minus d2 minus FRA N of minus d1, multiplied by notional.
-[PAUSE 1]
-PRIYA: आख़िरी client. एक cement company: "एक साल बाद हम पाँच साल का floating loan लेंगे और उसे fixed में बदलेंगे. डर है तब तक swap rates बढ़ जाएँगे. लेकिन आज swap नहीं करना."
-RAHUL: Meera ma'am: "Payer swaption खरीदो." Swaption यानी swap पर option. Payer swaption: fixed rate payer बनने का अधिकार, exercise तब जब swap fixed rate बढ़ गया हो. Receiver swaption: fixed receiver बनने का अधिकार, exercise तब जब rate गिर गया हो.
-RAHUL: Payer swaption equals accrual period, multiplied by PVA, multiplied by, SFR N of d1 minus X N of d2, multiplied by notional. Receiver equals accrual period multiplied by PVA multiplied by, X N of minus d2 minus SFR N of minus d1, multiplied by notional. PVA यानी present value of annuity, swap के सारे discount factors का sum, क्योंकि exercise पर हर period payoff मिलता है.
-[PAUSE 1]
-PRIYA: शाम को Arjun ने छह formulas एक page पर लिखे.
-RAHUL: Base: BSM call, S N of d1 minus PV of X N of d2. एक: बिना benefit stock, यही. दो: dividend stock, S multiplied by e to the power minus delta T. तीन: currency, S multiplied by e to the power minus foreign rate T. चार: Black, S की जगह PV of F. पाँच: interest rate options, F की जगह FRA rate, multiplied by accrual period और notional. छह: swaptions, FRA की जगह SFR, discount factor की जगह PVA.
-PRIYA: माँ की दाल की तरह. एक base recipe, छह variations.
-[PAUSE 1]
-PRIYA: Diary.
-RAHUL: एक: BSM binomial का continuous version. Assumptions: constant volatility, constant rate, European, no jumps, yield allowed. दो: N of d1 equals delta, N of d2 equals call के in the money होने की risk-neutral probability. तीन: call equals leveraged stock, put equals long bond plus short stock. चार: dividend से call सस्ता, put महँगा. पाँच: currency में foreign rate dividend yield जैसा. छह: Black में S की जगह PV of F. सात: payer swaption rates बढ़ें तो जीतता है, receiver गिरें तो.
-PRIYA: अगले chapter में Lego के blocks, पापा का cap, नाना जी का floor, और callable NCDs. मिलते हैं.
+PRIYA: मंत्र.
+RAHUL: Call equals S N d1 minus PV X N d2. N d1 equals delta, N d2 equals probability. Dividend, currency, futures, rates, swaps: वही recipe, S को बदलो. Payer swaption, rates ऊपर.
