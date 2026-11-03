@@ -1,0 +1,72 @@
+TITLE: Interest Rate Swap aur Currency Swap (R28 Part 3)
+
+PRIYA: नमस्ते. आज का topic है swaps. पहले interest rate swap, फिर currency swap.
+RAHUL: और swap को समझने का सबसे आसान तरीका है home loan.
+[PAUSE 1]
+PRIYA: Home loan से swap कैसे?
+RAHUL: मान लो तुमने SBI से floating rate पर home loan लिया है. हर कुछ महीने में rate बदलता है, RBI repo बढ़ाए तो EMI बढ़ जाती है. तुम्हें ये uncertainty पसंद नहीं. तो तुम किसी bank से एक deal करते हो: मैं तुम्हें हर quarter एक fixed rate दूँगा, तुम मुझे floating rate दोगे. अब तुम्हारा floating loan वाला payment, swap से आने वाले floating से cancel हो जाता है, और net में तुम सिर्फ़ fixed दे रहे हो. यही interest rate swap है.
+PRIYA: तो एक side fixed pay करती है, दूसरी floating.
+RAHUL: हाँ. Notes में example: A fixed 6 percent B को देता है, और B से floating यानी MIBOR लेता है. Principal exchange नहीं होता, सिर्फ़ interest का net difference.
+PRIYA: अब settled in arrears का मतलब?
+RAHUL: Floating payment, period की शुरुआत वाले rate पर तय होता है, और period के end पर pay होता है. Notes की table: day zero पर 90 दिन का rate 6 percent, day 90 पर 8, day 180 पर 5, day 270 पर 9, day 360 पर 3. तो day 90 का floating payment, day zero के 6 percent पर. Day 180 का payment, day 90 के 8 percent पर. Day 270 का, day 180 के 5 percent पर. यानी rate पहले set, payment बाद में. इसे settled in arrears बोलते हैं.
+[PAUSE 1]
+PRIYA: अब एक बहुत important concept: reset date पर floating rate bond का price.
+RAHUL: Reset date पर floating rate bond हमेशा par पर होता है, यानी face value पर. क्यों? क्योंकि उस दिन उसका coupon rate, market rate के बराबर set हो जाता है. Coupon बराबर YTM, तो price बराबर par. हाँ, दो reset dates के बीच ये premium या discount पर trade कर सकता है.
+PRIYA: ये swap pricing में क्यों काम आता है?
+RAHUL: क्योंकि swap का floating leg एक floating rate bond जैसा है. तो reset date पर उसका PV बस notional है. पूरा काम आसान हो जाता है.
+[PAUSE 1]
+PRIYA: Swap का price का मतलब क्या है? Swap की कोई कीमत तो देनी नहीं पड़ती.
+RAHUL: सही. Swap pricing का मतलब है वो fixed rate ढूँढना, जिससे शुरुआत में swap की value zero हो. इसे swap fixed rate या SFR बोलते हैं. Condition: fixed payments का PV बराबर floating payments का PV. सिर्फ़ fixed rate ही price करना होता है.
+PRIYA: Formula की derivation?
+RAHUL: Fixed side को एक bond की तरह देखो. हर quarter x गुणा 90 बटा 360 गुणा notional, और end में notional वापस. हर payment को उसके अपने discount factor से discount करो. Discount factor Z बराबर, 1 divide by, one plus MIBOR गुणा days बटा 360. तो fixed side का PV बराबर, periodic rate गुणा notional गुणा सारे Z का sum, plus notional गुणा last Z.
+RAHUL: Floating side का PV reset date पर बस notional. दोनों बराबर रखो, notional cancel हो जाता है. तो periodic rate गुणा Z का sum, बराबर, one minus last Z. Final formula: periodic swap rate बराबर, one minus last Z, divide by सारे Z का sum. और annual SFR के लिए, उसे 360 बटा period के days से गुणा करो.
+PRIYA: इसे रटने का तरीका?
+RAHUL: One minus last Z, over sum of Z. बस इतना याद रखो.
+[PAUSE 1]
+PRIYA: Example.
+RAHUL: एक साल का swap, quarterly payment, notional 50 लाख रुपये. MIBOR: 90 दिन 3 percent, 180 दिन 3.5, 270 दिन 4, 360 दिन 4.5 percent. Discount factors: 0.99256, 0.98280, 0.97087, 0.95694. Sum लगभग 3.9032.
+RAHUL: SFR बराबर, one minus 0.95694, यानी 0.04306, divide by 3.9032, गुणा 4. Answer 4.4 percent annual, यानी 1.1 percent per quarter. Quarterly fixed payment बराबर 50 लाख गुणा 4.4 percent गुणा 90 बटा 360, यानी 55,000 रुपये.
+PRIYA: पहला net payment?
+RAHUL: पहला floating payment आज के 90 दिन वाले rate पर, जो पहले से पता है, 3 percent. तो floating 3 percent गुणा 0.25 गुणा 50 लाख, यानी 37,500. Fixed 55,000. Net 17,500 रुपये, fixed rate payer देगा.
+PRIYA: दो साल वाला semi-annual example भी है.
+RAHUL: 180, 360, 540, 720 दिन के rates 5, 6, 6.5, 7 percent. Discount factors 0.9756, 0.9434, 0.9112, 0.8772, sum 3.7074. SFR बराबर one minus 0.8772, divide by 3.7074, गुणा 360 बटा 180. Answer 6.62 percent.
+[PAUSE 1]
+PRIYA: अब swap की value. शुरुआत में zero, फिर?
+RAHUL: Rates बदलते हैं तो value बनती है. Rule: rates बढ़ें तो fixed rate payer को फ़ायदा, क्योंकि वो पुराना कम rate दे रहा है और नया ज़्यादा floating ले रहा है. Rates गिरें तो fixed rate receiver को फ़ायदा. Home loan वाले example में, अगर तुमने fixed lock किया और फिर rates बढ़ गए, तो तुम खुश.
+PRIYA: Value निकालने के दो methods.
+RAHUL: Method one: fixed payments का PV निकालो, floating का PV निकालो, difference लो. Method two, FRA जैसा: value बराबर, नया SFR minus पुराना SFR, गुणा period बटा 360, गुणा notional, गुणा बचे हुए discount factors का sum. ये fixed payer के point of view से है.
+PRIYA: Exam में कब value पूछते हैं?
+RAHUL: Interest rate swaps में सिर्फ़ settlement dates पर, यानी payment के ठीक बाद. बीच में नहीं. सिर्फ़ equity swaps में बीच की value पूछी जाती है.
+PRIYA: दो साल वाले swap का 180 दिन बाद mark to market.
+RAHUL: अब 180, 360, 540 दिन के rates 4.5, 5, 6 percent, discount factors 0.9780, 0.9524, 0.9174. 10 लाख notional पर. Method one: fixed payment बराबर 6.62 percent गुणा आधा गुणा 10 लाख, यानी 33,100. Fixed का PV: 33,100 गुणा 0.9780, plus 33,100 गुणा 0.9524, plus 10 लाख 33,100 गुणा 0.9174. Total 10,11,662. Floating का PV, reset date पर, 10 लाख. Difference 11,662 रुपये.
+RAHUL: Method two: नया SFR बराबर, one minus 0.9174, divide by 2.8478, गुणा 2, यानी 5.8 percent. Value बराबर, 5.8 minus 6.62, गुणा आधा, गुणा 10 लाख, गुणा 2.8478. लगभग minus 11,662.
+PRIYA: तो किसको फ़ायदा?
+RAHUL: Rates गिर गए, 6.62 से 5.8. तो fixed leg की value floating से ज़्यादा. Swap fixed rate receiver के लिए plus 11,662 का है, और fixed rate payer उसे payment करेगा mark to market के लिए.
+PRIYA: और एक साल वाले swap का Schweser example?
+RAHUL: 180 दिन बाद MIBOR curve flat 3.5 percent हो गया. दो payments बचे हैं, 90 और 180 दिन पर. Z बराबर 0.99133 और 0.98280, sum 1.97413. Fixed receiver की value: 4.4 minus 3.5, गुणा 90 बटा 360, गुणा 50 लाख, गुणा 1.97413. लगभग 22,209 रुपये. Rates गिरे, receiver को फ़ायदा, payer pay करेगा.
+[PAUSE 1]
+PRIYA: अब currency swap. Indian context में ये बहुत common है.
+RAHUL: हाँ. मान लो एक Indian company, जैसे कोई बड़ी auto company, ने US में dollar में loan लिया, क्योंकि वहाँ rates सस्ते थे. लेकिन उसकी कमाई रुपयों में है. तो वो एक currency swap करती है: dollars में interest receive करो, जिससे dollar loan चुकाओ, और रुपयों में interest pay करो. अब effectively उसका loan रुपयों में है.
+PRIYA: Interest rate swap से अलग क्या है?
+RAHUL: तीन बातें. एक, दो swap fixed rates होते हैं, एक हर currency के लिए. दो, हर rate उस देश के अपने yield curve से निकलता है. तीन, principal असली में exchange होता है, शुरुआत में और end में, और notional amounts शुरुआत के exchange rate पर बराबर set होते हैं.
+PRIYA: Example.
+RAHUL: Dollar side हमने पहले ही निकाला: 50 लाख dollar, यानी 5 million dollar, SFR 4.4 percent. रुपये के rates, 90, 180, 270, 360 दिन के लिए 4, 5, 6, 7 percent. Discount factors 0.99010, 0.97561, 0.95694, 0.93458. Rupee SFR बराबर, one minus 0.93458, divide by इनका sum, गुणा 4. Answer लगभग 6.8 percent.
+RAHUL: Spot rate 84 रुपये per dollar. तो rupee notional बराबर 5 million गुणा 84, यानी 420 million रुपये, मतलब 42 करोड़. Quarterly payments: dollar में 5 million गुणा 4.4 percent गुणा 0.25, यानी 55,000 dollar. रुपये में 42 करोड़ गुणा 6.8 percent गुणा 0.25, यानी 71 लाख 40 हज़ार रुपये.
+PRIYA: तो pay dollar fixed, receive rupee fixed वाली party हर quarter 55,000 dollar देगी और 71.4 लाख रुपये लेगी.
+RAHUL: हाँ. Notes में यही example pound के साथ है: 0.5 pound per dollar, 2.5 million pound notional, 42,500 pound per quarter. Method same.
+[PAUSE 1]
+PRIYA: Currency swap की value कैसे?
+RAHUL: Value बराबर, जो receive कर रहे हो उसका PV, minus जो pay कर रहे हो उसका PV. और foreign leg को valuation वाले दिन के exchange rate पर convert करो, शुरुआत वाले पर नहीं.
+PRIYA: Example.
+RAHUL: एक correction जो हमने notes में Schweser से check की थी: ये valuation 30 दिन बाद नहीं, 300 दिन बाद है. यानी सिर्फ़ 60 दिन बचे हैं, तो सिर्फ़ last coupon और principal बचे हैं.
+RAHUL: अब 60 दिन का dollar rate 5.4 percent, रुपये का 6.6 percent, और spot 87 रुपये per dollar हो गया, यानी रुपया कमज़ोर हुआ. Dollar fixed receive करने वाले की value?
+RAHUL: Dollar cash flow: last coupon 55,000 plus principal 5 million, यानी 5,055,000 dollar. PV: divide by one plus 5.4 percent गुणा 60 बटा 360. आता है लगभग 5,009,911 dollar.
+RAHUL: Rupee cash flow: 42 करोड़ गुणा, one plus 6.8 percent गुणा 0.25, यानी 42.714 करोड़ रुपये. PV: divide by one plus 6.6 percent गुणा 60 बटा 360, आता है लगभग 42.249 करोड़ रुपये. इसे आज के 87 से convert करो: लगभग 4,856,237 dollar.
+RAHUL: Value बराबर 5,009,911 minus 4,856,237, यानी लगभग 153,674 dollar का फ़ायदा, dollar receive करने वाले को. Logic simple है: dollar मज़बूत हुआ, तो जो dollar receive कर रहा है वो जीता.
+PRIYA: Schweser का quiz?
+RAHUL: पहला: spot 0.70 US dollar per Canadian dollar. एक party के पास पहले से Canadian dollar में fixed rate liability है. वो hedge के लिए क्या करेगी? Canadian yield curve पर fixed rate receive करेगी, ताकि उससे liability का interest चुका सके. Answer C.
+RAHUL: दूसरा: bank ने 200 दिन पहले 10 लाख dollar को 8 लाख euro से swap किया था, quarterly, एक साल का. Euro पर 5 percent देता है, dollar पर 4.2 percent लेता है. Payments day 90, 180, 270, 360 पर. 200 दिन बीत गए, तो दो payments बचे, 70 और 160 दिन में. Dollar receive: coupon 10,500, PV बराबर 10,500 गुणा, 0.9923 plus 0.9791, plus 10 लाख गुणा 0.9791. Total 999,800 dollar. Euro pay: coupon 10,000, PV बराबर 10,000 गुणा, 0.9900 plus 0.9736, plus 8 लाख गुणा 0.9736, total 798,516 euro. Spot 0.75 euro per dollar से convert: 1,064,688 dollar. Value: minus 64,888 dollar.
+[PAUSE 1]
+PRIYA: Summary.
+RAHUL: एक: interest rate swap बराबर fixed और floating का exchange, settled in arrears. दो: reset date पर floating leg बराबर par. तीन: SFR बराबर, one minus last Z, over sum of Z. चार: rates बढ़ें तो fixed payer जीतता है, गिरें तो receiver. पाँच: value बराबर, नया minus पुराना SFR, गुणा period, गुणा notional, गुणा बचे हुए Z का sum. छह: currency swap में दो curves, दो fixed rates, principal का असली exchange, और foreign leg आज के spot पर convert.
+PRIYA: अगले episode में equity swaps और bond futures, और फिर R28 ख़त्म.

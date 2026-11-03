@@ -1,0 +1,52 @@
+TITLE: Equity Swap aur Bond Futures (R28 Part 4)
+
+PRIYA: Welcome back. Reading twenty-eight का आख़िरी हिस्सा. आज equity swaps और bond futures.
+[PAUSE 1]
+PRIYA: Equity swap क्या है?
+RAHUL: Equity swap में एक side किसी stock या index का return देती है, और दूसरी side fixed rate, floating rate, या किसी दूसरे stock का return. Indian example: एक foreign fund सीधे Indian shares नहीं खरीदना चाहता, लेकिन Nifty का return चाहता है. तो वो एक bank से swap करता है: bank उसे Nifty का return देगा, और fund bank को एक fixed rate देगा.
+PRIYA: Fixed side का price कैसे निकलता है?
+RAHUL: Fixed side बिल्कुल interest rate swap जैसी है. Same formula: one minus last Z, over sum of Z. Settlement date पर value भी interest rate swap वाले तरीके से.
+PRIYA: लेकिन equity swap में बीच की value भी पूछते हैं.
+RAHUL: हाँ, ये ख़ास है. दो settlement dates के बीच: equity leg बराबर notional गुणा, one plus पिछले payment date से अब तक का return. Fixed leg का PV निकालो एक bond की तरह. Value बराबर, equity leg minus fixed leg का PV, अगर तुम fixed pay कर रहे हो.
+PRIYA: Example.
+RAHUL: 1 करोड़ रुपये का equity swap, quarterly settlement, fixed rate 6.05 percent. शुरुआत में Nifty 24,625 पर था. 30 दिन बाद Nifty 24,900 पर है. MIBOR 60, 150, 240, 330 दिन के लिए 6, 6.5, 7, 7.5 percent. Discount factors 0.99010, 0.97363, 0.95541, 0.93567. Fixed rate payer की value?
+RAHUL: Fixed leg: हर quarter 6.05 percent गुणा 90 बटा 360 गुणा 1 करोड़, हर एक को उसके Z से discount करो, और end में 1 करोड़ गुणा last Z. Total आता है लगभग 99 लाख 40 हज़ार.
+RAHUL: Equity leg: Nifty return बराबर 24,900 minus 24,625, divide by 24,625, यानी 1.12 percent. तो equity leg बराबर 1 करोड़ गुणा 1.0112, यानी 1 करोड़ 1 लाख 11 हज़ार 675.
+RAHUL: Fixed payer equity receive करता है और fixed देता है. Value बराबर, 1,01,11,675 minus 99,40,000, यानी 1 लाख 71 हज़ार 675 रुपये.
+PRIYA: Notes में यही example 985 से 996 वाले index के साथ है ना?
+RAHUL: हाँ, same percentage move, same answer, 171,675.
+[PAUSE 1]
+PRIYA: अब एक stock का return दूसरे stock के return के बदले.
+RAHUL: ये सबसे आसान है. इसमें कोई pricing नहीं होती शुरुआत में. Value बराबर, जो return receive कर रहे हो minus जो pay कर रहे हो, गुणा notional.
+PRIYA: Example.
+RAHUL: एक investor Infosys का return pay करता है और TCS का return receive करता है, 10 लाख notional, quarterly. एक महीने बाद Infosys 1.3 percent ऊपर है और TCS 0.8 percent नीचे. Investor को Infosys का 1.3 percent देना है. और TCS का return negative है, तो receive करने की जगह वो भी उसे देना पड़ेगा. Value बराबर, minus 0.013 minus 0.008, गुणा 10 लाख, यानी minus 21,000 रुपये. Investor 21,000 के loss में है. Notes में minus sign छूट गया था, ध्यान रखना.
+PRIYA: Schweser का quiz.
+RAHUL: Bank 4 percent fixed देता है और index return लेता है, 50 लाख dollar पर, एक साल का quarterly swap, 300 दिन हो गए. Last reset 30 दिन पहले था, तब index 3,000, अब 3,150. 60 दिन का discount factor 0.9940. Equity leg: 5 million गुणा 3,150 बटा 3,000, यानी 5,250,000. Fixed leg: last coupon 50,000 plus 5 million, गुणा 0.9940, यानी 5,019,700. Value plus 230,300.
+[PAUSE 1]
+PRIYA: अब bond futures. पहले clean price और dirty price.
+RAHUL: Bond खरीदते समय, पिछले coupon से अब तक का interest seller का हक़ है. उसे accrued interest कहते हैं. Accrued interest बराबर, पिछले coupon से अब तक के दिन, divide by दो coupons के बीच के दिन, गुणा coupon.
+RAHUL: Clean price या flat price वो है जो quote होता है, accrued interest के बिना. Dirty price या full price बराबर clean plus accrued interest. और buyer असल में full price pay करता है.
+PRIYA: अब delivery option. ये क्या है?
+RAHUL: Bond futures में, जैसे NSE पर Government securities के interest rate futures, short को एक choice मिलती है: वो कई अलग-अलग bonds में से कोई भी deliver कर सकता है. इसे delivery option कहते हैं, और ये short के लिए valuable है. Short हमेशा वो bond deliver करेगा जो उसके लिए सबसे सस्ता है, cheapest to deliver.
+PRIYA: लेकिन अलग bonds की value अलग होगी.
+RAHUL: इसलिए हर bond का एक conversion factor होता है. Delivery पर long जो pay करता है, वो futures price गुणा conversion factor होता है. ज़्यादा valuable bond, ज़्यादा conversion factor, ज़्यादा payment.
+PRIYA: Futures price का formula?
+RAHUL: Logic same है, cost of carry. Futures price बराबर, आज का full price गुणा one plus R f की power T, minus contract की life में मिले coupons का future value, minus expiry पर accrued interest. ये full futures price है. Quote होने वाला price इसको conversion factor से divide करके आता है.
+PRIYA: Expiry पर accrued interest क्यों घटाते हैं?
+RAHUL: क्योंकि quoted futures price clean price है. Delivery पर accrued interest अलग से pay होता है. तो double counting ना हो, इसलिए घटाते हैं.
+[PAUSE 1]
+PRIYA: Example.
+RAHUL: 1.2 साल का bond futures. Cheapest to deliver bond 7 percent का है, quoted price 1,040, conversion factor 1.13. अभी-अभी coupon मिला, तो accrued interest zero. Risk-free rate 5 percent. Futures expiry पर accrued interest 14 होगा.
+RAHUL: Coupons 35 रुपये के, 0.5 साल और 1.0 साल पर. Future value: 35 गुणा 1.05 की power 0.7, plus 35 गुणा 1.05 की power 0.2. Total 71.56. Accrued interest at T: 0.2 गुणा 70, यानी 14. Futures price बराबर 1,040 गुणा 1.05 की power 1.2, minus 71.56, minus 14. आता है 1,017.15. Quoted futures price बराबर 1,017.15 divide by 1.13, यानी 900.13.
+PRIYA: और arbitrage वाला example.
+RAHUL: Bond का quoted price 107, coupons का PV zero, आज accrued interest 0.07, expiry पर 0.20. Futures quoted 135 पर, conversion factor 0.8, rate 0.2 percent, maturity 0.25 साल.
+RAHUL: Step one, fair quoted futures price: 1 बटा 0.8, गुणा, 107 plus 0.07, गुणा 1.002 की power 0.25, minus 0.20. आता है 133.6544.
+RAHUL: Market में 135 है, fair 133.65 है. Futures महँगा है. तो futures बेचो, bond खरीदो.
+RAHUL: Step two, maturity पर profit: 135 minus 133.6544, गुणा conversion factor 0.8, यानी 1.0765. Step three, आज की value: 1.0765 divide by 1.002 की power 0.25, यानी 1.0760.
+PRIYA: Profit में conversion factor से गुणा क्यों?
+RAHUL: क्योंकि long असल में quoted price गुणा conversion factor ही pay करता है. Quoted price का difference real money में बदलने के लिए CF से गुणा करना पड़ता है.
+[PAUSE 1]
+PRIYA: पूरे Reading twenty-eight का एक big picture दे दो.
+RAHUL: पूरी reading एक idea पर चलती है: no arbitrage. Forward price बराबर spot plus cost of carry. Value बराबर आज का profit या loss, discount करके. FRA एक loan rate का forward है. Swap बस बहुत सारे FRAs का package है, और उसका fixed rate वो है जिससे शुरुआत में value zero हो. Currency swap में दो curves. Equity swap में एक leg stock का return. और bond futures में delivery option, conversion factor, और clean price.
+PRIYA: और compounding का rule याद रखो: interest rate चीज़ें, simple और 360. Stocks, bonds, currency, discrete और 365. Index, continuous.
+RAHUL: अगले episode से options शुरू. Reading twenty-nine. मिलते हैं.

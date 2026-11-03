@@ -1,0 +1,58 @@
+TITLE: Put-Call Parity, Interest Rate Tree aur Hedge Ratio (R29 Part 2)
+
+PRIYA: Welcome back. आज तीन topics: put-call parity, interest rate options binomial tree पर, और hedge ratio के साथ no-arbitrage pricing.
+[PAUSE 1]
+PRIYA: Put-call parity का basic idea?
+RAHUL: एक line: अगर दो portfolios का maturity पर payoff हमेशा same है, तो आज उनकी cost भी same होनी चाहिए. वरना arbitrage.
+PRIYA: कौन से दो portfolios?
+RAHUL: Portfolio A, fiduciary call: एक long call, और एक zero-coupon bond जिसकी face value X है. Portfolio B, protective put: एक long share, और एक long put. Conditions: call और put same share पर, same maturity, same exercise price. और bond की face value X.
+PRIYA: Payoffs check करो.
+RAHUL: Case one, maturity पर share X से ऊपर है. Fiduciary call: call से S minus X, plus bond से X, total S. Protective put: share S, put zero, total S. Same.
+RAHUL: Case two, share X से नीचे है. Fiduciary call: call zero, bond X, total X. Protective put: share S, plus put से X minus S, total X. फिर से same.
+PRIYA: तो formula.
+RAHUL: Call plus X का present value, बराबर, share price plus put. C zero plus X divide by one plus R f की power T, बराबर S zero plus P zero.
+PRIYA: Example.
+RAHUL: एक Indian company का share 62 रुपये पर है. एक साल का call, strike 60, 8 रुपये में trade हो रहा है. Risk-free rate 4 percent. Put का price? P zero बराबर, C zero minus S zero plus X का PV. यानी 8 minus 62 plus 60 divide by 1.04. 60 बटा 1.04 है 57.69. तो 8 minus 62 plus 57.69, बराबर 3.69 रुपये.
+PRIYA: Synthetic options भी parity से बनते हैं.
+RAHUL: हाँ. Equation को rearrange करो. Synthetic call बराबर, long share plus long put plus short bond, यानी X का PV उधार लो. Synthetic put बराबर, long call plus short share plus long bond, यानी X का PV invest करो. Schweser का check 30 वाले example पर: X का PV बराबर 30 बटा 1.07, यानी 28.04.
+PRIYA: Dividends हों तो?
+RAHUL: Share price में से dividends का PV घटा दो. Continuous yield के साथ: P zero plus S zero गुणा e की power minus delta T, बराबर C zero plus X गुणा e की power minus r T. ये हम BSM वाले episode में फिर देखेंगे.
+[PAUSE 1]
+PRIYA: अब interest rate options. Interest rate call क्या है?
+RAHUL: Interest rate call तुम्हें ये अधिकार देता है कि option expire होने के बाद तुम एक loan exercise rate पर ले सको. यानी तुम borrower की तरह protected हो. ये तब exercise होता है जब market rate, exercise rate से ज़्यादा हो. Rates बढ़ें, तो holder को फ़ायदा.
+RAHUL: Interest rate put उल्टा है: loan देने का option. Exercise तब, जब market rate, exercise rate से कम हो. Rates गिरें, तो फ़ायदा. जैसे किसी FD investor को डर है कि RBI rates काटेगा.
+PRIYA: इसे binomial interest rate tree पर value करते हैं.
+RAHUL: हाँ. Example: two-period European interest rate call, exercise rate 5.50 percent, notional 10 लाख रुपये, और मान लो option T बराबर 2 पर cash settle होता है. Tree: आज का rate 3 percent. Period one पर 5.7883 percent या 3.88 percent. Period two पर 10.7382, 7.1981, या 4.8250 percent. हर branch की probability 50 percent.
+RAHUL: Period two पर payoffs: 10.7382 minus 5.50, यानी 5.2382 percent. 7.1981 minus 5.50, यानी 1.6981 percent. और 4.8250, strike से नीचे, तो zero.
+RAHUL: अब पीछे आओ, लेकिन ध्यान से. हर node को उसके अपने rate से discount करो. ऊपर वाले node पर: 5.2382 का आधा plus 1.6981 का आधा, divide by 1.057883. आता है 3.2784 percent. नीचे वाले node पर: 1.6981 का आधा plus zero, divide by 1.0388. आता है 0.8173 percent. आज: 3.2784 का आधा plus 0.8173 का आधा, divide by 1.03. आता है 1.9882 percent. 10 लाख से गुणा करो: 19,882 रुपये.
+PRIYA: कुछ ज़रूरी points tree के बारे में.
+RAHUL: एक: आज का 3 percent, T zero से T one के लिए है. T one के rates, T one से T two के लिए. दो: binomial interest rate tree में probability हमेशा 50 percent. तीन: हमने मान लिया था कि payoff T two पर cash settle होता है, इसलिए एक extra period discount नहीं किया.
+PRIYA: लेकिन असल में?
+RAHUL: असल में interest rate options in arrears pay होते हैं. T two पर set हुआ rate, T two से T three के loan का rate है. तो payoff T three पर आता, और उसे T two के rate से एक period और discount करना पड़ता. चार: हर node अपने rate से discount होता है, एक flat rate से नहीं.
+[PAUSE 1]
+PRIYA: अब hedge ratio. ये क्या है?
+RAHUL: Hedge ratio वो fractional number of shares है, जो हर एक option के साथ hold करने से portfolio risk-free बन जाता है. अगर hedge ratio h है, तो हर एक call sell करने पर h shares hold करो, और portfolio riskless हो जाएगा.
+PRIYA: और ये delta भी है.
+RAHUL: हाँ. Hedge ratio बराबर delta. Share price 1 रुपया बदले, तो call की value कितनी बदलती है. Call का delta positive, क्योंकि call और share साथ चलते हैं. Put का delta negative, क्योंकि उल्टा चलते हैं.
+PRIYA: Formula?
+RAHUL: h बराबर, call up minus call down, divide by S up minus S down. 30 वाले example में: 10 minus zero, divide by 40 minus 22.5. यानी 10 बटा 17.5, बराबर 0.571429. हर call के लिए 0.5714 shares चाहिए riskless position के लिए.
+[PAUSE 1]
+PRIYA: अब इसी से no-arbitrage formula.
+RAHUL: Premise: अगर किसी portfolio का future payoff certain है, तो उसकी आज की cost बराबर, उस payoff का PV, risk-free rate पर.
+RAHUL: Portfolio: 0.5714 shares long, एक call short. आज: shares की cost 0.5714 गुणा 30, यानी 17.1429. Call बेचकर 5.1269 मिले. Net cost 12.0159. Up state में: shares 0.5714 गुणा 40, यानी 22.85, minus call payoff 10, net 12.85. Down state में: shares 0.5714 गुणा 22.5, यानी 12.85, call payoff zero, net 12.85. दोनों states में same, 12.85. Riskless!
+RAHUL: तो आज की cost बराबर 12.85 divide by 1.07, यानी 12.0159. Match. इससे call का formula: C zero बराबर, h गुणा S zero, plus, minus h S up plus call up, divide by one plus R f की power T. या down state के numbers से भी same.
+PRIYA: तो long h shares plus short एक call बराबर?
+RAHUL: Long risk-free bond. और put के लिए: long h shares plus long एक put बराबर long risk-free bond. ध्यान रखो, put का h negative होता है, यानी असल में put को replicate करने के लिए shares short करते हैं. Put replica बराबर long risk-free bond plus short h shares.
+[PAUSE 1]
+PRIYA: Arbitrage profit वाला example.
+RAHUL: Call की fair value 5.1269 है, लेकिन market में 6.50 पर है. Overvalued. 100 calls trade करो. तो call बेचो, share खरीदो. Shares: 100 गुणा 0.5714, यानी 57.14.
+RAHUL: आज: 57.14 shares खरीदो, cost 1,714.29. 100 calls बेचो, 650 मिले. बाकी 1,064.29 bank से 7 percent पर उधार. आज net zero.
+RAHUL: एक साल बाद, up state: shares 57.14 गुणा 40, यानी 2,285.7. Calls का payoff, minus 1,000. Loan वापसी, 1,064.29 गुणा 1.07, यानी 1,138.8. Net लगभग 147. Down state: shares 1,285.7, calls zero, loan 1,138.8. Net फिर 147. Zero investment, 147 रुपये पक्का profit.
+PRIYA: ये 147 check कैसे करें?
+RAHUL: आज की mispricing: 100 गुणा, 6.50 minus 5.1269, यानी 137.31. इसे 7 percent से बढ़ाओ: 146.9, यानी 147. Schweser में 147.52 और 137.87 आता है क्योंकि वो call को 5.14 पर round करता है.
+PRIYA: General rule?
+RAHUL: Option overpriced: उसे बेचो, हर option पर h shares खरीदो, borrowing से fund करो. Underpriced: उसे खरीदो, हर option पर h shares short करो. Quiz 29.4: h बराबर 0.35, 1,000 calls overpriced. तो 1,000 calls बेचो, 350 shares खरीदो, borrowing से.
+[PAUSE 1]
+PRIYA: Summary.
+RAHUL: एक: put-call parity, call plus X का PV बराबर share plus put. दो: synthetic call बराबर share plus put minus bond. Synthetic put बराबर call minus share plus bond. तीन: interest rate call rates बढ़ने पर जीतता है, put गिरने पर. Tree में हर node अपने rate से discount, probability 50 percent. चार: hedge ratio बराबर delta, call up minus call down over S up minus S down. पाँच: h shares plus short call बराबर risk-free bond, और यहीं से no-arbitrage price और arbitrage trades आते हैं.
+PRIYA: अगले episode में Black-Scholes-Merton. मिलते हैं.

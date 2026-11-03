@@ -1,0 +1,82 @@
+TITLE: Option Greeks, Delta Hedging aur Implied Volatility (R29 Part 5)
+
+PRIYA: नमस्ते दोस्तों. आज Greeks. Delta, gamma, vega, rho, theta. फिर delta hedging, gamma risk, और implied volatility.
+RAHUL: Greeks बस ये बताते हैं: एक input बदले, तो option price कितना बदलेगा.
+[PAUSE 1]
+PRIYA: तो हर input का Greek.
+RAHUL: Underlying का price, Greek है delta. Call के साथ direct, put के साथ inverse. Exercise price, कोई Greek नहीं. Risk-free rate, Greek है rho. Call direct, put inverse. Volatility, Greek है vega. दोनों direct. Time, Greek है theta. Benefits और costs, कोई Greek नहीं.
+[PAUSE 1]
+PRIYA: Delta से शुरू.
+RAHUL: Delta, option price और underlying price का relationship है. Share 1 रुपया बदले, option कितना बदलेगा. Delta बराबर hedge ratio, बराबर change in call divide by change in stock, यानी call up minus call down, over S up minus S down. Geometry में, ये payoff line का slope है. Call का delta positive, put का negative.
+PRIYA: Expiry पर delta?
+RAHUL: Expiry पर call अगर out of the money है, तो delta zero, क्योंकि share थोड़ा हिले तो भी call बेकार. अगर in the money है, तो payoff line 45 degree पर है, delta 1. क्यों 45 degree? क्योंकि expiry पर share 1 रुपया बढ़े, तो call भी exactly 1 रुपया बढ़ता है.
+RAHUL: Put के लिए: in the money पर delta minus 1, out of the money पर zero.
+PRIYA: और premium का breakup?
+RAHUL: Expiry से पहले premium बराबर intrinsic value plus time value. Expiry पर time value zero, और call की intrinsic value, max of zero या S minus X.
+PRIYA: Delta के formulas BSM से.
+RAHUL: बिना dividend वाले share पर: call delta N of d1, put delta minus N of minus d1. Dividend वाले share पर: call delta e की power minus delta T गुणा N of d1, put delta minus e की power minus delta T गुणा N of minus d1. और change in call लगभग बराबर delta गुणा change in share.
+PRIYA: Example.
+RAHUL: e की power minus delta T गुणा N of d1, 0.58 है. Share 75 पैसे बढ़ा. Call लगभग 0.58 गुणा 0.75, यानी 43.5 पैसे बढ़ेगा.
+[PAUSE 1]
+PRIYA: Expiry से पहले delta कैसे behave करता है?
+RAHUL: Expiry से पहले option की value एक curve है, line नहीं. Line का slope हर point पर same होता है, curve का हर point पर अलग. तो expiry से पहले delta share price के साथ बदलता है.
+RAHUL: बिना dividend वाले share पर, call delta zero से 1 की तरफ़ बढ़ता है जैसे share price बढ़ता है. Put delta minus 1 से zero की तरफ़ बढ़ता है. Dividend वाले share पर, call delta zero से e की power minus delta T तक, और put delta minus e की power minus delta T से zero तक.
+PRIYA: Maturity के पास?
+RAHUL: Out of the money option का delta zero की तरफ़ जाता है. In the money call का delta plus 1 की तरफ़, in the money put का minus 1 की तरफ़. Option अपने final shape की तरफ़ बढ़ता है.
+PRIYA: Delta एक approximation है ना?
+RAHUL: हाँ. Delta linear approximation है एक non-linear relationship का. छोटे move के लिए अच्छा, बड़े move के लिए ख़राब. और delta, expiry से पहले वाले curve का slope है, जो expiry वाली payoff line से time value जितना ऊपर होता है.
+PRIYA: Quizzes.
+RAHUL: एक: put delta minus 0.43, share 40 से 44. Put लगभग 0.43 गुणा 4, यानी 1.72 घटेगा. दो: Heart का share 80, 50 strike, 15 दिन बचे. Share 1 रुपया गिरा. Call deep in the money है, delta लगभग 1, तो लगभग 94 पैसे गिरेगा. Put deep out of the money है, सिर्फ़ थोड़ा, जैसे 8 पैसे, बढ़ेगा. तीन: N of d1 0.42, share 1 रुपया गिरा. Call लगभग 42 पैसे गिरेगा, put लगभग 58 पैसे बढ़ेगा, क्योंकि put delta बराबर 0.42 minus 1, यानी minus 0.58. तो call का गिरना, put के बढ़ने से कम.
+[PAUSE 1]
+PRIYA: अब gamma.
+RAHUL: Gamma, delta के बदलने की speed है. Gamma बराबर change in delta divide by change in share price. Curve को तीन points पर सोचो. Point A, deep out of the money: delta लगभग zero, और ज़्यादा बदलता भी नहीं, gamma low. Point B, at the money: यहाँ curve सबसे ज़्यादा मुड़ता है, gamma highest. Point C, deep in the money: curve लगभग सीधी और steep, delta लगभग 1 पर stable, gamma lowest.
+PRIYA: तो gamma at the money पर सबसे ज़्यादा.
+RAHUL: हाँ. और notes में लिखा है: gamma speculative value को measure करता है. At the money option की speculative value सबसे ज़्यादा. Nifty के expiry day पर at the money options इतने तेज़ी से क्यों हिलते हैं? High gamma.
+PRIYA: Gamma का sign?
+RAHUL: Long call और long put दोनों का gamma positive, क्योंकि option value share price में convex curve है. Delta first-order derivative है, gamma second-order. Short option position का gamma negative. और same underlying, strike, expiry वाले call और put का gamma बराबर होता है. Gamma 0.04 का मतलब: share 1 रुपया बढ़े, तो call delta 0.04 बढ़ेगा. Gamma कम करना है, तो options short करो. बढ़ाना है, तो options खरीदो.
+[PAUSE 1]
+PRIYA: Duration और convexity से connection.
+RAHUL: ये बहुत सुंदर connection है. Duration, bond price और YTM के curve का slope है, first-order. Convexity, duration का बदलना है, second-order, और हमेशा positive. बिल्कुल वैसे ही delta, option curve का slope, और gamma उसका बदलना.
+RAHUL: Formulas भी same pattern: change in call बराबर, delta गुणा change in S, plus आधा गुणा gamma गुणा change in S का square. और percent change in bond price बराबर, minus duration गुणा change in YTM, plus आधा गुणा convexity गुणा change in YTM का square. Delta जैसे duration, gamma जैसे convexity. Gamma जोड़ने से delta का estimate सुधरता है, जैसे convexity से duration का.
+[PAUSE 1]
+PRIYA: Vega.
+RAHUL: Vega, volatility के change से option price का sensitivity है. ज़्यादा volatility, ज़्यादा valuable option, call और put दोनों. Vega positive. और vega सबसे ज़्यादा at the money पर होता है. Option prices volatility के प्रति बहुत sensitive होते हैं, इसलिए vega बहुत important है.
+PRIYA: Rho.
+RAHUL: Rho, risk-free rate का effect. BSM में r बढ़ा, तो X का PV घटा. Call formula में X का PV minus में है, तो call बढ़ता है, rho positive. Put formula में plus में है, तो put घटता है, rho negative. लेकिन practically rho ज़्यादा important नहीं, option prices rate से बहुत कम बदलते हैं.
+PRIYA: Theta.
+RAHUL: Theta, समय बीतने का effect. ध्यान दो, ये maturity और price का relation नहीं है. Maturity ज़्यादा, option ज़्यादा महँगा, ये positive relation है. लेकिन theta है समय बीतने का effect, जो inverse है. हर दिन जो बीतता है, time value थोड़ी पिघलती है, जैसे बर्फ़. तो theta normally negative.
+PRIYA: Exception?
+RAHUL: Deep in the money European put, expiry के पास. उसकी value समय के साथ बढ़ भी सकती है. क्योंकि वो exercise नहीं हो सकता, और X का PV समय के साथ बढ़ता है.
+PRIYA: Greek quizzes.
+RAHUL: कौन सा statement least accurate है? Risk-free rate बढ़ने पर call की value घटेगी. ये गलत है, call बढ़ता है. और कौन सा input call और put पर opposite effect नहीं डालता? Volatility, क्योंकि दोनों बढ़ते हैं. और एक at the money put, share 45 से 50 पर. Delta minus 0.5 से zero की तरफ़ बढ़ेगा, लेकिन gamma घटेगा क्योंकि put money से दूर जा रहा है. तो एक बढ़ा, एक घटा.
+[PAUSE 1]
+PRIYA: अब delta hedging.
+RAHUL: Goal: long share position को short call के साथ ऐसे मिलाओ कि share price बदले, तो portfolio की value न बदले. ये delta-neutral portfolio है. Formula: short calls की संख्या बराबर, hedge किए जाने वाले shares divide by call delta.
+PRIYA: Example.
+RAHUL: तुम्हारे पास किसी company के 60,000 shares हैं, 50 रुपये पर. 50 strike का call 4 रुपये में, delta 0.60. 60,000 divide by 0.6, बराबर 1 लाख calls. Long share है, तो calls short करो.
+PRIYA: Check करो.
+RAHUL: Share instantly 1 रुपया बढ़ा. Shares पर gain: 60,000. हर call 60 पैसे बढ़ा, और तुमने बेचे हैं, तो loss: 1 लाख गुणा 0.60, यानी 60,000. Net zero. Perfect hedge.
+PRIYA: Puts से भी delta hedge हो सकता है?
+RAHUL: हाँ. Long share के साथ long puts. Put का delta negative है, तो formula: long puts बराबर, minus shares divide by put delta.
+[PAUSE 1]
+PRIYA: Delta hedging में problem क्या है?
+RAHUL: Duration से सोचो. Duration छोटे YTM changes के लिए अच्छा है या बड़े के लिए? छोटे के लिए. वैसे ही delta hedging सिर्फ़ छोटे share price changes के लिए काम करता है. और YTM बदले तो duration बदलती है. वैसे ही share price बदले तो delta बदलता है. इसलिए hedge को बार-बार rebalance करना पड़ता है. इसे dynamic hedging कहते हैं, और इससे transaction costs बढ़ते हैं.
+PRIYA: और कब बिल्कुल काम नहीं करता?
+RAHUL: जब share price अचानक jump करे. जैसे किसी company का result आया और share 15 percent गिर गया, या कोई बड़ी policy news. तब delta-neutral portfolio unhedged रह जाता है. इसे gamma risk कहते हैं.
+PRIYA: Portfolio का gamma?
+RAHUL: Share का delta हमेशा 1, हर price पर. तो share का gamma zero. Short call का gamma negative. तो portfolio का gamma negative. यही gamma risk है. और अगर BSM के assumptions सच होते, यानी prices continuous और कोई jump नहीं, तो gamma risk होता ही नहीं. Gamma बताता है कि बिना rebalance किए delta hedge कितना ख़राब perform करेगा.
+PRIYA: Gamma risk fix कैसे करें?
+RAHUL: Share का gamma zero है, तो shares से gamma नहीं बदलेगा. Gamma-neutral बनाने के लिए एक और option add करना पड़ेगा, और फिर shares से delta दोबारा set करो.
+[PAUSE 1]
+PRIYA: Last topic, implied volatility.
+RAHUL: BSM के inputs: S, X, r, T, dividend, और volatility. पहले पाँच market में दिखते हैं. Future volatility नहीं दिखती. तो हम उल्टा करते हैं: option का market price लो, बाकी inputs डालो, और वो volatility ढूँढो जिससे BSM value, market price के बराबर आए. यही implied volatility है.
+PRIYA: इसका कोई formula है?
+RAHUL: नहीं, कोई closed form नहीं. Trial and error से, iteration से निकालते हैं. और historical volatility अलग है, वो past returns से निकलती है. Schweser quiz: implied volatility के लिए क्या चाहिए? Market prices. Past returns से historical volatility आती है.
+PRIYA: Use क्या है?
+RAHUL: एक: market की सोच समझना. India VIX असल में Nifty options की implied volatility ही है, market का डर नापने का meter. और एक ही underlying पर अलग strikes की अलग implied volatility दिखती है, जो BSM के constant volatility वाले assumption को तोड़ती है. दो: अलग strikes और maturities के options को एक unit में quote करना, volatility में.
+PRIYA: Trading example.
+RAHUL: Bank Nifty के calls 22 percent implied volatility पर trade हो रहे हैं. एक trader का अंदाज़ा है कि असली volatility 25 percent होगी. क्या करे? Expected 25, implied 22, यानी market calls को सस्ता price कर रहा है. तो calls खरीदो. और rule: overvalued option की implied volatility बहुत ज़्यादा होती है.
+[PAUSE 1]
+PRIYA: Summary.
+RAHUL: एक: delta slope है, call zero से 1, put minus 1 से zero. दो: gamma delta की speed है, हमेशा positive long options के लिए, at the money पर सबसे ज़्यादा. Delta और gamma जैसे duration और convexity. तीन: vega positive दोनों के लिए, at the money पर सबसे ज़्यादा. चार: rho call के लिए positive, put के लिए negative, ज़्यादा important नहीं. पाँच: theta normally negative, exception deep in the money European put. छह: delta hedge में short calls बराबर shares divide by delta, लेकिन बार-बार rebalance, और jumps से gamma risk. सात: implied volatility market price से निकलती है, iteration से.
+PRIYA: अगला और आख़िरी episode है rapid-fire revision drill. Pen-paper तैयार रखना.

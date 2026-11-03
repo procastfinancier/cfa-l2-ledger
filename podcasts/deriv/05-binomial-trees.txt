@@ -1,0 +1,64 @@
+TITLE: Options aur Binomial Tree (R29 Part 1)
+
+PRIYA: नमस्ते दोस्तों. आज से Reading twenty-nine, Valuation of Contingent Claims. Contingent claim का मतलब है option, जिसका payoff किसी condition पर depend करता है.
+RAHUL: और शुरुआत basics से.
+[PAUSE 1]
+PRIYA: Call और put, Indian example से.
+RAHUL: Call option है खरीदने का अधिकार, obligation नहीं. सोचो तुमने एक builder को flat के लिए 1 लाख का token दिया, कि छह महीने में 50 लाख में flat खरीदने का हक़ तुम्हारा है. अगर area का भाव 60 लाख हो गया, तो तुम खरीदोगे. अगर 40 लाख हो गया, तो छोड़ दोगे, सिर्फ़ token जाएगा. Call holder तब exercise करता है जब underlying का price ऊपर जाता है.
+RAHUL: Put option है बेचने का अधिकार. ये insurance जैसा है. तुम्हारे पास Reliance के shares हैं, और तुम एक put खरीदते हो कि कुछ भी हो, मैं इन्हें इस price पर बेच सकूँगा. Price गिरा तो put काम आएगा. Put holder तब exercise करता है जब price नीचे जाता है.
+PRIYA: Payoff table भी.
+RAHUL: X है exercise price, P है premium. Long call: maximum profit unlimited, maximum loss premium, breakeven X plus P. Short call: maximum profit premium, maximum loss unlimited, breakeven X plus P. Long put: maximum profit X minus P, maximum loss premium, breakeven X minus P. Short put: maximum profit premium, maximum loss X minus P, breakeven X minus P.
+PRIYA: Long put का maximum profit X minus P क्यों?
+RAHUL: क्योंकि share का price zero से नीचे नहीं जा सकता. तो put की maximum value X है, उसमें से premium घटाओ.
+[PAUSE 1]
+PRIYA: अब binomial model. ये option का premium निकालने के लिए है.
+RAHUL: Idea simple है. हम मान लेते हैं कि एक period में share price सिर्फ़ दो चीज़ें कर सकता है: ऊपर जाएगा या नीचे. बस. फिर हर end पर option का payoff निकालो, और वापस आज तक लाओ.
+PRIYA: Notation.
+RAHUL: S zero आज का price. S up, अगर ऊपर गया. S down, अगर नीचे गया. U है up factor, S up divide by S zero. D है down factor, S down divide by S zero. Up probability और down probability, जिनका sum 1 होता है. और अक्सर D बराबर 1 divide by U.
+PRIYA: Example.
+RAHUL: एक share 30 रुपये पर है, up factor 1.3333, risk-free rate 7 percent. S up बराबर 30 गुणा 1.3333, लगभग 40. D बराबर 1 divide by 1.3333, यानी 0.75. S down बराबर 30 गुणा 0.75, यानी 22.5.
+[PAUSE 1]
+PRIYA: अब up probability कैसे निकालते हैं?
+RAHUL: Derivation simple है. एक साल बाद expected price बराबर, S up गुणा up probability plus S down गुणा down probability. इसे risk-free rate से discount करो तो आज का price आना चाहिए. यानी one plus R f बराबर, U गुणा p up plus D गुणा, one minus p up. Solve करो तो: up probability बराबर, one plus R f minus D, divide by U minus D.
+PRIYA: Numbers.
+RAHUL: 1.07 minus 0.75, यानी 0.32, divide by 1.3333 minus 0.75, यानी 0.5833. Up probability 54.86 percent, down probability 45.14 percent.
+PRIYA: ये असली दुनिया की probability है?
+RAHUL: नहीं, और ये exam का favourite point है. ये risk-neutral probability है. ये वो probability है जिससे share का expected price exactly risk-free rate से बढ़े. असली में share ऊपर जाने का chance कुछ भी हो सकता है, उसका इस model पर कोई असर नहीं. और इसीलिए expected payoff को risk-free rate से discount करते हैं, किसी risky rate से नहीं.
+[PAUSE 1]
+PRIYA: अब one-period call. Exercise price 30.
+RAHUL: Up state में share 40, call payoff 40 minus 30, यानी 10. Down state में share 22.5, call payoff zero, क्योंकि 22.5 में 30 का share कोई नहीं खरीदेगा. Expected payoff: 10 गुणा 0.5486, plus zero, यानी 5.486. Discount करो: 5.486 divide by 1.07. Call value 5.1269 रुपये.
+PRIYA: और same tree पर put?
+RAHUL: Up state में put payoff zero, क्योंकि 40 का share 30 में कौन बेचेगा. Down state में 30 minus 22.5, यानी 7.50. Expected: 7.50 गुणा 0.4514, divide by 1.07. Put लगभग 3.16. Schweser probability को 0.55 पर round करता है, इसलिए उसमें put 3.15 और call 5.14 आता है.
+PRIYA: इसको check कैसे करें?
+RAHUL: Put-call parity से, जो अगले episode में detail में है. Call minus put बराबर S zero minus X का PV. 5.13 minus 3.16 लगभग 1.96. और 30 minus 30 बटा 1.07 भी 1.96. Match.
+[PAUSE 1]
+PRIYA: अब two-period tree.
+RAHUL: Share 50 रुपये पर, European call, strike 45. U 1.25, D 0.80, rate 7 percent per period. पहले up probability: 1.07 minus 0.8, divide by 1.25 minus 0.8. यानी 0.27 बटा 0.45, 0.6. Down probability 0.4.
+RAHUL: Tree बनाओ. Period one: 62.5 या 40. Period two: up-up 78.125, up-down 50, down-down 32. Payoffs: 78.125 minus 45 बराबर 33.125. 50 minus 45 बराबर 5. और 32, strike से नीचे, तो zero.
+RAHUL: अब right से left, पीछे की तरफ़ आओ. 62.5 वाले node पर: 33.125 गुणा 0.6, plus 5 गुणा 0.4, यानी 21.875, divide by 1.07, बराबर 20.4439. 40 वाले node पर: 5 गुणा 0.6, plus zero, यानी 3, divide by 1.07, बराबर 2.8037. आज: 20.4439 गुणा 0.6 plus 2.8037 गुणा 0.4, यानी 13.3879, divide by 1.07. Call value 12.512 रुपये.
+PRIYA: Notes में एक digit swap हो गया था.
+RAHUL: हाँ, page पर 20.4393 लिखा था, सही है 20.4439. Method सही था. और put के लिए? सिर्फ़ end के payoffs बदलते हैं, पीछे लाने का तरीका same.
+PRIYA: Schweser का Zepo quiz?
+RAHUL: Share 80, up 15 percent या down 13 percent, rate 4 percent, strike 62, two-period European call. Up probability: 1.04 minus 0.87, divide by 1.15 minus 0.87, यानी 0.607. Payoffs 43.80, 18.04, और zero. पीछे लाओ, call लगभग 22.99.
+[PAUSE 1]
+PRIYA: American और European में फ़र्क?
+RAHUL: American option expiry से पहले कभी भी exercise हो सकता है. European सिर्फ़ maturity पर. तो American option के tree में हर node पर एक extra सवाल पूछना है: अभी exercise करूँ तो कितना मिलेगा, और hold करूँ तो कितना? जो ज़्यादा है, वो लो.
+PRIYA: Example.
+RAHUL: Share 50, rate 3 percent, U 1.3, D 0.8, American put, strike 50. Up probability: 1.03 minus 0.8, divide by 0.5, यानी 46 percent. Down 54 percent.
+RAHUL: Tree: 50 से 65 या 40. 65 से 84.5 या 52. 40 से 52 या 32. Put payoffs end पर: 84.5 पर zero, 52 पर zero, 32 पर 50 minus 32, यानी 18.
+RAHUL: 65 वाले node पर दोनों payoffs zero, तो put zero. 40 वाले node पर, hold करने की value: zero गुणा 0.46 plus 18 गुणा 0.54, यानी 9.72, divide by 1.03, बराबर 9.436. अभी exercise करो तो: 50 minus 40, यानी 10. 10 बड़ा है 9.436 से. तो early exercise करो, और 10 को आगे use करो.
+RAHUL: आज की value: zero गुणा 0.46 plus 10 गुणा 0.54, यानी 5.40, divide by 1.03. American put लगभग 5.24. European put होता तो 9.436 use करते, value आती 4.95. ये difference early exercise के अधिकार की value है.
+PRIYA: Notes में एक label गलत था ना?
+RAHUL: हाँ, down-down price 22 लिखा था, असल में 40 गुणा 0.8, यानी 32. Payoff 18 सही था.
+[PAUSE 1]
+PRIYA: Early exercise कब फ़ायदेमंद है, logic से?
+RAHUL: जब तुम early exercise करते हो, तो तुम्हें सिर्फ़ intrinsic value मिलती है, और time value छोड़ देते हो. आमतौर पर intrinsic value पर मिलने वाला interest, छोड़ी गई time value से कम होता है. इसलिए normally early exercise नहीं करते.
+RAHUL: लेकिन deep in the money put में, upside capped है, क्योंकि share zero से नीचे नहीं जा सकता. तो intrinsic value पर interest, time value से ज़्यादा हो सकता है. इसलिए deep in the money put में early exercise sense बनाता है.
+PRIYA: और calls?
+RAHUL: बिना dividend वाले share पर American call कभी early exercise नहीं होता. इसलिए उसकी value European call के बराबर होती है. लेकिन dividend वाले share पर American call, ex-dividend date से ठीक पहले exercise हो सकता है, क्योंकि ex-dividend पर share price गिर जाता है.
+PRIYA: Bond option वाला quiz भी है.
+RAHUL: हाँ. एक 7 percent के 3 साल के bond पर, 2 साल का European call, strike 100, value 0.80. Year one पर bond 100.57 और 103.80, और European call 0.29 और 1.35. American call जो एक साल बाद exercise हो सकता है? ऊपर वाले node पर अभी exercise: 0.57, hold 0.29, तो 0.57. नीचे वाले node पर अभी exercise: 3.80, hold 1.35, तो 3.80. आज: आधा 0.57 plus आधा 3.80, यानी 2.185, divide by 1.03. Answer 2.12.
+[PAUSE 1]
+PRIYA: Summary.
+RAHUL: एक: binomial model में price दो ही दिशाओं में जा सकता है. दो: up probability बराबर, one plus R f minus D, over U minus D. ये risk-neutral है, असली नहीं. तीन: end पर payoffs, फिर पीछे की तरफ़ discount, risk-free rate पर. चार: American option में हर node पर exercise value और hold value compare करो, बड़ी वाली लो. पाँच: deep in the money put में early exercise sense बनाता है, बिना dividend वाले call में कभी नहीं.
+PRIYA: अगले episode में put-call parity, interest rate tree, और hedge ratio. मिलते हैं.

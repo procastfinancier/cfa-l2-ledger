@@ -27739,6 +27739,18 @@ const PODCASTS = [
     { f: 'podcasts/fi/03-credit-and-cds', topic: 'fi.5', mod: 'FIC.6', covers: 'FIC.6–FIC.7', t: 'Default Risk, Credit Models and CDS', r: 'R26–R27', len: '9:32' },
     { f: 'podcasts/fi/04-connect-the-dots', topic: 'fi.5', mod: 'FIC.8', covers: 'FIC.8–FIC.9', t: 'Five Shocks and a Rapid-Fire Drill', r: 'R23–R27', len: '11:12' },
   ] },
+  { id: 'deriv', name: 'Derivatives (Hinglish)', eps: [
+    { f: 'podcasts/deriv/01-forward-pricing', topic: 'deriv.0', mod: '28.S1', covers: '28.S1–28.S3', t: 'Forward Contract: Price, Arbitrage and Value', r: 'R28', len: '18:03' },
+    { f: 'podcasts/deriv/02-index-bond-fra', topic: 'deriv.0', mod: '28.S4', covers: '28.S4–28.S5', t: 'Nifty Forward, Bond Forward, Futures and FRA', r: 'R28', len: '15:47' },
+    { f: 'podcasts/deriv/03-interest-currency-swaps', topic: 'deriv.0', mod: '28.S6', covers: '28.S6–28.S9', t: 'Interest Rate Swap and Currency Swap', r: 'R28', len: '18:20' },
+    { f: 'podcasts/deriv/04-equity-swaps-bond-futures', topic: 'deriv.0', mod: '28.S10', covers: '28.S10–28.S11', t: 'Equity Swap and Bond Futures', r: 'R28', len: '12:05' },
+    { f: 'podcasts/deriv/05-binomial-trees', topic: 'deriv.1', mod: '29.S1', covers: '29.S1–29.S2', t: 'Options and the Binomial Tree', r: 'R29', len: '15:20' },
+    { f: 'podcasts/deriv/06-parity-rate-tree-hedge', topic: 'deriv.1', mod: '29.S3', covers: '29.S3–29.S6', t: 'Put–Call Parity, Interest Rate Tree and Hedge Ratio', r: 'R29', len: '13:52' },
+    { f: 'podcasts/deriv/07-bsm-black-swaptions', topic: 'deriv.1', mod: '29.S7', covers: '29.S7–29.S8', t: 'Black–Scholes–Merton, Black Model and Swaptions', r: 'R29', len: '18:00' },
+    { f: 'podcasts/deriv/08-equivalencies-caps-floors', topic: 'deriv.1', mod: '29.S9', covers: '29.S9–29.S10', t: 'Equivalencies, Caps and Floors', r: 'R29', len: '9:46' },
+    { f: 'podcasts/deriv/09-greeks-hedging', topic: 'deriv.1', mod: '29.S11', covers: '29.S11–29.S13', t: 'Option Greeks, Delta Hedging and Implied Volatility', r: 'R29', len: '17:03' },
+    { f: 'podcasts/deriv/10-rapid-fire', topic: '', t: 'Rapid-Fire Revision Drill', r: 'R28–R29', len: '14:10' },
+  ] },
 ];
 const PD_STORE = 'ledgerPodcast.v1'; // this device only: where each episode stopped, and the speed
 const PD_SPEEDS = [1, 1.25, 1.5, 1.75];
@@ -34450,7 +34462,7 @@ function pdRender(el) {
   el.innerHTML = `
     <div class="crumb">Listen</div>
     <h2 class="topic-title">🎧 Podcasts</h2>
-    <p class="topic-desc">Two-voice audio revision for travelling, built from these notes: Ava asks, Andrew explains, worked examples step by step. Each episode ends with a quiz that pauses for you to answer. The player stays at the bottom while you move around the page and remembers where you stopped on this device. ⬇ Download saves the MP3 for listening offline.</p>
+    <p class="topic-desc">Two-voice audio revision for travelling, built from these notes: Ava asks, Andrew explains, worked examples step by step. The Derivatives series is in Hinglish with Indian examples: Priya asks, Rahul explains. Each episode ends with a quiz that pauses for you to answer. The player stays at the bottom while you move around the page and remembers where you stopped on this device. ⬇ Download saves the MP3 for listening offline.</p>
     ${PODCASTS.map(s => `<section class="block"><div class="block-label">${escapeHtml(s.name)} · ${s.eps.length} episodes</div>
       ${s.eps.map((e, i) => pdEpHtml(e, i, pos)).join('')}</section>`).join('')}`;
   pdPaint();
