@@ -14,6 +14,8 @@ window.addEventListener('error', function (e) {
   }
   b.textContent = 'Something on this page broke: ' + e.message + (e.lineno ? ' (line ' + e.lineno + ')' : '') + '. The rest of the page may be incomplete. Tell Claude what this says.';
 });
+// Apply a saved light/dark choice before the first paint, so the page doesn't flash the other theme.
+try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>CFA Level II — Knowledge Ledger</title>
@@ -37,11 +39,66 @@ window.addEventListener('error', function (e) {
     --slate-bg: #EEF0F3;
     --rose: #B0384D;
     --rose-bg: #FBE7EA;
+    --on-ink: #FFFFFF;
+    --row-hover: #FAFBFC;
+    --bar-bg: #1B2130;
+    --bar-ink: #FFFFFF;
     --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
     --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     --mono: 'SF Mono', 'Roboto Mono', Consolas, monospace;
   }
-  body { margin: 0; }
+  /* Dark mode follows the device setting until 🌙/☀️ in the header picks one (remembered per browser). */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12161E;
+      --grid: #191E28;
+      --panel: #1B212C;
+      --ink: #E6E9EF;
+      --ink-soft: #A3ABB9;
+      --ink-faint: #6F7889;
+      --line: #2C3442;
+      --teal: #2E9E7C;
+      --teal-bg: #15302A;
+      --amber: #C9852A;
+      --amber-bg: #33270F;
+      --violet: #8C7DD0;
+      --violet-bg: #252040;
+      --slate: #8B94A5;
+      --slate-bg: #232A36;
+      --rose: #D2546B;
+      --rose-bg: #3A1C23;
+      --on-ink: #12161E;
+      --row-hover: #212835;
+    --bar-bg: #283041;
+    --bar-ink: #E6E9EF;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12161E;
+    --grid: #191E28;
+    --panel: #1B212C;
+    --ink: #E6E9EF;
+    --ink-soft: #A3ABB9;
+    --ink-faint: #6F7889;
+    --line: #2C3442;
+    --teal: #2E9E7C;
+    --teal-bg: #15302A;
+    --amber: #C9852A;
+    --amber-bg: #33270F;
+    --violet: #8C7DD0;
+    --violet-bg: #252040;
+    --slate: #8B94A5;
+    --slate-bg: #232A36;
+    --rose: #D2546B;
+    --rose-bg: #3A1C23;
+    --on-ink: #12161E;
+    --row-hover: #212835;
+    --bar-bg: #283041;
+    --bar-ink: #E6E9EF;
+    color-scheme: dark;
+  }
+  body { margin: 0; background: var(--bg); }
   #app {
     font-family: var(--sans);
     color: var(--ink);
@@ -373,7 +430,7 @@ window.addEventListener('error', function (e) {
   table.nb-table thead th { background: var(--bg); font-weight: 700; color: var(--ink); font-size: 12px; }
   table.nb-table tbody th { background: var(--bg); font-weight: 600; color: var(--ink); width: 150px; }
   table.nb-table td { color: var(--ink-soft); }
-  table.nb-table tbody tr:hover td { background: #FAFBFC; }
+  table.nb-table tbody tr:hover td { background: var(--row-hover); }
   .nb-caption { font-size: 11.5px; color: var(--ink-faint); font-style: italic; margin: -8px 0 12px; line-height: 1.5; }
 
   .nb-timeline { display: flex; align-items: stretch; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -742,7 +799,7 @@ window.addEventListener('error', function (e) {
   .cm-sec-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 6px; }
   .cm-filter { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
   .cm-filter button { font-family: var(--sans); font-size: 12px; padding: 6px 11px; border: none; background: var(--panel); color: var(--ink-soft); cursor: pointer; }
-  .cm-filter button.on { background: var(--ink); color: #fff; }
+  .cm-filter button.on { background: var(--ink); color: var(--on-ink); }
   .cm-group { font-size: 12.5px; font-weight: 700; color: var(--ink); margin: 14px 0 6px; }
   .cm-item { border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; margin-bottom: 8px; }
   .cm-item.resolved { background: var(--bg); }
@@ -765,7 +822,7 @@ window.addEventListener('error', function (e) {
   .cm-head-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
   /* Ask AI: a chat with Claude about the reading on screen, sent through the comments sheet script. */
-  .ai-fab { background: var(--ink); }
+  .ai-fab { background: var(--bar-bg); }
   #cmFab:not([hidden]) ~ .ai-fab { bottom: 80px; }
   .ai-head-acts { display: flex; align-items: center; gap: 6px; }
   .ai-head-acts .cm-ghost { font-size: 12px; padding: 5px 11px; }
@@ -918,10 +975,10 @@ window.addEventListener('error', function (e) {
     padding: 3px 7px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink-soft); cursor: pointer; text-decoration: none;
   }
   .ex-link:hover, .ex-link:focus-visible { border-color: var(--violet); color: var(--violet); }
-  .cd-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; width: 100%; margin: 4px 0 14px; padding: 11px 16px; border: none; border-radius: 10px; background: var(--ink); color: #fff; font-family: var(--sans); font-size: 13px; text-align: left; cursor: pointer; }
+  .cd-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; width: 100%; margin: 4px 0 14px; padding: 11px 16px; border: none; border-radius: 10px; background: var(--bar-bg); color: var(--bar-ink); font-family: var(--sans); font-size: 13px; text-align: left; cursor: pointer; }
   .cd-bar .cd-time { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: 0.02em; }
   .cd-bar .cd-what { opacity: 0.8; }
-  .cd-bar .cd-today { margin-left: auto; font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 12px; background: rgba(255, 255, 255, 0.14); }
+  .cd-bar .cd-today { margin-left: auto; font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 12px; background: rgba(128, 128, 128, 0.22); }
   .pl-today { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 14px 16px; margin-bottom: 18px; }
   .pl-today-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
   .pl-today-date { font-family: var(--serif); font-size: 18px; color: var(--ink); }
@@ -1065,14 +1122,14 @@ window.addEventListener('error', function (e) {
   .ex-nav .topic-row b { font-family: var(--mono); font-size: 10.5px; color: var(--amber); margin-left: auto; }
   .ex-back {
     position: fixed; left: 18px; bottom: 18px; z-index: 40; font-family: var(--sans); font-size: 13px; font-weight: 600;
-    padding: 10px 16px; border-radius: 22px; border: none; background: var(--ink); color: #fff; cursor: pointer;
+    padding: 10px 16px; border-radius: 22px; border: none; background: var(--ink); color: var(--on-ink); cursor: pointer;
     box-shadow: 0 6px 18px rgba(27, 33, 48, 0.25); max-width: calc(100% - 100px);
   }
   .ex-back[hidden] { display: none; }
   .ex-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 18px; }
   .ex-tools input { flex: 1 1 180px; min-width: 0; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; font-size: 13px; font-family: var(--sans); color: var(--ink); background: var(--bg); }
   .ex-chip { font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft); cursor: pointer; }
-  .ex-chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .ex-chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
   .ex-chip.star.on { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
   .ex-read { margin-bottom: 26px; }
   .ex-read-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin-bottom: 12px; }
@@ -1238,6 +1295,7 @@ window.addEventListener('error', function (e) {
       <button type="button" class="cm-open" id="rvOpen">📈 Revision</button>
       <button type="button" class="cm-open" id="cmOpen">💬 My comments</button>
       <button type="button" class="cm-open" id="aiOpen">🤖 Ask AI</button>
+      <button type="button" class="cm-open" id="themeBtn" data-new="f-dark-mode">🌙 Dark</button>
     </div>
   </header>
   <div class="layout">
@@ -34676,6 +34734,19 @@ function sbSetHidden(on) {
 document.querySelector('.sidebar').addEventListener('click', e => { if (e.target.closest('.topic-row')) sbSetHidden(true); });
 document.getElementById('sbRail').addEventListener('click', () => sbSetHidden(false));
 document.getElementById('sbHide').addEventListener('click', () => sbSetHidden(true));
+// Theme toggle: flips whatever is showing now (device setting or saved choice) and remembers it.
+function thIsDark() {
+  const t = document.documentElement.getAttribute('data-theme');
+  return t ? t === 'dark' : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+}
+function thLabel() { document.getElementById('themeBtn').textContent = thIsDark() ? '☀️ Light' : '🌙 Dark'; }
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const t = thIsDark() ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('ledgerTheme', t); } catch (e) {}
+  thLabel();
+});
+thLabel();
 pgLoad();
 stMigrate();
 render();
