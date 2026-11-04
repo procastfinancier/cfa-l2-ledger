@@ -27724,7 +27724,8 @@ const TESTS = [
 // day and the task's position, so add new tasks at the end of a day rather than in the middle.
 // 🎧 Podcasts: two-voice audio revision (Ava asks, Andrew explains), one episode per reading plus a drill.
 // Each episode's MP3 and transcript (.txt) sit at f + '.mp3' / f + '.txt'. The scripts and the build
-// (edge-tts) are in OneDrive\CFA Podcasts\_build.
+// (edge-tts) are in OneDrive\CFA Podcasts\_build. Bump a series' `v` when its files are rebuilt, so phones
+// fetch the new audio instead of a cached copy.
 const PODCASTS = [
   { id: 'alt', name: 'Alternative investments', eps: [
     { f: 'podcasts/alt/01-commodities', topic: 'alt.0', t: 'Commodities and Commodity Derivatives', r: 'R30', len: '16:32' },
@@ -27739,7 +27740,7 @@ const PODCASTS = [
     { f: 'podcasts/fi/03-credit-and-cds', topic: 'fi.5', mod: 'FIC.6', covers: 'FIC.6–FIC.7', t: 'Default Risk, Credit Models and CDS', r: 'R26–R27', len: '9:32' },
     { f: 'podcasts/fi/04-connect-the-dots', topic: 'fi.5', mod: 'FIC.8', covers: 'FIC.8–FIC.9', t: 'Five Shocks and a Rapid-Fire Drill', r: 'R23–R27', len: '11:12' },
   ] },
-  { id: 'deriv', name: 'Derivatives', eps: [
+  { id: 'deriv', name: 'Derivatives', v: 4, eps: [
     { f: 'podcasts/deriv/01-forward-pricing', topic: 'deriv.0', mod: '28.S1', covers: '28.S1–28.S3', t: 'Forwards: Price, Arbitrage and Value', r: 'R28', len: '4:33' },
     { f: 'podcasts/deriv/02-index-bond-fra', topic: 'deriv.0', mod: '28.S4', covers: '28.S4–28.S5', t: 'Index and Bond Forwards, Futures and FRAs', r: 'R28', len: '3:57' },
     { f: 'podcasts/deriv/03-interest-currency-swaps', topic: 'deriv.0', mod: '28.S6', covers: '28.S6–28.S9', t: 'Interest Rate and Currency Swaps', r: 'R28', len: '3:52' },
@@ -34409,6 +34410,7 @@ function plTaskHtml(d, t, i, from) {
 // --- 🎧 Podcasts. One <audio> in a bar pinned to the bottom, outside #detail, so it keeps playing
 // while moving around the page. Where each episode stopped and the speed stay on this device;
 // "listened" syncs with progress as a star|-|-|pod:<name> row (on: false, so it never counts as a star).
+function pdUrl(f, ext) { const x = pdEp(f); return f + ext + (x && x.s.v ? '?v=' + x.s.v : ''); }
 function pdEp(f) {
   for (const s of PODCASTS) for (const e of s.eps) if (e.f === f) return { s, e };
   return null;
@@ -34495,7 +34497,7 @@ function pdPlay(f) {
   }
   if (pd.cur) pdSetPos(pd.cur, a.currentTime);
   pd.cur = f; pd.seek = pdPos()[f] || 0;
-  a.src = f + '.mp3';
+  a.src = pdUrl(f, '.mp3');
   a.defaultPlaybackRate = a.playbackRate = pdSpeed();
   document.getElementById('pdTitle').textContent = x.e.r + ' · ' + x.e.t;
   document.getElementById('pdSpeed').textContent = pdSpeed() + '×';
@@ -34563,7 +34565,7 @@ function pdInit() {
     if (!d.open || !d.hasAttribute || !d.hasAttribute('data-pdtx') || d.getAttribute('data-loaded')) return;
     d.setAttribute('data-loaded', '1');
     const body = d.querySelector('.pd-tx-body');
-    fetch(d.getAttribute('data-pdtx') + '.txt').then(r => r.ok ? r.text() : Promise.reject(r.status))
+    fetch(pdUrl(d.getAttribute('data-pdtx'), '.txt')).then(r => r.ok ? r.text() : Promise.reject(r.status))
       .then(txt => { body.innerHTML = pdTxHtml(txt); })
       .catch(() => { body.textContent = 'Couldn’t load the transcript. Check the connection and open it again.'; d.removeAttribute('data-loaded'); });
   }, true);
