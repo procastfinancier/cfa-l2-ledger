@@ -133,6 +133,11 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   /* Reading mode: picking a reading or view tucks the sidebar away so the notes get the full width.
      A slim rail (a bar on phones) stays in its place and brings the sidebar back. */
   .sb-rail { display: none; }
+  /* New-version bar: shown when GitHub has a newer copy of this page than the one on screen. */
+  .vc-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 9px 14px; background: var(--violet); color: #fff; font: 600 13px/1.4 var(--sans); box-shadow: 0 4px 14px rgba(27, 33, 48, 0.25); }
+  .vc-bar[hidden] { display: none; }
+  .vc-bar button { font: 700 12.5px var(--sans); padding: 6px 14px; border-radius: 16px; border: none; background: #fff; color: var(--violet); cursor: pointer; }
+  .vc-bar .vc-x { background: transparent; color: #fff; padding: 6px 8px; font-size: 15px; }
   body.sb-hide .sidebar { display: none; }
   body.sb-hide .sb-rail {
     display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; width: 38px;
@@ -1298,6 +1303,7 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
       <button type="button" class="cm-open" id="themeBtn" data-new="f-dark-mode">🌙 Dark</button>
     </div>
   </header>
+  <div class="vc-bar" id="vcBar" role="status" hidden><span>A new version of the ledger is ready.</span><button type="button" id="vcGo">Update</button><button type="button" class="vc-x" id="vcX" aria-label="Not now">✕</button></div>
   <div class="layout">
     <div class="sidebar">
       <div class="search"><input id="search" placeholder="Search everything — topics, notes, gaps, tuition misses…" /></div>
@@ -31584,6 +31590,7 @@ function render() {
   renderSidebar();
   renderDetail();
   nwObserve();
+  posSaveSoon();
 }
 
 // --- Module quizzes: hidden everywhere by default, folded behind a bar per quiz section. "Show"
@@ -34747,6 +34754,104 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   thLabel();
 });
 thLabel();
+// Remember my place: the open reading or view, the block at the top of the screen, which sections are
+// expanded and whether the sidebar is hidden are kept on this device, so reopening Chrome lands back
+// there. The block is found again by its text, so notes added above it don't throw the position off.
+const POS_STORE = 'ledgerPlace';
+const POS_SEL = 'section, [data-anchor], h2, h3, h4, summary, .block-label';
+const pos = { restoring: false, timer: 0, touched: false };
+function posKeyOk(k) { return k === 'tests' || k === 'plan' || k === 'podcasts' || exIsView(k) || FLAT.some(t => t.key === k); }
+function posText(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80); }
+function posSave() {
+  if (pos.restoring) return;
+  const d = document.getElementById('detail'), meta = FLAT.find(t => t.key === selectedKey);
+  const o = { key: selectedKey, name: meta ? meta.name : '', sb: document.body.classList.contains('sb-hide'), y: window.scrollY, open: [] };
+  if (d) {
+    const els = d.querySelectorAll(POS_SEL);
+    // The anchor is the block whose top edge is nearest the top of the screen (not the big section
+    // that merely contains it), so a nested heading wins over its enclosing reading section.
+    let gap = Infinity;
+    for (let i = 0; i < els.length; i++) {
+      const r = els[i].getBoundingClientRect();
+      if (r.top > window.innerHeight) break;
+      if (r.height && r.bottom > 8 && Math.abs(r.top - 20) < gap) { gap = Math.abs(r.top - 20); o.at = { t: posText(els[i]), i, off: Math.round(r.top) }; }
+    }
+    d.querySelectorAll('details[open] > summary').forEach(x => { if (o.open.length < 60) o.open.push(posText(x)); });
+  }
+  try { localStorage.setItem(POS_STORE, JSON.stringify(o)); } catch (e) {}
+}
+function posSaveSoon() { clearTimeout(pos.timer); pos.timer = setTimeout(posSave, 400); }
+function posLoad() {
+  let p = null;
+  try { p = JSON.parse(localStorage.getItem(POS_STORE) || 'null'); } catch (e) {}
+  if (!p || !p.key) return null;
+  // Readings are keyed by position in the subject list; if one moved, find it again by its name.
+  const meta = FLAT.find(t => t.key === p.key);
+  if (p.name && (!meta || meta.name !== p.name)) { const m = FLAT.find(t => t.name === p.name); p.key = m ? m.key : null; }
+  return p.key && posKeyOk(p.key) ? p : null;
+}
+function posScroll(p) {
+  const d = document.getElementById('detail');
+  if (!d || pos.touched) return;
+  if (!p.at) { window.scrollTo(0, p.y || 0); return; }
+  const els = [...d.querySelectorAll(POS_SEL)];
+  let best = null;
+  els.forEach((e, i) => { if (posText(e) === p.at.t && (!best || Math.abs(i - p.at.i) < Math.abs(best.i - p.at.i))) best = { e, i }; });
+  if (best) window.scrollTo(0, window.scrollY + best.e.getBoundingClientRect().top - p.at.off);
+  else window.scrollTo(0, p.y || 0);
+}
+function posRestore(p) {
+  if (!p) return;
+  const d = document.getElementById('detail'), want = new Set(p.open || []);
+  if (d && want.size) d.querySelectorAll('details').forEach(x => { const sm = x.querySelector(':scope > summary'); if (sm && want.has(posText(sm))) x.open = true; });
+  // Late widgets can still change the height for a moment, so settle the scroll a few times
+  // unless I've already started scrolling myself.
+  pos.restoring = true;
+  [0, 250, 800, 1600].forEach((ms, i, a) => setTimeout(() => { posScroll(p); if (i === a.length - 1) pos.restoring = false; }, ms));
+}
+const posStart = posLoad();
+if (posStart) {
+  selectedKey = posStart.key;
+  const m = FLAT.find(t => t.key === posStart.key);
+  if (m) openSubjects.add(m.subjectId);
+  if (posStart.sb) document.body.classList.add('sb-hide');
+}
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+['wheel', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, () => { if (pos.restoring) pos.touched = true; }, { passive: true }));
+window.addEventListener('scroll', posSaveSoon, { passive: true });
+document.addEventListener('toggle', posSaveSoon, true);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') posSave(); else vcMaybe(); });
+window.addEventListener('pagehide', posSave);
+
+// New-version bar: fetch this page fresh from GitHub (which also refreshes Chrome's cached copy) and
+// compare its styles and script with the ones running. Only the bar appears; Update keeps my place.
+const vc = { at: 0, mine: '' };
+function vcPart(styleText, scriptText) { return styleText + '\n' + scriptText; }
+// The tags are built in pieces so this code's own text can't be mistaken for the tags it looks for.
+function vcRaw(html, tag, last) {
+  const open = '\n<' + tag + '>', close = '<' + '/' + tag + '>';
+  const a = last ? html.lastIndexOf(open) : html.indexOf(open);
+  if (a < 0) return '';
+  const b = html.indexOf(close, a);
+  return b < 0 ? '' : html.slice(a + open.length, b);
+}
+function vcCheck() {
+  if (location.protocol === 'file:' || !window.fetch || !vc.mine) return;
+  vc.at = Date.now();
+  fetch(location.href.split('#')[0], { cache: 'reload' }).then(r => r.ok ? r.text() : Promise.reject(r.status)).then(html => {
+    html = html.replace(/\r\n?/g, '\n');
+    const fresh = vcPart(vcRaw(html, 'style'), vcRaw(html, 'script', true));
+    if (fresh.length > 1000 && fresh !== vc.mine) document.getElementById('vcBar').hidden = false;
+  }).catch(() => {});
+}
+function vcMaybe() { if (Date.now() - vc.at > 10 * 60 * 1000) vcCheck(); }
+(function () {
+  const st = document.querySelector('style'), sc = document.querySelectorAll('script');
+  vc.mine = st && sc.length ? vcPart(st.textContent, sc[sc.length - 1].text) : '';
+})();
+document.getElementById('vcGo').addEventListener('click', () => { posSave(); location.reload(); });
+document.getElementById('vcX').addEventListener('click', () => { document.getElementById('vcBar').hidden = true; });
+setTimeout(vcCheck, 4000);
 pgLoad();
 stMigrate();
 render();
@@ -34761,6 +34866,7 @@ wkInit();
 mmInit();
 aiInit();
 pdInit();
+posRestore(posStart);
 </script>
 </body>
 </html>
