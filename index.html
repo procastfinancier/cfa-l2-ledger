@@ -1156,9 +1156,13 @@ window.addEventListener('error', function (e) {
   .pd-bar-title { flex: 1; min-width: 0; font: 600 13px var(--sans); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .pd-speed { font: 600 12px var(--mono); padding: 3px 8px; border-radius: 12px; border: 1px solid var(--teal); background: var(--teal-bg); color: var(--teal); cursor: pointer; }
   .pd-bar audio { display: block; width: 100%; max-width: 900px; height: 40px; margin: 4px auto 0; }
-  body.pd-on { padding-bottom: 96px; }
-  body.pd-on .cm-fab, body.pd-on .ex-back { bottom: 112px; }
-  body.pd-on #cmFab:not([hidden]) ~ .ai-fab { bottom: 174px; }
+  /* --pd-h is the player's measured height (set in pdInit), so the page, the subject list and the
+     floating buttons all stop above the player instead of sliding under it. */
+  body.pd-on { padding-bottom: calc(var(--pd-h, 120px) + 16px); }
+  html:has(body.pd-on) { scroll-padding-bottom: calc(var(--pd-h, 120px) + 16px); }
+  @media (min-width: 761px) { body.pd-on .sidebar { max-height: calc(100vh - 24px - var(--pd-h, 120px)); } }
+  body.pd-on .cm-fab, body.pd-on .ex-back { bottom: calc(var(--pd-h, 120px) + 16px); }
+  body.pd-on #cmFab:not([hidden]) ~ .ai-fab { bottom: calc(var(--pd-h, 120px) + 78px); }
   @media print {
     #app { background: none; padding: 0; }
     header, .sidebar, .cm-fab, .ex-back, .ex-tools, .st-btn, .ex-link, .cm-btn { display: none !important; }
@@ -34521,6 +34525,10 @@ function pdClose() {
 function pdInit() {
   const a = document.getElementById('pdAudio');
   if (!a) return;
+  const bar = document.getElementById('pdBar');
+  if (bar && window.ResizeObserver) new ResizeObserver(() => {
+    if (bar.offsetHeight) document.body.style.setProperty('--pd-h', bar.offsetHeight + 'px');
+  }).observe(bar);
   a.addEventListener('loadedmetadata', () => {
     if (pd.seek && pd.seek < a.duration - 10) a.currentTime = pd.seek;
     pd.seek = 0;
