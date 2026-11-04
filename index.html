@@ -73,6 +73,18 @@ window.addEventListener('error', function (e) {
     border-radius: 10px; position: sticky; top: 12px; max-height: calc(100vh - 24px);
     overflow-y: auto; overscroll-behavior: contain;
   }
+  /* Reading mode: picking a reading or view tucks the sidebar away so the notes get the full width.
+     A slim rail (a bar on phones) stays in its place and brings the sidebar back. */
+  .sb-rail { display: none; }
+  body.sb-hide .sidebar { display: none; }
+  body.sb-hide .sb-rail {
+    display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; width: 38px;
+    position: sticky; top: 12px; padding: 12px 0; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--panel); color: var(--ink-soft); font-family: var(--sans); font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  body.sb-hide .sb-rail:hover { background: var(--bg); color: var(--ink); }
+  .sb-rail-txt { writing-mode: vertical-rl; letter-spacing: 0.04em; }
+  .sb-hide-btn { margin-left: 6px; }
   .search { padding: 10px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); z-index: 1; }
   .search input {
     width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px;
@@ -574,6 +586,8 @@ window.addEventListener('error', function (e) {
     .layout { flex-direction: column; gap: 12px; align-items: stretch; }
     .sidebar, .detail { max-width: 100%; }
     .sidebar { width: 100%; max-height: 34vh; overflow-y: auto; position: static; }
+    body.sb-hide .sb-rail { flex-direction: row; justify-content: center; width: 100%; padding: 9px 0; top: 0; z-index: 5; }
+    .sb-rail-txt { writing-mode: horizontal-tb; }
     .topic-row { padding: 10px 8px; font-size: 13px; }
     .subj-name { font-size: 13.5px; }
     .detail { padding: 16px 14px; }
@@ -1165,7 +1179,7 @@ window.addEventListener('error', function (e) {
   body.pd-on #cmFab:not([hidden]) ~ .ai-fab { bottom: calc(var(--pd-h, 120px) + 78px); }
   @media print {
     #app { background: none; padding: 0; }
-    header, .sidebar, .cm-fab, .ex-back, .ex-tools, .st-btn, .ex-link, .cm-btn { display: none !important; }
+    header, .sidebar, .sb-rail, .cm-fab, .ex-back, .ex-tools, .st-btn, .ex-link, .cm-btn { display: none !important; }
     .detail { border: none; padding: 0; }
     .ex-read { break-inside: auto; }
     .ex-f, .ex-sess-head, .ex-note, .ex-summary { break-inside: avoid; }
@@ -1230,9 +1244,10 @@ window.addEventListener('error', function (e) {
     <div class="sidebar">
       <div class="search"><input id="search" placeholder="Search everything — topics, notes, gaps, tuition misses…" /></div>
       <div class="ex-nav" id="exNav"></div>
-      <div class="sb-tools"><span class="ex-nav-label">Subjects</span><button type="button" id="sbToggleAll" class="sb-toggle" data-new="f-expand-all">Expand all</button></div>
+      <div class="sb-tools"><span class="ex-nav-label">Subjects</span><button type="button" id="sbToggleAll" class="sb-toggle" data-new="f-expand-all">Expand all</button><button type="button" id="sbHide" class="sb-toggle sb-hide-btn" title="Hide the sidebar while you read" data-new="f-sb-hide">◂ Hide</button></div>
       <div id="sidebarList"></div>
     </div>
+    <button type="button" class="sb-rail" id="sbRail" title="Show the sidebar to change section" aria-label="Show sections" data-new="f-sb-rail"><span>☰</span><span class="sb-rail-txt">Sections</span></button>
     <div class="detail" id="detail">
       <div class="empty">Pick a topic from the ledger to start recording what you know.</div>
     </div>
@@ -34653,6 +34668,14 @@ function plInit() {
 }
 
 document.getElementById('search').addEventListener('input', renderSidebar);
+// Reading mode: choosing any reading or view in the sidebar hides it; the rail (or ◂ Hide) toggles it.
+function sbSetHidden(on) {
+  document.body.classList.toggle('sb-hide', on);
+  if (!on && window.matchMedia && window.matchMedia('(max-width: 760px)').matches) document.querySelector('.sidebar').scrollIntoView({ block: 'start' });
+}
+document.querySelector('.sidebar').addEventListener('click', e => { if (e.target.closest('.topic-row')) sbSetHidden(true); });
+document.getElementById('sbRail').addEventListener('click', () => sbSetHidden(false));
+document.getElementById('sbHide').addEventListener('click', () => sbSetHidden(true));
 pgLoad();
 stMigrate();
 render();
