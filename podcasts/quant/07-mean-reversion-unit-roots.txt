@@ -1,0 +1,35 @@
+TITLE: Mean Reversion, Random Walks and Unit Roots (R2)
+
+AVA: Episode seven: where a series wants to settle, and the series that never settle.
+[PAUSE 1]
+AVA: What is mean reversion?
+ANDREW: A tendency to move back toward the mean. Above the mean, the series is expected to fall. Below it, it's expected to rise. At the mean, the next forecast equals today's value.
+AVA: How do you find the mean-reverting level?
+ANDREW: Set x-t equal to x of t minus 1 in the AR(1) model and solve. Mean-reverting level equals b zero over one minus b one.
+AVA: Example.
+ANDREW: The same model as last episode: 1.2 plus 0.45 times the previous value. The level is 1.2 over 0.55, which is 2.18. That's why our forecasts went 5, then 3.45, then 2.75. Each step moves toward 2.18 and closes 55 percent of the remaining gap. The forecast moves toward the level. It doesn't jump past it.
+AVA: When is the level finite?
+ANDREW: When the absolute value of b one is less than 1. Every covariance stationary series has a finite mean-reverting level.
+[PAUSE 1]
+AVA: How do you choose between two models?
+ANDREW: By out-of-sample error. Suppose AR(1) has an in-sample RMSE of 28 and an out-of-sample RMSE of 34, while AR(2) has 38 in-sample and 32 out-of-sample. Choose AR(2): lower out-of-sample RMSE. Forecasting the past is easy.
+AVA: Long data or short data?
+ANDREW: A longer series gives more statistical reliability. But if the economy or the regulations changed, the coefficients become unstable, and a shorter, more stable period is better. Two clearly different regimes mean you fit two models.
+[PAUSE 1]
+AVA: What is a random walk?
+ANDREW: This period's value equals last period's value plus a random error. So b zero is 0 and b one is 1. A random walk with drift adds a constant, so b zero is not zero, but b one is still 1.
+AVA: Why is that a problem?
+ANDREW: Put b one equal to 1 into the mean-reverting level. You get b zero over zero, which is undefined. No mean-reverting level means not covariance stationary. This is the unit root problem, and the AR results can't be trusted.
+[PAUSE 1]
+AVA: How do you test for a unit root?
+ANDREW: There are two ways. The informal way: run an AR model and look at the autocorrelations. A stationary series has autocorrelations that are insignificant or decay to zero. The definitive way is the Dickey-Fuller test.
+AVA: How does Dickey-Fuller work?
+ANDREW: Subtract x of t minus 1 from both sides of the AR(1) model. Then the change in x equals b zero plus, b one minus 1, times x of t minus 1. Call b one minus 1 g. H-nought says g equals zero, which means there is a unit root. You compute a t-statistic but compare it with Dickey-Fuller's own critical values, not the usual t-table.
+AVA: And the exam trap?
+ANDREW: Reading the result the wrong way round. A significant Dickey-Fuller statistic rejects the unit root, so the series is stationary. If it's not significant, there's a unit root.
+[PAUSE 1]
+AVA: And if there is a unit root?
+ANDREW: First-difference it. Let y-t equal x-t minus x of t minus 1, then model y with an AR(1). A random walk's first difference is just the error term, which is stationary. If the trend is exponential, first-difference the log.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: The mean-reverting level is b zero over one minus b one. b one equals 1 is a unit root: no level and not stationary. In Dickey-Fuller, the null is a unit root, and significant means stationary. The cure is to difference it. Pick the model with the lowest out-of-sample RMSE.

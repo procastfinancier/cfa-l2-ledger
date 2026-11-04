@@ -1,0 +1,41 @@
+TITLE: Big Data Projects - Wrangling, Text and the Confusion Matrix (R4)
+
+AVA: Episode ten: big data projects, from raw data to a scored model.
+[PAUSE 1]
+AVA: The Vs of big data?
+ANDREW: Volume is how much data there is. Variety is how many sources. Velocity is how fast it arrives. For inference, add veracity: whether the data can be trusted.
+AVA: The five project steps?
+ANDREW: One, conceptualise the task. Two, collect the data. Three, prepare and wrangle it, which takes the most time. Four, explore it. Five, train the model. For text data, step one is called text problem formulation, and the steps are iterative.
+[PAUSE 1]
+AVA: Data cleansing fixes what?
+ANDREW: Missing values, invalid values, inaccurate values, non-uniform values and duplicates. Common values are not a cleansing problem.
+AVA: And wrangling?
+ANDREW: Extraction, like years employed from a date. Aggregation combines variables. Filtration removes rows. Selection removes columns. Conversion changes data types. For outliers, trimming removes the extremes, while winsorization replaces them with the maximum allowed value.
+AVA: Normalization versus standardization?
+ANDREW: Normalization scales to between 0 and 1: x minus the minimum, over the maximum minus the minimum. With a minimum of 10, a maximum of 50 and a value of 30, that's 20 over 40, or 0.5. It's sensitive to outliers. Standardization is x minus the mean, over the standard deviation. With a mean of 20, a standard deviation of 5 and a value of 26, that's 6 over 5, or 1.2. It's less sensitive to outliers but assumes a normal distribution.
+[PAUSE 1]
+AVA: Text preparation.
+ANDREW: Cleansing comes first: remove HTML tags with regular expressions, remove punctuation, replace numbers with annotations, and remove white space. Then normalization: lowercase everything, remove stop words, and stem or lemmatize. Stemming chops a word to a root, like "integrat". Lemmatization finds the proper dictionary root and is more costly.
+AVA: Tokens and bag of words?
+ANDREW: A token is a word. A bag of words collects the tokens with no regard to order. A document term matrix has one row per document and one column per token, and each cell is a count. When order matters, use N-grams: a bigram is two words joined, like market underscore is. With N-grams, stop words are not removed.
+[PAUSE 1]
+AVA: Exploration and feature selection for text.
+ANDREW: A word cloud shows frequent words in bigger type. To make the bag of words concise, remove the very high and very low frequency words. Three selection tools: document frequency is the share of documents containing the token. Chi-square ranks tokens by how strongly they're tied to a class. Mutual information is close to 1 if a token appears in only one or a few classes, and 0 if it appears in all of them.
+AVA: And feature engineering?
+ANDREW: For structured data, one-hot encoding turns a category into dummy variables. For text, name entity recognition tags Infosys as an organisation, and parts of speech tags words as a proper noun or a number.
+[PAUSE 1]
+AVA: Model training.
+ANDREW: Choose the method, evaluate it, and tune it. The supervised split is roughly 60 percent training, 20 percent validation and 20 percent test. Unsupervised learning needs no split. For class imbalance, like a sample of mostly safe bonds, undersample the big class and oversample the small one.
+AVA: The confusion matrix.
+ANDREW: True positive, false positive, false negative and true negative. A false positive is a Type I error. A false negative is a Type II error. Precision is TP over TP plus FP. Recall is TP over TP plus FN. Accuracy is the correct ones over the total. F1 is 2 times P times R, over P plus R. The false positive rate is FP over FP plus TN.
+AVA: Example.
+ANDREW: A bank's model predicts which companies will cut their dividend. The test sample is 78. 18 cuts were correctly predicted, 46 non-cuts were correctly predicted, and 3 cuts were missed. So the false positives are 78 minus 18 minus 46 minus 3, which is 11. Precision is 18 over 29, which is 0.62. Recall is 18 over 21, which is 0.86. Accuracy is 64 over 78, which is 0.82. F1 is 2 times 0.62 times 0.86, over 1.48, which is 0.72. The false positive rate is 11 over 57, which is 0.19.
+AVA: Precision or recall?
+ANDREW: If false positives are costly, raise precision. That's how you reduce Type I errors. If false negatives are costly, like lending to a defaulter, raise recall.
+AVA: ROC and AUC?
+ANDREW: The ROC curve plots the true positive rate against the false positive rate. AUC is the area under it. 0.5 is a coin toss, and closer to 1 is better. For continuous predictions, use RMSE: the square root of the average squared error.
+AVA: Tuning.
+ANDREW: Parameters are learned from the data; hyperparameters are set by you. A grid search tries hyperparameter combinations automatically. A fitting curve shows training error falling and validation error rising as complexity grows. Ceiling analysis finds the weakest part of the pipeline.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Volume, variety, velocity, plus veracity. Normalize to between 0 and 1; standardize to a z-score. Trim cuts the extremes; winsorize caps them. Precision is the share of predicted positives that are right; recall is the share of real positives you caught. A false positive is Type I, so precision guards it. AUC of a half is a coin toss.

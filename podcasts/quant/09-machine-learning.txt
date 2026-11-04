@@ -1,0 +1,46 @@
+TITLE: Machine Learning - Which Algorithm, and Why (R3)
+
+AVA: Episode nine: machine learning. Almost no numbers here; the exam asks you to match the algorithm to the job.
+[PAUSE 1]
+AVA: The vocabulary first.
+ANDREW: The target is the dependent variable, Y. The features are the Xs. A hyperparameter is a setting the researcher chooses, not something estimated from the data. Examples are k in KNN, lambda in LASSO, and the number of layers in a neural network.
+AVA: The types of learning?
+ANDREW: Supervised learning uses labelled data, meaning the target is known. It does regression when the target is continuous and classification when it's a category. Unsupervised learning has no labels, only features. It finds structure, through clustering or dimension reduction. Deep learning uses neural networks for complex tasks like images and language. Reinforcement learning learns from its own trial and error to maximise a reward.
+[PAUSE 1]
+AVA: What is overfitting?
+ANDREW: Too many features, so the model learns the noise. In-sample fit is great, but it doesn't generalise. The data is split into three parts: training, validation and test. The test sample is the true out-of-sample check.
+AVA: The three errors?
+ANDREW: Bias error shows up in-sample and comes from an underfit model that's too simple. Variance error shows up out-of-sample and comes from an overfit model. Base error is random noise. As complexity rises, bias error falls and variance error rises. The best model minimises the total.
+AVA: How do you fight overfitting?
+ANDREW: Two ways. Complexity reduction puts a penalty on features. Cross validation is the other. In k-fold cross validation, you split the data into k parts, train on k minus 1, validate on the last one, repeat k times, and average. A smaller sample makes overfitting worse, not better.
+[PAUSE 1]
+AVA: Now the supervised algorithms. Penalized regression.
+ANDREW: It minimises SSE plus a penalty. LASSO's penalty is lambda times the sum of the absolute values of the slopes, so it automatically drops weak features. A bigger lambda drops more. This is called regularization.
+AVA: Support vector machine.
+ANDREW: A linear classifier that separates two classes, like buy versus sell, with the widest possible margin. The support vectors are the points closest to the boundary. A soft margin allows a few misclassifications.
+AVA: K-nearest neighbour.
+ANDREW: It classifies a new point by its k closest neighbours. If k is too small you get a high error rate; if it's too big, the result is diluted. An even k can tie. It's nonparametric, but you must define "near". A typical use is assigning a bond to a rating class.
+AVA: CART.
+ANDREW: Classification and regression trees. It's the one algorithm that handles both a categorical and a continuous target. Each node splits on a feature at a cutoff value. To limit overfitting, set a maximum depth or prune the tree. Its big plus is that it's transparent: you can see why it made a prediction.
+AVA: Ensembles and random forest.
+ANDREW: An ensemble combines several models, so the errors cancel. Heterogeneous learners are different algorithms that vote. Homogeneous learners are the same algorithm on bagged samples, drawn with replacement. A random forest is many trees, each trained on a bagged sample with a random subset of features. It's very accurate but a black box.
+[PAUSE 1]
+AVA: Unsupervised. PCA.
+ANDREW: Principal component analysis turns many correlated features into a few uncorrelated components, called eigenvectors. Each eigenvalue is the share of the variance a component explains. Keep enough components to explain 85 to 95 percent. A scree plot shows this. The components are hard to label, so PCA is a black box.
+AVA: Clustering.
+ANDREW: It groups similar observations, often using Euclidean distance. In k-means, you choose k in advance; each point joins the nearest centroid, then the centroids are recalculated and you repeat. Hierarchical clustering needs no preset number. Agglomerative works bottom-up and divisive works top-down. Example: grouping 1,000 Nifty stocks into 10 clusters for diversification.
+[PAUSE 1]
+AVA: Neural networks.
+ANDREW: There's an input layer with one node per feature, then hidden layers, then an output layer. Each hidden node takes a weighted sum and applies a nonlinear activation function. Forward propagation passes values through; backward propagation adjusts the weights from the errors. The layers and nodes are hyperparameters. A deep learning network has many hidden layers, at least two and often more than twenty. It's used for image recognition, fraud detection and language.
+[PAUSE 1]
+AVA: Quick matches. A bond into a rating class?
+ANDREW: Supervised: KNN or CART. Not clustering, because ratings are labels.
+AVA: Image recognition?
+ANDREW: Deep learning.
+AVA: Least black-box?
+ANDREW: Classification trees.
+AVA: Twelve fundamental and two technical variables, five rating classes. How many features?
+ANDREW: Fourteen. The classes are the target, not features.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Labels mean supervised; no labels means unsupervised. Bias is underfit and in-sample; variance is overfit and out-of-sample. LASSO drops features, SVM draws the widest line, KNN asks the neighbours, and CART draws a tree you can read. A forest is many trees voting. PCA shrinks the features, clustering groups the observations, and deep learning sees pictures.

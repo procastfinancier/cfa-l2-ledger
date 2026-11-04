@@ -1,0 +1,112 @@
+TITLE: Rapid-Fire Drill - Quantitative Methods (R1 to R4)
+
+AVA: Final episode, a rapid-fire drill. After each question, pause and answer before Andrew does.
+[PAUSE 1]
+AVA: The slope in simple regression?
+[PAUSE 4]
+ANDREW: Covariance of X and Y over the variance of X.
+AVA: R-squared?
+[PAUSE 3]
+ANDREW: SSR over SST: explained over total.
+AVA: Adjusted R-squared falls when a new variable's t is…?
+[PAUSE 3]
+ANDREW: Below 1 in absolute value.
+AVA: AIC or BIC for forecasting?
+[PAUSE 3]
+ANDREW: AIC. BIC is for fit, and it has the bigger penalty. Lower is better for both.
+AVA: Nested F-test numerator?
+[PAUSE 4]
+ANDREW: SSE restricted minus SSE unrestricted, divided by q.
+AVA: Degrees of freedom for a slope t-test in multiple regression?
+[PAUSE 3]
+ANDREW: n minus k minus 1.
+AVA: Breusch-Pagan statistic?
+[PAUSE 3]
+ANDREW: n times R-squared of the squared residuals on the Xs. Chi-square with k degrees of freedom, one-tailed.
+AVA: Which violations cause Type I errors?
+[PAUSE 4]
+ANDREW: Conditional heteroskedasticity and positive serial correlation. Their standard errors are too small.
+AVA: And Type II?
+[PAUSE 3]
+ANDREW: Multicollinearity.
+AVA: The fixes for each?
+[PAUSE 5]
+ANDREW: White standard errors, Newey-West standard errors, and dropping a variable.
+AVA: High F, high R-squared, no significant t's?
+[PAUSE 3]
+ANDREW: Multicollinearity.
+AVA: An R-squared j of 0.8. What's the VIF?
+[PAUSE 4]
+ANDREW: One over 0.2, which is 5. Investigate.
+AVA: Leverage threshold?
+[PAUSE 4]
+ANDREW: 3 times k plus 1, over n.
+AVA: Degrees of freedom for studentized residuals?
+[PAUSE 3]
+ANDREW: n minus k minus 2.
+AVA: Twelve months. How many dummies?
+[PAUSE 3]
+ANDREW: Eleven.
+AVA: Logit odds equal 0.25. What's the probability?
+[PAUSE 4]
+ANDREW: 0.25 over 1.25, which is 20 percent.
+AVA: What test for nested logit models?
+[PAUSE 3]
+ANDREW: The likelihood ratio, chi-square. Not F.
+AVA: Sales grow at a constant rate. Which trend model?
+[PAUSE 3]
+ANDREW: Log-linear.
+AVA: Can you use Durbin-Watson on an AR model?
+[PAUSE 3]
+ANDREW: No. Use a t-test on the residual autocorrelations, with a standard error of one over root T.
+AVA: Three conditions for covariance stationarity?
+[PAUSE 5]
+ANDREW: Constant and finite mean, variance and covariance.
+AVA: x-t equals 2 plus 0.6 times x of t minus 1. Mean-reverting level?
+[PAUSE 4]
+ANDREW: 2 over 0.4, which is 5.
+AVA: b one equals 1 means…?
+[PAUSE 3]
+ANDREW: A unit root, so it's a random walk and not stationary. First-difference it.
+AVA: The Dickey-Fuller statistic is significant. Stationary or not?
+[PAUSE 3]
+ANDREW: Stationary. The null was a unit root.
+AVA: Quarterly data with a significant lag-4 residual autocorrelation?
+[PAUSE 3]
+ANDREW: Seasonality. Add the fourth lag.
+AVA: How do you test for ARCH?
+[PAUSE 3]
+ANDREW: Regress the squared residuals on the lagged squared residuals. Fix it with GLS.
+AVA: Only one of two series has a unit root?
+[PAUSE 3]
+ANDREW: Don't regress. It's spurious.
+AVA: Choose between models by…?
+[PAUSE 3]
+ANDREW: Out-of-sample RMSE.
+AVA: Bias error or variance error from overfitting?
+[PAUSE 3]
+ANDREW: Variance error, out-of-sample.
+AVA: Which algorithm handles both categorical and continuous targets?
+[PAUSE 3]
+ANDREW: CART.
+AVA: Too many correlated features?
+[PAUSE 3]
+ANDREW: PCA.
+AVA: Normalize or standardize, between 0 and 1?
+[PAUSE 3]
+ANDREW: Normalize.
+AVA: A token in every class. What's its mutual information?
+[PAUSE 3]
+ANDREW: Zero.
+AVA: TP 12, FP 4, FN 2. Precision and recall?
+[PAUSE 6]
+ANDREW: Precision is 12 over 16, which is 0.75. Recall is 12 over 14, which is 0.86.
+AVA: To reduce Type I errors, raise which?
+[PAUSE 3]
+ANDREW: Precision.
+AVA: AUC of 0.5?
+[PAUSE 2]
+ANDREW: A random guess.
+[PAUSE 1]
+AVA: That's the Quant series. Good luck on the twenty-second.
+ANDREW: Thanks for listening.

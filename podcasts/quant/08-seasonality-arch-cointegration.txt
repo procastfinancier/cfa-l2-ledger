@@ -1,0 +1,35 @@
+TITLE: Seasonality, ARCH and Cointegration (R2)
+
+AVA: Episode eight: seasonal patterns, changing variance, and regressing one time series on another.
+[PAUSE 1]
+AVA: How does seasonality show up?
+ANDREW: As a significant residual autocorrelation at the seasonal lag. That's lag 4 for quarterly data, and lag 12 for monthly data. Think of car sales in India peaking every festive quarter.
+AVA: Example.
+ANDREW: Hotel occupancy over 40 quarters, modelled as AR(1) in logs. One observation is lost to the lag, so T is 39. The standard error is one over the square root of 39, which is 0.160. The degrees of freedom are 37, and the critical t is 2.026. Lags one to three are small. Lag 4 has an autocorrelation of 0.8719, so t equals 0.8719 over 0.160, which is 5.45. That's far above 2.026. There's seasonality, so the model is misspecified.
+AVA: The fix?
+ANDREW: Add the seasonal lag as an extra variable. Log x-t equals b zero, plus b one times log x of t minus 1, plus b two times log x of t minus 4. Note that this is still an AR(1) with a seasonal lag. It is not an AR(4).
+[PAUSE 1]
+AVA: Forecast with it.
+ANDREW: The coefficients are 0.0085, 0.2598 on lag 1, and 0.7921 on lag 4. Last quarter's occupancy was 6 lakh, and the same quarter last year was 2.5 lakh. The log of 6 lakh is 13.3047, and the log of 2.5 lakh is 12.4292. So, 0.2598 times 13.3047 is 3.4566. 0.7921 times 12.4292 is 9.8452. Add 0.0085 and the total is 13.3103. e to the 13.3103 is about 6 lakh 3 thousand.
+AVA: Did the fix work?
+ANDREW: Yes. After adding the seasonal lag, the lag-4 residual autocorrelation is insignificant, and R-squared rises from 79 to 95 percent.
+AVA: And if the lag-12 p-value is 0.56 in monthly data?
+ANDREW: Then it's not significant, so there's no seasonality.
+[PAUSE 1]
+AVA: What is ARCH?
+ANDREW: Autoregressive conditional heteroskedasticity. This period's error variance depends on last period's. To test for it, regress the squared residuals on their own first lag. If the slope, a one, is significant, the series is ARCH(1).
+AVA: Why does it matter?
+ANDREW: The standard errors of the AR coefficients become biased, so the hypothesis tests are invalid. Correct for it with generalized least squares, GLS. The upside is that you can forecast the variance.
+AVA: Example.
+ANDREW: The squared residual equals 5.9068 plus 0.4515 times last period's squared residual. The lag is significant, so it's ARCH. If this period's squared error is 0.5625, the next period's variance is 5.9068 plus 0.4515 times 0.5625. That's 5.9068 plus 0.254, which is 6.1608.
+[PAUSE 1]
+AVA: Now regressing one time series on another.
+ANDREW: For example, a stock's returns on the market's returns. Test each series for a unit root with Dickey-Fuller. If both are stationary, the regression is fine. If only one has a unit root, it's not fine: the result is spurious. If both have unit roots, it depends on whether they are cointegrated.
+AVA: What is cointegration?
+ANDREW: Two series that are economically linked and share a long-run trend, so the gap between them is stable. To test it, regress one on the other and run Dickey-Fuller on the residuals, using Engle-Granger critical values. That's the DF-EG test. If you reject the unit root in the residuals, they are cointegrated, and the regression is valid.
+[PAUSE 1]
+AVA: Schweser's model-building steps, quickly.
+ANDREW: Plot the series first. A structural break means two models. If there's no break, try a trend model and check Durbin-Watson. If there's serial correlation, move to AR. Make the series stationary first: difference it, or difference the log. Add lags, including the seasonal one, until the residuals are clean. Test for ARCH. Then choose by out-of-sample RMSE.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: A spike at lag 4 or 12 means seasonality, so add that lag. It's still AR(1). ARCH means you regress squared errors on lagged squared errors, and fix it with GLS. For two series, both stationary is fine, one unit root is spurious, and two unit roots need cointegration. Test that with DF-EG on the residuals.

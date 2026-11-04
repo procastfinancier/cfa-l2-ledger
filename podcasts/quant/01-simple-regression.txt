@@ -1,0 +1,36 @@
+TITLE: Simple Regression - OLS, ANOVA and the Tests (R1)
+
+AVA: Welcome to the CFA Ledger Podcast, Quantitative Methods. Short episodes, one example per formula, and a memory hook at the end. I'm Ava.
+ANDREW: And I'm Andrew. Episode one: the simple regression toolkit that everything in reading one builds on.
+[PAUSE 1]
+AVA: What does a regression line actually do?
+ANDREW: It fits a straight line through the data. Y is the dependent variable, X is the independent variable. Each error is actual minus predicted. Square the errors and add them up, and you get the sum of squared errors, SSE. The regression line is the line that minimises SSE. That's why it's called ordinary least squares, or OLS.
+AVA: Why square them?
+ANDREW: Because positive and negative errors would cancel. OLS residuals always sum to zero.
+[PAUSE 1]
+AVA: How are the slope and intercept found?
+ANDREW: The slope, b one, is the covariance of X and Y divided by the variance of X. The intercept, b zero, is the mean of Y minus b one times the mean of X. So the line always passes through the point of means.
+AVA: Example.
+ANDREW: Stock ABC's excess returns regressed on Nifty excess returns. Covariance 0.000336, variance of the Nifty 0.000522. Slope equals 0.000336 divided by 0.000522, which is 0.64. Mean Nifty return minus 2.70 percent, mean ABC return minus 4.05 percent. Intercept equals minus 4.05, minus 0.64 times minus 2.70. That's minus 4.05 plus 1.73, so minus 2.32 percent.
+AVA: Interpret them.
+ANDREW: When the Nifty's excess return rises by 1 percent, ABC's rises by 0.64 percent. When the Nifty's excess return is zero, ABC's is minus 2.3 percent. In portfolio terms, that slope is the stock's beta.
+[PAUSE 1]
+AVA: Now ANOVA.
+ANDREW: Total variation equals explained plus unexplained. SST equals SSR plus SSE. SST is actual minus mean, squared. SSR is predicted minus mean, squared. SSE is actual minus predicted, squared.
+AVA: And R-squared?
+ANDREW: SSR divided by SST: the share of the variation in the dependent variable that the model explains. SST 300 and SSR 200 gives R-squared of 200 over 300, or 66.7 percent. With only one X, the correlation is the square root of R-squared, with the sign of the slope. So R-squared of 0.81 means a correlation of plus or minus 0.9.
+AVA: And SEE?
+ANDREW: The standard error of estimate is the square root of MSE, where MSE is SSE divided by n minus k minus 1. A smaller SEE means a better fit.
+[PAUSE 1]
+AVA: How do we test the slope?
+ANDREW: H-nought says b one equals zero. The t-statistic is the estimate minus the hypothesised value, divided by its standard error. ABC's slope is 0.64 with a standard error of 0.26. t equals 0.64 divided by 0.26, which is 2.46. Degrees of freedom are n minus 2, so 36 minus 2 is 34. The two-tailed 5 percent critical value is 2.03. 2.46 is above 2.03, so reject: the slope is significant.
+AVA: And the F-test?
+ANDREW: F equals MSR divided by MSE. MSR is SSR over k, MSE is SSE over n minus k minus 1. With MSR 0.0076 and MSE 0.0012, F equals 6.33. The critical F for 1 and 34 degrees of freedom is about 4.1, so reject. The F-test is always one-tailed.
+[PAUSE 1]
+AVA: Predict ABC if the Nifty does 10 percent.
+ANDREW: Minus 2.3, plus 0.64 times 10, gives 4.1 percent. For a 95 percent prediction interval, take the forecast, plus or minus the critical t times the standard error of the forecast. The standard error of the forecast is 3.67, and 2.03 times 3.67 is 7.45. So 4.1 plus or minus 7.45: from minus 3.35 to 11.55 percent.
+AVA: And if the relationship isn't linear?
+ANDREW: Transform it with logs. Log-lin logs Y, lin-log logs X, and log-log logs both.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Least squares means the smallest squared errors. Slope is covariance over variance, and the line passes through the means. SST equals SSR plus SSE. R-squared is explained over total. t tests one coefficient, two-tailed; F tests the group, always one-tailed.

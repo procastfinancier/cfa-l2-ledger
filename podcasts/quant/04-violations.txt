@@ -1,0 +1,39 @@
+TITLE: Heteroskedasticity, Serial Correlation and Multicollinearity (R1)
+
+AVA: Episode four: the three big violations. This is a favourite exam topic.
+[PAUSE 1]
+AVA: Why do violations matter?
+ANDREW: They affect the standard errors. A t-statistic is the coefficient divided by its standard error. If the standard error is too small, t is too big and you reject when you shouldn't. That's a Type I error. If the standard error is too big, t is too small and you miss a real effect. That's a Type II error. The power of a test is one minus the probability of a Type II error.
+[PAUSE 1]
+AVA: One. Heteroskedasticity.
+ANDREW: The error variance isn't constant. Unconditional heteroskedasticity isn't related to X, and it's harmless. Conditional heteroskedasticity is the problem: the spread of the residuals grows or shrinks with X, like a fan.
+AVA: What does it do?
+ANDREW: The coefficients are fine: still unbiased and consistent. The standard errors are unreliable, usually too small with financial data, so you get Type I errors. The F-test is unreliable too.
+AVA: How do you detect it?
+ANDREW: With the Breusch-Pagan test. Regress the squared residuals on the Xs. BP equals n times the R-squared of that second regression. It's chi-square with k degrees of freedom, and it's one-tailed.
+AVA: Example.
+ANDREW: Sixty months of fund returns regressed on the Nifty. The squared-residual regression has an R-squared of 8 percent. BP equals 60 times 0.08, which is 4.8. The chi-square critical value with 1 degree of freedom at 5 percent is 3.841. 4.8 is above it, so there is conditional heteroskedasticity.
+AVA: The fix?
+ANDREW: White-corrected, or robust, standard errors. Keep the coefficients and recompute the t-stats.
+[PAUSE 1]
+AVA: Two. Serial correlation.
+ANDREW: The errors are correlated with each other over time. It's positive if a positive error tends to follow a positive error. That's the usual case in finance.
+AVA: Effect?
+ANDREW: Positive serial correlation makes the standard errors too small, so t is too high and you get Type I errors. The coefficients are fine, with one exception: if a lagged Y is one of the Xs, as in an AR model, the coefficients become inconsistent too.
+AVA: Detect and fix?
+ANDREW: Detect it with the Breusch-Godfrey test. Regress the residuals on the Xs plus lagged residuals, and test whether the lag coefficients are zero. Fix it with Newey-West standard errors, which also correct for heteroskedasticity.
+[PAUSE 1]
+AVA: Three. Multicollinearity.
+ANDREW: Two or more Xs are highly correlated with each other. The coefficients stay consistent but become imprecise. The standard errors are inflated, so t is too low and you get Type II errors.
+AVA: The classic sign?
+ANDREW: A significant F-test and a high R-squared, but none of the individual t-tests are significant. As a group the Xs explain Y, but their individual effects wash out.
+AVA: How do you measure it?
+ANDREW: With the variance inflation factor. Regress one X on the other Xs to get R-squared j. VIF equals one over one minus R-squared j. If R-squared j is 0.9, VIF equals one over 0.1, which is 10. A VIF of 1 means none. Above 5, investigate. Above 10, it's serious.
+AVA: Fix?
+ANDREW: Drop one of the correlated variables, use a different proxy, or get more data. Dropping it here does not count as an omitted-variable error.
+[PAUSE 1]
+AVA: Quick sort. Where does each one show up?
+ANDREW: Heteroskedasticity: mostly cross-sectional data. Serial correlation: mostly time series. Multicollinearity: any data where the Xs are related.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Hetero and serial make standard errors too small: Type I, too many rejections. Fix hetero with White and serial with Newey-West, and keep the coefficients. Multicollinearity is the opposite: errors too big, Type two, high F with dead t's. VIF over 10, drop a variable. And BP equals n times R-squared.

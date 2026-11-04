@@ -1,0 +1,38 @@
+TITLE: Influential Points, Dummy Variables and Logistic Regression (R1)
+
+AVA: Episode five: unusual data points, dummy variables, and logit models.
+[PAUSE 1]
+AVA: Outlier or high-leverage point. What's the difference?
+ANDREW: An outlier is an extreme value of Y. A high-leverage point is an extreme value of X. Neither is automatically influential. A point is influential only if removing it changes the coefficients a lot.
+AVA: How do you spot leverage?
+ANDREW: Leverage, written h-i-i, runs from 0 to 1 and measures how far an observation's X is from the mean. The leverages add up to k plus 1, so the average is k plus 1 over n. A point is potentially influential if its leverage is above three times that average: 3 times k plus 1, over n. With 3 variables and 24 observations, that's 3 times 4 over 24, which is 0.5.
+[PAUSE 1]
+AVA: And outliers?
+ANDREW: Use studentized residuals. Leave one point out and fit the model on the rest. Predict the missing point, and measure the miss. Divide that miss by its standard deviation. Then compare it with a t critical value using n minus k minus 2 degrees of freedom. There's one extra minus because a point was left out.
+AVA: Example.
+ANDREW: An IPO model with 24 observations and 3 variables. Degrees of freedom are 24 minus 3 minus 2, which is 19. The two-tailed 5 percent critical t is 2.09. Any point with a studentized residual above 2.09 in absolute value is an outlier.
+AVA: And one measure that combines both?
+ANDREW: Cook's distance, which uses both the residual and the leverage. Above 0.5, investigate. Above 1, it's very likely influential. Or compare it with 2 times the square root of k over n. With k of 3 and n of 24, that's 2 times the root of 0.125, which is 0.71.
+AVA: What do you do with an influential point?
+ANDREW: If it's an input error, fix it or delete it. If it's valid, your model is probably missing a variable.
+[PAUSE 1]
+AVA: Now dummy variables.
+ANDREW: A dummy is 1 or 0, used for qualitative things like the quarter or the industry. The rule is: n categories need n minus 1 dummies. Four quarters need three dummies. The category left out is the reference, and the intercept is its value. Use all four and they always add up to 1, which is perfect multicollinearity.
+AVA: Example.
+ANDREW: EPS equals 1.25, plus 0.75 times Q1, minus 0.20 times Q2, plus 0.10 times Q3. Q1 EPS is 1.25 plus 0.75, which is 2.00. Q2 is 1.25 minus 0.20, which is 1.05. Q3 is 1.35. Q4 is just the intercept, 1.25.
+AVA: Intercept dummy versus slope dummy?
+ANDREW: An intercept dummy shifts the line up or down. A slope dummy multiplies D by X, so it changes the slope. You can use both together.
+AVA: Exam trap?
+ANDREW: When you interpret a significant industry dummy, always add "holding the other variables constant".
+[PAUSE 1]
+AVA: Logistic regression. When is it used?
+ANDREW: When Y is binary, like default or no default. Ordinary regression could predict a probability below 0 or above 1. Logit uses log odds as the dependent variable: the log of P over one minus P. It's estimated by maximum likelihood, not OLS, and the residuals are assumed to have a logistic distribution, which has fatter tails than the normal.
+AVA: How do you get a probability back?
+ANDREW: The odds equal e to the power of the predicted value. P equals odds over one plus odds.
+AVA: Example.
+ANDREW: A dividend-increase model with an intercept of minus 3.445. When all the Xs are zero, the odds are e to the minus 3.445, which is 0.0319. P equals 0.0319 over 1.0319, which is 3.09 percent. Each slope is the change in log odds for a one-unit change in that X. So a one-unit rise multiplies the odds by e to the b.
+AVA: And testing nested logit models?
+ANDREW: Use a likelihood ratio test, not F. LR equals minus 2 times, log likelihood restricted minus log likelihood unrestricted. It's chi-square with q degrees of freedom. With minus 216.22 and minus 212.44, the difference is minus 3.78, and times minus 2 that's 7.56. The critical value is 5.99, so reject: the dropped variables mattered. Log likelihood is always negative, and closer to zero is better. Logit has no ordinary R-squared, only a pseudo R-squared.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Outlier is extreme Y, leverage is extreme X, and influential means it moves the coefficients. Leverage above 3 times k plus 1 over n. Studentized df: n minus k minus 2. n categories, n minus 1 dummies. Logit: log odds, maximum likelihood, and P equals odds over one plus odds. Nested logit uses LR, not F.

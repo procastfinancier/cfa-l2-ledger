@@ -1,0 +1,33 @@
+TITLE: Trend Models, AR Models and Covariance Stationarity (R2)
+
+AVA: Episode six: time series. We start with trend models, then move to autoregressive models.
+[PAUSE 1]
+AVA: What is a linear trend model?
+ANDREW: A regression where the only X is time. Y-t equals b zero plus b one times t. With b zero 1.70 and b one 3.0, t of 1 gives 4.70 and t of 2 gives 7.70. It suits a series that grows by a constant amount each period, like inflation.
+AVA: And log-linear?
+ANDREW: For a series that grows at a constant rate. Exponential growth curves upward, but its log is a straight line. So we regress the log of Y on t. It suits stock indices, prices and company sales.
+AVA: Example.
+ANDREW: Quarterly revenue over 48 quarters. Log revenue equals 4.00 plus 0.09 times t. The next quarter is t of 49. 4.00 plus 0.09 times 49 equals 8.41. Revenue is e to the 8.41, which is about 4,492 million dollars. The trap is to forget to take e to the power. 8.41 is the log, not the revenue.
+[PAUSE 1]
+AVA: How do you know a trend model has failed?
+ANDREW: When the residuals run in streaks: positive for a while, then negative. That's serial correlation. Test it with Durbin-Watson. A DW of about 2 means no serial correlation. If it's far from 2, the trend model is not enough, so move to an AR model.
+[PAUSE 1]
+AVA: What is an AR model?
+ANDREW: An autoregressive model, where Y is regressed on its own past values. AR(1) is x-t equals b zero plus b one times x of t minus 1. AR(2) adds the second lag.
+AVA: And the condition before you can trust it?
+ANDREW: The series must be covariance stationary. That means three things: a constant, finite mean; a constant, finite variance; and a constant covariance at each lag. If any one fails, the inference is invalid. A series with a clear upward trend fails, because its mean isn't constant.
+[PAUSE 1]
+AVA: Forecast with an AR model.
+ANDREW: x-t equals 1.2 plus 0.45 times x of t minus 1, and today x is 5. One step ahead: 1.2 plus 0.45 times 5, which is 3.45. Two steps ahead: feed in 3.45. 1.2 plus 0.45 times 3.45 is 1.2 plus 1.55, which is 2.75. This is called the chain rule of forecasting. A two-step forecast is less certain than a one-step one, because it uses a forecast as an input.
+[PAUSE 1]
+AVA: How do you check an AR model is correctly specified?
+ANDREW: Look at the autocorrelations of its residuals. If the model is right, none of them should be significant. Use a t-test. The standard error is one over the square root of T, and the degrees of freedom are T minus 2.
+AVA: Example.
+ANDREW: 102 observations. The standard error is one over the square root of 102, which is 0.099. The lag-one autocorrelation is 0.0616, so t equals 0.0616 over 0.099, which is 0.62. The critical value is 1.98. Every lag is inside plus or minus 1.98, so the model is fine.
+AVA: Can you use Durbin-Watson here?
+ANDREW: No. Durbin-Watson is not valid for AR models. Use the t-test on the residual autocorrelations.
+AVA: And to work backwards?
+ANDREW: If the standard error is 0.0632, then T equals one over 0.0632, squared, which is about 250 observations.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: A constant amount means a linear trend, and a constant rate means log-linear, and don't forget the e. DW near 2 means clean. For AR models, use the t-test on residual autocorrelations, with a standard error of one over root T. Stationary means constant mean, variance and covariance. To forecast, chain one step at a time.

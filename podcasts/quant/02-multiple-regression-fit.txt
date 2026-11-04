@@ -1,0 +1,35 @@
+TITLE: Multiple Regression, p-Values, Adjusted R-Squared, AIC and BIC (R1)
+
+AVA: Episode two: multiple regression and how to judge a model's fit.
+[PAUSE 1]
+AVA: What changes with more than one X?
+ANDREW: Each slope becomes a partial slope. It is the change in Y for a one-unit change in that X, holding every other X constant. Example: ten-year earnings growth equals minus 11.6, plus 0.25 times the payout ratio, plus 0.14 times the yield curve slope. A 1 percent rise in payout adds 0.25 percent to growth, holding the yield curve slope constant.
+AVA: The trap?
+ANDREW: Adding the slopes together. In Y equals 2.30 plus 5.02 X-one minus 4.55 X-two, a 1 percent rise in X-one raises Y by 5.02 percent. Not 2.30 plus 5.02.
+[PAUSE 1]
+AVA: How do p-values work?
+ANDREW: The p-value is the smallest significance level at which you can reject the null. If p is below the significance level, reject: the variable matters. If p is above it, fail to reject.
+AVA: Example.
+ANDREW: Testing at 1 percent. X-one has a p-value of 0.0002: reject, so it's significant. X-two has 0.0319: above 0.01, so not significant at 1 percent, but it would be at 5. X-three has a t of minus 3.2 and a p of 0.0022: significant. The negative sign only gives the direction.
+[PAUSE 1]
+AVA: The six assumptions?
+ANDREW: Linearity between Y and the Xs. No exact linear relation among the Xs; break that and you get multicollinearity. Zero mean error. Constant error variance; break it and you get heteroskedasticity. Uncorrelated errors; break that and you get serial correlation. And normally distributed errors.
+AVA: How do you check them informally?
+ANDREW: With residual plots. Residuals against predicted Y should be a patternless band around zero. On a normal Q-Q plot, normal residuals sit on the diagonal. Points far off it in the tails mean fat tails.
+[PAUSE 1]
+AVA: Why isn't a high R-squared enough?
+ANDREW: R-squared always rises when you add a variable, even a useless one. That's called overestimating the regression. Adjusted R-squared adds a penalty. Adjusted R-squared equals one minus, n minus 1 over n minus k minus 1, times one minus R-squared. It is never higher than R-squared, and it falls when a new variable's t-statistic is below 1 in absolute value.
+AVA: Example.
+ANDREW: Sixty months, five variables. SST 460, SSE 170. R-squared equals 460 minus 170, over 460, which is 63.0 percent. Adjusted R-squared equals one minus 59 over 54 times 0.37. 59 over 54 is 1.093, times 0.37 is 0.404. So adjusted R-squared is 59.6 percent.
+AVA: Now add four more variables, and R-squared goes up to 65 percent.
+ANDREW: Adjusted R-squared equals one minus 59 over 50 times 0.35, which is one minus 0.413, or 58.7 percent. R-squared went up, but adjusted R-squared went down from 59.6 to 58.7. Keep the five-variable model.
+[PAUSE 1]
+AVA: What does adjusted R-squared not tell you?
+ANDREW: It doesn't tell you the quality of fit, and it doesn't tell you whether the slopes are significant. For that we use AIC and BIC.
+AVA: Which one is which?
+ANDREW: AIC, Akaike's criterion, is for forecasting. AIC equals n times the log of SSE over n, plus 2 times k plus 1. BIC, Schwarz's Bayesian criterion, is for goodness of fit. BIC equals n times the log of SSE over n, plus log n times k plus 1. Lower is better for both. Because log n is above 2 once n is bigger than about 7, BIC punishes extra variables harder.
+AVA: Example.
+ANDREW: The rent model with 191 observations. Using age alone, SSE is 32,627. SSE over n is 170.82, its log is 5.14, and times 191 that's 981.9. AIC adds 2 times 2, giving 985.9. BIC adds log 191, which is 5.25, times 2, giving 992.4. With all three factors, AIC falls to 822.0 and BIC to 835.0. The three-factor model has the lowest of both, so it wins for forecasting and for fit.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Partial slope: hold the others constant. If p is low, the null must go. R-squared always rises; adjusted R-squared can fall. A is for anticipating, so AIC is for forecasts. B is for best fit, so BIC is for fit, and it carries the bigger penalty. Lower wins.
