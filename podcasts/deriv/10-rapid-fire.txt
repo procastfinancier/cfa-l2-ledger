@@ -1,76 +1,76 @@
-TITLE: Chapter 10 - Meera Ma'am ka Final Mock (R28 + R29)
+TITLE: Rapid-Fire Drill - Derivatives (R28 and R29)
 
-PRIYA: Exam से दो दिन पहले. Meera ma'am: "Rapid fire, Arjun." आप भी खेलिए, हर सवाल के बाद pause.
+AVA: Final episode, a rapid-fire drill. After each question, pause and answer before Andrew does.
 [PAUSE 1]
-PRIYA: Forward price का formula?
+AVA: The forward price formula?
 [PAUSE 4]
-RAHUL: S minus PV benefits plus PV costs, multiplied by one plus r to the power t.
-PRIYA: Forward महँगा है. Trade?
+ANDREW: S minus PV of benefits plus PV of costs, times one plus r to the t.
+AVA: The forward is overpriced. What's the trade?
 [PAUSE 4]
-RAHUL: Borrow, spot buy, forward sell.
-PRIYA: तीन drawers?
+ANDREW: Borrow, buy spot, sell the forward.
+AVA: Which compounding for rates, stocks and indexes?
 [PAUSE 5]
-RAHUL: Rates: simple, 360. Stocks, bonds: discrete, 365. Index: continuous.
-PRIYA: Expiry के बाद का dividend?
+ANDREW: Rates: simple, 360. Stocks and bonds: discrete, 365. Indexes: continuous.
+AVA: A dividend after expiry?
 [PAUSE 3]
-RAHUL: Ignore.
-PRIYA: Long FRA कौन, कब जीते?
+ANDREW: Ignore it.
+AVA: Who is the long FRA, and when do they win?
 [PAUSE 4]
-RAHUL: Borrower, rates ऊपर.
-PRIYA: SFR का मंत्र?
+ANDREW: The borrower. They win when rates rise.
+AVA: The swap rate formula?
 [PAUSE 4]
-RAHUL: One minus last Z over sum of Z.
-PRIYA: Rates गिरे, swap में कौन जीता?
-[PAUSE 4]
-RAHUL: Fixed receiver.
-PRIYA: Currency swap की तीन बातें?
+ANDREW: One minus the last Z, over the sum of Z.
+AVA: Rates fall. Who wins in a swap?
+[PAUSE 3]
+ANDREW: The fixed receiver.
+AVA: Three features of a currency swap?
 [PAUSE 5]
-RAHUL: दो curves, असली principal exchange, आज का spot.
-PRIYA: Bond futures में delivery option किसका?
+ANDREW: Two curves, a real principal exchange, and today's spot rate for valuation.
+AVA: Who holds the delivery option in bond futures?
 [PAUSE 3]
-RAHUL: Short का, cheapest to deliver.
-PRIYA: Up probability?
+ANDREW: The short. They deliver the cheapest to deliver.
+AVA: The up probability?
 [PAUSE 4]
-RAHUL: One plus r minus D over U minus D. Risk-neutral.
-PRIYA: American option में हर node पर?
+ANDREW: One plus r minus D, over U minus D. It's risk-neutral.
+AVA: The rule at each node of an American option tree?
 [PAUSE 4]
-RAHUL: Exercise versus hold, बड़ा लो.
-PRIYA: Put-call parity?
+ANDREW: Exercise or hold. Keep the higher.
+AVA: Put-call parity?
 [PAUSE 4]
-RAHUL: C plus PV X equals S plus P.
-PRIYA: Rate tree की probability?
+ANDREW: C plus PV of X equals S plus P.
+AVA: The probability on a rate tree?
 [PAUSE 3]
-RAHUL: Fifty percent, हर node अपना rate.
-PRIYA: Hedge ratio?
+ANDREW: Fifty percent, with each node at its own rate.
+AVA: The hedge ratio?
 [PAUSE 4]
-RAHUL: Change in option over change in share. यही delta.
-PRIYA: N of d1, N of d2?
+ANDREW: Change in the option over change in the stock. That's delta.
+AVA: What do N of d1 and N of d2 mean?
 [PAUSE 4]
-RAHUL: Delta, और in the money की probability.
-PRIYA: Dividend बढ़ा?
+ANDREW: Delta, and the probability the call ends in the money.
+AVA: Dividends rise. What happens?
 [PAUSE 3]
-RAHUL: Call नीचे, put ऊपर.
-PRIYA: Payer swaption कब exercise?
+ANDREW: Calls fall and puts rise.
+AVA: When is a payer swaption exercised?
 [PAUSE 3]
-RAHUL: Swap rate ऊपर गया.
-PRIYA: Long cap plus short floor?
+ANDREW: When swap rates rise.
+AVA: Long cap plus short floor?
 [PAUSE 3]
-RAHUL: Payer swap.
-PRIYA: Callable bond?
+ANDREW: A payer swap.
+AVA: A callable bond?
 [PAUSE 4]
-RAHUL: Straight bond minus receiver swaption.
-PRIYA: Gamma कहाँ max?
+ANDREW: A straight bond minus a receiver swaption.
+AVA: Where is gamma highest?
 [PAUSE 3]
-RAHUL: At the money.
-PRIYA: 60,000 shares, delta 0.6?
+ANDREW: At the money.
+AVA: 60,000 shares and a delta of 0.6?
 [PAUSE 4]
-RAHUL: 1,00,000 calls short.
-PRIYA: Price jump से hedge टूटा?
+ANDREW: Short 1 lakh calls.
+AVA: A price jump breaks the hedge. What's that called?
 [PAUSE 3]
-RAHUL: Gamma risk.
-PRIYA: Implied volatility 22, आपका अंदाज़ा 25?
+ANDREW: Gamma risk.
+AVA: Implied volatility is 22 percent and you expect 25. What do you do?
 [PAUSE 4]
-RAHUL: Options सस्ते, खरीदो.
+ANDREW: Options are cheap, so buy.
 [PAUSE 1]
-PRIYA: Ma'am की आख़िरी बात?
-RAHUL: "No arbitrage सोचो. Payoff same, तो price same. मामा जी के प्याज़ से India VIX तक, यही एक idea." All the best for 22 November.
+AVA: The final takeaway?
+ANDREW: Think no arbitrage. Same payoff, same price. Good luck on 22 November.

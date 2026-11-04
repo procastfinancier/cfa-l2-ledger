@@ -1,22 +1,22 @@
-TITLE: Chapter 4 - Nifty ka Return, Infosys vs TCS aur Bond Futures (R28)
+TITLE: Equity Swaps and Bond Futures (R28)
 
-PRIYA: Foreign fund फिर आया: "Indian shares खरीदने का झंझट नहीं चाहिए, बस Nifty का return दो."
-RAHUL: Equity swap. Bank Nifty return देगा, fund fixed देगा. Fixed side बिल्कुल IRS जैसी, same SFR formula. ख़ास बात: equity swap की value बीच में भी पूछी जाती है. Equity leg equals notional multiplied by, 1 plus return since last reset.
-PRIYA: 1 करोड़, fixed 6.05 percent. Nifty 24,625 से 30 दिन में 24,900.
-RAHUL: Return equals 275 divided by 24,625 equals 1.12 percent. Equity leg equals 1 करोड़ multiplied by 1.0112 equals 1,01,11,675. Fixed leg का PV, discount factors से, 99,40,000. Fund की value equals 1,01,11,675 minus 99,40,000 equals 1,71,675.
+AVA: Episode four. Equity swaps and bond futures.
 [PAUSE 1]
-PRIYA: एक HNI: "मेरे पास Infosys है, लेकिन लगता है TCS बेहतर करेगा."
-RAHUL: Pay Infosys return, receive TCS return. कोई pricing नहीं. Value equals, received minus paid, multiplied by notional. Infosys plus 1.3 percent, TCS minus 0.8 percent: minus 0.013 minus 0.008 equals minus 0.021. Multiplied by 10 लाख equals minus 21,000. दोनों तरफ़ से loss.
+AVA: What's special about an equity swap?
+ANDREW: One leg pays the return on a stock or index. If the other leg is fixed, it is priced exactly like an interest rate swap, with the same formula. The difference: equity swaps can be valued between settlement dates. The equity leg equals notional times, one plus the return since the last reset.
+AVA: Example.
+ANDREW: One crore notional, fixed rate 6.05 percent. Nifty moves from 24,625 to 24,900 in 30 days. The return is 275 divided by 24,625, which is 1.12 percent. The equity leg is one crore times 1.0112, which is 1 crore 1 lakh 11 thousand 675. The fixed leg's PV is 99 lakh 40 thousand. The value to the fixed payer is the difference, 1 lakh 71 thousand 675.
+AVA: And swapping one stock's return for another?
+ANDREW: There's no pricing at the start. The value is the return received minus the return paid, times notional. Pay Infosys, receive TCS, on 10 lakh. Infosys is up 1.3 percent and TCS is down 0.8 percent. Minus 0.013 minus 0.008 is minus 0.021. Times 10 lakh, that's minus 21,000. You lose on both legs.
 [PAUSE 1]
-PRIYA: अब bond futures. पहले clean और dirty.
-RAHUL: Accrued interest equals, days since coupon divided by days between coupons, multiplied by coupon. Clean price quote होता है. Dirty equals clean plus accrued, यही buyer pay करता है.
-PRIYA: Meera ma'am की कहानी: sabziwala को होटल को grade A टमाटर देने हैं. कौन से देगा?
-RAHUL: सबसे सस्ते. Bond futures में short कई bonds में से कोई भी deliver कर सकता है. ये delivery option short के लिए valuable है, वो cheapest to deliver देगा. हर bond का conversion factor, long pays futures price multiplied by CF.
-RAHUL: Quoted futures price equals 1 divided by CF, multiplied by, full price multiplied by, 1 plus R f, to the power T, minus FV of coupons, minus accrued interest at expiry.
-PRIYA: Example: bond 1,040, CF 1.13, rate 5 percent, 1.2 साल, coupons का FV 71.56, expiry पर accrued 14.
-RAHUL: 1,040 multiplied by 1.05 to the power 1.2 equals 1,102.71. Minus 71.56, minus 14, equals 1,017.15. Divided by 1.13 equals 900.13.
-RAHUL: Arbitrage: fair quoted price 133.65, market 135. Futures महँगा, sell futures, buy bond. Profit equals, 135 minus 133.65, multiplied by CF 0.8, equals 1.08.
+AVA: Now bond futures. Clean versus dirty price?
+ANDREW: Accrued interest equals days since the last coupon, over days between coupons, times the coupon. The clean price is quoted without it. The dirty price, or full price, is clean plus accrued interest. That's what the buyer actually pays.
+AVA: What's the delivery option?
+ANDREW: The short may deliver any of several eligible bonds, so the short holds a valuable option and will deliver the cheapest to deliver. Each bond has a conversion factor, and the long pays the futures price times that factor.
+AVA: The formula?
+ANDREW: Quoted futures price equals one over the conversion factor, times: full price, times one plus r to the power T, minus the future value of coupons received, minus accrued interest at expiry. Example: bond price 1,040, conversion factor 1.13, 5 percent, 1.2 years, future value of coupons 71.56, accrued interest at expiry 14. 1,040 times 1.05 to the 1.2 is 1,102.71. Minus 71.56, minus 14, gives 1,017.15. Divided by 1.13, that's 900.13.
+AVA: And arbitrage?
+ANDREW: If the fair quoted price is 133.65 and the market shows 135, the futures are rich. Sell the futures and buy the bond. The profit at expiry is 135 minus 133.65, times the conversion factor of 0.8, about 1.08.
 [PAUSE 1]
-PRIYA: मंत्र, और पूरी Reading twenty-eight एक line में.
-RAHUL: Equity leg equals notional times one plus return. Stock-for-stock, received minus paid. Short चुनता है cheapest to deliver. Quoted futures divide by CF.
-RAHUL: और पूरी reading: no arbitrage. Forward equals spot plus carry. FRA, एक loan rate का forward. Swap, FRAs का package. सब यहीं से.
+AVA: Memory hook, and Reading 28 in one line.
+ANDREW: Equity leg equals notional times one plus return. Stock for stock: received minus paid. The short picks the cheapest bond. Divide by the conversion factor. And all of Reading 28 is no arbitrage: forward equals spot plus carry, an FRA is a forward on a rate, and a swap is a bundle of FRAs.

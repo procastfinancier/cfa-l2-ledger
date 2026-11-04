@@ -1,21 +1,23 @@
-TITLE: Chapter 2 - Nifty, Bond aur Rohan ka FRA (R28)
+TITLE: Index and Bond Forwards, Futures and FRAs (R28)
 
-PRIYA: Arjun के desk पर तीन clients. पहला, एक foreign fund: "Nifty पर 140 दिन का forward."
-RAHUL: Index में dividends रोज़ आते हैं, तो continuous yield मानो. F equals S multiplied by e to the power, r minus yield, multiplied by t. Nifty 24,000, r 6.5 percent, yield 1.5 percent. 0.05 multiplied by 140 by 365 equals 0.0192. e to the power 0.0192 equals 1.0194. 24,000 multiplied by 1.0194 equals लगभग 24,465.
+AVA: Episode two. Forwards on an index and on a bond, futures, and forward rate agreements.
 [PAUSE 1]
-PRIYA: दूसरा, एक insurance company. 7 percent government bond, full price 1,050, coupon 35 day 182 पर. 250 दिन का forward, rate 6 percent.
-RAHUL: Coupon equals dividend, एक benefit. F equals, 1,050 minus 35 divided by 1.06 to the power 182 by 365, multiplied by 1.06 to the power 250 by 365. यानी 1,016 multiplied by 1.0407 equals 1,057.37.
+AVA: Why is an index different?
+ANDREW: An index pays dividends almost every day, so we treat them as a continuous yield and use continuous compounding. F equals S times e to the power, r minus the dividend yield, times t. Nifty at 24,000, r of 6.5 percent, yield of 1.5 percent, 140 days. Point zero five times 140 over 365 is 0.0192. Twenty-four thousand times e to the 0.0192 is about 24,465.
 [PAUSE 1]
-PRIYA: Arjun ने पूछा, forward और futures में फ़र्क?
-RAHUL: Forward private deal. Futures NSE पर, clearinghouse guarantee, margin, और रोज़ mark to market. इसलिए futures की value हर settlement के बाद zero हो जाती है. Bond futures की delivery पर long pay करता है futures price multiplied by conversion factor, plus accrued interest.
+AVA: And a bond?
+ANDREW: A coupon is a benefit, just like a dividend. A 7 percent bond with a full price of 1,050 pays a 35 coupon in 182 days. For a 250-day forward at 6 percent: subtract the coupon's PV, 35 divided by 1.06 to the power 182 over 365, to get 1,016. Then multiply by 1.06 to the power 250 over 365. F is 1,057.37.
 [PAUSE 1]
-PRIYA: तीसरा, Arjun का दोस्त Rohan. "एक महीने बाद तीन महीने का loan लेना है. RBI rates बढ़ा देगा तो?"
-RAHUL: FRA करो, rate आज lock. ये 1 by 4 FRA है: 1 महीने बाद शुरू, 4 पर ख़त्म, loan 3 महीने का. Long FRA equals borrower. Rates बढ़ें तो long जीतता है. Cash settled, असली loan नहीं.
-PRIYA: Rate? 30 दिन MIBOR 4 percent, 120 दिन 5 percent.
-RAHUL: लंबा factor divided by छोटा factor. 1 plus 0.05 multiplied by 120 by 360 equals 1.01667. 1 plus 0.04 multiplied by 30 by 360 equals 1.00333. Divide: 1.01329. Minus 1, multiplied by 360 by 90: FRA rate equals 5.32 percent.
-PRIYA: एक महीने बाद RBI ने सच में बढ़ाया, 90 दिन rate 6 percent. Notional 10 लाख.
-RAHUL: Saving equals, 0.06 minus 0.0532, multiplied by 90 by 360, multiplied by 10 लाख, equals 1,700. ये loan के end पर मिलती, FRA शुरुआत में settle होता है. तो discount: 1,700 divided by, 1 plus 0.06 multiplied by 90 by 360, equals 1,700 divided by 1.015 equals 1,675.
-RAHUL: Expiry से पहले value: नया FRA rate निकालो, gap multiply करो, और आज से loan के end तक discount करो. Notes में day 10 पर ये 1,487 आता है.
+AVA: Forwards versus futures?
+ANDREW: Forwards are private deals. Futures trade on an exchange, with a clearinghouse guarantee, margin, and daily mark-to-market. So a futures contract's value resets to zero after each daily settlement. For bond futures, at delivery the long pays the futures price times the conversion factor, plus accrued interest.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: Index, continuous. Coupon, dividend जैसा. Futures, रोज़ zero. Long FRA, borrower, rates ऊपर तो जीत. FRA rate, लंबा divided by छोटा. Payoff, हमेशा discount.
+AVA: Now FRAs. What is one?
+ANDREW: A forward on an interest rate. It locks today the rate on a loan that starts later. A 1 by 4 FRA expires in one month, on a loan that ends in month four, so it's a three-month loan. The long is the notional borrower and gains when rates rise. FRAs are cash settled. Rates are MRR, a market reference rate such as MIBOR or SOFR, quoted as an add-on rate on a 360-day year.
+AVA: How do we find the FRA rate?
+ANDREW: Divide the long period's growth factor by the short one's. Thirty-day rate 4 percent, 120-day rate 5 percent. One plus 0.05 times 120 over 360 is 1.01667. One plus 0.04 times 30 over 360 is 1.00333. Divide: 1.01329. Subtract one and multiply by 360 over 90. The FRA rate is 5.32 percent.
+AVA: Settlement?
+ANDREW: Notional 10 lakh rupees. At expiry the 90-day rate is 6 percent. The interest saving is 6 minus 5.32 percent, times 90 over 360, times 10 lakh, which is 1,700. But that saving would arrive at the end of the loan, and the FRA settles at the start. So discount it: 1,700 divided by 1.015 is about 1,675, paid to the long.
+ANDREW: Before expiry, find the new forward rate for the same loan period, take the gap to the contract rate, and discount from the loan's end back to today. In our notes, ten days in, that value is 1,487.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Index: continuous. Coupon: like a dividend. Futures: reset to zero daily. Long FRA equals borrower, wins when rates rise. FRA rate: long factor over short factor. Payoff: always discounted.

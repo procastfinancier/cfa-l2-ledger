@@ -1,24 +1,23 @@
-TITLE: Chapter 3 - Papa ka Home Loan aur Dollar Loan (R28)
+TITLE: Interest Rate and Currency Swaps (R28)
 
-PRIYA: Diwali पर Indore. पापा परेशान: "Floating home loan है, RBI बढ़ाए तो EMI बढ़ जाती है. मुझे fixed चाहिए."
-RAHUL: Arjun: "Interest rate swap. आप bank को fixed दो, bank आपको floating दे. Loan का floating cancel, net में सिर्फ़ fixed." Principal exchange नहीं, सिर्फ़ interest का difference.
-RAHUL: Floating payment settled in arrears: rate period की शुरुआत में set, payment end में. और reset date पर floating leg की value equals par, क्योंकि coupon equals market rate.
+AVA: Episode three. Swaps.
 [PAUSE 1]
-PRIYA: Swap का price क्या?
-RAHUL: वो fixed rate जिससे शुरुआत में value zero हो. PV fixed equals PV floating. मंत्र: one minus last Z, over sum of Z. Z equals 1 divided by, 1 plus rate multiplied by days by 360.
-PRIYA: एक साल, quarterly, notional 50 लाख. MIBOR 3, 3.5, 4, 4.5 percent.
-RAHUL: Z equals 0.99256, 0.98280, 0.97087, 0.95694. Sum equals 3.9032. 1 minus 0.95694 equals 0.04306. Divided by 3.9032 equals 0.011 per quarter. Multiplied by 4 equals 4.4 percent. Quarterly payment equals 50 लाख multiplied by 0.044 multiplied by 0.25 equals 55,000.
+AVA: What is an interest rate swap?
+ANDREW: One side pays fixed, the other pays floating, on a notional that is never exchanged. Only the net interest moves. Think of turning a floating-rate home loan into a fixed one. Floating payments are set at the start of each period and paid at the end. That's called settled in arrears. On a reset date, the floating leg is worth par, because its coupon equals the market rate.
 [PAUSE 1]
-PRIYA: फिर RBI ने rates काटे. कौन जीता?
-RAHUL: Rates ऊपर, fixed payer जीतता है. Rates नीचे, fixed receiver. Value: new SFR minus old SFR, multiplied by days by 360, multiplied by notional, multiplied by sum of remaining Z.
-PRIYA: Example.
-RAHUL: दो साल का swap, 6.62 percent, 10 लाख. 180 दिन बाद नया rate 5.8 percent, बचे Z का sum 2.8478. 0.058 minus 0.0662 equals minus 0.0082. Multiplied by 0.5, multiplied by 10 लाख, multiplied by 2.8478, equals लगभग minus 11,662. Fixed payer को loss, वो receiver को pay करेगा. Exam में IRS की value सिर्फ़ settlement dates पर पूछते हैं.
+AVA: How is a swap priced?
+ANDREW: Pricing means finding the fixed rate that makes the swap worth zero at the start, so the PV of the fixed leg equals the PV of the floating leg. The result: the periodic swap rate equals one minus the last discount factor, divided by the sum of the discount factors. Each discount factor Z is one over, one plus the rate times days over 360.
+AVA: Example.
+ANDREW: A one-year quarterly swap on 50 lakh. Rates of 3, 3.5, 4 and 4.5 percent give Z of 0.99256, 0.98280, 0.97087 and 0.95694. Sum, 3.9032. One minus 0.95694 is 0.04306. Divide by 3.9032 to get 1.1 percent a quarter, or 4.4 percent a year. The quarterly fixed payment is 50 lakh times 0.044 times 0.25, which is 55,000.
 [PAUSE 1]
-PRIYA: अब Pune की एक auto company. US से 5 million dollar का loan, कमाई रुपयों में.
-RAHUL: Currency swap: dollar receive करो, loan चुकाने को. रुपया pay करो. तीन फ़र्क: दो curves, दो fixed rates. Principal असली में exchange, शुरू और end में. और value करते समय foreign leg आज के spot पर convert.
-RAHUL: Spot 84, तो rupee notional equals 5 million multiplied by 84 equals 42 करोड़. Dollar SFR 4.4 percent, rupee curve से SFR लगभग 6.8 percent. Quarterly: 5 million multiplied by 0.044 multiplied by 0.25 equals 55,000 dollar receive. 42 करोड़ multiplied by 0.068 multiplied by 0.25 equals 71.4 लाख रुपये pay.
-PRIYA: बाद में रुपया 87 तक गिरा.
-RAHUL: Value equals PV of dollars received minus PV of rupees paid divided by 87. Dollar मज़बूत हुआ, तो dollar receive करने वाली company जीती, लगभग 153,674 dollar. यही hedge था.
+AVA: Who gains when rates move?
+ANDREW: Rates up, the fixed payer gains: they pay the old low rate and receive the new higher floating rate. Rates down, the fixed receiver gains. The value to the fixed payer equals the new swap rate minus the old one, times days over 360, times notional, times the sum of the remaining discount factors. The exam asks for interest rate swap values only on settlement dates.
+AVA: Example.
+ANDREW: A two-year swap at 6.62 percent on 10 lakh. After 180 days the new rate is 5.8 percent, and the remaining Z sum to 2.8478. Point zero five eight minus 0.0662 is minus 0.0082. Times 0.5, times 10 lakh, times 2.8478, is about minus 11,662. Rates fell, so the fixed payer has lost and pays the receiver.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: Swap equals fixed के बदले floating. Reset पर floating equals par. SFR equals one minus last Z over sum of Z. Rates ऊपर, payer जीते. Currency swap में दो curves, असली principal, आज का spot.
+AVA: And currency swaps?
+ANDREW: Three differences. Two yield curves and two fixed rates, one per currency. Principal really is exchanged, at the start and at the end, sized at the starting exchange rate. And when you value it, convert the foreign leg at today's spot rate.
+ANDREW: Example: an Indian company borrowed 5 million dollars. At 84 rupees per dollar, the rupee notional is 42 crore. The dollar swap rate is 4.4 percent; the rupee curve gives about 6.8 percent. Each quarter it receives 55,000 dollars and pays 71.4 lakh rupees. Value equals the PV of what you receive minus the PV of what you pay. Later the rupee weakens to 87, the dollar leg is worth more, and the company gains about 153,674 dollars. That's the hedge working.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Floating equals par on reset. Swap rate equals one minus last Z over sum of Z. Rates up, payer wins. Currency swap: two curves, real principal, today's spot.

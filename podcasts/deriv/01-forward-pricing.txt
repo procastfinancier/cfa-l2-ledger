@@ -1,27 +1,28 @@
-TITLE: Chapter 1 - Nashik ka Pyaaz aur Forward Contract (R28)
+TITLE: Forwards - Price, Arbitrage and Value (R28)
 
-PRIYA: नमस्ते, CFA Ledger Podcast. Derivatives, एक छोटी कहानी में. मैं Priya.
-RAHUL: मैं Rahul. हर chapter छोटा, हर calculation English में, और end में एक मंत्र.
-PRIYA: Hero है Arjun, Indore से, CFA Level 2 candidate, Mumbai के एक bank के treasury desk पर नया. Boss हैं Meera ma'am.
+AVA: Welcome to the CFA Ledger Podcast, Derivatives. Short episodes, one example per formula, and a memory hook at the end. I'm Ava.
+ANDREW: And I'm Andrew. Episode one: forward contracts.
 [PAUSE 1]
-PRIYA: Joining से पहले Arjun मामा जी के गाँव, नासिक गया. मामा जी को डर: फसल आने तक प्याज़ का भाव गिर जाएगा. Dhaba वाले Pappu भाई को डर: भाव बढ़ जाएगा.
-RAHUL: Arjun ने कहा: आज ही तय कर लो, तीन महीने बाद पच्चीस रुपये किलो. यही forward है. Price आज, लेन-देन बाद में. खरीदने वाला Pappu भाई long, बेचने वाले मामा जी short. Expiry पर भाव forward price से ऊपर, तो long जीता. नीचे, तो short. शुरुआत में कोई पैसा नहीं, value zero.
+AVA: What is a forward?
+ANDREW: An agreement today to buy or sell an asset later, at a price fixed today. The buyer is long, the seller is short. The long gains if the spot price at expiry is above the forward price; the short gains if it is below. Nothing is paid at the start, so the contract's value is zero at inception. And note: a forward has no exercise price. That's option language.
 [PAUSE 1]
-PRIYA: Mumbai में पहला दिन. Meera ma'am: "Gupta ji jeweller से कोई कहे, तीन महीने बाद सोना देना. वो क्या quote करेंगे?"
-RAHUL: आज का भाव, plus उधार का interest, plus locker का किराया, minus अगर सोने से कोई income मिलती. यही cost of carry. F equals, S minus PV of benefits plus PV of costs, multiplied by, 1 plus R f, to the power t.
-PRIYA: Reliance 500 पर, rate 6 percent, तीन महीने, कोई dividend नहीं.
-RAHUL: F equals 500 multiplied by 1.06 to the power 0.25 equals 507.34.
-PRIYA: Market में forward 510 पर है.
-RAHUL: Forward महँगा. Cash-and-carry: 500 borrow, share buy, forward 510 पर sell. Expiry पर 510 मिले, loan 507.34 चुकाया. Profit equals 510 minus 507.34 equals 2.66. Forward सस्ता होता, जैसे 502, तो उल्टा: share short, पैसा lend, forward buy. Profit equals 507.34 minus 502 equals 5.34.
+AVA: How is the forward price set?
+ANDREW: Cost of carry. The seller buys the asset today with borrowed money and holds it. So the forward price equals spot, minus the present value of benefits like dividends or coupons, plus the present value of costs like storage, all grown at the risk-free rate. F equals S minus PV of benefits plus PV of costs, times one plus r to the power t.
+AVA: Example.
+ANDREW: A share at 500 rupees, rate 6 percent, three months, no dividends. F equals 500 times 1.06 to the power 0.25, which is 507.34.
+AVA: And if the market quotes 510?
+ANDREW: The forward is overpriced, so do cash-and-carry. Borrow 500, buy the share, sell the forward at 510. At expiry, deliver for 510 and repay 507.34. Profit 2.66. If the forward were cheap, say 502, reverse it: short the share, lend the 500, buy the forward. Profit 507.34 minus 502, which is 5.34.
+ANDREW: This assumes no transaction costs, unrestricted short selling, and borrowing and lending at the risk-free rate.
 [PAUSE 1]
-PRIYA: Meera ma'am के तीन drawers, compounding के लिए.
-RAHUL: Rate वाले contracts, यानी FRA, swaps, caps: simple interest, 360 days. Stocks, bonds, currency: discrete, 365. Index जैसे Nifty: continuous, 365.
+AVA: Which compounding do we use?
+ANDREW: Three cases. Rate-based contracts like FRAs, swaps, caps and floors: simple interest on a 360-day year. Stocks, bonds and currencies: discrete compounding on 365 days. Equity indexes: continuous compounding on 365 days. To convert, the continuous rate is the natural log of one plus the discrete rate. Five percent annual is 4.879 percent continuous.
 [PAUSE 1]
-PRIYA: अब dividend वाला share, 30 रुपये. Dividend 0.4 day 15 पर, 0.4 day 85 पर, 0.5 day 175 पर. 100 दिन का forward, rate 5 percent.
-RAHUL: Trap: day 175 expiry के बाद है, ignore. F equals, 30 minus 0.4 divided by 1.05 to the power 15 by 365, minus 0.4 divided by 1.05 to the power 85 by 365, multiplied by 1.05 to the power 100 by 365. यानी 29.2053 multiplied by 1.01346 equals 29.60.
-PRIYA: 60 दिन बाद share 36. Long की value?
-RAHUL: Value equals आज का profit. Formula: S t minus PV of remaining dividends, minus PV of F zero. 36 minus 0.4 divided by 1.05 to the power 25 by 365, यानी 35.60. Minus 29.60 divided by 1.05 to the power 40 by 365, यानी 29.44. Value equals 35.60 minus 29.44 equals 6.16. Short की value, उल्टा sign.
-RAHUL: एक exam trap: short forward value करते समय dividends भूले, तो short undervalued, by PV of dividends.
+AVA: Now a dividend-paying stock.
+ANDREW: Price 30. Dividends of 0.40 on day 15, 0.40 on day 85, and 0.50 on day 175. A 100-day forward at 5 percent. The trap: the day 175 dividend falls after expiry, so ignore it. F equals 30 minus the PV of the two 0.40 dividends, which is 29.21, times 1.05 to the power 100 over 365. That gives 29.60.
 [PAUSE 1]
-PRIYA: आज का मंत्र.
-RAHUL: Forward equals spot plus carry. Costs जोड़ो, benefits घटाओ. महँगा forward बेचो, सस्ता खरीदो. Expiry के बाद का dividend, ignore. Value equals आज का profit.
+AVA: What is the value of a forward after inception?
+ANDREW: Value is simply today's gain or loss. For the long: today's spot minus the PV of remaining dividends, minus the PV of the original forward price. Sixty days later the stock is at 36. One dividend remains, in 25 days, worth 0.40 divided by 1.05 to the power 25 over 365. So 36 minus that is 35.60. The PV of 29.60 over the 40 remaining days is 29.44. Value to the long is 35.60 minus 29.44, which is 6.16. The short's value is minus 6.16.
+ANDREW: If today's forward price is given instead, the value is the new forward price minus the old one, discounted to today. One more trap: if an analyst forgets dividends when valuing a short forward, the short is undervalued by the PV of the dividends.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Forward equals spot plus carry. Add costs, subtract benefits. Sell the expensive one, buy the cheap one. Dividends after expiry don't count. Value is today's profit, discounted.

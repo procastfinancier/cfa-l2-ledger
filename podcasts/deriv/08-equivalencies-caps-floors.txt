@@ -1,20 +1,19 @@
-TITLE: Chapter 8 - Lego, Papa ka Cap aur Nana ji ka Floor (R29)
+TITLE: Equivalencies, Caps and Floors (R29)
 
-PRIYA: Arjun का भतीजा Chintu Lego जोड़ रहा था. Meera ma'am की बात याद आई: "Derivatives भी Lego हैं."
-RAHUL: चाबी एक सवाल: rates ऊपर गए, कौन जीता? Long rate call, long FRA, payer swap: ऊपर जीतते हैं. Long rate put, short FRA, receiver swap: नीचे.
+AVA: Episode eight. Equivalencies, which is how derivatives combine.
+ANDREW: One question unlocks them all: who gains when rates rise? The long rate call, the long FRA and the payer swap gain. The long rate put, the short FRA and the receiver swap gain when rates fall.
 [PAUSE 1]
-PRIYA: पहला Lego.
-RAHUL: Long call plus short put equals long FRA. Short call plus long put equals short FRA. Strike equals FRA rate.
+AVA: The building block.
+ANDREW: A long rate call plus a short rate put equals a long FRA. A short call plus a long put equals a short FRA. Both need the same strike, equal to the FRA rate.
 [PAUSE 1]
-PRIYA: पापा: "Fixed में फँसना नहीं, बस ऊपर की limit चाहिए."
-RAHUL: Cap: rate calls की series, same strike, अलग maturities, हर एक caplet. 5 percent cap: rate 7 हुआ, loan पर 7, cap से 2, net 5. Rate 2 हुआ, net 2. पापा कभी 5 से ज़्यादा नहीं देंगे, और गिरने का फ़ायदा भी.
-PRIYA: नाना जी, floating income वाले: "Rates गिरे तो income घटेगी."
-RAHUL: Floor: rate puts की series, हर एक floorlet. 5 percent floor: rate 2 हुआ, floor से 3, net 5. नाना जी कभी 5 से कम नहीं.
+AVA: Caps and floors.
+ANDREW: A cap is a series of rate calls, called caplets, with the same strike and different maturities. It protects a floating-rate borrower. With a 5 percent cap, if rates go to 7 the borrower pays 7, gets 2 back from the cap, and nets 5. If rates fall to 2, they pay just 2. They're never above 5, and they keep the benefit of falling rates.
+ANDREW: A floor is a series of rate puts, called floorlets. It protects a floating-rate lender or bondholder. With a 5 percent floor, if rates fall to 2 the floor pays 3, so the holder still earns 5.
 [PAUSE 1]
-PRIYA: बड़ा Lego.
-RAHUL: Long cap plus short floor equals payer swap. Short cap plus long floor equals receiver swap. और swap की value शुरुआत में zero है, तो strike swap rate पर हो, तो cap equals floor.
-RAHUL: Swaptions: long receiver swaption plus short payer swaption equals forward receiver swap. उल्टा, forward payer swap.
-RAHUL: आख़िरी: नाना जी का callable NCD. Rates गिरे, company ने call कर लिया. Callable bond equals straight bond plus short receiver swaption.
+AVA: Building bigger.
+ANDREW: A long cap plus a short floor equals a payer swap. A short cap plus a long floor equals a receiver swap. A swap is worth zero at the start, so if the strike equals the swap rate, the cap and the floor are worth the same.
+ANDREW: With swaptions: a long receiver swaption plus a short payer swaption equals a forward receiver swap. Flip both and you get a forward payer swap.
+ANDREW: And a callable bond equals an option-free bond plus a short receiver swaption, because the issuer calls the bond when rates fall.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: Call plus short put equals FRA. Calls से cap, borrower के लिए. Puts से floor, lender के लिए. Cap minus floor equals payer swap. Callable bond equals bond minus receiver swaption.
+AVA: Memory hook.
+ANDREW: Call plus short put equals FRA. Calls build a cap, for borrowers. Puts build a floor, for lenders. Cap minus floor equals payer swap. Callable bond equals bond minus receiver swaption.

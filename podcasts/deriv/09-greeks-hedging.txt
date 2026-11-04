@@ -1,20 +1,20 @@
-TITLE: Chapter 9 - Marine Drive par Driving aur Greeks (R29)
+TITLE: Option Greeks, Delta Hedging and Implied Volatility (R29)
 
-PRIYA: Sunday, Marine Drive. Meera ma'am Arjun को driving सिखा रही थीं. "Dashboard पर speed देखो. Speed कितनी तेज़ी से बदल रही है, वो acceleration. यही delta और gamma."
+AVA: Episode nine. The Greeks.
 [PAUSE 1]
-RAHUL: Delta equals speed: share 1 रुपया बदले, option कितना. Call 0 से 1, put minus 1 से 0. Expiry पर in the money call का delta 1, out of the money का 0. Formula: call delta equals N of d1, put delta equals N of d1 minus 1.
-RAHUL: Example: delta 0.58, share 0.75 ऊपर. Change equals 0.58 multiplied by 0.75 equals 0.435.
+AVA: Delta.
+ANDREW: Delta is how much the option moves when the stock moves by one. A call's delta runs from 0 to 1, and a put's from minus 1 to 0. At expiry, an in-the-money call has delta 1 and an out-of-the-money call has delta 0. Call delta equals N of d1; put delta equals N of d1 minus one. If delta is 0.58 and the stock rises 0.75, the call rises by about 0.58 times 0.75, which is 0.435.
 [PAUSE 1]
-RAHUL: Gamma equals acceleration, delta कितना बदलता है. At the money पर सबसे ज़्यादा, deep in या out पर कम. Long options का gamma positive, short का negative. Delta और gamma, bond के duration और convexity जैसे.
-RAHUL: Vega: volatility, call और put दोनों positive, at the money पर max. Rho: rate, call positive, put negative, कम important. Theta: समय, petrol जैसा जलता है, negative. Exception: deep in the money European put. Strike का कोई Greek नहीं.
+AVA: The others.
+ANDREW: Gamma is the rate of change of delta. It's highest at the money, positive for long options and negative for short ones. Delta and gamma are like a bond's duration and convexity. Vega is the sensitivity to volatility: positive for calls and puts, and largest at the money. Rho is the sensitivity to the interest rate: positive for calls, negative for puts, and minor. Theta is time decay, usually negative, with one exception: a deep in-the-money European put. The strike price has no Greek.
 [PAUSE 1]
-PRIYA: सोमवार. एक promoter के 60,000 shares, call delta 0.6. Hedge?
-RAHUL: Short calls equals shares divided by delta. 60,000 divided by 0.6 equals 1,00,000 calls. Share 1 ऊपर: shares plus 60,000, calls minus 1,00,000 multiplied by 0.6 equals minus 60,000. Net zero.
-PRIYA: Problem?
-RAHUL: मोड़ पर steering बदलना पड़ता है. Delta बदलता है, तो बार-बार rebalance, यानी dynamic hedging, transaction costs. और अचानक speed breaker, जैसे result day पर 15 percent गिरावट: hedge टूटा. ये gamma risk है. Share का gamma zero है, तो fix के लिए एक और option जोड़ो, फिर delta re-set.
+AVA: Delta hedging.
+ANDREW: To hedge a long stock position, short calls equal to the number of shares divided by delta. For 60,000 shares and a delta of 0.6, short 1 lakh calls. If the stock rises by one, the shares gain 60,000 and the calls lose 1 lakh times 0.6, which is 60,000. The net change is zero.
+AVA: The catch?
+ANDREW: Delta changes as the stock moves, so the hedge must be rebalanced again and again. That's dynamic hedging, and it costs money in transactions. A sudden jump, like a big move on results day, breaks the hedge before you can rebalance. That's gamma risk. Stock has zero gamma, so to fix it, add another option, then reset delta with shares.
 [PAUSE 1]
-PRIYA: Election से पहले India VIX आसमान पर.
-RAHUL: Implied volatility: market price से उल्टा निकाली गई volatility. कोई formula नहीं, iteration से. India VIX यही है. Trade: आपका अंदाज़ा 25 percent, implied 22, तो options सस्ते, खरीदो.
+AVA: Implied volatility.
+ANDREW: It's the volatility that makes the BSM value equal the market price. There's no closed form, so it's found by iteration. India VIX is the implied volatility of Nifty options. If you expect 25 percent and the market implies 22, options are cheap, so buy.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: Delta speed, gamma acceleration, theta petrol, vega मौसम. Short calls equals shares over delta. Jump equals gamma risk. Implied volatility, market price से.
+AVA: Memory hook.
+ANDREW: Delta is the slope, gamma is the curve, vega is volatility, theta is time decay. Short calls equal shares over delta. A jump means gamma risk. Implied volatility comes from the market price.

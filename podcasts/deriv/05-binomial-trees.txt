@@ -1,20 +1,22 @@
-TITLE: Chapter 5 - Neha ka Flat aur Binomial Tree (R29)
+TITLE: Options and Binomial Trees (R29)
 
-PRIYA: Reading twenty-nine, options. Arjun की बहन Neha को builder ने कहा: 1 लाख token दो, छह महीने flat 50 लाख में तुम्हारा.
-RAHUL: ये call है, खरीदने का अधिकार, obligation नहीं. Price बढ़ा तो खरीदो, गिरा तो छोड़ो, सिर्फ़ token गया. और माँ के सोने का insurance, यानी बेचने का अधिकार, put है.
-RAHUL: Payoff: long call, loss max premium, profit unlimited, breakeven X plus P. Long put, profit max X minus P, क्योंकि price zero से नीचे नहीं जाता, breakeven X minus P. Short positions, उल्टा.
+AVA: Reading 29, valuing options. Episode five: binomial trees.
 [PAUSE 1]
-PRIYA: Desk पर: 30 के share पर एक साल का call, strike 30. Premium?
-RAHUL: Meera ma'am: "IPL match जैसा. दो ही result: ऊपर या नीचे." U 1.3333, तो S up equals 40. D equals 1 divided by U equals 0.75, तो S down equals 22.5. Rate 7 percent.
-RAHUL: Up probability equals, 1 plus R f minus D, divided by, U minus D. 1.07 minus 0.75 equals 0.32. Divided by 0.5833 equals 0.5486. ये risk-neutral probability है, real नहीं. इसलिए discount risk-free rate से.
-RAHUL: Call payoff: up में 40 minus 30 equals 10, down में 0. Value equals 10 multiplied by 0.5486, divided by 1.07, equals 5.13. Put: down में 30 minus 22.5 equals 7.5. 7.5 multiplied by 0.4514, divided by 1.07, equals 3.16.
+AVA: Quick basics.
+ANDREW: A call is the right to buy; a put is the right to sell. Long call: loss capped at the premium, profit unlimited, breakeven X plus P. Long put: maximum profit X minus P, because a price can't fall below zero, breakeven X minus P. Short positions are the mirror image.
 [PAUSE 1]
-PRIYA: दो period?
-RAHUL: Same, बस right से left आओ. Share 50, strike 45, U 1.25, D 0.8, rate 7 percent. p up equals 0.27 divided by 0.45 equals 0.6. End prices 78.125, 50, 32. Payoffs 33.125, 5, 0. Upper node: 33.125 multiplied by 0.6 plus 5 multiplied by 0.4, divided by 1.07, equals 20.44. Lower: 5 multiplied by 0.6 divided by 1.07 equals 2.80. आज: 20.44 multiplied by 0.6 plus 2.80 multiplied by 0.4, divided by 1.07, equals 12.51.
+AVA: How does a one-period tree work?
+ANDREW: The price either goes up or down. Stock at 30, up factor 1.3333, so up is 40. Down factor is one over up, 0.75, so down is 22.5. Rate 7 percent. The up probability equals one plus r minus D, over U minus D. That's 1.07 minus 0.75, which is 0.32, divided by 0.5833: 54.86 percent.
+AVA: Is that the real chance of an up move?
+ANDREW: No. It's a risk-neutral probability, which is why we discount at the risk-free rate. A call struck at 30 pays 10 up and zero down. Value: 10 times 0.5486, divided by 1.07, is 5.13. The put pays 7.5 down. 7.5 times 0.4514, divided by 1.07, is 3.16.
 [PAUSE 1]
-PRIYA: American put, strike 50. Share 50, U 1.3, D 0.8, rate 3 percent. p up 0.46.
-RAHUL: American में हर node पर: exercise now versus hold, बड़ा लो. 40 वाले node पर hold equals 18 multiplied by 0.54, divided by 1.03, equals 9.44. Exercise equals 50 minus 40 equals 10. 10 बड़ा, early exercise. आज: 10 multiplied by 0.54, divided by 1.03, equals 5.24. European होता तो 4.95.
-RAHUL: Rule: deep in the money put में early exercise sense बनाता है. बिना dividend वाले share पर American call कभी early exercise नहीं, value European जितनी. Dividend हो, तो ex-dividend से ठीक पहले हो सकता है.
+AVA: Two periods?
+ANDREW: Build the end payoffs, then work backward. Stock 50, strike 45, U 1.25, D 0.8, rate 7 percent. The up probability is 0.27 over 0.45, which is 0.6. End prices are 78.125, 50 and 32, with call payoffs 33.125, 5 and zero. Upper node: 33.125 times 0.6, plus 5 times 0.4, all over 1.07, is 20.44. Lower node: 5 times 0.6, over 1.07, is 2.80. Today: 20.44 times 0.6, plus 2.80 times 0.4, over 1.07, is 12.51.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: Call खरीदने का, put बेचने का अधिकार. p up equals one plus r minus D over U minus D, risk-neutral. Payoff बनाओ, पीछे discount करो. American में हर node पर exercise versus hold.
+AVA: American options?
+ANDREW: At every node, compare exercising now with holding, and keep the higher. Take a put struck at 50, stock 50, U 1.3, D 0.8, rate 3 percent, up probability 0.46. At the node where the stock is 40, holding is worth 18 times 0.54, over 1.03, which is 9.44. Exercising gives 50 minus 40, which is 10. Ten is higher, so exercise early. Today's value is 10 times 0.54, over 1.03, which is 5.24. The European put would be worth 4.95.
+AVA: When does early exercise make sense?
+ANDREW: For deep in-the-money puts. Never for an American call on a non-dividend stock; it's worth the same as the European call. With dividends, a call may be exercised just before the ex-dividend date.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Up probability: one plus r minus D, over U minus D. It's risk-neutral, so discount at the risk-free rate. Payoffs at the end, then roll back. American: exercise or hold, keep the higher.

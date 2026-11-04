@@ -1,19 +1,19 @@
-TITLE: Chapter 6 - Do Dost, Rate Tree aur Pehla Arbitrage (R29)
+TITLE: Put-Call Parity, the Rate Tree and the Hedge Ratio (R29)
 
-PRIYA: Arjun के दो दोस्त. Kabir ने call plus एक bond खरीदा, face value X. Sameer ने share plus put. Same strike, same expiry. Expiry पर दोनों का result same.
-RAHUL: Share X से ऊपर, दोनों के पास S. नीचे, दोनों के पास X. Payoff same, तो आज cost same. Put-call parity: C plus PV of X equals S plus P. Fiduciary call equals protective put.
-PRIYA: Share 62, call strike 60 at 8, rate 4 percent. Put?
-RAHUL: P equals C minus S plus PV of X. 60 divided by 1.04 equals 57.69. 8 minus 62 plus 57.69 equals 3.69.
-RAHUL: Rearrange करो: synthetic call equals share plus put minus bond. Synthetic put equals call minus share plus bond.
+AVA: Episode six. Put-call parity, interest rate options on a tree, and the hedge ratio.
 [PAUSE 1]
-PRIYA: Rohan: "FRA में rates गिरें तो मुझे pay करना पड़ता है. मुझे सिर्फ़ ऊपर से protection चाहिए."
-RAHUL: Interest rate call. Market rate strike से ऊपर, तो payoff. Rates ऊपर, call जीते. Interest rate put उल्टा, जैसे नाना जी की FD income के लिए.
-RAHUL: Tree पर value: probability हमेशा 50 percent, और हर node अपने rate से discount. Strike 5.5 percent, 10 लाख. End payoffs 5.2382, 1.6981, और 0 percent. Upper node: average divided by 1.057883 equals 3.2784. Lower: 0.849 divided by 1.0388 equals 0.8173. आज: average 2.0479 divided by 1.03 equals 1.9882 percent, यानी 19,882 रुपये. असल में payment in arrears होता है, तो एक period और discount करना पड़ता.
+AVA: Put-call parity.
+ANDREW: A fiduciary call is a call plus a zero-coupon bond paying X. A protective put is the stock plus a put. At expiry both are worth S if the stock is above X, and X if it's below. Same payoff, so the same cost today. C plus PV of X equals S plus P.
+AVA: Example.
+ANDREW: Stock 62, call struck at 60 costs 8, rate 4 percent. P equals C minus S plus PV of X. Sixty over 1.04 is 57.69. Eight minus 62 plus 57.69 equals 3.69. Rearranging gives synthetics: a synthetic call is stock plus put minus bond, and a synthetic put is call minus stock plus bond.
 [PAUSE 1]
-PRIYA: फिर Arjun का सबसे exciting दिन. Ma'am: "30 वाले call से एक riskless portfolio बनाओ."
-RAHUL: Hedge ratio h equals, call up minus call down, divided by, S up minus S down. 10 divided by 17.5 equals 0.5714. ये delta है. Call बेचो, 0.5714 shares खरीदो. Up में 22.86 minus 10 equals 12.86. Down में 12.86. दोनों same, riskless. Long h shares plus short call equals risk-free bond.
-PRIYA: तभी screen पर वही call 6.50 पर दिखी. Fair 5.13.
-RAHUL: Overpriced. 100 calls बेचो, 57.14 shares खरीदो, बाकी पैसा borrow. Today mispricing equals 100 multiplied by, 6.50 minus 5.13, equals 137. Year end पर multiplied by 1.07 equals 147, हर हाल में. Underpriced होता, तो call खरीदो, shares short.
+AVA: Interest rate options?
+ANDREW: An interest rate call pays when the market rate is above the strike, so it gains when rates rise and protects a borrower. A put gains when rates fall and protects a lender. On a binomial rate tree, each branch has 50 percent probability, and each node is discounted at its own rate. With a strike of 5.5 percent on 10 lakh, the end payoffs are 5.2382, 1.6981 and zero percent. Rolled back node by node, the call is worth 1.9882 percent, or 19,882 rupees. In practice the payoff comes in arrears, so you'd discount one more period.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: C plus PV X equals S plus P. Rate tree में fifty-fifty, हर node अपना rate. h equals change in option over change in share. Overpriced option बेचो, h shares खरीदो.
+AVA: The hedge ratio.
+ANDREW: It's the number of shares per option that makes a riskless portfolio. h equals the change in the option over the change in the stock. For the 30-rupee call, 10 minus zero over 40 minus 22.5 is 0.5714. That is delta. Long h shares plus a short call gives the same value in both states, so it equals a risk-free bond, and its cost today is that payoff discounted at the risk-free rate.
+AVA: And arbitrage?
+ANDREW: If the call's fair value is 5.13 and the market is 6.50, sell the overpriced call and buy h shares per call, borrowing the rest. On 100 calls, the mispricing is 100 times 1.37, which is 137 today, or 147 at the year end. If the call were cheap, buy it and short h shares.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: C plus PV of X equals S plus P. Rate trees: fifty-fifty, each node at its own rate. Hedge ratio equals change in option over change in stock. Overpriced option: sell it, buy h shares.

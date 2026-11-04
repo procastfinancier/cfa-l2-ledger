@@ -1,23 +1,24 @@
-TITLE: Chapter 7 - Black-Scholes ki Recipe aur Swaption (R29)
+TITLE: Black-Scholes-Merton, the Black Model and Swaptions (R29)
 
-PRIYA: Meera ma'am: "Arjun, BSM माँ की दाल की recipe है. एक base, कई variations."
-RAHUL: BSM equals binomial, continuous time में. Assumptions: returns normal, कोई jump नहीं, rate और volatility constant और known, European, कोई friction नहीं, continuous trading, short selling allowed. Yield allowed है अगर constant हो. Trap: "underlying कोई cash flow नहीं देता" assumption नहीं है.
+AVA: Episode seven. Black-Scholes-Merton and its variations.
 [PAUSE 1]
-PRIYA: कौन सा input किसे बढ़ाता है?
-RAHUL: Share price: call ऊपर, put नीचे. Strike: call नीचे, put ऊपर. Rate: call ऊपर, put नीचे. Volatility और time: दोनों ऊपर. Dividend: call नीचे, put ऊपर. Election से पहले India VIX बढ़ा, तो calls और puts दोनों महँगे.
+AVA: The assumptions.
+ANDREW: BSM is the binomial idea in continuous time. Returns are lognormal, so prices move smoothly with no jumps. The risk-free rate and volatility are known and constant. Options are European. There are no frictions, trading is continuous, and short selling is allowed. A constant yield on the underlying is allowed, so "the underlying has no cash flows" is not an assumption. That's a classic trap.
 [PAUSE 1]
-PRIYA: Recipe.
-RAHUL: Call equals S multiplied by N of d1, minus PV of X multiplied by N of d2. Put equals PV of X multiplied by N of minus d2, minus S multiplied by N of minus d1. मतलब: call equals N of d1 shares खरीदो, bond से उधार लो, leveraged stock. Put equals bond plus short shares.
-RAHUL: N of d1 equals call delta. N of d2 equals call के in the money होने की risk-neutral probability. N of d1 plus N of minus d1 equals 1.
-PRIYA: Example: share 50, strike 45, T 0.5, rate 3 percent, N of d1 0.779, N of d2 0.723.
-RAHUL: PV of X equals 45 multiplied by e to the power minus 0.015 equals 44.33. Call equals 50 multiplied by 0.779 minus 44.33 multiplied by 0.723. 38.95 minus 32.05 equals 6.90. Market 7, तो call बेचो, profit 0.10.
+AVA: What raises an option's value?
+ANDREW: A higher stock price raises calls and lowers puts. A higher strike does the opposite. A higher rate raises calls and lowers puts. Higher volatility and more time raise both. Dividends lower calls and raise puts.
 [PAUSE 1]
-PRIYA: Variations.
-RAHUL: Dividend: S की जगह S multiplied by e to the power minus delta T. Currency: S multiplied by e to the power minus foreign rate T, क्योंकि foreign interest dividend जैसा है. Black model, futures पर: S की जगह PV of F, और d1 में r नहीं, क्योंकि F में carry पहले से है.
-RAHUL: Interest rate options: F की जगह FRA rate, multiplied by accrual period और notional. Discount payoff date से, यानी FRA period के end से. Day count actual by 365.
+AVA: The formula.
+ANDREW: Call equals S times N of d1, minus the PV of X times N of d2. Put equals the PV of X times N of minus d2, minus S times N of minus d1. So a call is a leveraged stock position: buy N of d1 shares and borrow. A put is a long bond plus a short stock position. N of d1 is the call's delta. N of d2 is the risk-neutral probability the call ends in the money. N of d1 plus N of minus d1 equals one.
+AVA: Example.
+ANDREW: Stock 50, strike 45, half a year, rate 3 percent, N of d1 0.779, N of d2 0.723. The PV of X is 45 times e to the minus 0.015, which is 44.33. The call is 50 times 0.779 minus 44.33 times 0.723: 38.95 minus 32.05 is 6.90. If the market price is 7, sell the call and buy the replicating portfolio for a 10-paise profit.
 [PAUSE 1]
-PRIYA: एक cement company: "एक साल बाद loan लेंगे, fixed में बदलेंगे. Rates बढ़ने का डर, लेकिन आज swap नहीं."
-RAHUL: Payer swaption खरीदो: fixed payer बनने का अधिकार, swap rate बढ़े तो exercise. Receiver swaption: fixed receiver बनने का, rate गिरे तो. Formula में FRA की जगह SFR, और discount की जगह PVA, यानी swap के discount factors का sum.
+AVA: Variations.
+ANDREW: Same recipe, just change S. With dividends, use S times e to the minus delta T. For currencies, use S times e to the minus the foreign rate times T, because the foreign rate acts like a dividend yield. The Black model, for options on futures: replace S with the PV of F. There's no r in d1, because F already includes carry.
+ANDREW: Interest rate options: use the FRA rate in place of F, and multiply by the accrual period and the notional. Discount from the payment date, at the end of the FRA period, and use actual over 365.
 [PAUSE 1]
-PRIYA: मंत्र.
-RAHUL: Call equals S N d1 minus PV X N d2. N d1 equals delta, N d2 equals probability. Dividend, currency, futures, rates, swaps: वही recipe, S को बदलो. Payer swaption, rates ऊपर.
+AVA: Swaptions?
+ANDREW: A payer swaption is the right to pay fixed, so it's exercised if swap rates rise. A receiver swaption is the right to receive fixed, exercised if rates fall. The formula replaces the FRA rate with the swap rate, and the discount factor with the PVA, the sum of the swap's discount factors.
+[PAUSE 1]
+AVA: Memory hook.
+ANDREW: Call equals S N d1 minus PV of X N d2. N d1 is delta; N d2 is probability. Dividends, currency, futures, rates, swaps: same recipe, change the S. Payer swaption wins when rates rise.
