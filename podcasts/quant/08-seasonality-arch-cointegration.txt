@@ -1,35 +1,127 @@
-TITLE: Seasonality, ARCH and Cointegration (R2)
+TITLE: Seasonality, ARCH and Cointegration - A Step-by-Step Lesson (R2)
 
-AVA: Episode eight: seasonal patterns, changing variance, and regressing one time series on another.
+AVA: Episode eight. This one is a proper lesson, not a quick recap. Andrew is going to teach it slowly, step by step, and I'll ask the questions you'd probably ask.
+ANDREW: That's right. We'll cover three topics. First, seasonality: what it is, how to find it, how to fix it, and how to forecast with the fixed model. Second, ARCH. Third, what to check before you regress one time series on another, which brings in cointegration. Let's start.
 [PAUSE 1]
-AVA: How does seasonality show up?
-ANDREW: As a significant residual autocorrelation at the seasonal lag. That's lag 4 for quarterly data, and lag 12 for monthly data. Think of car sales in India peaking every festive quarter.
+AVA: Part one, seasonality. What does the word actually mean?
+ANDREW: Seasonality means a pattern that repeats at the same time every year. Think about car sales in India. Every year, sales jump in the festive quarter, around Navratri and Diwali. It happens every year, in the same quarter. That repeating yearly pattern is seasonality.
+AVA: Why is that a problem for a time-series model?
+ANDREW: Because of how our model works. Take a simple AR(1) model. It says this quarter's value depends on last quarter's value, and nothing else. But with seasonal data, this festive quarter is much more like last year's festive quarter than it is like the quarter just before it. The AR(1) model ignores that. It's missing a piece of information, so it's misspecified.
+[PAUSE 1]
+AVA: So which past values should a seasonal model look at?
+ANDREW: Two of them. One: last quarter. That captures the recent trend, whether the business is generally growing or slowing. Two: the same quarter last year. That captures the seasonal effect. With quarterly data, the same quarter last year is four quarters back, so we call it the fourth lag, or lag 4. With monthly data, the same month last year is twelve months back, so it's lag 12.
+AVA: So quarterly means lag 4, and monthly means lag 12.
+ANDREW: Exactly. Remember that, because the exam always uses one or the other.
+[PAUSE 1]
+AVA: How do we actually detect seasonality?
+ANDREW: We look at the residuals. Let me remind you what a residual is. It's the error: the actual value minus the value the model predicted. If the model is good, the errors are just random noise. They don't follow any pattern.
+AVA: And if the model is missing the seasonal pattern?
+ANDREW: Then the pattern leaks into the errors. Every festive quarter, the model under-predicts, so there's a big positive error. And that happens again four quarters later, and four quarters after that. So this quarter's error is correlated with the error from four quarters ago. That correlation between an error and an earlier error is called a residual autocorrelation. "Auto" means the series is correlated with itself.
+AVA: So the clue is a large residual autocorrelation at lag 4.
+ANDREW: Yes. And we use a t-test to check whether it's large enough to matter.
+[PAUSE 1]
+AVA: Walk me through the t-test.
+ANDREW: There are three pieces. First, the hypothesis. The null hypothesis says the residual autocorrelation is zero, meaning there's no pattern. Second, the standard error. For a residual autocorrelation, the standard error is simply one divided by the square root of T, where T is the number of observations used in the regression. Third, the t-statistic. t equals the autocorrelation minus zero, divided by the standard error. If t is bigger than the critical value, ignoring the sign, we reject the null.
+AVA: And the degrees of freedom?
+ANDREW: T minus 2.
+[PAUSE 1]
+AVA: Let's do the example.
+ANDREW: A resort hotel chain. We have 40 quarters of occupancy data, which is ten years. We fit an AR(1) model in logs: the log of occupancy this quarter equals b zero plus b one times the log of occupancy last quarter.
+AVA: Why logs?
+ANDREW: Because occupancy tends to grow by a percentage, not a fixed amount, and taking logs turns percentage growth into a straight line. So the whole model is written in logs. Just remember that when we forecast later, we'll have to convert back from logs at the end.
+AVA: Okay. What's T?
+ANDREW: This is the first trap. We have 40 quarters, but T is 39, not 40. The very first quarter has no previous quarter to use as its lag, so we lose one observation. 40 minus 1 is 39.
+AVA: Then the standard error?
+ANDREW: One divided by the square root of 39. The square root of 39 is about 6.245. One divided by 6.245 is 0.1601. So the standard error is 0.1601.
+AVA: And the critical value?
+ANDREW: Degrees of freedom are T minus 2, which is 39 minus 2, or 37. A two-tailed test at 5 percent with 37 degrees of freedom gives a critical t of 2.026. So any t above 2.026, or below minus 2.026, is significant.
+[PAUSE 1]
+AVA: Now the residual autocorrelations.
+ANDREW: Lag 1 is minus 0.0615. Divide by 0.1601 and t is minus 0.38. That's well inside plus or minus 2.026, so it's not significant. Lags 2 and 3 are similar: minus 0.0121 and minus 0.0212, giving t-values of minus 0.08 and minus 0.13. Neither is significant.
+AVA: And lag 4?
+ANDREW: Lag 4 is 0.8719. That's huge for an autocorrelation. t equals 0.8719 divided by 0.1601, which is 5.45. 5.45 is far above 2.026, so we reject the null. The lag-4 residual autocorrelation is significant.
+AVA: What does that tell us, in plain words?
+ANDREW: The errors from the same quarter in different years are strongly linked. The model is missing the seasonal pattern. So the AR(1) model is misspecified, and we shouldn't use it for forecasting yet.
+[PAUSE 1]
+AVA: How do we fix it?
+ANDREW: We give the model the information it was missing. We add the seasonal lag as an extra independent variable. The new model is: the log of x at t equals b zero, plus b one times the log of x at t minus 1, plus b two times the log of x at t minus 4. In words: this quarter depends on last quarter and on the same quarter last year.
+AVA: Isn't that an AR(4) model, because it goes back four quarters?
+ANDREW: No, and this is a common exam trap. An AR(4) model would include lags 1, 2, 3 and 4, all four of them. We only added lag 4. So it's called an AR(1) model with a seasonal lag.
+AVA: And the wrong fixes?
+ANDREW: Two of them come up. First-differencing fixes a unit root, which is a different problem. Dropping variables is the fix for multicollinearity. For seasonality, the fix is to add the seasonal lag.
+[PAUSE 1]
+AVA: How do we know the fix worked?
+ANDREW: We test the residuals again, exactly the same way. But first, T changes. Now the model uses a lag 4, so the first four quarters have nothing four quarters back. We lose four observations. 40 minus 4 is 36. The standard error is one over the square root of 36, which is one over 6, or 0.1667.
+AVA: And the lag-4 residual autocorrelation now?
+ANDREW: Minus 0.0435. Divide by 0.1667 and t is minus 0.26. That's tiny, so it's not significant. Lags 1, 2 and 3 are all small as well. No pattern is left in the errors. Also, R-squared rose from 79 percent to 95 percent. So the model is now correctly specified.
+[PAUSE 1]
+AVA: Now let's forecast with it. Slowly, please.
+ANDREW: Sure. The estimated model is: the log of x at t equals 0.0085, plus 0.2598 times the log of last quarter, plus 0.7921 times the log of the same quarter last year.
+AVA: What data do we have?
+ANDREW: Occupancy over the past year. Quarter 1 of 2015 was 2.5 lakh. Quarter 2 was 7.5 lakh. Quarter 3 was 4.5 lakh. Quarter 4 was 6 lakh. We want to forecast quarter 1 of 2016.
+AVA: Which numbers do we use?
+ANDREW: This is the step where people go wrong, so pick them carefully. "Last quarter", or t minus 1, is the quarter just before Q1 2016. That's Q4 2015, which is 6 lakh. "The same quarter last year", or t minus 4, is Q1 2015, which is 2.5 lakh. We don't use Q2 or Q3 at all.
+AVA: Step one?
+ANDREW: Take natural logs, because the model is in logs. The log of 6 lakh is 13.3047. The log of 2.5 lakh is 12.4292. On the calculator, type the number and press LN.
+AVA: Step two?
+ANDREW: Multiply each log by its coefficient. 0.2598 times 13.3047 is 3.4566. 0.7921 times 12.4292 is 9.8452.
+AVA: Step three?
+ANDREW: Add them up with the intercept. 0.0085, plus 3.4566, plus 9.8452, equals 13.3103. That's the forecast of the log of occupancy.
+AVA: Step four?
+ANDREW: Convert back from logs. Occupancy equals e to the power 13.3103. On the calculator, that's 2nd, then LN. The answer is about 6 lakh 3 thousand.
+AVA: Does that make sense?
+ANDREW: Check it against the inputs. The forecast is close to last quarter's 6 lakh, and much higher than the 2.5 lakh from Q1 a year ago. That fits, because the business has grown since then. Always do a quick check like this. If you forget the last step and say 13.31, that's obviously not an occupancy number.
+[PAUSE 1]
+AVA: Part two. ARCH. What does it stand for?
+ANDREW: Autoregressive conditional heteroskedasticity. Let's take the words one at a time. Heteroskedasticity means the variance of the errors is not constant: some periods are calm and some are wild. Conditional means the variance depends on something. Autoregressive means it depends on its own past. Put together, ARCH means the size of this period's error depends on the size of last period's error.
+AVA: Give me a feel for it.
+ANDREW: Think of market volatility. After a very volatile day on the Nifty, the next day tends to be volatile too. Calm periods follow calm periods, and wild periods follow wild periods. Volatility comes in clusters. That clustering is ARCH.
+AVA: Why should we care?
+ANDREW: Because if a model has ARCH errors, the standard errors of its coefficients are wrong. They're biased. And if the standard errors are wrong, every t-test on the coefficients is unreliable, so you can't trust your conclusions about which coefficients are significant.
+[PAUSE 1]
+AVA: How do we test for ARCH?
+ANDREW: Three steps. One: estimate your time-series model and get the residuals. Two: square each residual. A squared error is a measure of how big the error was, ignoring the sign, so it stands in for the variance. Three: regress this period's squared residual on last period's squared residual. That gives the ARCH(1) regression: the squared error at t equals a zero, plus a one times the squared error at t minus 1, plus a new error term.
+AVA: And how do you read it?
+ANDREW: Look at the slope, a one. If a one is not significantly different from zero, the variance is constant, so there's no ARCH. If a one is significant, the series is ARCH(1). A positive a one means a big error today tends to be followed by a big error tomorrow.
+[PAUSE 1]
 AVA: Example.
-ANDREW: Hotel occupancy over 40 quarters, modelled as AR(1) in logs. One observation is lost to the lag, so T is 39. The standard error is one over the square root of 39, which is 0.160. The degrees of freedom are 37, and the critical t is 2.026. Lags one to three are small. Lag 4 has an autocorrelation of 0.8719, so t equals 0.8719 over 0.160, which is 5.45. That's far above 2.026. There's seasonality, so the model is misspecified.
-AVA: The fix?
-ANDREW: Add the seasonal lag as an extra variable. Log x-t equals b zero, plus b one times log x of t minus 1, plus b two times log x of t minus 4. Note that this is still an AR(1) with a seasonal lag. It is not an AR(4).
+ANDREW: The ARCH regression gives a constant, a zero, of 5.9068, and a lag coefficient, a one, of 0.4515. The lag coefficient has a p-value below 0.001, so it's significant. That means the series is ARCH(1).
+AVA: Can we use that?
+ANDREW: Yes, and that's the useful part. ARCH lets you forecast next period's variance. The formula is: next period's variance equals a zero plus a one times this period's squared error. Suppose this period's squared error is 0.5625. Then 0.4515 times 0.5625 is 0.2540. Add 5.9068 and you get 6.1608. That's the predicted variance for next period. If you want the standard deviation, take the square root: the square root of 6.1608 is about 2.48.
+AVA: And the fix for ARCH?
+ANDREW: Use generalized least squares, GLS. It's a regression method that corrects for the changing variance, so the standard errors become reliable again. You don't need the mechanics, just the name.
 [PAUSE 1]
-AVA: Forecast with it.
-ANDREW: The coefficients are 0.0085, 0.2598 on lag 1, and 0.7921 on lag 4. Last quarter's occupancy was 6 lakh, and the same quarter last year was 2.5 lakh. The log of 6 lakh is 13.3047, and the log of 2.5 lakh is 12.4292. So, 0.2598 times 13.3047 is 3.4566. 0.7921 times 12.4292 is 9.8452. Add 0.0085 and the total is 13.3103. e to the 13.3103 is about 6 lakh 3 thousand.
-AVA: Did the fix work?
-ANDREW: Yes. After adding the seasonal lag, the lag-4 residual autocorrelation is insignificant, and R-squared rises from 79 to 95 percent.
-AVA: And if the lag-12 p-value is 0.56 in monthly data?
-ANDREW: Then it's not significant, so there's no seasonality.
+AVA: Part three. Regressing one time series on another.
+ANDREW: Say you regress a stock's returns on the Nifty's returns to estimate its beta. That's Y on X, but both are time series. The danger is that one or both of them might be non-stationary.
+AVA: Remind me what non-stationary means.
+ANDREW: A stationary series has a constant mean and a constant variance. It wobbles around a stable level and keeps coming back to it. A non-stationary series, for example one with a unit root, wanders off and doesn't come back. Like a random walk, it has no fixed level.
+AVA: Why does that break a regression?
+ANDREW: Because two wandering series can look related purely by chance. If both happen to drift upward over the same years, the regression will show a strong relationship and a high R-squared, even if they have nothing to do with each other. That's called a spurious regression: it looks significant but it means nothing.
 [PAUSE 1]
-AVA: What is ARCH?
-ANDREW: Autoregressive conditional heteroskedasticity. This period's error variance depends on last period's. To test for it, regress the squared residuals on their own first lag. If the slope, a one, is significant, the series is ARCH(1).
-AVA: Why does it matter?
-ANDREW: The standard errors of the AR coefficients become biased, so the hypothesis tests are invalid. Correct for it with generalized least squares, GLS. The upside is that you can forecast the variance.
-AVA: Example.
-ANDREW: The squared residual equals 5.9068 plus 0.4515 times last period's squared residual. The lag is significant, so it's ARCH. If this period's squared error is 0.5625, the next period's variance is 5.9068 plus 0.4515 times 0.5625. That's 5.9068 plus 0.254, which is 6.1608.
+AVA: So what do we check?
+ANDREW: Run the Dickey-Fuller test on each series separately to see whether it has a unit root. That gives five possible situations. First: both series are stationary. Then the regression is fine. Second and third: one is stationary and the other has a unit root, in either order. Then the regression is not valid. You can't explain a series that wanders with one that doesn't, or the other way round. Fourth: both have unit roots, but they aren't linked. That's still not valid, because it's the spurious case. Fifth: both have unit roots, but they're cointegrated. Then the regression is valid.
+AVA: So the regression is valid in cases one and five only.
+ANDREW: Exactly. Both stationary, or both non-stationary and cointegrated.
 [PAUSE 1]
-AVA: Now regressing one time series on another.
-ANDREW: For example, a stock's returns on the market's returns. Test each series for a unit root with Dickey-Fuller. If both are stationary, the regression is fine. If only one has a unit root, it's not fine: the result is spurious. If both have unit roots, it depends on whether they are cointegrated.
-AVA: What is cointegration?
-ANDREW: Two series that are economically linked and share a long-run trend, so the gap between them is stable. To test it, regress one on the other and run Dickey-Fuller on the residuals, using Engle-Granger critical values. That's the DF-EG test. If you reject the unit root in the residuals, they are cointegrated, and the regression is valid.
+AVA: What does cointegrated mean?
+ANDREW: Two series are cointegrated when each one wanders on its own, but they wander together. They're economically linked, so the gap between them stays stable over the long run. Think of the Nifty 50 and the Sensex. Both drift up and down with no fixed level, so each is non-stationary. But they hold many of the same big companies, so they move together, and the gap between them doesn't run away. They're tied together, so a regression of one on the other is meaningful.
+AVA: How do we test for it?
+ANDREW: Three steps. One: regress one series on the other. Two: take the residuals from that regression. The residuals are the gap between the two series. Three: test the residuals for a unit root using a Dickey-Fuller test, but with special critical values from Engle and Granger. That's why it's called the DF-EG test, for Dickey-Fuller, Engle-Granger.
+AVA: And how do you read the result?
+ANDREW: The null hypothesis is that the residuals have a unit root, which means the gap wanders and the series are not cointegrated. If you reject the null, the residuals are stationary. The gap stays stable, so the series are cointegrated, and the regression is valid. If you fail to reject, they're not cointegrated, and the regression is spurious.
+AVA: That's the reverse of what you might expect.
+ANDREW: It is, so think of it this way: a stable gap means a stable link. Rejecting the unit root in the gap is good news.
 [PAUSE 1]
-AVA: Schweser's model-building steps, quickly.
-ANDREW: Plot the series first. A structural break means two models. If there's no break, try a trend model and check Durbin-Watson. If there's serial correlation, move to AR. Make the series stationary first: difference it, or difference the log. Add lags, including the seasonal one, until the residuals are clean. Test for ARCH. Then choose by out-of-sample RMSE.
+AVA: Let's review. Three quick exam questions.
+AVA: One. Monthly data, and the lag-12 residual autocorrelation has a p-value of 0.56. Is there seasonality?
+[PAUSE 4]
+ANDREW: No. 0.56 is above 0.05, so the lag-12 autocorrelation is not significantly different from zero. There's no seasonality.
+AVA: Two. How do you correct seasonality in an AR model?
+[PAUSE 4]
+ANDREW: Add a lag that matches the season: lag 4 for quarterly data, lag 12 for monthly. Don't first-difference it, and don't drop variables.
+AVA: Three. One series has a unit root and the other doesn't. Can you regress them?
+[PAUSE 4]
+ANDREW: No. The result would be spurious.
 [PAUSE 1]
 AVA: Memory hook.
-ANDREW: A spike at lag 4 or 12 means seasonality, so add that lag. It's still AR(1). ARCH means you regress squared errors on lagged squared errors, and fix it with GLS. For two series, both stationary is fine, one unit root is spurious, and two unit roots need cointegration. Test that with DF-EG on the residuals.
+ANDREW: Seasonality means the same quarter last year matters. You find it with a spike in the residual autocorrelation at lag 4 or 12, where t equals the autocorrelation over one over root T. Watch T: you lose one observation with lag 1 and four with lag 4. Fix it by adding the seasonal lag, and it's still AR(1), not AR(4). To forecast, pick t minus 1 and t minus 4 carefully, take logs, multiply, add, then raise e to that power. ARCH means volatility clusters: regress squared errors on last period's squared errors, forecast variance as a zero plus a one times the squared error, and fix it with GLS. For two series: both stationary is fine, one wandering is spurious, and both wandering is fine only if they're cointegrated. That's a stable gap, tested with DF-EG on the residuals.
