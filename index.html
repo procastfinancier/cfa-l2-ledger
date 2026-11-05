@@ -1428,6 +1428,7 @@ const SUBJECTS = [
   { id: 'deriv', name: 'Derivatives', topics: [
     { name: 'Reading 28: Pricing and Valuation of Forward Commitments', desc: 'R28 · Sessions 28.S1–28.S11, following your written notes, with Schweser additions — forward pricing and arbitrage, forward value, FRAs, interest rate, currency and equity swaps, bond futures' },
     { name: 'Reading 29: Valuation of Contingent Claims', desc: 'R29 · Sessions 29.S1–29.S13, following your written notes, with Schweser additions — binomial trees, put–call parity, hedge ratio, BSM and Black models, interest rate options and swaptions, equivalencies, Greeks and dynamic hedging' },
+    { name: '🔗 Derivatives Connections: How R28–R29 Fit Together', desc: 'DVC · Cross-reading map of derivatives — no arbitrage and carry, the forward family, one valuation rule, discount factors to FRAs and swaps, bond futures, the binomial engine, parity, BSM and its variations, equivalencies, Greeks and hedging, a master what-if grid, five shock chains, memory hooks and traps' },
   ]},
   { id: 'alt', name: 'Alt investments', topics: [
     { name: "Reading 30: Introduction to Commodities and Commodity Derivatives", desc: "R30 · Sessions 30.S1–30.S3, prepared from Schweser (no written notes) — commodity sectors and their life cycles, valuation vs. stocks and bonds, market participants, basis and calendar spread, contango and backwardation, Insurance Theory, Hedging Pressure Hypothesis, Theory of Storage and convenience yield, collateral, price and roll return, total return, excess return, basis and volatility swaps, commodity index construction" },
@@ -14828,6 +14829,7 @@ const CONTENT = {
       {
         module: '28.S1', title: 'Pricing a Forward Contract · Cash-and-Carry Arbitrage',
         blocks: [
+          { k: 'see', id: 'dvc-link', label: '🔗 How this reading connects to the rest of derivatives', items: [['deriv.2', 'DVC.1', 'Derivatives Connections'], ['deriv.2', 'DVC.2', 'The forward family']], new: '2026-11-05' },
           { k: 'points', id: 's1-who', items: [
             '*Long* benefits when the price is higher than the exercise price.',
             '*Short* benefits when the spot price is lower than the exercise price.',
@@ -15449,6 +15451,7 @@ const CONTENT = {
       {
         module: '29.S1', title: 'Call & Put Options · Payoff Summary',
         blocks: [
+          { k: 'see', id: 'dvc-link', label: '🔗 How this reading connects to the rest of derivatives', items: [['deriv.2', 'DVC.1', 'Derivatives Connections'], ['deriv.2', 'DVC.5', 'Tree → BSM']], new: '2026-11-05' },
           { k: 'cols', id: 's1-cp', panes: [
             { title: 'Call option', tone: 'teal', items: [
               '*Right to buy.*',
@@ -16445,6 +16448,1592 @@ const CONTENT = {
             result: 'A. Past returns give *historical* volatility' },
         ],
       },
+    ],
+  },
+  'deriv.2': {
+    flow: [
+      {
+        "module": "DVC.1",
+        "title": "The One-Picture Story · Two Families · One Rule",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "One sentence for all of derivatives",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d1-one",
+            "title": "The master sentence",
+            "lines": [
+              "*Price* = cost of the *replicating portfolio*. Same payoff → same price (*no arbitrage*).",
+              "*Forward commitments* (R28): carry spot forward at r → F = (S − PV benefits + PV costs) × (1 + r)ᵀ",
+              "*Contingent claims* (R29): discount the *risk-neutral expected payoff* at r → V = PV[π × payoff]"
+            ],
+            "note": "Every formula in R28 and R29 is one of these two lines, with a different underlying plugged in.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "timeline",
+            "id": "d1-layers",
+            "steps": [
+              {
+                "name": "Forwards",
+                "text": "Spot + carry. F₀ = S(1 + r)ᵀ. The *root* of R28."
+              },
+              {
+                "name": "FRAs",
+                "text": "A forward on an *interest rate*. Built from two discount factors Z."
+              },
+              {
+                "name": "Swaps",
+                "text": "A *bundle of FRAs* at one fixed rate: SFR = (1 − Z_N) ÷ ΣZ."
+              },
+              {
+                "name": "Binomial",
+                "text": "Options by replication: hold *h* shares, borrow. π = (1 + r − D) ÷ (U − D)."
+              },
+              {
+                "name": "BSM / Black",
+                "text": "The tree with infinitely many steps. *N(d₁) = h = delta*."
+              },
+              {
+                "name": "Equivalencies",
+                "text": "Options stack into FRAs, swaps and bonds: cap − floor = payer swap."
+              },
+              {
+                "name": "Greeks",
+                "text": "Sensitivities of the BSM price; delta hedging closes the loop back to replication."
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d1-engines",
+            "items": [
+              "*1. The underlying price S* moves forwards one-for-one (delta = 1) and options by delta (R28 → R29).",
+              "*2. Interest rates r* set the carry (forwards), the discount factors (FRAs, swaps) and rho (options).",
+              "*3. Volatility σ* matters *only to options*. Forwards, futures, FRAs and swaps ignore it.",
+              "Every “what if” question is one of these three drivers moving, plus time passing. Find the driver, then follow the chain."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Commitment vs. claim, side by side",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d1-vs",
+            "columns": [
+              "Forward commitment (R28)",
+              "Contingent claim (R29)"
+            ],
+            "rows": [
+              {
+                "label": "Obligation?",
+                "values": [
+                  "Both sides *must* perform",
+                  "Holder has the *right*, writer the obligation"
+                ]
+              },
+              {
+                "label": "Cost at inception",
+                "values": [
+                  "*Zero*: price is set so value = 0",
+                  "A *premium* paid up front"
+                ]
+              },
+              {
+                "label": "Payoff shape",
+                "values": [
+                  "Linear (straight line, delta = 1)",
+                  "Kinked (hockey stick, delta 0 to 1)"
+                ]
+              },
+              {
+                "label": "Pricing tool",
+                "values": [
+                  "Cost of carry, discount factors Z",
+                  "Binomial tree, BSM, Black"
+                ]
+              },
+              {
+                "label": "Does σ matter?",
+                "values": [
+                  "No",
+                  "*Yes*: more σ → more value for both calls and puts"
+                ]
+              },
+              {
+                "label": "Value later",
+                "values": [
+                  "PV of (new forward price − old)",
+                  "Re-run the model with today’s inputs"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.0",
+                "28.S1",
+                "R28 forward pricing"
+              ],
+              [
+                "deriv.0",
+                "28.S7",
+                "R28 swap rate"
+              ],
+              [
+                "deriv.1",
+                "29.S2",
+                "R29 binomial"
+              ],
+              [
+                "deriv.1",
+                "29.S7",
+                "R29 BSM"
+              ],
+              [
+                "deriv.1",
+                "29.S11",
+                "R29 Greeks"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.2",
+        "title": "The Forward Family · One Formula, Five Underlyings · One Valuation Rule",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Price: start from spot, add carry, remove benefits",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d2-family",
+            "columns": [
+              "Benefit removed",
+              "Formula",
+              "Compounding"
+            ],
+            "rows": [
+              {
+                "label": "Plain asset",
+                "values": [
+                  "—",
+                  "F = S(1 + r)ᵀ",
+                  "Discrete, 365"
+                ]
+              },
+              {
+                "label": "Dividend stock",
+                "values": [
+                  "PV of dividends",
+                  "F = (S − PV D)(1 + r)ᵀ",
+                  "Discrete, 365"
+                ]
+              },
+              {
+                "label": "Equity index",
+                "values": [
+                  "Dividend yield δ",
+                  "F = S·e^((r − δ)T)",
+                  "*Continuous*"
+                ]
+              },
+              {
+                "label": "Coupon bond",
+                "values": [
+                  "PV of coupons",
+                  "F = (S − PV C)(1 + r)ᵀ",
+                  "Discrete, 365"
+                ]
+              },
+              {
+                "label": "Bond future",
+                "values": [
+                  "FV of coupons, AI at expiry; ÷ CF",
+                  "QFP = [full × (1 + r)ᵀ − FVC − AI_T] ÷ CF",
+                  "Discrete, 365"
+                ]
+              },
+              {
+                "label": "Currency",
+                "values": [
+                  "Base-currency rate r_b",
+                  "F = S × (1 + r_p)ᵀ ÷ (1 + r_b)ᵀ",
+                  "Discrete (or e^((r_p − r_b)T))"
+                ]
+              },
+              {
+                "label": "Interest rate (FRA)",
+                "values": [
+                  "—",
+                  "FRA = [(1 + R_L t_L/360) ÷ (1 + R_S t_S/360) − 1] × 360/t",
+                  "*Simple*, 360"
+                ]
+              }
+            ],
+            "caption": "Benefits (dividends, coupons, the foreign rate) *lower* F; costs (storage) *raise* it. Compounding: rates simple-360, stocks and bonds discrete-365, indexes continuous.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “The dividend yield, the coupon and the foreign rate are the same thing.”",
+            "a": "Each is income the *spot holder* earns and the forward holder misses, so it comes off the carry. The same swap appears again in R29: BSM with S e^(−δT) for dividends and S e^(−r_f T) for currencies.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Value: one rule for every forward commitment",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d2-value",
+            "title": "The universal valuation rule",
+            "lines": [
+              "*Value to the long* = PV of (forward price today − forward price locked in)",
+              "Forward: V_t = (F_t − F₀) ÷ (1 + r)^(T−t) = [S_t − PV(ben) + PV(costs)] − F₀ ÷ (1 + r)^(T−t)",
+              "FRA: V = (FRA_new − FRA_old) × t/360 × NP ÷ (1 + r × days/360)",
+              "Swap: V = (SFR_new − SFR_old) × t/360 × NP × ΣZ",
+              "At expiry: V_T = S_T − F₀ (no discounting left)"
+            ],
+            "note": "It is always *new − old*, discounted from the date the cash would actually change hands.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Worked check: two methods, one answer",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d2-check",
+            "items": [
+              "3-month forward on a stock: S₀ = 500, r = 6%, no dividends → F₀ = 500 × 1.06^0.25 = 500 × 1.014674 = *507.34*.",
+              "One month later S = 510, 2 months left. Discount factor: 1.06^(2/12) = 1.009759.",
+              "*Method 1*: V = S_t − F₀ ÷ 1.009759 = 510 − 502.43 = *7.57*.",
+              "*Method 2*: F_t = 510 × 1.009759 = 514.98 → V = (514.98 − 507.34) ÷ 1.009759 = 7.64 ÷ 1.009759 = *7.57*.",
+              "Both are the same formula: method 2 just carries S forward and then discounts it back."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Arbitrage: which way to trade",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d2-arb",
+            "columns": [
+              "Trade",
+              "Name"
+            ],
+            "rows": [
+              {
+                "label": "F (market) > fair F",
+                "values": [
+                  "Borrow, *buy spot*, *sell the forward*",
+                  "Cash-and-carry"
+                ]
+              },
+              {
+                "label": "F (market) < fair F",
+                "values": [
+                  "*Short spot*, invest, *buy the forward*",
+                  "Reverse cash-and-carry"
+                ]
+              },
+              {
+                "label": "Bond futures QFP > fair",
+                "values": [
+                  "Buy the bond, sell futures; profit = (QFP_mkt − QFP_fair) × CF",
+                  "Cash-and-carry"
+                ]
+              }
+            ],
+            "caption": "Hook: *sell what is rich, buy what is cheap*, then let the two converge at expiry.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.0",
+                "28.S1",
+                "Forward pricing"
+              ],
+              [
+                "deriv.0",
+                "28.S3",
+                "Forward value"
+              ],
+              [
+                "deriv.0",
+                "28.S4",
+                "Index & bond"
+              ],
+              [
+                "deriv.0",
+                "28.S11",
+                "Bond futures"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.3",
+        "title": "Rates: Z Is the Atom · FRA → Swap → Swap Value",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Everything in rates is built from discount factors",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d3-z",
+            "title": "The discount factor Z",
+            "lines": [
+              "*Z_i = 1 ÷ (1 + r_i × days_i/360)*  (MRR is an add-on rate on a 360-day basis)",
+              "FRA rate (period i−1 → i) = (Z_(i−1) ÷ Z_i − 1) × 360/days in the period",
+              "Swap periodic rate = (1 − Z_N) ÷ ΣZ  →  SFR = periodic rate × 360/days in the period",
+              "Swap value = (SFR_new − SFR_old) × days/360 × NP × ΣZ (remaining Z’s)"
+            ],
+            "note": "One set of Z’s prices the FRAs, the swap rate and the swap value. Learn Z and the rest follows.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Worked chain: one rate curve, three answers",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d3-chain",
+            "columns": [
+              "Days",
+              "Rate",
+              "Z = 1 ÷ (1 + r × d/360)",
+              "FRA rate for the quarter"
+            ],
+            "rows": [
+              {
+                "label": "Q1",
+                "values": [
+                  "90",
+                  "3%",
+                  "1 ÷ 1.0075 = 0.992556",
+                  "3.000% (spot)"
+                ]
+              },
+              {
+                "label": "Q2",
+                "values": [
+                  "180",
+                  "4%",
+                  "1 ÷ 1.0200 = 0.980392",
+                  "(0.992556 ÷ 0.980392 − 1) × 4 = 4.963%"
+                ]
+              },
+              {
+                "label": "Q3",
+                "values": [
+                  "270",
+                  "5%",
+                  "1 ÷ 1.0375 = 0.963855",
+                  "(0.980392 ÷ 0.963855 − 1) × 4 = 6.863%"
+                ]
+              },
+              {
+                "label": "Q4",
+                "values": [
+                  "360",
+                  "6%",
+                  "1 ÷ 1.0600 = 0.943396",
+                  "(0.963855 ÷ 0.943396 − 1) × 4 = 8.675%"
+                ]
+              },
+              {
+                "label": "Σ",
+                "values": [
+                  "",
+                  "",
+                  "*ΣZ = 3.880199*",
+                  ""
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d3-swap",
+            "items": [
+              "Swap periodic rate = (1 − 0.943396) ÷ 3.880199 = 0.056604 ÷ 3.880199 = 0.014588.",
+              "SFR = 0.014588 × 360/90 = 0.014588 × 4 = *5.835%*.",
+              "*Connection*: the SFR is the Z-weighted average of the FRA rates: (0.992556 × 3% + 0.980392 × 4.963% + 0.963855 × 6.863% + 0.943396 × 8.675%) ÷ 3.880199 = 22.642% ÷ 3.880199 = *5.835%*. Same number, because a swap *is* a bundle of FRAs.",
+              "Upward curve → early FRA rates below the SFR, later ones above. The fixed payer *overpays early and underpays late*."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “A floating bond is worth par on a reset date.”",
+            "a": "That single fact is the whole swap-rate derivation: PV(fixed leg incl. notional) = PV(floating leg incl. notional) = par → periodic rate × ΣZ + Z_N = 1 → periodic rate = (1 − Z_N) ÷ ΣZ.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "The rate family, side by side",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d3-family",
+            "columns": [
+              "Long side",
+              "Gains when",
+              "Pricing",
+              "Valuation"
+            ],
+            "rows": [
+              {
+                "label": "FRA",
+                "values": [
+                  "Notional *borrower*",
+                  "Rates *rise*",
+                  "Rate implied by two Z’s",
+                  "(new − old) × t/360 × NP, discounted from the loan’s end to today"
+                ]
+              },
+              {
+                "label": "Interest rate swap",
+                "values": [
+                  "*Fixed payer* (payer swap)",
+                  "Rates *rise*",
+                  "(1 − Z_N) ÷ ΣZ",
+                  "(SFR_new − SFR_old) × t/360 × NP × ΣZ"
+                ]
+              },
+              {
+                "label": "Currency swap",
+                "values": [
+                  "Receives one currency, pays the other",
+                  "Received currency strengthens / its rates fall",
+                  "One SFR per currency curve",
+                  "PV received − PV paid; convert at *today’s* spot"
+                ]
+              },
+              {
+                "label": "Equity swap",
+                "values": [
+                  "Receives equity",
+                  "Equity rises",
+                  "Fixed leg = IRS formula",
+                  "Equity leg = NP × (1 + return since reset) − PV fixed leg"
+                ]
+              },
+              {
+                "label": "Equity-for-equity",
+                "values": [
+                  "Receives stock A",
+                  "A beats B",
+                  "None needed",
+                  "(R_A − R_B) × NP"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.0",
+                "28.S5",
+                "FRA"
+              ],
+              [
+                "deriv.0",
+                "28.S7",
+                "Swap rate"
+              ],
+              [
+                "deriv.0",
+                "28.S8",
+                "Swap value"
+              ],
+              [
+                "deriv.0",
+                "28.S9",
+                "Currency swap"
+              ],
+              [
+                "deriv.0",
+                "28.S10",
+                "Equity swap"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.4",
+        "title": "Bonds Inside Derivatives · Clean, Dirty, CF and CTD",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Where bond maths shows up",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d4-where",
+            "items": [
+              "*Bond forward* (R28): F = (full price − PV coupons) × (1 + r)ᵀ, then subtract accrued interest at expiry to quote it clean.",
+              "*Bond future* (R28): divide by the *conversion factor*; the short picks the *cheapest to deliver*.",
+              "*Floating-rate bond* (R28): worth par on a reset date → this drives the swap rate.",
+              "*Callable bond* (R29): option-free bond − *receiver swaption*.",
+              "*Gamma ↔ convexity* (R29): the option-price approximation has the same shape as the bond-price approximation."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d4-qfp",
+            "title": "Quoted futures price, built in three steps",
+            "lines": [
+              "1. Carry the full price: full × (1 + r)ᵀ",
+              "2. Remove what the long misses: − FVC (coupons received) − AI_T (accrued interest at expiry)",
+              "3. Convert to the quoted basis: ÷ CF",
+              "*QFP = [full × (1 + r)ᵀ − FVC − AI_T] ÷ CF*"
+            ],
+            "note": "Full (dirty) = clean (flat) + accrued interest; AI = days since last coupon ÷ days in the period × coupon.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “The short holds the delivery option.”",
+            "a": "The short chooses which bond to deliver, so it delivers the cheapest one. That option has value to the *short*, which lowers the futures price. Same idea as in FI: whoever owns the option gets the value.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Duration ↔ delta, convexity ↔ gamma",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d4-dc",
+            "columns": [
+              "Bond (FI)",
+              "Option (R29)"
+            ],
+            "rows": [
+              {
+                "label": "First-order slope",
+                "values": [
+                  "Duration: %ΔP ≈ −D × Δy",
+                  "Delta: ΔC ≈ Δ × ΔS"
+                ]
+              },
+              {
+                "label": "Curvature",
+                "values": [
+                  "Convexity: + ½ × C × Δy²",
+                  "Gamma: + ½ × Γ × ΔS²"
+                ]
+              },
+              {
+                "label": "Long position",
+                "values": [
+                  "Positive convexity helps",
+                  "Positive gamma helps (long options)"
+                ]
+              },
+              {
+                "label": "Breaks when",
+                "values": [
+                  "Large yield moves",
+                  "Large price jumps (*gamma risk*)"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.0",
+                "28.S4",
+                "Bond forward"
+              ],
+              [
+                "deriv.0",
+                "28.S11",
+                "Bond futures"
+              ],
+              [
+                "deriv.1",
+                "29.S12",
+                "Gamma & convexity"
+              ],
+              [
+                "fi.5",
+                "FIC.5",
+                "FI: who owns the option"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.5",
+        "title": "Options: The Binomial Engine · Replication · Parity",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Three formulas that do all the work",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d5-engine",
+            "title": "The binomial engine",
+            "lines": [
+              "U = S⁺ ÷ S₀ · D = S⁻ ÷ S₀ · (for a recombining tree, U = 1 ÷ D)",
+              "*π_u = (1 + r − D) ÷ (U − D)*, π_d = 1 − π_u  (risk-neutral, not the real-world probability)",
+              "*Option value = [π_u × c⁺ + π_d × c⁻] ÷ (1 + r)*",
+              "*Hedge ratio h = (c⁺ − c⁻) ÷ (S⁺ − S⁻)* = delta",
+              "Replication: C₀ = h × S₀ − PV(h × S⁻ − c⁻)  →  long h shares + borrow"
+            ],
+            "note": "Two roads, one answer: risk-neutral expectation and replication must agree, or there is an arbitrage.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Worked check: the $30 stock, three roads",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d5-check",
+            "items": [
+              "S₀ = 30, S⁺ = 40, S⁻ = 22.5, X = 30, r = 7%. U = 40 ÷ 30 = 1.3333, D = 22.5 ÷ 30 = 0.75.",
+              "π_u = (1.07 − 0.75) ÷ (1.3333 − 0.75) = 0.32 ÷ 0.5833 = *0.5486*; π_d = 1 − 0.5486 = 0.4514.",
+              "*Road 1, expectation*: c⁺ = 40 − 30 = 10, c⁻ = 0 → C = (0.5486 × 10 + 0.4514 × 0) ÷ 1.07 = 5.486 ÷ 1.07 = *5.127*.",
+              "*Road 2, replication*: h = (10 − 0) ÷ (40 − 22.5) = 10 ÷ 17.5 = 0.5714. C = 0.5714 × 30 − (0.5714 × 22.5 − 0) ÷ 1.07 = 17.143 − 12.857 ÷ 1.07 = 17.143 − 12.016 = *5.127*.",
+              "*Road 3, the put by parity*: P = C + X ÷ (1 + r) − S = 5.127 + 30 ÷ 1.07 − 30 = 5.127 + 28.037 − 30 = *3.164*.",
+              "Check the put on the tree: p⁻ = 30 − 22.5 = 7.5, p⁺ = 0 → P = 0.4514 × 7.5 ÷ 1.07 = 3.386 ÷ 1.07 = *3.164*. ✓"
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d5-parity",
+            "title": "Put–call parity and its relatives",
+            "lines": [
+              "*C₀ + X ÷ (1 + r)ᵀ = S₀ + P₀*  (fiduciary call = protective put)",
+              "With dividend yield: C₀ + X e^(−rT) = S₀ e^(−δT) + P₀",
+              "Rearranged: long call + short put = long forward (synthetic forward)  →  the link back to R28"
+            ],
+            "note": "Equivalency 1 in R29 (long rate call + short rate put = long FRA) is the same identity on an interest rate.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Two trees, two rules",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d5-trees",
+            "columns": [
+              "Stock tree",
+              "Interest rate tree"
+            ],
+            "rows": [
+              {
+                "label": "Probability",
+                "values": [
+                  "π_u = (1 + r − D) ÷ (U − D)",
+                  "*50% / 50%* always"
+                ]
+              },
+              {
+                "label": "Discount rate",
+                "values": [
+                  "One risk-free rate",
+                  "Each node at *its own* rate"
+                ]
+              },
+              {
+                "label": "Payoff timing",
+                "values": [
+                  "At the node",
+                  "Usually *in arrears* (one period later)"
+                ]
+              },
+              {
+                "label": "American rule",
+                "values": [
+                  "At each node: max(exercise now, hold)",
+                  "Same"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.1",
+                "29.S2",
+                "Binomial"
+              ],
+              [
+                "deriv.1",
+                "29.S3",
+                "Parity"
+              ],
+              [
+                "deriv.1",
+                "29.S4",
+                "Rate tree"
+              ],
+              [
+                "deriv.1",
+                "29.S6",
+                "Replication & arbitrage"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.6",
+        "title": "BSM Is the Tree in the Limit · One Recipe, Five Variations",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "From binomial to BSM",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d6-map",
+            "columns": [
+              "Binomial (29.S2–S6)",
+              "BSM (29.S7)"
+            ],
+            "rows": [
+              {
+                "label": "Shares held",
+                "values": [
+                  "h = (c⁺ − c⁻) ÷ (S⁺ − S⁻)",
+                  "*N(d₁)*"
+                ]
+              },
+              {
+                "label": "Amount borrowed",
+                "values": [
+                  "PV(h S⁻ − c⁻)",
+                  "X e^(−rT) N(d₂)"
+                ]
+              },
+              {
+                "label": "Call",
+                "values": [
+                  "h S₀ − borrowing",
+                  "S₀ N(d₁) − X e^(−rT) N(d₂)"
+                ]
+              },
+              {
+                "label": "Probability",
+                "values": [
+                  "π_u (risk-neutral)",
+                  "N(d₂) = risk-neutral prob. the call ends ITM"
+                ]
+              },
+              {
+                "label": "Put",
+                "values": [
+                  "Short shares + lend",
+                  "X e^(−rT) N(−d₂) − S₀ N(−d₁)"
+                ]
+              }
+            ],
+            "caption": "Hook: *a call is a leveraged long stock position; a put is a long bond plus a short stock position.*",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Worked check: BSM call and put",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d6-check",
+            "items": [
+              "S = 50, X = 45, T = 0.5, r = 3% (continuous), N(d₁) = 0.779, N(d₂) = 0.723.",
+              "PV(X) = 45 × e^(−0.03 × 0.5) = 45 × e^(−0.015) = 45 × 0.985112 = *44.33*.",
+              "Call = 50 × 0.779 − 44.33 × 0.723 = 38.95 − 32.05 = *6.90*.",
+              "Put (formula) = 44.33 × (1 − 0.723) − 50 × (1 − 0.779) = 44.33 × 0.277 − 50 × 0.221 = 12.28 − 11.05 = *1.23*.",
+              "Put (parity) = C − S + PV(X) = 6.90 − 50 + 44.33 = *1.23*. ✓ Parity and BSM agree.",
+              "Deltas: call = N(d₁) = 0.779, put = N(d₁) − 1 = −0.221. |0.779| + |−0.221| = 1."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "One recipe: change only S (and the discounting)",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d6-recipe",
+            "columns": [
+              "Replace S₀ with",
+              "Replace X / discounting",
+              "Why"
+            ],
+            "rows": [
+              {
+                "label": "Stock (BSM)",
+                "values": [
+                  "S₀",
+                  "X e^(−rT)",
+                  "The base case"
+                ]
+              },
+              {
+                "label": "Dividend stock",
+                "values": [
+                  "S₀ e^(−δT)",
+                  "X e^(−rT); d₁ uses (r − δ + σ²/2)",
+                  "Dividends leak out of the stock"
+                ]
+              },
+              {
+                "label": "Currency",
+                "values": [
+                  "S₀ e^(−r_f T)",
+                  "X e^(−rT), r = price-currency rate",
+                  "The foreign rate acts like a dividend yield"
+                ]
+              },
+              {
+                "label": "Futures (Black)",
+                "values": [
+                  "F e^(−rT)",
+                  "C = e^(−rT)[F N(d₁) − X N(d₂)]; no r in d₁",
+                  "F already contains the carry"
+                ]
+              },
+              {
+                "label": "Interest rate option",
+                "values": [
+                  "FRA rate",
+                  "× accrual period × NP; discount from the *payment* date (actual/365)",
+                  "An option on a future rate"
+                ]
+              },
+              {
+                "label": "Swaption",
+                "values": [
+                  "Forward swap rate (SFR)",
+                  "× accrual period × *PVA* × NP",
+                  "An option on a whole series of rates"
+                ]
+              }
+            ],
+            "caption": "PVA = sum of the underlying swap’s discount factors: the same ΣZ as the swap rate formula in R28.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “Same recipe, change the S.”",
+            "a": "Dividends, currency, futures, rates, swaps: each variation just says what the underlying is today and how it is discounted. The structure S·N(d₁) − X·N(d₂) never changes.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.1",
+                "29.S7",
+                "BSM"
+              ],
+              [
+                "deriv.1",
+                "29.S8",
+                "Dividends, currency, Black, swaptions"
+              ],
+              [
+                "deriv.0",
+                "28.S7",
+                "ΣZ in the swap rate"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.7",
+        "title": "Equivalencies: Options Build FRAs, Swaps and Bonds",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "One question unlocks them all: who gains when rates rise?",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d7-who",
+            "columns": [
+              "Gains when rates rise",
+              "Gains when rates fall"
+            ],
+            "rows": [
+              {
+                "label": "Single period",
+                "values": [
+                  "Long rate *call*, *long* FRA",
+                  "Long rate *put*, *short* FRA"
+                ]
+              },
+              {
+                "label": "Multi period",
+                "values": [
+                  "Long *cap*, *payer* swap",
+                  "Long *floor*, *receiver* swap"
+                ]
+              },
+              {
+                "label": "Option on a swap",
+                "values": [
+                  "Long *payer* swaption",
+                  "Long *receiver* swaption"
+                ]
+              },
+              {
+                "label": "Bonds",
+                "values": [
+                  "Floating-rate borrower with a cap",
+                  "Issuer of a callable bond"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "The ladder: single period → many periods → options on swaps",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d7-ladder",
+            "columns": [
+              "Equivalency",
+              "Built from"
+            ],
+            "rows": [
+              {
+                "label": "1",
+                "values": [
+                  "Long rate call + short rate put = *long FRA*",
+                  "Put–call parity on a rate (same strike = FRA rate)"
+                ]
+              },
+              {
+                "label": "2",
+                "values": [
+                  "Short rate call + long rate put = *short FRA*",
+                  "Mirror of 1"
+                ]
+              },
+              {
+                "label": "3",
+                "values": [
+                  "*Cap* = series of rate calls (caplets)",
+                  "Protects a floating-rate *borrower*"
+                ]
+              },
+              {
+                "label": "4",
+                "values": [
+                  "*Floor* = series of rate puts (floorlets)",
+                  "Protects a floating-rate *lender*"
+                ]
+              },
+              {
+                "label": "5",
+                "values": [
+                  "Long cap + short floor = *payer swap*",
+                  "1 repeated each period; also = series of long FRAs"
+                ]
+              },
+              {
+                "label": "6",
+                "values": [
+                  "Short cap + long floor = *receiver swap*",
+                  "2 repeated each period"
+                ]
+              },
+              {
+                "label": "7",
+                "values": [
+                  "Cap value = floor value (strike = SFR)",
+                  "A swap costs zero at inception"
+                ]
+              },
+              {
+                "label": "8",
+                "values": [
+                  "Long receiver swaption + short payer swaption = *forward receiver swap*",
+                  "Parity again, one level up"
+                ]
+              },
+              {
+                "label": "+",
+                "values": [
+                  "Callable bond = option-free bond − *receiver swaption*",
+                  "Issuer calls when rates fall"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "qa",
+            "q": "Hook: “Call + short put = forward, at every level.”",
+            "a": "Stock: C − P = S − PV(X) (synthetic forward). Rate: call − put = FRA. Many periods: cap − floor = swap. Swaptions: receiver − payer = forward swap. It is put–call parity four times.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Worked cap",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d7-cap",
+            "items": [
+              "Floating borrower with a 5% cap. Rate rises to 7%: pays 7%, caplet pays 7% − 5% = 2% → net *5%*.",
+              "Rate falls to 2%: the caplet expires worthless → pays *2%*. Never above 5%, keeps the benefit of falling rates.",
+              "Add a short 3% floor (a *collar*): the floor premium received offsets the cap premium paid; the borrower’s rate stays between *3% and 5%*."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.1",
+                "29.S9",
+                "Equivalencies 1–4, caps & floors"
+              ],
+              [
+                "deriv.1",
+                "29.S10",
+                "Equivalencies 5–8"
+              ],
+              [
+                "deriv.0",
+                "28.S5",
+                "FRA"
+              ],
+              [
+                "deriv.0",
+                "28.S7",
+                "Swap"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.8",
+        "title": "Greeks and Hedging Close the Loop · Master What-If Grid",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Delta is the same number three times",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d8-delta",
+            "items": [
+              "*Binomial*: h = (c⁺ − c⁻) ÷ (S⁺ − S⁻) = 10 ÷ 17.5 = 0.5714 in the $30 example.",
+              "*BSM*: delta = N(d₁) = 0.779 in the $50 example; put delta = N(d₁) − 1 = −0.221.",
+              "*Hedging*: short calls needed = shares ÷ call delta. 60,000 shares ÷ 0.6 = *1,00,000 calls*. Check: stock +1 → shares gain 60,000 × 1 = 60,000; calls lose 1,00,000 × 0.6 × 1 = 60,000 → net 0.",
+              "A forward or a share has delta *1* and gamma *0*. Only an *option* can change a portfolio’s gamma."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "formula",
+            "id": "d8-approx",
+            "title": "The second-order approximation",
+            "lines": [
+              "ΔC ≈ delta × ΔS + ½ × gamma × ΔS²",
+              "Delta only: delta 0.58, stock +0.75 → ΔC ≈ 0.58 × 0.75 = *0.435*",
+              "Hedge two Greeks: first neutralise *gamma* with another option, then reset *delta* with shares"
+            ],
+            "note": "Delta hedges are dynamic: delta changes as S moves, so the hedge must be rebalanced. A jump beats the rebalance → *gamma risk*.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Greek signs",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d8-greeks",
+            "columns": [
+              "Long call",
+              "Long put",
+              "Biggest when"
+            ],
+            "rows": [
+              {
+                "label": "Delta",
+                "values": [
+                  "+ (0 to 1)",
+                  "− (−1 to 0)",
+                  "Deep ITM (in size)"
+                ]
+              },
+              {
+                "label": "Gamma",
+                "values": [
+                  "+",
+                  "+",
+                  "*At the money*, near expiry"
+                ]
+              },
+              {
+                "label": "Vega",
+                "values": [
+                  "+",
+                  "+",
+                  "At the money"
+                ]
+              },
+              {
+                "label": "Rho",
+                "values": [
+                  "+",
+                  "−",
+                  "Usually small"
+                ]
+              },
+              {
+                "label": "Theta",
+                "values": [
+                  "− (usually)",
+                  "− (except some deep ITM European puts)",
+                  "Near expiry, ATM"
+                ]
+              },
+              {
+                "label": "Forward / share",
+                "values": [
+                  "Delta 1, gamma 0, vega 0",
+                  "",
+                  ""
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Master grid: what if X goes UP?",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d8-grid",
+            "columns": [
+              "Forward price",
+              "Long forward value",
+              "Payer swap",
+              "Call",
+              "Put",
+              "Cap",
+              "Floor"
+            ],
+            "rows": [
+              {
+                "label": "Spot price S",
+                "values": [
+                  "↑",
+                  "↑",
+                  "—",
+                  "↑",
+                  "↓",
+                  "—",
+                  "—"
+                ]
+              },
+              {
+                "label": "Interest rate r",
+                "values": [
+                  "↑ (more carry)",
+                  "↑",
+                  "*↑*",
+                  "↑ (rho +)",
+                  "↓ (rho −)",
+                  "↑",
+                  "↓"
+                ]
+              },
+              {
+                "label": "Dividend / benefit yield",
+                "values": [
+                  "↓",
+                  "↓",
+                  "—",
+                  "↓",
+                  "↑",
+                  "—",
+                  "—"
+                ]
+              },
+              {
+                "label": "Storage / carry cost",
+                "values": [
+                  "↑",
+                  "↑",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—"
+                ]
+              },
+              {
+                "label": "Volatility σ",
+                "values": [
+                  "*unchanged*",
+                  "*unchanged*",
+                  "*unchanged*",
+                  "↑",
+                  "↑",
+                  "↑",
+                  "↑"
+                ]
+              },
+              {
+                "label": "Strike X",
+                "values": [
+                  "—",
+                  "—",
+                  "—",
+                  "↓",
+                  "↑",
+                  "↓",
+                  "↑"
+                ]
+              },
+              {
+                "label": "Time to expiry",
+                "values": [
+                  "↑ (if r > yield)",
+                  "—",
+                  "—",
+                  "↑",
+                  "↑ (usually)",
+                  "↑",
+                  "↑"
+                ]
+              }
+            ],
+            "caption": "— = no direct effect. The σ row is the key link: *volatility only matters to options*.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "see",
+            "items": [
+              [
+                "deriv.1",
+                "29.S5",
+                "Hedge ratio"
+              ],
+              [
+                "deriv.1",
+                "29.S11",
+                "Delta"
+              ],
+              [
+                "deriv.1",
+                "29.S12",
+                "Gamma, vega, rho, theta"
+              ],
+              [
+                "deriv.1",
+                "29.S13",
+                "Dynamic hedging, IV"
+              ]
+            ],
+            "new": "2026-11-05"
+          }
+        ]
+      },
+      {
+        "module": "DVC.9",
+        "title": "Five Shock Chains · Memory Hooks · Exam Traps · Trace It Yourself",
+        "blocks": [
+          {
+            "k": "sub",
+            "text": "Chain A · RBI raises rates",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d9-a",
+            "items": [
+              "1. Z’s fall → new FRA rates and SFRs rise (R28).",
+              "2. *Long FRA* and *payer swap* gain: value = (new − old) × t/360 × NP × ΣZ. Receiver swap loses.",
+              "3. Equity forward prices rise (more carry); an existing long forward gains as F₀ is discounted harder.",
+              "4. Bond prices fall → bond futures fall → *short futures* gains.",
+              "5. Rate calls, caps and payer swaptions ↑; rate puts, floors and receiver swaptions ↓ (R29).",
+              "6. Stock calls ↑, puts ↓ through rho, but the effect is small."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Chain B · Volatility jumps (India VIX up)",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d9-b",
+            "items": [
+              "1. Forwards, futures, FRAs and swaps: *no change* (no σ in their formulas).",
+              "2. Calls, puts, caps, floors and swaptions: *all rise* (vega +).",
+              "3. Implied volatility ↑ (it is backed out of the market price via BSM).",
+              "4. A delta-hedged *short* option book loses: short vega and short gamma."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Chain C · Stock jumps on results day",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d9-c",
+            "items": [
+              "1. Long forward gains ≈ ΔS (delta 1); equity swap equity receiver gains.",
+              "2. Call ≈ delta × ΔS + ½ gamma ΔS²; put falls.",
+              "3. Delta moves (gamma) → the delta hedge is wrong after the jump → *gamma risk*, rebalance."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Chain D · A bigger dividend is announced",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d9-d",
+            "items": [
+              "1. F = (S − PV D)(1 + r)ᵀ → forward price ↓; long forward loses.",
+              "2. BSM with S e^(−δT): call ↓, put ↑.",
+              "3. Put–call parity still holds with the dividend-adjusted S."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Chain E · Time passes, nothing else moves",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d9-e",
+            "items": [
+              "1. Forward value converges to S_T − F₀ at expiry.",
+              "2. Options lose time value: *theta* is usually negative.",
+              "3. Swaps: each payment drops one Z from ΣZ; on a reset date the floating leg is back at par."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Memory hooks",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "table",
+            "id": "d9-hooks",
+            "columns": [
+              "Hook"
+            ],
+            "rows": [
+              {
+                "label": "Forward price",
+                "values": [
+                  "Spot plus carry, minus benefits"
+                ]
+              },
+              {
+                "label": "Forward value",
+                "values": [
+                  "New minus old, discounted"
+                ]
+              },
+              {
+                "label": "FRA",
+                "values": [
+                  "Long = borrower, wins when rates rise"
+                ]
+              },
+              {
+                "label": "Swap rate",
+                "values": [
+                  "One minus the last Z, over the sum of Z"
+                ]
+              },
+              {
+                "label": "Swap",
+                "values": [
+                  "A bundle of FRAs at one fixed rate"
+                ]
+              },
+              {
+                "label": "Bond futures",
+                "values": [
+                  "The short picks the cheapest; divide by CF"
+                ]
+              },
+              {
+                "label": "Binomial",
+                "values": [
+                  "Risk-neutral up probability, then discount"
+                ]
+              },
+              {
+                "label": "Parity",
+                "values": [
+                  "C + PV(X) = S + P; call − put = forward"
+                ]
+              },
+              {
+                "label": "BSM",
+                "values": [
+                  "N(d₁) is delta, N(d₂) is probability"
+                ]
+              },
+              {
+                "label": "Variations",
+                "values": [
+                  "Same recipe, change the S"
+                ]
+              },
+              {
+                "label": "Equivalencies",
+                "values": [
+                  "Cap − floor = payer swap"
+                ]
+              },
+              {
+                "label": "Greeks",
+                "values": [
+                  "Delta slope, gamma curve; σ only hits options"
+                ]
+              }
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Exam traps",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "points",
+            "id": "d9-traps",
+            "items": [
+              "Using the *real-world* probability instead of π_u, or 50% on a stock tree (50% is for *rate* trees only).",
+              "Forgetting that *FRA payoffs are discounted* from the loan’s end back to settlement.",
+              "Using 365 for MRR (it is 360) or 360 for stocks (365).",
+              "Converting the foreign leg of a currency swap at the *old* spot instead of today’s.",
+              "Saying “the underlying has no cash flows” is a BSM assumption. It is not: a continuous yield is allowed.",
+              "Putting r inside d₁ for the *Black* model (F already includes the carry).",
+              "Long put delta hedge: you *buy* puts (number = − shares ÷ put delta), not sell them.",
+              "Thinking volatility changes a forward or swap value."
+            ],
+            "new": "2026-11-05"
+          },
+          {
+            "k": "sub",
+            "text": "Trace it yourself",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "reveal",
+            "q": "1. Rates rise after you entered a receiver swap. Gain or loss, and which formula?",
+            "a": "*Loss.* Value to the receiver = (SFR_old − SFR_new) × t/360 × NP × ΣZ, now negative.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "reveal",
+            "q": "2. Volatility falls. Which of these change: long forward, long cap, short put, payer swap?",
+            "a": "Long cap ↓ (loses vega); short put *gains* (the put it sold is worth less). Forward and swap: unchanged.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "reveal",
+            "q": "3. Why does a callable bond equal an option-free bond minus a receiver swaption?",
+            "a": "The issuer calls when rates fall, the same moment a receiver swaption (receive fixed) pays off. The bondholder has *sold* that option to the issuer.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "reveal",
+            "q": "4. In the binomial example, what single number links the hedge, the tree and BSM?",
+            "a": "Delta: h = 0.5714 in the tree, N(d₁) in BSM, and the number of shares per call in the hedge.",
+            "new": "2026-11-05"
+          },
+          {
+            "k": "reveal",
+            "q": "5. A 1-year quarterly swap on the 3/4/5/6% curve: what is the SFR, and what is it an average of?",
+            "a": "*5.835%*: the Z-weighted average of the four quarterly FRA rates 3.000%, 4.963%, 6.863% and 8.675%.",
+            "new": "2026-11-05"
+          }
+        ]
+      }
     ],
   },
   'alt.0': {
@@ -20020,6 +21609,7 @@ const GAPS = {
   'fi.5': {},
   'deriv.0': {},
   'deriv.1': {},
+  'deriv.2': {},
   'alt.0': {},
   'alt.1': {},
   'alt.2': {},
@@ -23880,6 +25470,286 @@ const MINDMAP = {
           from: ['s13-iv', 's13-blue'] },
       ] },
     ],
+  },
+  'deriv.2': {
+    "story": "Two families, one rule. *Forward commitments* (R28) carry spot forward at r; *contingent claims* (R29) discount the risk-neutral expected payoff. Discount factors Z build FRAs and swaps; the binomial tree grows into BSM; options stack into FRAs, swaps and bonds; and delta hedging closes the loop back to replication.",
+    "branches": [
+      {
+        "id": "b1",
+        "mod": "DVC.1–DVC.2",
+        "tone": "teal",
+        "t": "Rule 1 · No arbitrage and carry",
+        "tag": "Same payoff → same price; F = spot + carry − benefits",
+        "c": [
+          {
+            "id": "story",
+            "mod": "DVC.1",
+            "t": "The master sentence",
+            "tag": "Replicate, then price the replica",
+            "from": [
+              "d1-one",
+              "d1-engines"
+            ]
+          },
+          {
+            "id": "vs",
+            "mod": "DVC.1",
+            "t": "Commitment vs claim",
+            "tag": "Zero cost & linear vs premium & kinked",
+            "from": [
+              "d1-vs"
+            ],
+            "links": [
+              [
+                "grid",
+                "σ only matters to the claims"
+              ]
+            ]
+          },
+          {
+            "id": "family",
+            "mod": "DVC.2",
+            "t": "The forward family",
+            "tag": "Dividend = coupon = foreign rate",
+            "from": [
+              "d2-family"
+            ],
+            "links": [
+              [
+                "recipe",
+                "The same benefits reappear inside BSM"
+              ]
+            ]
+          },
+          {
+            "id": "value",
+            "mod": "DVC.2",
+            "t": "One valuation rule",
+            "tag": "PV of (new − old)",
+            "from": [
+              "d2-value",
+              "d2-check"
+            ],
+            "links": [
+              [
+                "zchain",
+                "FRAs and swaps use the same rule"
+              ]
+            ]
+          },
+          {
+            "id": "arb",
+            "mod": "DVC.2",
+            "t": "Arbitrage direction",
+            "tag": "Sell what is rich, buy what is cheap",
+            "from": [
+              "d2-arb"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b2",
+        "mod": "DVC.3–DVC.4",
+        "tone": "violet",
+        "t": "Rates · Z is the atom",
+        "tag": "Z → FRA → swap rate → swap value",
+        "c": [
+          {
+            "id": "zchain",
+            "mod": "DVC.3",
+            "t": "Z builds everything",
+            "tag": "SFR = (1 − Z_N) ÷ ΣZ",
+            "from": [
+              "d3-z",
+              "d3-chain"
+            ]
+          },
+          {
+            "id": "swapavg",
+            "mod": "DVC.3",
+            "t": "Swap = bundle of FRAs",
+            "tag": "SFR = Z-weighted average of FRA rates",
+            "from": [
+              "d3-swap"
+            ],
+            "links": [
+              [
+                "ladder",
+                "Cap − floor = payer swap"
+              ]
+            ]
+          },
+          {
+            "id": "ratefam",
+            "mod": "DVC.3",
+            "t": "The rate family",
+            "tag": "FRA, IRS, currency, equity swaps",
+            "from": [
+              "d3-family"
+            ]
+          },
+          {
+            "id": "bondfut",
+            "mod": "DVC.4",
+            "t": "Bond futures",
+            "tag": "Carry full price, remove FVC & AI, ÷ CF",
+            "from": [
+              "d4-qfp",
+              "d4-where"
+            ]
+          },
+          {
+            "id": "durdelta",
+            "mod": "DVC.4",
+            "t": "Duration ↔ delta",
+            "tag": "Convexity ↔ gamma",
+            "from": [
+              "d4-dc"
+            ],
+            "links": [
+              [
+                "delta3",
+                "The same second-order idea"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b3",
+        "mod": "DVC.5–DVC.6",
+        "tone": "rose",
+        "t": "Options · Tree → BSM",
+        "tag": "Expectation and replication agree",
+        "c": [
+          {
+            "id": "engine",
+            "mod": "DVC.5",
+            "t": "Binomial engine",
+            "tag": "π_u = (1 + r − D) ÷ (U − D)",
+            "from": [
+              "d5-engine",
+              "d5-check"
+            ]
+          },
+          {
+            "id": "parity",
+            "mod": "DVC.5",
+            "t": "Put–call parity",
+            "tag": "C + PV(X) = S + P",
+            "from": [
+              "d5-parity"
+            ],
+            "links": [
+              [
+                "ladder",
+                "Parity on a rate = Equivalency 1"
+              ]
+            ]
+          },
+          {
+            "id": "trees",
+            "mod": "DVC.5",
+            "t": "Stock tree vs rate tree",
+            "tag": "π_u vs 50%; one r vs node rates",
+            "from": [
+              "d5-trees"
+            ]
+          },
+          {
+            "id": "bsm",
+            "mod": "DVC.6",
+            "t": "BSM = tree in the limit",
+            "tag": "N(d₁) = h; N(d₂) = probability",
+            "from": [
+              "d6-map",
+              "d6-check"
+            ]
+          },
+          {
+            "id": "recipe",
+            "mod": "DVC.6",
+            "t": "Same recipe, change the S",
+            "tag": "Dividends, FX, Black, rates, swaptions",
+            "from": [
+              "d6-recipe"
+            ],
+            "links": [
+              [
+                "zchain",
+                "PVA = the swap’s ΣZ"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b4",
+        "mod": "DVC.7–DVC.9",
+        "tone": "amber",
+        "t": "Connect · Equivalencies, Greeks, shocks",
+        "tag": "Call − put = forward at every level",
+        "c": [
+          {
+            "id": "ladder",
+            "mod": "DVC.7",
+            "t": "Equivalency ladder",
+            "tag": "Call − put = FRA; cap − floor = swap",
+            "from": [
+              "d7-who",
+              "d7-ladder"
+            ]
+          },
+          {
+            "id": "delta3",
+            "mod": "DVC.8",
+            "t": "Delta three times",
+            "tag": "h = N(d₁) = hedge ratio",
+            "from": [
+              "d8-delta",
+              "d8-approx"
+            ],
+            "links": [
+              [
+                "engine",
+                "h comes from the tree"
+              ]
+            ]
+          },
+          {
+            "id": "grid",
+            "mod": "DVC.8",
+            "t": "Master what-if grid",
+            "tag": "σ hits only options",
+            "from": [
+              "d8-grid",
+              "d8-greeks"
+            ]
+          },
+          {
+            "id": "chains",
+            "mod": "DVC.9",
+            "t": "Five shock chains",
+            "tag": "Rates, vol, jump, dividend, time",
+            "from": [
+              "d9-a",
+              "d9-b"
+            ]
+          },
+          {
+            "id": "hooks",
+            "mod": "DVC.9",
+            "t": "Hooks and traps",
+            "tag": "50% only on rate trees",
+            "from": [
+              "d9-hooks",
+              "d9-traps"
+            ]
+          }
+        ]
+      }
+    ]
   },
   'alt.0': {
     story: 'Commodities split into *six sectors*, each with its own supply, demand and life cycle, and are valued without cash flows, so storage and convenience matter (30.S1). Futures curves are in *contango* or *backwardation*, explained by insurance, hedging pressure or the theory of storage (30.S2). A long futures position earns *collateral + price + roll return*, and exposure is also taken through *swaps* and *indexes* (30.S3).',
@@ -28089,6 +29959,7 @@ const STATUS = {
   'fi.5': 'progress',
   'deriv.0': 'progress',
   'deriv.1': 'progress',
+  'deriv.2': 'progress',
   'alt.0': 'progress',
   'alt.1': 'progress',
   'alt.2': 'progress',
@@ -30687,6 +32558,171 @@ const EXAM = {
         ['Implied vol: solved by iteration from the market price; overvalued option ↔ IV too high.', 'iteration'],
       ],
     },
+  },
+  'deriv.2': {
+    "about": [
+      "Derivatives Connections ties R28 and R29 into one picture: every price is the cost of a replicating portfolio. Forward commitments carry spot forward at r; contingent claims discount the risk-neutral expected payoff.",
+      "Discount factors Z build FRAs, swap rates and swap values (R28). The binomial tree grows into BSM, whose variations only change S (R29). Options stack into FRAs, swaps and bonds, and delta links the tree, BSM and hedging. Volatility matters only to options."
+    ],
+    "DVC.1": {
+      "s": [
+        "Price = cost of the replicating portfolio. Commitments carry spot forward; claims discount the risk-neutral payoff. Three drivers (S, r, σ) plus time move everything; σ only matters to options."
+      ],
+      "n": [
+        [
+          "Same payoff → same price (no arbitrage).",
+          "The master sentence"
+        ],
+        [
+          "Forwards cost zero and are linear; options cost a premium and are kinked.",
+          "Commitment vs. claim"
+        ]
+      ]
+    },
+    "DVC.2": {
+      "s": [
+        "F = (S − PV benefits + PV costs)(1 + r)ᵀ for every underlying; dividends, coupons and the foreign rate are all benefits. Value of any forward commitment = PV of (new forward − old)."
+      ],
+      "n": [
+        [
+          "Index: S e^((r − δ)T); currency: S(1 + r_p)ᵀ ÷ (1 + r_b)ᵀ.",
+          "Benefit removed"
+        ],
+        [
+          "Value = PV(F_t − F₀) = S_t − PV(ben) − F₀ ÷ (1 + r)^(T−t).",
+          "The universal valuation rule"
+        ],
+        [
+          "F too high → cash-and-carry: borrow, buy spot, sell forward.",
+          "Cash-and-carry"
+        ]
+      ]
+    },
+    "DVC.3": {
+      "s": [
+        "Z = 1 ÷ (1 + r × d/360) builds everything: FRA rates from two Z’s, SFR = (1 − Z_N) ÷ ΣZ, swap value = ΔSFR × t/360 × NP × ΣZ. The SFR is the Z-weighted average of FRA rates."
+      ],
+      "n": [
+        [
+          "SFR = (1 − Z_N) ÷ ΣZ × 360/days.",
+          "The discount factor Z"
+        ],
+        [
+          "Swap = bundle of FRAs; SFR = Z-weighted average of FRA rates.",
+          "Same number, because a swap"
+        ],
+        [
+          "Long FRA and payer swap gain when rates rise.",
+          "The rate family, side by side"
+        ]
+      ]
+    },
+    "DVC.4": {
+      "s": [
+        "QFP = [full × (1 + r)ᵀ − FVC − AI_T] ÷ CF; the short owns the delivery option (CTD). Duration ↔ delta, convexity ↔ gamma."
+      ],
+      "n": [
+        [
+          "QFP = [full × (1 + r)ᵀ − FVC − AI_T] ÷ CF.",
+          "Quoted futures price, built in three steps"
+        ],
+        [
+          "Delta ↔ duration, gamma ↔ convexity.",
+          "Duration ↔ delta"
+        ]
+      ]
+    },
+    "DVC.5": {
+      "s": [
+        "π_u = (1 + r − D) ÷ (U − D); value = PV of the risk-neutral expected payoff = h S − borrowing. Parity: C + PV(X) = S + P. Rate trees use 50% and each node’s own rate."
+      ],
+      "n": [
+        [
+          "π_u = (1 + r − D) ÷ (U − D); h = (c⁺ − c⁻) ÷ (S⁺ − S⁻).",
+          "The binomial engine"
+        ],
+        [
+          "C + PV(X) = S + P; call − put = forward.",
+          "Put–call parity and its relatives"
+        ],
+        [
+          "Rate tree: 50/50, each node at its own rate.",
+          "Two trees, two rules"
+        ]
+      ]
+    },
+    "DVC.6": {
+      "s": [
+        "BSM is the tree in the limit: N(d₁) = h, N(d₂) = risk-neutral probability of exercise. Variations only replace S: S e^(−δT), S e^(−r_f T), F e^(−rT), the FRA rate, or the swap rate × PVA."
+      ],
+      "n": [
+        [
+          "C = S N(d₁) − X e^(−rT) N(d₂); N(d₁) = delta.",
+          "From binomial to BSM"
+        ],
+        [
+          "Same recipe, change the S; PVA = ΣZ.",
+          "One recipe: change only S"
+        ]
+      ]
+    },
+    "DVC.7": {
+      "s": [
+        "Call − put = forward at every level: rate call − put = FRA, cap − floor = payer swap, receiver − payer swaption = forward receiver swap. Callable bond = bond − receiver swaption."
+      ],
+      "n": [
+        [
+          "Long cap + short floor = payer swap.",
+          "The ladder"
+        ],
+        [
+          "Callable bond = option-free bond − receiver swaption.",
+          "Callable bond"
+        ],
+        [
+          "Rates up: long call, long FRA, cap, payer swap/swaption gain.",
+          "who gains when rates rise"
+        ]
+      ]
+    },
+    "DVC.8": {
+      "s": [
+        "Delta = h = N(d₁) = hedge ratio. ΔC ≈ delta ΔS + ½ gamma ΔS². Shares have gamma 0, so hedge gamma with options first. Volatility changes only option values."
+      ],
+      "n": [
+        [
+          "Short calls = shares ÷ delta.",
+          "Delta is the same number three times"
+        ],
+        [
+          "Gamma and vega highest ATM; rho + call, − put.",
+          "Greek signs"
+        ],
+        [
+          "σ ↑: forwards and swaps unchanged; all options ↑.",
+          "Master grid"
+        ]
+      ]
+    },
+    "DVC.9": {
+      "s": [
+        "Five shocks: rate hike (long FRA, payer swap, caps gain), vol up (only options move), stock jump (gamma risk), bigger dividend (F ↓, call ↓, put ↑), time passing (theta, convergence)."
+      ],
+      "n": [
+        [
+          "Rates ↑: long FRA, payer swap, short bond futures, caps gain.",
+          "Chain A"
+        ],
+        [
+          "Vol ↑: options only; short option books lose.",
+          "Chain B"
+        ],
+        [
+          "50% probability only on rate trees.",
+          "Exam traps"
+        ]
+      ]
+    }
   },
   'alt.0': {
     about: [
