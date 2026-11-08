@@ -1040,6 +1040,24 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .tl-pt:hover .tl-pt-dot { opacity: 1; }
   .tl-pt-hit { fill: transparent; cursor: default; }
   .tl-pt-ring { fill: none; stroke-width: 1.6; }
+  .mk-hint:not(.mk-show) { display: none !important; }
+  .mk-i { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; margin-left: 6px; padding: 0; vertical-align: middle; flex-shrink: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--panel); color: var(--ink-soft); font: italic 700 11px/1 var(--serif); text-transform: none; letter-spacing: 0; cursor: pointer; }
+  .mk-i:hover { border-color: var(--violet); color: var(--violet); }
+  .mk-i[aria-pressed="true"] { border-color: var(--violet); background: var(--violet); color: #fff; }
+  .mk-lost { font-size: 12.5px; font-weight: 700; color: var(--rose); margin: 2px 0 6px; }
+  .mk-drop > summary { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; list-style: none; }
+  .mk-drop > summary::-webkit-details-marker { display: none; }
+  .mk-drop > summary:hover { border-color: var(--violet); }
+  .mk-drop-cta { margin-left: auto; font-size: 12px; color: var(--violet); }
+  .mk-drop-cta::after { content: 'Show ▾'; }
+  .mk-drop[open] > summary .mk-drop-cta::after { content: 'Hide ▴'; }
+  .mk-drop[open] > summary { margin-bottom: 8px; }
+  .mk-cnt { font-family: var(--mono); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--line); color: var(--ink-faint); }
+  .mk-cnt-dig { border-color: var(--rose); background: var(--rose-bg); color: var(--rose); }
+  .mk-cnt-fix { border-color: var(--amber); background: var(--amber-bg); color: var(--amber); }
+  .mk-cnt-on { border-color: var(--teal); background: var(--teal-bg); color: var(--teal); }
+  .miss-tag.mock-tag { background: var(--rose); box-shadow: 0 0 0 2px var(--rose-bg); }
+  .wk-spot.wk-mock { background: var(--rose); border-color: var(--rose); color: #fff; }
   .mk-hist { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 2px; }
   .mk-ev { font-family: var(--mono); font-size: 10.5px; padding: 2px 6px; border-radius: 10px; border: 1px dashed var(--line); color: var(--ink-soft); white-space: nowrap; }
   .mk-ev.strong { border-style: solid; font-weight: 700; }
@@ -29927,6 +29945,44 @@ const MOCK_Q = {
   "L2-MOCK1-S1 #43": {"set": 11, "stem": "The expected all-in USD return for Malshuk’s carry trade is closest to:", "options": ["5.13%.", "6.43%.", "6.95%."], "p": 1, "a": 0, "logic": ["Borrow USD, convert to BRL at spot, earn the BRL rate, convert back at the expected future spot, then subtract the USD borrowing cost."], "steps": ["USD 1 → BRL 3.1259 at spot", "After a year: 3.1259 × 1.0825 = BRL 3.3838", "Back to USD: 3.3838 ÷ 3.1639 = USD 1.0695 → 6.95% gross", "Net = 6.95% − 1.82% = 5.13%"], "traps": ["", "6.43% is just the rate differential (8.25% − 1.82%). That assumes the BRL doesn’t move, but here it is expected to weaken to 3.1639.", "6.95% is the gross return before paying for the USD borrowing."]},
   "L2-MOCK1-S1 #44": {"set": 11, "stem": "Countries included on Malshuk’s list should have:", "options": ["restrictive monetary policy and restrictive fiscal policy.", "restrictive monetary policy and expansionary fiscal policy.", "expansionary monetary policy and restrictive fiscal policy."], "p": 0, "a": 1, "logic": ["With high capital mobility, policy works through interest rates and capital flows. Restrictive monetary policy and expansionary fiscal policy (bigger deficits to fund) both push rates up, drawing capital in. Both push the currency up, so the outcome is clear: appreciation."], "traps": ["Restrictive fiscal policy lowers rates and offsets the tight money, so the overall effect is unclear.", "", "Easy money and tight fiscal policy both lower rates, so capital leaves and the currency depreciates."]},
 };
+// Every mock miss (a wrong answer or a guess) also becomes a weak-spot card in its session, built from MOCK_Q and
+// marked 🎯 Mock: it shows in the reading, highlights the notes MOCK_AT points to, and counts like any weak spot.
+const MOCK_AT = {
+  "L2-MOCK1-S1 #1": ["Sources of Differences in Cross-Border Valuation"],
+  "L2-MOCK1-S1 #2": ["Justified Price to Sales (P/S)"],
+  "L2-MOCK1-S1 #4": ["Momentum Indicators"],
+  "L2-MOCK1-S1 #5": ["floored floater", "Capped and Floored"],
+  "L2-MOCK1-S1 #8": ["Volatility and Option Values"],
+  "L2-MOCK1-S1 #9": ["Durbin"],
+  "L2-MOCK1-S1 #12": ["Measuring Performance: Error Analysis"],
+  "L2-MOCK1-S1 #15": ["The Vasicek Model", "The Cox–Ingersoll–Ross Model"],
+  "L2-MOCK1-S1 #18": ["M — Management Capabilities"],
+  "L2-MOCK1-S1 #21": ["Parametric Method"],
+  "L2-MOCK1-S1 #22": ["Incremental VaR"],
+  "L2-MOCK1-S1 #23": ["fat tail", "Monte Carlo"],
+  "L2-MOCK1-S1 #24": ["Problems in Backtesting"],
+  "L2-MOCK1-S1 #26": ["The Beneish Model Variables"],
+  "L2-MOCK1-S1 #29": ["I(C) Misrepresentation"],
+  "L2-MOCK1-S1 #32": ["IV(A) Loyalty"],
+  "L2-MOCK1-S1 #33": ["Factors That Impact the Cost of Capital"],
+  "L2-MOCK1-S1 #34": ["Cost of Equity for Private Companies"],
+  "L2-MOCK1-S1 #36": ["Comparable Transaction Analysis (CTA)"],
+  "L2-MOCK1-S1 #38": ["Roll return = (price of expiring", "Contango → negative roll return"],
+  "L2-MOCK1-S1 #40": ["Commodity Swaps"],
+  "L2-MOCK1-S1 #41": ["Covered Interest Rate Parity — Formula"],
+  "L2-MOCK1-S1 #43": ["carry trade"],
+  "L2-MOCK1-S1 #44": ["Mundell-Fleming — Flexible Exchange Rate Regimes"],
+};
+TESTS.filter(t => t.mock).forEach(t => t.qs.forEach((q, i) => {
+  const ref = t.id + ' #' + (i + 1), f = MOCK_Q[ref], tw = TWIN_Q[ref], L = 'ABC', topic = q.topic || t.topic;
+  if (!f || (q.ok && q.why !== 'guess')) return;
+  (TUITION_MISSES[topic] = TUITION_MISSES[topic] || []).push({
+    module: q.mod, mock: t.name + ' · Q' + (i + 1), title: q.what, at: MOCK_AT[ref] || [],
+    questions: [{ ref, ask: f.stem, picked: L[f.p] + '. ' + f.options[f.p], answer: L[f.a] + '. ' + f.options[f.a] }],
+    trap: f.traps[f.p] || '', fix: f.logic.join(' ') + (f.steps && f.steps.length ? ' Working: ' + f.steps.join(' · ') : ''),
+    tackle: tw && tw.rule ? [tw.rule] : [], spot: f.note || '',
+  });
+}));
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
 // end of the day before, when studying stops), then to EXAM_AT. PLAN has one
 // entry per day: `k` is the kind of day (work = office day, full = weekend before leave, leave, mock, final,
@@ -34000,6 +34056,7 @@ function wkId(m) { return 'wk-' + exHash(m.title); }
 function wkSpotTags(list) {
   return (list || []).map(m => {
     const short = m.title.split(/: | — | = /)[0];
+    if (m.mock) return `<button type="button" class="wk-spot wk-mock" data-wkgo="${wkId(m)}" title="Missed in ${escapeHtml(m.mock)}: ${escapeHtml(m.title)}. Tap to open the card">🎯 Mock</button>`;
     return `<button type="button" class="wk-spot" data-wkgo="${wkId(m)}" title="Weak spot: ${escapeHtml(m.title)}. Tap to open the card">⚠ ${escapeHtml(short.length > 34 ? 'Weak spot' : short)}</button>`;
   }).join('');
 }
@@ -34168,7 +34225,7 @@ function renderWeakCard(m, topic) {
   if (!m._at) wkSpots(topic);
   return `
     <div class="weak-card wk" data-wkid="${wkId(m)}">
-      <div class="wk-bar"><span class="miss-tag">Tuition weak spot</span><span class="wk-star" data-new="f-weak-star">${stBtn(wkKey(topic, m), 'Weak spot', false, 'line')}</span><span class="wk-mini">${escapeHtml(m.title)}</span>
+      <div class="wk-bar">${m.mock ? `<span class="miss-tag mock-tag">🎯 Mock miss · ${escapeHtml(m.mock)}</span>` : '<span class="miss-tag">Tuition weak spot</span>'}<span class="wk-star" data-new="f-weak-star">${stBtn(wkKey(topic, m), 'Weak spot', false, 'line')}</span><span class="wk-mini">${escapeHtml(m.title)}</span>
         <button type="button" class="rv-check-link wk-b-show" data-wk="open">Show ▸</button>
         <button type="button" class="rv-check-link wk-b-hide" data-wk="open" data-new="f-weak-hide">Hide ▴</button>
         <button type="button" class="rv-check-link wk-b-hideall" data-wk="hideall">Hide all weak spots</button>
@@ -34197,7 +34254,14 @@ function weakPartHtml(x) {
     : `<table class="weak-tbl"><thead><tr>${x.columns.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody>${x.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 }
 function weakQHtml(q) {
-  const f = TUITION_Q[q.ref];
+  const f = TUITION_Q[q.ref], mq = !f && MOCK_Q[q.ref];
+  if (mq) return `
+        <div class="weak-q">
+          <span class="weak-ref">${escapeHtml(q.ref)}</span>
+          <div class="weak-full"><p>${escapeHtml(mq.stem)}</p></div>
+          <ul class="weak-opts">${mq.options.map((o, i) => `<li class="${i === mq.a ? 'right' : i === mq.p ? 'picked' : ''}"><span class="weak-mark">${i === mq.a ? '✓' : i === mq.p ? '✗' : '○'}</span><span>${escapeHtml(o)}${i === mq.p ? ' <span class="weak-tag">your pick</span>' : ''}${i === mq.a ? ' <span class="weak-tag">answer</span>' : ''}</span></li>`).join('')}</ul>
+          <button type="button" class="ex-link" data-exview="mocks">Vignette, exhibits and full working in 🎯 Mock analysis</button>
+        </div>`;
   if (!f) return `
         <div class="weak-q">
           <span class="weak-ref">${escapeHtml(q.ref)}</span> ${escapeHtml(q.ask)}
@@ -36084,8 +36148,10 @@ function exOpenView(view, topic, mod) {
   if (!topic) return;
   const esc = s => window.CSS && CSS.escape ? CSS.escape(s) : s;
   // A reading whose concise notes are its mind map lands on the map from any of its session links.
-  exScrollFlash((mod !== 'mm' && document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"], .tl-row[data-sess="' + esc(topic + '|' + mod) + '"]'))
-    || document.querySelector('.mm[data-mm="' + esc(topic) + '"]'), false);
+  const t = (mod !== 'mm' && document.querySelector('.ex-sess[data-sess="' + esc(topic + '|' + mod) + '"], .tl-row[data-sess="' + esc(topic + '|' + mod) + '"]'))
+    || document.querySelector('.mm[data-mm="' + esc(topic) + '"]');
+  for (let d = t && t.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+  exScrollFlash(t, false);
 }
 function exInit() {
   // ✂ Trim: the button switches a card into trim mode; in trim mode a tap on a line hides or restores it.
@@ -36806,6 +36872,9 @@ function mkPartHtml(x) {
   return `<div class="mk-ex">${x.title ? `<div class="mk-ex-t">${escapeHtml(x.title)}</div>` : ''}<div class="mk-ex-scroll">${weakPartHtml(x)}</div></div>`;
 }
 const mkBar = (acc, band) => `<span class="tl-bar"><span class="tl-bar-fill tl-${band}" style="width:${acc}%"></span><span class="tl-bar-tgt mk-safe" style="left:${MK_SAFE}%"></span><span class="tl-bar-tgt" style="left:${TL_TARGET}%"></span></span>`;
+// The i button: the explanations on this page stay folded until it is tapped. It shows the .mk-hint elements of
+// its nearest [data-mki] box, not those of boxes inside it.
+const mkI = '<button type="button" class="mk-i" data-mk="info:" aria-pressed="false" aria-label="What this shows" title="What this shows">i</button>';
 // 1. Scoreboard: one row per mock, both sessions, against 70% and 80%.
 function mkScoreHtml(ts) {
   const rows = mkNums().map(n => {
@@ -36818,7 +36887,7 @@ function mkScoreHtml(ts) {
   const need = Math.max(0, Math.ceil(TL_TARGET / 100 * 44) - Math.round(ready / 100 * 44));
   const kpi = (lab, val, sub) => `<div class="tl-kpi"><div class="tl-kpi-lab">${lab}</div><div class="tl-kpi-val">${val}</div>${sub ? `<div class="tl-kpi-sub">${sub}</div>` : ''}</div>`;
   const trend = rows.length > 1 ? rows[rows.length - 1].acc - rows[rows.length - 2].acc : null;
-  return `<section class="block"><div class="block-label">Scoreboard</div>
+  return `<section class="block" data-mki><div class="block-label">Scoreboard ${mkI}</div>
     <div class="tl-kpis">
       ${kpi('Sessions sat', ts.length, mkNums().length + ' mock' + (mkNums().length > 1 ? 's' : '') + ' · ' + all.length + ' questions')}
       ${kpi('Latest mock', rows[rows.length - 1].acc + '%', trend == null ? 'the first one: the baseline' : (trend >= 0 ? '▲ ' : '▼ ') + Math.abs(trend) + ' points on the mock before')}
@@ -36826,7 +36895,7 @@ function mkScoreHtml(ts) {
       ${kpi('To reach ' + TL_TARGET + '%', need ? '+' + need : '✓', need ? 'more right answers in each 44-question session' : 'at target')}
     </div>
     ${rows.map(r => r.html).join('')}
-    <div class="cm-hint">The bar’s thin ticks mark ${MK_SAFE}% (safe) and ${TL_TARGET}% (target). Readiness averages your last three mocks, so a single bad day doesn’t move it much.</div>
+    <div class="cm-hint mk-hint">The bar’s thin ticks mark ${MK_SAFE}% (safe) and ${TL_TARGET}% (target). Readiness averages your last three mocks, so a single bad day doesn’t move it much.</div>
   </section>`;
 }
 // Weakness tracker: every session missed in a mock, judged on what came after its latest mock miss. Mock results
@@ -36897,11 +36966,11 @@ function mkMarksHtml(ts) {
     return { sj, n, got, raw, acc, w, gain: Math.max(0, (TL_TARGET - acc) / 100 * w / 100 * MK_EXAM_Q), quiz: qq.length >= 5 ? tlAcc(qq) : null };
   }).filter(Boolean).sort((a, b) => b.gain - a.gain || a.acc - b.acc);
   const untested = SUBJECTS.filter(sj => !rows.some(r => r.sj.id === sj.id));
-  return `<section class="block"><div class="block-label">Where the marks are · most to gain first</div>
-    <div class="deepdive-hint">Ranks each subject by the exam questions you’d gain by lifting it to ${TL_TARGET}%: (${TL_TARGET}% − its standing) × its weight × ${MK_EXAM_Q} questions. Its standing counts each mock miss by where that weakness is now: a repeat counts 1.5, open 1, fixed once 0.3, confirmed fixed 0.</div>
+  return `<section class="block" data-mki><div class="block-label">Where the marks are · most to gain first ${mkI}</div>
+    <div class="deepdive-hint mk-hint">Ranks each subject by the exam questions you’d gain by lifting it to ${TL_TARGET}%: (${TL_TARGET}% − its standing) × its weight × ${MK_EXAM_Q} questions. Its standing counts each mock miss by where that weakness is now: a repeat counts 1.5, open 1, fixed once 0.3, confirmed fixed 0.</div>
     ${rows.map((r, i) => `<div class="tl-sub-read mk-mark-row${i < 3 && r.gain >= 1 ? ' mk-top' : ''}"><button type="button" class="tl-read-name" data-mk="subj:${r.sj.id}" title="Show this subject’s questions in the review below">${escapeHtml(r.sj.name)}</button>${mkBar(r.acc, mkBand(r.acc))}<span class="tl-sub-pct">${r.acc}%</span><span class="tl-sub-n">${r.acc !== r.raw ? 'scored ' + r.raw + '% · ' : ''}${r.got}/${r.n} · weight ~${r.w}%${r.quiz != null ? ' · quizzes ' + r.quiz + '%' : ''}</span><span class="mk-gain">${r.gain >= 0.5 ? '+' + r.gain.toFixed(1) + ' Q' : '—'}</span></div>`).join('')}
-    ${untested.length ? `<div class="cm-hint">Not in a mock yet: ${untested.map(s => escapeHtml(s.name)).join(', ')}.</div>` : ''}
-    <div class="cm-hint">A session of 44 has only about 4 questions a subject, so one mock is a rough guide. “Scored” is the raw mock accuracy when it differs from the standing. “Quizzes” is the subject’s latest 50 quiz questions.</div>
+    ${untested.length ? `<div class="cm-hint mk-hint">Not in a mock yet: ${untested.map(s => escapeHtml(s.name)).join(', ')}.</div>` : ''}
+    <div class="cm-hint mk-hint">A session of 44 has only about 4 questions a subject, so one mock is a rough guide. “Scored” is the raw mock accuracy when it differs from the standing. “Quizzes” is the subject’s latest 50 quiz questions.</div>
   </section>`;
 }
 // 3. Item sets: one tile per vignette, coloured by how many of its 4 you got.
@@ -36917,7 +36986,7 @@ function mkSetsHtml(t) {
   const lost = sets.map((qs, k) => qs && qs.filter(q => !mkMiss(t, q)).length * 2 < qs.length ? k : 0).filter(Boolean);
   return `<div class="mk-sets-head">${escapeHtml(t.name)} · ${t.qs.filter(q => q.ok).length}/${t.qs.length}</div>
     <div class="mk-tiles">${tiles}</div>
-    ${lost.length ? `<div class="rv-note">Sets ${lost.join(', ')}: you lost most of the vignette. When a whole set goes, it is usually the reading as a whole, not one fact. Read those vignettes again slowly in the review below, and re-read the reading’s Concise notes before the next mock.</div>` : ''}`;
+    ${lost.length ? `<div class="mk-lost">Lost most of the vignette: Sets ${lost.join(', ')}</div><div class="cm-hint mk-hint">When a whole set goes, it is usually the reading as a whole, not one fact. Read those vignettes again slowly in the review below, and re-read the reading’s Concise notes before the next mock.</div>` : ''}`;
 }
 // 5. Recoverable vs. knowledge: flip and calc are exam technique; gap and guess need study.
 function mkKindsHtml(ts) {
@@ -36926,15 +36995,15 @@ function mkKindsHtml(ts) {
   const n = k => miss.filter(x => (x.q.why || 'gap') === k).length, rec = n('flip') + n('calc');
   const got = rows.filter(x => x.q.ok).length, all = rows.length;
   const kinds = ['flip', 'calc', 'gap', 'guess'].map(k => ({ k, n: n(k) })).filter(x => x.n);
-  return `<section class="block"><div class="block-label">Recoverable vs. knowledge · ${miss.length + luck.length} misses</div>
+  return `<section class="block" data-mki><div class="block-label">Recoverable vs. knowledge · ${miss.length + luck.length} misses ${mkI}</div>
     <div class="tl-kpis mk-kpis2">
       <div class="tl-kpi"><div class="tl-kpi-lab">Recoverable</div><div class="tl-kpi-val">${rec}</div><div class="tl-kpi-sub">wrong way or a slip: exam technique, quick to fix</div></div>
       <div class="tl-kpi"><div class="tl-kpi-lab">Knowledge</div><div class="tl-kpi-val">${n('gap') + n('guess') + luck.length}</div><div class="tl-kpi-sub">didn’t know it${n('guess') ? ', guessed' : ''}${luck.length ? ', or right for the wrong reason' : ''}: needs study</div></div>
       <div class="tl-kpi"><div class="tl-kpi-lab">With the recoverable ones</div><div class="tl-kpi-val">${mkPct(got + rec, all)}%</div><div class="tl-kpi-sub">instead of ${mkPct(got, all)}%</div></div>
     </div>
-    ${kinds.map(x => `<div class="tl-kind"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b> · ${rows.filter(r => (r.q.why || 'gap') === x.k && (!r.q.ok || x.k === 'guess')).map(r => 'Q' + r.q.n).join(', ')}<div class="tl-kind-fix">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
-    ${luck.length ? `<div class="tl-kind"><span class="tl-kind-n">${luck.length}</span><div><b>Right for the wrong reason</b> · ${luck.map(r => 'Q' + r.q.n).join(', ')}<div class="tl-kind-fix">Revise these like a miss: on exam day the same luck may not hold.</div></div></div>` : ''}
-    <div class="cm-hint">The kind of each miss is Claude’s read of the trap you fell into, from the option you picked. If you know you guessed one you got right, say so and it will count here.</div>
+    ${kinds.map(x => `<div class="tl-kind"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b> · ${rows.filter(r => (r.q.why || 'gap') === x.k && (!r.q.ok || x.k === 'guess')).map(r => 'Q' + r.q.n).join(', ')}<div class="tl-kind-fix mk-hint">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
+    ${luck.length ? `<div class="tl-kind"><span class="tl-kind-n">${luck.length}</span><div><b>Right for the wrong reason</b> · ${luck.map(r => 'Q' + r.q.n).join(', ')}<div class="tl-kind-fix mk-hint">Revise these like a miss: on exam day the same luck may not hold.</div></div></div>` : ''}
+    <div class="cm-hint mk-hint">The kind of each miss is Claude’s read of the trap you fell into, from the option you picked. If you know you guessed one you got right, say so and it will count here.</div>
   </section>`;
 }
 // 6. Weakness tracker: every session missed in a mock, with its history since and where it stands. Ordered for the
@@ -36944,17 +37013,20 @@ function mkTrackerHtml() {
   const all = mkWeak().sort((a, b) => MK_ORDER[a.status] - MK_ORDER[b.status] || pri(b) - pri(a) || b.before - a.before || fl(a.topic) - fl(b.topic));
   const live = all.filter(s => s.status !== 'done'), done = all.filter(s => s.status === 'done');
   const n = k => all.filter(s => s.status === k).length;
-  const row = s => `<div class="tl-row tl-${MK_STATUS[s.status].cls}" data-sess="${escapeHtml(s.topic + '|' + s.mod)}">
-      <div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(s.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(s.topic, s.mod) || tlShort(s.topic))}</span><span class="tl-badge tl-${MK_STATUS[s.status].cls}">${MK_STATUS[s.status].label}</span></div>
+  const row = s => `<div class="tl-row tl-${MK_STATUS[s.status].cls}" data-sess="${escapeHtml(s.topic + '|' + s.mod)}" data-mki>
+      <div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(s.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(s.topic, s.mod) || tlShort(s.topic))}</span><span class="tl-badge tl-${MK_STATUS[s.status].cls}">${MK_STATUS[s.status].label}</span>${mkI}</div>
       <div class="tl-row-meta">${escapeHtml(tlShort(s.topic))} · missed: ${s.what.map(escapeHtml).join('; ')}${s.before ? ` · <b>also missed in ${s.before} quiz${s.before > 1 ? 'zes' : ''} before</b>` : ''}</div>
       <div class="mk-hist">${s.ev.map(e => `<span class="mk-ev ${e.ok ? 'ok' : 'no'}${e.strong ? ' strong' : ''}" title="${e.strong ? 'Mock' : e.tw ? '🔁 Twin in Review' : 'Reading quiz'} · ${tlDate(e.d)}">${escapeHtml(e.label)}${e.note ? ' ' + e.note : ''} ${e.ok ? '✓' : '✗'}</span>`).join('<span class="mk-arrow">→</span>')}</div>
-      <div class="tl-row-do"><b>Next:</b> ${MK_STATUS[s.status].next}</div>
+      <div class="tl-row-do mk-hint"><b>Next:</b> ${MK_STATUS[s.status].next}</div>
       <div class="tl-row-acts">${exGoBtn(s.topic, s.mod, '', 'Open ' + s.mod)}</div></div>`;
-  return `<section class="block"><div class="block-label" data-new="f-mock-tracker">Weakness tracker · ${n('repeat')} repeat · ${n('open')} open · ${n('once')} fixed once · ${n('done')} confirmed</div>
-    <div class="deepdive-hint">Every session you’ve missed in a mock, judged on what happened after. A later mock is the strong proof; a right quiz or 🔁 twin counts as a first sign. Work down this list on review days: it is already in order of what is most likely to cost marks.</div>
-    ${live.length ? live.map(row).join('') : '<div class="rv-note">Nothing open: every mock weakness is confirmed fixed.</div>'}
-    ${done.length ? `<details class="tl-done"><summary>Confirmed fixed · ${done.length}</summary>${done.map(row).join('')}</details>` : ''}
-    <div class="cm-hint">Repeat: missed in two mocks, nothing right since. Open: missed, not yet shown fixed. Fixed once: right once since (a mock, a quiz on it after the mock, or its twin). Confirmed: right in two later mocks.</div>
+  const count = (k, lab) => `<span class="mk-cnt${n(k) ? ' mk-cnt-' + MK_STATUS[k].cls : ''}">${n(k)} ${lab}</span>`;
+  return `<section class="block" data-mki><div class="block-label" data-new="f-mock-tracker">Weakness tracker ${mkI}</div>
+    <div class="deepdive-hint mk-hint">Every session you’ve missed in a mock, judged on what happened after. A later mock is the strong proof; a right quiz or 🔁 twin counts as a first sign. Work down this list on review days: it is already in order of what is most likely to cost marks.</div>
+    <details class="mk-drop"><summary>${count('repeat', 'repeat')}${count('open', 'open')}${count('once', 'fixed once')}${count('done', 'confirmed')}<span class="mk-drop-cta"></span></summary>
+      ${live.length ? live.map(row).join('') : '<div class="rv-note">Nothing open: every mock weakness is confirmed fixed.</div>'}
+      ${done.length ? `<details class="tl-done"><summary>Confirmed fixed · ${done.length}</summary>${done.map(row).join('')}</details>` : ''}
+    </details>
+    <div class="cm-hint mk-hint">Repeat: missed in two mocks, nothing right since. Open: missed, not yet shown fixed. Fixed once: right once since (a mock, a quiz on it after the mock, or its twin). Confirmed: right in two later mocks.</div>
   </section>`;
 }
 // 7. Question by question: every question with its vignette, the logic of the answer, the working and why each
@@ -36967,15 +37039,16 @@ function mkQHtml(t, q) {
   const opts = f.options.map((o, i) => `<li class="${i === f.a ? 'right' : i === f.p ? 'picked' : ''}"><span class="weak-mark">${i === f.a ? '✓' : i === f.p ? '✗' : L[i]}</span><span>${escapeHtml(o)}${i === f.p ? ' <span class="weak-tag">your pick</span>' : ''}${i === f.a ? ' <span class="weak-tag">answer</span>' : ''}</span></li>`).join('');
   const others = f.options.map((o, i) => i === f.a || !f.traps[i] ? '' : `<li><b>${L[i]}. ${escapeHtml(o)}</b> ${escapeHtml(f.traps[i])}</li>`).join('');
   const btn = (v, lab) => `<button type="button" class="rv-btn${tick === v ? ' on' : ''}" data-mk="v:${v}:${escapeHtml(ref)}">${tick === v ? '✓ ' : ''}${lab}</button>`;
-  return `<div class="mk-q mk-${state}" data-mkq="${escapeHtml(ref)}">
-    <div class="tl-row-top"><span class="tl-row-title">Q${q.n}</span><span class="nb-session-tag">${escapeHtml(q.mod || '')}</span><span class="tl-row-meta" style="margin:0">${escapeHtml(tlShort(q.topic))}${q.lvl ? ` · <b title="${TL_LVL[q.lvl].label}">L${q.lvl}</b>` : ''}</span><span class="tl-badge mk-badge-${state}">${badge}</span></div>
+  const tip = bad && q.why && TL_WHY[q.why];
+  return `<div class="mk-q mk-${state}" data-mkq="${escapeHtml(ref)}"${tip ? ' data-mki' : ''}>
+    <div class="tl-row-top"><span class="tl-row-title">Q${q.n}</span><span class="nb-session-tag">${escapeHtml(q.mod || '')}</span><span class="tl-row-meta" style="margin:0">${escapeHtml(tlShort(q.topic))}${q.lvl ? ` · <b title="${TL_LVL[q.lvl].label}">L${q.lvl}</b>` : ''}</span><span class="tl-badge mk-badge-${state}">${badge}</span>${tip ? mkI : ''}</div>
     <div class="mk-stem">${escapeHtml(f.stem)}</div>
     <ul class="weak-opts">${opts}</ul>
     ${f.note ? `<div class="weak-note">⚠ ${escapeHtml(f.note)}</div>` : ''}
     <div class="mk-why mk-why-ok"><div class="weak-sec">Why ${L[f.a]} is right</div>${f.logic.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
       ${f.steps && f.steps.length ? `<ol class="mk-steps">${f.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>` : ''}</div>
     ${others ? `<div class="mk-why"><div class="weak-sec">Why the others are wrong</div><ul class="mk-traps">${others}</ul></div>` : ''}
-    ${bad && q.why && TL_WHY[q.why] ? `<div class="tl-row-do"><b>${TL_WHY[q.why].label}:</b> ${TL_WHY[q.why].fix}</div>` : ''}
+    ${tip ? `<div class="tl-row-do mk-hint"><b>${TL_WHY[q.why].label}:</b> ${TL_WHY[q.why].fix}</div>` : ''}
     <div class="rl-acts">${q.mod ? exGoBtn(q.topic, q.mod, '', 'Open ' + q.mod) : ''}<span style="flex:1"></span>${bad ? btn('done', 'Reviewed') : btn('match', 'My logic matched') + btn('luck', 'Right for the wrong reason')}</div>
   </div>`;
 }
@@ -36998,12 +37071,12 @@ function mkReviewHtml(t) {
       ${s ? `<details class="mk-vig"><summary>Read the vignette and exhibits</summary><div class="weak-full">${s.full.map(mkPartHtml).join('')}</div></details>` : ''}
       ${shown.map(q => mkQHtml(t, q)).join('')}</details>`;
   }).join('');
-  return `<section class="block" id="mkReview"><div class="block-label" data-new="f-mock-review">Question by question · ${escapeHtml(t.name)} · ${done} of ${t.qs.length} reviewed</div>
+  return `<section class="block" id="mkReview" data-mki><div class="block-label" data-new="f-mock-review">Question by question · ${escapeHtml(t.name)} · ${done} of ${t.qs.length} reviewed ${mkI}</div>
     <div class="rl-bar"><i style="width:${mkPct(done, t.qs.length)}%"></i></div>
     <div class="ex-tools tl-filter">${Object.keys(MK_SHOW).map(k => chip('show:' + k, mkf.show === k, MK_SHOW[k], cnt(k))).join('')}</div>
     ${subs.length > 1 ? `<div class="ex-tools tl-filter tl-filter-reads">${chip('subj:all', mkf.subj === 'all', 'All subjects', null)}${subs.map(sj => chip('subj:' + sj.id, mkf.subj === sj.id, TL_SUBJ_SHORT[sj.id] || sj.name, t.qs.filter(q => tlSubjOf(q.topic) === sj.id).length)).join('')}</div>` : ''}
     ${body || '<div class="rv-note">No questions match this filter.</div>'}
-    <div class="cm-hint">Read the vignette, decide your answer again, then read why. On a right answer, tick “My logic matched” if you got there the same way, or “Right for the wrong reason” if not: that one then counts as a miss in the numbers above. Tick “Reviewed” once you’ve worked through a wrong one.</div>
+    <div class="cm-hint mk-hint">Read the vignette, decide your answer again, then read why. On a right answer, tick “My logic matched” if you got there the same way, or “Right for the wrong reason” if not: that one then counts as a miss in the numbers above. Tick “Reviewed” once you’ve worked through a wrong one.</div>
   </section>`;
 }
 function mkRender(el) {
@@ -37012,14 +37085,14 @@ function mkRender(el) {
   const n = nums.includes(mkf.mock) ? mkf.mock : nums[nums.length - 1], cur = ts.filter(t => t.mock === n);
   el.innerHTML = `
     <div class="crumb">Tests</div>
-    <h2 class="topic-title">🎯 Mock analysis</h2>
-    <p class="topic-desc">Your mocks read as an exam: the score against ${TL_TARGET}%, which subjects hold the most marks, which vignettes you lost, how many misses were technique and how many were knowledge, and every question with the logic behind its answer. Mock questions also count in the 🧪 Test log.</p>
+    <div data-mki><h2 class="topic-title">🎯 Mock analysis ${mkI}</h2>
+    <p class="topic-desc mk-hint">Your mocks read as an exam: the score against ${TL_TARGET}%, which subjects hold the most marks, which vignettes you lost, how many misses were technique and how many were knowledge, and every question with the logic behind its answer. Mock questions also count in the 🧪 Test log.</p></div>
     ${safeHtml(() => mkScoreHtml(ts))}
     ${safeHtml(() => mkMarksHtml(ts))}
     ${safeHtml(mkTrackerHtml)}
     ${nums.length > 1 ? `<div class="ex-tools tl-filter">${nums.map(m => `<button type="button" class="ex-chip${m === n ? ' on' : ''}" data-mk="mock:${m}">Mock ${m}</button>`).join('')}</div>` : ''}
-    <section class="block"><div class="block-label">Item sets · Mock ${n}</div>
-      <div class="deepdive-hint">Each tile is one vignette of four questions. Tap one to jump to it in the review.</div>
+    <section class="block" data-mki><div class="block-label">Item sets · Mock ${n} ${mkI}</div>
+      <div class="deepdive-hint mk-hint">Each tile is one vignette of four questions. Tap one to jump to it in the review.</div>
       ${cur.map(t => safeHtml(() => mkSetsHtml(t))).join('')}
     </section>
     ${safeHtml(() => mkKindsHtml(cur))}
@@ -37034,6 +37107,12 @@ function mkInit() {
     const raw = b.getAttribute('data-mk'), i = raw.indexOf(':'), act = raw.slice(0, i);
     let arg = raw.slice(i + 1), ref = '';
     if (act === 'v') { const j = arg.indexOf(':'); ref = arg.slice(j + 1); arg = arg.slice(0, j); }
+    if (act === 'info') {
+      const box = b.closest('[data-mki]'), on = !box.classList.contains('mk-on');
+      box.classList.toggle('mk-on', on); b.setAttribute('aria-pressed', on);
+      box.querySelectorAll('.mk-hint').forEach(h => { if (h.closest('[data-mki]') === box) h.classList.toggle('mk-show', on); });
+      return;
+    }
     if (act === 'goto') {
       const find = () => document.querySelector('.mk-set[data-mkset="' + (window.CSS && CSS.escape ? CSS.escape(arg) : arg) + '"]');
       if (!find()) { mkf.show = 'all'; mkf.subj = 'all'; tlRerender(); }
