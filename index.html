@@ -906,7 +906,8 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   body:not(.qz-hide) .qz-title { display: none; }
   .new-tag { position: absolute; top: -8px; left: 10px; z-index: 2; padding: 1px 5px; border-radius: 5px; background: var(--rose); color: #fff; font: 700 9px/1.3 var(--mono); letter-spacing: 0.04em; pointer-events: none; }
   .new-tag.inline { position: static; display: inline-block; margin-left: 6px; vertical-align: 2px; }
-  .sb-tools { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 4px; }
+  /* The Subjects row stays pinned under the search box while the subject list scrolls. */
+  .sb-tools { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 6px; position: sticky; top: var(--sb-search-h, 58px); z-index: 1; background: var(--panel); border-bottom: 1px solid var(--line); }
   .sb-tools .ex-nav-label { margin: 0; padding: 0; }
   .sb-toggle { font-family: var(--sans); font-size: 11.5px; color: var(--violet); background: none; border: 1px solid var(--line); border-radius: 12px; padding: 2px 9px; cursor: pointer; }
   .sb-toggle:hover { border-color: var(--violet); background: var(--violet-bg); }
@@ -34464,6 +34465,8 @@ function renderSidebar() {
   const list = document.getElementById('sidebarList');
   const tgl = document.getElementById('sbToggleAll');
   if (tgl) { tgl.textContent = sbAllOpen() ? 'Collapse all' : 'Expand all'; tgl.onclick = sbToggleAll; }
+  const sbs = document.querySelector('.sidebar .search');
+  if (sbs) sbs.parentElement.style.setProperty('--sb-search-h', sbs.offsetHeight + 'px');
   list.innerHTML = '';
   exRenderNav();
   const allQs = tlQs(tlAll());
