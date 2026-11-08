@@ -1040,6 +1040,14 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .tl-pt:hover .tl-pt-dot { opacity: 1; }
   .tl-pt-hit { fill: transparent; cursor: default; }
   .tl-pt-ring { fill: none; stroke-width: 1.6; }
+  .mk-hist { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 2px; }
+  .mk-ev { font-family: var(--mono); font-size: 10.5px; padding: 2px 6px; border-radius: 10px; border: 1px dashed var(--line); color: var(--ink-soft); white-space: nowrap; }
+  .mk-ev.strong { border-style: solid; font-weight: 700; }
+  .mk-ev.ok { border-color: var(--teal); color: var(--teal); }
+  .mk-ev.no { border-color: var(--rose); color: var(--rose); }
+  .mk-ev.strong.ok { background: var(--teal-bg); }
+  .mk-ev.strong.no { background: var(--rose-bg); }
+  .mk-arrow { font-size: 11px; color: var(--ink-faint); }
   .tl-chart-sw { margin: 0 0 4px; }
   .tl-pt:hover .tl-pt-dot { fill: var(--ink); }
   .tl-sub { border-bottom: 1px solid var(--line); }
@@ -26387,6 +26395,103 @@ const TWIN_Q = {
   "L2-R24-Q2 #8": { lvl: 3, full: ["Semiannual interest rate tree: today 5.0%; in 6 months either 6.0% or 4.4%. Value of an option-free bond with one year to maturity and a 6% coupon paid semiannually (par 100)?"],
     options: ["A) 96.11","B) 98.47","C) 100.87"], a: 2,
     why: "Up: 103 ÷ 1.03 = 100.00. Down: 103 ÷ 1.022 = 100.78. Today: [(100.00 + 3) + (100.78 + 3)] ÷ 2 ÷ 1.025 = 100.87. 98.47 discounts the first step at the full 5%; 96.11 uses full rates everywhere." },
+  // Mock 1 Session 1 (the original question is in MOCK_Q; `rule` is the line Review shows to remember)
+  "L2-MOCK1-S1 #1": { lvl: 2, full: ["An analyst compares a German company that reports under IFRS with a US peer that reports under US GAAP. Which multiple is least affected by the difference in accounting standards?"],
+    options: ["A) EV/EBITDA", "B) Price to cash flow from operations", "C) Price to book"], a: 1,
+    why: "Cash-flow multiples (P/CFO, P/FCFE) are the least distorted by accounting differences. EBITDA starts from accounting earnings and book value depends on recognition and measurement choices, so both are heavily affected.",
+    rule: "Different accounting standards → compare on cash-flow multiples (P/CFO, P/FCFE). P/B, P/E and EBITDA multiples are the most distorted." },
+  "L2-MOCK1-S1 #2": { lvl: 2, full: ["Firms X and Y are in the same industry. Dividend payout: X 30%, Y 25%. Net profit margin: X 4.0%, Y 4.8%. Beta: X 1.1, Y 0.9.", "Which metric best explains why X has the higher justified P/S ratio?"],
+    options: ["A) Dividend payout ratio", "B) Net profit margin", "C) Beta"], a: 0,
+    why: "Justified P/S rises with the payout ratio, so X’s higher payout supports a higher P/S. X’s lower margin and higher beta (higher r) both point to a lower P/S, so they can’t explain a higher one.",
+    rule: "Justified P/S = margin × payout × (1 + g) ÷ (r − g): up with margin and payout, down with risk (r)." },
+  "L2-MOCK1-S1 #4": { lvl: 1, full: ["An analyst divides the difference between reported EPS and the consensus forecast by the standard deviation of the company’s past earnings surprises. This indicator is:"],
+    options: ["A) scaled earnings surprise.", "B) standardized unexpected earnings (SUE).", "C) relative strength."], a: 1,
+    why: "Dividing by the standard deviation of historical surprises gives SUE. The scaled earnings surprise divides by the dispersion of the current analyst forecasts. Relative strength uses prices only.",
+    rule: "Surprise ÷ SD of current analyst forecasts = scaled earnings surprise; ÷ SD of past surprises = SUE; price-based = relative strength." },
+  "L2-MOCK1-S1 #5": { lvl: 3, full: ["A 2-year floater pays the node rate (which includes its spread) and has a cap of 2.8%. Tree: year 0 rate 2.6000%; year 1 up 2.9366%, down 2.4651%, each with probability 0.5. Par 1,000; the coupon is set at the start of each year.", "The value of the capped floater is closest to:"],
+    options: ["A) 999.35", "B) 1,000.00", "C) 1,000.17"], a: 0,
+    why: "The cap binds only at the up node (2.9366% > 2.8%): V = 1,028.000 ÷ 1.029366 = 998.673. Down node: 1,024.651 ÷ 1.024651 = 1,000.000. Year 0: [26 + 0.5 × (998.673 + 1,000.000)] ÷ 1.026 = 999.35. A cap is the investor’s short option, so the bond is worth less than par. 1,000.17 treats the 2.8% as a floor; 1,000 ignores it.",
+    rule: "Capped floater: cap binds where the rate is above it → value below par. Floored floater: floor binds where the rate is below it → value above par." },
+  "L2-MOCK1-S1 #8": { lvl: 2, full: ["Interest-rate volatility falls. Bonds G and H are identical except that G is putable and H is callable. Which bond will most likely increase in value?"],
+    options: ["A) Bond G only", "B) Bond H only", "C) Both Bond G and Bond H"], a: 1,
+    why: "Lower volatility makes every embedded option worth less. Callable = straight − call, so a cheaper call lifts H. Putable = straight + put, so a cheaper put lowers G.",
+    rule: "Volatility ↑ → options worth more: putable ↑, callable ↓. Volatility ↓ → putable ↓, callable ↑." },
+  "L2-MOCK1-S1 #9": { lvl: 2, full: ["A regression of monthly sales on a time trend has residuals that keep switching sign: a positive residual is usually followed by a negative one, and vice versa. The Durbin–Watson statistic is most likely:"],
+    options: ["A) significantly below 2.", "B) not significantly different from 2.", "C) significantly above 2."], a: 2,
+    why: "Residuals that alternate sign are negatively serially correlated (r < 0), so DW ≈ 2(1 − r) is above 2. Runs of same-sign residuals would be positive serial correlation and DW below 2.",
+    rule: "DW ≈ 2(1 − r): runs of same-sign residuals = positive serial correlation = DW < 2; alternating signs = negative = DW > 2; ≈ 2 = none." },
+  "L2-MOCK1-S1 #12": { lvl: 3, full: ["A classifier’s confusion matrix: true positives 120, false positives 30, false negatives 20, true negatives 130.", "The model’s F1 score is closest to:"],
+    options: ["A) 0.686", "B) 0.828", "C) 0.833"], a: 1,
+    why: "Precision = 120 ÷ (120 + 30) = 0.800. Recall = 120 ÷ (120 + 20) = 0.857. F1 = (2 × 0.800 × 0.857) ÷ (0.800 + 0.857) = 1.371 ÷ 1.657 = 0.828. 0.686 is precision × recall; 0.833 is accuracy, (120 + 130) ÷ 300.",
+    rule: "F1 = 2PR ÷ (P + R), with P = TP ÷ (TP + FP) and R = TP ÷ (TP + FN). Accuracy = (TP + TN) ÷ all." },
+  "L2-MOCK1-S1 #15": { lvl: 1, full: ["An equilibrium term-structure model in which rates revert to a long-run mean and volatility rises with the level of rates, so rates cannot become negative, is the:"],
+    options: ["A) Vasicek model.", "B) Cox–Ingersoll–Ross model.", "C) Ho–Lee model."], a: 1,
+    why: "CIR: equilibrium, mean-reverting, volatility ∝ √r, so rates stay non-negative. Vasicek is also equilibrium and mean-reverting but has constant volatility, so rates can go negative. Ho–Lee is arbitrage-free with no mean reversion.",
+    rule: "Equilibrium (not calibrated): CIR (vol ∝ √r, no negative rates) and Vasicek (constant vol, negative rates possible). Arbitrage-free (calibrated): Ho–Lee, KWF." },
+  "L2-MOCK1-S1 #18": { lvl: 2, full: ["Which item is most likely assessed within a CAMELS analysis of a bank?"],
+    options: ["A) Assets under management in the bank’s trust department", "B) Nonperforming loans and the adequacy of loan loss reserves", "C) Equity-heavy executive pay that may encourage risk-taking"], a: 1,
+    why: "Nonperforming loans and loss reserves are Asset quality, the A in CAMELS. AUM (off-balance-sheet) and pay culture are factors the curriculum lists outside CAMELS.",
+    rule: "CAMELS = Capital, Asset quality, Management, Earnings, Liquidity, Sensitivity. Culture and pay incentives, AUM, government support and similar sit outside it." },
+  "L2-MOCK1-S1 #21": { lvl: 3, full: ["A $10 million portfolio has a mean daily return of 0.03% and a daily standard deviation of 1.2%. Assume 250 trading days and z = 1.65 for 5%.", "The 5% annual parametric VaR is closest to:"],
+    options: ["A) $195,000", "B) $2,380,700", "C) $3,083,200"], a: 1,
+    why: "Annual mean = 250 × 0.03% = 7.50%. Annual σ = 1.2% × √250 = 18.974%. VaR = 1.65 × 18.974% − 7.50% = 23.807% → × $10 m = $2,380,700. $195,000 is the daily VaR; $3,083,200 scales the daily VaR by √250, which wrongly scales the mean by √250 too.",
+    rule: "Annualise: mean × T, σ × √T, then VaR = z × σ − mean. Never multiply the whole daily VaR by √T when the mean isn’t zero." },
+  "L2-MOCK1-S1 #22": { lvl: 2, full: ["A portfolio’s 1% daily VaR is 2.40%. The incremental VaR (IVaR) of selling half the high-yield bond position is −0.30%. Which statement is correct?"],
+    options: ["A) After the sale, the portfolio’s 1% daily VaR would be 2.10%.", "B) The high-yield position’s own 1% daily VaR is 0.30%.", "C) The portfolio’s worst daily loss would fall by 0.30%."], a: 0,
+    why: "IVaR is the change in the whole portfolio’s VaR from a change in one position: 2.40% − 0.30% = 2.10%. It is not the VaR of the position itself, and VaR is a minimum loss at a probability, not a worst loss.",
+    rule: "Incremental VaR = portfolio VaR after the change − before. Marginal VaR = change per small change in weight. Neither is a position’s stand-alone VaR." },
+  "L2-MOCK1-S1 #23": { lvl: 3, full: ["A strategy’s historical simulation gives a CVaR of 7.8%. A Monte Carlo simulation drawing from a multivariate normal fitted to the same history gives a CVaR of 3.1%. Volatility and Sharpe ratios are similar in both.", "The most likely explanation is that the historical factor returns:"],
+    options: ["A) are negatively skewed with fat tails.", "B) are correlated with one another.", "C) have too short a history."], a: 0,
+    why: "Similar volatility but a much bigger historical tail loss means the real distribution has fatter left tails (excess kurtosis, negative skew) than the normal can produce. Correlation is in both methods.",
+    rule: "Normal Monte Carlo CVaR far below historical CVaR → real returns have fat tails/negative skew that the normal misses." },
+  "L2-MOCK1-S1 #24": { lvl: 2, full: ["An analyst sets a single momentum rule before looking at any data, then backtests it over 20 years using only the stocks that are in the index today.", "The backtest most likely suffers from:"],
+    options: ["A) data snooping.", "B) survivorship bias.", "C) neither bias."], a: 1,
+    why: "Using today’s constituents drops the companies that failed or left the index, so past returns look better than any investor could have got: survivorship bias. The rule was fixed in advance, so it isn’t data snooping.",
+    rule: "Picking the best of many backtested strategies = data snooping. Using today’s survivors = survivorship bias. Using data not known at the time = look-ahead bias; point-in-time data fixes the last two." },
+  "L2-MOCK1-S1 #26": { lvl: 1, full: ["Beneish M-scores: Firm P −2.9, Firm Q −1.5, Firm R −2.2. Altman Z-scores: P 1.2, Q 3.5, R 2.0.", "Which firm is most likely to be manipulating its earnings?"],
+    options: ["A) Firm P", "B) Firm Q", "C) Firm R"], a: 1,
+    why: "The highest (least negative) M-score means the highest probability of manipulation: Q at −1.5, above the usual −1.78 warning level. P’s low Z-score signals bankruptcy risk, a different question.",
+    rule: "Beneish M: higher (less negative) = more likely manipulation. Altman Z: lower = more distress. Don’t mix the two." },
+  "L2-MOCK1-S1 #29": { lvl: 2, full: ["An analyst reads a newspaper summary of a central bank research paper. Without reading the paper itself, she uses the summary’s figures in her report and cites only the original paper.", "Does she violate Standard I(C) Misrepresentation?"],
+    options: ["A) No, because the original paper is cited.", "B) Yes, because she should cite the newspaper summary she actually relied on.", "C) Yes, because secondary sources may never be used."], a: 1,
+    why: "She must cite the source she actually used. She relied on the newspaper, not the paper, so citing only the paper misrepresents her source. Secondary sources are allowed if cited.",
+    rule: "I(C): cite the source you actually relied on. Read the original yourself → cite the original; how you heard of it doesn’t matter." },
+  "L2-MOCK1-S1 #32": { lvl: 2, full: ["Before resigning, an analyst sets up a competing advisory firm and calls her employer’s clients to ask them to move with her when she leaves.", "Does she violate Standard IV(A) Loyalty?"],
+    options: ["A) No, because preparations before leaving are allowed.", "B) Yes, because she solicits her employer’s clients before leaving.", "C) Yes, because setting up any company before leaving is a violation."], a: 1,
+    why: "Preparing a new business is allowed, but soliciting the employer’s clients while still employed breaches the duty of loyalty. Setting up the company alone would not.",
+    rule: "IV(A): you may prepare to leave, even for a competitor, but not solicit clients, take confidential records or compete while still employed. General skills and experience are yours." },
+  "L2-MOCK1-S1 #33": { lvl: 2, full: ["Which action would most likely lower a company’s WACC?"],
+    options: ["A) Replacing some option-free debt with callable debt, leaving leverage unchanged", "B) Growing its customer base from two large retailers to ten", "C) Entering a riskier product line with higher growth potential"], a: 1,
+    why: "More customers means less concentration risk and steadier cash flows, so lower costs of debt and equity. Callable debt makes investors demand a higher yield; a riskier product line raises business risk.",
+    rule: "Bottom-up: steadier, more diversified revenue → lower WACC; riskier lines → higher. A put lowers the yield investors require; a call raises it." },
+  "L2-MOCK1-S1 #34": { lvl: 3, full: ["For a private company, the peer-group beta is 1.3, the equity risk premium is 5.0% and the industry risk premium is −1.0%.", "Compared with the expanded CAPM, the cost of equity under the build-up approach is:"],
+    options: ["A) lower.", "B) the same.", "C) higher."], a: 0,
+    why: "Compare (β − 1) × ERP + IP = (1.3 − 1) × 5.0% − 1.0% = 1.5% − 1.0% = +0.5%. A positive result means the expanded CAPM is 0.5% higher, so the build-up estimate is lower.",
+    rule: "Expanded CAPM − build-up = (β − 1) × ERP + IP: positive → build-up lower; zero → same; negative → build-up higher." },
+  "L2-MOCK1-S1 #36": { lvl: 3, full: ["A target has EPS of $4.00 and cash flow per share of $6.00. Two comparable takeovers: Deal 1 price $50, EPS $5, CFPS $8; Deal 2 price $66, EPS $6, CFPS $10. Weight the P/E and P/CF results 50/50. An offer is fair if it is within $5 of the estimate.", "A $46 offer would most likely:"],
+    options: ["A) undervalue the target.", "B) fairly value the target.", "C) overvalue the target."], a: 2,
+    why: "Average P/E = (50/5 + 66/6) ÷ 2 = (10.0 + 11.0) ÷ 2 = 10.5 → 10.5 × $4.00 = $42.00. Average P/CF = (50/8 + 66/10) ÷ 2 = (6.25 + 6.60) ÷ 2 = 6.425 → 6.425 × $6.00 = $38.55. Fair price = 0.5 × 42.00 + 0.5 × 38.55 = $40.28. $46 − $40.28 = $5.72 > $5 → overvalues. Swapping EPS and CFPS gives $44.35 (“fair”), the trap.",
+    rule: "Comparable transactions: average the deal multiples, apply them to the target’s matching metric, weight as told. No extra takeover premium: deal prices already include it." },
+  "L2-MOCK1-S1 #38": { lvl: 2, full: ["A fund is long three futures. Near-term and farther-term prices: X 50.20 and 48.90; Y 12.10 and 12.10; Z 3.05 and 3.21.", "Which position has a positive roll return?"],
+    options: ["A) X", "B) Y", "C) Z"], a: 0,
+    why: "Roll return = (near − farther) ÷ near. X: (50.20 − 48.90) ÷ 50.20 = +2.6% (backwardation). Y: 0 (flat). Z: (3.05 − 3.21) ÷ 3.05 = −5.2% (contango).",
+    rule: "Roll return = (near − farther) ÷ near: backwardation (farther below near) → positive for a long; contango → negative; flat → zero." },
+  "L2-MOCK1-S1 #40": { lvl: 3, full: ["A manager expects Brent crude to fall 2% and WTI to fall 7% over the next quarter, and has no view on volatility. Using a basis swap on Brent and WTI, she should be:"],
+    options: ["A) long WTI and short Brent.", "B) long Brent and short WTI.", "C) short both Brent and WTI."], a: 1,
+    why: "A basis swap pays on the price difference. Be long the leg expected to do better (Brent falls less) and short the leg expected to do worse (WTI). A basis swap has two legs, one long and one short.",
+    rule: "Basis swap: long the commodity you expect to do better, short the one you expect to do worse. A view on volatility → volatility swap (short if you expect less volatility than priced)." },
+  "L2-MOCK1-S1 #41": { lvl: 2, full: ["A EUR-based investor buys a 1-year JPY deposit paying 0.10% and fully hedges the currency with a no-arbitrage 1-year forward. The 1-year EUR rate is 3.00%.", "The investor’s all-in EUR return is closest to:"],
+    options: ["A) 0.10%", "B) 2.90%", "C) 3.00%"], a: 2,
+    why: "Covered interest rate parity: a fully hedged foreign deposit earns the domestic rate. The forward premium adds the 2.90% gap to the JPY 0.10%, so the return is the EUR rate, 3.00%.",
+    rule: "Fully hedged with a no-arbitrage forward → you earn your domestic rate. Foreign rate + forward premium/discount = domestic rate." },
+  "L2-MOCK1-S1 #43": { lvl: 3, full: ["A JPY-based investor borrows JPY at 0.50% and invests in a 1-year USD deposit at 5.00%. Spot is 150.00 JPY per USD, and the expected spot in one year is 152.00 JPY per USD.", "The expected all-in return on the carry trade is closest to:"],
+    options: ["A) 4.50%", "B) 5.90%", "C) 6.40%"], a: 1,
+    why: "JPY 150 → USD 1.00 → USD 1.05 after a year → × 152.00 = JPY 159.60, a 6.40% return in JPY. Less the 0.50% borrowing cost = 5.90%. 4.50% is the rate gap (assumes no currency move); 6.40% ignores the funding cost.",
+    rule: "Carry trade = return on the high-yield deposit in your currency (including the expected FX move) − the funding rate. The rate gap alone assumes the exchange rate doesn’t move." },
+  "L2-MOCK1-S1 #44": { lvl: 2, full: ["Under the Mundell–Fleming model with high capital mobility, which policy mix most likely leads to a depreciation of the domestic currency?"],
+    options: ["A) Restrictive monetary policy and expansionary fiscal policy", "B) Expansionary monetary policy and restrictive fiscal policy", "C) Restrictive monetary policy and restrictive fiscal policy"], a: 1,
+    why: "Easy money lowers rates and smaller deficits (tight fiscal) lower them further, so capital flows out and the currency falls. A is the mix that appreciates; C is mixed, so the outcome is unclear.",
+    rule: "High capital mobility: tight money + loose fiscal → appreciation; loose money + tight fiscal → depreciation; mixed pairs → unclear." },
 };
 
 const TUITION_Q = {
@@ -29892,7 +29997,7 @@ function plMock(n, opt) {
 function plReview(n) {
   return [
     { w: 'AM', t: 'Review Mock ' + n + ' in 🎯 Mock analysis: every question, right ones too. For each, check your logic against why the answer is right (about 3 h).', go: 'mocks' },
-    { w: 'AM', t: 'In the Test log: do the Quick fixes from Mock ' + n + ' and note the Dig in sessions.', go: 'tests' },
+    { w: 'AM', t: 'In 🎯 Mock analysis: work down the Weakness tracker, Repeat and Open first, and answer each one’s 🔁 twin in the Test log.', go: 'mocks' },
   ];
 }
 // First pass on one reading: Concise notes and weak-spot cards (full notes only where unclear), then 20 questions.
@@ -33951,7 +34056,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart', 'f-mock-tracker'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -34749,7 +34854,7 @@ function renderFlow(key) {
         <span class="nb-session-title">${escapeHtml(s.title)}</span>
         ${s.pages ? `<span class="nb-session-pages">${escapeHtml(s.pages)}</span>` : ''}
         ${hasN ? exViewLink('notes', key, s.module, '📝 Notes') : ''}${hasF ? exViewLink('formulas', key, s.module, '📐 Formulas') : ''}
-        ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}
+        ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}${safeHtml(() => mkChipHtml(key, s.module))}
         ${stBtn(stKey(key, s.module, 'section'), 'section', false, 'sess')}
       </div>
       ${misses.filter(m => m.module === s.module).map(m => renderWeakCard(m, key)).join('')}
@@ -36397,6 +36502,14 @@ function rlItems() {
     seen[q.ref] = 1;
     out.push({ ref: q.ref, topic, mod: m.module, rule: m.title, fix: m.fix, q: TUITION_Q[q.ref], twin: TWIN_Q[q.ref] || null });
   })));
+  // Mock misses with a twin: the original comes from MOCK_Q, the line to remember from the twin.
+  tlAll().filter(t => t.mock).forEach(t => t.qs.forEach(q => {
+    const ref = mkRef(t, q), f = MOCK_Q[ref];
+    if (seen[ref] || !TWIN_Q[ref] || !f || !mkMiss(t, q)) return;
+    seen[ref] = 1;
+    out.push({ ref, topic: q.topic, mod: q.mod, rule: TWIN_Q[ref].rule || q.what, fix: '', mock: t.name, twin: TWIN_Q[ref],
+      q: { full: [f.stem], options: f.options.map((o, i) => 'ABC'[i] + ') ' + o), a: f.a, p: f.p } });
+  }));
   // New questions first, then the originals still waiting for one.
   return out.sort((a, b) => !a.twin - !b.twin || fl(a.topic) - fl(b.topic) || a.ref.localeCompare(b.ref, undefined, { numeric: true }));
 }
@@ -36425,7 +36538,7 @@ function rlHtml() {
       <div class="rl-rule"><div class="weak-sec">Remember</div><div class="rl-rule-txt">${escapeHtml(x.rule)}</div>
         ${x.twin ? `<div class="weak-text" style="margin-top:4px">${escapeHtml(x.twin.why)}</div>` : ''}
         ${x.fix ? `<details><summary>${x.twin ? 'Why you missed the original' : 'Why'}</summary><div class="weak-text">${escapeHtml(x.fix)}</div></details>` : ''}
-        ${x.twin ? `<details><summary>The question you missed in the quiz</summary>${weakQHtml({ ref: x.ref })}</details>` : ''}</div>
+        ${x.twin ? `<details><summary>The question you missed in the ${x.mock ? 'mock' : 'quiz'}</summary>${x.mock ? mkMissedHtml(x) : weakQHtml({ ref: x.ref })}</details>` : ''}</div>
       <div class="rl-acts">${exGoBtn(x.topic, x.mod, '', 'Open ' + x.mod)}<span style="flex:1"></span><button type="button" class="rv-btn" data-rl="again">Again</button><button type="button" class="rv-btn rl-got" data-rl="got:${escapeHtml(x.ref)}">Got it ✓</button></div>` : ''}
     </div>`;
   }
@@ -36675,6 +36788,13 @@ function mkNums() { return mkTests().map(t => t.mock).filter((n, i, a) => a.inde
 function mkMiss(t, q) { return tlMiss(q) || mkTick(mkRef(t, q)) === 'luck'; }
 function mkPct(got, n) { return n ? Math.round(100 * got / n) : 0; }
 function mkBand(acc) { return acc >= TL_TARGET ? 'on' : acc >= MK_SAFE ? 'fix' : 'dig'; }
+// The mock question behind a twin, for 🔁 Review: stem and options, with a way to the full vignette.
+function mkMissedHtml(x) {
+  const f = x.q;
+  return `<div class="weak-q"><span class="weak-ref">${escapeHtml(x.mock + ' · ' + x.ref.replace(/^.* #/, 'Q'))}</span><div class="weak-full"><p>${escapeHtml(f.full[0])}</p></div>
+    <ul class="weak-opts">${f.options.map((o, i) => `<li class="${i === f.a ? 'right' : i === f.p ? 'picked' : ''}"><span class="weak-mark">${i === f.a ? '✓' : i === f.p ? '✗' : '○'}</span><span>${escapeHtml(o)}</span></li>`).join('')}</ul>
+    <button type="button" class="ex-link" data-exview="mocks">The full question with its vignette is in 🎯 Mock analysis</button></div>`;
+}
 function mkNavHtml() {
   const ts = mkTests();
   if (!ts.length) return '';
@@ -36712,22 +36832,79 @@ function mkScoreHtml(ts) {
     <div class="cm-hint">The bar’s thin ticks mark ${MK_SAFE}% (safe) and ${TL_TARGET}% (target). Readiness averages your last three mocks, so a single bad day doesn’t move it much.</div>
   </section>`;
 }
-// 2. Where the marks are: accuracy × exam weight, as questions you could still gain on exam day.
+// Weakness tracker: every session missed in a mock, judged on what came after its latest mock miss. Mock results
+// are strong evidence; a later reading quiz on the session or its 🔁 twin answered in Review are weaker evidence.
+// Two right mocks after the miss → confirmed fixed; one, or a right quiz/twin → fixed once; missed in two or more
+// mocks with nothing right since → repeat. The weight is how much the session's misses still count.
+const MK_STATUS = {
+  repeat: { label: 'Repeat', w: 1.5, cls: 'dig', next: 'Missed in more than one mock. Re-study the session and its weak spots, answer its 🔁 twin in the Test log, then let the next mock decide.' },
+  open: { label: 'Open', w: 1, cls: 'dig', next: 'Answer its 🔁 twin in the Test log’s Review, or take a quiz on the reading. A right answer moves it to Fixed once.' },
+  once: { label: 'Fixed once', w: 0.3, cls: 'fix', next: 'Probably learned. A right answer on it in a later mock confirms it.' },
+  done: { label: 'Confirmed fixed', w: 0, cls: 'on', next: 'Right in two mocks since the miss. It no longer counts.' },
+};
+const MK_ORDER = { repeat: 0, open: 1, once: 2, done: 3 };
+function mkWeak() {
+  const by = {}, key = q => q.topic + '|' + q.mod;
+  mkTests().forEach(t => {
+    const per = {};
+    t.qs.forEach(q => { if (q.mod) (per[key(q)] = per[key(q)] || []).push(q); });
+    Object.keys(per).forEach(k => {
+      const qs = per[k], miss = qs.filter(q => mkMiss(t, q));
+      const s = by[k] = by[k] || { topic: qs[0].topic, mod: qs[0].mod, ev: [], refs: [], what: [] };
+      s.ev.push({ d: t.date, strong: 1, ok: !miss.length, label: 'M' + t.mock + '·S' + t.sess, note: (qs.length - miss.length) + '/' + qs.length });
+      miss.forEach(q => { s.refs.push(mkRef(t, q)); s.what.push(q.what); });
+    });
+  });
+  Object.keys(by).forEach(k => { if (!by[k].refs.length) delete by[k]; });
+  tlAll().filter(t => !t.mock).forEach(t => {
+    const per = {};
+    t.qs.forEach(q => { if (q.mod && by[key(q)]) (per[key(q)] = per[key(q)] || []).push(q); });
+    Object.keys(per).forEach(k => { const qs = per[k], m = qs.filter(tlMiss).length; by[k].ev.push({ d: t.date, strong: 0, ok: !m, label: t.id, note: (qs.length - m) + '/' + qs.length }); });
+  });
+  Object.values(by).forEach(s => s.refs.forEach(ref => {
+    const r = pgGet(rlKey(ref)) || {};
+    if (r.at) s.ev.push({ d: r.at, strong: 0, tw: 1, ok: true, label: 'Twin', note: '' });
+    else if (r.wrong && r.last) s.ev.push({ d: r.last, strong: 0, tw: 1, ok: false, label: 'Twin', note: '' });
+  }));
+  return Object.values(by).map(s => {
+    const ev = s.ev.sort((a, b) => (a.d < b.d ? -1 : a.d > b.d ? 1 : b.strong - a.strong));
+    const misses = ev.filter(e => e.strong && !e.ok), last = misses[misses.length - 1], li = ev.indexOf(last);
+    // A quiz on the same day as the mock can't be placed before or after it, so only later ones count.
+    const after = ev.slice(li + 1).filter(e => e.strong || e.tw || e.d > last.d), latest = after[after.length - 1];
+    const sp = after.filter(e => e.strong && e.ok).length;
+    s.before = ev.slice(0, li).filter(e => !e.strong && !e.ok).length;
+    s.status = sp >= 2 ? 'done' : sp === 1 ? (latest.ok ? 'once' : 'open') : latest && latest.ok ? 'once' : misses.length >= 2 ? 'repeat' : 'open';
+    s.w = MK_STATUS[s.status].w;
+    s.ev = ev.filter(e => e.strong || ev.indexOf(e) > li);
+    return s;
+  });
+}
+function mkWeakMap() { const m = {}; mkWeak().forEach(s => { m[s.topic + '|' + s.mod] = s; }); return m; }
+// The chip on a session in the notes: its mock weakness status. Tap → the tracker row.
+function mkChipHtml(topic, mod) {
+  const s = mkWeakMap()[topic + '|' + mod];
+  if (!s || s.status === 'done') return '';
+  return `<button type="button" class="tl-chip tl-${MK_STATUS[s.status].cls}" data-exview="${escapeHtml('mocks|' + topic + '|' + mod)}" title="Missed in a mock: ${escapeHtml(s.what.join('; '))}. Tap for the weakness tracker.">🎯 ${MK_STATUS[s.status].label}</button>`;
+}
+// 2. Where the marks are: what you'd gain on exam day by lifting each subject to the target. A missed mock question
+// counts at its session's weight, so a weakness fixed since counts less and a repeat counts more.
 function mkMarksHtml(ts) {
-  const qs = ts.reduce((a, t) => a.concat(t.qs.map(q => ({ t, q }))), []), quiz = tlQs(tlAll().filter(t => !t.mock));
+  const qs = ts.reduce((a, t) => a.concat(t.qs.map(q => ({ t, q }))), []), quiz = tlQs(tlAll().filter(t => !t.mock)), wk = mkWeakMap();
   const rows = SUBJECTS.map(sj => {
     const sq = qs.filter(x => tlSubjOf(x.q.topic) === sj.id), n = sq.length;
     if (!n) return null;
-    const got = sq.filter(x => !mkMiss(x.t, x.q)).length, acc = mkPct(got, n), w = MK_WEIGHT[sj.id] || 0;
+    const miss = sq.filter(x => mkMiss(x.t, x.q)), got = n - miss.length, raw = mkPct(got, n), w = MK_WEIGHT[sj.id] || 0;
+    const eff = miss.reduce((a, x) => { const s = wk[x.q.topic + '|' + x.q.mod]; return a + (s ? s.w : 1); }, 0);
+    const acc = Math.round(100 * (1 - Math.min(n, eff) / n));
     const qq = quiz.filter(q => tlSubjOf(q.topic) === sj.id).slice(-50);
-    return { sj, n, got, acc, w, gain: Math.max(0, (TL_TARGET - acc) / 100 * w / 100 * MK_EXAM_Q), quiz: qq.length >= 5 ? tlAcc(qq) : null };
+    return { sj, n, got, raw, acc, w, gain: Math.max(0, (TL_TARGET - acc) / 100 * w / 100 * MK_EXAM_Q), quiz: qq.length >= 5 ? tlAcc(qq) : null };
   }).filter(Boolean).sort((a, b) => b.gain - a.gain || a.acc - b.acc);
   const untested = SUBJECTS.filter(sj => !rows.some(r => r.sj.id === sj.id));
   return `<section class="block"><div class="block-label">Where the marks are · most to gain first</div>
-    <div class="deepdive-hint">Accuracy alone ranks a 5% subject the same as a 15% one. This ranks each subject by the exam questions you’d gain by lifting it to ${TL_TARGET}%: (${TL_TARGET}% − your accuracy) × its weight × ${MK_EXAM_Q} questions.</div>
-    ${rows.map((r, i) => `<div class="tl-sub-read mk-mark-row${i < 3 && r.gain >= 1 ? ' mk-top' : ''}"><button type="button" class="tl-read-name" data-mk="subj:${r.sj.id}" title="Show this subject’s questions in the review below">${escapeHtml(r.sj.name)}</button>${mkBar(r.acc, mkBand(r.acc))}<span class="tl-sub-pct">${r.acc}%</span><span class="tl-sub-n">${r.got}/${r.n} · weight ~${r.w}%${r.quiz != null ? ' · quizzes ' + r.quiz + '%' : ''}</span><span class="mk-gain">${r.gain >= 0.5 ? '+' + r.gain.toFixed(1) + ' Q' : '—'}</span></div>`).join('')}
+    <div class="deepdive-hint">Ranks each subject by the exam questions you’d gain by lifting it to ${TL_TARGET}%: (${TL_TARGET}% − its standing) × its weight × ${MK_EXAM_Q} questions. Its standing counts each mock miss by where that weakness is now: a repeat counts 1.5, open 1, fixed once 0.3, confirmed fixed 0.</div>
+    ${rows.map((r, i) => `<div class="tl-sub-read mk-mark-row${i < 3 && r.gain >= 1 ? ' mk-top' : ''}"><button type="button" class="tl-read-name" data-mk="subj:${r.sj.id}" title="Show this subject’s questions in the review below">${escapeHtml(r.sj.name)}</button>${mkBar(r.acc, mkBand(r.acc))}<span class="tl-sub-pct">${r.acc}%</span><span class="tl-sub-n">${r.acc !== r.raw ? 'scored ' + r.raw + '% · ' : ''}${r.got}/${r.n} · weight ~${r.w}%${r.quiz != null ? ' · quizzes ' + r.quiz + '%' : ''}</span><span class="mk-gain">${r.gain >= 0.5 ? '+' + r.gain.toFixed(1) + ' Q' : '—'}</span></div>`).join('')}
     ${untested.length ? `<div class="cm-hint">Not in a mock yet: ${untested.map(s => escapeHtml(s.name)).join(', ')}.</div>` : ''}
-    <div class="cm-hint">A session of 44 has only about 4 questions a subject, so one mock is a rough guide. “Quizzes” is the same subject’s latest 50 quiz questions, for comparison. Right-for-the-wrong-reason ticks count as misses here.</div>
+    <div class="cm-hint">A session of 44 has only about 4 questions a subject, so one mock is a rough guide. “Scored” is the raw mock accuracy when it differs from the standing. “Quizzes” is the subject’s latest 50 quiz questions.</div>
   </section>`;
 }
 // 3. Item sets: one tile per vignette, coloured by how many of its 4 you got.
@@ -36763,19 +36940,24 @@ function mkKindsHtml(ts) {
     <div class="cm-hint">The kind of each miss is Claude’s read of the trap you fell into, from the option you picked. If you know you guessed one you got right, say so and it will count here.</div>
   </section>`;
 }
-// 6. Sessions missed again: in two mocks, or in a mock and a quiz.
-function mkRepeatHtml(ts) {
-  const by = {};
-  const add = (q, src) => { const k = q.topic + '|' + q.mod; (by[k] = by[k] || { topic: q.topic, mod: q.mod, mocks: {}, quiz: 0, what: [] }); if (src) { by[k].mocks[src] = 1; by[k].what.push(q.what); } else by[k].quiz++; };
-  ts.forEach(t => t.qs.forEach(q => { if (q.mod && mkMiss(t, q)) add(q, 'M' + t.mock); }));
-  tlAll().filter(t => !t.mock).forEach(t => t.qs.forEach(q => { if (q.mod && tlMiss(q) && by[q.topic + '|' + q.mod]) add(q, ''); }));
-  const fl = t => FLAT.findIndex(x => x.key === t);
-  const rows = Object.values(by).filter(r => Object.keys(r.mocks).length > 1 || r.quiz).sort((a, b) => Object.keys(b.mocks).length - Object.keys(a.mocks).length || b.quiz - a.quiz || fl(a.topic) - fl(b.topic));
-  return `<section class="block"><div class="block-label">Missed again · ${rows.length} session${rows.length === 1 ? '' : 's'}</div>
-    <div class="deepdive-hint">A session you miss in a mock and also missed in its reading quizzes (or in two mocks) is a real weak spot, not a one-off. These come first in your review days.</div>
-    ${rows.length ? rows.map(r => `<div class="tl-row tl-dig"><div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(r.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(r.topic, r.mod) || tlShort(r.topic))}</span><span class="tl-badge tl-dig">${Object.keys(r.mocks).join(' + ')}${r.quiz ? ' + ' + r.quiz + ' quiz miss' + (r.quiz > 1 ? 'es' : '') : ''}</span></div>
-      <div class="tl-row-meta">${escapeHtml(tlShort(r.topic))} · mock: ${r.what.map(escapeHtml).join('; ')}</div>
-      <div class="tl-row-acts">${exGoBtn(r.topic, r.mod, '', 'Open ' + r.mod)}</div></div>`).join('') : '<div class="rv-note">None yet: no session has been missed both in a mock and in its quizzes.</div>'}
+// 6. Weakness tracker: every session missed in a mock, with its history since and where it stands. Ordered for the
+// review days: repeat, then open, then fixed once, each by weight × the subject's exam weight.
+function mkTrackerHtml() {
+  const fl = t => FLAT.findIndex(x => x.key === t), pri = s => s.w * (MK_WEIGHT[tlSubjOf(s.topic)] || 0);
+  const all = mkWeak().sort((a, b) => MK_ORDER[a.status] - MK_ORDER[b.status] || pri(b) - pri(a) || b.before - a.before || fl(a.topic) - fl(b.topic));
+  const live = all.filter(s => s.status !== 'done'), done = all.filter(s => s.status === 'done');
+  const n = k => all.filter(s => s.status === k).length;
+  const row = s => `<div class="tl-row tl-${MK_STATUS[s.status].cls}" data-sess="${escapeHtml(s.topic + '|' + s.mod)}">
+      <div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(s.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(s.topic, s.mod) || tlShort(s.topic))}</span><span class="tl-badge tl-${MK_STATUS[s.status].cls}">${MK_STATUS[s.status].label}</span></div>
+      <div class="tl-row-meta">${escapeHtml(tlShort(s.topic))} · missed: ${s.what.map(escapeHtml).join('; ')}${s.before ? ` · <b>also missed in ${s.before} quiz${s.before > 1 ? 'zes' : ''} before</b>` : ''}</div>
+      <div class="mk-hist">${s.ev.map(e => `<span class="mk-ev ${e.ok ? 'ok' : 'no'}${e.strong ? ' strong' : ''}" title="${e.strong ? 'Mock' : e.tw ? '🔁 Twin in Review' : 'Reading quiz'} · ${tlDate(e.d)}">${escapeHtml(e.label)}${e.note ? ' ' + e.note : ''} ${e.ok ? '✓' : '✗'}</span>`).join('<span class="mk-arrow">→</span>')}</div>
+      <div class="tl-row-do"><b>Next:</b> ${MK_STATUS[s.status].next}</div>
+      <div class="tl-row-acts">${exGoBtn(s.topic, s.mod, '', 'Open ' + s.mod)}</div></div>`;
+  return `<section class="block"><div class="block-label" data-new="f-mock-tracker">Weakness tracker · ${n('repeat')} repeat · ${n('open')} open · ${n('once')} fixed once · ${n('done')} confirmed</div>
+    <div class="deepdive-hint">Every session you’ve missed in a mock, judged on what happened after. A later mock is the strong proof; a right quiz or 🔁 twin counts as a first sign. Work down this list on review days: it is already in order of what is most likely to cost marks.</div>
+    ${live.length ? live.map(row).join('') : '<div class="rv-note">Nothing open: every mock weakness is confirmed fixed.</div>'}
+    ${done.length ? `<details class="tl-done"><summary>Confirmed fixed · ${done.length}</summary>${done.map(row).join('')}</details>` : ''}
+    <div class="cm-hint">Repeat: missed in two mocks, nothing right since. Open: missed, not yet shown fixed. Fixed once: right once since (a mock, a quiz on it after the mock, or its twin). Confirmed: right in two later mocks.</div>
   </section>`;
 }
 // 7. Question by question: every question with its vignette, the logic of the answer, the working and why each
@@ -36837,13 +37019,13 @@ function mkRender(el) {
     <p class="topic-desc">Your mocks read as an exam: the score against ${TL_TARGET}%, which subjects hold the most marks, which vignettes you lost, how many misses were technique and how many were knowledge, and every question with the logic behind its answer. Mock questions also count in the 🧪 Test log.</p>
     ${safeHtml(() => mkScoreHtml(ts))}
     ${safeHtml(() => mkMarksHtml(ts))}
+    ${safeHtml(mkTrackerHtml)}
     ${nums.length > 1 ? `<div class="ex-tools tl-filter">${nums.map(m => `<button type="button" class="ex-chip${m === n ? ' on' : ''}" data-mk="mock:${m}">Mock ${m}</button>`).join('')}</div>` : ''}
     <section class="block"><div class="block-label">Item sets · Mock ${n}</div>
       <div class="deepdive-hint">Each tile is one vignette of four questions. Tap one to jump to it in the review.</div>
       ${cur.map(t => safeHtml(() => mkSetsHtml(t))).join('')}
     </section>
     ${safeHtml(() => mkKindsHtml(cur))}
-    ${safeHtml(() => mkRepeatHtml(ts))}
     ${cur.map(t => safeHtml(() => mkReviewHtml(t))).join('')}`;
 }
 function mkInit() {
