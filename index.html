@@ -36826,9 +36826,6 @@ function mkScoreHtml(ts) {
       ${kpi('To reach ' + TL_TARGET + '%', need ? '+' + need : '✓', need ? 'more right answers in each 44-question session' : 'at target')}
     </div>
     ${rows.map(r => r.html).join('')}
-    <div class="ex-label" style="margin-top:14px">Trend by subject · mock sessions only</div>
-    ${safeHtml(() => tlTrendSvg(ts, true))}
-    <div class="cm-hint" style="margin-top:2px">The same chart as the 🧪 Test log’s, with mock sessions only. Each dot is one session; each line is the average of that subject’s last five sessions, so lines appear from the second session on. Hover a dot for its session.</div>
     <div class="cm-hint">The bar’s thin ticks mark ${MK_SAFE}% (safe) and ${TL_TARGET}% (target). Readiness averages your last three mocks, so a single bad day doesn’t move it much.</div>
   </section>`;
 }
