@@ -1039,6 +1039,8 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .tl-pt-dot { fill: var(--slate); stroke: none; opacity: 0.7; }
   .tl-pt:hover .tl-pt-dot { opacity: 1; }
   .tl-pt-hit { fill: transparent; cursor: default; }
+  .tl-pt-ring { fill: none; stroke-width: 1.6; }
+  .tl-chart-sw { margin: 0 0 4px; }
   .tl-pt:hover .tl-pt-dot { fill: var(--ink); }
   .tl-sub { border-bottom: 1px solid var(--line); }
   .tl-sub > summary { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 13px; color: var(--ink); list-style: none; }
@@ -33949,7 +33951,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -36457,7 +36459,8 @@ function tlSubjOf(topic) { return String(topic).split('.')[0]; }
 function tlSubjName(id) { const s = SUBJECTS.find(x => x.id === id); return s ? s.name : id; }
 // Accuracy against practice: for each subject, x is how many of its questions you've answered so far and y the
 // average of its last five quizzes, so every line starts at 0 and runs as far as that subject has been practised.
-function tlTrendSvg(tests) {
+// `mocks`: only mock sessions, so the x axis fits their few questions and the two-mocks marker is dropped.
+function tlTrendSvg(tests, mocks) {
   const W = 660, H = 214, L = 50, R = 152, T = 12, B = 36;
   const subs = SUBJECTS.map(s => s.id).filter(id => tests.some(t => t.qs.some(q => tlSubjOf(q.topic) === id)));
   const series = subs.map(id => {
@@ -36470,9 +36473,9 @@ function tlTrendSvg(tests) {
     });
     return { id, pts, n: cum };
   });
-  const most = Math.max(0, ...series.map(s => s.n)), xmax = Math.max(most, TL_RECENT);
+  const most = Math.max(0, ...series.map(s => s.n)), xmax = mocks ? Math.max(most, 8) : Math.max(most, TL_RECENT);
   const x = v => L + v * (W - L - R) / xmax, y = v => T + (100 - v) * (H - T - B) / 100;
-  const step = xmax <= 200 ? 25 : xmax <= 500 ? 50 : 100, labels = [];
+  const step = xmax <= 20 ? 4 : xmax <= 50 ? 10 : xmax <= 200 ? 25 : xmax <= 500 ? 50 : 100, labels = [];
   const lines = series.map(s => {
     const [col, dash] = TL_SUBJ_COLOR[s.id] || ['#888'], last = s.pts[s.pts.length - 1];
     labels.push({ y: y(last.avg), text: `${TL_SUBJ_SHORT[s.id] || tlSubjName(s.id)} ${last.avg}% · ${s.n} Q`, col, dash });
@@ -36480,24 +36483,26 @@ function tlTrendSvg(tests) {
   }).join('');
   const dots = series.map(s => s.pts.map(p => {
     const col = (TL_SUBJ_COLOR[s.id] || ['#888'])[0];
-    return `<g class="tl-pt"><circle cx="${x(p.n)}" cy="${y(p.acc)}" r="4.5" class="tl-pt-dot" style="fill:${col}"/><circle cx="${x(p.n)}" cy="${y(p.acc)}" r="11" class="tl-pt-hit"><title>${escapeHtml(tlSubjName(s.id))} questions ${p.from}–${p.n} · ${escapeHtml(p.t.id)} · ${tlDate(p.t.date)}\n${p.right}/${p.qn} right (${p.acc}%) · last-five-quiz average ${p.avg}%</title></circle></g>`;
+    const ring = p.t.mock && !mocks ? `<circle cx="${x(p.n)}" cy="${y(p.acc)}" r="7.5" class="tl-pt-ring" style="stroke:${col}"/>` : '';
+    return `<g class="tl-pt">${ring}<circle cx="${x(p.n)}" cy="${y(p.acc)}" r="4.5" class="tl-pt-dot" style="fill:${col}"/><circle cx="${x(p.n)}" cy="${y(p.acc)}" r="11" class="tl-pt-hit"><title>${escapeHtml(tlSubjName(s.id))} questions ${p.from}–${p.n} · ${escapeHtml(p.t.mock ? p.t.name : p.t.id)} · ${tlDate(p.t.date)}\n${p.right}/${p.qn} right (${p.acc}%) · last-five-${mocks ? 'session' : 'quiz'} average ${p.avg}%</title></circle></g>`;
   }).join('')).join('');
   // End labels sit in the right margin, nudged apart so they never overlap.
   labels.sort((a, b) => a.y - b.y).forEach((l, i, a) => { if (i && l.y - a[i - 1].y < 13) l.y = a[i - 1].y + 13; });
   const labelSvg = labels.map(l => `<line x1="${W - R + 6}" x2="${W - R + 20}" y1="${l.y}" y2="${l.y}" class="tl-line-subj" style="stroke:${l.col}"${l.dash ? ` stroke-dasharray="4 3"` : ''}/><text x="${W - R + 24}" y="${l.y + 3.5}" class="tl-axis tl-axis-ink">${escapeHtml(l.text)}</text>`).join('');
   const grid = [0, 25, 50, 75, 100].map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" class="tl-grid"/><text x="${L - 6}" y="${y(v) + 3.5}" class="tl-axis" text-anchor="end">${v}%</text>`).join('');
   const ticks = [];
-  for (let v = 0; v <= xmax; v += step) if (Math.abs(v - TL_RECENT) > step / 2) ticks.push(v);
+  for (let v = 0; v <= xmax; v += step) if (mocks || Math.abs(v - TL_RECENT) > step / 2) ticks.push(v);
   const xAxis = ticks.map(v => `<line x1="${x(v)}" x2="${x(v)}" y1="${H - B}" y2="${H - B + 4}" class="tl-grid"/><text x="${x(v)}" y="${H - B + 14}" class="tl-axis" text-anchor="middle">${v}</text>`).join('') +
-    `<line x1="${x(TL_RECENT)}" x2="${x(TL_RECENT)}" y1="${T}" y2="${H - B + 4}" class="tl-target"/><text x="${x(TL_RECENT)}" y="${H - B + 14}" class="tl-axis tl-axis-strong" text-anchor="middle">${TL_RECENT}</text><text x="${x(TL_RECENT) - 4}" y="${T + 10}" class="tl-axis" text-anchor="end">Two mocks’ worth</text>` +
-    `<text x="${(L + W - R) / 2}" y="${H - 4}" class="tl-axis" text-anchor="middle">Questions answered in that subject</text><text x="10" y="${(T + H - B) / 2}" class="tl-axis" text-anchor="middle" transform="rotate(-90 10 ${(T + H - B) / 2})">Accuracy</text>`;
+    (mocks ? '' : `<line x1="${x(TL_RECENT)}" x2="${x(TL_RECENT)}" y1="${T}" y2="${H - B + 4}" class="tl-target"/><text x="${x(TL_RECENT)}" y="${H - B + 14}" class="tl-axis tl-axis-strong" text-anchor="middle">${TL_RECENT}</text><text x="${x(TL_RECENT) - 4}" y="${T + 10}" class="tl-axis" text-anchor="end">Two mocks’ worth</text>`) +
+    `<text x="${(L + W - R) / 2}" y="${H - 4}" class="tl-axis" text-anchor="middle">${mocks ? 'Mock questions' : 'Questions'} answered in that subject</text><text x="10" y="${(T + H - B) / 2}" class="tl-axis" text-anchor="middle" transform="rotate(-90 10 ${(T + H - B) / 2})">Accuracy</text>`;
   const target = `<line x1="${L}" x2="${W - R}" y1="${y(TL_TARGET)}" y2="${y(TL_TARGET)}" class="tl-target"/><text x="${L + 4}" y="${y(TL_TARGET) - 4}" class="tl-axis">Target ${TL_TARGET}%</text>`;
-  const legend = subs.length > 1 ? `<div class="tl-legend">${subs.map(id => { const [col, dash] = TL_SUBJ_COLOR[id] || ['#888']; return `<span><i style="border-top:2.5px ${dash ? 'dashed' : 'solid'} ${col}"></i>${escapeHtml(tlSubjName(id))}</span>`; }).join('')}</div>` : '';
-  return `${legend}<svg class="tl-trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy against the number of questions answered in each subject, with the ${TL_TARGET}% target and a marker at ${TL_RECENT} questions">${grid}${xAxis}${target}${lines}${dots}${labelSvg}</svg>`;
+  const ringed = !mocks && tests.some(t => t.mock) ? '<span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" class="tl-pt-ring" style="stroke:var(--ink-soft)"/><circle cx="8" cy="8" r="3.5" style="fill:var(--ink-soft)"/></svg>Ringed dot = a mock session</span>' : '';
+  const legend = subs.length > 1 || ringed ? `<div class="tl-legend">${subs.map(id => { const [col, dash] = TL_SUBJ_COLOR[id] || ['#888']; return `<span><i style="border-top:2.5px ${dash ? 'dashed' : 'solid'} ${col}"></i>${escapeHtml(tlSubjName(id))}</span>`; }).join('')}${ringed}</div>` : '';
+  return `${legend}<svg class="tl-trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy against the number of ${mocks ? 'mock ' : ''}questions answered in each subject, with the ${TL_TARGET}% target${mocks ? '' : ' and a marker at ' + TL_RECENT + ' questions'}">${grid}${xAxis}${target}${lines}${dots}${labelSvg}</svg>`;
 }
 // Filter on the test log: a subject, then optionally one of its readings. Every section follows it; a mock's
 // questions are filtered one by one, by the reading each one tests. Kept on this device only.
-const tlf = { subj: 'all', topic: 'all' };
+const tlf = { subj: 'all', topic: 'all', chart: 'all' };
 try { Object.assign(tlf, JSON.parse(localStorage.getItem('ledgerTlFilter') || '{}')); } catch (e) {}
 function tlMatch(topic) {
   return (tlf.subj === 'all' || String(topic).split('.')[0] === tlf.subj) && (tlf.topic === 'all' || topic === tlf.topic);
@@ -36520,6 +36525,13 @@ function tlFilterHtml() {
       ${chip('topic|all', tlf.topic === 'all', 'All of ' + sj.name, null)}
       ${reads.map(k => chip('topic|' + k, tlf.topic === k, tlShort(k).replace(/ ·.*/, ''), count(q => q.topic === k))).join('')}
     </div>` : ''}`;
+}
+// The trend chart with its switch: every test (mock sessions ringed), or mock sessions only.
+function tlChartHtml(tests) {
+  const mk = tests.filter(t => t.mock), only = tlf.chart === 'mocks' && mk.length;
+  const sw = mk.length ? `<div class="ex-tools tl-filter tl-chart-sw" data-new="f-mock-chart">${[['all', 'All tests', tests.length], ['mocks', 'Mocks only', mk.length]].map(([k, lab, n]) => `<button type="button" class="ex-chip${(only ? 'mocks' : 'all') === k ? ' on' : ''}" data-tlf="chart|${k}">${lab} <span class="tl-f-n">${n}</span></button>`).join('')}</div>` : '';
+  if (only) return sw + tlTrendSvg(mk, true) + '<div class="cm-hint" style="margin-top:2px">Mock sessions only. Across: mock questions answered in each subject. Up: accuracy. Each dot is one mock session; each line is the average of that subject’s last five sessions. A session has only about 4 questions a subject, so read the lines more than single dots.</div>';
+  return sw + (tests.length > 1 ? tlTrendSvg(tests) + `<div class="cm-hint" style="margin-top:2px">Across: how many questions you’ve answered in each subject, so every line starts at 0 and ends at that subject’s total (shown in its label). Up: accuracy. Each dot is one quiz${mk.length ? ', ringed if it is a mock session' : ''}; each line is the average of that subject’s last five quizzes. The dashed marker is two mocks’ worth (176). Hover a dot for its quiz.</div>` : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>');
 }
 function tlAccuracyHtml() {
   const tests = tlView(), qs = tlQs(tests);
@@ -36545,7 +36557,7 @@ function tlAccuracyHtml() {
       ${kpi('Latest ' + Math.min(TL_RECENT, qs.length) + ' questions', tlAcc(last) + '%', (qs.length < TL_RECENT ? TL_RECENT - qs.length + ' more to fill two mocks’ worth (176) · ' : 'two mocks’ worth · ') + (d == null ? 'trend shows after ' + TL_RECENT * 1.5 + ' questions' : (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d) + ' points on the ' + TL_RECENT + ' before'))}
       ${kpi('Pace', tq ? pace.toFixed(1) + ' min' : '—', 'a question · exam ' + TL_PACE + ' min')}
     </div>
-    ${tests.length > 1 ? tlTrendSvg(tests) + '<div class="cm-hint" style="margin-top:2px">Across: how many questions you’ve answered in each subject, so every line starts at 0 and ends at that subject’s total (shown in its label). Up: accuracy. Each dot is one quiz; each line is the average of that subject’s last five quizzes. The dashed marker is two mocks’ worth (176). Hover a dot for its quiz.</div>' : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>'}
+    ${safeHtml(() => tlChartHtml(tests))}
     <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
     ${tested.map(x => `<details class="tl-sub"${tlf.subj !== 'all' ? ' open' : ''}><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
     ${untested.length && tlf.subj === 'all' ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
@@ -36626,7 +36638,7 @@ function tlInit() {
     }
     if (b.hasAttribute('data-tlf')) {
       const p = b.getAttribute('data-tlf').split('|');
-      if (p[0] === 'subj') { tlf.subj = p[1]; tlf.topic = 'all'; } else tlf.topic = p[1];
+      if (p[0] === 'subj') { tlf.subj = p[1]; tlf.topic = 'all'; } else if (p[0] === 'chart') { tlf.chart = p[1]; nwMark('f-mock-chart'); } else tlf.topic = p[1];
       try { localStorage.setItem('ledgerTlFilter', JSON.stringify(tlf)); } catch (e2) {}
       tlRerender();
       return;
@@ -36694,6 +36706,9 @@ function mkScoreHtml(ts) {
       ${kpi('To reach ' + TL_TARGET + '%', need ? '+' + need : '✓', need ? 'more right answers in each 44-question session' : 'at target')}
     </div>
     ${rows.map(r => r.html).join('')}
+    <div class="ex-label" style="margin-top:14px">Trend by subject · mock sessions only</div>
+    ${safeHtml(() => tlTrendSvg(ts, true))}
+    <div class="cm-hint" style="margin-top:2px">The same chart as the 🧪 Test log’s, with mock sessions only. Each dot is one session; each line is the average of that subject’s last five sessions, so lines appear from the second session on. Hover a dot for its session.</div>
     <div class="cm-hint">The bar’s thin ticks mark ${MK_SAFE}% (safe) and ${TL_TARGET}% (target). Readiness averages your last three mocks, so a single bad day doesn’t move it much.</div>
   </section>`;
 }
