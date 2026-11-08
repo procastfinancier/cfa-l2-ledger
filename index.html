@@ -1079,6 +1079,49 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .rv-btn.rl-got { border-color: var(--teal); background: var(--teal-bg); color: var(--teal); }
   .rl-again { color: var(--rose); font-weight: 700; }
   .tl-link { background: none; border: 0; padding: 0; font: inherit; color: var(--violet); text-decoration: underline; cursor: pointer; }
+  .tl-bar-tgt.mk-safe { opacity: 0.25; }
+  .mk-gain { font-family: var(--mono); font-weight: 700; font-size: 12px; min-width: 52px; text-align: right; color: var(--violet); }
+  .mk-mark-row.mk-top .tl-read-name { font-weight: 700; }
+  .mk-sets-head { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .mk-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 6px; margin: 6px 0 8px; }
+  .mk-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 0; text-align: left; font-family: var(--sans); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; cursor: pointer; }
+  .mk-tile:hover { border-color: var(--violet); }
+  .mk-tile b { font-family: var(--mono); font-size: 15px; }
+  .mk-tile span { font-size: 11px; color: var(--ink-soft); }
+  .mk-tile small { max-width: 100%; font-size: 10.5px; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mk-tile.mk-all { border-color: var(--teal); background: var(--teal-bg); }
+  .mk-tile.mk-most { border-color: var(--teal); }
+  .mk-tile.mk-half { border-color: var(--amber); background: var(--amber-bg); }
+  .mk-tile.mk-lost { border-color: var(--rose); background: var(--rose-bg); }
+  .tl-kpis.mk-kpis2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mk-set { border-top: 1px solid var(--line); }
+  .mk-set > summary { display: flex; align-items: center; gap: 8px; padding: 9px 0; cursor: pointer; list-style: none; font-size: 13px; }
+  .mk-set > summary::-webkit-details-marker { display: none; }
+  .mk-set-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-faint); white-space: nowrap; }
+  .mk-set-t { flex: 1; min-width: 0; font-weight: 700; color: var(--ink); }
+  .mk-vig { margin: 0 0 8px; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; background: var(--bg); }
+  .mk-vig > summary { cursor: pointer; font-size: 12.5px; color: var(--violet); }
+  .mk-vig .weak-full p { font-size: 13px; line-height: 1.5; margin: 6px 0; }
+  .mk-ex { margin: 8px 0; }
+  .mk-ex-t { font-family: var(--mono); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faint); }
+  .mk-ex-scroll { overflow-x: auto; }
+  .mk-q { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin: 8px 0; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--teal); border-radius: 8px; }
+  .mk-q.mk-no { border-left-color: var(--rose); }
+  .mk-q.mk-luck { border-left-color: var(--amber); }
+  .mk-stem { font-family: var(--serif); font-size: 15px; line-height: 1.4; color: var(--ink); }
+  .mk-why .weak-sec { margin-top: 2px; }
+  .mk-why-ok .weak-sec { color: var(--teal); }
+  .mk-why p { margin: 3px 0; font-size: 13px; line-height: 1.5; color: var(--ink); }
+  .mk-steps { margin: 4px 0; padding-left: 20px; font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--ink); }
+  .mk-traps { margin: 4px 0; padding-left: 18px; font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+  .mk-traps b { color: var(--ink); }
+  .tl-badge.mk-badge-ok { border-color: var(--teal); color: var(--teal); }
+  .tl-badge.mk-badge-no { border-color: var(--rose); color: var(--rose); }
+  .tl-badge.mk-badge-luck { border-color: var(--amber); color: var(--amber); }
+  @media (max-width: 640px) {
+    .tl-kpis.mk-kpis2 { grid-template-columns: 1fr; }
+    .mk-gain { min-width: 0; }
+  }
   @media (max-width: 640px) {
     .tl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .tl-sub-name { flex-basis: 100%; }
@@ -29668,7 +29711,115 @@ const TESTS = [
     { mod: '24.S2', what: 'Pathwise value of path 2 = $101.15', ok: 1 },
     { mod: '24.S3', what: 'Least likely a tree property: mean reversion', ok: 1 },
   ] },
+  { id: 'L2-MOCK1-S1', mock: 1, sess: 1, lvl: '22213222222322132222323221322212233322232332', topic: 'equity.3', name: 'Mock 1 · Session 1', date: '2026-11-08', qs: [
+    { set: 1, topic: 'equity.3', mod: '20.S6', what: "Comparing a US GAAP and an IFRS company: P/FCFE is least affected", ok: 0, why: 'gap' },
+    { set: 1, topic: 'equity.3', mod: '20.S4', what: "Justified P/S: lower payout → lower P/S", ok: 0, why: 'flip' },
+    { set: 1, topic: 'equity.3', mod: '20.S5', what: "EV/sales = (equity + debt − cash) ÷ sales", ok: 1 },
+    { set: 1, topic: 'equity.3', mod: '20.S6', what: "Momentum: (reported − mean forecast) ÷ dispersion of forecasts = scaled earnings surprise", ok: 0, why: 'gap' },
+    { set: 2, topic: 'fi.2', mod: '25.S6', what: "Floored floater on a tree: floor binds in the down state", ok: 0, why: 'flip' },
+    { set: 2, topic: 'fi.2', mod: '25.S7', what: "Busted convertible on a floater behaves like an option-free floater", ok: 1 },
+    { set: 2, topic: 'fi.2', mod: '25.S5', what: "Putable bond: lower short rates → put worth less → effective duration rises", ok: 1 },
+    { set: 2, topic: 'fi.2', mod: '25.S3', what: "Higher volatility: putable up, callable down", ok: 0, why: 'flip' },
+    { set: 3, topic: 'quant.1', mod: '2.S1', what: "Residuals stay below forecast for years: positive serial correlation, DW < 2", ok: 0, why: 'gap' },
+    { set: 3, topic: 'quant.1', mod: '2.S3', what: "AR(1) mean-reverting level = b0 ÷ (1 − b1)", ok: 1 },
+    { set: 3, topic: 'quant.2', mod: '3.S1', what: "Overfitting (good on training, bad on CV): more regularisation, not more features", ok: 1 },
+    { set: 3, topic: 'quant.3', mod: '4.S3', what: "F1 = 2PR ÷ (P + R), not accuracy", ok: 0, why: 'gap' },
+    { set: 4, topic: 'fi.0', mod: '23.S1', what: "Forward f(1,2) from spot rates", ok: 1 },
+    { set: 4, topic: 'fi.1', mod: '24.S1', what: "Arbitrage-free value: each cash flow at its own spot rate", ok: 1 },
+    { set: 4, topic: 'fi.1', mod: '24.S4', what: "Equilibrium, one factor, mean reversion, constant vol, negative rates possible → Vasicek", ok: 0, why: 'gap' },
+    { set: 4, topic: 'fi.1', mod: '24.S2', what: "Backward induction on a two-period tree", ok: 1 },
+    { set: 5, topic: 'fsa.3', mod: '10.S4', what: "Most Level 3 (unobservable inputs) as a share of fair-value assets", ok: 1 },
+    { set: 5, topic: 'fsa.3', mod: '10.S3', what: "A risk management committee and internal controls belong to the M in CAMELS", ok: 0, why: 'gap' },
+    { set: 5, topic: 'fsa.3', mod: '10.S6', what: "Most efficient underwriting = lowest combined ratio", ok: 1 },
+    { set: 5, topic: 'fsa.3', mod: '10.S6', what: "Less reinsurance available raises a P&C insurer’s risk", ok: 1 },
+    { set: 6, topic: 'pm.4', mod: '38.S1', what: "Annual parametric VaR from daily inputs: scale the mean by T, sigma by √T", ok: 0, why: 'gap' },
+    { set: 6, topic: 'pm.4', mod: '38.S2', what: "Incremental VaR = change in portfolio VaR from a change in a position", ok: 0, why: 'gap' },
+    { set: 6, topic: 'pm.5', mod: '39.S1', what: "Monte Carlo (normal) CVaR far below backtest CVaR: fat tails in history", ok: 0, why: 'gap' },
+    { set: 6, topic: 'pm.5', mod: '39.S1', what: "Testing 20 strategies and keeping the best = data snooping", ok: 0, why: 'gap' },
+    { set: 7, topic: 'fsa.4', mod: '11.S2', what: "Bigger cash component → more persistent earnings", ok: 1 },
+    { set: 7, topic: 'fsa.4', mod: '11.S2', what: "Beneish: the higher (less negative) M-score is the more likely manipulator", ok: 0, why: 'flip' },
+    { set: 7, topic: 'fsa.0', mod: '7.S3', what: "Goodwill in an equity-method stake = price − share of fair value of net assets", ok: 1 },
+    { set: 7, topic: 'fsa.5', mod: '12.S5', what: "Cash-flow accruals ratio = [NI − (CFO + CFI)] ÷ average NOA", ok: 1 },
+    { set: 8, topic: 'ethics.1', mod: '41.S1', what: "I(C): cite the actual source (the study), not where you heard about it", ok: 0, why: 'gap' },
+    { set: 8, topic: 'ethics.1', mod: '41.S5', what: "V(A): you may rely on the firm’s approved model; a loss is not a breach", ok: 1 },
+    { set: 8, topic: 'ethics.1', mod: '41.S2', what: "False statements to move the price = information-based manipulation (II(B))", ok: 1 },
+    { set: 8, topic: 'ethics.1', mod: '41.S4', what: "IV(A): preparing a non-competing venture and using general skills is fine", ok: 0, why: 'gap' },
+    { set: 9, topic: 'corp.2', mod: '15.S1', what: "A riskier product line raises business risk and WACC", ok: 0, why: 'gap' },
+    { set: 9, topic: 'corp.2', mod: '15.S3', what: "Build-up vs. expanded CAPM: compare (β − 1) × ERP + IP", ok: 0, why: 'calc' },
+    { set: 9, topic: 'corp.2', mod: '15.S1', what: "Matrix pricing for thin debt, then add a liquidity premium", ok: 1 },
+    { set: 9, topic: 'corp.3', mod: '16.S2', what: "Comparable transactions: weighted P/CF and P/E give $66.24; the $72 offer overvalues", ok: 0, why: 'calc' },
+    { set: 10, topic: 'alt.0', mod: '30.S2', what: "Time-series momentum: long positive past returns, short negative ones", ok: 1 },
+    { set: 10, topic: 'alt.0', mod: '30.S3', what: "Contango (farther > near) → negative roll return for a long", ok: 0, why: 'flip' },
+    { set: 10, topic: 'alt.0', mod: '30.S2', what: "Theory of storage: F = S + storage − convenience yield", ok: 1 },
+    { set: 10, topic: 'alt.0', mod: '30.S3', what: "Expect lower volatility than the market → short a volatility swap", ok: 0, why: 'flip' },
+    { set: 11, topic: 'econ.0', mod: '5.S6', what: "Fully hedged foreign deposit earns the domestic rate (covered parity)", ok: 0, why: 'gap' },
+    { set: 11, topic: 'econ.0', mod: '5.S5', what: "Mark-to-market a forward: offset at today’s forward, discount at the USD rate", ok: 1 },
+    { set: 11, topic: 'econ.0', mod: '5.S8', what: "Carry trade return = USD return on the BRL deposit − USD funding cost", ok: 0, why: 'gap' },
+    { set: 11, topic: 'econ.0', mod: '5.S10', what: "Mundell–Fleming, high capital mobility: tight money + loose fiscal → appreciation", ok: 0, why: 'gap' },
+  ] },
 ];
+// Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
+// exhibits as tables; MOCK_Q each question (keyed "<test id> #<n>"): the stem and options as printed, my pick `p`,
+// the answer `a`, the `logic` of the answer, the working in `steps`, and `traps[i]`: why option i is wrong.
+const MOCK_SETS = {
+  "L2-MOCK1-S1/1": { title: "Equity · R20 multiples — Wang screens Tupelo, KXC and Grupo", full: ["Collin Wang is a portfolio manager screening companies in the transportation industry for inclusion in his firm's mid-cap equity fund.", "Wang selects three companies to consider for his fund. The first two are US-based companies, Tupelo Transport Inc. and KXC Inc., that prepare their financial statements in accordance with US GAAP. Both companies provide transportation services across the US and Mexico. The third company, Grupo TranspoRio, is a Mexico-based company that provides transportation services throughout Mexico and the southwestern US. Grupo prepares its financial statements in accordance with IFRS.", "Wang first reviews Tupelo and Grupo. He considers which price multiple would be most appropriate to use when comparing the two companies.", "Wang observes that the justified price-to-sales (P/S) ratio for Tupelo is lower than for KXC. He uses the information in Exhibit 1 to determine which metric best supports Tupelo's lower justified P/S ratio.", {"title": "Exhibit 1", "columns": ["Metric", "Tupelo", "KXC"], "rows": [["Debt-to-equity (D/E) ratio", "40.3%", "48.2%"], ["Net profit margin", "6.5%", "5.2%"], ["Dividend payout ratio", "18.0%", "22.0%"]]}, "Wang summarizes in Exhibit 2 key financial statement data (in $ millions) of Tupelo for the year just ended. Tupelo's current price per share is $191.60 and there are 103.7 million shares outstanding. Wang calculates the company's enterprise value to sales ratio, assuming the market value of long-term debt equals its book value.", {"title": "Exhibit 2 · Tupelo ($ millions)", "columns": ["Item", "Value"], "rows": [["Cash and short-term investments", "852"], ["Long-term debt", "1,460"], ["Revenues", "14,820"]]}, "As part of his screening process, Wang examines a momentum indicator for the three companies. The indicator is calculated by dividing the difference between reported earnings and the mean of analysts' earnings forecasts by the dispersion in the analysts' forecasts."] },
+  "L2-MOCK1-S1/2": { title: "Fixed income · R25 embedded options — Lee values Pluto’s bonds", full: ["Paul Lee is a fixed income analyst for a hedge fund. He is analyzing bonds issued by Pluto Inc., a US corporation. To value these bonds, Lee uses the binominal tree shown in Exhibit 1, which includes an OAS of 2%. In the tree, the branching from each node to a high state and to a low state occurs with equal probabilities.", {"title": "Exhibit 1 · Binomial tree (includes the 2% OAS)", "columns": ["Year 0", "Year 1"], "rows": [["2.6000%", "2.9366% (up)"], ["", "2.4651% (down)"]]}, "Lee analyzes 2-year annual coupon bonds issued by Pluto. A description of the bonds is provided below in Exhibit 2. Each bond has a par value of $1,000, and all floating-rate bonds (floaters) have annual resets. The coupon rate for all the floaters is reset at the beginning of the period, and was just reset.", {"title": "Exhibit 2", "columns": ["Bond", "Coupon rate", "Bond characteristics"], "rows": [["Bond A", "Reference rate + 2%", "Convertible into 90 shares of Pluto common stock"], ["Bond B", "Reference rate + 2%", "Straight floater"], ["Bond C", "Reference rate + 2%", "Floater with a cap rate of 2.8%"], ["Bond D", "Reference rate + 2%", "Floater with a floor rate of 2.5%"], ["Bond E", "2.3%", "Putable at par after 1 year"], ["Bond F", "2.3%", "Callable at par after 1 year"]]}, "Bond A has a current market price of $1,010. Pluto’s shares currently trade at $9.53 per share. Lee expects Pluto’s shares to decrease in value by 20% over the next year, bringing shares below the current conversion price.", "After valuing the bonds, Lee analyzes the following two independent scenarios:", "Scenario 1: a steepening of the 1-year reference rate forward curve due to a decrease in rates at or under 2 years, and an increase in rates over 2 years.", "Scenario 2: an increase in the volatility of the 1-year forward reference rate."] },
+  "L2-MOCK1-S1/3": { title: "Quant · R2–R4 — Barber’s time-series and machine-learning models", full: ["James Barber, a macro strategist, is developing models to help forecast macroeconomic data. Barber has gathered quarterly data on Country A's labor productivity and is modeling that data using linear regression. The model (Model 1) has t-statistics slightly above the critical value and has an R-squared of 0.0976. The residuals appear to be predictable over time, with quarterly labor productivity figures consistently lower than the forecasted values since the 2008 financial crisis. Barber uses the Durbin–Watson test statistic to evaluate the regression.", "Barber then turns his attention to household savings rates (SavingsRate). He is reviewing the results of Model 2, an AR(1) model. In reviewing the data, Barber determines that the household savings rate is mean-reverting. Selected results of the regression are shown in Exhibit 1.", {"title": "Exhibit 1 · Model 2, AR(1)", "columns": ["", "Coefficient", "Standard error", "t-statistic"], "rows": [["Intercept", "5.60", "0.84", "6.67"], ["SavingsRate t−1", "0.45", "0.09", "5.00"]]}, "Barber has built a machine-learning model (Model 3) to gather insight into consumer sentiment. Model 3 performs well on the training dataset but produces a high number of false positives and false negatives on the cross-validation dataset. To improve Model 3's performance, Barber is considering the following two strategies:", "Strategy 1: Increase regularization", "Strategy 2: Increase the number of features Following some adjustments and re-training, Barber produces the confusion matrix shown in Exhibit 2 to evaluate the performance of Model 3. He calculates the F1 score for the model.", {"title": "Exhibit 2 · Confusion matrix, Model 3", "columns": ["Predicted ↓ · Actual →", "Class \"1\"", "Class \"0\""], "rows": [["Class \"1\"", "165 (true positives)", "27 (false positives)"], ["Class \"0\"", "4 (false negatives)", "104 (true negatives)"]]}] },
+  "L2-MOCK1-S1/4": { title: "Fixed income · R23–R24 — MacQuoid’s three clients", full: ["Jarrod MacQuoid is meeting with several clients regarding their fixed-income investments. All bonds held in portfolios have a par value of 100. The current interest rates in their home country are presented in Exhibit 1.", {"title": "Exhibit 1", "columns": ["Maturity", "Spot rate", "YTM"], "rows": [["One year", "7.40%", "7.40%"], ["Two years", "7.61%", "7.60%"], ["Three years", "8.15%", "8.10%"], ["Four years", "8.76%", "8.65%"]]}, "Client 1", "Client 1 anticipates a large cash inflow in one year. He plans to use some of the new cash to build a summer home in three years, and wants to know what the rate would be for a 2-year zero-coupon, option-free and default-free bond issued one year from now.", "Client 2", "Client 2 is a portfolio manager at a small bank who asks MacQuoid to determine the arbitrage-free value of a bond he is considering purchasing. The bond is a 3-year, 6.0% annual-pay coupon, option-free and default-free bond.", "Client 3", "Client 3 runs a fixed-income fund that invests in a foreign country, and asks MacQuoid for advice on the fund’s strategy. The client has recently started using a new interest-rate model which he describes to MacQuoid.", "“We perform our interest-rate modeling using an equilibrium term-structure model. Our model assumes that a single factor drives all yield curve movements, and we continually analyze market factors to determine the mispricing of bonds. Although our model cannot be calibrated to current market data, it does permit mean reversion of rates, assumes constant volatility, and allows negative interest rates.”", "MacQuoid mentions to Client 3 that he can also use the binomial interest rate tree to value bonds. MacQuoid illustrates how the tree in Exhibit 2 can be used to value Bond X, a 2-year, 4% annual-pay coupon, option-free and default-free bond. MacQuoid assumes the branching from each node occurs with equal probability.", {"title": "Exhibit 2 · Binomial interest rate tree", "columns": ["Year 0", "Year 1"], "rows": [["1.25%", "3.00% (up)"], ["", "0.75% (down)"]]}] },
+  "L2-MOCK1-S1/5": { title: "FSA · R10 financial institutions — Pey on Sungda Group", full: ["Megan Pey is an investment analyst covering the financial sector. Pey is reviewing Sungda Group, a listed holding company that operates Sungda Bank and Sungda Insurance. The group reports under US GAAP in USD and is subject to the Basel III requirements.", "Sungda Bank", "Pey applies the CAMELS approach (Capital adequacy, Asset quality, Management capabilities, Earnings sufficiency, Liquidity position, and Sensitivity to market risk) to analyze Sungda Bank. Pey’s research focuses particularly on the earnings quality and liquidity risk of the bank. She examines management discretion and estimates used in fair value measurements. Pey compares the year-end fair value hierarchy data (in USD millions) of Sungda Bank and two competitors, Topliska Bank and Vibetera Bank, for the most recent year in Exhibit 1.", {"title": "Exhibit 1 · Total assets measured at fair value (USD millions)", "columns": ["", "Level 1", "Level 2", "Level 3", "Total"], "rows": [["Sungda Bank", "1,524", "46,396", "8,378", "56,298"], ["Topliska Bank", "6,916", "864", "5", "7,785"], ["Vibetera Bank", "3,217", "15,364", "211", "18,792"]]}, "Pey lists three additional observations that she considers including as a part of her CAMELS analysis.", "Observation 1: Compared to its banking peers, Sungda Bank's CEO is paid a moderate base salary, with remaining compensation paid as equity-based incentives.", "Observation 2: The assets under management at the bank’s trust department are sizable and the fees generated contribute materially to the bank’s business performance.", "Observation 3: The board has appointed a rigorous risk management committee that consists of several sub-committees to provide oversight on various internal control aspects. Sungda Insurance", "Pey compares Sungda Insurance, a company primarily offering property and casualty insurance products, with two competitors, Treetop Insurance and Umbrella Insurance. To assess their respective underwriting operations, Pey assembles the information in Exhibit 2.", {"title": "Exhibit 2", "columns": ["", "Sungda Insurance", "Treetop Insurance", "Umbrella Insurance"], "rows": [["Loss and loss adjustment expense ratio", "64.2%", "63.2%", "66.7%"], ["Underwriting expense ratio", "30.1%", "31.8%", "26.6%"]]}, "Sungda Group recently announced plans to sell Sungda Insurance. To understand the group’s decision, Pey notes the following developments in the market where Sungda Insurance operates.", "Development 1: The market is gradually trending to a “hard” pricing market.", "Development 2: The local regulator is raising minimum capital requirements on insurers.", "Development 3: Global reinsurers are reducing the number of policies accepted from this market."] },
+  "L2-MOCK1-S1/6": { title: "Portfolio · R38–R39 — Nagle on VaR and backtesting", full: ["Clara Nagle, a portfolio manager at an investment firm, prepares a report for clients invested in the firm's Global Equities Fund (GEF). Her report includes the following daily market estimates:", "• Mean daily return: 0.04%", "• Daily standard deviation of returns: 1.094%", "• 5% daily parametric VaR: 1.765%", "• 5% daily incremental VaR (IVaR) from a potential 10% increase in emerging market equities: 0.345%", "One of her clients, a charitable foundation, has $4.5 million invested in GEF. The foundation asks for an estimate of the 5% annual parametric VaR for its investment in GEF, which Nagle calculates assuming 250 trading days in a year. In the standard normal distribution, a 5% VaR is 1.65 standard deviations below the expected value.", "The chair of the foundation's board contacts Nagle and asks her to interpret the IVaR metric provided in the report.", "Nagle has developed a new fund focused on European equities, with a strategy focused on managing exposure to five factors. She backtests the strategy using 20 years of historical data. A Monte Carlo simulation is also used whereby the historical data is calibrated using random samples from a multivariate normal distribution of returns for the five factors. Exhibit 1 shows the Sharpe ratio and annual conditional VaR (CVaR) resulting from the backtest and Monte Carlo simulation approaches.", {"title": "Exhibit 1", "columns": ["", "Sharpe ratio", "CVaR"], "rows": [["Backtest", "1.1", "11.4%"], ["Monte Carlo simulation", "1.0", "5.2%"]]}, "Nagle considers why the two approaches have produced different CVaR results.", "Nagle also plans to establish a new fund investing in global technology equities. In determining her strategy for the fund, she develops 20 different strategies using factor-based models. The number of factors used in the different strategies ranges from five to nine. Nagle obtains point-in-time data going back 15 years and backtests all 20 strategies. After examining the results, she recommends to her firm's management that the new fund use the strategy that performed best in the backtests."] },
+  "L2-MOCK1-S1/7": { title: "FSA · R7, R11–R12 — Shah on earnings quality", full: ["Amelia Shah is an analyst covering consumer goods for an investment management firm. She is following three companies that produce baby care products: Tengu Ltd., Pégase S.A., and Unicorn Inc. They are all similarly sized multinational companies reporting under IFRS.", "Tengu, Pégase, and Unicorn have similar ROEs that are above the industry average. Shah applies the mean reversion principle to forecast the trends of their future ROEs, based on the earnings components shown in Exhibit 1.", {"title": "Exhibit 1", "columns": ["", "Tengu", "Pégase", "Unicorn"], "rows": [["Accruals component", "40%", "50%", "60%"], ["Cash flow component", "60%", "50%", "40%"]]}, "Shah then assesses the outputs of the Beneish model M-scores and the Altman model Z-scores in Exhibit 2.", {"title": "Exhibit 2", "columns": ["", "Tengu", "Pégase", "Unicorn"], "rows": [["Beneish model M-score", "−2.6", "−1.8", "−1.1"], ["Altman model Z-score", "3.0", "1.8", "2.4"]]}, "Unicorn acquired a 50% equity interest in Antler Co. for USD 20 million at the end of the most recent year, but it did not assume control over Antler. Shah summarizes Antler's balance sheet (in USD millions) for the most recent year in Exhibit 3.", {"title": "Exhibit 3 · Antler (USD millions)", "columns": ["", "Book value", "Fair value"], "rows": [["Current assets", "6", "6"], ["Property, plant, and equipment", "40", "44"], ["Total assets", "46", "50"], ["Total liabilities", "18", "18"], ["Net assets", "28", "32"]]}, "Finally, Shah calculates Tengu's cash-flow-based accruals ratio for the most recent year, using the data summarized in Exhibit 4.", {"title": "Exhibit 4 · Tengu, most recent year (JPY 100 millions)", "columns": ["Line item", "Value"], "rows": [["Net income", "66"], ["Cash flow from operating activities", "90"], ["Cash flow from investing activities", "−99"], ["Cash flow from financing activities", "−8"], ["Average net operating assets", "500"]]}] },
+  "L2-MOCK1-S1/8": { title: "Ethics · R41 Standards — Badie and Miller", full: ["Suzanne Badie, CFA, is a sell-side analyst covering the pharmaceutical industry for Seaside, an investment bank.", "Badie attends a medical conference, where she hears a conference participant describe a medical study that reports a link between a new drug and the quality of sleep. When she returns to her office, Badie downloads the medical study and includes its findings as part of her analysis in her next industry report. In this report, she cites the study but does not mention the medical conference.", "Badie prepares an analysis of Midsound Pharma. To help determine her recommendation, she uses the firm’s approved quantitative model, which she did not create, as well as her own due diligence. She concludes that a \"buy\" recommendation on Midsound is appropriate and forecasts a 10% increase in its share price.", "Shortly after Badie's recommendation is issued, Midsound suffers an unexpected quarterly loss and its share price declines by 25%. One of Seaside's retail clients, who is also a CFA charterholder, accuses Badie of violating the Standard relating to diligence and reasonable basis because Badie did not develop the quantitative model she used in analyzing Midsound, and because the value of the shares subsequently declined in contrast to her forecast.", "Following the share sell-off, Midsound's CEO Troy Miller, CFA, decides that an acquisition by a competitor would be the best solution to increase the share price. Prior to any conversations with potential bidders, he announces that Midsound is already in negotiations with multiple acquirers. Miller’s announcement leads to an immediate jump in Midsound's share price as the number of investor buy orders increases.", "Badie plans to retire soon. In her spare time, she writes a proposal for a non-fiction book based on a behind-the-scenes look at the investment banking industry. She signs a book deal with a national publisher prior to leaving the investment bank. The book will rely upon the skills and experience she gained at Seaside, and provide readers with Badie's opinions on how to evaluate investments."] },
+  "L2-MOCK1-S1/9": { title: "Corporate · R15–R16 — Goodwin on WACC, cost of equity and a takeover", full: ["James Goodwin is a corporate restructuring consultant.", "Goodwin is hired by the board of Company X, a US clothing manufacturer that sells to three large US retailers. The board is considering several potential actions but is concerned about increasing the company's current WACC. The board asks Goodwin which of the following three actions would increase WACC in the short term:", "Action 1: Expand the customer base from three retailers to five.", "Action 2: Add a new children's clothing product line which has higher revenue potential and risk than current product lines.", "Action 3: Buy back 20% of the company's outstanding option-free debt and issue putable bonds, leaving overall leverage unchanged. Goodwin compares the cost of equity of Company Y, a privately held US company, under two different methods: the build-up approach and the expanded CAPM. For Company Y, the beta of a peer group of public companies is 0.8, the industry risk premium is 0.4%, and the equity risk premium is 2.0%.", "Goodwin then computes the cost of debt for Company Z, an A-rated US chemical manufacturer. The company's debt consists of 7-year maturity, 5.00% coupon, option-free bonds which are very thinly traded. Goodwin uses a matrix approach to estimate Company Z's cost of debt and wants to adjust for its lack of liquidity. In Exhibit 1, he compiles average YTM data from highly liquid bonds of other companies in the same industry with the same credit rating.", {"title": "Exhibit 1 · Average YTM, same industry and rating (by coupon)", "columns": ["Maturity", "3.00%", "4.00%", "5.00%", "6.00%"], "rows": [["6 years", "4.15%", "—", "—", "4.35%"], ["10 years", "—", "5.20%", "5.30%", "—"]]}, "Company Z is also considering acquiring a target company for $72 per share. Management asks Goodwin to assess whether this offer would fairly value the target company. Goodwin collects data in Exhibit 2 for the target company and two recent takeovers of similar companies.", {"title": "Exhibit 2", "columns": ["", "Target company", "Takeover 1", "Takeover 2"], "rows": [["Acquisition price", "—", "$42.00", "$56.00"], ["Earnings per share", "$8.50", "$6.50", "$7.20"], ["Cash flow per share", "$15.00", "$8.90", "$12.10"]]}, "To estimate a fair takeover price for the target company, Goodwin performs a comparable transaction analysis using a 60% weight on the cash flow multiple and a 40% weight on the earnings multiple. Goodwin will conclude that the $72 offer fairly values the target company if the offer price is within $5 of his estimated fair takeover price."] },
+  "L2-MOCK1-S1/10": { title: "Alternatives · R30 commodities — Cooper at Minster", full: ["Judith Cooper is a portfolio manager at Minster, a hedge fund specializing in commodities. She is evaluating several trading strategies and reviewing her portfolio's positions.", "Cooper considers futures trading strategies for six base metals. Her goal is to implement a time-series momentum strategy. The recent performance of several metal futures is presented in Exhibit 1. Cooper expects a contraction in global GDP growth over the next several months.", {"title": "Exhibit 1", "columns": ["Metal", "Trailing 6-month risk-adjusted return"], "rows": [["Copper", "3.2%"], ["Aluminum", "2.8%"], ["Nickel", "1.9%"], ["Zinc", "0.8%"], ["Lead", "0.5%"], ["Tin", "−1.1%"]]}, "Minster's research department has identified the following potential futures trading strategies:", "Strategy 1: Long positions in copper, aluminum, nickel, zinc, and lead; a short position in tin", "Strategy 2: Long positions in copper, aluminum, and nickel; short positions in zinc, lead, and tin", "Strategy 3: Short positions in all six metals Next, Cooper reviews the portfolio's long energy futures positions. She collects the relevant closing price data ($ per unit) in Exhibit 2.", {"title": "Exhibit 2 ($ per unit)", "columns": ["Price", "Brent crude oil", "Coal", "Heating oil"], "rows": [["Spot price", "72.50", "349.41", "3.18"], ["Near-term futures price", "74.64", "342.36", "3.69"], ["Farther-term futures price", "74.64", "334.52", "3.93"]]}, "Cooper carries out further analysis of Brent crude oil. She observes that the direct storage cost of Brent crude oil over the farther-term is $3.50 per barrel.", "After analyzing crude oil, Cooper concludes that the price of West Texas Intermediate (WTI) and heavy crude oil will decrease by 3% and 6%, respectively, over the next several months. In addition, she expects that volatility for WTI will be lower than market expectations. Based on this, Cooper considers the following trades:", "Trade 1: A short volatility swap on WTI", "Trade 2: A basis swap which is short on WTI and long on heavy crude oil", "Trade 3: A long position in an excess return swap on WTI that is based on the current price"] },
+  "L2-MOCK1-S1/11": { title: "Economics · R5 currencies — Malshuk’s currency strategies", full: ["Georg Malshuk manages a multi-currency portfolio. To increase returns, he has introduced several currency strategies.", "Malshuk buys a GBP 5 million zero-coupon bond with one year to maturity. At the same time, he completely hedges the exchange rate risk with a 1-year currency forward, buying USD at the no-arbitrage forward rate of 1.3367 USD/GBP. The 1-year USD interest rate is 1.72% and the 1-year GBP interest rate is 0.72%.", "Six months later, as part of a periodic reporting requirement, he marks the USD/GBP forward contract to market based on the information in Exhibit 1.", {"title": "Exhibit 1", "columns": ["Item", "Value"], "rows": [["Spot rate (USD/GBP)", "1.3585"], ["6-month forward points on USD/GBP", "68"], ["6-month USD interest rate (annualized)", "1.50%"], ["6-month GBP interest rate (annualized)", "0.50%"]]}, "Malshuk analyzes carry strategies in different currencies and enters a 1-year carry trade involving the Brazilian real (BRL) and the USD. Exhibit 2 provides details relating to the trade.", {"title": "Exhibit 2", "columns": ["Item", "Value"], "rows": [["Current BRL/USD spot rate", "3.1259"], ["Expected BRL/USD spot rate in 1 year", "3.1639"], ["1-year BRL interest rate", "8.25%"], ["1-year USD interest rate", "1.82%"]]}, "Malshuk researches the fiscal and monetary policies of emerging market countries that have high capital mobility. Based on this research and the Mundell-Fleming model, he prepares a list of the countries whose currencies are expected to appreciate against the USD."] },
+};
+const MOCK_Q = {
+  "L2-MOCK1-S1 #1": {"set": 1, "stem": "Which of the following ratios is the most appropriate for Wang to use in comparing Tupelo and Grupo?", "options": ["Price to book", "Price to FCFE", "Price to earnings"], "p": 0, "a": 1, "logic": ["Accounting differences (US GAAP vs. IFRS) distort any multiple built on accounting numbers. P/B (book equity) and P/E (net income) are the most affected; multiples based on cash flow (P/CFO, P/FCFE) are the least affected, because cash is cash under either standard.", "So when two companies report under different standards, compare them on the cash-flow multiple: P/FCFE."], "traps": ["P/B rests on book value, which depends heavily on accounting choices (revaluation, impairment, capitalisation) that differ between IFRS and US GAAP.", "", "P/E rests on accounting earnings, which carry every recognition and measurement difference between the two standards."]},
+  "L2-MOCK1-S1 #2": {"set": 1, "stem": "Which metric in Exhibit 1 best supports Tupelo's lower justified P/S ratio compared to KXC?", "options": ["D/E ratio", "Net profit margin", "Dividend payout ratio"], "p": 0, "a": 2, "logic": ["Justified P/S = (E/S) × (1 − b) × (1 + g) / (r − g): it rises with the profit margin (E/S) and the payout ratio (1 − b), and falls with the required return r.", "Tupelo’s payout ratio is lower (18% vs. 22%), which by itself pushes its justified P/S down. That is the only metric in Exhibit 1 that points the same way as Tupelo’s lower P/S."], "steps": ["Payout: Tupelo 18.0% < KXC 22.0% → lower (1 − b) → lower P/S ✓", "Margin: Tupelo 6.5% > KXC 5.2% → higher E/S → higher P/S ✗", "D/E: Tupelo 40.3% < KXC 48.2% → less risk → lower r → higher P/S ✗"], "traps": ["Wrong way round: Tupelo’s lower D/E means lower risk, a lower r and so a higher justified P/S, not a lower one.", "Tupelo’s higher margin raises its justified P/S, so it can’t explain a lower one.", ""]},
+  "L2-MOCK1-S1 #3": {"set": 1, "stem": "Tupelo's enterprise value to sales ratio is closest to:", "options": ["1.28.", "1.38.", "1.44."], "p": 1, "a": 1, "logic": ["Enterprise value = market value of equity + market value of debt − cash and short-term investments. Divide by revenues for EV/S."], "steps": ["Market value of equity = 103.7 m × $191.60 = $19,868.9 m", "EV = 19,868.9 + 1,460 − 852 = $20,476.9 m", "EV/S = 20,476.9 ÷ 14,820 = 1.38"], "traps": ["1.28 leaves out the debt: (19,868.9 − 852) ÷ 14,820.", "", "1.44 forgets to subtract cash: (19,868.9 + 1,460) ÷ 14,820."]},
+  "L2-MOCK1-S1 #4": {"set": 1, "stem": "The momentum indicator used by Wang is best described as:", "options": ["relative strength.", "scaled earnings surprise.", "standardized unexpected earnings."], "p": 0, "a": 1, "logic": ["Scaled earnings surprise = (reported EPS − mean analyst forecast) ÷ standard deviation of analysts’ forecasts. Wang divides by the dispersion of the analysts’ current forecasts, which is exactly this.", "SUE uses a different scale: the standard deviation of past earnings surprises (historical forecast errors), not today’s spread of forecasts."], "traps": ["Relative strength is price-based: a stock’s return against its own past or an index. No earnings or forecasts involved.", "", "SUE divides the surprise by the standard deviation of historical surprises, not by the dispersion of the current analyst forecasts."]},
+  "L2-MOCK1-S1 #5": {"set": 2, "stem": "The arbitrage-free value of Bond D is closest to:", "options": ["$997.93.", "$1000.00.", "$1000.17."], "p": 0, "a": 2, "logic": ["The tree already includes the 2% OAS, so each node rate equals the bond’s coupon (reference + 2%) and also its discount rate. A plain floater is therefore worth par at every node.", "A floor only matters where the node rate is below 2.5%: the year-1 down node (2.4651%). There the coupon paid at year 2 is 2.5%, so the bond is worth slightly more than par. Value it backwards from year 2."], "steps": ["Up node (2.9366%): coupon 2.9366% ≥ floor → V = 1,029.366 ÷ 1.029366 = 1,000.000", "Down node (2.4651%): coupon floored at 2.5% → V = 1,025.000 ÷ 1.024651 = 1,000.341", "Year 0: coupon 2.6% = 26.000 → V = [26.000 + 0.5 × (1,000.000 + 1,000.341)] ÷ 1.026 = 1,000.17"], "traps": ["$997.93 treats 2.5% as a cap instead of a floor: it limits the up-node coupon to 2.5% (value 995.76), which lowers the bond below par.", "$1,000 is the value of a straight floater just reset: it ignores the floor, which is worth something.", ""]},
+  "L2-MOCK1-S1 #6": {"set": 2, "stem": "If Pluto’s shares move as Lee expects, Bond A’s behavior will most likely resemble that of:", "options": ["common stock.", "an option-free floater.", "an option-free fixed-rate bond."], "p": 1, "a": 1, "logic": ["A convertible = straight bond + call option on the shares. If the share price falls 20%, far below the conversion price, the call is deep out of the money (“busted convertible”) and the bond trades on its straight-bond value.", "Bond A’s straight bond pays reference + 2%, a floating coupon, so it behaves like an option-free floater."], "traps": ["A convertible behaves like the stock only when the conversion option is deep in the money, the opposite of this case.", "", "It does behave like its straight bond, but that bond is a floater (reference + 2%), not fixed-rate."]},
+  "L2-MOCK1-S1 #7": {"set": 2, "stem": "Under Scenario 1, Bond E’s effective duration will most likely:", "options": ["decrease.", "stay the same.", "increase."], "p": 2, "a": 2, "logic": ["Bond E is a 2-year putable. In Scenario 1 rates at or under 2 years fall. Lower rates make the bond more valuable and the put less likely to be exercised, so the put loses value.", "A putable’s duration is short when the put is near the money (the bond behaves like a shorter bond). As the put moves out of the money, the bond behaves more like the straight bond, so its effective duration increases."], "traps": ["Duration falls only when the put becomes more valuable (rates rise), the opposite of this scenario.", "The put’s value changes with the rates, so the duration can’t stay the same.", ""]},
+  "L2-MOCK1-S1 #8": {"set": 2, "stem": "Under Scenario 2, which of the following bonds will most likely increase in value?", "options": ["Bond E only", "Bond F only", "Both Bond E and Bond F"], "p": 2, "a": 0, "logic": ["Higher interest-rate volatility raises the value of every embedded option and leaves the option-free bond unchanged.", "Putable (E) = straight bond + put held by the investor → worth more. Callable (F) = straight bond − call held by the issuer → worth less. So only Bond E increases in value."], "traps": ["", "The callable loses value: a more valuable call is subtracted from the straight bond.", "Both options gain value, but only the put is the investor’s. The call belongs to the issuer, so Bond F falls."]},
+  "L2-MOCK1-S1 #9": {"set": 3, "stem": "The Durbin–Watson test statistic for Model 1 will most likely be:", "options": ["less than 2 and statistically significant.", "not significantly different from 2.", "greater than 2 and statistically significant."], "p": 1, "a": 0, "logic": ["Residuals that are “predictable over time” and consistently on one side (actuals below forecast every quarter since 2008) mean a negative error tends to be followed by another negative one. That is positive serial correlation.", "DW ≈ 2(1 − r). Positive serial correlation (r > 0) gives DW well below 2, and over 15 years of data it will be significant."], "traps": ["", "DW close to 2 means no serial correlation, which can’t fit residuals that stay one-sided for 15 years.", "DW above 2 means negative serial correlation: errors flipping sign each period, not staying on one side."]},
+  "L2-MOCK1-S1 #10": {"set": 3, "stem": "The mean-reverting level for Model 2 is closest to:", "options": ["6.05.", "10.18.", "12.44."], "p": 1, "a": 1, "logic": ["An AR(1) series xt = b0 + b1·xt−1 settles where xt = xt−1. Solving gives the mean-reverting level b0 ÷ (1 − b1), valid because |b1| < 1."], "steps": ["b0 = 5.60, b1 = 0.45", "Mean-reverting level = 5.60 ÷ (1 − 0.45) = 5.60 ÷ 0.55 = 10.18"], "traps": ["6.05 just adds the coefficients: 5.60 + 0.45.", "", "12.44 divides by b1 instead of (1 − b1): 5.60 ÷ 0.45."]},
+  "L2-MOCK1-S1 #11": {"set": 3, "stem": "Which of the following would most likely improve the performance of Model 3?", "options": ["Strategy 1 only", "Strategy 2 only", "Both Strategy 1 and Strategy 2"], "p": 0, "a": 0, "logic": ["Strong on training data but many false positives and negatives on cross-validation is high variance error: overfitting.", "The fix is a simpler model. More regularisation penalises complexity and drops weak features (Strategy 1 ✓). Adding features makes the model more complex and overfits more (Strategy 2 ✗)."], "traps": ["", "More features add complexity, which raises variance error. That is the problem the model already has.", "Only regularisation helps; adding features works against it."]},
+  "L2-MOCK1-S1 #12": {"set": 3, "stem": "The F1 score for Model 3 is closest to:", "options": ["0.839.", "0.897.", "0.914."], "p": 1, "a": 2, "logic": ["F1 is the harmonic mean of precision and recall. Precision = TP ÷ (TP + FP): of everything predicted “1”, how much really was. Recall = TP ÷ (TP + FN): of all the real “1”s, how many were caught."], "steps": ["Precision = 165 ÷ (165 + 27) = 165 ÷ 192 = 0.8594", "Recall = 165 ÷ (165 + 4) = 165 ÷ 169 = 0.9763", "F1 = (2 × 0.8594 × 0.9763) ÷ (0.8594 + 0.9763) = 1.6781 ÷ 1.8357 = 0.914"], "traps": ["0.839 multiplies precision by recall (0.8594 × 0.9763) and skips the harmonic-mean formula.", "0.897 is accuracy: (TP + TN) ÷ total = (165 + 104) ÷ 300. The question asks for F1.", ""]},
+  "L2-MOCK1-S1 #13": {"set": 4, "stem": "Based on Exhibit 1, the forward rate for the 2-year zero-coupon bond issued one year from now is closest to:", "options": ["8.53%.", "9.24%.", "9.67%."], "p": 0, "a": 0, "logic": ["A 2-year zero issued one year from now earns the forward rate f(1,2). No arbitrage: investing for 3 years at the 3-year spot must equal 1 year at the 1-year spot, then 2 years at f(1,2)."], "steps": ["(1 + z3)³ = (1 + z1) × (1 + f(1,2))²", "(1 + f(1,2))² = 1.0815³ ÷ 1.0740 = 1.264968 ÷ 1.0740 = 1.177810", "f(1,2) = √1.177810 − 1 = 8.53%"], "traps": ["", "9.24% is f(2,1), the 1-year rate two years from now: 1.0815³ ÷ 1.0761² − 1.", "9.67% puts the 1-year spot under a cube–square ratio: 1.0815³ ÷ 1.0740² − 1, which matches no forward rate."]},
+  "L2-MOCK1-S1 #14": {"set": 4, "stem": "The arbitrage-free value of the 3-year 6.0% coupon bond Client 2 is considering purchasing is closest to:", "options": ["94.48.", "94.57.", "94.68."], "p": 1, "a": 1, "logic": ["An option-free, default-free bond is worth the sum of its cash flows, each discounted at the spot rate for its own date. YTM is an average and not the right rate for any single cash flow."], "steps": ["Year 1: 6 ÷ 1.0740 = 5.587", "Year 2: 6 ÷ 1.0761² = 5.181", "Year 3: 106 ÷ 1.0815³ = 83.797", "Value = 5.587 + 5.181 + 83.797 = 94.57"], "traps": ["94.48 discounts every cash flow at the 3-year spot rate (8.15%).", "", "94.68 discounts each cash flow at the YTM of that maturity, not the spot rate."]},
+  "L2-MOCK1-S1 #15": {"set": 4, "stem": "The new interest-rate model described by Client 3 is most consistent with the:", "options": ["Ho-Lee model.", "Vasicek model.", "Cox-Ingersoll-Ross model."], "p": 2, "a": 1, "logic": ["Sort the models by their features. Equilibrium models (CIR, Vasicek) cannot be calibrated to today’s curve; arbitrage-free models (Ho–Lee, KWF) can.", "Of the two equilibrium models, Vasicek has mean reversion, constant volatility and allows negative rates. CIR makes volatility grow with the rate level, so rates can’t go negative. The client’s description is Vasicek."], "traps": ["Ho–Lee is arbitrage-free (calibrated to market data) and has no mean reversion. The client’s model can’t be calibrated and does mean-revert.", "", "CIR is equilibrium and mean-reverting, but its volatility ∝ √r rules out negative rates and constant volatility."]},
+  "L2-MOCK1-S1 #16": {"set": 4, "stem": "The value of Bond X is closest to:", "options": ["100.91.", "104.79.", "106.10."], "p": 1, "a": 1, "logic": ["Start at maturity with coupon + par, discount back one node at a time at the node’s rate, take the 50/50 average, add the coupon paid at that date, and discount again."], "steps": ["Year 2 cash flow = 100 + 4 = 104", "Up node (3.00%): 104 ÷ 1.03 = 100.9709", "Down node (0.75%): 104 ÷ 1.0075 = 103.2258", "Year 0: [4 + 0.5 × (100.9709 + 103.2258)] ÷ 1.0125 = 106.0984 ÷ 1.0125 = 104.79"], "traps": ["100.91 leaves the year-2 coupon out of the year-2 cash flow (discounts 100, not 104).", "", "106.10 forgets to discount the year-1 value back to today at 1.25%."]},
+  "L2-MOCK1-S1 #17": {"set": 5, "stem": "Which of the following banks relies most on financial models and unobservable inputs to measure the fair value of assets?", "options": ["Sungda Bank", "Topliska Bank", "Vibetera Bank"], "p": 0, "a": 0, "logic": ["Level 3 fair values come from models and unobservable inputs, so they carry the most management discretion. Compare each bank’s Level 3 share of its fair-value assets."], "steps": ["Sungda: 8,378 ÷ 56,298 = 14.9%", "Topliska: 5 ÷ 7,785 = 0.1%", "Vibetera: 211 ÷ 18,792 = 1.1%", "Highest share → Sungda"], "traps": ["", "Topliska is almost all Level 1 (quoted prices) and only 0.1% Level 3, so it relies least on models.", "Vibetera is 1.1% Level 3, well below Sungda’s 14.9%."]},
+  "L2-MOCK1-S1 #18": {"set": 5, "stem": "Which of Pey's observations most likely falls within the scope of a CAMELS analysis?", "options": ["Observation 1", "Observation 2", "Observation 3"], "p": 0, "a": 2, "logic": ["CAMELS is Capital, Asset quality, Management, Earnings, Liquidity, Sensitivity. A strong risk management committee overseeing internal controls is evidence of management capability, especially the ability to identify and control risk."], "traps": ["Executive pay and its incentives to take risk are corporate culture. The curriculum lists that among factors outside CAMELS.", "Assets under management in the trust department are off-balance-sheet, another factor outside CAMELS.", ""]},
+  "L2-MOCK1-S1 #19": {"set": 5, "stem": "Which insurance company has the most efficient overall underwriting operation?", "options": ["Sungda", "Treetop", "Umbrella"], "p": 2, "a": 2, "logic": ["Combined ratio = loss and loss adjustment expense ratio + underwriting expense ratio. It measures how efficient the whole underwriting operation is; below 100% means an underwriting profit. Lower is better."], "steps": ["Sungda: 64.2% + 30.1% = 94.3%", "Treetop: 63.2% + 31.8% = 95.0%", "Umbrella: 66.7% + 26.6% = 93.3% → lowest", "(The key’s 95.3% for Umbrella comes from a mistyped 28.6%.)"], "traps": ["Sungda’s 94.3% would win only with the key’s mistyped 28.6% for Umbrella.", "Treetop’s 95.0% is the highest of the three.", ""], "note": "The answer key marks Sungda, but it adds Umbrella’s underwriting ratio as 28.6%. The exhibit shows 26.6%, which makes Umbrella’s combined ratio the lowest. Your pick, Umbrella, is right on the data given, so this is logged as correct. Know both: the rule is “lowest combined ratio wins”."},
+  "L2-MOCK1-S1 #20": {"set": 5, "stem": "Which of the following developments most likely increases risk for Sungda Insurance?", "options": ["Development 1", "Development 2", "Development 3"], "p": 2, "a": 2, "logic": ["P&C insurers pass part of their risk to reinsurers. If global reinsurers accept fewer policies from the market, Sungda Insurance keeps more risk on its own book and can diversify less, so its risk rises."], "traps": ["A hard market means less competition, tighter underwriting and higher premiums, which improves profits and lowers risk.", "Higher minimum capital is tighter regulation: it limits excess risk-taking and strengthens the balance sheet.", ""]},
+  "L2-MOCK1-S1 #21": {"set": 6, "stem": "The 5% annual parametric VaR for the foundation's investment in GEF is closest to:", "options": ["$79,400.00", "$834,400", "$1,255,800"], "p": 0, "a": 1, "logic": ["To annualise, scale the mean return by the number of days (250) and the standard deviation by √250. Then VaR = −(annual mean − z × annual σ), applied to the position."], "steps": ["Annual mean = 250 × 0.04% = 10.00%", "Annual σ = 1.094% × √250 = 1.094% × 15.811 = 17.298%", "VaR (5%, z = 1.65) = 10.00% − 1.65 × 17.298% = −18.541%", "$ VaR = 18.541% × $4,500,000 = $834,351 ≈ $834,400"], "traps": ["$79,400 is the daily VaR: 1.765% × $4.5 m. The question asks for annual.", "", "$1,255,800 scales the whole daily VaR by √250 (1.765% × 15.811 × $4.5 m), which ignores that the mean scales by 250, not √250."]},
+  "L2-MOCK1-S1 #22": {"set": 6, "stem": "Which of the following is the best response to the foundation board chair's question about the IVAR metric?", "options": ["The 5% daily VaR would be 2.110% with a 10% increase in emerging market equities", "The 5% daily VaR of the emerging market equities allocation in GEF's portfolio is 0.345%", "The 5% maximum daily loss would rise by 0.345% with a 10% increase in emerging market equities"], "p": 1, "a": 0, "logic": ["IVaR is the difference between the portfolio’s VaR after a proposed change and its VaR before. With IVaR of 0.345% from adding 10% to emerging markets, the portfolio’s 5% daily VaR becomes 1.765% + 0.345% = 2.110%."], "steps": ["VaR after = 1.765% + 0.345% = 2.110%"], "traps": ["", "That is the VaR of one sleeve on its own. IVaR measures how the whole portfolio’s VaR changes.", "VaR is a minimum loss at a probability, not a maximum loss, and IVaR is the change in that VaR."]},
+  "L2-MOCK1-S1 #23": {"set": 6, "stem": "The best explanation for the different CVaR results in the tests of Nagle's new European equities strategy is that the:", "options": ["historical returns of the five factors are highly correlated.", "distribution of historical factor returns exhibits excess kurtosis.", "distribution of historical factor returns exhibits positive skewness."], "p": 0, "a": 1, "logic": ["The Sharpe ratios are close (1.1 vs. 1.0), so overall volatility is similar. But the backtest’s CVaR (11.4%) is more than double the Monte Carlo’s (5.2%).", "A multivariate normal has no fat tails, so it understates losses in the tail. The historical returns must have excess kurtosis (and/or negative skew), which the backtest captures and the normal simulation misses."], "traps": ["Correlation is already built into both methods: the backtest uses actual joint history and the multivariate normal includes a correlation matrix.", "", "Positive skew would make historical tail losses smaller, not larger. A larger backtest CVaR points to negative skew."]},
+  "L2-MOCK1-S1 #24": {"set": 6, "stem": "The backtest results for Nagle's new global technology equities fund are most likely subject to:", "options": ["data snooping.", "look-ahead bias.", "survivorship bias."], "p": 2, "a": 0, "logic": ["Data snooping is picking a strategy because it did best on the data, instead of testing a strategy set out in advance. Nagle backtests 20 factor strategies (5 to 9 factors) and recommends the winner, so the result is likely to be luck that won’t repeat."], "traps": ["", "She uses point-in-time data, which removes look-ahead bias: only data known at each date is used.", "Point-in-time data also covers companies that later failed, so survivorship bias is dealt with."]},
+  "L2-MOCK1-S1 #25": {"set": 7, "stem": "Based on the earnings components, the company whose earnings are most sustainable is:", "options": ["Tengu.", "Pégase.", "Unicorn."], "p": 0, "a": 0, "logic": ["Earnings = cash flow + accruals. The cash component is more persistent; a large accrual component makes earnings revert to the mean faster. Tengu has the highest cash component (60%), so its earnings are the most sustainable."], "traps": ["", "Pégase’s cash component is 50%, below Tengu’s 60%.", "Unicorn has the most accruals (60%), so its earnings are the least sustainable."]},
+  "L2-MOCK1-S1 #26": {"set": 7, "stem": "Based on the outputs of the Beneish and Altman models, the company with the highest probability of earnings manipulation is:", "options": ["Tengu.", "Pégase.", "Unicorn."], "p": 0, "a": 2, "logic": ["The Beneish M-score estimates the probability of earnings manipulation. Higher (less negative) means more likely. Unicorn’s −1.1 is the highest of the three.", "The Altman Z-score predicts bankruptcy, not manipulation, so ignore it here."], "steps": ["M-scores: Tengu −2.6 < Pégase −1.8 < Unicorn −1.1 → Unicorn highest"], "traps": ["Wrong way round: Tengu’s −2.6 is the lowest M-score, so it is the least likely manipulator. (Its high Z-score of 3.0 is about bankruptcy.)", "Pégase’s −1.8 is below Unicorn’s −1.1. Its low Z-score (1.8) signals distress, not manipulation.", ""]},
+  "L2-MOCK1-S1 #27": {"set": 7, "stem": "As a result of its investment in Antler, at the end of the most recent year, Unicorn most likely recognized goodwill (in USD) of:", "options": ["2 million.", "4 million.", "6 million."], "p": 1, "a": 1, "logic": ["Under the equity method the excess of cost over the investor’s share of book value splits into (1) the share of fair-value uplifts on identifiable assets and (2) goodwill, the residual. Equivalently, goodwill = price − share of fair value of net assets."], "steps": ["Share of fair value of net assets = 50% × 32 = 16", "Goodwill = 20 − 16 = USD 4 million", "Check: excess over book = 20 − 50% × 28 = 6; PP&E uplift = 50% × (44 − 40) = 2; goodwill = 6 − 2 = 4"], "traps": ["2 million is the PP&E fair-value uplift (50% × 4), not goodwill.", "", "6 million uses book value instead of fair value of net assets: 20 − 50% × 28."]},
+  "L2-MOCK1-S1 #28": {"set": 7, "stem": "Tengu's cash-flow-based accruals ratio for the most recent year is:", "options": ["15.0%.", "16.6%.", "18.0%."], "p": 0, "a": 0, "logic": ["Accruals are the part of earnings not backed by operating and investing cash flows. Financing flows are left out because they are not earnings."], "steps": ["CFO + CFI = 90 + (−99) = −9", "Accruals = 66 − (−9) = 75", "Ratio = 75 ÷ 500 = 15.0%"], "traps": ["", "16.6% also subtracts CFF (−8). Financing flows don’t belong in the accrual measure.", "18.0% is CFO ÷ NOA, which isn’t an accruals measure at all."]},
+  "L2-MOCK1-S1 #29": {"set": 8, "stem": "By including the findings of the medical study in her industry report, does Badie violate the Standard relating to misrepresentation?", "options": ["No", "Yes, because she uses the findings as part of her analysis", "Yes, because she fails to mention the medical conference she attended"], "p": 1, "a": 0, "logic": ["Standard I(C) Misrepresentation forbids presenting others’ work as your own. Badie downloaded the study and cites it, so the actual source is credited.", "Where she first heard of it (the conference) doesn’t have to be cited. Getting and reviewing the original is best practice, which is what she did. No violation."], "traps": ["", "Using a properly cited study in your analysis is allowed; the duty is to credit it, which she does.", "The duty is to cite the source you rely on, not how you came across it."]},
+  "L2-MOCK1-S1 #30": {"set": 8, "stem": "With regard to the client's accusations, does Badie violate the Standard relating to diligence and reasonable basis?", "options": ["No", "Yes, because of her use of the quantitative model", "Yes, because of the share price performance relative to her forecast"], "p": 0, "a": 0, "logic": ["Standard V(A) Diligence and Reasonable Basis lets members rely on research or models their firm has approved, in good faith, unless there is reason to doubt them. Badie also did her own due diligence.", "A reasonable basis doesn’t guarantee the outcome, so the later 25% fall doesn’t make it a violation."], "traps": ["", "You don’t have to build a model yourself to use it: the firm’s approved model can be relied on in good faith.", "Standards judge the process, not the result. A forecast that later proves wrong is not a lack of diligence."]},
+  "L2-MOCK1-S1 #31": {"set": 8, "stem": "Miller's comments violate the Standard relating to:", "options": ["material nonpublic information.", "transaction-based manipulation.", "information-based manipulation."], "p": 2, "a": 2, "logic": ["Miller says Midsound is “already in negotiations with multiple acquirers” before any talks have happened, and the price jumps. Spreading false or misleading information to induce trading is information-based market manipulation under Standard II(B)."], "traps": ["MNPI needs true material information that isn’t public. A false claim is not MNPI; it is manipulation.", "Transaction-based manipulation needs trades that create a false impression of price or volume. Miller made no trades, only a statement.", ""]},
+  "L2-MOCK1-S1 #32": {"set": 8, "stem": "With regard to her book, does Badie violate the Standard relating to loyalty to employers?", "options": ["No", "Yes, by signing the book deal prior to retirement", "Yes, by relying upon the skills and experience gained at Seaside"], "p": 1, "a": 0, "logic": ["Standard IV(A) Loyalty lets employees prepare for a new venture before leaving, provided they don’t breach their duty: no competing, no misuse of confidential information, no soliciting clients.", "A book about the industry doesn’t compete with Seaside, and general skills and experience are not confidential. No violation."], "traps": ["", "Making arrangements before leaving is allowed as long as they don’t breach the duty of loyalty; signing a book deal doesn’t.", "Skills and experience gained on the job belong to the employee. Only confidential information and trade secrets are protected."]},
+  "L2-MOCK1-S1 #33": {"set": 9, "stem": "Which action considered by Company X's board would most likely increase WACC?", "options": ["Action 1", "Action 2", "Action 3"], "p": 2, "a": 1, "logic": ["Bottom-up factors: more volatile and less predictable revenue and cash flow mean a higher chance of default and a higher cost of debt and equity. A new, riskier product line (Action 2) raises WACC."], "traps": ["More customers reduce concentration risk, which lowers WACC.", "", "A put protects investors, so they accept a lower yield. Swapping option-free debt for putable debt at the same leverage lowers the cost of debt."]},
+  "L2-MOCK1-S1 #34": {"set": 9, "stem": "The cost of equity for Company Y under the build-up approach is:", "options": ["lower than under the expanded CAPM.", "the same as under the expanded CAPM.", "higher than under the expanded CAPM."], "p": 2, "a": 1, "logic": ["Expanded CAPM: re = rf + β × ERP + SP + IP + SCRP. Build-up: re = rf + ERP + SP + SCRP (it assumes β = 1 and no industry premium).", "Everything else cancels, so compare β × ERP + IP with ERP, that is the sign of (β − 1) × ERP + IP."], "steps": ["(β − 1) × ERP + IP = (0.8 − 1) × 2.0% + 0.4% = −0.4% + 0.4% = 0", "Expanded CAPM: 0.8 × 2% + 0.4% = 2.0% → same as build-up’s 2.0%", "So the two estimates are the same"], "traps": ["“Lower” would need (β − 1) × ERP + IP > 0, but here it is exactly 0.", "", "“Higher” would need (β − 1) × ERP + IP < 0, but the lower beta (−0.4%) is exactly offset by the industry premium (+0.4%)."], "note": "The platform scored your answer (“higher”) as right, but its own working shows the two estimates are equal. This is logged as a miss, because B is right by the numbers."},
+  "L2-MOCK1-S1 #35": {"set": 9, "stem": "Goodwin's estimate of the cost of debt for Company Z should be:", "options": ["lower than 4.5%.", "equal to 4.5%.", "higher than 4.5%."], "p": 2, "a": 2, "logic": ["Interpolate between liquid bonds of the same rating and industry to get a 7-year YTM, then add a premium because Company Z’s bonds trade thinly."], "steps": ["6-year average YTM = (4.15% + 4.35%) ÷ 2 = 4.25%", "10-year average YTM = (5.20% + 5.30%) ÷ 2 = 5.25%", "Per year = (5.25% − 4.25%) ÷ 4 = 0.25%", "7-year = 4.25% + 0.25% = 4.50%", "Thinly traded → + liquidity premium → above 4.5%"], "traps": ["Below 4.5% comes from using the 6-year YTM (4.25%) without interpolating to 7 years.", "Exactly 4.5% is the matrix YTM for liquid bonds and leaves out the liquidity premium thin trading requires.", ""]},
+  "L2-MOCK1-S1 #36": {"set": 9, "stem": "Based on comparable transaction analysis, Goodwin should conclude that a $72-per-share offer by Company Z would:", "options": ["undervalue the target company.", "fairly value the target company.", "overvalue the target company."], "p": 0, "a": 2, "logic": ["Average the takeover multiples from the comparable deals, apply them to the target’s per-share data and weight them as told (60% cash flow, 40% earnings). Don’t add a takeover premium: deal multiples already include it."], "steps": ["Average P/E = (42 ÷ 6.50 + 56 ÷ 7.20) ÷ 2 = (6.46 + 7.78) ÷ 2 = 7.12", "Average P/CF = (42 ÷ 8.90 + 56 ÷ 12.10) ÷ 2 = (4.72 + 4.63) ÷ 2 = 4.67", "Price on P/E = 7.12 × $8.50 = $60.52; on P/CF = 4.67 × $15.00 = $70.05", "Fair price = 0.4 × 60.52 + 0.6 × 70.05 = $66.24", "$72 − $66.24 = $5.76 > $5 → the offer overvalues the target"], "traps": ["“Undervalue” comes from swapping EPS and CF per share (→ $79.97) or adding a takeover premium already built into deal multiples.", "“Fairly value” comes from using only the P/CF price ($70.05, within $5 of $72) and ignoring the 40% earnings weight.", ""]},
+  "L2-MOCK1-S1 #37": {"set": 10, "stem": "Which futures trading strategy for base metals is most consistent with time-series momentum?", "options": ["Strategy 1", "Strategy 2", "Strategy 3"], "p": 0, "a": 0, "logic": ["Time-series momentum looks at each asset’s own trailing return: go long if positive, short if negative. Five metals are positive and only tin (−1.1%) is negative → Strategy 1."], "traps": ["", "Long the top three, short the bottom three is cross-sectional (relative) momentum. It shorts zinc and lead even though their returns are positive.", "Shorting everything on a GDP view is a macro call, not momentum."]},
+  "L2-MOCK1-S1 #38": {"set": 10, "stem": "Which of the portfolio's long energy futures positions is most likely to have a negative roll return?", "options": ["Coal", "Heating oil", "Brent crude oil"], "p": 0, "a": 1, "logic": ["Roll return = (near-term price − farther-term price) ÷ near-term price. A long position that rolls into a dearer farther contract (contango) has a negative roll return."], "steps": ["Heating oil: (3.69 − 3.93) ÷ 3.69 = −6.5% → negative", "Coal: (342.36 − 334.52) ÷ 342.36 = +2.3% → positive (backwardation)", "Brent: (74.64 − 74.64) ÷ 74.64 = 0"], "traps": ["Coal is in backwardation (farther below near), so rolling a long earns a positive roll return.", "", "Brent’s near and farther prices are equal, so its roll return is zero."]},
+  "L2-MOCK1-S1 #39": {"set": 10, "stem": "Based on the theory of storage, the convenience yield per barrel of Brent crude oil over the farther-term is:", "options": ["–$1.36.", "$1.36.", "$5.64."], "p": 1, "a": 1, "logic": ["Holding the physical costs storage but gives a convenience yield, so the futures price = spot + storage costs − convenience yield. Rearrange for the convenience yield."], "steps": ["Convenience yield = S + storage − F", "= 72.50 + 3.50 − 74.64 = $1.36"], "traps": ["−$1.36 adds the convenience yield instead of subtracting it (F = S + storage + CY).", "", "$5.64 swaps the signs of storage and convenience yield (F = S − storage + CY)."]},
+  "L2-MOCK1-S1 #40": {"set": 10, "stem": "Given Cooper's expectations for the prices of WTI and heavy crude oil, which trade should she implement?", "options": ["Trade 1", "Trade 2", "Trade 3"], "p": 1, "a": 0, "logic": ["A volatility seller (short swap) gains when realised volatility comes in below the level priced in. Cooper expects WTI volatility below market expectations, so Trade 1 fits her view."], "traps": ["", "The direction is backwards. Heavy crude is expected to fall more (6%) than WTI (3%), so she should be long WTI and short heavy crude in the basis swap, not the reverse.", "She expects WTI to fall, so a long excess-return swap loses. She would want to be short."]},
+  "L2-MOCK1-S1 #41": {"set": 11, "stem": "The expected all-in 1-year USD return on Malshuk’s hedged GBP zero-coupon bond position is closest to:", "options": ["0.72%.", "1.00%.", "1.72%."], "p": 1, "a": 2, "logic": ["Covered interest rate parity: a foreign money-market investment fully hedged with a no-arbitrage forward earns exactly the domestic rate. Malshuk is USD-based, so his all-in return is the USD rate, 1.72%. No calculation is needed."], "traps": ["0.72% is the GBP rate before the hedge. The forward premium adds the rest.", "1.00% is the rate differential, which is what the forward premium makes up. The total return is 0.72% + about 1.00% = 1.72%.", ""]},
+  "L2-MOCK1-S1 #42": {"set": 11, "stem": "With six months remaining in the contract term, the mark-to-market value (in USD) of Malshuk’s USD/GBP forward contract is closest to:", "options": ["−142,643.", "−141,935.", "143,000"], "p": 1, "a": 1, "logic": ["Malshuk sold GBP 5 m forward at 1.3367. To value it, close it with an offsetting forward (buy GBP 5 m at today’s 6-month forward) and discount the USD gain or loss at the USD rate for 6 months."], "steps": ["Original: sell GBP 5,000,000 × 1.3367 = receive USD 6,683,500", "Today’s 6-month forward = 1.3585 + 68 ÷ 10,000 = 1.3653", "Offset: buy GBP 5,000,000 × 1.3653 = pay USD 6,826,500", "Net at settlement = 6,683,500 − 6,826,500 = −USD 143,000", "PV = −143,000 ÷ (1 + 0.015 × 180/360) = −143,000 ÷ 1.0075 = −USD 141,935"], "traps": ["−142,643 discounts a USD amount at the GBP rate (0.50%). Discount at the rate of the currency of the cash flow.", "", "+143,000 flips the side (as if he bought GBP forward) and isn’t discounted."]},
+  "L2-MOCK1-S1 #43": {"set": 11, "stem": "The expected all-in USD return for Malshuk’s carry trade is closest to:", "options": ["5.13%.", "6.43%.", "6.95%."], "p": 1, "a": 0, "logic": ["Borrow USD, convert to BRL at spot, earn the BRL rate, convert back at the expected future spot, then subtract the USD borrowing cost."], "steps": ["USD 1 → BRL 3.1259 at spot", "After a year: 3.1259 × 1.0825 = BRL 3.3838", "Back to USD: 3.3838 ÷ 3.1639 = USD 1.0695 → 6.95% gross", "Net = 6.95% − 1.82% = 5.13%"], "traps": ["", "6.43% is just the rate differential (8.25% − 1.82%). That assumes the BRL doesn’t move, but here it is expected to weaken to 3.1639.", "6.95% is the gross return before paying for the USD borrowing."]},
+  "L2-MOCK1-S1 #44": {"set": 11, "stem": "Countries included on Malshuk’s list should have:", "options": ["restrictive monetary policy and restrictive fiscal policy.", "restrictive monetary policy and expansionary fiscal policy.", "expansionary monetary policy and restrictive fiscal policy."], "p": 0, "a": 1, "logic": ["With high capital mobility, policy works through interest rates and capital flows. Restrictive monetary policy and expansionary fiscal policy (bigger deficits to fund) both push rates up, drawing capital in. Both push the currency up, so the outcome is clear: appreciation."], "traps": ["Restrictive fiscal policy lowers rates and offsets the tight money, so the overall effect is unclear.", "", "Easy money and tight fiscal policy both lower rates, so capital leaves and the currency depreciates."]},
+};
 // Countdown and day-by-day plan to the exam. The timer at the top counts down to STUDY_END (midnight at the
 // end of the day before, when studying stops), then to EXAM_AT. PLAN has one
 // entry per day: `k` is the kind of day (work = office day, full = weekend before leave, leave, mock, final,
@@ -29732,13 +29883,13 @@ function plMock(n, opt) {
     { w: 'AM', t: 'Mock ' + n + o + ' · session 1, timed: 2 h 12 min at exam time (9:00). No phone, no notes.' },
     { w: 'AM', t: 'Mock ' + n + o + ' · session 2, timed: 2 h 12 min after a 30-minute break.', mock: n },
     { w: 'PM', t: 'Score it. Mark every question you guessed, even the right ones.' },
-    { w: 'PM', t: 'Save the result PDF in Written Notes/Mocks and ask Claude to log it in the Test log.', go: 'tests' },
+    { w: 'PM', t: 'Save the result PDF in Written Notes/Test Results and ask Claude to log it in 🎯 Mock analysis.', go: 'mocks' },
     { w: 'Eve', t: 'Rest. At most 30 minutes of your ⭐ exam-day set; no new topics.', go: 'exam:starred' },
   ];
 }
 function plReview(n) {
   return [
-    { w: 'AM', t: 'Review Mock ' + n + ': every wrong and every guessed question. For each, write why the right answer is right (about 3 h).' },
+    { w: 'AM', t: 'Review Mock ' + n + ' in 🎯 Mock analysis: every question, right ones too. For each, check your logic against why the answer is right (about 3 h).', go: 'mocks' },
     { w: 'AM', t: 'In the Test log: do the Quick fixes from Mock ' + n + ' and note the Dig in sessions.', go: 'tests' },
   ];
 }
@@ -33798,7 +33949,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill'].forEach(id => { ids[id] = 1; });
+  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -34661,6 +34812,7 @@ function renderDetail() {
   const el = document.getElementById('detail');
   if (!selectedKey) { el.innerHTML = '<div class="empty">Pick a topic from the ledger to start recording what you know.</div>'; return; }
   if (selectedKey === 'tests') { safeHtml(() => tlRender(el)); return; }
+  if (selectedKey === 'mocks') { safeHtml(() => mkRender(el)); return; }
   if (selectedKey === 'plan') { safeHtml(() => plRender(el)); return; }
   if (selectedKey === 'podcasts') { safeHtml(() => pdRender(el)); return; }
   if (exIsView(selectedKey)) { renderExam(el); return; }
@@ -34817,7 +34969,7 @@ function cmPaintButtons() {
     b.innerHTML = sec ? '💬' + (n ? ' ' + n : '') : '💬 ' + (n ? n + ' on this reading' : 'Comment');
   });
   const fab = document.getElementById('cmFab');
-  fab.hidden = !selectedKey || exIsView(selectedKey) || selectedKey === 'tests' || selectedKey === 'plan' || selectedKey === 'podcasts';
+  fab.hidden = !selectedKey || exIsView(selectedKey) || selectedKey === 'tests' || selectedKey === 'mocks' || selectedKey === 'plan' || selectedKey === 'podcasts';
 }
 // The section whose heading was last scrolled past the top third of the screen.
 function cmSectionOnScreen() {
@@ -35241,7 +35393,7 @@ function rvPaintSession(sec) {
 }
 function rvRepaint() {
   if (!selectedKey) return;
-  if (selectedKey === 'tests' || selectedKey === 'plan' || selectedKey === 'podcasts') {
+  if (selectedKey === 'tests' || selectedKey === 'mocks' || selectedKey === 'plan' || selectedKey === 'podcasts') {
     { const y = window.scrollY; renderDetail(); window.scrollTo(0, y); }
     plBar();
     return;
@@ -35587,7 +35739,7 @@ function stToggle(k, kind) {
 function exRenderNav() {
   const n = safeHtml(exSetCount) || 0;
   document.getElementById('exNav').innerHTML = safeHtml(plNavHtml) + '<div class="ex-nav-label">Exam-day revision</div>' + Object.keys(EX_VIEWS).map(v =>
-    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml) + safeHtml(pdNavHtml);
+    `<div class="topic-row${selectedKey === v ? ' active' : ''}" data-exview="${v}" role="button" tabindex="0"><span>${EX_ICON[v]}</span><span style="flex:1;">${EX_VIEWS[v]}</span>${v === 'exam:starred' && n ? '<b>' + n + '</b>' : ''}</div>`).join('') + safeHtml(tlNavHtml) + safeHtml(mkNavHtml) + safeHtml(pdNavHtml);
 }
 function exGoBtn(topic, mod, anchor, label) {
   return `<button type="button" class="ex-link" data-exgo="${escapeHtml(topic + '|' + mod + '|' + (anchor || ''))}" title="Open where this came from in the notes">↗ ${escapeHtml(label || mod)}</button>`;
@@ -35788,7 +35940,7 @@ function exScrollFlash(t, center) {
 }
 function exSetBack() {
   if (!selectedKey) return;
-  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || (selectedKey === 'tests' ? 'Test log' : selectedKey === 'plan' ? 'Daily plan' : selectedKey === 'podcasts' ? 'Podcasts' : cmReadingOf(selectedKey)).replace(/:.*/, '') };
+  ex.back = { key: selectedKey, y: window.scrollY, label: EX_VIEWS[selectedKey] || (selectedKey === 'tests' ? 'Test log' : selectedKey === 'mocks' ? 'Mock analysis' : selectedKey === 'plan' ? 'Daily plan' : selectedKey === 'podcasts' ? 'Podcasts' : cmReadingOf(selectedKey)).replace(/:.*/, '') };
   const b = document.getElementById('exBack');
   b.textContent = '← Back to ' + ex.back.label; b.hidden = false;
 }
@@ -36150,7 +36302,7 @@ function tlSessTitle(topic, mod) { const g = exGroups(topic).find(x => x.module 
 function tlDate(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' }); }
 // Every logged test, oldest first, as { id, topic, date, mins, qs: [{ n, topic, mod, ok, why, what }] }.
 function tlAll() {
-  return TESTS.map(t => ({ id: t.id, name: t.name, topic: t.topic, date: t.date, mins: t.mins,
+  return TESTS.map(t => ({ id: t.id, name: t.name, topic: t.topic, date: t.date, mins: t.mins, mock: t.mock || 0, sess: t.sess || 0,
     qs: t.qs.map((q, i) => Object.assign({ n: i + 1, lvl: t.lvl ? +t.lvl[i] || 0 : 0 }, q, { topic: q.topic || t.topic })) }))
     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 }
@@ -36188,7 +36340,7 @@ function tlReadings() {
 // Tests with wrong answers, due to re-attempt TL_REDO days after the test until ticked "Redone".
 function tlRedos() {
   const today = rvToday();
-  return tlAll().filter(t => t.qs.some(tlMiss) && !(pgGet(tlRedoKey(t.id)) || {}).at)
+  return tlAll().filter(t => !t.mock && t.qs.some(tlMiss) && !(pgGet(tlRedoKey(t.id)) || {}).at)
     .map(t => ({ t, due: rvAddDays(t.date, TL_REDO), misses: t.qs.filter(tlMiss) }))
     .map(r => Object.assign(r, { now: r.due <= today }));
 }
@@ -36441,7 +36593,7 @@ function tlRender(el) {
       ${newest.slice(0, 8).map(tlTestHtml).join('')}
       ${newest.length > 8 ? `<details class="tl-done"><summary>Older tests · ${newest.length - 8}</summary>${newest.slice(8).map(tlTestHtml).join('')}</details>` : ''}
     </section>` : ''}
-    <div class="cm-hint">To add a test: put the result PDF in Written Notes (a Test Result folder, or Mocks) and ask Claude to log it. Each wrong answer also becomes a rose weak-spot card in its session.</div>`;
+    <div class="cm-hint">To add a test: put the result PDF in Written Notes (a Test Result folder) and ask Claude to log it. Each wrong answer also becomes a rose weak-spot card in its session. Mocks also get their own page, 🎯 Mock analysis.</div>`;
 }
 function tlRerender() { const y = window.scrollY; render(); window.scrollTo(0, y); }
 function tlInit() {
@@ -36491,6 +36643,224 @@ function tlInit() {
   }, true);
 }
 
+// --- 🎯 Mock analysis: the mocks in TESTS (`mock` and `sess` set) read as an exam, not as quizzes. Score per
+// session against the target, where the marks are (accuracy × exam weight), the item-set grid, recoverable vs.
+// knowledge misses, sessions missed again, and a question-by-question review from MOCK_Q and MOCK_SETS. A review
+// tick is a star|-|-|mock:<ref> row with on: false: v = 'match' (right, logic matched), 'luck' (right for the
+// wrong reason, counted as a hidden miss) or 'done' (a wrong one worked through).
+const MK_SAFE = 70; // the safety line under the 80% target
+const MK_WEIGHT = { ethics: 12.5, quant: 7.5, econ: 7.5, fsa: 12.5, corp: 7.5, equity: 12.5, fi: 12.5, deriv: 7.5, alt: 7.5, pm: 12.5 }; // midpoints of TL_WEIGHT, %
+const MK_EXAM_Q = 88;
+const MK_SHOW = { all: 'All', wrong: 'Wrong', right: 'Right', luck: 'Right for the wrong reason', todo: 'Not reviewed yet' };
+const mkf = { show: 'all', subj: 'all', mock: 0 };
+try { Object.assign(mkf, JSON.parse(localStorage.getItem('ledgerMkFilter') || '{}')); } catch (e) {}
+function mkKey(ref) { return 'star|-|-|mock:' + ref; }
+function mkTick(ref) { return (pgGet(mkKey(ref)) || {}).v || ''; }
+function mkRef(t, q) { return t.id + ' #' + q.n; }
+function mkTests() { return tlAll().filter(t => t.mock).sort((a, b) => a.mock - b.mock || a.sess - b.sess); }
+function mkNums() { return mkTests().map(t => t.mock).filter((n, i, a) => a.indexOf(n) === i); }
+// A question counts as a miss if it was wrong, a guess, or ticked "right for the wrong reason".
+function mkMiss(t, q) { return tlMiss(q) || mkTick(mkRef(t, q)) === 'luck'; }
+function mkPct(got, n) { return n ? Math.round(100 * got / n) : 0; }
+function mkBand(acc) { return acc >= TL_TARGET ? 'on' : acc >= MK_SAFE ? 'fix' : 'dig'; }
+function mkNavHtml() {
+  const ts = mkTests();
+  if (!ts.length) return '';
+  const left = ts.reduce((a, t) => a + t.qs.filter(q => !mkTick(mkRef(t, q))).length, 0);
+  return `<div class="topic-row${selectedKey === 'mocks' ? ' active' : ''}" data-exview="mocks" data-new="f-mocks" role="button" tabindex="0"><span>🎯</span><span style="flex:1;">Mock analysis</span>${left ? '<b>' + left + ' to review</b>' : ''}</div>`;
+}
+function mkPartHtml(x) {
+  if (typeof x === 'string') return `<p>${escapeHtml(x)}</p>`;
+  return `<div class="mk-ex">${x.title ? `<div class="mk-ex-t">${escapeHtml(x.title)}</div>` : ''}<div class="mk-ex-scroll">${weakPartHtml(x)}</div></div>`;
+}
+const mkBar = (acc, band) => `<span class="tl-bar"><span class="tl-bar-fill tl-${band}" style="width:${acc}%"></span><span class="tl-bar-tgt mk-safe" style="left:${MK_SAFE}%"></span><span class="tl-bar-tgt" style="left:${TL_TARGET}%"></span></span>`;
+// 1. Scoreboard: one row per mock, both sessions, against 70% and 80%.
+function mkScoreHtml(ts) {
+  const rows = mkNums().map(n => {
+    const ss = ts.filter(t => t.mock === n), qs = tlQs(ss), got = qs.filter(q => q.ok).length;
+    const sess = s => { const t = ss.find(x => x.sess === s); return t ? `${t.qs.filter(q => q.ok).length}/${t.qs.length} · ${tlAcc(t.qs)}%` : '<span class="tl-sub-none">not sat yet</span>'; };
+    const acc = mkPct(got, qs.length);
+    return { n, acc, html: `<div class="tl-sub-read mk-score-row"><span class="tl-read-name"><b>Mock ${n}</b> · ${tlDate(ss[0].date)}</span>${mkBar(acc, mkBand(acc))}<span class="tl-sub-pct">${acc}%</span><span class="tl-sub-n">S1 ${sess(1)} · S2 ${sess(2)}</span></div>` };
+  });
+  const all = tlQs(ts), last3 = rows.slice(-3), ready = Math.round(last3.reduce((a, r) => a + r.acc, 0) / last3.length);
+  const need = Math.max(0, Math.ceil(TL_TARGET / 100 * 44) - Math.round(ready / 100 * 44));
+  const kpi = (lab, val, sub) => `<div class="tl-kpi"><div class="tl-kpi-lab">${lab}</div><div class="tl-kpi-val">${val}</div>${sub ? `<div class="tl-kpi-sub">${sub}</div>` : ''}</div>`;
+  const trend = rows.length > 1 ? rows[rows.length - 1].acc - rows[rows.length - 2].acc : null;
+  return `<section class="block"><div class="block-label">Scoreboard</div>
+    <div class="tl-kpis">
+      ${kpi('Sessions sat', ts.length, mkNums().length + ' mock' + (mkNums().length > 1 ? 's' : '') + ' · ' + all.length + ' questions')}
+      ${kpi('Latest mock', rows[rows.length - 1].acc + '%', trend == null ? 'the first one: the baseline' : (trend >= 0 ? '▲ ' : '▼ ') + Math.abs(trend) + ' points on the mock before')}
+      ${kpi('Readiness', ready + '%', (last3.length > 1 ? 'average of your last ' + last3.length + ' mocks' : 'from your one mock so far') + ' · safe ' + MK_SAFE + '%, target ' + TL_TARGET + '%')}
+      ${kpi('To reach ' + TL_TARGET + '%', need ? '+' + need : '✓', need ? 'more right answers in each 44-question session' : 'at target')}
+    </div>
+    ${rows.map(r => r.html).join('')}
+    <div class="cm-hint">The bar’s thin ticks mark ${MK_SAFE}% (safe) and ${TL_TARGET}% (target). Readiness averages your last three mocks, so a single bad day doesn’t move it much.</div>
+  </section>`;
+}
+// 2. Where the marks are: accuracy × exam weight, as questions you could still gain on exam day.
+function mkMarksHtml(ts) {
+  const qs = ts.reduce((a, t) => a.concat(t.qs.map(q => ({ t, q }))), []), quiz = tlQs(tlAll().filter(t => !t.mock));
+  const rows = SUBJECTS.map(sj => {
+    const sq = qs.filter(x => tlSubjOf(x.q.topic) === sj.id), n = sq.length;
+    if (!n) return null;
+    const got = sq.filter(x => !mkMiss(x.t, x.q)).length, acc = mkPct(got, n), w = MK_WEIGHT[sj.id] || 0;
+    const qq = quiz.filter(q => tlSubjOf(q.topic) === sj.id).slice(-50);
+    return { sj, n, got, acc, w, gain: Math.max(0, (TL_TARGET - acc) / 100 * w / 100 * MK_EXAM_Q), quiz: qq.length >= 5 ? tlAcc(qq) : null };
+  }).filter(Boolean).sort((a, b) => b.gain - a.gain || a.acc - b.acc);
+  const untested = SUBJECTS.filter(sj => !rows.some(r => r.sj.id === sj.id));
+  return `<section class="block"><div class="block-label">Where the marks are · most to gain first</div>
+    <div class="deepdive-hint">Accuracy alone ranks a 5% subject the same as a 15% one. This ranks each subject by the exam questions you’d gain by lifting it to ${TL_TARGET}%: (${TL_TARGET}% − your accuracy) × its weight × ${MK_EXAM_Q} questions.</div>
+    ${rows.map((r, i) => `<div class="tl-sub-read mk-mark-row${i < 3 && r.gain >= 1 ? ' mk-top' : ''}"><button type="button" class="tl-read-name" data-mk="subj:${r.sj.id}" title="Show this subject’s questions in the review below">${escapeHtml(r.sj.name)}</button>${mkBar(r.acc, mkBand(r.acc))}<span class="tl-sub-pct">${r.acc}%</span><span class="tl-sub-n">${r.got}/${r.n} · weight ~${r.w}%${r.quiz != null ? ' · quizzes ' + r.quiz + '%' : ''}</span><span class="mk-gain">${r.gain >= 0.5 ? '+' + r.gain.toFixed(1) + ' Q' : '—'}</span></div>`).join('')}
+    ${untested.length ? `<div class="cm-hint">Not in a mock yet: ${untested.map(s => escapeHtml(s.name)).join(', ')}.</div>` : ''}
+    <div class="cm-hint">A session of 44 has only about 4 questions a subject, so one mock is a rough guide. “Quizzes” is the same subject’s latest 50 quiz questions, for comparison. Right-for-the-wrong-reason ticks count as misses here.</div>
+  </section>`;
+}
+// 3. Item sets: one tile per vignette, coloured by how many of its 4 you got.
+function mkSetsHtml(t) {
+  const sets = [];
+  t.qs.forEach(q => { const k = q.set || 0; (sets[k] = sets[k] || []).push(q); });
+  const tiles = sets.map((qs, k) => {
+    if (!qs) return '';
+    const got = qs.filter(q => !mkMiss(t, q)).length, s = MOCK_SETS[t.id + '/' + k] || {};
+    const cls = got === qs.length ? 'all' : got >= qs.length - 1 ? 'most' : got * 2 >= qs.length ? 'half' : 'lost';
+    return `<button type="button" class="mk-tile mk-${cls}" data-mk="goto:${escapeHtml(t.id + '/' + k)}" title="${escapeHtml(s.title || '')}"><b>${got}/${qs.length}</b><span>Set ${k}</span><small>${escapeHtml((s.title || '').replace(/ ·.*/, ''))}</small></button>`;
+  }).join('');
+  const lost = sets.map((qs, k) => qs && qs.filter(q => !mkMiss(t, q)).length * 2 < qs.length ? k : 0).filter(Boolean);
+  return `<div class="mk-sets-head">${escapeHtml(t.name)} · ${t.qs.filter(q => q.ok).length}/${t.qs.length}</div>
+    <div class="mk-tiles">${tiles}</div>
+    ${lost.length ? `<div class="rv-note">Sets ${lost.join(', ')}: you lost most of the vignette. When a whole set goes, it is usually the reading as a whole, not one fact. Read those vignettes again slowly in the review below, and re-read the reading’s Concise notes before the next mock.</div>` : ''}`;
+}
+// 5. Recoverable vs. knowledge: flip and calc are exam technique; gap and guess need study.
+function mkKindsHtml(ts) {
+  const rows = ts.reduce((a, t) => a.concat(t.qs.map(q => ({ t, q }))), []);
+  const miss = rows.filter(x => !x.q.ok || x.q.why === 'guess'), luck = rows.filter(x => x.q.ok && x.q.why !== 'guess' && mkTick(mkRef(x.t, x.q)) === 'luck');
+  const n = k => miss.filter(x => (x.q.why || 'gap') === k).length, rec = n('flip') + n('calc');
+  const got = rows.filter(x => x.q.ok).length, all = rows.length;
+  const kinds = ['flip', 'calc', 'gap', 'guess'].map(k => ({ k, n: n(k) })).filter(x => x.n);
+  return `<section class="block"><div class="block-label">Recoverable vs. knowledge · ${miss.length + luck.length} misses</div>
+    <div class="tl-kpis mk-kpis2">
+      <div class="tl-kpi"><div class="tl-kpi-lab">Recoverable</div><div class="tl-kpi-val">${rec}</div><div class="tl-kpi-sub">wrong way or a slip: exam technique, quick to fix</div></div>
+      <div class="tl-kpi"><div class="tl-kpi-lab">Knowledge</div><div class="tl-kpi-val">${n('gap') + n('guess') + luck.length}</div><div class="tl-kpi-sub">didn’t know it${n('guess') ? ', guessed' : ''}${luck.length ? ', or right for the wrong reason' : ''}: needs study</div></div>
+      <div class="tl-kpi"><div class="tl-kpi-lab">With the recoverable ones</div><div class="tl-kpi-val">${mkPct(got + rec, all)}%</div><div class="tl-kpi-sub">instead of ${mkPct(got, all)}%</div></div>
+    </div>
+    ${kinds.map(x => `<div class="tl-kind"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b> · ${rows.filter(r => (r.q.why || 'gap') === x.k && (!r.q.ok || x.k === 'guess')).map(r => 'Q' + r.q.n).join(', ')}<div class="tl-kind-fix">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
+    ${luck.length ? `<div class="tl-kind"><span class="tl-kind-n">${luck.length}</span><div><b>Right for the wrong reason</b> · ${luck.map(r => 'Q' + r.q.n).join(', ')}<div class="tl-kind-fix">Revise these like a miss: on exam day the same luck may not hold.</div></div></div>` : ''}
+    <div class="cm-hint">The kind of each miss is Claude’s read of the trap you fell into, from the option you picked. If you know you guessed one you got right, say so and it will count here.</div>
+  </section>`;
+}
+// 6. Sessions missed again: in two mocks, or in a mock and a quiz.
+function mkRepeatHtml(ts) {
+  const by = {};
+  const add = (q, src) => { const k = q.topic + '|' + q.mod; (by[k] = by[k] || { topic: q.topic, mod: q.mod, mocks: {}, quiz: 0, what: [] }); if (src) { by[k].mocks[src] = 1; by[k].what.push(q.what); } else by[k].quiz++; };
+  ts.forEach(t => t.qs.forEach(q => { if (q.mod && mkMiss(t, q)) add(q, 'M' + t.mock); }));
+  tlAll().filter(t => !t.mock).forEach(t => t.qs.forEach(q => { if (q.mod && tlMiss(q) && by[q.topic + '|' + q.mod]) add(q, ''); }));
+  const fl = t => FLAT.findIndex(x => x.key === t);
+  const rows = Object.values(by).filter(r => Object.keys(r.mocks).length > 1 || r.quiz).sort((a, b) => Object.keys(b.mocks).length - Object.keys(a.mocks).length || b.quiz - a.quiz || fl(a.topic) - fl(b.topic));
+  return `<section class="block"><div class="block-label">Missed again · ${rows.length} session${rows.length === 1 ? '' : 's'}</div>
+    <div class="deepdive-hint">A session you miss in a mock and also missed in its reading quizzes (or in two mocks) is a real weak spot, not a one-off. These come first in your review days.</div>
+    ${rows.length ? rows.map(r => `<div class="tl-row tl-dig"><div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(r.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(r.topic, r.mod) || tlShort(r.topic))}</span><span class="tl-badge tl-dig">${Object.keys(r.mocks).join(' + ')}${r.quiz ? ' + ' + r.quiz + ' quiz miss' + (r.quiz > 1 ? 'es' : '') : ''}</span></div>
+      <div class="tl-row-meta">${escapeHtml(tlShort(r.topic))} · mock: ${r.what.map(escapeHtml).join('; ')}</div>
+      <div class="tl-row-acts">${exGoBtn(r.topic, r.mod, '', 'Open ' + r.mod)}</div></div>`).join('') : '<div class="rv-note">None yet: no session has been missed both in a mock and in its quizzes.</div>'}
+  </section>`;
+}
+// 7. Question by question: every question with its vignette, the logic of the answer, the working and why each
+// other option is wrong. Right answers get a logic check; wrong ones a Reviewed tick.
+function mkQHtml(t, q) {
+  const ref = mkRef(t, q), f = MOCK_Q[ref], tick = mkTick(ref), L = 'ABC';
+  if (!f) return '';
+  const bad = !q.ok || q.why === 'guess', state = bad ? 'no' : tick === 'luck' ? 'luck' : 'ok';
+  const badge = state === 'no' ? `✗ Wrong${q.why && TL_WHY[q.why] ? ' · ' + TL_WHY[q.why].short : ''}` : state === 'luck' ? '✓ Right · wrong reason' : '✓ Right';
+  const opts = f.options.map((o, i) => `<li class="${i === f.a ? 'right' : i === f.p ? 'picked' : ''}"><span class="weak-mark">${i === f.a ? '✓' : i === f.p ? '✗' : L[i]}</span><span>${escapeHtml(o)}${i === f.p ? ' <span class="weak-tag">your pick</span>' : ''}${i === f.a ? ' <span class="weak-tag">answer</span>' : ''}</span></li>`).join('');
+  const others = f.options.map((o, i) => i === f.a || !f.traps[i] ? '' : `<li><b>${L[i]}. ${escapeHtml(o)}</b> ${escapeHtml(f.traps[i])}</li>`).join('');
+  const btn = (v, lab) => `<button type="button" class="rv-btn${tick === v ? ' on' : ''}" data-mk="v:${v}:${escapeHtml(ref)}">${tick === v ? '✓ ' : ''}${lab}</button>`;
+  return `<div class="mk-q mk-${state}" data-mkq="${escapeHtml(ref)}">
+    <div class="tl-row-top"><span class="tl-row-title">Q${q.n}</span><span class="nb-session-tag">${escapeHtml(q.mod || '')}</span><span class="tl-row-meta" style="margin:0">${escapeHtml(tlShort(q.topic))}${q.lvl ? ` · <b title="${TL_LVL[q.lvl].label}">L${q.lvl}</b>` : ''}</span><span class="tl-badge mk-badge-${state}">${badge}</span></div>
+    <div class="mk-stem">${escapeHtml(f.stem)}</div>
+    <ul class="weak-opts">${opts}</ul>
+    ${f.note ? `<div class="weak-note">⚠ ${escapeHtml(f.note)}</div>` : ''}
+    <div class="mk-why mk-why-ok"><div class="weak-sec">Why ${L[f.a]} is right</div>${f.logic.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+      ${f.steps && f.steps.length ? `<ol class="mk-steps">${f.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>` : ''}</div>
+    ${others ? `<div class="mk-why"><div class="weak-sec">Why the others are wrong</div><ul class="mk-traps">${others}</ul></div>` : ''}
+    ${bad && q.why && TL_WHY[q.why] ? `<div class="tl-row-do"><b>${TL_WHY[q.why].label}:</b> ${TL_WHY[q.why].fix}</div>` : ''}
+    <div class="rl-acts">${q.mod ? exGoBtn(q.topic, q.mod, '', 'Open ' + q.mod) : ''}<span style="flex:1"></span>${bad ? btn('done', 'Reviewed') : btn('match', 'My logic matched') + btn('luck', 'Right for the wrong reason')}</div>
+  </div>`;
+}
+function mkShowQ(t, q) {
+  const tick = mkTick(mkRef(t, q)), bad = !q.ok || q.why === 'guess';
+  if (mkf.subj !== 'all' && tlSubjOf(q.topic) !== mkf.subj) return false;
+  return mkf.show === 'all' || (mkf.show === 'wrong' && bad) || (mkf.show === 'right' && !bad) || (mkf.show === 'luck' && tick === 'luck') || (mkf.show === 'todo' && !tick);
+}
+function mkReviewHtml(t) {
+  const done = t.qs.filter(q => mkTick(mkRef(t, q))).length, chip = (attr, on, lab, n) => `<button type="button" class="ex-chip${on ? ' on' : ''}" data-mk="${attr}">${escapeHtml(lab)}${n != null ? ` <span class="tl-f-n">${n}</span>` : ''}</button>`;
+  const cnt = show => t.qs.filter(q => { const s = mkf.show; mkf.show = show; const r = mkShowQ(t, q); mkf.show = s; return r; }).length;
+  const subs = SUBJECTS.filter(sj => t.qs.some(q => tlSubjOf(q.topic) === sj.id));
+  const sets = [];
+  t.qs.forEach(q => { (sets[q.set || 0] = sets[q.set || 0] || []).push(q); });
+  const body = sets.map((qs, k) => {
+    if (!qs) return '';
+    const shown = qs.filter(q => mkShowQ(t, q)), s = MOCK_SETS[t.id + '/' + k];
+    if (!shown.length) return '';
+    return `<details class="mk-set" data-mkset="${escapeHtml(t.id + '/' + k)}" open><summary><span class="mk-set-n">Set ${k}</span><span class="mk-set-t">${escapeHtml(s ? s.title : '')}</span><span class="tl-sub-pct">${qs.filter(q => !mkMiss(t, q)).length}/${qs.length}</span></summary>
+      ${s ? `<details class="mk-vig"><summary>Read the vignette and exhibits</summary><div class="weak-full">${s.full.map(mkPartHtml).join('')}</div></details>` : ''}
+      ${shown.map(q => mkQHtml(t, q)).join('')}</details>`;
+  }).join('');
+  return `<section class="block" id="mkReview"><div class="block-label" data-new="f-mock-review">Question by question · ${escapeHtml(t.name)} · ${done} of ${t.qs.length} reviewed</div>
+    <div class="rl-bar"><i style="width:${mkPct(done, t.qs.length)}%"></i></div>
+    <div class="ex-tools tl-filter">${Object.keys(MK_SHOW).map(k => chip('show:' + k, mkf.show === k, MK_SHOW[k], cnt(k))).join('')}</div>
+    ${subs.length > 1 ? `<div class="ex-tools tl-filter tl-filter-reads">${chip('subj:all', mkf.subj === 'all', 'All subjects', null)}${subs.map(sj => chip('subj:' + sj.id, mkf.subj === sj.id, TL_SUBJ_SHORT[sj.id] || sj.name, t.qs.filter(q => tlSubjOf(q.topic) === sj.id).length)).join('')}</div>` : ''}
+    ${body || '<div class="rv-note">No questions match this filter.</div>'}
+    <div class="cm-hint">Read the vignette, decide your answer again, then read why. On a right answer, tick “My logic matched” if you got there the same way, or “Right for the wrong reason” if not: that one then counts as a miss in the numbers above. Tick “Reviewed” once you’ve worked through a wrong one.</div>
+  </section>`;
+}
+function mkRender(el) {
+  const ts = mkTests(), nums = mkNums();
+  if (!ts.length) { el.innerHTML = `<div class="crumb">Tests</div><h2 class="topic-title">🎯 Mock analysis</h2><div class="rv-note">No mocks logged yet. Put the result PDF in Written Notes/Test Results and ask Claude to log it.</div>`; return; }
+  const n = nums.includes(mkf.mock) ? mkf.mock : nums[nums.length - 1], cur = ts.filter(t => t.mock === n);
+  el.innerHTML = `
+    <div class="crumb">Tests</div>
+    <h2 class="topic-title">🎯 Mock analysis</h2>
+    <p class="topic-desc">Your mocks read as an exam: the score against ${TL_TARGET}%, which subjects hold the most marks, which vignettes you lost, how many misses were technique and how many were knowledge, and every question with the logic behind its answer. Mock questions also count in the 🧪 Test log.</p>
+    ${safeHtml(() => mkScoreHtml(ts))}
+    ${safeHtml(() => mkMarksHtml(ts))}
+    ${nums.length > 1 ? `<div class="ex-tools tl-filter">${nums.map(m => `<button type="button" class="ex-chip${m === n ? ' on' : ''}" data-mk="mock:${m}">Mock ${m}</button>`).join('')}</div>` : ''}
+    <section class="block"><div class="block-label">Item sets · Mock ${n}</div>
+      <div class="deepdive-hint">Each tile is one vignette of four questions. Tap one to jump to it in the review.</div>
+      ${cur.map(t => safeHtml(() => mkSetsHtml(t))).join('')}
+    </section>
+    ${safeHtml(() => mkKindsHtml(cur))}
+    ${safeHtml(() => mkRepeatHtml(ts))}
+    ${cur.map(t => safeHtml(() => mkReviewHtml(t))).join('')}`;
+}
+function mkInit() {
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('[data-mk]');
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    // data-mk is "act:arg", or "v:<tick>:<ref>" for a review tick.
+    const raw = b.getAttribute('data-mk'), i = raw.indexOf(':'), act = raw.slice(0, i);
+    let arg = raw.slice(i + 1), ref = '';
+    if (act === 'v') { const j = arg.indexOf(':'); ref = arg.slice(j + 1); arg = arg.slice(0, j); }
+    if (act === 'goto') {
+      const find = () => document.querySelector('.mk-set[data-mkset="' + (window.CSS && CSS.escape ? CSS.escape(arg) : arg) + '"]');
+      if (!find()) { mkf.show = 'all'; mkf.subj = 'all'; tlRerender(); }
+      const t = find();
+      if (t) { t.open = true; exScrollFlash(t, false); }
+      return;
+    }
+    if (act === 'v') {
+      const t = mkTests().find(x => ref.indexOf(x.id + ' #') === 0), q = t && t.qs.find(x => mkRef(t, x) === ref);
+      const on = mkTick(ref) !== arg;
+      pgSet(mkKey(ref), { reading: q ? cmReadingOf(q.topic) : '', session: q && q.mod ? rvSessionLabel(q.topic, q.mod) : '', item: 'Mock review: ' + ref }, on ? { on: false, v: arg, at: rvToday() } : { on: false });
+    } else if (act === 'show') mkf.show = arg;
+    else if (act === 'subj') { mkf.subj = arg; if (b.closest('.mk-mark-row')) mkf.show = 'all'; }
+    else if (act === 'mock') mkf.mock = +arg;
+    try { localStorage.setItem('ledgerMkFilter', JSON.stringify(mkf)); } catch (e2) {}
+    nwMark('f-mock-review');
+    tlRerender();
+    if (act === 'subj' && b.closest('.mk-mark-row')) { const r = document.getElementById('mkReview'); if (r) exScrollFlash(r, false); }
+  }, true);
+}
+
 // --- Countdown and daily plan: the bar at the top counts down to EXAM_AT and shows today's tasks done;
 // 📅 Daily plan lists today's tasks (with anything left from earlier days), the mocks done, and the whole
 // schedule. A tick is a star| row with on: false, so it syncs with progress and never counts as a star. ---
@@ -36528,8 +36898,8 @@ function plBar() {
 }
 function plGo(go) {
   if (!go) return '';
-  if (go === 'tests' || /^exam:/.test(go)) {
-    const lab = go === 'tests' ? '🧪 Test log' : EX_ICON[go] + ' ' + EX_VIEWS[go];
+  if (go === 'tests' || go === 'mocks' || /^exam:/.test(go)) {
+    const lab = go === 'tests' ? '🧪 Test log' : go === 'mocks' ? '🎯 Mock analysis' : EX_ICON[go] + ' ' + EX_VIEWS[go];
     return `<button type="button" class="ex-link" data-exview="${go}">${escapeHtml(lab)}</button>`;
   }
   const p = go.split('|'), m = FLAT.find(t => t.key === p[0]);
@@ -36796,7 +37166,7 @@ thLabel();
 const POS_STORE = 'ledgerPlace';
 const POS_SEL = 'section, [data-anchor], h2, h3, h4, summary, .block-label';
 const pos = { restoring: false, timer: 0, touched: false };
-function posKeyOk(k) { return k === 'tests' || k === 'plan' || k === 'podcasts' || exIsView(k) || FLAT.some(t => t.key === k); }
+function posKeyOk(k) { return k === 'tests' || k === 'mocks' || k === 'plan' || k === 'podcasts' || exIsView(k) || FLAT.some(t => t.key === k); }
 function posText(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80); }
 function posSave() {
   if (pos.restoring) return;
@@ -36895,6 +37265,7 @@ render();
 cmInit();
 exInit();
 tlInit();
+mkInit();
 plInit();
 nwInit();
 qzInit();
