@@ -37542,7 +37542,19 @@ document.getElementById('vcX').addEventListener('click', () => { document.getEle
 setTimeout(vcCheck, 4000);
 pgLoad();
 stMigrate();
+// Show every ÷ as / (it reads too much like +). The notes keep ÷, because saved stars and ticks are keyed by a
+// hash of their text; only what reaches the screen changes, including anything drawn later.
+function dvFix(root) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) if (n.nodeValue.indexOf('÷') >= 0) n.nodeValue = n.nodeValue.replace(/÷/g, '/');
+  if (root.querySelectorAll) root.querySelectorAll('[title*="÷"]').forEach(e => { e.title = e.title.replace(/÷/g, '/'); });
+}
+new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => {
+  if (n.nodeType === 3) { if (n.nodeValue.indexOf('÷') >= 0) n.nodeValue = n.nodeValue.replace(/÷/g, '/'); }
+  else if (n.nodeType === 1) dvFix(n);
+}))).observe(document.body, { childList: true, subtree: true });
 render();
+dvFix(document.body);
 
 cmInit();
 exInit();
