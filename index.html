@@ -1044,6 +1044,10 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .mk-i { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; margin-left: 6px; padding: 0; vertical-align: middle; flex-shrink: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--panel); color: var(--ink-soft); font: italic 700 11px/1 var(--serif); text-transform: none; letter-spacing: 0; cursor: pointer; }
   .mk-i:hover { border-color: var(--violet); color: var(--violet); }
   .mk-i[aria-pressed="true"] { border-color: var(--violet); background: var(--violet); color: #fff; }
+  .mk-irow { display: flex; align-items: flex-start; gap: 6px; margin-top: 8px; }
+  .mk-irow .mk-i { margin-left: 0; }
+  header h1 .mk-i { width: 20px; height: 20px; font-size: 12px; margin-left: 10px; }
+  header .cm-head-row { margin-top: 10px; }
   .mk-lost { font-size: 12.5px; font-weight: 700; color: var(--rose); margin: 2px 0 6px; }
   .mk-drop > summary { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; list-style: none; }
   .mk-drop > summary::-webkit-details-marker { display: none; }
@@ -1326,9 +1330,9 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
 <body>
 <div id="app">
   <h2 class="sr-only">CFA Level II knowledge ledger: a mind map you fill in with your own explanations, questions, and links across all ten subjects.</h2>
-  <header>
-    <h1>CFA Level II — knowledge ledger</h1>
-    <p class="sub">42 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
+  <header data-mki>
+    <h1>CFA Level II — knowledge ledger <button type="button" class="mk-i" data-mk="info:" aria-pressed="false" aria-label="What this shows" title="What this shows">i</button></h1>
+    <p class="sub mk-hint">42 topics across 10 subjects — FSA at module level from your own notes (Reading 7 consolidated into one combined topic once fully mastered), the rest at reading level. Click one, record what you actually understand.</p>
 
     <button type="button" class="cd-bar" id="cdBar" data-new="f-countdown"></button>
     <details class="rules-panel" id="rulesPanel">
@@ -1362,7 +1366,7 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
 
     <div class="coverage" id="coverage"></div>
     <div class="stats" id="stats">loading…</div>
-    <div class="legend">
+    <div class="legend mk-hint">
       <span><span class="sw" style="background:var(--amber);"></span>Teach-back gap (Claude flagged)</span>
       <span><span class="acc-chip acc-dig" style="margin:0 4px 0 0">%</span>Accuracy on your latest questions (green Move on, amber Shaky, red Dig in)</span>
       <span><span class="sw" style="background:var(--teal);"></span>Mastered</span>
@@ -34532,17 +34536,17 @@ function renderNotesAccordion(key) {
   const flat = groups.length === 1 && groups[0].key === '__flat__';
   if (flat) {
     return `
-    <section class="block">
-      <div class="block-label">Branches off this topic</div>
-      <div class="deepdive-hint">Collapsed by default — click any point to deep dive.</div>
+    <section class="block" data-mki>
+      <div class="block-label">Branches off this topic ${mkI}</div>
+      <div class="deepdive-hint mk-hint">Collapsed by default — click any point to deep dive.</div>
       ${groups[0].items.filter(it => !qzIsNote(it)).map(renderItem).join('')}
       ${groups[0].items.some(qzIsNote) ? qzWrap(groups[0].items.filter(qzIsNote).length, groups[0].items.filter(qzIsNote).map(renderItem).join('')) : ''}
     </section>`;
   }
   return `
-    <section class="block">
-      <div class="block-label">Branches off this topic — grouped by module</div>
-      <div class="deepdive-hint">Expand a module for its points, then expand any point to deep dive.</div>
+    <section class="block" data-mki>
+      <div class="block-label">Branches off this topic — grouped by module ${mkI}</div>
+      <div class="deepdive-hint mk-hint">Expand a module for its points, then expand any point to deep dive.</div>
       ${groups.map(g => {
         const weak = (TUITION_MISSES[key] || []).filter(m => m.module === g.key);
         return `
@@ -34992,8 +34996,8 @@ function renderDetail() {
   const statusLabel = st === 'mastered' ? 'Mastered' : st === 'progress' ? 'In progress' : 'Not started';
   el.innerHTML = `
     <div class="crumb">${meta.subjectName}</div>
-    <h2 class="topic-title">${meta.name}</h2>
-    <p class="topic-desc">${meta.desc}</p>
+    <div data-mki><h2 class="topic-title">${meta.name} ${mkI}</h2>
+    <p class="topic-desc mk-hint">${meta.desc}</p></div>
     <div class="status-row"><span class="status-badge${st === 'progress' ? ' st-progress' : st === 'mastered' ? ' st-mastered' : ''}">${statusLabel}</span>${CONTENT[selectedKey] ? stBtn(stKey(selectedKey, '-', 'reading'), 'reading', true) : ''}</div>
     ${(CONTENT[selectedKey] && CONTENT[selectedKey].overview) ? `
     <div class="overview-panel">
@@ -35611,7 +35615,7 @@ function rvRenderSummary() {
       <span class="cm-sync" id="rvSync"></span>
     </div>
     <table class="rv-table"><thead><tr><th>Reading</th><th>Revised</th><th>Questions got</th><th>Understood</th><th>Due</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="cm-hint">Revised = sessions you’ve ticked as read. Understood = sessions where you’ve got every checkpoint question right. Tap a reading to open it.</div>`;
+    <div class="mk-irow" data-mki>${mkI}<div class="cm-hint mk-hint">Revised = sessions you’ve ticked as read. Understood = sessions where you’ve got every checkpoint question right. Tap a reading to open it.</div></div>`;
   const l = cmSyncLabel(), s = document.getElementById('rvSync');
   s.className = 'cm-sync ' + l.cls; s.textContent = cm.cfg ? l.text : 'Saved on this device only · set up sync under 💬 My comments';
 }
@@ -35996,8 +36000,8 @@ function renderExam(el) {
   }[view];
   el.innerHTML = `
     <div class="crumb">Exam-day revision</div>
-    <h2 class="topic-title">${EX_ICON[view]} ${EX_VIEWS[view]}</h2>
-    <p class="topic-desc">${desc}</p>
+    <div data-mki><h2 class="topic-title">${EX_ICON[view]} ${EX_VIEWS[view]} ${mkI}</h2>
+    <p class="topic-desc mk-hint">${desc}</p></div>
     <div class="ex-tools" id="exTools">
       ${view !== 'exam:starred' ? `<button type="button" class="ex-chip star${ex.starOnly ? ' on' : ''}" data-ex="star">★ Starred only</button>`
         : `<button type="button" class="ex-chip${ex.showGot ? ' on' : ''}" data-ex="got" data-new="f-show-got" title="Show what you dropped with ✓ Got it, to put any of it back">↩ Show dropped</button>
@@ -36539,11 +36543,11 @@ function tlQHtml(q, mod) {
 }
 function tlRowHtml(s) {
   const lab = s.state === 'wait' ? 'Fixed · retest from ' + rvFmt(s.retest) : TL_STATE[s.state];
-  return `<div class="tl-row tl-${s.state}" data-sess="${escapeHtml(s.topic + '|' + s.mod)}">
-    <div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(s.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(s.topic, s.mod))}</span><span class="tl-badge tl-${s.state}">${lab}</span></div>
+  return `<div class="tl-row tl-${s.state}" data-sess="${escapeHtml(s.topic + '|' + s.mod)}"${TL_DO[s.state] ? ' data-mki' : ''}>
+    <div class="tl-row-top"><span class="nb-session-tag">${escapeHtml(s.mod)}</span><span class="tl-row-title">${escapeHtml(tlSessTitle(s.topic, s.mod))}</span><span class="tl-badge tl-${s.state}">${lab}</span>${TL_DO[s.state] ? mkI : ''}</div>
     <div class="tl-row-meta">${escapeHtml(tlTopicName(s.topic))} · ${s.got}/${s.qs.length} right on ${escapeHtml(s.test.id)} (${tlDate(s.test.date)})</div>
     <ul class="tl-qs">${s.qs.map(q => tlQHtml(q)).join('')}</ul>
-    ${TL_DO[s.state] ? `<div class="tl-row-do"><b>Next:</b> ${TL_DO[s.state]}</div>` : ''}
+    ${TL_DO[s.state] ? `<div class="tl-row-do mk-hint"><b>Next:</b> ${TL_DO[s.state]}</div>` : ''}
     <div class="tl-row-acts">${exGoBtn(s.topic, s.mod, '', 'Open ' + s.mod)}${s.verdict !== 'on' ? `<button type="button" class="rv-btn${s.fixed ? ' on' : ''}" data-tlfix="${escapeHtml(s.topic + '|' + s.mod + '|' + s.test.id)}">${s.fixed ? '✓ Fixed ' + rvFmt(s.fixed) : 'Mark fixed'}</button>` : ''}</div>
   </div>`;
 }
@@ -36608,10 +36612,10 @@ function rlHtml() {
       <div class="rl-acts">${exGoBtn(x.topic, x.mod, '', 'Open ' + x.mod)}<span style="flex:1"></span><button type="button" class="rv-btn" data-rl="again">Again</button><button type="button" class="rv-btn rl-got" data-rl="got:${escapeHtml(x.ref)}">Got it ✓</button></div>` : ''}
     </div>`;
   }
-  return `<section class="block"><div class="block-label" data-new="f-review-list">🔁 Review wrong answers · ${left.length} left of ${all.length}</div>
+  return `<section class="block" data-mki><div class="block-label" data-new="f-review-list">🔁 Review wrong answers · ${left.length} left of ${all.length} ${mkI}</div>
     <div class="rl-bar"><i style="width:${Math.round(100 * done / all.length)}%"></i></div>
     ${card}
-    <div class="cm-hint">Answer from memory, then tap an option. Got it clears the question for good; Again puts it at the back of the pile. The filter above narrows it to a subject or reading.${done ? ` <button type="button" class="tl-link" data-rl="reset">Bring back the ${done} cleared</button>` : ''}</div>
+    <div class="cm-hint"><span class="mk-hint">Answer from memory, then tap an option. Got it clears the question for good; Again puts it at the back of the pile. The filter above narrows it to a subject or reading.</span>${done ? ` <button type="button" class="tl-link" data-rl="reset">Bring back the ${done} cleared</button>` : ''}</div>
   </section>`;
 }
 function tlTestHtml(t) {
@@ -36709,8 +36713,8 @@ function tlFilterHtml() {
 function tlChartHtml(tests) {
   const mk = tests.filter(t => t.mock), only = tlf.chart === 'mocks' && mk.length;
   const sw = mk.length ? `<div class="ex-tools tl-filter tl-chart-sw" data-new="f-mock-chart">${[['all', 'All tests', tests.length], ['mocks', 'Mocks only', mk.length]].map(([k, lab, n]) => `<button type="button" class="ex-chip${(only ? 'mocks' : 'all') === k ? ' on' : ''}" data-tlf="chart|${k}">${lab} <span class="tl-f-n">${n}</span></button>`).join('')}</div>` : '';
-  if (only) return sw + tlTrendSvg(mk, true) + '<div class="cm-hint" style="margin-top:2px">Mock sessions only. Across: mock questions answered in each subject. Up: accuracy. Each dot is one mock session; each line is the average of that subject’s last five sessions. A session has only about 4 questions a subject, so read the lines more than single dots.</div>';
-  return sw + (tests.length > 1 ? tlTrendSvg(tests) + `<div class="cm-hint" style="margin-top:2px">Across: how many questions you’ve answered in each subject, so every line starts at 0 and ends at that subject’s total (shown in its label). Up: accuracy. Each dot is one quiz${mk.length ? ', ringed if it is a mock session' : ''}; each line is the average of that subject’s last five quizzes. The dashed marker is two mocks’ worth (176). Hover a dot for its quiz.</div>` : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>');
+  if (only) return sw + tlTrendSvg(mk, true) + '<div class="cm-hint mk-hint" style="margin-top:2px">Mock sessions only. Across: mock questions answered in each subject. Up: accuracy. Each dot is one mock session; each line is the average of that subject’s last five sessions. A session has only about 4 questions a subject, so read the lines more than single dots.</div>';
+  return sw + (tests.length > 1 ? tlTrendSvg(tests) + `<div class="cm-hint mk-hint" style="margin-top:2px">Across: how many questions you’ve answered in each subject, so every line starts at 0 and ends at that subject’s total (shown in its label). Up: accuracy. Each dot is one quiz${mk.length ? ', ringed if it is a mock session' : ''}; each line is the average of that subject’s last five quizzes. The dashed marker is two mocks’ worth (176). Hover a dot for its quiz.</div>` : '<div class="cm-hint">The trend chart appears once you’ve logged two tests.</div>');
 }
 function tlAccuracyHtml() {
   const tests = tlView(), qs = tlQs(tests);
@@ -36729,7 +36733,7 @@ function tlAccuracyHtml() {
     const r = reads.find(x => x.topic === topic);
     return `<div class="tl-sub-read"><button type="button" class="tl-read-name" data-exgo="${topic}||">${escapeHtml(tlShort(topic))}</button>${r ? `${bar(r.recentAcc, r.band)}<span class="tl-sub-pct">${r.recentAcc}%</span><span class="tl-sub-n">${r.n} Q</span><span class="tl-badge tl-${r.band}">${TL_BAND[r.band]}</span>` : '<span class="tl-sub-none">Not tested yet</span>'}</div>`;
   };
-  return `<section class="block"><div class="block-label">Accuracy</div>
+  return `<section class="block" data-mki><div class="block-label">Accuracy ${mkI}</div>
     <div class="tl-kpis">
       ${kpi('Questions logged', qs.length.toLocaleString(), 'of about ' + TL_TOTAL.toLocaleString() + ' reading-quiz questions')}
       ${kpi('Accuracy, all', tlAcc(qs) + '%', 'target ' + TL_TARGET + '%')}
@@ -36740,7 +36744,7 @@ function tlAccuracyHtml() {
     <div class="ex-label" style="margin-top:14px">By subject · latest 50 questions, weakest first · the tick marks ${TL_TARGET}%</div>
     ${tested.map(x => `<details class="tl-sub"${tlf.subj !== 'all' ? ' open' : ''}><summary><span class="tl-sub-name">${escapeHtml(x.sj.name)}</span>${bar(x.acc, x.band)}<span class="tl-sub-pct">${x.acc}%</span><span class="tl-sub-n">${x.n} Q · weight ${TL_WEIGHT[x.sj.id] || ''}</span><span class="tl-badge tl-${x.band}">${TL_BAND[x.band]}</span></summary>${x.reads.map(readRow).join('')}</details>`).join('')}
     ${untested.length && tlf.subj === 'all' ? `<details class="tl-sub"><summary><span class="tl-sub-name">Not tested yet</span><span class="tl-sub-n">${untested.map(x => escapeHtml(x.sj.name)).join(', ')}</span></summary>${untested.map(x => x.reads.map(readRow).join('')).join('')}</details>` : ''}
-    <div class="cm-hint">Bands use your latest questions: above 75% is Move on, 70–75% Shaky, under 70% Dig in. Fewer than 5 questions is too few to judge. Tap a subject to see its readings.</div>
+    <div class="cm-hint mk-hint">Bands use your latest questions: above 75% is Move on, 70–75% Shaky, under 70% Dig in. Fewer than 5 questions is too few to judge. Tap a subject to see its readings.</div>
   </section>`;
 }
 function tlRender(el) {
@@ -36756,35 +36760,36 @@ function tlRender(el) {
   const newest = all.slice().reverse();
   el.innerHTML = `
     <div class="crumb">Tests</div>
-    <h2 class="topic-title">🧪 Test log</h2>
-    <p class="topic-desc">Every quiz and mock you’ve shared, turned into what to revise next and how your accuracy is moving. Claude logs each one question by question from the result PDF.</p>
+    <div data-mki><h2 class="topic-title">🧪 Test log ${mkI}</h2>
+    <p class="topic-desc mk-hint">Every quiz and mock you’ve shared, turned into what to revise next and how your accuracy is moving. Claude logs each one question by question from the result PDF.</p><div class="cm-hint mk-hint">To add a test: put the result PDF in Written Notes (a Test Result folder) and ask Claude to log it. Each wrong answer also becomes a rose weak-spot card in its session. Mocks also get their own page, 🎯 Mock analysis.</div></div>
     ${tlFilterHtml()}
     ${!all.length ? `<div class="rv-note">${tlAll().length ? 'No tests match this filter.' : 'No tests logged yet.'}</div>` : ''}
     ${safeHtml(rlHtml)}
     ${tlAccuracyHtml()}
     ${all.length ? `<section class="block"><div class="block-label">Revise these first</div>
+      <details class="mk-drop"><summary>${[[redos.filter(r => r.now).length, 'to redo', 'dig'], [todo.filter(s => s.state === 'due').length, 'retest due', 'dig'], [todo.filter(s => s.state === 'dig').length, 'dig in', 'dig'], [todo.filter(s => s.state === 'fix').length, 'quick fix', 'fix'], [weak.length, 'readings under 70%', 'dig'], [todo.filter(s => s.state === 'wait').length, 'fixed, retest later', 'on']].map(([c, lab, cls]) => `<span class="mk-cnt${c ? ' mk-cnt-' + cls : ''}">${c} ${lab}</span>`).join('')}<span class="mk-drop-cta"></span></summary>
       ${redos.filter(r => r.now).map(tlRedoHtml).join('')}
-      ${weak.length ? `<div class="tl-row tl-dig"><div class="tl-row-top"><span class="tl-row-title">Readings under 70% on your latest questions</span><span class="tl-badge tl-dig">Dig in</span></div>
+      ${weak.length ? `<div class="tl-row tl-dig" data-mki><div class="tl-row-top"><span class="tl-row-title">Readings under 70% on your latest questions</span><span class="tl-badge tl-dig">Dig in</span>${mkI}</div>
         <div class="tl-row-acts" style="margin-top:6px">${weak.map(r => exGoBtn(r.topic, '', '', tlShort(r.topic).replace(/ ·.*/, '') + ' · ' + r.recentAcc + '%')).join('')}</div>
-        <div class="tl-row-do"><b>Next:</b> re-read the reading’s weak-spot cards and Concise notes, then a fresh quiz on it.</div></div>` : ''}
+        <div class="tl-row-do mk-hint"><b>Next:</b> re-read the reading’s weak-spot cards and Concise notes, then a fresh quiz on it.</div></div>` : ''}
       ${todo.map(tlRowHtml).join('')}
       ${!todo.length && !weak.length && !redos.some(r => r.now) ? '<div class="rv-note">Nothing to fix right now.</div>' : ''}
       ${redos.some(r => !r.now) ? `<details class="tl-done"><summary>Wrong questions coming up to redo · ${redos.filter(r => !r.now).length}</summary>${redos.filter(r => !r.now).map(tlRedoHtml).join('')}</details>` : ''}
       ${done.length ? `<details class="tl-done"><summary>Move on · ${done.length} session${done.length > 1 ? 's' : ''} all right</summary>${done.map(tlRowHtml).join('')}</details>` : ''}
+      </details>
     </section>` : ''}
-    ${kinds.length ? `<section class="block"><div class="block-label">Your mistakes, by kind · ${missed.length} of ${qs.length} questions</div>
-      <div class="deepdive-hint">The kind of mistake decides how to revise it, not just where. “Latest 20” shows whether a habit is fading.</div>
-      ${kinds.map((x, i) => `<div class="tl-kind${i === 0 ? ' top' : ''}"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b>${x.n === missed.length ? ' · every miss so far' : i === 0 ? ' · your most common' : ''}${missed.length > 20 ? ` · ${x.recent} of your latest 20 misses` : ''}<div class="tl-kind-fix">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
+    ${kinds.length ? `<section class="block" data-mki><div class="block-label">Your mistakes, by kind · ${missed.length} of ${qs.length} questions ${mkI}</div>
+      <div class="deepdive-hint mk-hint">The kind of mistake decides how to revise it, not just where. “Latest 20” shows whether a habit is fading.</div>
+      ${kinds.map((x, i) => `<div class="tl-kind${i === 0 ? ' top' : ''}"><span class="tl-kind-n">${x.n}</span><div><b>${TL_WHY[x.k].label}</b>${x.n === missed.length ? ' · every miss so far' : i === 0 ? ' · your most common' : ''}${missed.length > 20 ? ` · ${x.recent} of your latest 20 misses` : ''}<div class="tl-kind-fix mk-hint">${TL_WHY[x.k].fix}</div></div></div>`).join('')}
     </section>` : ''}
-    ${lvls.length ? `<section class="block"><div class="block-label" data-new="f-test-levels">By difficulty · ${qs.length} questions</div>
-      <div class="deepdive-hint">Every question is rated L1 to L3. Where your accuracy drops tells you what to practise, not just what to re-read.</div>
-      ${lvls.map(x => `<div class="tl-kind${x.acc === Math.min(...lvls.map(y => y.acc)) ? ' top' : ''}"><span class="tl-kind-n">${x.acc}%</span><div><b>L${x.l} · ${TL_LVL[x.l].label}</b> · ${x.got} of ${x.n} right<div class="tl-kind-fix">${TL_LVL[x.l].fix}</div></div></div>`).join('')}
+    ${lvls.length ? `<section class="block" data-mki><div class="block-label" data-new="f-test-levels">By difficulty · ${qs.length} questions ${mkI}</div>
+      <div class="deepdive-hint mk-hint">Every question is rated L1 to L3. Where your accuracy drops tells you what to practise, not just what to re-read.</div>
+      ${lvls.map(x => `<div class="tl-kind${x.acc === Math.min(...lvls.map(y => y.acc)) ? ' top' : ''}"><span class="tl-kind-n">${x.acc}%</span><div><b>L${x.l} · ${TL_LVL[x.l].label}</b> · ${x.got} of ${x.n} right<div class="tl-kind-fix mk-hint">${TL_LVL[x.l].fix}</div></div></div>`).join('')}
     </section>` : ''}
     ${all.length ? `<section class="block"><div class="block-label">Tests · newest first · ${all.length}</div>
       ${newest.slice(0, 8).map(tlTestHtml).join('')}
       ${newest.length > 8 ? `<details class="tl-done"><summary>Older tests · ${newest.length - 8}</summary>${newest.slice(8).map(tlTestHtml).join('')}</details>` : ''}
-    </section>` : ''}
-    <div class="cm-hint">To add a test: put the result PDF in Written Notes (a Test Result folder) and ask Claude to log it. Each wrong answer also becomes a rose weak-spot card in its session. Mocks also get their own page, 🎯 Mock analysis.</div>`;
+    </section>` : ''}`;
 }
 function tlRerender() { const y = window.scrollY; render(); window.scrollTo(0, y); }
 function tlInit() {
@@ -37239,8 +37244,8 @@ function pdRender(el) {
   const pos = pdPos();
   el.innerHTML = `
     <div class="crumb">Listen</div>
-    <h2 class="topic-title">🎧 Podcasts</h2>
-    <p class="topic-desc">Two-voice audio revision for travelling, built from these notes: Ava asks, Andrew explains, worked examples step by step. The Derivatives episodes are short: one worked example per formula and a memory hook at the end. Each episode ends with a quiz that pauses for you to answer. The player stays at the bottom while you move around the page and remembers where you stopped on this device. ⬇ Download saves the MP3 for listening offline.</p>
+    <div data-mki><h2 class="topic-title">🎧 Podcasts ${mkI}</h2>
+    <p class="topic-desc mk-hint">Two-voice audio revision for travelling, built from these notes: Ava asks, Andrew explains, worked examples step by step. The Derivatives episodes are short: one worked example per formula and a memory hook at the end. Each episode ends with a quiz that pauses for you to answer. The player stays at the bottom while you move around the page and remembers where you stopped on this device. ⬇ Download saves the MP3 for listening offline.</p></div>
     ${PODCASTS.map(s => `<section class="block"><div class="block-label">${escapeHtml(s.name)} · ${s.eps.length} episodes</div>
       ${s.eps.map((e, i) => pdEpHtml(e, i, pos)).join('')}</section>`).join('')}`;
   pdPaint();
@@ -37374,23 +37379,24 @@ function plRender(el) {
   ];
   el.innerHTML = `
     <div class="crumb">Countdown</div>
-    <h2 class="topic-title">📅 Daily plan</h2>
-    <p class="topic-desc">${left ? '<b>' + left.d + ' days</b> of study left: you stop at midnight at the end of ' + plDayName(STUDY_LAST, true) + ', before the exam on ' + plDayName(EXAM_AT.slice(0, 10), true) + '. ' : ''}Until Friday 23 October: every reading through its 📝 Concise notes and weak-spot cards, with 20 questions each. Mock 1 is on Saturday 24 October, your day off. Office days to Saturday 31 October take each subject through a second pass. From 1 November, the first day of leave, you sit a mock every other day, each followed by a day of review and a second pass. Tick each task as you finish it; anything left over shows up on the next day.</p>
+    <div data-mki><h2 class="topic-title">📅 Daily plan ${mkI}</h2>
+    <p class="topic-desc mk-hint">${left ? '<b>' + left.d + ' days</b> of study left: you stop at midnight at the end of ' + plDayName(STUDY_LAST, true) + ', before the exam on ' + plDayName(EXAM_AT.slice(0, 10), true) + '. ' : ''}Until Friday 23 October: every reading through its 📝 Concise notes and weak-spot cards, with 20 questions each. Mock 1 is on Saturday 24 October, your day off. Office days to Saturday 31 October take each subject through a second pass. From 1 November, the first day of leave, you sit a mock every other day, each followed by a day of review and a second pass. Tick each task as you finish it; anything left over shows up on the next day.</p></div>
     ${day ? `<div class="pl-today">
       <div class="pl-today-head"><span class="pl-today-date">Today · ${plDayName(day.d, true)}</span><span class="pl-kind ${day.k}">${PL_KIND[day.k]}</span></div>
       <div class="pl-slots">${PL_SLOTS[day.k]}</div>
       <ul class="pl-tasks">${day.tasks.map((t, i) => plTaskHtml(day.d, t, i)).join('')}</ul>
     </div>` : '<div class="rv-note">No tasks planned for today.</div>'}
-    ${carry.length ? `<section class="block"><div class="block-label" style="color:var(--rose);">Left over from earlier days · ${carry.length}</div>
-      <div class="deepdive-hint">Fit these in where you can, or tick them off if you covered them another way.</div>
+    ${carry.length ? `<section class="block" data-mki><div class="block-label" style="color:var(--rose);">Left over from earlier days · ${carry.length} ${mkI}</div>
+      <div class="deepdive-hint mk-hint">Fit these in where you can, or tick them off if you covered them another way.</div>
       <ul class="pl-tasks">${carry.map(c => plTaskHtml(c.x.d, c.t, c.i, c.x.d)).join('')}</ul></section>` : ''}
-    <section class="block"><div class="block-label">Mocks · ${mocks.filter(m => m.done).length} of ${mocks.filter(m => !m.opt).length} done (+${mocks.filter(m => m.opt).length} optional)</div>
+    <section class="block" data-mki><div class="block-label">Mocks · ${mocks.filter(m => m.done).length} of ${mocks.filter(m => !m.opt).length} done (+${mocks.filter(m => m.opt).length} optional) ${mkI}</div>
       <div class="pl-mocks">${mocks.map(m => `<span class="pl-mock${m.done ? ' done' : ''}${m.opt ? ' opt' : ''}" title="${plDayName(m.d)}${m.opt ? ' · optional' : ''}">M${m.n} · ${plDayName(m.d).replace(/^\w+,?\s*/, '')}</span>`).join('')}</div>
-      <div class="cm-hint">A mock counts as done when you tick its session 2. Send each result to Claude so it goes into the 🧪 Test log.</div></section>
+      <div class="cm-hint mk-hint">A mock counts as done when you tick its session 2. Send each result to Claude so it goes into the 🧪 Test log.</div></section>
     ${next.length ? `<section class="block"><div class="block-label">Coming up</div>${next.map(x => plDayHtml(x, today)).join('')}</section>` : ''}
     <section class="block"><div class="block-label">Whole plan</div>
+      <details class="mk-drop"><summary><span class="mk-cnt">${PLAN.length} days</span><span class="mk-cnt">${phases.length} phases</span><span class="mk-drop-cta"></span></summary>
       ${phases.map(([lab, f]) => `<div class="ex-label">${lab}</div>${PLAN.filter(f).map(x => plDayHtml(x, today)).join('')}`).join('')}
-    </section>`;
+    </details></section>`;
 }
 function plInit() {
   safeHtml(plBar);
