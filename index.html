@@ -34679,7 +34679,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart', 'f-mock-tracker'].forEach(id => { ids[id] = 1; });
+  ['f-mock-sess', 'f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart', 'f-mock-tracker'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -37531,7 +37531,7 @@ const MK_SAFE = 70; // the safety line under the 80% target
 const MK_WEIGHT = { ethics: 12.5, quant: 7.5, econ: 7.5, fsa: 12.5, corp: 7.5, equity: 12.5, fi: 12.5, deriv: 7.5, alt: 7.5, pm: 12.5 }; // midpoints of TL_WEIGHT, %
 const MK_EXAM_Q = 88;
 const MK_SHOW = { all: 'All', wrong: 'Wrong', right: 'Right', luck: 'Right for the wrong reason', todo: 'Not reviewed yet' };
-const mkf = { show: 'all', subj: 'all', mock: 0 };
+const mkf = { show: 'all', subj: 'all', mock: 0, sess: 0 };
 try { Object.assign(mkf, JSON.parse(localStorage.getItem('ledgerMkFilter') || '{}')); } catch (e) {}
 function mkKey(ref) { return 'star|-|-|mock:' + ref; }
 function mkTick(ref) { return (pgGet(mkKey(ref)) || {}).v || ''; }
@@ -37745,7 +37745,8 @@ function mkShowQ(t, q) {
   if (mkf.subj !== 'all' && tlSubjOf(q.topic) !== mkf.subj) return false;
   return mkf.show === 'all' || (mkf.show === 'wrong' && bad) || (mkf.show === 'right' && !bad) || (mkf.show === 'luck' && tick === 'luck') || (mkf.show === 'todo' && !tick);
 }
-function mkReviewHtml(t) {
+// `all` is every session of this mock: with more than one, chips switch the review between them.
+function mkReviewHtml(t, all) {
   const done = t.qs.filter(q => mkTick(mkRef(t, q))).length, chip = (attr, on, lab, n) => `<button type="button" class="ex-chip${on ? ' on' : ''}" data-mk="${attr}">${escapeHtml(lab)}${n != null ? ` <span class="tl-f-n">${n}</span>` : ''}</button>`;
   const cnt = show => t.qs.filter(q => { const s = mkf.show; mkf.show = show; const r = mkShowQ(t, q); mkf.show = s; return r; }).length;
   const subs = SUBJECTS.filter(sj => t.qs.some(q => tlSubjOf(q.topic) === sj.id));
@@ -37761,6 +37762,7 @@ function mkReviewHtml(t) {
   }).join('');
   return `<section class="block" id="mkReview" data-mki><div class="block-label" data-new="f-mock-review">Question by question · ${escapeHtml(t.name)} · ${done} of ${t.qs.length} reviewed ${mkI}</div>
     <div class="rl-bar"><i style="width:${mkPct(done, t.qs.length)}%"></i></div>
+    ${all && all.length > 1 ? `<div class="ex-tools tl-filter">${all.map(x => `<button type="button" class="ex-chip${x === t ? ' on' : ''}" data-mk="sess:${x.sess}" data-new="f-mock-sess">${escapeHtml(x.name.replace(/^Mock \d+ · /, ''))} <span class="tl-f-n">${x.qs.filter(q => !mkMiss(x, q)).length}/${x.qs.length}</span></button>`).join('')}</div>` : ''}
     <div class="ex-tools tl-filter">${Object.keys(MK_SHOW).map(k => chip('show:' + k, mkf.show === k, MK_SHOW[k], cnt(k))).join('')}</div>
     ${subs.length > 1 ? `<div class="ex-tools tl-filter tl-filter-reads">${chip('subj:all', mkf.subj === 'all', 'All subjects', null)}${subs.map(sj => chip('subj:' + sj.id, mkf.subj === sj.id, TL_SUBJ_SHORT[sj.id] || sj.name, t.qs.filter(q => tlSubjOf(q.topic) === sj.id).length)).join('')}</div>` : ''}
     ${body || '<div class="rv-note">No questions match this filter.</div>'}
@@ -37771,6 +37773,7 @@ function mkRender(el) {
   const ts = mkTests(), nums = mkNums();
   if (!ts.length) { el.innerHTML = `<div class="crumb">Tests</div><h2 class="topic-title">🎯 Mock analysis</h2><div class="rv-note">No mocks logged yet. Put the result PDF in Written Notes/Test Results and ask Claude to log it.</div>`; return; }
   const n = nums.includes(mkf.mock) ? mkf.mock : nums[nums.length - 1], cur = ts.filter(t => t.mock === n);
+  const sel = cur.find(t => t.sess === mkf.sess) || cur[cur.length - 1];
   el.innerHTML = `
     <div class="crumb">Tests</div>
     <div data-mki><h2 class="topic-title">🎯 Mock analysis ${mkI}</h2>
@@ -37784,7 +37787,7 @@ function mkRender(el) {
       ${cur.map(t => safeHtml(() => mkSetsHtml(t))).join('')}
     </section>
     ${safeHtml(() => mkKindsHtml(cur))}
-    ${cur.map(t => safeHtml(() => mkReviewHtml(t))).join('')}`;
+    ${safeHtml(() => mkReviewHtml(sel, cur))}`;
 }
 function mkInit() {
   document.addEventListener('click', e => {
@@ -37803,7 +37806,7 @@ function mkInit() {
     }
     if (act === 'goto') {
       const find = () => document.querySelector('.mk-set[data-mkset="' + (window.CSS && CSS.escape ? CSS.escape(arg) : arg) + '"]');
-      if (!find()) { mkf.show = 'all'; mkf.subj = 'all'; tlRerender(); }
+      if (!find()) { const tt = mkTests().find(x => arg.indexOf(x.id + '/') === 0); if (tt) mkf.sess = tt.sess; mkf.show = 'all'; mkf.subj = 'all'; tlRerender(); }
       const t = find();
       if (t) { t.open = true; exScrollFlash(t, false); }
       return;
@@ -37815,6 +37818,7 @@ function mkInit() {
     } else if (act === 'show') mkf.show = arg;
     else if (act === 'subj') { mkf.subj = arg; if (b.closest('.mk-mark-row')) mkf.show = 'all'; }
     else if (act === 'mock') mkf.mock = +arg;
+    else if (act === 'sess') { mkf.sess = +arg; nwMark('f-mock-sess'); }
     try { localStorage.setItem('ledgerMkFilter', JSON.stringify(mkf)); } catch (e2) {}
     nwMark('f-mock-review');
     tlRerender();
