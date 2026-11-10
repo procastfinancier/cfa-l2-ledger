@@ -1121,6 +1121,8 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .tl-bar-tgt.mk-safe { opacity: 0.25; }
   .mk-gain { font-family: var(--mono); font-weight: 700; font-size: 12px; min-width: 52px; text-align: right; color: var(--violet); }
   .mk-mark-row.mk-top .tl-read-name { font-weight: 700; }
+  .mk-mark-row .tl-bar { flex: 1 1 0; }
+  .mk-mark-row .tl-sub-n { flex: 0 0 290px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* fixed column, so every bar is the same length */
   .mk-sets-head { font-size: 12.5px; font-weight: 700; color: var(--ink); }
   .mk-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 6px; margin: 6px 0 8px; }
   .mk-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 0; text-align: left; font-family: var(--sans); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; cursor: pointer; }
@@ -1160,6 +1162,7 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   @media (max-width: 640px) {
     .tl-kpis.mk-kpis2 { grid-template-columns: 1fr; }
     .mk-gain { min-width: 0; }
+    .mk-mark-row .tl-sub-n { flex: 1 1 auto; white-space: normal; }
   }
   @media (max-width: 640px) {
     .tl-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
