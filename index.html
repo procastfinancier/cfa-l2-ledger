@@ -22454,6 +22454,69 @@ const TUITION_MISSES = {
       ],
       spot: "Low capital mobility changes the short run: expansionary fiscal policy → imports ↑ → depreciation. Check which mobility the question assumes before applying 'rates up → appreciate'.",
     },
+    // Logged 2026-11-12 (second batch)
+    {
+      module: "5.S6",
+      title: "Covered interest arbitrage: compare the fair forward with the market, then follow the money",
+      at: ["s6-steps"],
+      questions: [
+        { ref: "L2-R5-Q3 #2", ask: "Spot 30.73, forward 31.50 MUR/$; MUR 6.5%, $ 5.2%. Arbitrage profit on MUR 1m?", picked: "borrow domestic, $39,685", answer: "borrow MUR, MUR 13,340" },
+        { ref: "L2-R5-Q3 #6", ask: "DC/FC: if 1 + r_DC < (1 + r_FC) × F ÷ S, funds will:", picked: "flow into the domestic country", answer: "flow out of the domestic country" },
+      ],
+      trap: "The direction was right in Q2 but the profit wasn’t worked through in MUR; in Q6 the flow was read backwards.",
+      fix: "Fair forward = spot × (1 + r_price) ÷ (1 + r_base). Market forward too high → buy the base currency spot, sell it forward, borrow the other currency. Money flows to the higher hedged return.",
+      remember: "Fair forward = spot × (1 + r_price) ÷ (1 + r_base). Market forward too high → buy the base currency spot, sell it forward, borrow the other currency. Money flows to the higher hedged return.",
+      tackle: ["Write the four steps: borrow, convert, invest, convert back and repay. The profit is in the currency you borrowed."],
+    },
+    {
+      module: "5.S5",
+      title: "Valuing a forward early: the offsetting rate for the time left, discounted",
+      at: ["s5-yip-ans"],
+      questions: [
+        { ref: "L2-R5-Q3 #9", ask: "Long GBP 2m at 1.4612, 30 days in; 60-day bid 1.4621, USD 60-day 0.21%. Value?", picked: "USD 1,999", answer: "USD 1,800" },
+      ],
+      trap: "The wrong rate or period was used.",
+      fix: "Value = (offsetting forward − contract rate) × size ÷ (1 + r × days left ÷ 360). Long base currency → close by selling → use the bid.",
+      remember: "Value = (offsetting forward − contract rate) × size ÷ (1 + r × days left ÷ 360). Long base currency → close by selling → use the bid.",
+      tackle: ["Three checks: days left, bid or ask, which currency’s interest rate discounts."],
+    },
+    {
+      module: "5.S10",
+      title: "Mundell-Fleming: follow interest rates. Fiscal expansion → currency up",
+      at: ["s10-mf-table"],
+      questions: [
+        { ref: "L2-R5-Q4 #3", ask: "High capital mobility: which policy is most likely to make the Z$ appreciate?", picked: "loose monetary policy", answer: "expansionary fiscal policy" },
+        { ref: "L2-R5-Q4 #4", ask: "With high capital mobility, Mundell-Fleming focuses on:", picked: "inflation", answer: "interest rates" },
+      ],
+      trap: "Inflation and loose money sounded like the drivers, but Mundell-Fleming is all about interest rates.",
+      fix: "High mobility: rates up → money in → currency up. Expansionary fiscal or tight monetary → rates up → appreciation. Loose monetary or tight fiscal → depreciation. Mundell-Fleming ignores inflation.",
+      remember: "High mobility: rates up → money in → currency up. Expansionary fiscal or tight monetary → rates up → appreciation. Loose monetary or tight fiscal → depreciation. Mundell-Fleming ignores inflation.",
+      tackle: ["For any policy question, first say what happens to the interest rate."],
+    },
+    {
+      module: "5.S10",
+      title: "Portfolio balance: lasting deficits weaken the currency in the long run",
+      at: ["s10-pb"],
+      questions: [
+        { ref: "L2-R5-Q3 #5", ask: "Fiscal expansion with rising debt-to-GDP. Long run, combining both models, the currency:", picked: "remains stable", answer: "depreciates" },
+      ],
+      trap: "The short-run rise and the long-run fall were netted to “stable”.",
+      fix: "Short run (Mundell-Fleming): fiscal expansion → appreciation. Long run (portfolio balance): unsustainable debt → depreciation. They happen one after the other; they don’t cancel.",
+      remember: "Short run (Mundell-Fleming): fiscal expansion → appreciation. Long run (portfolio balance): unsustainable debt → depreciation. They happen one after the other; they don’t cancel.",
+      tackle: ["Check whether the question says short run or long run, then use that model."],
+    },
+    {
+      module: "5.S1",
+      title: "Forward above spot = the base currency is at a premium",
+      at: ["s1-spotfwd"],
+      questions: [
+        { ref: "L2-R5-Q4 #2", ask: "FC/USD forward 5, spot 4. The USD is at a forward:", picked: "discount of 1.0", answer: "premium of 1.0" },
+      ],
+      trap: "Direction flip on premium vs discount.",
+      fix: "In P/B quotes the base currency is at the bottom. Forward > spot → the base buys more later → a premium (here 5 − 4 = 1.0).",
+      remember: "In P/B quotes the base currency is at the bottom. Forward > spot → the base buys more later → a premium (here 5 − 4 = 1.0).",
+      tackle: ["Find the base currency first, then compare forward with spot."],
+    },
   ],
   'econ.1': [
     {
@@ -22639,6 +22702,31 @@ const TUITION_MISSES = {
         "For a 'both' option, check each half on its own: leverage never counts as a growth driver.",
       ],
       spot: "Second 'least likely' slip on R6 (Q2 #5 was the same: the option you picked was the most obvious answer, not the odd one out). Circle 'least' before reading the options.",
+    },
+    // Logged 2026-11-12 (second batch)
+    {
+      module: "6.S3",
+      title: "R&D subsidies: firms only count their own gain, so they underinvest",
+      at: ["Why the increase can be permanent, and the case for R&D subsidies (LOS 6.k)"],
+      questions: [
+        { ref: "L2-R6-CASE2 #3", ask: "Why the countries offer financial incentives for innovation:", picked: "innovation is the only way to grow under endogenous growth", answer: "private benefits alone lead to too little R&D" },
+      ],
+      trap: "Endogenous growth theory is about technology, so “the only way” sounded right.",
+      fix: "R&D benefits the whole economy (spillovers), but a firm counts only its private gain, so it invests too little. Subsidies close that gap.",
+      remember: "R&D benefits the whole economy (spillovers), but a firm counts only its private gain, so it invests too little. Subsidies close that gap.",
+      tackle: ["Beware “only”, “always”, “never” in options: one extreme word usually makes it false."],
+    },
+    {
+      module: "6.S2",
+      title: "Developed countries grow by inventing (R&D), developing ones by applying technology",
+      at: ["Capital deepening vs. technological progress"],
+      questions: [
+        { ref: "L2-R6-CASE2 #4", ask: "For developed Surico, education that raises potential growth should increase:", picked: "application of technology", answer: "research and development" },
+      ],
+      trap: "Applying technology sounded like the general route to higher TFP.",
+      fix: "Developed: already has capital and uses existing technology → needs new ideas → R&D. Developing: catches up by applying existing technology and capital deepening.",
+      remember: "Developed: already has capital and uses existing technology → needs new ideas → R&D. Developing: catches up by applying existing technology and capital deepening.",
+      tackle: ["Ask whether the country is catching up (apply) or at the frontier (invent)."],
     },
   ],
   'equity.0': [
@@ -22883,6 +22971,56 @@ const TUITION_MISSES = {
         '“Composite”, “uncorrelated” and “covariance matrix” all point to PCA.',
       ],
       spot: 'This quiz took 6.8 minutes for 10 questions (about 40 seconds each), so several answers look like guesses. These are definition questions: learn the one-line definitions and they become quick, sure points.',
+    },
+    // Logged 2026-11-12 (second batch)
+    {
+      module: "3.S3",
+      title: "Clustering and dimension reduction are unsupervised: no labels",
+      at: ["s3-kh", "s3-pca"],
+      questions: [
+        { ref: "L2-R3-Q2 #1", ask: "Dimension reduction is most likely an example of:", picked: "supervised learning", answer: "unsupervised learning" },
+        { ref: "L2-R3-CASE1 #2", ask: "Most accurate statement about hierarchical clustering:", picked: "it is a supervised iterative algorithm", answer: "bottom-up starts with each observation as its own cluster" },
+      ],
+      trap: "Both methods use an algorithm that “learns”, so they sounded supervised.",
+      fix: "Supervised = you have a target (labels) to learn. Unsupervised = no target: PCA/dimension reduction and clustering. Bottom-up clustering starts with every point alone and merges; divisive (top-down) splits one big cluster.",
+      remember: "Supervised = you have a target (labels) to learn. Unsupervised = no target: PCA/dimension reduction and clustering. Bottom-up clustering starts with every point alone and merges; divisive (top-down) splits one big cluster.",
+      tackle: ["Ask: is there a known answer (label) for each observation? No → unsupervised."],
+    },
+    {
+      module: "3.S2",
+      title: "A random forest raises the signal-to-noise ratio",
+      at: ["s2-ens"],
+      questions: [
+        { ref: "L2-R3-Q2 #4", ask: "A random forest is least likely to:", picked: "provide a solution to overfitting", answer: "reduce the signal-to-noise ratio" },
+      ],
+      trap: "On a “least likely” question a true statement was picked, and “signal-to-noise” went the wrong way.",
+      fix: "Many trees with random features → their errors cancel → less noise → a *higher* signal-to-noise ratio, and less overfitting.",
+      remember: "Many trees with random features → their errors cancel → less noise → a *higher* signal-to-noise ratio, and less overfitting.",
+      tackle: ["Mark each option True or False before picking on “least likely”."],
+    },
+    {
+      module: "3.S3",
+      title: "Neural networks: input, hidden, output layers; good with non-linearities",
+      at: ["s3-nn"],
+      questions: [
+        { ref: "L2-R3-CASE1 #3", ask: "Most accurate statement about neural networks:", picked: "four layers: input, agglomerative, regularization, output", answer: "effective with non-linearities and complex interactions" },
+      ],
+      trap: "The made-up layer names were technical words from elsewhere in the reading, so they sounded right.",
+      fix: "Three kinds of layer: input, hidden, output. Learning happens in the hidden nodes (summation + activation). Use them for non-linear, complex problems.",
+      remember: "Three kinds of layer: input, hidden, output. Learning happens in the hidden nodes (summation + activation). Use them for non-linear, complex problems.",
+      tackle: ["If an option names something you can’t place in the notes, suspect it’s invented."],
+    },
+    {
+      module: "3.S1",
+      title: "K-fold: k − 1 parts train, 1 part validates",
+      at: ["s1-kfold"],
+      questions: [
+        { ref: "L2-R3-CASE2 #2", ask: "In K-fold cross-validation, after shuffling:", picked: "k − 1 samples are validation samples", answer: "k − 1 samples are training samples" },
+      ],
+      trap: "Direction flip between training and validation.",
+      fix: "Split into k parts; train on k − 1, validate on 1; rotate k times. Most of the data always trains.",
+      remember: "Split into k parts; train on k − 1, validate on 1; rotate k times. Most of the data always trains.",
+      tackle: ["Remember why K-fold exists: to keep the training set big."],
     },
   ],
   'quant.3': [
@@ -27422,6 +27560,49 @@ const TWIN_Q = {
   "L2-R2-Q1 #10": { lvl: 2, full: ["A Dickey–Fuller test cannot reject a unit root. The analyst should:"],
     options: ["A) use the AR model as it is", "B) first-difference the series and model the changes", "C) add a seasonal lag"], a: 1,
     why: "A unit root makes the series non-stationary; first differencing fixes it." },
+  // Logged 2026-11-12: R3 quiz 2 and cases 1–2, R5 quiz 3–4, R6 case 2
+  "L2-R3-Q2 #1": { lvl: 1, full: ["Which task is an example of SUPERVISED learning?"],
+    options: ["A) Grouping stocks into clusters with similar returns", "B) Predicting a bond’s default (yes/no) from labelled past defaults", "C) Reducing 50 features to 5 principal components"], a: 1,
+    why: "It has labels (defaulted or not) to learn from. A and C have no target, so they are unsupervised." },
+  "L2-R3-Q2 #4": { lvl: 1, full: ["Compared with a single classification tree, a random forest most likely:"],
+    options: ["A) increases overfitting", "B) increases the signal-to-noise ratio", "C) uses every feature in every tree"], a: 1,
+    why: "Random feature subsets → errors cancel → less noise and less overfitting." },
+  "L2-R3-CASE1 #2": { lvl: 1, full: ["Divisive (top-down) hierarchical clustering:"],
+    options: ["A) starts with every observation as its own cluster", "B) starts with one big cluster and splits it into smaller ones", "C) needs labelled data"], a: 1,
+    why: "Divisive = split from the top down. A is bottom-up (agglomerative). Clustering never needs labels." },
+  "L2-R3-CASE1 #3": { lvl: 1, full: ["In a neural network, learning takes place in the:"],
+    options: ["A) input layer", "B) hidden layers", "C) output layer only"], a: 1,
+    why: "Each hidden node has a summation operator and an activation function: that’s where the learning happens." },
+  "L2-R3-CASE2 #2": { lvl: 2, full: ["An analyst uses 5-fold cross-validation on 1,000 observations. In each round, how many observations are used to train the model?"],
+    options: ["A) 200", "B) 800", "C) 1,000"], a: 1,
+    why: "5 parts of 200. Train on 4 parts (800), validate on 1 (200)." },
+  "L2-R5-Q3 #2": { lvl: 3, full: ["Spot ₹/$ 80.00; market 1-year forward ₹/$ 81.00. ₹ rate 6%, $ rate 4%. Fair forward = 80 × 1.06 ÷ 1.04 = 81.54. An arbitrageur should:"],
+    options: ["A) borrow ₹, buy $ spot, sell $ forward", "B) borrow $, buy ₹ spot, buy $ forward", "C) do nothing: no arbitrage"], a: 1,
+    why: "Market forward 81.00 < fair 81.54, so $ is cheap forward: buy $ forward. Get ₹ now by borrowing $ and selling them spot, invest the ₹, then buy back $ forward to repay." },
+  "L2-R5-Q3 #6": { lvl: 2, full: ["Quotes in DC/FC. If 1 + r_DC > (1 + r_FC) × (forward ÷ spot), funds will most likely:"],
+    options: ["A) flow into the domestic country", "B) flow out of the domestic country", "C) not move"], a: 0,
+    why: "The home return beats the hedged foreign return, so borrow abroad and invest at home: money flows in." },
+  "L2-R5-Q3 #9": { lvl: 3, full: ["60 days ago you agreed to SELL EUR 1m in 90 days at USD 1.1000/EUR. Now the 30-day forward is 1.0950 / 1.0952 and the 30-day USD rate is 3%. The value of your contract is closest to:"],
+    options: ["A) USD 4,788", "B) USD 5,200", "C) −USD 4,788"], a: 0,
+    why: "Close a sale by buying EUR → use the ask 1.0952. Gain = (1.1000 − 1.0952) × 1m = $4,800. Discount 30 days: 4,800 ÷ (1 + 0.03 × 30 ÷ 360) = 4,800 ÷ 1.0025 = $4,788." },
+  "L2-R5-Q3 #5": { lvl: 2, full: ["A country with high capital mobility runs large fiscal deficits for years and its debt-to-GDP keeps rising. In the SHORT run its currency most likely:"],
+    options: ["A) appreciates", "B) depreciates", "C) stays stable"], a: 0,
+    why: "Short run (Mundell-Fleming): deficits push rates up and attract capital, so the currency rises. The long-run fall comes later." },
+  "L2-R5-Q4 #2": { lvl: 1, full: ["USD/EUR spot 1.10, 1-year forward 1.08. The EUR is trading at a forward:"],
+    options: ["A) premium of 0.02", "B) discount of 0.02", "C) premium of 1.8%"], a: 1,
+    why: "EUR is the base. Forward 1.08 < spot 1.10, so the EUR buys less later: a discount of 0.02." },
+  "L2-R5-Q4 #3": { lvl: 2, full: ["High capital mobility. Which policy is most likely to make the currency DEPRECIATE?"],
+    options: ["A) Tight monetary policy", "B) Expansionary fiscal policy", "C) Loose monetary policy"], a: 2,
+    why: "Loose money lowers interest rates, capital flows out, the currency falls. A and B raise rates." },
+  "L2-R5-Q4 #4": { lvl: 1, full: ["Which approach to exchange rates is built on the effect of inflation (money supply → prices → exchange rate)?"],
+    options: ["A) Mundell-Fleming model", "B) Monetary approach", "C) Portfolio balance approach"], a: 1,
+    why: "The monetary approach works through prices (PPP). Mundell-Fleming works through interest rates." },
+  "L2-R6-CASE2 #3": { lvl: 1, full: ["Why might a government subsidise private R&D?"],
+    options: ["A) R&D spills over to other firms, so private firms invest less than is best for the economy", "B) Neoclassical theory says R&D raises growth permanently", "C) R&D guarantees convergence with richer countries"], a: 0,
+    why: "Spillovers mean society gains more than the firm does, so the firm underinvests without help." },
+  "L2-R6-CASE2 #4": { lvl: 2, full: ["A developing country with little capital per worker wants faster potential GDP growth. The most effective first step is most likely:"],
+    options: ["A) funding basic research at the technology frontier", "B) capital deepening and adopting existing technology", "C) cutting the savings rate"], a: 1,
+    why: "Far from the frontier, returns to capital are high and copying technology is cheap. Frontier R&D matters more for developed countries." },
 };
 
 const TUITION_Q = {
@@ -31098,6 +31279,328 @@ const TUITION_Q = {
       "wrong": "A random walk does have a unit root (b₁ = 1). That statement is true."
     }
   },
+  "L2-R3-Q2 #1": {
+    "full": [
+      "Dimension reduction is most likely to be an example of:"
+    ],
+    "options": [
+      "unsupervised learning.",
+      "clustering.",
+      "supervised learning."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Dimension reduction (like PCA) looks at the features alone and squeezes them into fewer factors. There is no target or label to learn from, so it is *unsupervised*.",
+      "wrong": "Supervised learning needs labelled data: a known answer (target) for each observation. Dimension reduction has no target."
+    }
+  },
+  "L2-R3-Q2 #4": {
+    "full": [
+      "A random forest is least likely to:"
+    ],
+    "options": [
+      "provide a solution to overfitting problem.",
+      "be a classification tree.",
+      "reduce signal-to-noise ratio."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "A random forest is many trees, each built on a random subset of features. Their errors cancel out, so the forest *raises* the signal-to-noise ratio. “Reduce” is the thing it doesn’t do.",
+      "wrong": "Fighting overfitting is exactly what a random forest does (each tree sees only part of the features). That is true, so it isn’t the “least likely” answer."
+    }
+  },
+  "L2-R3-CASE1 #2": {
+    "full": [
+      "Extract from the case: Lena Nowak, a junior analyst, makes statements to her supervisor Hanna Kowalski about classification and regression trees, hierarchical clustering, neural networks and reinforcement learning. Kowalski must work out which statements are fully accurate.",
+      "Which of the following statements Nowak makes about hierarchical clustering is most accurate?"
+    ],
+    "options": [
+      "Bottom-up hierarchical clustering begins with each observation being its own cluster.",
+      "In divisive hierarchical clustering, the algorithm seeks out the two closest clusters.",
+      "Hierarchical clustering is a supervised iterative algorithm that is used to build a hierarchy of clusters."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Bottom-up (agglomerative) clustering starts with every observation as its own tiny cluster, then keeps joining the two closest clusters into bigger ones.",
+      "wrong": "Clustering has no labels to learn from, so it is *unsupervised*, not supervised. (B is wrong too: finding the two closest clusters is bottom-up, not divisive.)"
+    }
+  },
+  "L2-R3-CASE1 #3": {
+    "full": [
+      "Extract from the case: Lena Nowak, a junior analyst, makes statements to her supervisor Hanna Kowalski about classification and regression trees, hierarchical clustering, neural networks and reinforcement learning. Kowalski must work out which statements are fully accurate.",
+      "Which of the following statements Nowak makes about neural networks is most accurate? Neural networks:"
+    ],
+    "options": [
+      "have four types of layers: an input layer, agglomerative layers, regularization layers, and an output layer.",
+      "have an input layer node that consists of a summation operator and an activation function.",
+      "are effective in tasks with non-linearities and complex interactions among variables."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Neural networks are good at problems where variables affect each other in complicated, non-straight-line ways. That is what they are used for.",
+      "wrong": "A neural network has *three* kinds of layers: input, hidden, output. “Agglomerative” is a clustering word and “regularization” is a penalty idea; neither is a layer."
+    }
+  },
+  "L2-R3-CASE2 #2": {
+    "full": [
+      "Extract from the case: Joyce Tan suspects her holdout samples are cutting the training set too much, so she switches to K-fold cross-validation.",
+      "In the K-fold cross-validation technique, after Tan shuffles the data randomly it is most likely that:"
+    ],
+    "options": [
+      "the data will be divided into k – 1 equal sub-samples.",
+      "k – 1 samples will be used as validation samples.",
+      "k – 1 samples will be used as training samples."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Split the data into k equal parts. Train on k − 1 parts and test on the 1 part left over. Repeat k times so every part gets a turn as the test.",
+      "wrong": "It’s the other way round: only *one* part validates, and the other k − 1 parts train. Using most of the data to train is the whole point."
+    }
+  },
+  "L2-R5-Q3 #2": {
+    "full": [
+      "Assume an investor living in Mauritius can borrow in $ or in Mauritius Rupee (MUR). Given the following information, determine whether an arbitrage opportunity exists. If so, how much would the arbitrageur profit by borrowing MUR 1,000,000 or the equivalent in $? (Assume a period of one year and state the profit in domestic currency terms.)",
+      {
+        "columns": [
+          "",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Spot rate (MUR/$)",
+            "30.73000"
+          ],
+          [
+            "Forward rate (MUR/$)",
+            "31.50000"
+          ],
+          [
+            "Domestic (MUR) interest rate",
+            "6.50%"
+          ],
+          [
+            "Foreign ($) interest rate",
+            "5.20%"
+          ]
+        ]
+      },
+      "Which of the following is closest to the correct answer?"
+    ],
+    "options": [
+      "A) Borrow MUR. Arbitrage profits are MUR 13,340.",
+      "B) Borrow domestic. Arbitrage profits are $39,685.",
+      "C) Borrow $. Arbitrage profits are $13,340."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Work out the fair forward. The market forward (31.50) is higher, so dollars are dear in the forward market: buy $ now, sell $ forward. To buy $ now you borrow MUR. The profit is in MUR, the home currency.",
+      "wrong": "“Borrow domestic” is the right direction, but the profit isn’t $39,685. The question asks for the profit in domestic currency (MUR), and the working gives about MUR 13,360.",
+      "steps": [
+        "Fair forward = 30.73 × 1.065 ÷ 1.052 = *31.11* < market 31.50 → $ is overpriced forward",
+        "Borrow MUR 1,000,000 → buy $: 1,000,000 ÷ 30.73 = $32,541.49",
+        "Invest at 5.2%: 32,541.49 × 1.052 = $34,233.65",
+        "Sell $ forward: 34,233.65 × 31.50 = MUR 1,078,359.91",
+        "Repay the loan: 1,000,000 × 1.065 = MUR 1,065,000",
+        "Profit = 1,078,359.91 − 1,065,000 = *MUR 13,360* (the option’s 13,340 is the same answer with rounding)"
+      ]
+    }
+  },
+  "L2-R5-Q3 #5": {
+    "full": [
+      "Country P has high capital mobility and has recently switched from balanced fiscal policy to an expansionary fiscal policy. Over time this expansionary is expected to lead to an increase in government debt to GDP ratio.",
+      "If we simultaneously consider both the Mundell-Fleming and the portfolio balance model, in the long run country P’s currency is most likely to:"
+    ],
+    "options": [
+      "A) remain stable.",
+      "B) appreciate.",
+      "C) depreciate."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Two models, two time frames. *Short run* (Mundell-Fleming): deficits push rates up, money flows in, the currency rises. *Long run* (portfolio balance): debt keeps piling up, investors stop wanting it, the currency falls. The question asks about the long run.",
+      "wrong": "The two effects don’t cancel into “stable”: they happen at different times. First up, later down."
+    }
+  },
+  "L2-R5-Q3 #6": {
+    "full": [
+      "Given currency quotes in DC/FC, if: 1 + r_DC < (1 + r_FC) × (forward rate ÷ spot rate), funds will:"
+    ],
+    "options": [
+      "A) flow into the domestic country.",
+      "B) flow in and out of the domestic country.",
+      "C) flow out of the domestic country."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Read the inequality as a comparison of returns. Left side: what you earn at home. Right side: what you earn abroad with the currency risk hedged. Abroad pays more, so borrow at home and invest abroad: money flows *out*.",
+      "wrong": "You had the direction flipped. Money goes to where the (hedged) return is higher, and here that is the foreign country."
+    }
+  },
+  "L2-R5-Q3 #9": {
+    "full": [
+      "An investor has entered into a 90-day forward contract to purchase 2 million GBP at an all-in rate of USD 1.4612. In 30 days, the following quotes were available:",
+      {
+        "columns": [
+          "USD/GBP",
+          "Bid",
+          "Ask"
+        ],
+        "rows": [
+          [
+            "Spot",
+            "1.4522",
+            "1.4524"
+          ],
+          [
+            "30-day forward",
+            "1.4618",
+            "1.4621"
+          ],
+          [
+            "60-day forward",
+            "1.4621",
+            "1.4625"
+          ],
+          [
+            "90-day forward",
+            "1.4632",
+            "1.4636"
+          ]
+        ]
+      },
+      {
+        "columns": [
+          "Tenor",
+          "USD",
+          "GBP"
+        ],
+        "rows": [
+          [
+            "30-day",
+            "0.20%",
+            "0.32%"
+          ],
+          [
+            "60-day",
+            "0.21%",
+            "0.32%"
+          ],
+          [
+            "90-day",
+            "0.21%",
+            "0.33%"
+          ]
+        ]
+      },
+      "The mark-to-market value of the forward contract is closest to:"
+    ],
+    "options": [
+      "A) USD 1800",
+      "B) USD 1999",
+      "C) USD 2599"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "To close a contract to *buy* GBP, you agree today to *sell* GBP on the same date. 60 days are left, so use the 60-day rate, and you sell at the *bid*: 1.4621. Gain per pound, times 2 million, discounted 60 days at the USD rate.",
+      "wrong": "1,999 doesn’t come from the right rate. Check: 60 days left (not 30 or 90), the bid side (you sell GBP), and discount with the USD rate.",
+      "steps": [
+        "Days left = 90 − 30 = 60 → 60-day bid = 1.4621",
+        "Gain = (1.4621 − 1.4612) × 2,000,000 = $1,800",
+        "Discount: 1,800 ÷ (1 + 0.0021 × 60 ÷ 360) = 1,800 ÷ 1.00035 = *$1,799*"
+      ]
+    }
+  },
+  "L2-R5-Q4 #2": {
+    "full": [
+      "The forward rate on a 90-day contract is FC/USD 5 and the spot is FC/USD 4. The USD is trading at a forward:"
+    ],
+    "options": [
+      "A) premium of 0.8.",
+      "B) premium of 1.0.",
+      "C) discount of 1.0."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "In FC/USD the USD is the base currency (the one being priced). Forward 5 is more than spot 4, so one USD buys *more* later: the USD is at a forward *premium* of 5 − 4 = 1.0.",
+      "wrong": "A discount would need the forward to be *below* spot. Here it is above."
+    }
+  },
+  "L2-R5-Q4 #3": {
+    "full": [
+      "Zimbaya is a developed economy with high capital mobility. Deborah Isaccson is evaluating the Zim (Z$), the national currency of Zimbaya. Which of the following is most likely to lead to appreciation of Z$? If Zimbaya starts following:"
+    ],
+    "options": [
+      "A) an expansionary fiscal policy.",
+      "B) a restrictive fiscal policy.",
+      "C) a loose monetary policy."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "With high capital mobility, follow the interest rate. Expansionary fiscal policy means more government borrowing → higher interest rates → foreign money flows in → the Z$ rises.",
+      "wrong": "Loose monetary policy *lowers* interest rates, so money flows out and the currency falls."
+    }
+  },
+  "L2-R5-Q4 #4": {
+    "full": [
+      "Under high capital mobility, the Mundell-Fleming model to determine exchange rate focuses on the impact of:"
+    ],
+    "options": [
+      "A) trade balance.",
+      "B) inflation.",
+      "C) interest rates."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Mundell-Fleming is about how monetary and fiscal policy move *interest rates*, and how those rates pull capital in or push it out. With high mobility, interest rates drive the currency.",
+      "wrong": "Mundell-Fleming leaves inflation out on purpose. Inflation is the monetary approach (PPP thinking)."
+    }
+  },
+  "L2-R6-CASE2 #3": {
+    "full": [
+      "Extract from the case: Wisterbon and Pratia are developing nations; Surico is a developed nation and the largest trading partner of the other two. Surico: TFP growth 2.1%, capital growth 3.4%, labour growth 0.6%, capital share 27.5%. Each country adopted four of five growth initiatives, including providing financial incentives for innovation and investing in education.",
+      "The three countries’ willingness to provide financial incentives for innovation is because:"
+    ],
+    "options": [
+      "A) consideration of private benefits alone would lead to suboptimal investment in R&D.",
+      "B) increase in innovation is the only way to grow under the endogenous growth theory.",
+      "C) Increase in innovation would lead to convergence of standard of living."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "R&D helps the whole economy, not just the firm paying for it (others copy and build on it). A firm only counts its own gain, so it spends too little. Subsidies push R&D up to the level that is best for the country.",
+      "wrong": "“The *only* way” is too strong. Endogenous growth also comes from capital deepening and human capital, not just innovation."
+    }
+  },
+  "L2-R6-CASE2 #4": {
+    "full": [
+      "Extract from the case: Wisterbon and Pratia are developing nations; Surico is a developed nation and the largest trading partner of the other two. Surico: TFP growth 2.1%, capital growth 3.4%, labour growth 0.6%, capital share 27.5%. Each country adopted four of five growth initiatives, including providing financial incentives for innovation and investing in education.",
+      "For Surico, the education investment that may increase the growth rate of potential GDP is the one that would increase:"
+    ],
+    "options": [
+      "A) application of technology to increase TFP and productivity of labor.",
+      "B) non-ICT capital to increase capital deepening.",
+      "C) research and development to increase TFP."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Surico is already developed: it has the capital and already uses existing technology. To grow faster it must *invent* new things, so education should feed research and development, which lifts TFP.",
+      "wrong": "*Applying* technology that already exists is how developing countries catch up. Surico already does that, so it gains little more from it."
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -31915,6 +32418,50 @@ const TESTS = [
     { mod: "2.S2", what: "AR results on a nonstationary series are meaningless", ok: 0, why: "gap" },
     { mod: "2.S3", what: "Data 1, −1, 2 … = first differences", ok: 0, why: "gap" },
     { mod: "2.S3", what: "Unit root → predictions are not valid (least accurate)", ok: 0, why: "flip" },
+  ] },
+  { id: "L2-R3-Q2", lvl: "11111", topic: "quant.2", name: "Reading 3 quiz 2", date: "2026-11-12", mins: 4.5, qs: [
+    { mod: "3.S3", what: "Dimension reduction is unsupervised learning", ok: 0, why: "gap" },
+    { mod: "3.S1", what: "ML: “find the pattern, apply the pattern”", ok: 1 },
+    { mod: "3.S3", what: "Reinforcement learning: an agent maximising rewards within constraints", ok: 1 },
+    { mod: "3.S2", what: "Random forest raises (not reduces) the signal-to-noise ratio", ok: 0, why: "flip" },
+    { mod: "3.S1", what: "Out-of-sample error = bias + variance + base error", ok: 1 },
+  ] },
+  { id: "L2-R3-CASE1", lvl: "1222", topic: "quant.2", name: "Reading 3 case 1 (Kowalski and Nowak)", date: "2026-11-12", mins: 5.7, qs: [
+    { mod: "3.S2", what: "CART: regression tree or classification tree, never a “cardinal tree”", ok: 1 },
+    { mod: "3.S3", what: "Bottom-up hierarchical clustering starts with each observation as its own cluster", ok: 0, why: "gap" },
+    { mod: "3.S3", what: "Neural networks suit non-linearities and complex interactions", ok: 0, why: "gap" },
+    { mod: "3.S3", what: "Reinforcement learning works within its environment’s constraints", ok: 1 },
+  ] },
+  { id: "L2-R3-CASE2", lvl: "1211", topic: "quant.2", name: "Reading 3 case 2 (Joyce Tan)", date: "2026-11-12", mins: 3.7, qs: [
+    { mod: "3.S1", what: "Continuous target → regression, not classification", ok: 1 },
+    { mod: "3.S1", what: "K-fold: k − 1 samples train, 1 validates", ok: 0, why: "flip" },
+    { mod: "3.S2", what: "Ensemble predictions: more accurate and more stable", ok: 1 },
+    { mod: "3.S3", what: "Neural networks work with non-linearities", ok: 1 },
+  ] },
+  { id: "L2-R5-Q3", lvl: "1312232312", topic: "econ.0", name: "Reading 5 quiz 3", date: "2026-11-12", mins: 19.7, qs: [
+    { mod: "5.S7", what: "Relative PPP: exchange rates follow inflation differences", ok: 1 },
+    { mod: "5.S6", what: "Covered interest arbitrage: borrow MUR, profit ≈ MUR 13,360", ok: 0, why: "calc" },
+    { mod: "5.S10", what: "Central bank intervention objectives (least likely)", ok: 1 },
+    { mod: "5.S6", what: "CIRP forward = 0.400 × 1.04 ÷ 1.05 = 0.396", ok: 1 },
+    { mod: "5.S10", what: "Long run, fiscal deficits and rising debt → currency depreciates (portfolio balance)", ok: 0, why: "gap" },
+    { mod: "5.S6", what: "1 + r_DC < hedged foreign return → borrow domestic, funds flow out", ok: 0, why: "flip" },
+    { mod: "5.S5", what: "Forward mark-to-market: (1.0285 − 1.0225) × 1m discounted = $5,985", ok: 1 },
+    { mod: "5.S7", what: "UCIRP: expected spot = 0.55 × 1.015 = 0.55825", ok: 1 },
+    { mod: "5.S5", what: "Forward MTM: (1.4621 − 1.4612) × 2m ÷ (1 + 0.0021 × 60/360) ≈ $1,800", ok: 0, why: "calc" },
+    { mod: "5.S6", what: "Arbitrage check: borrow domestic, lend foreign", ok: 1 },
+  ] },
+  { id: "L2-R5-Q4", lvl: "11222", topic: "econ.0", name: "Reading 5 quiz 4", date: "2026-11-12", mins: 6.1, qs: [
+    { mod: "5.S8", what: "Carry trade returns: fat tails, negative skew", ok: 1 },
+    { mod: "5.S1", what: "Forward above spot → base currency at a forward premium", ok: 0, why: "flip" },
+    { mod: "5.S10", what: "High mobility: expansionary fiscal policy → currency appreciates", ok: 0, why: "gap" },
+    { mod: "5.S10", what: "Mundell-Fleming focuses on interest rates, not inflation", ok: 0, why: "gap" },
+    { mod: "5.S10", what: "Short run, fiscal expansion → appreciation (Mundell-Fleming)", ok: 1 },
+  ] },
+  { id: "L2-R6-CASE2", lvl: "3222", topic: "econ.1", name: "Reading 6 case 2 (Wisterbon, Pratia, Surico)", date: "2026-11-12", mins: 4.8, qs: [
+    { mod: "6.S2", what: "Developed Surico relies most on technology (TFP), not capital deepening", ok: 1 },
+    { mod: "6.S3", what: "Constant output-to-capital ratio = neoclassical steady state", ok: 1 },
+    { mod: "6.S3", what: "R&D subsidies: private benefit alone gives too little R&D", ok: 0, why: "gap" },
+    { mod: "6.S2", what: "Developed country: education for R&D (innovation) raises TFP", ok: 0, why: "gap" },
   ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
