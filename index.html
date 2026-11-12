@@ -333,6 +333,17 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .weak-text { font-size: 12.5px; color: var(--ink); line-height: 1.55; }
   .weak-text ol { margin: 0; padding-left: 18px; }
   .weak-text li { margin-bottom: 4px; }
+  .wk-easy { margin: 8px 0 2px; padding: 8px 10px; border-left: 3px solid var(--teal); background: var(--teal-bg); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.55; }
+  .wk-easy p { margin: 0 0 6px; }
+  .wk-easy p:last-child { margin-bottom: 0; }
+  .wk-easy-ok b { color: var(--teal); }
+  .wk-easy-no b { color: var(--rose); }
+  .wk-easy-steps { margin: 0 0 6px; padding-left: 20px; font-family: var(--mono); font-size: 12px; }
+  .wk-easy-steps li { margin-bottom: 2px; }
+  .wk-remember { margin: 10px 0 4px; padding: 7px 10px; border: 1px dashed var(--rose); border-radius: 6px; background: var(--panel); font-size: 13px; line-height: 1.5; color: var(--ink); }
+  .wk-remember b { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--rose); margin-right: 6px; }
+  .wk-more { margin-top: 6px; }
+  .wk-more > summary { cursor: pointer; font-size: 12px; color: var(--ink-soft); }
   .weak-q { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; margin-bottom: 5px; font-size: 12px; color: var(--ink); line-height: 1.45; }
   .weak-ref { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
   .weak-picked { color: var(--rose); font-weight: 600; margin-right: 8px; }
@@ -21847,6 +21858,93 @@ const TUITION_MISSES = {
       ],
       spot: 'Your EPS example already used 3 dummies for 4 quarters, so the pattern is in your notes. The rule just wasn’t written down. It is now, as a flag card under that example.',
     },
+    // R1 quiz 3 and quiz 4 (2026-11-12)
+    {
+      module: "1.S6",
+      title: "Serial correlation is most common in time-series data",
+      at: ["2. Serial Correlation"],
+      questions: [
+        { ref: "L2-R1-Q3 #1", ask: "Least accurate statement about serial correlation:", picked: "it does not affect consistency of the coefficients", answer: "it occurs least often with time-series data" },
+      ],
+      trap: "A “least accurate” question was answered with a true statement.",
+      fix: "Serial correlation is most common in time series. It spoils the standard errors (positive → too small → too many Type I errors), not the coefficients.",
+      remember: "Serial correlation is most common in time series. It spoils the standard errors (positive → too small → too many Type I errors), not the coefficients.",
+      tackle: ["Mark each option T or F before picking on “least accurate”."],
+    },
+    {
+      module: "1.S1",
+      title: "A slope is a change in Y, not the value of Y",
+      at: ["partial slope coefficients"],
+      questions: [
+        { ref: "L2-R1-Q3 #5", ask: "Least accurate statement about regression results:", picked: "slope = change in Y for a one-unit change in X, others held constant", answer: "slope = the value of Y for a given value of X" },
+      ],
+      trap: "The correct definition was picked on a “least accurate” question.",
+      fix: "Slope = how much Y changes when X rises by 1, holding the other X’s constant (a partial slope). The value of Y for given X’s is a prediction.",
+      remember: "Slope = how much Y changes when X rises by 1, holding the other X’s constant (a partial slope). The value of Y for given X’s is a prediction.",
+      tackle: ["Mark each option T or F before picking on “least accurate”."],
+    },
+    {
+      module: "1.S5",
+      title: "Heteroskedasticity: also in time series; Breusch–Pagan = n × R²",
+      at: ["s5-het", "s5-bp"],
+      questions: [
+        { ref: "L2-R1-Q3 #6", ask: "Least accurate statement about heteroskedasticity:", picked: "unconditional heteroskedasticity is no major problem", answer: "it only occurs in cross-sectional regressions" },
+        { ref: "L2-R1-Q3 #7", ask: "60 months; correlation of squared residuals with the X is 0.2. At 5%:", picked: "evidence of serial correlation", answer: "no evidence of conditional heteroskedasticity or serial correlation" },
+      ],
+      trap: "A true statement was picked on “least accurate”, and the squared-residual test was mistaken for a serial-correlation test.",
+      fix: "Heteroskedasticity can occur in time series too. Squared residuals on the X’s = Breusch–Pagan: BP = n × R² (one X: R² = correlation²), compare with χ² critical (3.84 at 1 df, 5%).",
+      remember: "Heteroskedasticity can occur in time series too. Squared residuals on the X’s = Breusch–Pagan: BP = n × R² (one X: R² = correlation²), compare with χ² critical (3.84 at 1 df, 5%).",
+      tackle: ["Squared residuals → heteroskedasticity test. Lagged residuals → serial correlation test."],
+    },
+    {
+      module: "1.S1",
+      title: "Significant if |t| > critical t; with standard errors, t = coefficient ÷ SE",
+      at: ["p-Value"],
+      questions: [
+        { ref: "L2-R1-Q4 #3", ask: "t-stats PI 0.45, TEEN 2.2, INS 0.63; n = 40. Significant at 5%:", picked: "PI and INS", answer: "TEEN only" },
+        { ref: "L2-R1-Q4 #4", ask: "Coefficients 1.25, 1.0, −2.0, 8.0 with SEs 0.45, 2.2, 0.63, 2.5. Significant at 5%:", picked: "all four", answer: "R&D, COMP and CAP" },
+      ],
+      trap: "Small t-statistics were read like small p-values, and one t-statistic wasn’t worked out.",
+      fix: "Big |t| = significant. If you’re given standard errors, compute t = coefficient ÷ SE first. Critical t at 5% with ~35 df ≈ 2.03.",
+      remember: "Big |t| = significant. If you’re given standard errors, compute t = coefficient ÷ SE first. Critical t at 5% with ~35 df ≈ 2.03.",
+      tackle: ["Check what the numbers are: t-stats, standard errors or p-values. Each is read differently."],
+    },
+    {
+      module: "1.P",
+      title: "Index fund vs its index: R² near 1, slope not necessarily bigger",
+      at: ["Variance and Analysis of Variance (ANOVA)"],
+      questions: [
+        { ref: "L2-R1-Q4 #1", ask: "Index fund and active manager both regressed on the S&P 500. The index fund:", picked: "has a higher slope coefficient", answer: "has a higher SSR ÷ SST (R²)" },
+      ],
+      trap: "Following the index closely sounded like a bigger coefficient.",
+      fix: "R² = SSR ÷ SST = how much of the movement the X explains. An index fund moves almost exactly with its index, so its R² is close to 1. Its slope is about 1, but an active fund’s could be higher.",
+      remember: "R² = SSR ÷ SST = how much of the movement the X explains. An index fund moves almost exactly with its index, so its R² is close to 1. Its slope is about 1, but an active fund’s could be higher.",
+      tackle: ["“Fits closely” = R². “Moves more for each move in X” = slope."],
+    },
+    {
+      module: "1.S6",
+      title: "Multicollinearity sign: F significant, no t significant",
+      at: ["Detecting Multicollinearity"],
+      questions: [
+        { ref: "L2-R1-Q4 #6", ask: "Which most likely suggests multicollinearity?", picked: "the variance of observations has increased over time", answer: "F significant but no coefficient individually significant" },
+      ],
+      trap: "Changing variance is the heteroskedasticity clue, not the multicollinearity one.",
+      fix: "Multicollinearity: the X’s move together, so the model works overall (F significant) but each t is small. Rising variance = heteroskedasticity. Significant DW = serial correlation.",
+      remember: "Multicollinearity: the X’s move together, so the model works overall (F significant) but each t is small. Rising variance = heteroskedasticity. Significant DW = serial correlation.",
+      tackle: ["Match each symptom to its problem: F vs t mismatch → multicollinearity."],
+    },
+    {
+      module: "1.S3",
+      title: "ANOVA: R² = SSR ÷ SST, F = MSR ÷ MSE",
+      at: ["F-Test for Overall Model Fit"],
+      questions: [
+        { ref: "L2-R1-Q4 #7", ask: "Regression SS 100 (df 1), error SS 300 (df 40). R² and F?", picked: "R² 0.25, F 0.930", answer: "R² 0.25, F 13.33" },
+      ],
+      trap: "R² was right, then F was picked without dividing the mean squares.",
+      fix: "R² = SSR ÷ SST = 100 ÷ 400 = 0.25. F = mean square regression ÷ mean square error = 100 ÷ 7.5 = 13.33.",
+      remember: "R² = SSR ÷ SST = 100 ÷ 400 = 0.25. F = mean square regression ÷ mean square error = 100 ÷ 7.5 = 13.33.",
+      tackle: ["F always uses the mean squares column: regression on top, error below."],
+    },
   ],
   'fsa.0': [
     {
@@ -23730,6 +23828,343 @@ const TUITION_MISSES = {
       trap: 'Calculation slip: you got path 3 right ($101.85) but not path 4. Only the year-3 rate changed (2.2384% instead of 3.0216%), so only the last cash flow changes, and a lower rate means a higher value.',
       fix: '3/1.02 + 3/(1.02 × 1.02078) + 103/(1.02 × 1.02078 × 1.022384) = 2.9412 + 2.8813 + 96.7589 = $102.58.',
       tackle: ['Write the running discount factors: 1.02, then × 1.02078, then × 1.022384.', 'Sense check against the path next to it: a lower final rate should give a higher value.'],
+    },
+  ],
+  'quant.1': [
+    {
+      module: "2.S1",
+      title: "Trend models: log-linear for a constant growth rate; they fail if residuals are serially correlated",
+      at: ["Log-Linear Trend Models", "Limitations of Trend Models"],
+      questions: [
+        { ref: "L2-R2-Q1 #3", ask: "Trend models are not appropriate when which violation is present?", picked: "model misspecification", answer: "serial correlation" },
+        { ref: "L2-R2-Q1 #7", ask: "A variable growing at a constant rate with continuous compounding is best modelled with:", picked: "a moving average model", answer: "a log-linear transformation" },
+      ],
+      trap: "The general word (misspecification) and a familiar tool (moving average) were picked over the specific answers.",
+      fix: "Constant growth rate → exponential curve → take logs → log-linear trend. If a trend model’s residuals are serially correlated (check with DW), switch to an AR model.",
+      remember: "Constant growth rate → exponential curve → take logs → log-linear trend. If a trend model’s residuals are serially correlated (check with DW), switch to an AR model.",
+      tackle: ["Constant amount each period → linear. Constant rate → log-linear."],
+    },
+    {
+      module: "2.S2",
+      title: "AR models need covariance stationarity; add lags one at a time",
+      at: ["Covariance Stationarity", "Steps for Detecting Serial Correlation in AR Models"],
+      questions: [
+        { ref: "L2-R2-Q1 #5", ask: "The procedure for building an AR model is:", picked: "add a lag for each significant autocorrelation", answer: "revise the model if residual autocorrelations are significant" },
+        { ref: "L2-R2-Q1 #8", ask: "Which statement about covariance stationarity is correct?", picked: "a series can be covariance stationary and heteroskedastic", answer: "AR results on a non-stationary series are meaningless" },
+      ],
+      trap: "Two long options differed only at the end, and “stationary + heteroskedastic” didn’t trigger the constant-variance rule.",
+      fix: "Covariance stationary = constant mean, variance and covariance. Without it, AR results are meaningless. Build AR models one lag at a time: estimate, test residual autocorrelations, add a lag, retest.",
+      remember: "Covariance stationary = constant mean, variance and covariance. Without it, AR results are meaningless. Build AR models one lag at a time: estimate, test residual autocorrelations, add a lag, retest.",
+      tackle: ["When two options are almost the same, read their last words slowly."],
+    },
+    {
+      module: "2.S3",
+      title: "Choose the sample period by economic regime, not by length",
+      at: ["Instability of Coefficients of Time-Series Models"],
+      questions: [
+        { ref: "L2-R2-Q1 #6", ask: "The primary concern when choosing a time-series sample period is:", picked: "the length of the period", answer: "current underlying economic and market conditions" },
+      ],
+      trap: "More data usually sounds better.",
+      fix: "Use a period with one set of economic conditions. Mixing regimes makes the coefficients unstable, however long the sample.",
+      remember: "Use a period with one set of economic conditions. Mixing regimes makes the coefficients unstable, however long the sample.",
+      tackle: ["Ask: did the rules of the game change inside this period?"],
+    },
+    {
+      module: "2.S3",
+      title: "Unit root = random walk → first-difference before using an AR model",
+      at: ["First Differencing", "Covariance Stationarity of a Random Walk"],
+      questions: [
+        { ref: "L2-R2-Q1 #9", ask: "Data 5, 6, 5, 7 … turned into 1, −1, 2 … The transformation is:", picked: "moving average", answer: "first differencing" },
+        { ref: "L2-R2-Q1 #10", ask: "Least accurate statement about unit roots:", picked: "a random walk has a unit root", answer: "even with a unit root, predictions are valid" },
+      ],
+      trap: "The transformed numbers weren’t checked against the originals, and a true statement was picked on “least accurate”.",
+      fix: "A unit root means a random walk: not covariance stationary, so AR predictions aren’t valid. Fix: first differencing, yₜ − yₜ₋₁ (6 − 5 = 1, 5 − 6 = −1 …).",
+      remember: "A unit root means a random walk: not covariance stationary, so AR predictions aren’t valid. Fix: first differencing, yₜ − yₜ₋₁ (6 − 5 = 1, 5 − 6 = −1 …).",
+      tackle: ["When a question shows transformed data, rebuild the first two values yourself."],
+    },
+    {
+      module: "2.S4",
+      title: "ARCH is fixed with generalized least squares, not by adding a lag",
+      at: ["Autoregressive Conditional Heteroskedasticity (ARCH)"],
+      questions: [
+        { ref: "L2-R2-Q1 #4", ask: "Least likely consequence of ARCH(1) errors:", picked: "regression parameters will be incorrect", answer: "the model can be corrected by adding a lag" },
+      ],
+      trap: "Adding a lag is the cure for serial correlation in AR models, so it sounded like a fix here too.",
+      fix: "ARCH: the error variance depends on last period’s squared error. Test: regress squared residuals on lagged squared residuals. Fix: generalized least squares. The variance can then be predicted.",
+      remember: "ARCH: the error variance depends on last period’s squared error. Test: regress squared residuals on lagged squared residuals. Fix: generalized least squares. The variance can then be predicted.",
+      tackle: ["Serial correlation in AR → add a lag. ARCH → GLS."],
+    },
+  ],
+  'pm.0': [
+    {
+      module: "34.S1",
+      title: "The real rate is high when people prefer spending now",
+      at: ["Real risk-free rate from mₜ", "Intertemporal Rate of Substitution"],
+      questions: [
+        { ref: "L2-R34-Q2 #8", ask: "The real rate of return is most likely higher:", picked: "the higher the utility of future consumption", answer: "the lower the utility of future consumption" },
+      ],
+      trap: "Direction flip: valuing the future more sounded like it should mean a higher return on saving.",
+      fix: "Real rate = the reward for waiting. People care less about later (or expect to be richer later) → they need a bigger reward to save → higher real rate.",
+      remember: "Real rate = the reward for waiting. People care less about later (or expect to be richer later) → they need a bigger reward to save → higher real rate.",
+      tackle: ["Ask: how keen are people to save? Keen → low rate. Not keen → high rate."],
+    },
+    {
+      module: "34.S3",
+      title: "Multiples move opposite to the discount rate",
+      at: ["Cyclical Effects on Valuation Multiples"],
+      questions: [
+        { ref: "L2-R34-Q2 #4", ask: "Price multiples are least likely to increase when:", picked: "inflation expectations decline", answer: "the equity risk premium increases" },
+      ],
+      trap: "Lower inflation sounded like bad news for prices, but it lowers the discount rate.",
+      fix: "Real rate, inflation premium or ERP up → discount rate up → multiples down. Earnings growth up → multiples up.",
+      remember: "Real rate, inflation premium or ERP up → discount rate up → multiples down. Earnings growth up → multiples up.",
+      tackle: ["For any “what moves the P/E” question, ask: does it raise the discount rate (P/E down) or the growth (P/E up)?"],
+    },
+    {
+      module: "34.S2",
+      title: "Break-even inflation has two parts: expected inflation and an uncertainty premium",
+      at: ["Term spread and break-even inflation"],
+      questions: [
+        { ref: "L2-R34-Q3 #1", ask: "Expected inflation falls but inflation uncertainty rises. Break-even inflation will:", picked: "decrease", answer: "be uncertain" },
+        { ref: "L2-R34-Q3 #2", ask: "The inflation-uncertainty premium is related to the term spread:", picked: "negatively", answer: "positively" },
+      ],
+      trap: "Break-even inflation was treated as expected inflation alone, leaving out the uncertainty premium.",
+      fix: "BEI = expected inflation + premium for inflation uncertainty. If the two parts move opposite ways, the result is uncertain. More uncertainty → long yields up → term spread wider (positive).",
+      remember: "BEI = expected inflation + premium for inflation uncertainty. If the two parts move opposite ways, the result is uncertain. More uncertainty → long yields up → term spread wider (positive).",
+      tackle: ["Write BEI’s two parts and mark each one up or down before answering."],
+    },
+    {
+      module: "34.S3",
+      title: "Sector spreads: products and leverage. Durables are the most cyclical",
+      at: ["s3-spread", "Earnings over the cycle"],
+      questions: [
+        { ref: "L2-R34-Q3 #3", ask: "Differences in credit spreads across sectors are least likely due to:", picked: "products and services", answer: "ratings" },
+        { ref: "L2-R34-Q3 #5", ask: "Earnings from which sector are most sensitive to the business cycle?", picked: "consumer non-discretionary", answer: "consumer durable" },
+      ],
+      trap: "On a “least likely” question a real reason was picked, and “non-discretionary” was read as the cyclical one.",
+      fix: "Sector spreads differ because of products/services and leverage. Most cyclical: durables and discretionary. Least: non-discretionary (food, medicine).",
+      remember: "Sector spreads differ because of products/services and leverage. Most cyclical: durables and discretionary. Least: non-discretionary (food, medicine).",
+      tackle: ["Durable = can wait (cars, fridges) → cyclical. Non-discretionary = must buy → steady."],
+    },
+    {
+      module: "34.S2",
+      title: "Taylor rule and the yield curve late in the cycle",
+      at: ["s2-curve", "Nominal Rates and the Taylor Rule"],
+      questions: [
+        { ref: "L2-R34-CASE1 #3", ask: "Brady: policy rates are positively correlated with inflation and GDP growth. Under the Taylor rule he is:", picked: "incorrect on GDP growth", answer: "correct" },
+        { ref: "L2-R34-CASE1 #4", ask: "Chapman: late-cycle inflation and recession fears steepen the curve. He is:", picked: "correct", answer: "incorrect: the curve flattens" },
+      ],
+      trap: "The case wording sounded confident and reasonable, so both statements were judged on tone rather than checked against the rule.",
+      fix: "Taylor rule: inflation up or GDP up → policy rate up. Late cycle: short rates rise (high inflation and growth) and long rates fall (recession fears) → the curve flattens and can invert.",
+      remember: "Taylor rule: inflation up or GDP up → policy rate up. Late cycle: short rates rise (high inflation and growth) and long rates fall (recession fears) → the curve flattens and can invert.",
+      tackle: ["For each statement, test each part against the formula or rule, one at a time."],
+    },
+    {
+      module: "34.S3",
+      title: "Equity risk premium = credit spread + equity premium over debt",
+      at: ["ERP = risk premium for credit risk"],
+      questions: [
+        { ref: "L2-R34-CASE1 #5", ask: "BEI 2.80%, credit spread 3.10%, equity premium relative to debt 4.50%. ERP?", picked: "4.50%", answer: "7.60%" },
+      ],
+      trap: "“Risk premium for equities” in the exhibit looked like the ERP itself.",
+      fix: "ERP is measured against risk-free bonds: credit spread + equity premium over debt = 3.10% + 4.50% = 7.60%. Inflation is in both returns, so it cancels.",
+      remember: "ERP is measured against risk-free bonds: credit spread + equity premium over debt = 3.10% + 4.50% = 7.60%. Inflation is in both returns, so it cancels.",
+      tackle: ["Build the return up in layers: risk-free → + credit spread → + equity premium."],
+    },
+    {
+      module: "34.S3",
+      title: "A consumption hedge holds up in a recession: value stocks, bonds",
+      at: ["s3-hedge", "s3-style"],
+      questions: [
+        { ref: "L2-R34-CASE1 #6", ask: "Best consumption hedge among real estate, growth stocks and value stocks:", picked: "real estate", answer: "value stocks" },
+      ],
+      trap: "Real estate’s steady rents made it look safe.",
+      fix: "Recession hedges: risk-free bonds and value stocks. Real estate and growth stocks fall with the economy.",
+      remember: "Recession hedges: risk-free bonds and value stocks. Real estate and growth stocks fall with the economy.",
+      tackle: ["Ask: does this asset do relatively well when the economy is weak?"],
+    },
+  ],
+  'pm.1': [
+    {
+      module: "35.S3",
+      title: "Optimal active risk = (IR ÷ SR_B) × σ_B",
+      at: ["Optimal Amount of Active Risk"],
+      questions: [
+        { ref: "L2-R35-Q1 #2", ask: "IC 0.07, TC 0.90, 49 bets; SR_B 0.40, σ_B 12%. Optimal active risk?", picked: "8%", answer: "14% (13.23%)" },
+        { ref: "L2-R35-Q1 #6", ask: "Zeta: active return 1.6%, active risk 8%; SR_B 0.35, σ_B 10.5%. Optimal active risk?", picked: "8%", answer: "6%" },
+        { ref: "L2-R35-Q1 #10", ask: "Same Zeta fund. Weight of the benchmark at optimal active risk?", picked: "0.2", answer: "0.25" },
+      ],
+      trap: "The fund’s own active risk (8%) and its IR (0.2) were taken as answers instead of being put into the formula.",
+      fix: "Optimal active risk = (IR ÷ SR_B) × σ_B. Weight in the active fund = optimal ÷ fund’s active risk; the benchmark gets the rest. IR from the law: TC × IC × √BR.",
+      remember: "Optimal active risk = (IR ÷ SR_B) × σ_B. Weight in the active fund = optimal ÷ fund’s active risk; the benchmark gets the rest. IR from the law: TC × IC × √BR.",
+      tackle: ["Step 1: IR. Step 2: optimal active risk. Step 3 (if asked): weights. Write each number down."],
+    },
+    {
+      module: "35.S4",
+      title: "Correlated bets shrink breadth: BR = N ÷ [1 + (N − 1) r]",
+      at: ["How Is Decision Independence Compromised?"],
+      questions: [
+        { ref: "L2-R35-Q1 #7", ask: "IC 0.20, 10 stocks monthly, bets correlated 0.45. Drop in IR?", picked: "22%", answer: "86%" },
+      ],
+      trap: "The drop was guessed from the 0.45 instead of working out the new breadth.",
+      fix: "Correlated bets: BR = N ÷ [1 + (N − 1) × r]. 120 bets with r = 0.45 → about 2 real bets, so the IR falls by 86%.",
+      remember: "Correlated bets: BR = N ÷ [1 + (N − 1) × r]. 120 bets with r = 0.45 → about 2 real bets, so the IR falls by 86%.",
+      tackle: ["Compute IR = IC × √BR twice (independent and correlated) and compare."],
+    },
+  ],
+  'pm.2': [
+    {
+      module: "36.S1",
+      title: "Tracking difference = the gap; tracking error = its standard deviation",
+      at: ["Tracking Difference and Tracking Error"],
+      questions: [
+        { ref: "L2-R36-Q1 #3", ask: "An ETF’s tracking difference is most accurately measured as the:", picked: "standard deviation of daily return differences", answer: "ETF NAV return minus index return" },
+      ],
+      trap: "The two terms sound alike, and the standard-deviation option sounded more technical.",
+      fix: "Tracking difference = ETF return − index return (a gap). Tracking error = the annualised standard deviation of that gap.",
+      remember: "Tracking difference = ETF return − index return (a gap). Tracking error = the annualised standard deviation of that gap.",
+      tackle: ["“Difference” = subtract. “Error” = standard deviation."],
+    },
+    {
+      module: "36.S3",
+      title: "Banks issue ETNs to borrow at the swap rate",
+      at: ["s3-risks"],
+      questions: [
+        { ref: "L2-R36-Q1 #5", ask: "A bank issues ETNs on the S&P 500 most likely because:", picked: "it expects the S&P to beat its lending rate", answer: "its unsecured debt yield is above the swap fixed rate" },
+      ],
+      trap: "It looked like a market call on the index.",
+      fix: "Bank issues an ETN and swaps: it receives the index return (paid on to ETN holders) and pays the swap fixed rate. It does this when its own borrowing rate is above the swap rate.",
+      remember: "Bank issues an ETN and swaps: it receives the index return (paid on to ETN holders) and pays the swap fixed rate. It does this when its own borrowing rate is above the swap rate.",
+      tackle: ["For any “why issue X” question, look for the cheaper-funding motive."],
+    },
+  ],
+  'pm.3': [
+    {
+      module: "37.S4",
+      title: "Tracking portfolio copies the index; factor portfolio bets on one factor",
+      at: ["s4-build"],
+      questions: [
+        { ref: "L2-R37-Q1 #5", ask: "A tracking portfolio is a portfolio with:", picked: "sensitivity 1 to one factor, 0 to the rest", answer: "factor sensitivities that replicate a benchmark index" },
+        { ref: "L2-R37-Q1 #10", ask: "A portfolio built to replicate a benchmark’s factor exposures is a:", picked: "factor portfolio", answer: "tracking portfolio" },
+      ],
+      trap: "The three portfolio definitions sit side by side and all talk about “factor sensitivities”, so they blur together. Twice the factor-portfolio definition was picked for “tracking”.",
+      fix: "Factor portfolio = 1 to one factor, 0 to the rest (a pure bet). Tracking portfolio = the same exposures as the index (a copy). Arbitrage portfolio = 0 to everything, 0 money in.",
+      remember: "Factor portfolio = 1 to one factor, 0 to the rest (a pure bet). Tracking portfolio = the same exposures as the index (a copy). Arbitrage portfolio = 0 to everything, 0 money in.",
+      tackle: ["Link the word to the job: “track” = follow an index; “factor” = one factor only; “arbitrage” = free money."],
+    },
+    {
+      module: "37.S4",
+      title: "Return attribution: ask “did each bet pay?”",
+      at: ["1. Return Attribution"],
+      questions: [
+        { ref: "L2-R37-Q1 #3", ask: "Underweighted falling communication stocks; the swapped-in stock beat the dropped one. Tilt and selection returns:", picked: "negative and positive", answer: "both positive" },
+        { ref: "L2-R37-Q1 #9", ask: "Overweighted financials; the swapped-in stock fell while the dropped one rose; the portfolio still beat the DJIA. Tilt and selection returns:", picked: "both positive", answer: "positive and negative" },
+      ],
+      trap: "An underweight sounds like “less return”, and a portfolio that beat the index sounds like everything went right. Neither is true by itself.",
+      fix: "Less of a loser = gain; more of a winner = gain. A swapped-in stock that beats the dropped one = positive selection. If one part lost but the total still won, the other part must have won.",
+      remember: "Less of a loser = gain; more of a winner = gain. A swapped-in stock that beats the dropped one = positive selection. If one part lost but the total still won, the other part must have won.",
+      tackle: ["Take the tilt and the selection one at a time and ask: did this bet make or lose money?", "Use the total (beat or trailed the index) to work out the part the story doesn’t tell you."],
+    },
+    {
+      module: "37.S1",
+      title: "One-factor APT: subtract the two equations to find λ, then R_F",
+      at: ["s1-ex2"],
+      questions: [
+        { ref: "L2-R37-Q1 #6", ask: "A: 4.4%, β 0.8; B: 5.3%, β 1.1. Risk-free rate and factor premium?", picked: "R_F 3%, λ 2%", answer: "R_F 2%, λ 3%" },
+      ],
+      trap: "Both answers use the same two numbers (2% and 3%), so a swapped pair looks right unless you plug it back in.",
+      fix: "Write E(R) = R_F + β × λ for both portfolios, subtract to get λ, plug back in for R_F, then check the answer in both lines.",
+      remember: "Write E(R) = R_F + β × λ for both portfolios, subtract to get λ, plug back in for R_F, then check the answer in both lines.",
+      tackle: ["Always plug the chosen pair into both portfolios before picking."],
+    },
+    {
+      module: "37.S1",
+      title: "Matching a target beta: check the beta first, then take the highest return",
+      at: ["s1-arb"],
+      questions: [
+        { ref: "L2-R37-Q1 #7", ask: "X 12%/β 1.0, Y 16%/β 1.3, Z 8%/β 0.9. Highest return at beta 1.00?", picked: "50% X, 12% Y, 38% Z (10.96%)", answer: "100% X (12%)" },
+      ],
+      trap: "The mix that lands exactly on beta 1.00 looked like the “clever” answer, so its return wasn’t compared with plain X.",
+      fix: "For each option work out both the beta and the return. Drop any whose beta misses the target. Of the rest, pick the highest return.",
+      remember: "For each option work out both the beta and the return. Drop any whose beta misses the target. Of the rest, pick the highest return.",
+      tackle: ["Make a two-column table: beta, return. Fill it for every option."],
+    },
+    {
+      module: "37.S1",
+      title: "APT basics: short selling allowed; arbitrage = no money, no risk, positive payoff",
+      at: ["s1-assume", "s1-vs"],
+      questions: [
+        { ref: "L2-R37-Q1 #8", ask: "Which is NOT an assumption needed to derive APT?", picked: "returns follow a k-factor model", answer: "factor risks can be hedged without short positions" },
+        { ref: "L2-R37-Q2 #4", ask: "An arbitrage opportunity is:", picked: "a portfolio with factor exposures that sum to one", answer: "positive expected cash flow with no initial investment" },
+      ],
+      trap: "A “NOT” question was answered with a true assumption, and the arbitrage definition was mixed up with factor exposures.",
+      fix: "APT’s three assumptions: returns follow a factor model, enough assets to diversify away firm risk, no arbitrage. APT allows short selling. Arbitrage = zero money in, zero factor risk, positive expected payoff.",
+      remember: "APT’s three assumptions: returns follow a factor model, enough assets to diversify away firm risk, no arbitrage. APT allows short selling. Arbitrage = zero money in, zero factor risk, positive expected payoff.",
+      tackle: ["On a NOT question, tick each option that is a real assumption; the unticked one is the answer."],
+    },
+    {
+      module: "37.S2",
+      title: "APT is an equilibrium model; macro factor models are ad hoc",
+      at: ["s2-types"],
+      questions: [
+        { ref: "L2-R37-Q2 #6", ask: "Which of the following is an equilibrium-pricing model?", picked: "macroeconomic factor model", answer: "APT" },
+      ],
+      trap: "Macro factor models use economic factors and look “theoretical”, so they sounded like the equilibrium model.",
+      fix: "APT (like CAPM) comes from theory, so it is an equilibrium model. Macro and fundamental factor models pick factors that fit the data: ad hoc.",
+      remember: "APT (like CAPM) comes from theory, so it is an equilibrium model. Macro and fundamental factor models pick factors that fit the data: ad hoc.",
+      tackle: ["Equilibrium = derived from theory (CAPM, APT). Fitted to data = ad hoc (macro, fundamental)."],
+    },
+    {
+      module: "37.S4",
+      title: "Hedging a factor away means sensitivity 0, not −1",
+      at: ["Hedging with a factor portfolio"],
+      questions: [
+        { ref: "L2-R37-Q2 #1", ask: "Bet on confidence risk, hedge away time-horizon risk. Sensitivities?", picked: "1.0 and −1.0", answer: "1.0 and 0.0" },
+      ],
+      trap: "Hedging feels like “taking the opposite position”, so −1 looked like the hedge.",
+      fix: "Bet on a factor = sensitivity 1. Hedge it away = sensitivity 0. A negative sensitivity is a bet the other way.",
+      remember: "Bet on a factor = sensitivity 1. Hedge it away = sensitivity 0. A negative sensitivity is a bet the other way.",
+      tackle: ["Read “hedge away” as “make it disappear”: zero."],
+    },
+  ],
+  'pm.5': [
+    {
+      module: "39.S1",
+      title: "Simulation choices: skew and fat tails → skewed t; more trials than data → bootstrap",
+      at: ["Simulation — Inputs, Steps and Sensitivity (from Schweser)"],
+      questions: [
+        { ref: "L2-R39-Q1 #4", ask: "Returns are skewed with excess kurtosis. Monte Carlo should use a:", picked: "normal distribution", answer: "skewed Student’s t-distribution" },
+        { ref: "L2-R39-Q1 #5", ask: "In historical simulation, bootstrapping is most likely used when:", picked: "zero-coupon rates are known but par yields aren’t", answer: "the number of trials is larger than the dataset" },
+      ],
+      trap: "The normal distribution is the default choice, and “bootstrapping” was remembered from fixed income.",
+      fix: "Skewed returns with fat tails → skewed Student’s t (the normal can’t show either). Need more trials than data points → bootstrap: draw from history with replacement.",
+      remember: "Skewed returns with fat tails → skewed Student’s t (the normal can’t show either). Need more trials than data points → bootstrap: draw from history with replacement.",
+      tackle: ["Match the data problem to the tool: shape problem → distribution; too little data → bootstrap."],
+    },
+    {
+      module: "39.S1",
+      title: "Backtesting facts: old, widely used, suits quant styles, can add randomness",
+      at: ["Objectives and design details (LOS 39.a–b)"],
+      questions: [
+        { ref: "L2-R39-Q1 #6", ask: "Least accurate statement about backtesting:", picked: "useful as a rejection or acceptance criterion", answer: "a new method slowly gaining acceptance" },
+        { ref: "L2-R39-Q1 #8", ask: "Least accurate statement about backtesting:", picked: "can take the randomness of the future into account", answer: "is incompatible with quant and systematic styles" },
+      ],
+      trap: "Two “least accurate” questions were answered with true statements.",
+      fix: "Backtesting is long established, used by quant and fundamental managers, a natural fit for systematic styles, and Monte Carlo lets it allow for randomness.",
+      remember: "Backtesting is long established, used by quant and fundamental managers, a natural fit for systematic styles, and Monte Carlo lets it allow for randomness.",
+      tackle: ["On “least accurate”, mark each option T or F before choosing."],
+    },
+    {
+      module: "39.S1",
+      title: "Backtest problems: survivorship, look-ahead, data snooping",
+      at: ["Problems in Backtesting"],
+      questions: [
+        { ref: "L2-R39-Q1 #7", ask: "Problems most likely to arise in a backtest:", picked: "heteroskedasticity, serial correlation, multicollinearity", answer: "survivorship bias, look-ahead bias, data snooping" },
+      ],
+      trap: "The regression-problem list from Reading 1 is the more familiar trio.",
+      fix: "Backtesting problems: survivorship bias, look-ahead bias, data snooping. The regression trio belongs to Reading 1.",
+      remember: "Backtesting problems: survivorship bias, look-ahead bias, data snooping. The regression trio belongs to Reading 1.",
+      tackle: ["Backtest = a test on history, so its problems are about the history data used."],
     },
   ],
 };
@@ -26842,6 +27277,151 @@ const TWIN_Q = {
     options: ["A) large receivables and cash, little debt", "B) heavy borrowing used to buy inventory and PP&E", "C) only non-monetary assets"], a: 1,
     why: "A gain while the foreign currency falls means a net monetary *liability*: debts owed in a weaker currency shrink. Heavy borrowing to fund non-monetary assets creates that.",
     rule: "Temporal: exposure = net monetary items. Net monetary liability: FC ↑ loss, FC ↓ gain. Net monetary asset: the reverse." },
+  // Logged 2026-11-12: R1 quiz 3–4, R2 quiz 1, R34 quiz 2–3 and case 1, R35, R36, R37 quiz 1–2, R39
+  "L2-R37-Q1 #3": { lvl: 3, full: ["A manager holds less in energy stocks than her benchmark. Over the year energy stocks rise 10%, while the rest of the index rises 4%. Her return from this factor tilt is:"],
+    options: ["A) positive", "B) negative", "C) zero"], a: 1,
+    why: "She held less of the winner, so she missed part of its gain. Underweighting a sector that beats the rest is a losing bet: negative." },
+  "L2-R37-Q1 #5": { lvl: 1, full: ["A pension fund wants a portfolio that moves like the MSCI World index by matching its factor exposures. It should build a:"],
+    options: ["A) factor portfolio", "B) tracking portfolio", "C) arbitrage portfolio"], a: 1,
+    why: "Copying an index’s factor exposures = a tracking portfolio." },
+  "L2-R37-Q1 #6": { lvl: 2, full: ["One-factor APT: portfolio A expects 7.0% with a factor sensitivity of 1.0; portfolio B expects 8.5% with a sensitivity of 1.5. The risk-free rate and the factor risk premium are:"],
+    options: ["A) R_F 4.0%; λ 3.0%", "B) R_F 3.0%; λ 4.0%", "C) R_F 2.5%; λ 4.5%"], a: 0,
+    why: "B − A: 8.5 − 7.0 = (1.5 − 1.0) × λ → 1.5 = 0.5λ → λ = 3.0%. R_F = 7.0 − 1.0 × 3.0 = 4.0%. Check B: 4.0 + 1.5 × 3.0 = 8.5 ✓." },
+  "L2-R37-Q1 #7": { lvl: 3, full: ["Target beta 1.2. X: E(R) 10%, beta 1.0. Y: E(R) 14%, beta 1.4. Z: E(R) 13%, beta 1.2. Which gives the highest return at a beta of 1.2?"],
+    options: ["A) 50% X, 50% Y", "B) 100% Z", "C) 25% X, 50% Y, 25% Z"], a: 1,
+    why: "A: beta 0.5 + 0.7 = 1.2, return 5 + 7 = 12%. B: beta 1.2, return 13%. C: beta 0.25 + 0.70 + 0.30 = 1.25, wrong beta. Highest at 1.2: B, 13%." },
+  "L2-R37-Q1 #8": { lvl: 1, full: ["Which of the following IS an assumption of APT?"],
+    options: ["A) Investors hold the market portfolio", "B) There are no arbitrage opportunities", "C) Asset returns are normally distributed"], a: 1,
+    why: "APT assumes a factor model, enough assets to diversify, and no arbitrage. It needs no market portfolio and no normal returns." },
+  "L2-R37-Q1 #9": { lvl: 3, full: ["A manager’s sector tilt wins: she overweights a sector that beats the index. Yet her portfolio trails the benchmark. Her asset selection return must be:"],
+    options: ["A) positive", "B) negative", "C) zero"], a: 1,
+    why: "Tilt made money but the total lost, so the only other part, selection, must have lost more than the tilt made: negative." },
+  "L2-R37-Q1 #10": { lvl: 1, full: ["A portfolio has a sensitivity of 1 to inflation surprises and 0 to every other factor. It is a:"],
+    options: ["A) tracking portfolio", "B) factor portfolio", "C) arbitrage portfolio"], a: 1,
+    why: "1 to one factor, 0 to the rest = a factor portfolio: a pure bet on inflation surprises." },
+  "L2-R37-Q2 #1": { lvl: 2, full: ["A portfolio has a sensitivity of 0.6 to the GDP factor. The manager wants to remove all GDP risk and keep her other exposures. She should:"],
+    options: ["A) short 0.6 units of the GDP factor portfolio", "B) short 1.0 unit of the GDP factor portfolio", "C) buy 0.6 units of the GDP factor portfolio"], a: 0,
+    why: "0.6 − 0.6 = 0. Shorting 1.0 would leave −0.4, a bet that GDP falls." },
+  "L2-R37-Q2 #4": { lvl: 1, full: ["Which describes an arbitrage portfolio?"],
+    options: ["A) Zero net investment, zero factor sensitivities, positive expected return", "B) Sensitivity of 1 to one factor and 0 to the rest", "C) The same factor exposures as the benchmark"], a: 0,
+    why: "Arbitrage = free money: nothing in, no risk, something out. B is a factor portfolio, C a tracking portfolio." },
+  "L2-R37-Q2 #6": { lvl: 1, full: ["Which statement is most accurate?"],
+    options: ["A) Macroeconomic factor models are equilibrium models", "B) APT is an equilibrium model; macroeconomic factor models are ad hoc", "C) Both APT and macroeconomic factor models are ad hoc"], a: 1,
+    why: "APT is derived from theory (no arbitrage), so it is an equilibrium model. Macro factor models choose factors that fit the data." },
+  "L2-R34-Q2 #4": { lvl: 2, full: ["Price multiples are most likely to INCREASE when:"],
+    options: ["A) the real risk-free rate rises", "B) expected earnings growth rises", "C) the equity risk premium rises"], a: 1,
+    why: "Higher growth raises the numerator. A and C raise the discount rate, which lowers multiples." },
+  "L2-R34-Q2 #8": { lvl: 2, full: ["The real risk-free rate is most likely LOWER when investors:"],
+    options: ["A) expect much higher income in future", "B) fear a recession and want to save more", "C) attach little utility to future consumption"], a: 1,
+    why: "Keen savers accept a small reward for waiting, so the real rate is low. A and C both make people want to spend now, which raises the rate." },
+  "L2-R34-Q3 #1": { lvl: 2, full: ["Expected inflation rises, and uncertainty about inflation also rises. Break-even inflation will most likely:"],
+    options: ["A) increase", "B) decrease", "C) be uncertain"], a: 0,
+    why: "BEI = expected inflation + uncertainty premium. Both parts rise, so BEI rises." },
+  "L2-R34-Q3 #2": { lvl: 2, full: ["If uncertainty about future inflation falls, the term spread on government bonds will most likely:"],
+    options: ["A) widen", "B) narrow", "C) not change"], a: 1,
+    why: "Less uncertainty → a smaller premium on long bonds → long yields fall relative to short → the term spread narrows." },
+  "L2-R34-Q3 #3": { lvl: 1, full: ["Which most likely explains why utility companies and tech companies have different credit spreads?"],
+    options: ["A) The leverage typical of each sector", "B) Which agency rates their bonds", "C) The central bank’s policy rate"], a: 0,
+    why: "Sector spreads differ because of products/services and typical leverage." },
+  "L2-R34-Q3 #5": { lvl: 1, full: ["Earnings from which sector are LEAST sensitive to the business cycle?"],
+    options: ["A) Consumer durables", "B) Consumer staples (non-discretionary)", "C) Consumer discretionary"], a: 1,
+    why: "People buy food and medicine in any economy, so staples earnings are steady." },
+  "L2-R34-CASE1 #3": { lvl: 2, full: ["Under the Taylor rule, if GDP falls below its sustainable level while inflation is at target, the policy rate will most likely be:"],
+    options: ["A) raised", "B) cut", "C) left unchanged"], a: 1,
+    why: "The output gap (y − y*) is negative, so 0.5 × (y − y*) is negative: the rule says cut." },
+  "L2-R34-CASE1 #4": { lvl: 3, full: ["Near the top of the cycle, inflation is high and investors fear a recession. The yield curve most likely:"],
+    options: ["A) steepens", "B) flattens", "C) shifts up in parallel"], a: 1,
+    why: "Short rates rise (central bank fights inflation), long rates fall (investors save for the downturn): the curve flattens." },
+  "L2-R34-CASE1 #5": { lvl: 2, full: ["Break-even inflation 2.5%, credit spread 2.0%, equity premium relative to debt 3.5%. The equity risk premium is closest to:"],
+    options: ["A) 3.5%", "B) 5.5%", "C) 8.0%"], a: 1,
+    why: "ERP = credit spread + equity premium over debt = 2.0% + 3.5% = 5.5%. Inflation cancels out." },
+  "L2-R34-CASE1 #6": { lvl: 2, full: ["Which is the best consumption hedge against an expected recession?"],
+    options: ["A) Growth stocks", "B) Long-term government bonds", "C) Commercial real estate"], a: 1,
+    why: "Default-free long bonds pay off in bad times (rates fall, prices rise). Growth stocks and property fall with the economy." },
+  "L2-R35-Q1 #2": { lvl: 3, full: ["IC 0.05, TC 0.80, 64 independent bets a year. Benchmark Sharpe ratio 0.50, benchmark σ 15%. Optimal active risk is closest to:"],
+    options: ["A) 9.6%", "B) 12.0%", "C) 6.4%"], a: 0,
+    why: "IR = 0.80 × 0.05 × √64 = 0.80 × 0.05 × 8 = 0.32. Optimal = (0.32 ÷ 0.50) × 15% = 9.6%. 12.0% forgets the TC." },
+  "L2-R35-Q1 #6": { lvl: 2, full: ["A fund has active return 2% and active risk 5%. The benchmark’s Sharpe ratio is 0.40 and its σ is 12%. Optimal active risk?"],
+    options: ["A) 5%", "B) 12%", "C) 4.8%"], a: 1,
+    why: "IR = 2 ÷ 5 = 0.4. Optimal = (0.4 ÷ 0.40) × 12% = 12%. The fund’s own 5% is not the optimum." },
+  "L2-R35-Q1 #7": { lvl: 3, full: ["A manager makes 50 bets a year. If the bets have a correlation of 0.20 with each other, breadth falls to about:"],
+    options: ["A) 4.6", "B) 10.0", "C) 40.0"], a: 0,
+    why: "BR = 50 ÷ [1 + 49 × 0.20] = 50 ÷ 10.8 = 4.6." },
+  "L2-R35-Q1 #10": { lvl: 3, full: ["Optimal active risk is 4%. The active fund’s active risk is 10%. What weight goes in the benchmark?"],
+    options: ["A) 0.4", "B) 0.6", "C) 0.25"], a: 1,
+    why: "Weight in the fund = 4 ÷ 10 = 0.4. Benchmark = 1 − 0.4 = 0.6." },
+  "L2-R36-Q1 #3": { lvl: 1, full: ["An ETF returned 7.6% on NAV; its index returned 8.0%. The tracking difference is:"],
+    options: ["A) −0.4%", "B) the standard deviation of the daily gaps", "C) 8.0%"], a: 0,
+    why: "Tracking difference = 7.6% − 8.0% = −0.4%. B describes tracking error." },
+  "L2-R36-Q1 #5": { lvl: 3, full: ["A bank issues an ETN on an equity index and enters an equity swap as the index-return receiver and fixed-rate payer. Its effective borrowing cost becomes:"],
+    options: ["A) the index return", "B) the swap fixed rate", "C) its unsecured bond yield"], a: 1,
+    why: "The index return it receives pays the ETN holders. What’s left is the swap fixed rate it pays." },
+  "L2-R39-Q1 #4": { lvl: 2, full: ["Which distribution in a Monte Carlo simulation can capture both skewness and fat tails?"],
+    options: ["A) Normal", "B) Skewed Student’s t", "C) Uniform"], a: 1,
+    why: "Skewed t allows asymmetry and fat tails. The normal is symmetric with thin tails." },
+  "L2-R39-Q1 #5": { lvl: 1, full: ["A historical simulation needs 10,000 trials but there are only 240 months of data. The analyst should:"],
+    options: ["A) bootstrap: draw months at random with replacement", "B) run only 240 trials", "C) switch to a normal distribution"], a: 0,
+    why: "Drawing with replacement lets you run as many trials as you like from a short history." },
+  "L2-R39-Q1 #6": { lvl: 1, full: ["Which statement about backtesting is MOST accurate?"],
+    options: ["A) Only quantitative managers use it", "B) It is widely used, also by fundamental managers", "C) It guarantees future performance"], a: 1,
+    why: "Backtesting is long established and used by quant and fundamental managers. It never guarantees the future." },
+  "L2-R39-Q1 #7": { lvl: 1, full: ["An analyst backtests a strategy using only companies still listed today. This is:"],
+    options: ["A) look-ahead bias", "B) survivorship bias", "C) data snooping"], a: 1,
+    why: "Leaving out the firms that failed = survivorship bias." },
+  "L2-R39-Q1 #8": { lvl: 1, full: ["How can a backtest allow for the randomness of the future?"],
+    options: ["A) By adding Monte Carlo simulation", "B) By using a longer history", "C) By using only surviving stocks"], a: 0,
+    why: "Monte Carlo draws many random paths, so the test isn’t tied to the one history that happened." },
+  "L2-R1-Q3 #1": { lvl: 1, full: ["Which statement about positive serial correlation is most accurate?"],
+    options: ["A) It is rare in time-series data", "B) It makes standard errors too small, so t-statistics are too big", "C) It makes the coefficient estimates biased"], a: 1,
+    why: "Too-small standard errors → inflated t-stats → too many Type I errors. It is common in time series and leaves the coefficients alone." },
+  "L2-R1-Q3 #5": { lvl: 1, full: ["In Y = 2 + 0.5X₁ − 0.3X₂, the coefficient 0.5 means:"],
+    options: ["A) Y equals 0.5 when X₁ equals 1", "B) Y rises by 0.5 when X₁ rises by 1, holding X₂ constant", "C) X₁ explains 50% of Y"], a: 1,
+    why: "A slope is a change in Y for a one-unit change in that X, others held still." },
+  "L2-R1-Q3 #6": { lvl: 1, full: ["Which statement about heteroskedasticity is most accurate?"],
+    options: ["A) It can occur in both time-series and cross-sectional data", "B) Unconditional heteroskedasticity is a major problem", "C) It makes the coefficient estimates biased"], a: 0,
+    why: "It can happen in either kind of data. Unconditional is harmless, and the coefficients stay unbiased." },
+  "L2-R1-Q3 #7": { lvl: 3, full: ["Monthly data for 10 years. Squared residuals regressed on the single X give a correlation of 0.25. At 5% (critical χ² = 3.84):"],
+    options: ["A) no evidence of conditional heteroskedasticity", "B) evidence of conditional heteroskedasticity", "C) evidence of serial correlation"], a: 1,
+    why: "n = 120. R² = 0.25² = 0.0625. BP = 120 × 0.0625 = 7.5 > 3.84 → conditional heteroskedasticity." },
+  "L2-R1-Q4 #1": { lvl: 2, full: ["A fund that copies the FTSE 100 is regressed on the FTSE 100, and so is an active fund. Compared with the active fund, the index fund most likely has:"],
+    options: ["A) a lower R²", "B) a higher R²", "C) a larger slope coefficient"], a: 1,
+    why: "It follows the index almost exactly, so the index explains nearly all its movement: R² near 1." },
+  "L2-R1-Q4 #3": { lvl: 2, full: ["A regression on 50 firms with 2 X’s gives t-statistics of 3.1 (X₁) and 1.4 (X₂). Critical t at 5% ≈ 2.01. Which are significant?"],
+    options: ["A) X₁ only", "B) X₂ only", "C) Both"], a: 0,
+    why: "3.1 > 2.01 ✓; 1.4 < 2.01 ✗." },
+  "L2-R1-Q4 #4": { lvl: 2, full: ["A coefficient is 0.90 with a standard error of 0.40. Critical t = 2.0. The coefficient is:"],
+    options: ["A) significant (t = 2.25)", "B) not significant (t = 0.44)", "C) not significant (t = 0.90)"], a: 0,
+    why: "t = 0.90 ÷ 0.40 = 2.25 > 2.0 → significant." },
+  "L2-R1-Q4 #6": { lvl: 2, full: ["A regression has a high R² and a significant F-statistic, but none of its slope t-statistics is significant. The most likely problem is:"],
+    options: ["A) heteroskedasticity", "B) multicollinearity", "C) serial correlation"], a: 1,
+    why: "Good overall fit with no individually significant X = the X’s overlap: multicollinearity." },
+  "L2-R1-Q4 #7": { lvl: 2, full: ["ANOVA: regression SS 60 (df 2), error SS 140 (df 35). R² and F?"],
+    options: ["A) R² 0.30, F 7.5", "B) R² 0.43, F 7.5", "C) R² 0.30, F 0.43"], a: 0,
+    why: "R² = 60 ÷ 200 = 0.30. MSR = 60 ÷ 2 = 30; MSE = 140 ÷ 35 = 4; F = 30 ÷ 4 = 7.5." },
+  "L2-R2-Q1 #3": { lvl: 1, full: ["A linear trend model’s Durbin–Watson statistic is far below 2. The analyst should:"],
+    options: ["A) keep the trend model", "B) switch to an AR model, because the residuals are serially correlated", "C) add more years of data"], a: 1,
+    why: "DW well below 2 = positive serial correlation, which a trend model can’t handle." },
+  "L2-R2-Q1 #4": { lvl: 2, full: ["An AR model’s squared residuals are significantly related to last period’s squared residuals. The analyst should:"],
+    options: ["A) add another lag", "B) use generalized least squares", "C) first-difference the data"], a: 1,
+    why: "That is ARCH. Fix it with GLS." },
+  "L2-R2-Q1 #5": { lvl: 2, full: ["An AR(1) model shows significant residual autocorrelations at lags 1 and 4. The next step is to:"],
+    options: ["A) add lags 1 to 4 at once", "B) add one lag, re-estimate and test again", "C) drop the model"], a: 1,
+    why: "Lags go in one at a time; stop when the residual autocorrelations disappear." },
+  "L2-R2-Q1 #6": { lvl: 1, full: ["An analyst has 30 years of data, but a major regulation change happened 8 years ago. The best sample is most likely:"],
+    options: ["A) all 30 years", "B) the last 8 years", "C) the first 22 years"], a: 1,
+    why: "Use the period that matches today’s regime, even though it is shorter." },
+  "L2-R2-Q1 #7": { lvl: 1, full: ["A series grows by about the same AMOUNT (+5 units) each year. The best trend model is:"],
+    options: ["A) linear trend", "B) log-linear trend", "C) moving average"], a: 0,
+    why: "Constant amount → straight line → linear trend. Constant rate would be log-linear." },
+  "L2-R2-Q1 #8": { lvl: 1, full: ["Which is required for a time series to be covariance stationary?"],
+    options: ["A) Constant mean and variance over time", "B) A variance that rises over time", "C) A unit root"], a: 0,
+    why: "Stationary = constant mean, variance and covariance." },
+  "L2-R2-Q1 #9": { lvl: 2, full: ["The series 10, 12, 15, 15, 18 is first-differenced. The new series is:"],
+    options: ["A) 2, 3, 0, 3", "B) 12, 15, 15, 18", "C) 11, 13.5, 15, 16.5"], a: 0,
+    why: "12 − 10 = 2, 15 − 12 = 3, 15 − 15 = 0, 18 − 15 = 3. C is a moving average." },
+  "L2-R2-Q1 #10": { lvl: 2, full: ["A Dickey–Fuller test cannot reject a unit root. The analyst should:"],
+    options: ["A) use the AR model as it is", "B) first-difference the series and model the changes", "C) add a seasonal lag"], a: 1,
+    why: "A unit root makes the series non-stationary; first differencing fixes it." },
 };
 
 const TUITION_Q = {
@@ -29625,6 +30205,899 @@ const TUITION_Q = {
     "a": 1,
     "note": "You picked the right answer, but it was a guess."
   },
+  "L2-R37-Q1 #3": {
+    "full": [
+      "Janice Barefoot, CFA, has been managing a portfolio for a client who has asked Barefoot to use the Dow Jones Industrial Average (DJIA) as a benchmark. In her second year, Barefoot used 29 of the 30 DJIA stocks. She selected a non-DJIA stock in the same industry as the omitted DJIA stock to replace that stock. Compared to the DJIA, Barefoot placed a lower weight on the communication stocks and a higher weight on the other stocks still in the portfolio. Over that year, the non-DJIA stock in the portfolio had a positive and higher return than the omitted DJIA stock. The communication stocks had a negative return while all of the other stocks had a positive return. The portfolio managed by Barefoot outperformed the DJIA. Based on this we can say that the return from factor tilts and asset selection were:"
+    ],
+    "options": [
+      "A) both positive.",
+      "B) positive and negative respectively.",
+      "C) negative and positive respectively."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Look at each bet on its own. *Tilt:* she held less of the communication stocks, and they lost money while everything else went up. Holding less of a loser is a winning bet, so the tilt return is positive. *Selection:* the stock she swapped in did better than the one she dropped, so selection is positive too.",
+      "wrong": "You read “lower weight” as a loss. Holding less of something only hurts if it goes up. These stocks went down, so being light on them helped."
+    }
+  },
+  "L2-R37-Q1 #5": {
+    "full": [
+      "A tracking portfolio is a portfolio with:"
+    ],
+    "options": [
+      "A) factor sensitivities of zero to all factors, positive expected net cash flow, and an initial investment of zero.",
+      "B) a factor sensitivity of one to a particular factor in a multi-factor model and zero to all other factors.",
+      "C) a specific set of factor sensitivities designed to replicate the factor exposures of a benchmark index."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "A tracking portfolio is built to *copy a benchmark*: it gets the same factor exposures as the index, so it moves like the index. “Track” = follow.",
+      "wrong": "Sensitivity 1 to one factor and 0 to all others is a *factor portfolio*. It isolates a single factor; it doesn’t copy an index."
+    }
+  },
+  "L2-R37-Q1 #6": {
+    "full": [
+      "Portfolios A and B have an expected return of 4.4% and 5.3% respectively. Assume that a one-factor APT model is appropriate and the factor sensitivities of portfolios A and B are 0.8 and 1.1 respectively. The risk-free rate and factor risk premium are closest to:"
+    ],
+    "options": [
+      "A) Risk-free rate: 2.00%; factor risk premium: 3.00%",
+      "B) Risk-free rate: 3.00%; factor risk premium: 2.00%",
+      "C) Risk-free rate: 2.50%; factor risk premium: 3.00%"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Write the APT line for each portfolio, then subtract one from the other so the risk-free rate drops out.",
+      "wrong": "You had the two numbers the wrong way round. Plug them back in: 3% + 0.8 × 2% = 4.6%, not 4.4%. Always check your answer in both lines.",
+      "steps": [
+        "A: 4.4% = R_F + 0.8 × λ",
+        "B: 5.3% = R_F + 1.1 × λ",
+        "B − A: 5.3 − 4.4 = (1.1 − 0.8) × λ → 0.9 = 0.3 × λ → λ = *3.0%*",
+        "R_F = 4.4 − 0.8 × 3.0 = 4.4 − 2.4 = *2.0%*",
+        "Check B: 2.0 + 1.1 × 3.0 = 5.3% ✓"
+      ]
+    }
+  },
+  "L2-R37-Q1 #7": {
+    "full": [
+      "Michael Paul, a portfolio manager, is screening potential investments and suspects that an arbitrage opportunity may be available. The three portfolios that meet his screening criteria are detailed below:",
+      {
+        "columns": [
+          "Portfolio",
+          "Expected return",
+          "Beta"
+        ],
+        "rows": [
+          [
+            "X",
+            "12%",
+            "1.0"
+          ],
+          [
+            "Y",
+            "16%",
+            "1.3"
+          ],
+          [
+            "Z",
+            "8%",
+            "0.9"
+          ]
+        ]
+      },
+      "Which of the following portfolio combinations produces the highest return while maintaining a beta of 1.00?"
+    ],
+    "options": [
+      "A) Portfolio X: 50%; Portfolio Y: 12%; Portfolio Z: 38%",
+      "B) Portfolio X: 100%; Portfolio Y: 0%; Portfolio Z: 0%",
+      "C) Portfolio X: 25%; Portfolio Y: 50%; Portfolio Z: 25%"
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Two checks for every option: first the beta (it must be 1.00), then the return. Of the mixes with beta 1.00, holding only X earns the most.",
+      "wrong": "A does have a beta of about 1.00, but it earns only 10.96%. Holding X alone also has beta 1.00 and earns 12%. You checked the beta but not the return.",
+      "steps": [
+        "A: beta = 0.5×1.0 + 0.12×1.3 + 0.38×0.9 = 0.500 + 0.156 + 0.342 = 0.998 ≈ 1.00; return = 0.5×12 + 0.12×16 + 0.38×8 = 6.00 + 1.92 + 3.04 = *10.96%*",
+        "B: beta = 1.0; return = *12.00%*",
+        "C: beta = 0.25×1.0 + 0.5×1.3 + 0.25×0.9 = 1.125 → not 1.00, out (its 13% return doesn’t count)",
+        "Highest return at beta 1.00: B, 12%"
+      ]
+    }
+  },
+  "L2-R37-Q1 #8": {
+    "full": [
+      "Which of the following is NOT an assumption necessary to derive the arbitrage pricing theory (APT)?"
+    ],
+    "options": [
+      "A) The priced factors risks can be hedged without taking short positions in any portfolios.",
+      "B) Asset returns are described by a k-factor model.",
+      "C) A large number of assets are available to investors."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "APT *allows* short selling. Arbitrage actually needs it: you buy the cheap portfolio and short the expensive one. So “no short positions” is not an APT assumption.",
+      "wrong": "“Returns come from a k-factor model” IS one of APT’s three assumptions. The question asks for the one that is NOT."
+    }
+  },
+  "L2-R37-Q1 #9": {
+    "full": [
+      "Janice Barefoot, CFA, has been managing a portfolio for a client who has asked Barefoot to use the Dow Jones Industrial Average (DJIA) as a benchmark. In her first year Barefoot managed the portfolio by choosing 29 of the 30 DJIA stocks. She selected a non-DJIA stock in the same industry as the omitted stock to replace that stock. Compared to the DJIA, Barefoot has placed a higher weight on the financial stocks and a lower weight on the other stocks still in the portfolio. Over that year, the non-DJIA stock in the portfolio had a negative return while the omitted DJIA stock had a positive return. The portfolio managed by Barefoot outperformed the DJIA. Based on this we can say that the return from factor tilts and asset selection were:"
+    ],
+    "options": [
+      "A) negative and positive respectively.",
+      "B) both positive.",
+      "C) positive and negative respectively."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "*Selection:* the stock she swapped in fell, while the one she dropped rose. That swap lost money: selection is negative. Yet the whole portfolio still beat the DJIA. The only other source of return is the tilt, so the tilt must be positive, and big enough to cover the loss.",
+      "wrong": "The swap clearly lost: her new stock went down and the dropped one went up. That can’t be a positive selection return."
+    }
+  },
+  "L2-R37-Q1 #10": {
+    "full": [
+      "A portfolio with a specific set of factor sensitivities designed to replicate the factor exposures of a benchmark index is called a:"
+    ],
+    "options": [
+      "A) arbitrage portfolio.",
+      "B) factor portfolio.",
+      "C) tracking portfolio."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Copying a benchmark’s factor exposures is the job of a *tracking* portfolio. Same exposures as the index = it tracks the index.",
+      "wrong": "A factor portfolio has exposure to just one factor (1) and none to the rest (0). It is a pure bet on one factor, not a copy of an index."
+    }
+  },
+  "L2-R37-Q2 #1": {
+    "full": [
+      "A portfolio manager uses a two-factor model to manage her portfolio. The two factors are confidence risk and time-horizon risk. If she wants to bet on an unexpected increase in the confidence risk factor (which has a positive risk premium), but hedge away her exposure to time-horizon risk (which has a negative risk premium), she should create a portfolio with a sensitivity of:"
+    ],
+    "options": [
+      "A) 1.0 to the confidence risk factor and −1.0 to the time-horizon factor.",
+      "B) −1.0 to the confidence risk factor and 1.0 to the time-horizon factor.",
+      "C) 1.0 to the confidence risk factor and 0.0 to the time-horizon factor."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "To *bet* on a factor, give it a sensitivity of 1. To *hedge it away*, make its sensitivity 0, so that factor no longer moves your portfolio at all.",
+      "wrong": "A sensitivity of −1 is not a hedge. It is a bet the other way: you would gain if time-horizon risk fell. “Hedge away” always means zero."
+    }
+  },
+  "L2-R37-Q2 #4": {
+    "full": [
+      "One of the assumptions of the arbitrage pricing theory (APT) is that there are no arbitrage opportunities available. An arbitrage opportunity is:"
+    ],
+    "options": [
+      "A) a factor portfolio with a positive expected risk premium.",
+      "B) a portfolio with factor exposures that sum to one.",
+      "C) an investment that has an expected positive net cash flow but requires no initial investment."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "An arbitrage opportunity is free money: you put in nothing, take no risk, and still expect a positive cash flow.",
+      "wrong": "“Exposures that sum to one” doesn’t describe arbitrage. An arbitrage portfolio has *zero* exposure to every factor and needs *zero* money."
+    }
+  },
+  "L2-R37-Q2 #6": {
+    "full": [
+      "Which of the following is an equilibrium-pricing model?"
+    ],
+    "options": [
+      "A) Fundamental factor model.",
+      "B) The arbitrage pricing theory (APT).",
+      "C) Macroeconomic factor model."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "APT comes from a theory (no arbitrage in equilibrium), so it is an equilibrium model, just like CAPM.",
+      "wrong": "Macroeconomic factor models are “ad hoc”: their factors are chosen because they fit the data, not derived from a theory of equilibrium."
+    }
+  },
+  "L2-R34-Q2 #4": {
+    "full": [
+      "Price multiples are least likely to increase when:"
+    ],
+    "options": [
+      "A) Equity risk premium increases.",
+      "B) Inflation expectations decline.",
+      "C) Earnings growth increases."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A price multiple is like a present value: a higher discount rate means a lower price. A higher equity risk premium raises the discount rate, so P/E *falls*.",
+      "wrong": "Lower expected inflation *lowers* the discount rate, so multiples go *up*. That is a case where they do increase, the opposite of what was asked."
+    }
+  },
+  "L2-R34-Q2 #8": {
+    "full": [
+      "The real rate of return is most likely higher:"
+    ],
+    "options": [
+      "A) Higher the expectations of lower income in the future.",
+      "B) Lower the utility investors attach to future consumption relative to current consumption.",
+      "C) Higher the utility investors attach to future consumption relative to current consumption."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "The real rate is the reward for waiting. If people care less about later (they would rather spend now), you must pay them more to save, so the real rate is *higher*.",
+      "wrong": "If people value the future more, they save happily even for a small reward, so the real rate is *lower*. You had the direction flipped."
+    }
+  },
+  "L2-R34-Q3 #1": {
+    "full": [
+      "If the market expects inflation to decrease over the next few years but the uncertainty about inflation was increasing, the break-even inflation rate is most likely to:"
+    ],
+    "options": [
+      "A) Decrease.",
+      "B) Increase.",
+      "C) Be uncertain."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Break-even inflation has two parts: *expected inflation + a premium for inflation uncertainty*. Here the first part falls and the second rises. We can’t tell which wins, so the net effect is uncertain.",
+      "wrong": "You looked only at expected inflation. The uncertainty premium is going up at the same time and could outweigh it."
+    }
+  },
+  "L2-R34-Q3 #2": {
+    "full": [
+      "The risk-premium for uncertainty in inflation is most likely to be:"
+    ],
+    "options": [
+      "A) unrelated to the term spread.",
+      "B) positively related to the term spread.",
+      "C) negatively related to the term spread."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Long bonds are exposed to inflation for longer, so they need a bigger inflation-uncertainty premium than short bonds. A bigger premium on long bonds makes the gap between long and short yields (the term spread) wider. They move together: positive.",
+      "wrong": "More inflation uncertainty pushes long yields up more than short yields. That *widens* the term spread; it doesn’t shrink it."
+    }
+  },
+  "L2-R34-Q3 #3": {
+    "full": [
+      "Differences in credit spreads across sectors are least likely due to:"
+    ],
+    "options": [
+      "A) Differences in leverage typical of the sector.",
+      "B) Differences in services and products that an industry produces.",
+      "C) Differences in ratings."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "The reading gives two reasons sector spreads differ: *what the sector sells* (products and services) and *how much debt it typically carries* (leverage). Ratings are not on that list, so C is the “least likely” answer.",
+      "wrong": "Products and services IS one of the two reasons. “Least likely” means pick the one that is not a reason."
+    }
+  },
+  "L2-R34-Q3 #5": {
+    "full": [
+      "Corporate earnings from which of the following sectors would be most sensitive to business cycle?"
+    ],
+    "options": [
+      "A) non-cyclical",
+      "B) Consumer non-discretionary",
+      "C) Consumer durable"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "In bad times people put off big purchases like cars and fridges. So *durable goods* earnings swing the most with the cycle.",
+      "wrong": "Non-discretionary = things people buy anyway (food, medicine, soap). Those are the *least* sensitive to the cycle."
+    }
+  },
+  "L2-R34-CASE1 #3": {
+    "full": [
+      "Extract from the case: most observers expect Nearland to suffer a recession soon. Professor Brady says central bank policy rates are positively correlated with current inflation and current GDP growth. Professor Chapman says: “At the top of the business cycle there is higher inflation and current GDP growth. At the same time, market participants begin to worry about future recession, which increases the marginal utility of delayed consumption. These conditions both explain a steepening of the upward-sloping yield curve.” Exhibit 1: break-even inflation 2.80%; credit spread 3.10%; risk premium for equities relative to debt 4.50%. Professor Douglas will discuss real estate, growth stocks and value stocks as consumption hedges against the recession.",
+      "Assuming the Taylor rule holds, Professor Brady’s statement on the correlation of interest rates with macroeconomic fundamentals is most likely:"
+    ],
+    "options": [
+      "correct.",
+      "incorrect in respect of the correlation of interest rates with inflation.",
+      "incorrect in respect of the correlation of interest rates with GDP growth."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Taylor rule: policy rate = neutral rate + inflation + 0.5 × (inflation − target) + 0.5 × (GDP gap). Inflation up → rate up. GDP up → rate up. Both links are positive, so Brady is right.",
+      "wrong": "GDP sits in the Taylor rule with a plus sign: when the economy runs hot, the central bank *raises* rates."
+    }
+  },
+  "L2-R34-CASE1 #4": {
+    "full": [
+      "Extract from the case: most observers expect Nearland to suffer a recession soon. Professor Brady says central bank policy rates are positively correlated with current inflation and current GDP growth. Professor Chapman says: “At the top of the business cycle there is higher inflation and current GDP growth. At the same time, market participants begin to worry about future recession, which increases the marginal utility of delayed consumption. These conditions both explain a steepening of the upward-sloping yield curve.” Exhibit 1: break-even inflation 2.80%; credit spread 3.10%; risk premium for equities relative to debt 4.50%. Professor Douglas will discuss real estate, growth stocks and value stocks as consumption hedges against the recession.",
+      "Professor Chapman’s statement about utility, inflation, GDP growth, and the yield curve is most likely:"
+    ],
+    "options": [
+      "correct.",
+      "incorrect as the circumstances described would have no effect on the yield curve.",
+      "incorrect as the circumstances described would flatten an upward-sloping yield curve."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Two forces pull the ends of the curve towards each other. High inflation and growth push *short* rates *up*. Fear of recession makes people save and buy long bonds, which pushes *long* rates *down*. Short up + long down = a *flatter* curve (it may even invert).",
+      "wrong": "Chapman said “steepening”. That would need long rates to rise more than short rates, but recession fears push long rates down."
+    }
+  },
+  "L2-R34-CASE1 #5": {
+    "full": [
+      "Extract from the case: most observers expect Nearland to suffer a recession soon. Professor Brady says central bank policy rates are positively correlated with current inflation and current GDP growth. Professor Chapman says: “At the top of the business cycle there is higher inflation and current GDP growth. At the same time, market participants begin to worry about future recession, which increases the marginal utility of delayed consumption. These conditions both explain a steepening of the upward-sloping yield curve.” Exhibit 1: break-even inflation 2.80%; credit spread 3.10%; risk premium for equities relative to debt 4.50%. Professor Douglas will discuss real estate, growth stocks and value stocks as consumption hedges against the recession.",
+      "The equity risk premium in Nearland is closest to:"
+    ],
+    "options": [
+      "4.50%.",
+      "7.60%.",
+      "10.40%."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The equity risk premium is everything equities earn *above risk-free bonds*. Equity sits on top of risky debt, so add the credit spread and the extra premium for equity over debt. Break-even inflation is in both the equity return and the risk-free rate, so it cancels out.",
+      "wrong": "4.50% is only the extra premium over *risky* debt. The ERP is measured against *risk-free* bonds, so the 3.10% credit spread must be added.",
+      "steps": [
+        "ERP = credit spread + equity premium over debt",
+        "= 3.10% + 4.50% = *7.60%*",
+        "10.40% wrongly adds break-even inflation too: 2.80 + 3.10 + 4.50"
+      ]
+    }
+  },
+  "L2-R34-CASE1 #6": {
+    "full": [
+      "Extract from the case: most observers expect Nearland to suffer a recession soon. Professor Brady says central bank policy rates are positively correlated with current inflation and current GDP growth. Professor Chapman says: “At the top of the business cycle there is higher inflation and current GDP growth. At the same time, market participants begin to worry about future recession, which increases the marginal utility of delayed consumption. These conditions both explain a steepening of the upward-sloping yield curve.” Exhibit 1: break-even inflation 2.80%; credit spread 3.10%; risk premium for equities relative to debt 4.50%. Professor Douglas will discuss real estate, growth stocks and value stocks as consumption hedges against the recession.",
+      "Of the asset classes mentioned by Professor Douglas, the most likely to be suitable as a consumption hedge is:"
+    ],
+    "options": [
+      "real estate.",
+      "growth stocks.",
+      "value stocks."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "A consumption hedge is something that holds up in a recession. Value stocks (stable earnings, high dividends) do relatively well in bad times.",
+      "wrong": "Real estate is part bond (steady rent) and part equity (property value). The equity part falls in a recession, so it is not a good hedge."
+    }
+  },
+  "L2-R35-Q1 #2": {
+    "full": [
+      "An active manager has an information coefficient of 0.07, transfer coefficient of 0.90, and makes 49 independent bets per year. Benchmark portfolio has a Sharpe ratio of 0.40 and standard deviation of benchmark returns is 12%. The optimal amount of active risk is closest to:"
+    ],
+    "options": [
+      "A) 6%",
+      "B) 14%",
+      "C) 8%"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "First get the information ratio from the fundamental law, then plug it into the optimal active risk formula.",
+      "wrong": "8% doesn’t come out of the formula. Don’t forget the square root of breadth: √49 = 7, which makes the IR large (0.441).",
+      "steps": [
+        "IR = TC × IC × √BR = 0.90 × 0.07 × √49 = 0.90 × 0.07 × 7 = *0.441*",
+        "Optimal active risk = (IR ÷ SR_B) × σ_B = (0.441 ÷ 0.40) × 12% = 1.1025 × 12% = *13.23%*",
+        "Closest option: 14%"
+      ]
+    }
+  },
+  "L2-R35-Q1 #6": {
+    "full": [
+      "Zeta fund has active return and active risk of 1.6% and 8% respectively. Benchmark portfolio has a Sharpe ratio of 0.35 and standard deviation of benchmark returns is 10.5%.",
+      "What is the level of active risk that an investor would need to take to maximize the Sharpe ratio of a portfolio consisting of Zeta fund and the benchmark portfolio?"
+    ],
+    "options": [
+      "A) 7%",
+      "B) 8%",
+      "C) 6%"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "The best level of active risk comes from a formula, not from the fund’s current risk.",
+      "wrong": "8% is Zeta’s *current* active risk. The question asks for the *best* level, which is lower, so you mix Zeta with the benchmark.",
+      "steps": [
+        "IR = active return ÷ active risk = 1.6% ÷ 8% = *0.2*",
+        "Optimal active risk = (IR ÷ SR_B) × σ_B = (0.2 ÷ 0.35) × 10.5% = *6%*"
+      ]
+    }
+  },
+  "L2-R35-Q1 #7": {
+    "full": [
+      "Pamela Grieve claims that her information coefficient is 0.20 on monthly bets on 10 stocks in the healthcare industry. Assuming unconstrained optimization, the reduction in her information ratio if her bets have a correlation coefficient of 0.45 as opposed to being truly independent is closest to:"
+    ],
+    "options": [
+      "A) 45%",
+      "B) 22%",
+      "C) 86%"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Correlated bets are not independent, so they count as far fewer bets. Work out breadth both ways, then compare the two IRs.",
+      "wrong": "The drop is huge because a correlation of 0.45 turns 120 bets into about 2 independent ones. Use the breadth formula; don’t guess from the 0.45.",
+      "steps": [
+        "Independent: BR = 10 stocks × 12 months = 120 → IR = 0.20 × √120 = 0.20 × 10.95 = *2.19*",
+        "Correlated: BR = N ÷ [1 + (N − 1) × r] = 120 ÷ [1 + 119 × 0.45] = 120 ÷ 54.55 = *2.2*",
+        "IR = 0.20 × √2.2 = 0.20 × 1.48 = *0.30*",
+        "Drop = 1 − 0.30 ÷ 2.19 = 1 − 0.136 = *86%*"
+      ]
+    }
+  },
+  "L2-R35-Q1 #10": {
+    "full": [
+      "Zeta fund has active return and active risk of 1.6% and 8% respectively. Benchmark portfolio has a Sharpe ratio of 0.35 and standard deviation of benchmark returns is 10.5%.",
+      "What is the weight of benchmark portfolio in a portfolio consisting of Zeta fund and the benchmark portfolio assuming that the portfolio is constructed to have optimal active risk?"
+    ],
+    "options": [
+      "A) 0.2",
+      "B) 0.1667",
+      "C) 0.25"
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Find the optimal active risk, see what share of Zeta gives exactly that much, and put the rest in the benchmark (which has zero active risk).",
+      "wrong": "0.2 is the information ratio, not a weight.",
+      "steps": [
+        "Optimal active risk = (0.2 ÷ 0.35) × 10.5% = *6%*",
+        "Weight in Zeta = optimal ÷ Zeta’s active risk = 6% ÷ 8% = *0.75*",
+        "Weight in benchmark = 1 − 0.75 = *0.25*"
+      ]
+    }
+  },
+  "L2-R36-Q1 #3": {
+    "full": [
+      "An ETF’s tracking difference is most accurately measured as the:"
+    ],
+    "options": [
+      "A) standard deviation of the difference in daily returns between the ETF and its benchmark.",
+      "B) annualized standard deviation of the differences between the daily returns of the ETF and its benchmark.",
+      "C) difference between the ETF’s return (based on its NAV) and the return on the index tracked."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Tracking *difference* is just the gap: the ETF’s return (on NAV) minus the index’s return. E.g. 7.6% − 8.0% = −0.4%.",
+      "wrong": "A standard deviation of the gaps is tracking *error*. “Difference” = the gap itself. “Error” = how much that gap jumps around."
+    }
+  },
+  "L2-R36-Q1 #5": {
+    "full": [
+      "A large bank’s decision to issue exchange traded notes (ETNs) that track the S&P 500 index is most likely to be motivated by the belief that:"
+    ],
+    "options": [
+      "A) the return on the S&P 500 index would be lower than the bank’s borrowing rate.",
+      "B) the yield on bank’s unsecured debt would be higher than the swap fixed rate.",
+      "C) the return on the S&P 500 index would be higher than the bank’s lending rate."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "It is about cheaper borrowing. If investors want a lot more than the swap fixed rate to lend to the bank, the bank issues an ETN paying the S&P 500 return instead. It then enters a swap: it *receives* the S&P return (which it passes to ETN holders) and *pays* the swap fixed rate. Its borrowing cost becomes the cheaper swap rate.",
+      "wrong": "The bank isn’t betting on the index: the swap hands the index return straight through to the ETN holders. Whether the S&P goes up or down doesn’t matter to the bank."
+    }
+  },
+  "L2-R39-Q1 #4": {
+    "full": [
+      "In the presence of return distribution asymmetry and excess kurtosis, the most appropriate approach would be to make use of a Monte Carlo simulation using a:"
+    ],
+    "options": [
+      "normal distribution.",
+      "skewed Student’s t-distribution.",
+      "F-distribution."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Asymmetry = skew, excess kurtosis = fat tails. A *skewed Student’s t* can show both, so the simulation looks like the real data.",
+      "wrong": "The normal distribution is symmetric with thin tails: exactly what the question says the data are not."
+    }
+  },
+  "L2-R39-Q1 #5": {
+    "full": [
+      "In the historical simulation approach, bootstrapping is most likely to be used when:"
+    ],
+    "options": [
+      "zero-coupon rates are available but par yields are unknown.",
+      "the number of trials is larger than the dataset.",
+      "a merger transaction impacts earnings."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Here bootstrapping means drawing from the history again and again *with replacement*. You need it when you want more trials than you have data points (e.g. 10,000 trials from 240 months).",
+      "wrong": "Zero-coupon rates and par yields is bootstrapping in *fixed income* (building a spot curve). Same word, different topic."
+    }
+  },
+  "L2-R39-Q1 #6": {
+    "full": [
+      "Which of the following statements about backtesting an investment strategy is least accurate? Backtesting is:"
+    ],
+    "options": [
+      "a new methodology that is slowly gaining acceptance in the investment community.",
+      "widely used by managers that use a fundamental investment style.",
+      "useful as a rejection or acceptance criterion for an investment strategy."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Backtesting is old and widely used, by quant *and* fundamental managers. So “a new method slowly gaining acceptance” is the false statement.",
+      "wrong": "Using a backtest to accept or reject a strategy is true. A “least accurate” question wants the false one."
+    }
+  },
+  "L2-R39-Q1 #7": {
+    "full": [
+      "Which of the following identifies problems that are most likely to arise in a backtest of an investment strategy?"
+    ],
+    "options": [
+      "Heteroskedasticity, serial correlation, and multicollinearity.",
+      "Survivorship bias, look-ahead bias, and data snooping.",
+      "Including lagged dependent variables as independent variables."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The three backtest problems: *survivorship bias* (only today’s survivors in the data), *look-ahead bias* (using information you wouldn’t have had yet) and *data snooping* (choosing the model because it backtested well).",
+      "wrong": "Heteroskedasticity, serial correlation and multicollinearity are *regression* problems from Reading 1, not backtesting problems."
+    }
+  },
+  "L2-R39-Q1 #8": {
+    "full": [
+      "Which of the following statements about backtesting an investment strategy is least accurate? Backtesting:"
+    ],
+    "options": [
+      "is incompatible with quantitative and systematic investment styles.",
+      "is based on the implied assumption that the future will somewhat resemble history.",
+      "can take the randomness of the future into account."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Backtesting is a natural fit for quant and systematic styles, so “incompatible” is false: that’s the answer.",
+      "wrong": "A backtest *can* allow for randomness by adding Monte Carlo simulation. That statement is true."
+    }
+  },
+  "L2-R1-Q3 #1": {
+    "full": [
+      "Which of the following statements regarding serial correlation that might be encountered in regression analysis is least accurate?"
+    ],
+    "options": [
+      "Positive serial correlation and heteroskedasticity can both lead to Type I errors.",
+      "Serial correlation occurs least often with time series data.",
+      "Serial correlation does not affect consistency of regression coefficients."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Serial correlation shows up *most* in time-series data: one period’s error carries into the next. So “occurs least often with time series” is false.",
+      "wrong": "Serial correlation leaves the coefficients alone (unless a lagged Y is used as an X); it spoils the standard errors. So that statement is true."
+    }
+  },
+  "L2-R1-Q3 #5": {
+    "full": [
+      "Which of the following statements regarding the results of a regression analysis is least accurate? The:"
+    ],
+    "options": [
+      "slope coefficient in a multiple regression is the value of the dependent variable for a given value of the independent variable.",
+      "slope coefficient in a multiple regression is the change in the dependent variable for a one-unit change in the independent variable, holding all other variables constant.",
+      "slope coefficients in the multiple regression are referred to as partial betas."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A slope is a *change*, not a level: how much Y moves when X goes up by 1, with the other X’s held still. “The value of Y for a given X” describes a prediction, not a slope.",
+      "wrong": "B is the correct definition of a slope, so it is accurate. The question wanted the wrong statement."
+    }
+  },
+  "L2-R1-Q3 #6": {
+    "full": [
+      "Which of the following statements regarding heteroskedasticity is least accurate?"
+    ],
+    "options": [
+      "Conditional heteroskedasticity can be detected using the Breusch-Pagan chi-square statistic.",
+      "When not related to independent variables, heteroskedasticity does not pose any major problems with the regression.",
+      "Heteroskedasticity only occurs in cross-sectional regressions."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Heteroskedasticity can happen in time series too, e.g. when the regime changes (new regulation, a new economic climate). “Only cross-sectional” is false.",
+      "wrong": "Heteroskedasticity that isn’t linked to the X’s (unconditional) really causes no major problem. That statement is true."
+    }
+  },
+  "L2-R1-Q3 #7": {
+    "full": [
+      "An analyst is trying to estimate the beta for a fund. The analyst estimates a regression equation in which the fund returns are the dependent variable and the Wilshire 5000 is the independent variable, using monthly data over the past five years. The analyst finds that the correlation between the square of the residuals of the regression and the Wilshire 5000 is 0.2. Which of the following is most accurate, assuming a 0.05 level of significance? There is:"
+    ],
+    "options": [
+      "no evidence that there is conditional heteroskedasticity or serial correlation in the regression equation.",
+      "evidence of conditional heteroskedasticity but not serial correlation in the regression equation.",
+      "evidence of serial correlation but not conditional heteroskedasticity in the regression equation."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Squared residuals against X is the Breusch–Pagan test for heteroskedasticity. BP = n × R². With one X, R² = correlation². It comes out below the critical value, so no heteroskedasticity. Nothing here tests serial correlation.",
+      "wrong": "Squared residuals vs X tests *heteroskedasticity*, not serial correlation. You can’t find evidence of serial correlation from this.",
+      "steps": [
+        "n = 5 years × 12 = 60",
+        "R² = 0.2² = 0.04",
+        "BP = n × R² = 60 × 0.04 = *2.4*",
+        "Critical χ² (1 df, 5%) = 3.84 → 2.4 < 3.84: no evidence"
+      ]
+    }
+  },
+  "L2-R1-Q4 #1": {
+    "full": [
+      "An analyst regresses the return of a S&P 500 index fund against the S&P 500, and also regresses the return of an active manager against the S&P 500. The analyst uses the last five years of data in both regressions. Without making any other assumptions, which of the following is most accurate? The index fund:"
+    ],
+    "options": [
+      "should have a higher coefficient on the independent variable.",
+      "regression should have higher sum of squares regression as a ratio to the total sum of squares.",
+      "should have a lower coefficient of determination."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "An index fund follows the S&P 500 almost exactly, so the S&P explains nearly all of its movement: R² (= SSR ÷ SST) close to 1. An active manager does their own thing, so a lower R².",
+      "wrong": "Both slopes could be about 1, and an active manager could even have a beta above 1. Nothing says the index fund’s slope is bigger."
+    }
+  },
+  "L2-R1-Q4 #3": {
+    "full": [
+      "Consider the following estimated regression equation: AUTO = 10.0 + 1.25 PI + 1.0 TEEN – 2.0 INS, with a PI calculated t-statistic of 0.45, a TEEN calculated t-statistic of 2.2, and an INS calculated t-statistic of 0.63. The equation was estimated over 40 companies. Using a 5% level of significance, which of the independent variables significantly different from zero?"
+    ],
+    "options": [
+      "PI and INS only.",
+      "TEEN only.",
+      "PI only."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The numbers given are already t-statistics. A variable is significant when its t is bigger than the critical t. Only TEEN clears it.",
+      "wrong": "You may have read 0.45 and 0.63 as p-values (where small = significant). They are t-statistics: small = *not* significant.",
+      "steps": [
+        "df = n − k − 1 = 40 − 3 − 1 = 36 → critical t (5%, two-tailed) ≈ 2.03",
+        "PI 0.45 < 2.03 ✗ · TEEN 2.2 > 2.03 ✓ · INS 0.63 < 2.03 ✗"
+      ]
+    }
+  },
+  "L2-R1-Q4 #4": {
+    "full": [
+      "Consider the following estimated regression equation, with the standard errors of the slope coefficients as noted: Sales = 10.0 + 1.25 R&D + 1.0 ADV – 2.0 COMP + 8.0 CAP, where the standard error for the estimated coefficient on R&D is 0.45, the standard error for the estimated coefficient on ADV is 2.2, the standard error for the estimated coefficient on COMP is 0.63, and the standard error for the estimated coefficient on CAP is 2.5. The equation was estimated over 40 companies. Using a 5% level of significance, which of the estimated coefficients are significantly different from zero?"
+    ],
+    "options": [
+      "R&D, ADV, COMP, and CAP.",
+      "R&D, COMP, and CAP only.",
+      "ADV and CAP only."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "This time the numbers are standard errors, so first turn each one into a t-statistic: t = coefficient ÷ SE. Then compare with the critical t.",
+      "wrong": "ADV’s t is only 0.45: its standard error (2.2) is bigger than its coefficient (1.0). Work out every t before you pick.",
+      "steps": [
+        "df = 40 − 4 − 1 = 35 → critical t ≈ 2.03",
+        "R&D: 1.25 ÷ 0.45 = 2.78 ✓",
+        "ADV: 1.0 ÷ 2.2 = 0.45 ✗",
+        "COMP: −2.0 ÷ 0.63 = −3.17 → |3.17| ✓",
+        "CAP: 8.0 ÷ 2.5 = 3.20 ✓"
+      ]
+    }
+  },
+  "L2-R1-Q4 #6": {
+    "full": [
+      "One possible problem that could jeopardize the validity of the employment growth rate model is multicollinearity. Which of the following would most likely suggest the existence of multicollinearity?"
+    ],
+    "options": [
+      "The variance of the observations has increased over time.",
+      "The Durbin–Watson statistic is significant.",
+      "The F-statistic suggests that the overall regression is significant, however the regression coefficients are not individually significant."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Multicollinearity = the X’s move together. The model as a whole works (F significant), but the X’s share the credit so no single one looks significant (small t’s). That mismatch is the classic sign.",
+      "wrong": "Variance growing over time points to *heteroskedasticity*, a different problem."
+    }
+  },
+  "L2-R1-Q4 #7": {
+    "full": [
+      "Wilson estimated a regression that produced the following analysis of variance (ANOVA) table:",
+      {
+        "columns": [
+          "Source",
+          "Sum of squares",
+          "Degrees of freedom",
+          "Mean square"
+        ],
+        "rows": [
+          [
+            "Regression",
+            "100",
+            "1",
+            "100.0"
+          ],
+          [
+            "Error",
+            "300",
+            "40",
+            "7.5"
+          ],
+          [
+            "Total",
+            "400",
+            "41",
+            ""
+          ]
+        ]
+      },
+      "The values of R² and the F-statistic to test the null hypothesis that slope coefficients on all variables are equal to zero are:"
+    ],
+    "options": [
+      "R² = 0.20 and F = 13.333.",
+      "R² = 0.25 and F = 0.930.",
+      "R² = 0.25 and F = 13.333."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "R² uses the sums of squares; F uses the mean squares (regression over error).",
+      "wrong": "F is the *mean square regression ÷ mean square error*, read straight from the last column. 0.930 is not that ratio.",
+      "steps": [
+        "R² = regression SS ÷ total SS = 100 ÷ 400 = *0.25*",
+        "F = MSR ÷ MSE = 100 ÷ 7.5 = *13.33*"
+      ]
+    }
+  },
+  "L2-R2-Q1 #3": {
+    "full": [
+      "Trend models can be useful tools in the evaluation of a time series of data. However, there are limitations to their usage. Trend models are not appropriate when which of the following violations of the linear regression assumptions is present?"
+    ],
+    "options": [
+      "A) Heteroskedasticity.",
+      "B) Serial correlation.",
+      "C) Model misspecification."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "A trend model assumes the errors are not linked to each other. If they are (serial correlation), the trend model is wrong; use an AR model instead. Check it with Durbin–Watson.",
+      "wrong": "“Misspecification” is a general label. The specific limitation of trend models in the reading is serially correlated residuals."
+    }
+  },
+  "L2-R2-Q1 #4": {
+    "full": [
+      "Which of the following is least likely a consequence of a model containing ARCH(1) errors? The:"
+    ],
+    "options": [
+      "A) variance of the errors can be predicted.",
+      "B) regression parameters will be incorrect.",
+      "C) model's specification can be corrected by adding an additional lag variable."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "ARCH means the error’s variance depends on last period’s error. You fix it with generalized least squares, *not* by adding a lag. So C is not a consequence.",
+      "wrong": "ARCH breaks a regression assumption, so the estimates and their standard errors can’t be trusted. That really is a consequence."
+    }
+  },
+  "L2-R2-Q1 #5": {
+    "full": [
+      "The procedure for determining the structure of an autoregressive model is:"
+    ],
+    "options": [
+      "A) test autocorrelations of the residuals for a simple trend model, and specify the number of significant lags.",
+      "B) estimate an autoregressive model (for example, an AR(1) model), calculate the autocorrelations for the model's residuals, test whether the autocorrelations are different from zero, and add an AR lag for each significant autocorrelation.",
+      "C) estimate an autoregressive model (e.g., an AR(1) model), calculate the autocorrelations for the model's residuals, test whether the autocorrelations are different from zero, and revise the model if there are significant autocorrelations."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Start with AR(1), test the residual autocorrelations, and if any are significant, *revise* the model: add one lag, re-estimate, test again. Stop when the autocorrelations are gone.",
+      "wrong": "B adds a lag for *every* significant autocorrelation at once. That is the trap: lags go in one at a time."
+    }
+  },
+  "L2-R2-Q1 #6": {
+    "full": [
+      "The primary concern when deciding upon a time series sample period is which of the following factors?"
+    ],
+    "options": [
+      "A) The total number of observations.",
+      "B) Current underlying economic and market conditions.",
+      "C) The length of the sample time period."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Use a period when the economy worked the same way (one regime). More data helps the statistics, but mixing regimes makes the coefficients unstable.",
+      "wrong": "Length matters less than whether conditions were the same across the whole sample. A long sample that spans a big change is worse."
+    }
+  },
+  "L2-R2-Q1 #7": {
+    "full": [
+      "Modeling the trend in a time series of a variable that grows at a constant rate with continuous compounding is best done with:"
+    ],
+    "options": [
+      "A) a log-linear transformation of the time series.",
+      "B) a moving average model.",
+      "C) simple linear regression."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A constant growth *rate* gives an exponential curve. Take the log and it becomes a straight line: a log-linear trend model.",
+      "wrong": "A moving average smooths data; it doesn’t model a constant growth rate."
+    }
+  },
+  "L2-R2-Q1 #8": {
+    "full": [
+      "Which of the following statements regarding covariance stationarity is CORRECT?"
+    ],
+    "options": [
+      "A) The estimation results of an AR model involving a time series that is not covariance stationary are meaningless.",
+      "B) A time series may be both covariance stationary and heteroskedastic.",
+      "C) A time series that is covariance stationary may have residuals whose mean changes over time."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "An AR model only works on a covariance-stationary series (constant mean, constant variance, constant covariance). If the series isn’t stationary, the AR results mean nothing.",
+      "wrong": "Covariance stationary needs a *constant* variance. A heteroskedastic series has a changing variance, so it can’t be both."
+    }
+  },
+  "L2-R2-Q1 #9": {
+    "full": [
+      "Barry Phillips, CFA, has the following time series observations from earliest to latest: (5, 6, 5, 7, 6, 6, 8, 8, 9, 11). Phillips transforms the series so that he will estimate an autoregressive process on the following data (1, −1, 2, −1, 0, 2, 0, 1, 2). The transformation Phillips employed is called:"
+    ],
+    "options": [
+      "A) first differencing.",
+      "B) moving average.",
+      "C) beta drift."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Each new number is *this value minus the last one*. That is first differencing.",
+      "wrong": "A moving average averages several values, so it would stay between 5 and 11. It could never give −1.",
+      "steps": [
+        "6 − 5 = 1",
+        "5 − 6 = −1",
+        "7 − 5 = 2",
+        "6 − 7 = −1 … 11 − 9 = 2"
+      ]
+    }
+  },
+  "L2-R2-Q1 #10": {
+    "full": [
+      "Which of the following statements regarding unit roots in a time series is least accurate?"
+    ],
+    "options": [
+      "A) A time series with a unit root is not covariance stationary.",
+      "B) A time series that is a random walk has a unit root.",
+      "C) Even if a time series has a unit root, the predictions from the estimated model are valid."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "A unit root means a random walk, which is not covariance stationary. An AR model fitted to it gives unreliable predictions until you first-difference the data. So “predictions are valid” is false.",
+      "wrong": "A random walk does have a unit root (b₁ = 1). That statement is true."
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -30319,6 +31792,129 @@ const TESTS = [
     { set: 11, topic: 'fsa.2', mod: '9.S1', what: "The translation method follows from the choice of the subsidiary’s functional currency", ok: 1 },
     { set: 11, topic: 'fsa.2', mod: '9.S3', what: "Current rate method, foreign currency appreciating: a positive translation adjustment in equity (CTA)", ok: 0, why: 'flip' },
     { set: 11, topic: 'fsa.2', mod: '9.S4', what: "Temporal method, USD appreciating, translation loss → net monetary liability (debt used to buy PP&E)", ok: 1 },
+  ] },
+  { id: "L2-R37-Q1", lvl: "2131123131", topic: "pm.3", name: "Reading 37 quiz 1", date: "2026-11-11", mins: 25.6, qs: [
+    { mod: "37.S1", what: "APT expected return: 3% + 8%×2 + 12%×1 + 5%×1 = 36%", ok: 1 },
+    { mod: "37.S1", what: "APT does not fix the number of factors (NOT question)", ok: 1 },
+    { mod: "37.S4", what: "Return attribution: underweighting a falling sector is a positive tilt", ok: 0, why: "flip" },
+    { mod: "37.S4", what: "Factor portfolio: sensitivity 1 to one factor, 0 to the rest", ok: 1 },
+    { mod: "37.S4", what: "Tracking portfolio copies a benchmark’s factor exposures", ok: 0, why: "gap" },
+    { mod: "37.S1", what: "One-factor APT: solve R_F and λ from two portfolios", ok: 0, why: "calc" },
+    { mod: "37.S1", what: "Highest return at beta 1.00: check every mix’s beta and return", ok: 0, why: "calc" },
+    { mod: "37.S1", what: "APT allows short selling (NOT an assumption: no shorts)", ok: 0, why: "flip" },
+    { mod: "37.S4", what: "Losing stock swap but portfolio beat the index → tilt positive, selection negative", ok: 0, why: "flip" },
+    { mod: "37.S4", what: "Tracking portfolio, not factor portfolio, replicates a benchmark", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R37-Q2", lvl: "2111111222", topic: "pm.3", name: "Reading 37 quiz 2", date: "2026-11-11", mins: 11.2, qs: [
+    { mod: "37.S4", what: "Bet on one factor, hedge the other: sensitivities 1 and 0", ok: 0, why: "gap" },
+    { mod: "37.S1", what: "APT does not assume normally distributed returns", ok: 1 },
+    { mod: "37.S1", what: "APT needs no market portfolio", ok: 1 },
+    { mod: "37.S1", what: "Arbitrage opportunity: zero investment, positive expected cash flow", ok: 0, why: "gap" },
+    { mod: "37.S1", what: "Diversification reduces unsystematic risk", ok: 1 },
+    { mod: "37.S2", what: "APT is an equilibrium model; macro factor models are ad hoc", ok: 0, why: "gap" },
+    { mod: "37.S1", what: "APT prices only systematic risk", ok: 1 },
+    { mod: "37.S1", what: "Three-factor APT returns for Growth and Value funds", ok: 1 },
+    { mod: "37.S1", what: "Two-factor APT: 3% + 0.02(−1.2) + 0.03(0.8) = 3.0%", ok: 1 },
+    { mod: "37.S1", what: "Three-factor APT: 6% + 10% + 14% + 0% = 30%", ok: 1 },
+  ] },
+  { id: "L2-R34-Q2", lvl: "1222122221", topic: "pm.0", name: "Reading 34 quiz 2", date: "2026-11-11", mins: 12.5, qs: [
+    { mod: "34.S3", what: "Risk-free bonds hedge bad consumption outcomes best", ok: 1 },
+    { mod: "34.S3", what: "Spreads narrow → risky bonds beat risk-free bonds", ok: 1 },
+    { mod: "34.S2", what: "Recession → upward-sloping yield curve", ok: 1 },
+    { mod: "34.S3", what: "Multiples fall when the equity risk premium rises", ok: 0, why: "flip" },
+    { mod: "34.S1", what: "Asset values move with risk-free rates, risk premiums and cash flows", ok: 1 },
+    { mod: "34.S2", what: "High GDP growth: high real rate, low IMRS, more borrowing", ok: 1 },
+    { mod: "34.S3", what: "A stock that does well in downturns is a good hedge → lower ERP", ok: 1 },
+    { mod: "34.S1", what: "Real rate is higher when people value future consumption less", ok: 0, why: "flip" },
+    { mod: "34.S2", what: "High default-free rate ↔ expected higher income", ok: 1 },
+    { mod: "34.S3", what: "Credit spreads rise in recessions", ok: 1 },
+  ] },
+  { id: "L2-R34-Q3", lvl: "221111", topic: "pm.0", name: "Reading 34 quiz 3", date: "2026-11-11", mins: 4.6, qs: [
+    { mod: "34.S2", what: "BEI: expected inflation ↓ but uncertainty ↑ → effect uncertain", ok: 0, why: "gap" },
+    { mod: "34.S2", what: "Inflation-uncertainty premium is positively related to the term spread", ok: 0, why: "flip" },
+    { mod: "34.S3", what: "Sector spreads come from products and leverage, not ratings (least likely)", ok: 0, why: "flip" },
+    { mod: "34.S2", what: "BEI = nominal yield − inflation-indexed yield", ok: 1 },
+    { mod: "34.S3", what: "Consumer durables are the most cyclical earnings", ok: 0, why: "flip" },
+    { mod: "34.S3", what: "Consumer cyclical spreads rise in downturns", ok: 1 },
+  ] },
+  { id: "L2-R34-CASE1", lvl: "323322", topic: "pm.0", name: "Reading 34 case 1 (Nearland professors)", date: "2026-11-11", mins: 10.6, qs: [
+    { mod: "34.S1", what: "Recession expected → future marginal utility higher (Statement 1 wrong)", ok: 1 },
+    { mod: "34.S1", what: "m = 0.95 → real rate = 1 ÷ 0.95 − 1 = 5.26%", ok: 1 },
+    { mod: "34.S2", what: "Taylor rule: policy rate rises with inflation and GDP (Brady correct)", ok: 0, why: "flip" },
+    { mod: "34.S2", what: "Late cycle: short rates up, long rates down → curve flattens", ok: 0, why: "gap" },
+    { mod: "34.S3", what: "ERP = credit spread + equity premium over debt = 7.60%", ok: 0, why: "gap" },
+    { mod: "34.S3", what: "Best consumption hedge: value stocks, not real estate", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R35-Q1", lvl: "3321223213", topic: "pm.1", name: "Reading 35 quiz 1", date: "2026-11-11", mins: 26.0, qs: [
+    { mod: "35.S4", what: "Sector rotation active risk: 13.72% quarterly × √4 = 27.44%", ok: 1 },
+    { mod: "35.S3", what: "Constrained optimal active risk: (0.441 ÷ 0.40) × 12% = 13.2%", ok: 0, why: "calc" },
+    { mod: "35.S1", what: "Active return = 11.70% − 10.44% = 1.26%", ok: 1 },
+    { mod: "35.S4", what: "Constrained portfolio: TC < 1", ok: 1 },
+    { mod: "35.S4", what: "Market timer (lower breadth) needs a higher IC", ok: 1 },
+    { mod: "35.S3", what: "Optimal active risk = (0.2 ÷ 0.35) × 10.5% = 6%", ok: 0, why: "gap" },
+    { mod: "35.S4", what: "Correlated bets: BR 120 → 2.2, IR falls 86%", ok: 0, why: "gap" },
+    { mod: "35.S3", what: "Max Sharpe = √(0.35² + 0.2²) = 0.40", ok: 1 },
+    { mod: "35.S4", what: "Breadth = number of independent bets a year", ok: 1 },
+    { mod: "35.S3", what: "Benchmark weight = 1 − 6% ÷ 8% = 0.25", ok: 0, why: "calc" },
+  ] },
+  { id: "L2-R36-Q1", lvl: "2212311111", topic: "pm.2", name: "Reading 36 quiz 1", date: "2026-11-11", mins: 15.6, qs: [
+    { mod: "36.S1", what: "Arbitrage gap is narrow when ETF and holdings trade in one market", ok: 1 },
+    { mod: "36.S2", what: "Maximum spread falls as the chance of offsetting the trade rises", ok: 1 },
+    { mod: "36.S1", what: "Tracking difference = ETF NAV return − index return", ok: 0, why: "gap" },
+    { mod: "36.S1", what: "ETFs trail the index by about the expense ratio", ok: 1 },
+    { mod: "36.S3", what: "Bank issues an ETN when its debt yield is above the swap rate", ok: 0, why: "gap" },
+    { mod: "36.S2", what: "Security lending lowers ownership costs", ok: 1 },
+    { mod: "36.S1", what: "ETFs trade in primary and secondary markets", ok: 1 },
+    { mod: "36.S2", what: "Frequent traders care most about trading costs", ok: 1 },
+    { mod: "36.S1", what: "Only authorized participants create and redeem", ok: 1 },
+    { mod: "36.S3", what: "Representative sampling is a passive strategy", ok: 1 },
+  ] },
+  { id: "L2-R39-Q1", lvl: "1112111111", topic: "pm.5", name: "Reading 39 quiz 1", date: "2026-11-11", mins: 9.3, qs: [
+    { mod: "39.S1", what: "Historical investment simulation step: rebalance periodically", ok: 1 },
+    { mod: "39.S1", what: "Steps: strategy design, historical simulation, analysis of output", ok: 1 },
+    { mod: "39.S1", what: "Backtesting does not guarantee future performance", ok: 1 },
+    { mod: "39.S1", what: "Skew and fat tails → Monte Carlo with a skewed Student’s t", ok: 0, why: "gap" },
+    { mod: "39.S1", what: "Bootstrapping: when trials outnumber the data points", ok: 0, why: "gap" },
+    { mod: "39.S1", what: "Backtesting is not new (least accurate)", ok: 0, why: "flip" },
+    { mod: "39.S1", what: "Backtest problems: survivorship, look-ahead, data snooping", ok: 0, why: "gap" },
+    { mod: "39.S1", what: "Backtesting is not incompatible with quant styles (least accurate)", ok: 0, why: "flip" },
+    { mod: "39.S1", what: "Data snooping is not about using unavailable information", ok: 1 },
+    { mod: "39.S1", what: "Backtest metrics: max drawdown, Sharpe, Sortino", ok: 1 },
+  ] },
+  { id: "L2-R1-Q3", lvl: "1111113121", topic: "quant.0", name: "Reading 1 quiz 3", date: "2026-11-12", mins: 17.1, qs: [
+    { mod: "1.S6", what: "Serial correlation is most common in time series (least accurate)", ok: 0, why: "flip" },
+    { mod: "1.S1", what: "Uncorrelated errors meet the regression assumptions", ok: 1 },
+    { mod: "1.S6", what: "Durbin–Watson tests first-lag serial correlation", ok: 1 },
+    { mod: "1.S6", what: "Fix multicollinearity: drop a correlated variable", ok: 1 },
+    { mod: "1.S1", what: "A slope is a change in Y, not the value of Y (least accurate)", ok: 0, why: "flip" },
+    { mod: "1.S5", what: "Heteroskedasticity is not only cross-sectional (least accurate)", ok: 0, why: "flip" },
+    { mod: "1.S5", what: "BP = 60 × 0.2² = 2.4 < 3.84 → no conditional heteroskedasticity", ok: 0, why: "gap" },
+    { mod: "1.S8", what: "Both degrees → both dummies = 1", ok: 1 },
+    { mod: "1.S1", what: "Predicted sales from the regression", ok: 1 },
+    { mod: "1.S2", what: "R² is not unexplained ÷ explained (least accurate)", ok: 1 },
+  ] },
+  { id: "L2-R1-Q4", lvl: "222212211", topic: "quant.0", name: "Reading 1 quiz 4", date: "2026-11-12", mins: 21.8, qs: [
+    { mod: "1.P", what: "Index fund on its index → higher R², not a higher slope", ok: 0, why: "gap" },
+    { mod: "1.S1", what: "Predicted AUTO = 14.10", ok: 1 },
+    { mod: "1.S1", what: "t-stats given: only TEEN (2.2) beats 2.03", ok: 0, why: "gap" },
+    { mod: "1.S1", what: "SEs given: t = coefficient ÷ SE; ADV (0.45) fails", ok: 0, why: "calc" },
+    { mod: "1.S2", what: "Adjusted R² is not greater than R² (least accurate)", ok: 1 },
+    { mod: "1.S6", what: "Multicollinearity: F significant but no t significant", ok: 0, why: "gap" },
+    { mod: "1.S3", what: "ANOVA: R² = 100 ÷ 400 = 0.25, F = 100 ÷ 7.5 = 13.33", ok: 0, why: "calc" },
+    { mod: "1.S5", what: "Regression assumes homoskedastic residuals (least accurate)", ok: 1 },
+    { mod: "1.S8", what: "Quarter dummies measure the gap to the omitted quarter", ok: 1 },
+  ] },
+  { id: "L2-R2-Q1", lvl: "2112211221", topic: "quant.1", name: "Reading 2 quiz 1", date: "2026-11-12", mins: 14.8, qs: [
+    { mod: "2.S3", what: "Lowest out-of-sample RMSE wins: √10.429 = 3.23", ok: 1 },
+    { mod: "2.S3", what: "AR forecasts with any number of lags are possible (least accurate)", ok: 1 },
+    { mod: "2.S1", what: "Trend models fail when residuals are serially correlated", ok: 0, why: "gap" },
+    { mod: "2.S4", what: "ARCH is not fixed by adding a lag (least likely consequence)", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "AR model building: revise if residual autocorrelations are significant", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Sample period: choose by economic conditions (regimes)", ok: 0, why: "gap" },
+    { mod: "2.S1", what: "Constant growth rate → log-linear trend", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "AR results on a nonstationary series are meaningless", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Data 1, −1, 2 … = first differences", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Unit root → predictions are not valid (least accurate)", ok: 0, why: "flip" },
   ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
@@ -34612,12 +36208,26 @@ function wkSpots(topic) {
         (byMod[k] = byMod[k] || []).indexOf(m) < 0 && byMod[k].push(m);
         if (!j) (byMod['tag|' + k] = byMod['tag|' + k] || []).indexOf(m) < 0 && byMod['tag|' + k].push(m);
       });
-      if (hit.length) m._at.push({ mod, anchor: hit[0], label: mod + ' · ' + label });
+      if (hit.length) m._at.push({ mod, anchor: hit[0], label: mod + ' · ' + label, hit });
     });
   });
   return byMod;
 }
 function wkId(m) { return 'wk-' + exHash(m.title); }
+// Where a weak-spot card sits in a reading: straight after the notes it points at (the end of the first `at` that
+// lands outside a folded module quiz, preferring its own session), so the mistake is read next to the rule it
+// broke. anchor '' = no such place, and the card goes at the top of its own session.
+function wkPlace(topic, m) {
+  const flow = (CONTENT[topic] && CONTENT[topic].flow) || [], at = (m._at || []).slice();
+  at.sort((a, b) => (a.mod !== m.module) - (b.mod !== m.module));
+  for (const p of at) {
+    const s = flow.find(x => x.module === p.mod), anchors = exAnchors(topic, p.mod);
+    if (!s) continue;
+    const ok = (p.hit || []).filter(h => { const i = anchors.indexOf(h); return i >= 0 && !qzIsBlock(s.blocks[i]); });
+    if (ok.length) return { mod: p.mod, anchor: ok[ok.length - 1] };
+  }
+  return { mod: m.module, anchor: '' };
+}
 // The ⚠ tag on a highlighted block: one button per weak spot that points at it.
 function wkSpotTags(list) {
   return (list || []).map(m => {
@@ -34799,15 +36409,17 @@ function renderWeakCard(m, topic) {
       <div class="wk-body">
       <div class="weak-title">${escapeHtml(m.title)}</div>
       ${m._at && m._at.length ? `<div class="wk-where">📍 In your notes: ${m._at.map(p => exGoBtn(topic, p.mod, p.anchor, p.label.length > 64 ? p.label.slice(0, 62) + '…' : p.label)).join('')}</div>` : ''}
-      <div class="weak-sec">Questions this cost you</div>
+      <div class="weak-sec">${(m.questions || []).length > 1 ? 'The questions you got wrong' : 'The question you got wrong'}</div>
       ${(m.questions || []).map(weakQHtml).join('')}
+      <div class="wk-remember"><b>Remember</b> ${escapeHtml(m.remember || m.fix)}</div>
+      <details class="wk-more"><summary>More detail: why it tripped you, how to tackle it</summary>
       <div class="weak-sec">Why the wrong answer felt right</div>
       <div class="weak-text">${escapeHtml(m.trap)}</div>
-      <div class="weak-sec">The logic that gets it right</div>
-      <div class="weak-text">${escapeHtml(m.fix)}</div>
+      ${m.remember ? '' : `<div class="weak-sec">The logic that gets it right</div><div class="weak-text">${escapeHtml(m.fix)}</div>`}
       <div class="weak-sec">How to tackle this question type</div>
       <div class="weak-text"><ol>${(m.tackle || []).map(t => '<li>' + escapeHtml(t) + '</li>').join('')}</ol></div>
       ${m.spot ? `<div class="weak-sec">How it shows up in the exam</div><div class="weak-text">${escapeHtml(m.spot)}</div>` : ''}
+      </details>
       </div>
     </div>`;
 }
@@ -34840,7 +36452,20 @@ function weakQHtml(q) {
           <div class="weak-full">${f.full.map(part).join('')}</div>
           <ul class="weak-opts">${f.options.map((o, i) => `<li class="${i === f.a ? 'right' : i === f.p ? 'picked' : ''}"><span class="weak-mark">${i === f.a ? '✓' : i === f.p ? '✗' : '○'}</span><span>${escapeHtml(o)}${i === f.p ? ' <span class="weak-tag">your pick</span>' : ''}${i === f.a ? ' <span class="weak-tag">answer</span>' : ''}</span></li>`).join('')}</ul>
           ${f.note ? `<div class="weak-note">${escapeHtml(f.note)}</div>` : ''}
+          ${weakEasyHtml(f)}
         </div>`;
+}
+// The plain-words explanation under a missed question: why the answer is right, why the pick was wrong, and the
+// working for a number question. `easy` lives on the TUITION_Q entry.
+function weakEasyHtml(f) {
+  const e = f.easy;
+  if (!e) return '';
+  const letter = i => { const m = /^([A-C])\)/.exec(f.options[i] || ''); return m ? m[1] : 'ABC'[i]; };
+  return `<div class="wk-easy">
+            <p class="wk-easy-ok"><b>✓ Why ${letter(f.a)} is right:</b> ${rt(e.right)}</p>
+            ${e.steps ? `<ol class="wk-easy-steps">${e.steps.map(s => `<li>${rt(s)}</li>`).join('')}</ol>` : ''}
+            ${e.wrong && f.p !== f.a ? `<p class="wk-easy-no"><b>✗ Why ${letter(f.p)} is wrong:</b> ${rt(e.wrong)}</p>` : ''}
+          </div>`;
 }
 
 function moduleGroupsOf(key) {
@@ -35595,6 +37220,8 @@ function renderFlow(key) {
   return flow.map(s => {
     const anchors = exAnchors(key, s.module);
     const hasF = exFormulas(key, s.module).length, hasN = exNotes(key, s.module).length;
+    const top = [], after = {};
+    misses.forEach(m => { const w = wkPlace(key, m); if (w.mod !== s.module) return; if (w.anchor) (after[w.anchor] = after[w.anchor] || []).push(m); else top.push(m); });
     return `${safeHtml(() => pdSessionHtml(key, s.module))}
     <section class="nb-session" data-group="${escapeHtml(s.module)}">
       <div class="nb-session-head">
@@ -35605,14 +37232,15 @@ function renderFlow(key) {
         ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}${safeHtml(() => mkChipHtml(key, s.module))}
         ${stBtn(stKey(key, s.module, 'section'), 'section', false, 'sess')}
       </div>
-      ${misses.filter(m => m.module === s.module).map(m => renderWeakCard(m, key)).join('')}
+      ${top.map(m => renderWeakCard(m, key)).join('')}
       ${qzFold(s.blocks, (b, i) => {
+        const cards = (after[anchors[i]] || []).map(m => renderWeakCard(m, key)).join('');
         const nw = b.new && !nwSeen(nwContentId(key, s.module, anchors[i])) ? nwContentId(key, s.module, anchors[i]) : '';
         const nwAttr = nw ? ` data-newc="${escapeHtml(nw)}"` : '';
         const wkc = spots[s.module + '|' + anchors[i]] ? ' nb-wk' : '', wk = spots['tag|' + s.module + '|' + anchors[i]];
         return b.k === 'sub'
-          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}${wkc}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${wkSpotTags(wk)}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section', false, 'blk').replace('<button ', '<button data-new="f-sub-star" ')}</div>`
-          : `<div class="nb-blk${wkc}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${wk ? `<div class="wk-spots">${wkSpotTags(wk)}</div>` : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b), false, 'blk')}${renderBlock(b, gapObj, refs)}</div>`;
+          ? `<div class="nb-sub${b.tone ? ' ' + b.tone : ''}${wkc}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${escapeHtml(b.text)}${nw ? '<span class="new-tag inline">NEW</span>' : ''}${wkSpotTags(wk)}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), 'Sub-section', false, 'blk').replace('<button ', '<button data-new="f-sub-star" ')}</div>${cards}`
+          : `<div class="nb-blk${wkc}" data-anchor="${escapeHtml(anchors[i])}"${nwAttr}>${nw ? '<span class="new-tag">NEW</span>' : ''}${wk ? `<div class="wk-spots">${wkSpotTags(wk)}</div>` : ''}${stBtn(stKey(key, s.module, 'b:' + anchors[i]), exKindOf(b), false, 'blk')}${renderBlock(b, gapObj, refs)}</div>${cards}`;
       })}
     </section>`;
   }).join('');
