@@ -22795,6 +22795,44 @@ const TUITION_MISSES = {
       ],
       spot: 'Same “least likely” slip as in R6 and R9: you picked the most familiar true option. Slow down on these. The quiz took under a minute per question.',
     },
+    // Logged 2026-11-14
+    {
+      module: "17.S1",
+      title: "The harder intrinsic value is to estimate, the bigger the possible mispricing",
+      at: ["Intrinsic value and perceived mispricing (LOS 17.a)"],
+      questions: [
+        { ref: "L2-R17-CASE2 #1", ask: "Why is the introductory paragraph incorrect?", picked: "markets can’t always be efficient", answer: "harder-to-estimate value → bigger divergence" },
+      ],
+      trap: "Your option restated the paradox, which was correct; the error was in the last sentence.",
+      fix: "Hard-to-value assets can drift further from intrinsic value; easy-to-value ones stay close.",
+      remember: "Hard-to-value assets can drift further from intrinsic value; easy-to-value ones stay close.",
+      tackle: ["Check each sentence of a statement separately; find the one that’s wrong."],
+    },
+    {
+      module: "17.S1",
+      title: "A gradual, voluntary wind-down = orderly liquidation value",
+      at: ["Which definition fits which job (LOS 17.b, 17.c)"],
+      questions: [
+        { ref: "L2-R17-CASE2 #3", ask: "Firm winds down gradually over a year, selling assets, net of liabilities:", picked: "liquidation value", answer: "orderly liquidation value" },
+      ],
+      trap: "The general term was picked over the specific one.",
+      fix: "Going concern = the firm keeps running. Liquidation value = assets sold off, net of liabilities. Orderly = sold over time, so a better price than a fire sale.",
+      remember: "Going concern = the firm keeps running. Liquidation value = assets sold off, net of liabilities. Orderly = sold over time, so a better price than a fire sale.",
+      tackle: ["Look for timing words: “gradually”, “over the next year” → orderly."],
+    },
+    {
+      module: "17.S2",
+      title: "Cost leadership = lowest costs; Porter’s forces are outside the firm",
+      at: ["s2-porter"],
+      questions: [
+        { ref: "L2-R17-CASE2 #4", ask: "Best conclusion on TTY’s strategy:", picked: "cost leadership by keeping prices low, failing on margins", answer: "cost leadership by having the lowest cost base, failing on margins" },
+        { ref: "L2-R17-CASE2 #5", ask: "NOT one of Porter’s five forces:", picked: "a new toy chain opening nearby", answer: "halving its own marketing budget" },
+      ],
+      trap: "Price and cost were treated as the same thing, and a competitor’s arrival was taken for an internal issue.",
+      fix: "Cost leadership = the lowest-cost producer; if it works, margins beat rivals’. Porter’s five forces: new entrants, supplier power, buyer power, rivalry, substitutes. Internal decisions aren’t forces.",
+      remember: "Cost leadership = the lowest-cost producer; if it works, margins beat rivals’. Porter’s five forces: new entrants, supplier power, buyer power, rivalry, substitutes. Internal decisions aren’t forces.",
+      tackle: ["For Porter, ask: is this pressure coming from outside the firm?"],
+    },
   ],
   'equity.1': [
     {
@@ -22908,6 +22946,43 @@ const TUITION_MISSES = {
         'Rearrange g = b × ROE for whatever is missing.',
         'Multiply back to check you get the given g.',
       ],
+    },
+    // Logged 2026-11-14
+    {
+      module: "18.S2",
+      title: "Discount rate: CAPM, APT or bond yield + premium. FCFF is a cash flow, not a rate",
+      at: ["s2-ggm"],
+      questions: [
+        { ref: "L2-R18-Q4 #1", ask: "Least likely a valid way to find the discount rate for dividends:", picked: "APT", answer: "FCFF" },
+      ],
+      trap: "APT is less familiar than CAPM, so it looked like the odd one out.",
+      fix: "Ways to get a required return: CAPM, multifactor models like APT, bond yield plus a risk premium. FCFF is something you discount.",
+      remember: "Ways to get a required return: CAPM, multifactor models like APT, bond yield plus a risk premium. FCFF is something you discount.",
+      tackle: ["Ask: does this give a percentage (rate) or a stream of money (cash flow)?"],
+    },
+    {
+      module: "18.S2",
+      title: "Price in n years = next dividend after that ÷ (r − g)",
+      at: ["s2-ggm"],
+      questions: [
+        { ref: "L2-R18-Q4 #5", ask: "D₁ $1.80, g 6%, beta 0.95, Rm 11%, Rf 4%. Expected price in two years?", picked: "$43.94", answer: "$43.49" },
+      ],
+      trap: "Two digits swapped between the working and the pick.",
+      fix: "P₂ = D₃ ÷ (r − g). Get r from CAPM first, then grow D₁ two more years.",
+      remember: "P₂ = D₃ ÷ (r − g). Get r from CAPM first, then grow D₁ two more years.",
+      tackle: ["When two options have the same digits, compare them digit by digit with your working."],
+    },
+    {
+      module: "18.S5",
+      title: "g = ROE × retention, so ROE = g ÷ retention",
+      at: ["s5-bio"],
+      questions: [
+        { ref: "L2-R18-Q4 #2", ask: "Dividend $1, EPS $3, sustainable growth 10%. ROE?", picked: "20%", answer: "15%" },
+      ],
+      trap: "Retention was misjudged.",
+      fix: "Retention b = 1 − dividends ÷ earnings = 1 − 1/3 = 2/3. ROE = g ÷ b = 10% ÷ 0.667 = 15%.",
+      remember: "Retention b = 1 − dividends ÷ earnings = 1 − 1/3 = 2/3. ROE = g ÷ b = 10% ÷ 0.667 = 15%.",
+      tackle: ["Write b first, then rearrange g = ROE × b."],
     },
   ],
   'quant.2': [
@@ -23135,6 +23210,20 @@ const TUITION_MISSES = {
         'Any ranking or ordering → a Standard, not the Code.',
       ],
     },
+    // Logged 2026-11-14
+    {
+      module: "40.S1",
+      title: "The Code’s six components include reasonable care and helping others’ competence",
+      at: ["s1-code"],
+      questions: [
+        { ref: "L2-R40-Q3 #1", ask: "Which is a component of the Code of Ethics?", picked: "no dishonesty, fraud or deceit (I(D))", answer: "use reasonable care and independent professional judgment" },
+        { ref: "L2-R41-Q10 #3", ask: "Keeps up with rule changes; sees colleagues don’t and says nothing:", picked: "no violation if they break no rules", answer: "violation: he is bound by the Code" },
+      ],
+      trap: "Standards wording and Code wording are easy to mix up.",
+      fix: "Code: integrity; client interests first; reasonable care and independent judgment; professional conduct; promote market integrity; maintain and improve your competence *and others’*.",
+      remember: "Code: integrity; client interests first; reasonable care and independent judgment; professional conduct; promote market integrity; maintain and improve your competence *and others’*.",
+      tackle: ["Learn the six Code lines word for word; anything else is a Standard."],
+    },
   ],
   'ethics.1': [
     {
@@ -23179,6 +23268,178 @@ const TUITION_MISSES = {
         'Options with absolute words (“may not engage in ANY activities”) are usually too strong.',
       ],
       spot: 'The rest of this case set (supervision, suitability, extra compensation, conflicts) went 5/5. Your Standards judgment is good; the misses are in the Code wording.',
+    },
+    // Logged 2026-11-14
+    {
+      module: "41.S1",
+      title: "I(A): don’t take part in a violation, but you never have to report it to regulators",
+      at: ["s1-ia-g"],
+      questions: [
+        { ref: "L2-R41-Q2 #4", ask: "Under pressure to soften ratings; the firm has no firewalls. Nielsen is least obligated to:", picked: "advise her firm to develop firewalls", answer: "advise regulators and seek legal counsel" },
+        { ref: "L2-R41-Q6 #8", ask: "Suspects a colleague of illegal activity. NOT correct:", picked: "should consult counsel", answer: "is required to report to regulators" },
+        { ref: "L2-R41-Q3 #9", ask: "Releases accounting data he knows is false. This violates:", picked: "duty to employer", answer: "his fundamental responsibilities (I(A))" },
+      ],
+      trap: "The answers that sounded strongest (go to regulators, blame the employer duty) aren’t what the Standards ask.",
+      fix: "Suspect a violation: check with counsel, don’t take part, disassociate, urge it to stop. Reporting to regulators may be wise but is never required. Knowingly releasing false data = taking part in a violation (I(A)).",
+      remember: "Suspect a violation: check with counsel, don’t take part, disassociate, urge it to stop. Reporting to regulators may be wise but is never required. Knowingly releasing false data = taking part in a violation (I(A)).",
+      tackle: ["Anything with “required to report to regulators/CFA Institute” is almost always false."],
+    },
+    {
+      module: "41.S1",
+      title: "Keeping files is Record Retention, not Independence",
+      at: ["s1-ib-p"],
+      questions: [
+        { ref: "L2-R41-Q3 #3", ask: "Least likely a procedure for independence and objectivity:", picked: "restrict paid travel", answer: "maintain files to support recommendations" },
+      ],
+      trap: "Every option sounded like good practice; one belonged to another Standard.",
+      fix: "I(B) procedures protect your opinion: restricted lists, paying your own travel, limiting gifts. Keeping files is V(C) Record Retention.",
+      remember: "I(B) procedures protect your opinion: restricted lists, paying your own travel, limiting gifts. Keeping files is V(C) Record Retention.",
+      tackle: ["On “least likely a procedure for X”, find the one that belongs to a different Standard."],
+    },
+    {
+      module: "41.S1",
+      title: "Credit the author of an idea; plain facts from S&P need no credit",
+      at: ["s1-ic-g"],
+      questions: [
+        { ref: "L2-R41-Q4 #4", ask: "Newsletter uses Dixon’s model and S&P data. Brown must:", picked: "credit both Dixon and S&P", answer: "credit Dixon only" },
+      ],
+      trap: "Crediting everyone felt safest.",
+      fix: "Using someone’s model or research without credit is plagiarism (I(C)). Facts from recognised statistical services (S&P, Moody’s) don’t need a credit.",
+      remember: "Using someone’s model or research without credit is plagiarism (I(C)). Facts from recognised statistical services (S&P, Moody’s) don’t need a credit.",
+      tackle: ["Ask: is it someone’s idea or analysis (credit) or a published fact (no need)?"],
+    },
+    {
+      module: "41.S2",
+      title: "What is public: mosaic conclusions are fine; analyst-only calls and bare meetings aren’t the test",
+      at: ["s2-mnpi"],
+      questions: [
+        { ref: "L2-R41-Q1 #6", ask: "Conclusion from nonmaterial CFO data plus industry data. Allen:", picked: "should send the report to the CFO to verify", answer: "can publish the conclusion" },
+        { ref: "L2-R41-Q10 #5", ask: "News of a product heard on an analysts’ conference call. Charles and Donaldson:", picked: "both may act now", answer: "both must wait for the press conference" },
+        { ref: "L2-R41-Q9 #8", ask: "Housekeeper saw the CEO meet a famous lawyer. The broker is restricted:", picked: "for both reasons", answer: "only if told it’s a tender offer and he knows it’s nonpublic" },
+      ],
+      trap: "The tests for “material” and “public” got mixed up: analysts hearing it isn’t public, and a meeting alone isn’t material.",
+      fix: "Material = a reasonable investor would care. Public = released to the market, not just to analysts. Mosaic: your own conclusion from public + nonmaterial pieces can be used, even if it’s material.",
+      remember: "Material = a reasonable investor would care. Public = released to the market, not just to analysts. Mosaic: your own conclusion from public + nonmaterial pieces can be used, even if it’s material.",
+      tackle: ["Ask two questions every time: is it material? is it public? Only “yes + no” restricts you."],
+    },
+    {
+      module: "41.S2",
+      title: "Holding MNPI: don’t act, ask the company to release it",
+      at: ["s2-a-p"],
+      questions: [
+        { ref: "L2-R41-Q10 #9", ask: "Learned unreleased order growth. Most appropriate action:", picked: "disclose it publicly himself", answer: "encourage the company to release it; don’t act until then" },
+        { ref: "L2-R41-Q6 #7", ask: "Least accurate statement on MNPI:", picked: "passing on outside-sourced MNPI can be a violation", answer: "CFA Institute may fine you" },
+        { ref: "L2-ETH-CASE1 #3", ask: "Acted on bankers’ elevator talk plus his model. He violated:", picked: "diligence and reasonable basis", answer: "material nonpublic information" },
+      ],
+      trap: "Acting on MNPI felt fine when a model or a public announcement was also involved.",
+      fix: "With MNPI: don’t trade, don’t tip, ask the company to make it public. Publishing it yourself is not your job. CFA Institute can censure or revoke but never fines.",
+      remember: "With MNPI: don’t trade, don’t tip, ask the company to make it public. Publishing it yourself is not your job. CFA Institute can censure or revoke but never fines.",
+      tackle: ["If any part of the decision came from overheard or leaked material news, it is an MNPI case."],
+    },
+    {
+      module: "41.S2",
+      title: "Market manipulation means distorting prices; trading carefully isn’t",
+      at: ["s2-b-g"],
+      questions: [
+        { ref: "L2-R41-Q4 #6", ask: "Buys a thinly traded stock in blocks to avoid pushing up the price:", picked: "transaction-based manipulation", answer: "neither kind" },
+      ],
+      trap: "Trading in blocks sounded like gaming the market.",
+      fix: "Manipulation = trying to mislead the market: fake volume or prices (transaction-based) or false rumours (information-based). Splitting an order to limit your own price impact is normal.",
+      remember: "Manipulation = trying to mislead the market: fake volume or prices (transaction-based) or false rumours (information-based). Splitting an order to limit your own price impact is normal.",
+      tackle: ["Ask: is he trying to fool others about the price? No → no manipulation."],
+    },
+    {
+      module: "41.S3",
+      title: "III(A): your duty is to the beneficiaries; consider their taxes; don’t favour fee accounts",
+      at: ["s3-a-g"],
+      questions: [
+        { ref: "L2-R41-Q8 #8", ask: "Sponsor of an underfunded plan says invest more aggressively. Manager should:", picked: "not, because it isn’t how funding is raised", answer: "not, because it may not suit the beneficiaries" },
+        { ref: "L2-R41-Q3 #7", ask: "Trustee adds stocks and says taxes are the beneficiaries’ problem:", picked: "violates by not investing solely for current beneficiaries", answer: "violates by not considering taxes" },
+        { ref: "L2-R41-Q3 #6", ask: "Hot IPO shares steered to performance-fee accounts violate:", picked: "priority of transactions", answer: "fiduciary duty" },
+      ],
+      trap: "The duty-holder was confused (sponsor vs beneficiaries; current vs all beneficiaries).",
+      fix: "Pension: duty to the participants and beneficiaries, not the sponsor. Trust: all beneficiaries (current and remaindermen), taking their taxes into account. Favouring accounts that pay you more breaks fiduciary duty.",
+      remember: "Pension: duty to the participants and beneficiaries, not the sponsor. Trust: all beneficiaries (current and remaindermen), taking their taxes into account. Favouring accounts that pay you more breaks fiduciary duty.",
+      tackle: ["First ask “who is the client here?”, then judge every action by that person’s interest."],
+    },
+    {
+      module: "41.S3",
+      title: "III(A) also covers soft dollars, proxies and brokerage",
+      at: ["s3-a-p"],
+      questions: [
+        { ref: "L2-R41-Q1 #4", ask: "Corporate governance and soft dollars are mainly under:", picked: "Disclosure of Conflicts", answer: "Loyalty, Prudence, and Care" },
+        { ref: "L2-R41-Q4 #8", ask: "Least important proxy issue:", picked: "takeover defences", answer: "electing internal auditors" },
+        { ref: "L2-R41-Q9 #3", ask: "Broker pays for its own trading error in the fund’s account:", picked: "violates fiduciary duty", answer: "permissible" },
+      ],
+      trap: "Each of these sounded like a separate rule, but they all sit inside III(A).",
+      fix: "Brokerage and proxies are client assets: use them for the client (III(A)). Important proxy issues: pay plans, takeover defences; routine ones: internal auditors. A broker fixing its own mistake at no cost to the client is fine.",
+      remember: "Brokerage and proxies are client assets: use them for the client (III(A)). Important proxy issues: pay plans, takeover defences; routine ones: internal auditors. A broker fixing its own mistake at no cost to the client is fine.",
+      tackle: ["“Whose money/asset is this?” If it’s the client’s, think III(A)."],
+    },
+    {
+      module: "41.S3",
+      title: "III(B) fair allocation: prorate by what each account asked for",
+      at: ["s3-b-p"],
+      questions: [
+        { ref: "L2-R41-Q2 #3", ask: "Oversubscribed issue. Andrews:", picked: "first come, first served", answer: "prorate to all clients it suits" },
+        { ref: "L2-R41-Q5 #3", ask: "Improper allocation:", picked: "a predetermined formula", answer: "past participation in IPOs" },
+        { ref: "L2-R41-Q8 #1", ask: "Pro rata on advance indications of interest means each account gets:", picked: "w × m by account size", answer: "m/n of its own indication" },
+        { ref: "L2-R41-Q9 #2", ask: "Excited advisor shows new ideas to a brand-new prospect. Violates:", picked: "Suitability only", answer: "both Fair Dealing and Suitability" },
+      ],
+      trap: "Methods that sounded orderly (first come, by size, by history) still favour some clients.",
+      fix: "Short of shares: every suitable account gets the same fraction of what it asked for (m ÷ n). Fair, disclosed formulas are fine. Allocating by size, speed or past IPO deals isn’t. Existing clients hear new ideas before prospects.",
+      remember: "Short of shares: every suitable account gets the same fraction of what it asked for (m ÷ n). Fair, disclosed formulas are fine. Allocating by size, speed or past IPO deals isn’t. Existing clients hear new ideas before prospects.",
+      tackle: ["Ask: does this method give some suitable client a better deal than another? Then it’s unfair."],
+    },
+    {
+      module: "41.S3",
+      title: "III(D): true past results are fine; promises aren’t",
+      at: ["s3-d-g"],
+      questions: [
+        { ref: "L2-R41-Q11 #8", ask: "Which is in accordance with III(D)?", picked: "implying he can guarantee a return", answer: "stating his past performance as long as it is fact" },
+      ],
+      trap: "The question asked which action is allowed; the forbidden one was picked.",
+      fix: "You may state accurate past performance. You may not guarantee returns, imply past results will repeat, or cherry-pick.",
+      remember: "You may state accurate past performance. You may not guarantee returns, imply past results will repeat, or cherry-pick.",
+      tackle: ["Re-read whether the question asks for the allowed action or the violation."],
+    },
+    {
+      module: "41.S3",
+      title: "III(E) confidentiality: authorities (for illegal acts) and CFA Institute are both allowed",
+      at: ["s3-e-g"],
+      questions: [
+        { ref: "L2-R41-Q5 #6", ask: "Client probably acting illegally. The analyst may NOT:", picked: "contact CFA Institute", answer: "no exceptions in this list: both are allowed" },
+      ],
+      trap: "Telling CFA Institute felt like a breach of confidentiality.",
+      fix: "Keep client information confidential, except: illegal activity (you may tell authorities) and CFA Institute’s Professional Conduct Program, which keeps it confidential.",
+      remember: "Keep client information confidential, except: illegal activity (you may tell authorities) and CFA Institute’s Professional Conduct Program, which keeps it confidential.",
+      tackle: ["List the exceptions before choosing: law, client permission, illegal activity, CFA Institute PCP."],
+    },
+    {
+      module: "41.S4",
+      title: "IV(A): work you did for an employer belongs to the employer; keep confidential deals confidential",
+      at: ["s4-a-leave"],
+      questions: [
+        { ref: "L2-ETH-CASE1 #1", ask: "Downloads a colleague’s model when leaving, with her consent:", picked: "no violation", answer: "violation: no permission from the firm" },
+        { ref: "L2-R41-Q5 #9", ask: "Confidential settlement stops her working on Stein. She should tell her supervisor:", picked: "it’s a non-compete agreement", answer: "a legal agreement stops her, without saying why" },
+      ],
+      trap: "Permission from the colleague, and naming the kind of agreement, both felt harmless.",
+      fix: "Models, files and client lists made at work belong to the firm: take them only with the firm’s written permission. A confidential agreement stays confidential: say only that a legal agreement prevents you.",
+      remember: "Models, files and client lists made at work belong to the firm: take them only with the firm’s written permission. A confidential agreement stays confidential: say only that a legal agreement prevents you.",
+      tackle: ["Ask: whose property or secret is this? Only that owner can release it."],
+    },
+    {
+      module: "41.S5",
+      title: "V(A): a normal, reasonable process is enough; V(B): describe the real process",
+      at: ["s5-a-g", "s5-b-g"],
+      questions: [
+        { ref: "L2-ETH-CASE1 #5", ask: "Boswin runs the model, gets 40%, below her bar, and moves on:", picked: "violates diligence", answer: "no violation" },
+        { ref: "L2-R41-Q5 #4", ask: "Prospectus says “fundamental only” but the fund also uses technical models. Most likely violated because:", picked: "too much in non-core assets", answer: "it misleads on how securities are selected" },
+      ],
+      trap: "A quick decision looked careless, and a disclosed risk looked like the problem.",
+      fix: "Diligence applies to recommendations you make; using your normal model and threshold is a reasonable basis. Investors must be told the real selection process; a disclosed 40% outside coffee is fine.",
+      remember: "Diligence applies to recommendations you make; using your normal model and threshold is a reasonable basis. Investors must be told the real selection process; a disclosed 40% outside coffee is fine.",
+      tackle: ["Look for what was hidden or misstated, not for what was disclosed."],
     },
   ],
   'fsa.3': [
@@ -27603,6 +27864,118 @@ const TWIN_Q = {
   "L2-R6-CASE2 #4": { lvl: 2, full: ["A developing country with little capital per worker wants faster potential GDP growth. The most effective first step is most likely:"],
     options: ["A) funding basic research at the technology frontier", "B) capital deepening and adopting existing technology", "C) cutting the savings rate"], a: 1,
     why: "Far from the frontier, returns to capital are high and copying technology is cheap. Frontier R&D matters more for developed countries." },
+  // Logged 2026-11-14: R41 quizzes 1–11, R40 quiz 3, R18 quiz 4, R17 case 2, Ethics case 1
+  "L2-R41-Q1 #4": { lvl: 1, full: ["A manager uses client commissions to buy research that helps only the firm’s own trading desk. Which Standard is mainly at issue?"],
+    options: ["A) III(A) Loyalty, Prudence, and Care", "B) VI(C) Referral Fees", "C) I(B) Independence and Objectivity"], a: 0,
+    why: "Brokerage (soft dollars) is the client’s asset; spending it for the firm’s benefit breaks III(A)." },
+  "L2-R41-Q1 #6": { lvl: 2, full: ["An analyst combines public filings with nonmaterial comments from an investor-relations call and concludes a firm will cut its dividend. She may:"],
+    options: ["A) issue her report with the conclusion", "B) not issue it until the firm announces the cut", "C) issue it only after the firm confirms her conclusion"], a: 0,
+    why: "Public + nonmaterial pieces = mosaic theory. Her conclusion is her own analysis and can be used." },
+  "L2-R41-Q2 #3": { lvl: 1, full: ["A hot issue is oversubscribed. Which allocation is fair?"],
+    options: ["A) Biggest clients first", "B) Clients who call first", "C) Pro rata across all clients it suits"], a: 2,
+    why: "Everyone it suits gets the same proportion of what they asked for." },
+  "L2-R41-Q2 #4": { lvl: 2, full: ["A member suspects her firm’s client is misstating its accounts. Which step is NOT required by the Code and Standards?"],
+    options: ["A) Consult counsel or compliance", "B) Disassociate from the activity if it is illegal", "C) Report it to the securities regulator"], a: 2,
+    why: "Reporting to regulators may be prudent but is never required." },
+  "L2-R41-Q3 #3": { lvl: 1, full: ["Which is a compliance procedure for Standard I(B), Independence and Objectivity?"],
+    options: ["A) Keep records supporting each recommendation", "B) Pay for your own travel to company visits where practical", "C) Allocate trades pro rata"], a: 1,
+    why: "Paying your own way keeps companies from buying your opinion. A is V(C); C is III(B)." },
+  "L2-R41-Q3 #6": { lvl: 2, full: ["A firm gives most of a hot IPO to accounts that pay it performance fees. Besides fair dealing, it breaks:"],
+    options: ["A) its duty of loyalty and care to clients", "B) priority of transactions", "C) referral fee disclosure"], a: 0,
+    why: "It puts its own fee income ahead of clients: a fiduciary (III(A)) breach." },
+  "L2-R41-Q3 #7": { lvl: 2, full: ["A trustee of a trust with current beneficiaries and remaindermen should most likely:"],
+    options: ["A) invest only for the current beneficiaries’ income", "B) consider both groups and their tax positions", "C) ignore taxes, which are the beneficiaries’ concern"], a: 1,
+    why: "Duty to all beneficiaries, including their taxes." },
+  "L2-R41-Q3 #9": { lvl: 2, full: ["An investor-relations officer knowingly publishes earnings figures the CFO has falsified. He most directly violates:"],
+    options: ["A) IV(A) Loyalty to employer", "B) I(A) Knowledge of the Law (knowingly assisting a violation)", "C) VI(B) Priority of Transactions"], a: 1,
+    why: "Knowingly helping release false data = participating in a violation of law." },
+  "L2-R41-Q4 #4": { lvl: 1, full: ["A newsletter uses a model invented by a professor and price data from Bloomberg. The writer must credit:"],
+    options: ["A) the professor only", "B) Bloomberg only", "C) neither"], a: 0,
+    why: "Credit the idea’s author. Factual data from a recognised service needs no credit." },
+  "L2-R41-Q4 #6": { lvl: 2, full: ["Which is market manipulation?"],
+    options: ["A) Splitting a large buy into blocks to limit price impact", "B) Trading back and forth with a friend to make volume look high", "C) Buying a stock after careful research"], a: 1,
+    why: "Fake volume misleads others: transaction-based manipulation." },
+  "L2-R41-Q4 #8": { lvl: 1, full: ["Which proxy issue is MOST important to vote on carefully?"],
+    options: ["A) Approving the meeting location", "B) Takeover defences", "C) Electing internal auditors"], a: 1,
+    why: "Takeover defences can block bids that would pay shareholders a premium." },
+  "L2-R41-Q5 #3": { lvl: 1, full: ["Which allocation method is acceptable?"],
+    options: ["A) Based on each account’s past IPO participation", "B) Pro rata across all suitable accounts", "C) Largest accounts first"], a: 1,
+    why: "Pro rata treats every suitable account the same." },
+  "L2-R41-Q5 #4": { lvl: 2, full: ["A fund’s prospectus says it uses only fundamental analysis, but its managers rely mostly on momentum signals. This most likely violates:"],
+    options: ["A) V(B) Communication: the selection process is misdescribed", "B) VI(C) Referral Fees", "C) Nothing, if returns are good"], a: 0,
+    why: "Investors must be told the real process." },
+  "L2-R41-Q5 #6": { lvl: 1, full: ["Under III(E), a member may share confidential client information with:"],
+    options: ["A) a friend at a charity", "B) CFA Institute’s Professional Conduct Program", "C) other clients"], a: 1,
+    why: "The PCP keeps it confidential, so it’s an allowed exception." },
+  "L2-R41-Q5 #9": { lvl: 2, full: ["A member’s confidential settlement with a former employer bars her from some clients. Asked to work on one, she should:"],
+    options: ["A) tell her supervisor a legal agreement prevents it, without details", "B) explain the settlement terms", "C) work on it anyway"], a: 0,
+    why: "Flag the conflict but keep the agreement confidential." },
+  "L2-R41-Q6 #7": { lvl: 1, full: ["Which sanction can CFA Institute NOT impose?"],
+    options: ["A) Public censure", "B) Revocation of the charter", "C) A monetary fine"], a: 2,
+    why: "CFA Institute doesn’t fine; it can censure, suspend or revoke." },
+  "L2-R41-Q6 #8": { lvl: 1, full: ["Under I(A), a member who suspects illegal activity by a colleague is REQUIRED to:"],
+    options: ["A) report it to the regulator", "B) disassociate from the activity if it is illegal", "C) resign from the firm"], a: 1,
+    why: "Disassociate (after checking with counsel). Reporting or resigning isn’t required." },
+  "L2-R41-Q8 #1": { lvl: 2, full: ["300 shares are available. Client X asked for 200, Client Y for 400. On a pro rata basis by indication of interest, X receives:"],
+    options: ["A) 100", "B) 150", "C) 200"], a: 0,
+    why: "Fraction = 300 ÷ 600 = 0.5. X gets 0.5 × 200 = 100." },
+  "L2-R41-Q8 #8": { lvl: 2, full: ["A pension plan sponsor tells the manager to buy only the sponsor’s own stock. The manager should most likely:"],
+    options: ["A) follow the sponsor, who hired him", "B) act for the plan’s beneficiaries and keep the plan diversified", "C) resign immediately"], a: 1,
+    why: "The duty is to participants and beneficiaries, not the sponsor." },
+  "L2-R41-Q9 #2": { lvl: 2, full: ["A manager tells a long-standing client about a new idea two days after pitching it to a prospect she just met. Which Standards are at issue?"],
+    options: ["A) Fair Dealing only", "B) Suitability only", "C) Both Fair Dealing and Suitability"], a: 2,
+    why: "Existing clients should hear first (fair dealing), and she doesn’t know whether it suits the prospect (suitability)." },
+  "L2-R41-Q9 #3": { lvl: 2, full: ["A manager’s own trading error costs a client $5,000. The best action is for:"],
+    options: ["A) the client to bear the loss", "B) the firm to cover it, at no cost to the client", "C) the broker to cover it in exchange for future orders"], a: 1,
+    why: "Client never pays; promising future orders for a cover-up uses client brokerage." },
+  "L2-R41-Q9 #8": { lvl: 2, full: ["An analyst learns from a lawyer friend that two firms are in confidential merger talks. The analyst:"],
+    options: ["A) may trade, because the lawyer isn’t an insider", "B) may not trade: it is material and nonpublic", "C) may trade after telling her compliance officer"], a: 1,
+    why: "Material (merger) and nonpublic: restricted, whatever the source." },
+  "L2-R41-Q10 #3": { lvl: 1, full: ["Which is one of the six components of the Code of Ethics?"],
+    options: ["A) Strive to maintain and improve the competence of other investment professionals", "B) Allocate trades pro rata", "C) Keep records for seven years"], a: 0,
+    why: "Competence of yourself and others is in the Code." },
+  "L2-R41-Q10 #5": { lvl: 2, full: ["A CEO tells analysts on a private call that a big contract will be announced tomorrow. An analyst on the call:"],
+    options: ["A) may tell clients now, since many analysts heard it", "B) must wait until the public announcement", "C) may trade for his own account only"], a: 1,
+    why: "An analysts-only call isn’t public disclosure." },
+  "L2-R41-Q10 #9": { lvl: 2, full: ["An analyst accidentally receives material nonpublic sales figures from a company. The best first step is to:"],
+    options: ["A) publish the figures to make them public", "B) encourage the company to release them, and not act meanwhile", "C) trade before others find out"], a: 1,
+    why: "Ask the company to disclose; don’t act or tip." },
+  "L2-R41-Q11 #8": { lvl: 1, full: ["Under III(D), which is a violation?"],
+    options: ["A) Accurately stating a 5-year composite return", "B) Saying a new client will earn what the best account earned", "C) Providing detail on request after a brief presentation"], a: 1,
+    why: "Implying one account’s result will repeat for a new client misleads." },
+  "L2-R40-Q3 #1": { lvl: 1, full: ["Which statement is part of the Code of Ethics rather than a Standard?"],
+    options: ["A) Place the integrity of the profession and clients’ interests above your own", "B) Disclose referral fees", "C) Retain records"], a: 0,
+    why: "That line is one of the six Code components; B and C are Standards." },
+  "L2-R18-Q4 #1": { lvl: 1, full: ["Which method gives a REQUIRED RETURN for discounting dividends?"],
+    options: ["A) Free cash flow to equity", "B) Bond yield plus risk premium", "C) Residual income"], a: 1,
+    why: "A rate method. The others are cash-flow or valuation models." },
+  "L2-R18-Q4 #2": { lvl: 2, full: ["EPS $4.00, dividend $1.00, sustainable growth 9%. ROE?"],
+    options: ["A) 9%", "B) 12%", "C) 36%"], a: 1,
+    why: "b = 1 − 1 ÷ 4 = 0.75. ROE = 9% ÷ 0.75 = 12%." },
+  "L2-R18-Q4 #5": { lvl: 3, full: ["D₁ $2.00, g 5%, required return 9%. Expected price one year from today?"],
+    options: ["A) $50.00", "B) $52.50", "C) $55.13"], a: 1,
+    why: "P₁ = D₂ ÷ (r − g) = 2.00 × 1.05 ÷ 0.04 = 2.10 ÷ 0.04 = $52.50." },
+  "L2-R17-CASE2 #1": { lvl: 2, full: ["Which asset’s price is most likely to drift furthest from its intrinsic value?"],
+    options: ["A) A large, liquid, widely followed bank", "B) A small biotech with one unproven drug", "C) A Treasury bill"], a: 1,
+    why: "Hard to value → bigger possible gap between price and value." },
+  "L2-R17-CASE2 #3": { lvl: 1, full: ["A failing firm must sell all its assets within two weeks. The value is best described as:"],
+    options: ["A) orderly liquidation value", "B) forced (fire-sale) liquidation value", "C) going concern value"], a: 1,
+    why: "A rushed sale is a forced liquidation; orderly means sold over time." },
+  "L2-R17-CASE2 #4": { lvl: 2, full: ["A firm claims a cost-leadership strategy. Which evidence best shows it is working?"],
+    options: ["A) Prices below rivals’", "B) Higher margins than rivals at similar prices", "C) Higher advertising spend"], a: 1,
+    why: "Lowest costs at similar prices → wider margins." },
+  "L2-R17-CASE2 #5": { lvl: 1, full: ["Which IS one of Porter’s five forces for a toy retailer?"],
+    options: ["A) Cutting its own advertising budget", "B) Video games replacing traditional toys", "C) A change of CEO"], a: 1,
+    why: "Threat of substitutes. A and C are internal decisions." },
+  "L2-ETH-CASE1 #1": { lvl: 2, full: ["An analyst leaving his firm wants a spreadsheet model he built there. He may take it:"],
+    options: ["A) because he built it", "B) with written permission from the firm", "C) with his manager’s verbal consent"], a: 1,
+    why: "Work done for the employer belongs to the employer; get its written permission." },
+  "L2-ETH-CASE1 #3": { lvl: 2, full: ["An analyst’s model signals a sell; he also overheard bankers discuss a confidential deal for the same firm. Acting on both, he most likely violates:"],
+    options: ["A) II(A) Material Nonpublic Information", "B) V(A) Diligence", "C) Nothing, because the model agrees"], a: 0,
+    why: "If MNPI is part of the reason, acting is a breach." },
+  "L2-ETH-CASE1 #5": { lvl: 2, full: ["An analyst runs her usual screen on a stock, it falls below her threshold, and she drops it. She has:"],
+    options: ["A) violated V(A) by not researching further", "B) not violated any Standard", "C) violated I(B)"], a: 1,
+    why: "A normal process gives a reasonable basis; no recommendation was made." },
 };
 
 const TUITION_Q = {
@@ -31601,6 +31974,623 @@ const TUITION_Q = {
       "wrong": "*Applying* technology that already exists is how developing countries catch up. Surico already does that, so it gains little more from it."
     }
   },
+  "L2-R41-Q1 #4": {
+    "full": [
+      "Member compliance on issues relating to corporate governance or to soft dollars is primarily addressed by the Standard concerning:"
+    ],
+    "options": [
+      "A) Disclosure of Referral Fees.",
+      "B) Loyalty, Prudence, and Care.",
+      "C) Disclosure of Conflicts to Clients and Prospects."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Voting proxies (corporate governance) and spending client commissions on research (soft dollars) are both about using the client’s assets for the client. That is *III(A) Loyalty, Prudence, and Care*.",
+      "wrong": "Disclosure of conflicts (VI(A)) is about telling people what might bias you. Soft dollars and proxies are client assets you must manage in the client’s interest, which is III(A)."
+    }
+  },
+  "L2-R41-Q1 #6": {
+    "full": [
+      "Greg Allen is a security analyst and visits David Dawson, the Chief Financial Officer of Edmonds Company. Dawson reveals a great deal of nonmaterial financial data to Allen, data that Dawson routinely reveals to all security analysts who visit him. From this data and other industry information, Allen conjectures that Edmonds is likely to make a tender offer for another company in the industry, a fact that if true would be considered material to the value of the company. Allen:"
+    ],
+    "options": [
+      "A) should send a copy of the report to Dawson for verification before disseminating the report to clients.",
+      "B) must not disseminate the information or use it for trading purposes until the tender offer is announced.",
+      "C) can publish his conclusion in a research report."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Every piece Allen used was either public or *nonmaterial*. Putting such pieces together is the *mosaic theory*, and the conclusion is his own analysis, so he can publish it, even though the conclusion itself is important.",
+      "wrong": "Sending the report to the CFO to “verify” a tender offer would be asking for inside information. There is no need: his conclusion is already allowed."
+    }
+  },
+  "L2-R41-Q2 #3": {
+    "full": [
+      "Scott Andrews, CFA, is a stockbroker selling an oversubscribed stock issue. Which of the following best describes Andrews’ actions regarding this sale? Andrews:"
+    ],
+    "options": [
+      "A) cannot offer an oversubscribed issue of stock to any clients.",
+      "B) can offer this security on a prorated basis to all clients for which the security is appropriate.",
+      "C) can only offer this security to clients for which it is appropriate on a first come first serve basis."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "When there aren’t enough shares, everyone it suits gets a *fair slice*: prorate the shares across all those clients.",
+      "wrong": "First come, first served rewards whoever hears first, usually the biggest or best-connected clients. That isn’t fair dealing."
+    }
+  },
+  "L2-R41-Q2 #4": {
+    "full": [
+      "Susan Nielsen, CFA, works for a rating agency which competes directly with S&P and Moody’s. Her friend, Lance Parker, works for the same company but in a different department which is involved in advisory services for structured products. Nielsen frequently receives pressure from Parker to “put a positive face” on client ratings to help him sell advisory services. She is reluctant to discuss client ratings with Parker and tries to avoid the topic. She consults her company’s compliance department and learns that there are no policies or procedures to discourage Nielsen and Parker from sharing information and is encouraged to consider his advice on company ratings. Nielsen should feel least obligated to:"
+    ],
+    "options": [
+      "A) avoid talking with Parker about client ratings.",
+      "B) advise her firm to develop firewalls.",
+      "C) advise regulators of the potential conflict of interest and seek legal counsel."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Nielsen should protect her independence: stop discussing ratings with Parker and push her firm to build firewalls. Going to *regulators* is something the Code never requires, so it is the thing she is least obliged to do.",
+      "wrong": "Advising the firm to build firewalls is exactly what she *should* do: it is the standard fix for this kind of pressure."
+    }
+  },
+  "L2-R41-Q3 #3": {
+    "full": [
+      "According to CFA Institute Standards of Professional Conduct, which of the following is least likely a compliance procedure for maintaining independence and objectivity in making investment recommendations or taking investment action?"
+    ],
+    "options": [
+      "A) Create a restricted list so that the firm disseminates only factual information about a controversial company.",
+      "B) Restrict special cost arrangements related to travel.",
+      "C) Maintain files to support investment recommendations."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Keeping files to back up recommendations is a good habit, but it belongs to *V(C) Record Retention*, not to independence and objectivity.",
+      "wrong": "Limiting paid-for travel (pay your own way) is a classic I(B) procedure: it stops companies buying your opinion."
+    }
+  },
+  "L2-R41-Q3 #6": {
+    "full": [
+      "When a firm seeks to allocate a disproportionate number of shares of a hot IPO to performance-based fee accounts this constitutes a violation of the Standard concerning:"
+    ],
+    "options": [
+      "A) priority of transactions.",
+      "B) fiduciary duty.",
+      "C) additional compensation arrangements."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The firm is favouring the accounts that pay it more, so it puts its *own* interest ahead of clients’. That breaks its *fiduciary duty* (and fair dealing too).",
+      "wrong": "Priority of transactions is about *personal* trades jumping ahead of client trades. No one is trading for themselves here."
+    }
+  },
+  "L2-R41-Q3 #7": {
+    "full": [
+      "Jordan Conomos is the new trustee for the Grant Trust, which has both current beneficiaries and remaindermen. Up until now, the trust has been entirely invested in long-term tax-free municipal bonds. Conomos decides to put 30 percent of the assets in common stocks, with the justification that taxes should be the concern of the trust beneficiaries and not the trust, and the trust needs some diversification and growth. Conomos is:"
+    ],
+    "options": [
+      "A) not violating his fiduciary duty.",
+      "B) violating his fiduciary duty by not considering taxes.",
+      "C) violating his fiduciary duty by not investing solely for the purposes of the current beneficiaries."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Diversifying and adding growth is fine. His mistake is saying taxes aren’t his problem: a trustee *must* consider the beneficiaries’ taxes.",
+      "wrong": "A trustee serves *both* the current beneficiaries and the remaindermen (who get what’s left later). Investing only for the current ones would be wrong."
+    }
+  },
+  "L2-R41-Q3 #9": {
+    "full": [
+      "Marc Feldman, CFA, is manager of corporate investor relations for a high-tech startup, zippy.com, in Boise, Idaho. Feldman learns that Larry Smith, controller, is altering the accounting records. Knowing the data is incorrect, Feldman releases Smith’s financial data to investors. This action:"
+    ],
+    "options": [
+      "A) constitutes a violation of Standard III(D) concerning performance presentation.",
+      "B) constitutes a violation of the Standard concerning duty to employer.",
+      "C) constitutes a violation of his fundamental responsibilities under the Code and Standards."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Releasing figures he *knows* are false means knowingly taking part in a violation of the law. That breaks his most basic duty: *I(A) Knowledge of the Law* (and the Code).",
+      "wrong": "This isn’t about loyalty to his employer. Doing what the employer wants doesn’t excuse helping a fraud."
+    }
+  },
+  "L2-R41-Q4 #4": {
+    "full": [
+      "Travis Brown is a partner in a money management firm. He recently attended a seminar and learned about a quantitative model presented by Dixon. Upon returning to his office, Brown began testing the model and making a few minor alterations. He showed the model to his partners who were impressed and decided to promote the model as proof of the firm’s value added. In the firm’s next newsletter, Brown included a discussion of the model, the results, and financial data on several stocks selected by the model. These factual data were taken from Standard and Poor’s publication. According to the CFA Institute Standards of Professional Conduct, which of the following actions is Brown required to take?"
+    ],
+    "options": [
+      "A) Brown must credit both Dixon and S&P.",
+      "B) Brown must credit Dixon, no need to credit S&P.",
+      "C) Brown must credit S&P, no need to credit Dixon."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The model is Dixon’s idea, so he must be credited. Plain facts from a recognised statistical service like S&P don’t need a credit.",
+      "wrong": "Crediting S&P is not wrong, but it isn’t *required*. The question asks what he must do."
+    }
+  },
+  "L2-R41-Q4 #6": {
+    "full": [
+      "Steve Waters, a Level I CFA candidate, has decided to enter into a long position of Farmco stock. Since Farmco is thinly traded, Waters is concerned the order will overwhelm the liquidity of Farmco and the price will surge. Waters engages in a series of block trades in order to accomplish the purchase. According to Standard II(B), Market Manipulation, Waters has engaged in:"
+    ],
+    "options": [
+      "A) transaction-based manipulation, but not information-based manipulation.",
+      "B) neither transaction-based manipulation nor information-based manipulation.",
+      "C) both transaction-based manipulation and information-based manipulation."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Splitting a big order into blocks so you *don’t* move the price is normal, sensible trading. Manipulation means trying to *distort* the price or volume to mislead others.",
+      "wrong": "He isn’t faking prices or volume; he is avoiding pushing the price up. That is the opposite of manipulation."
+    }
+  },
+  "L2-R41-Q4 #8": {
+    "full": [
+      "Which of the following would be the least important proxy issue?"
+    ],
+    "options": [
+      "A) Election of internal auditors.",
+      "B) Compensation plans for officers.",
+      "C) Takeover defense and related actions."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Choosing internal auditors is routine. Pay plans for officers and takeover defences can change shareholder value a lot, so those are the important proxy issues.",
+      "wrong": "Takeover defences can block a bid that would pay shareholders a premium. That is one of the *most* important issues."
+    }
+  },
+  "L2-R41-Q5 #3": {
+    "full": [
+      "Which of the following trade allocation procedures is improper? Allocation:"
+    ],
+    "options": [
+      "A) on a strict pro rata basis over all suitable accounts.",
+      "B) based upon past participation in IPOs.",
+      "C) based upon a predetermined formula."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Allocating by past IPO participation favours the accounts (usually the big ones) that got in before. Taking part before doesn’t make a new IPO suitable.",
+      "wrong": "A predetermined formula is fine if it is fair and disclosed."
+    }
+  },
+  "L2-R41-Q5 #4": {
+    "full": [
+      "Wanda Brunner, CFA, is reviewing a draft fund prospectus for her new “Leveraged Long Coffee” (LLC), a closed-end fund. LLC uses a combination of fundamental and technical trading models to evaluate individual securities. Disclosure 1: “LLC charges a flat 3.00% of assets under management.” Disclosure 2: “LLC may invest up to 40% of the fund’s assets in securities which are not related to coffee or other consumer products.” Disclosure 3: “LLC relies only on fundamental valuation of individual securities.” Which of the following standards will most likely be violated by distribution of the prospectus?"
+    ],
+    "options": [
+      "A) Suitability because the fees are exorbitant.",
+      "B) Suitability because it misleads the reader as to the process by which securities are selected.",
+      "C) Suitability because the fund can hold an excessive portion of the portfolio in non-core assets."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Disclosure 3 says “fundamental only”, but the fund also uses technical models. That misleads investors about *how securities are picked*.",
+      "wrong": "Holding up to 40% outside coffee is allowed as long as it is disclosed, and it is."
+    }
+  },
+  "L2-R41-Q5 #6": {
+    "full": [
+      "While servicing his clients’ accounts, an analyst who is a CFA charterholder, determines that one client is probably involved in illegal activities. According to Standard III(E), Preservation of Confidentiality, the analyst may NOT do which of the following?"
+    ],
+    "options": [
+      "A) Contact the appropriate governmental authorities about the determination.",
+      "B) There are no exceptions in this list.",
+      "C) Contact CFA Institute about the determination."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Confidentiality has exceptions: illegal activity (you may tell the authorities) and CFA Institute’s Professional Conduct Program (it keeps things confidential). Both are allowed, so neither is forbidden.",
+      "wrong": "Talking to CFA Institute’s Professional Conduct Program is specifically allowed."
+    }
+  },
+  "L2-R41-Q5 #9": {
+    "full": [
+      "One year ago, Karen Jason left the employment as a portfolio manager of Howe Advisors. Both parties signed a settlement in which Jason agreed not to work on the portfolios of any existing Howe client for two years, and agreed to keep all aspects of the agreement confidential. Jason now works for Torre Advisors, which has the Stein Company as a new client. At the time Jason left Howe, Stein was a client of Howe, although Jason did not personally work on the Stein portfolio. Jason’s supervisor at Torre wants Jason to work on the Stein portfolio. Jason should:"
+    ],
+    "options": [
+      "A) inform her supervisor that she cannot work on the portfolio because of a legal agreement, but cannot tell him why.",
+      "B) work on the portfolio because she did not personally work on the portfolio when she was at Howe.",
+      "C) inform her supervisor that she cannot work on the portfolio because of a non-compete agreement."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "She must not work on Stein, and she must tell her supervisor there is a conflict. But the agreement is confidential, so she can only say a legal agreement stops her.",
+      "wrong": "Saying “non-compete” already reveals what the confidential agreement is about. That breaks the confidentiality she promised."
+    }
+  },
+  "L2-R41-Q6 #7": {
+    "full": [
+      "Which one of the following least accurately describes the CFA Institute Standard about using material nonpublic information?"
+    ],
+    "options": [
+      "A) An analyst using material nonpublic information may be fined by CFA Institute.",
+      "B) An analyst may use nonmaterial nonpublic information as long as it has been developed under the Mosaic Theory.",
+      "C) An analyst may violate this Standard by passing information to others even when it has been obtained from outside the company."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "CFA Institute can censure, suspend or revoke, but it does *not fine* anyone. So A is the false statement.",
+      "wrong": "C is true: passing on MNPI breaks the Standard however you got it, even from outside the company."
+    }
+  },
+  "L2-R41-Q6 #8": {
+    "full": [
+      "Allen Parsons, a CFA candidate, suspects a colleague at his firm of engaging in an illegal activity. Which of the following statements about procedures for compliance involving Standard I(A), Knowledge of the law is NOT correct? Parsons:"
+    ],
+    "options": [
+      "A) should consult counsel to determine whether the conduct is, in fact, illegal.",
+      "B) should urge his firm to attempt to persuade the perpetrator to cease such conduct.",
+      "C) is required to report this legal violation to the appropriate governmental or regulatory organizations."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "The Code never *requires* reporting to regulators (it may be wise, but it’s not required). So “is required to report” is the incorrect statement.",
+      "wrong": "Consulting counsel is exactly the right first step, so A is correct, not the answer to a NOT question."
+    }
+  },
+  "L2-R41-Q8 #1": {
+    "full": [
+      "Pro rata allocation on the basis of an advance indication of interest means each account for which the shares are suitable:"
+    ],
+    "options": [
+      "A) and which has expressed an advance indication of interest, shall receive m/n fraction of their indication, where there are m shares available and indications of interest for n shares.",
+      "B) and which has expressed an advance indication of interest, shall receive w*m shares, where w is the account’s proportional value of all such accounts and there are m shares available.",
+      "C) shall receive m/n shares, where there are m shares available and n such accounts."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Each account gets the same *fraction of what it asked for*. If clients asked for 1,000 shares in total and there are 600, everyone gets 60% of their own request.",
+      "wrong": "Splitting by account *size* (w × m) ignores what each account asked for. Pro rata here means pro rata to the indications of interest.",
+      "steps": [
+        "Example: m = 600 shares available, n = 1,000 asked for",
+        "Fraction = m ÷ n = 600 ÷ 1,000 = 0.6",
+        "A client who asked for 200 gets 0.6 × 200 = 120"
+      ]
+    }
+  },
+  "L2-R41-Q8 #8": {
+    "full": [
+      "A company has a defined benefit plan that is currently under-funded. The plan sponsor has instructed the portfolio manager of the plan to invest more aggressively to bring the funding level up to an adequate amount. Which of the following statements best describes the course of action the portfolio manager should take? The portfolio manager should:"
+    ],
+    "options": [
+      "A) invest more aggressively because his fiduciary duties lie with the plan sponsor.",
+      "B) not invest more aggressively since this may expose the plan to too much risk and may not be in the best interest of the plan’s beneficiaries.",
+      "C) not invest more aggressively because this is not the method used to increase the funding level of a plan."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "A pension manager’s duty is to the *beneficiaries*, not the sponsor. Taking more risk to fix the sponsor’s funding gap could hurt them, so he should not.",
+      "wrong": "C gets the decision right but the reason wrong. The point is the beneficiaries’ interest, not some rule about how funding gaps are closed."
+    }
+  },
+  "L2-R41-Q9 #2": {
+    "full": [
+      "An investment advisor goes straight from a research seminar to a meeting with a prospective new client with whom she has never been in contact. The advisor is very excited about the information she just received in the seminar and begins showing the prospect the new ideas her firm is coming up with. This is most likely a violation of:"
+    ],
+    "options": [
+      "A) Standard III(C), Suitability.",
+      "B) Standard III(B), Fair Dealing.",
+      "C) both of these."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Two problems. *Fair dealing:* existing clients should hear new ideas first. *Suitability:* she knows nothing about this prospect, so she can’t tell if the ideas suit them.",
+      "wrong": "Suitability is right, but it’s only half. Telling a prospect before existing clients is also unfair to those clients."
+    }
+  },
+  "L2-R41-Q9 #3": {
+    "full": [
+      "Tony Calaveccio, CFA, is the manager of the TrustCo Small Cap Venture Fund. Calaveccio places a trade with Quantco Brokerage. There was a trading error made in Calaveccio’s account due to a slip up within Quantco. Calaveccio realizes that the error has taken place, and informs his contact at Quantco. Calaveccio allows Quantco to cover the error, with no cost to TrustCo. This is:"
+    ],
+    "options": [
+      "A) permissible under CFA Institute Standards.",
+      "B) a violation of Calaveccio’s duty to his employer.",
+      "C) a violation of Calaveccio’s fiduciary duties."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "The broker made the mistake, so the broker pays for it. The client loses nothing and nobody owes anyone future business. That’s fine.",
+      "wrong": "His fiduciary duty is to protect the client, and he did: the fund bears no cost."
+    }
+  },
+  "L2-R41-Q9 #8": {
+    "full": [
+      "A stockbroker who is a member of CFA Institute has a part-time housekeeper who also works for the CEO of Festival, Inc. One day the housekeeper mentions to the broker that she saw the CEO of Festival having a conversation at his home with John Tater, who is a nationally known corporate lawyer and consultant. The stockbroker is restricted from trading on this information:"
+    ],
+    "options": [
+      "A) for both of the reasons listed here.",
+      "B) only if the broker knows that the meeting is non-public information.",
+      "C) if the housekeeper says the meeting concerned a tender offer and the broker knows that it is non-public information."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Just knowing that a meeting happened isn’t material: it could be about anything. It only becomes a restriction if he learns it’s about a *tender offer* (material) *and* knows that’s not public.",
+      "wrong": "B covers only “nonpublic”. Without the tender-offer detail the information isn’t material, so he isn’t restricted."
+    }
+  },
+  "L2-R41-Q10 #3": {
+    "full": [
+      "A CFA Institute member conscientiously maintains records of changes in security regulations. The member notices that his colleagues do not, and does NOT say anything. Is this a violation of Standard I(A)?"
+    ],
+    "options": [
+      "A) No, as long as the colleagues do not violate the new rules.",
+      "B) Yes, and the member should disassociate from these colleagues.",
+      "C) Yes, because the member is bound by the Code of Ethics."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "The Code says members should “strive to maintain and improve the competence of *other* investment professionals”. Watching colleagues fall behind on rules and saying nothing ignores that.",
+      "wrong": "Whether the colleagues break a rule isn’t the test. The Code asks him to help their competence, so staying silent is the problem."
+    }
+  },
+  "L2-R41-Q10 #5": {
+    "full": [
+      "Dick Charles is a security analyst with a large brokerage company. Sean Donaldson is a money manager. They both listen in on a conference call for security analysts with the president of Stoppard, Inc., who states that in two days the company will be holding a press conference announcing a new product. Both Charles and Donaldson feel the news will increase the value of Stoppard."
+    ],
+    "options": [
+      "A) Charles can disseminate the information to clients, and Donaldson can purchase the stock for his clients immediately.",
+      "B) Charles must wait until after the press conference to disseminate the information to clients, but Donaldson can purchase the stock for his clients immediately.",
+      "C) Charles must wait until after the press conference to disseminate the information to clients, and Donaldson must wait until after the press conference to purchase the stock for his clients."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "A call for analysts is not a public release. Until the press conference, the news is material and nonpublic, so *both* must wait.",
+      "wrong": "Hearing it on a call with other analysts doesn’t make it public. The public hasn’t heard it yet."
+    }
+  },
+  "L2-R41-Q10 #9": {
+    "full": [
+      "Paul Clark, CFA, has just learned from a financial analyst at Corvac Industries that orders for their core products are running ahead of last year’s orders by 15%, information that has not been publicly disclosed by the company. Clark currently has a hold rating on Corvac based on his expectation of a 5% increase in revenues for the current year. Based on Standard II(A) Material Non-public Information, Clark’s most appropriate course of action is to:"
+    ],
+    "options": [
+      "A) disclose the information publicly prior to making any changes in his recommendation.",
+      "B) put Corvac on his firm’s restricted list and not make a recommendation until the increase in orders is publicly disclosed.",
+      "C) encourage Corvac to publicly release the order information and not act on that information until it is publicly disclosed."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "With MNPI, the right move is to *ask the company* to make it public, and not act until it does.",
+      "wrong": "It isn’t Clark’s information to publish. Disclosing it himself would itself likely break the Standard."
+    }
+  },
+  "L2-R41-Q11 #8": {
+    "full": [
+      "Paul Salyer, a portfolio manager, is making a presentation to a prospective client. Paul says that as a new portfolio manager, he made an average annual rate of return of 50% in the last two years at his previous firm and that based on this, he can guarantee a 50% return to the client. Which of the following statements is in accordance with Standard III(D), Performance Presentation?"
+    ],
+    "options": [
+      "A) Imputing his past performance to future performance.",
+      "B) Stating his past performance as long as it is fact.",
+      "C) Implying that he can guarantee a return."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Telling a prospect your true past record is allowed. Promising it will continue is not.",
+      "wrong": "Guaranteeing a return is exactly what III(D) forbids. The question asked which action is *allowed*."
+    }
+  },
+  "L2-R40-Q3 #1": {
+    "full": [
+      "Which of the following is a component of the Code of Ethics?"
+    ],
+    "options": [
+      "A) Members shall not knowingly participate or assist in any violation of such laws, rules, or regulations.",
+      "B) Members shall not engage in any professional conduct involving dishonesty, fraud, deceit, or misrepresentation or commit any act that reflects adversely on their honesty, trustworthiness, or professional competence.",
+      "C) Members shall use reasonable care and exercise independent professional judgment."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "The six-line *Code* includes “use reasonable care and exercise independent professional judgment”. The others are worded like *Standards*.",
+      "wrong": "B is Standard I(D) Misconduct, not one of the six Code components."
+    }
+  },
+  "L2-R18-Q4 #1": {
+    "full": [
+      "Which of the following is least likely a valid approach to determining the appropriate discount rate for a firm’s dividends?"
+    ],
+    "options": [
+      "A) Capital asset pricing model (CAPM).",
+      "B) Free cash flow to firm (FCFF).",
+      "C) Arbitrage pricing theory (APT)."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "CAPM and APT give you a required return (a discount rate). FCFF is a *cash flow* you discount, not a way to find the rate.",
+      "wrong": "APT is a valid way to estimate a required return, just like CAPM but with several factors."
+    }
+  },
+  "L2-R18-Q4 #2": {
+    "full": [
+      "Supergro has current dividends of $1, current earnings of $3, and a sustainable growth rate of 10%. What is Supergro’s return on equity?"
+    ],
+    "options": [
+      "A) 15%.",
+      "B) 20%.",
+      "C) 12%."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Sustainable growth = ROE × retention. Retention is the share of earnings kept, so solve for ROE.",
+      "wrong": "20% would need retention of 0.5. Here the firm keeps $2 of every $3, so retention is 2/3.",
+      "steps": [
+        "Retention b = 1 − payout = 1 − 1 ÷ 3 = 0.667",
+        "g = ROE × b → ROE = g ÷ b = 10% ÷ 0.667 = *15%*"
+      ]
+    }
+  },
+  "L2-R18-Q4 #5": {
+    "full": [
+      "IAM, Inc. has a current stock price of $40.00 and expects to pay a dividend in one year of $1.80. The dividend is expected to grow at a constant rate of 6% annually. IAM has a beta of 0.95, the market is expected to return 11%, and the risk-free rate of interest is 4%. The expected stock price two years from today is closest to:"
+    ],
+    "options": [
+      "A) $41.03.",
+      "B) $43.94.",
+      "C) $43.49."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "The price in two years is the Gordon model one year further on: it uses the dividend in year 3.",
+      "wrong": "43.94 has the same digits as the answer, 43.49, with two of them swapped. Recheck the last figures before you pick.",
+      "steps": [
+        "r = 4% + 0.95 × (11% − 4%) = 4% + 6.65% = 10.65%",
+        "D₃ = D₁ × 1.06² = 1.80 × 1.1236 = $2.0225",
+        "P₂ = D₃ ÷ (r − g) = 2.0225 ÷ (0.1065 − 0.06) = 2.0225 ÷ 0.0465 = *$43.49*"
+      ]
+    }
+  },
+  "L2-R17-CASE2 #1": {
+    "full": [
+      "Extract from the case — Article One, introductory paragraph: “The Grossman-Stiglitz paradox states that if security prices are informationally efficient there would be no reward to collecting and analyzing information. If this is the case no investor would collect and analyze information and the market price could not reflect intrinsic value. Further works have shown the easier intrinsic value is to estimate the bigger the potential divergence between price and value will be.”",
+      "Why is the introductory paragraph in Article One incorrect?"
+    ],
+    "options": [
+      "Most analysts believe that at some point intrinsic and market value will converge.",
+      "The harder intrinsic value is to estimate the greater the potential divergence of market and intrinsic value",
+      "Markets cannot be constantly informationally efficient as this would mean that intrinsic and market price would always be identical."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "The last sentence has it backwards. When value is *hard* to work out, prices can drift further from it. Easy-to-value assets stay close to their value.",
+      "wrong": "Your option restates part of the paradox, which the paragraph already gets right. The error is the “easier → bigger gap” claim."
+    }
+  },
+  "L2-R17-CASE2 #3": {
+    "full": [
+      "Extract from the case — Linpan Inc.: “Assuming that the business voluntarily winds down over the next year, as I believe it should, and gradually sells off its assets, I would suggest that the value of the security should be no more than the cash the asset sales would bring in net of the firm’s liabilities.” Heller wants the writer to name this suggested valuation method.",
+      "Which of the following correctly identifies the suggested valuation method?"
+    ],
+    "options": [
+      "Going Concern Valuation.",
+      "Liquidation Value.",
+      "Orderly Liquidation Value."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "The writer says the firm winds down *gradually* over a year. Selling assets slowly rather than in a fire sale is *orderly* liquidation value.",
+      "wrong": "Plain liquidation value doesn’t say how fast. The words “voluntarily” and “gradually” point to the orderly version."
+    }
+  },
+  "L2-R17-CASE2 #4": {
+    "full": [
+      "Extract from the case — Toys to You (TTY): revenue 7.9 vs competitor 12.3; net income 1.1 vs 1.9. Chairman: “Our continued commitment to producing traditional toys which match our competitors on quality and price will ensure our loyal customer base is maintained, while our cutting edge production technology will maintain our industry leading cost base and deliver superb returns to our investors.”",
+      "Which of the following would be the most appropriate conclusion for the writer to add?"
+    ],
+    "options": [
+      "TTY is attempting a strategy of product differentiation by committing to high quality products but appears to be failing as revenues are lower than its competitors.",
+      "TTY is attempting a strategy of cost leadership by keeping prices equal to or lower than its competitors but appears to be failing as margins are lower than its competitor’s.",
+      "TTY is attempting a strategy of cost leadership by producing with the lowest cost base but appears to be failing as margins are lower than its competitor’s."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Cost leadership means *being the cheapest producer*, which is what “industry-leading cost base” claims. If TTY really had the lowest costs, its margin would beat the rival’s. It doesn’t: 1.1 ÷ 7.9 = 13.9% vs 1.9 ÷ 12.3 = 15.4%.",
+      "wrong": "Cost leadership is defined by low *costs*, not by low *prices*. Matching rivals on price is just how TTY sells; it isn’t the strategy.",
+      "steps": [
+        "TTY margin = 1.1 ÷ 7.9 = 13.9%",
+        "Competitor margin = 1.9 ÷ 12.3 = 15.4%"
+      ]
+    }
+  },
+  "L2-R17-CASE2 #5": {
+    "full": [
+      "Extract from the case — Toys to You (TTY): revenue 7.9 vs competitor 12.3; net income 1.1 vs 1.9. Chairman: “Our continued commitment to producing traditional toys which match our competitors on quality and price will ensure our loyal customer base is maintained, while our cutting edge production technology will maintain our industry leading cost base and deliver superb returns to our investors.”",
+      "Which of the following would not be an example of one of Michael Porter’s 5 competitive forces applicable to Toys to You?"
+    ],
+    "options": [
+      "A new chain of toy stores, Games & Goodies, has opened up in key Toys to You territories.",
+      "Toys to You’s biggest supplier have ‘due to unforeseen market conditions’ added a 15% premium to key product lines.",
+      "Due to cash flow issues Toys to You have been forced to halve the marketing and advertising budget compared to the previous financial year."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Porter’s five forces are about the *industry*: new entrants, suppliers, buyers, rivals, substitutes. Cutting your own marketing budget is an internal choice, not one of them.",
+      "wrong": "A new toy chain arriving is a new entrant / rival: definitely one of the five forces."
+    }
+  },
+  "L2-ETH-CASE1 #1": {
+    "full": [
+      "Extract from the case: Anne Boswin, CFA, an analyst at Greenfield Financial, developed a model to predict LBO targets. Robert Acertado, CFA, used it, then took a job at Smith & Garner. With Boswin’s consent, he downloaded the model before leaving.",
+      "When downloading the model from Greenfield Financial Corporation, does Acertado violate any CFA Institute Standards of Practice and Professional Conduct?"
+    ],
+    "options": [
+      "No.",
+      "Yes, because he does not have written permission from Boswin.",
+      "Yes, because he does not have permission from Greenfield Financial Corporation."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Boswin built the model *as an employee*, so it belongs to Greenfield, not to her. Taking it without Greenfield’s permission breaks IV(A) Loyalty.",
+      "wrong": "Boswin saying yes doesn’t count: it isn’t hers to give away."
+    }
+  },
+  "L2-ETH-CASE1 #3": {
+    "full": [
+      "Extract from the case: Anne Boswin, CFA, an analyst at Greenfield Financial, developed a model to predict LBO targets. Robert Acertado, CFA, used it, then took a job at Smith & Garner. With Boswin’s consent, he downloaded the model before leaving. At Smith & Garner, Acertado overhears investment bankers in the elevator say they financed a deal for Country Industries that takes its leverage to 80%. That afternoon his model gives Country Industries a 62% LBO probability, above his usual 60% threshold. He checks his inputs and immediately recommends selling its bonds and buying derivatives that profit if they fall.",
+      "When making the recommendation regarding Country Industries, does Acertado violate any CFA Institute Standards?"
+    ],
+    "options": [
+      "No.",
+      "Yes, relating to diligence and reasonable basis.",
+      "Yes, relating to material nonpublic information."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "What he overheard is reliable, important and not public. Acting on it is a *material nonpublic information* breach.",
+      "wrong": "His process was fine: a reliable model with checked inputs is a reasonable basis. The problem is the inside information, not the diligence."
+    }
+  },
+  "L2-ETH-CASE1 #5": {
+    "full": [
+      "Extract from the case: Anne Boswin, CFA, an analyst at Greenfield Financial, developed a model to predict LBO targets. Robert Acertado, CFA, used it, then took a job at Smith & Garner. With Boswin’s consent, he downloaded the model before leaving. Acertado later tells Boswin he thinks Country Industries is an LBO candidate. Boswin runs it through the model herself and gets a 40% probability, not enough by her usual rule to justify more research, so she drops it and returns to her newsletter.",
+      "When analyzing the probability of an LBO of Country Industries, does Boswin violate any CFA Institute Standards?"
+    ],
+    "options": [
+      "No.",
+      "Yes, relating to independence and objectivity.",
+      "Yes, relating to diligence and reasonable basis."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Boswin used her normal model and her normal rule, and decided not to recommend anything. That is a reasonable basis, so there’s no violation.",
+      "wrong": "Diligence would matter if she had *made* a recommendation without enough work. She made none."
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -32462,6 +33452,155 @@ const TESTS = [
     { mod: "6.S3", what: "Constant output-to-capital ratio = neoclassical steady state", ok: 1 },
     { mod: "6.S3", what: "R&D subsidies: private benefit alone gives too little R&D", ok: 0, why: "gap" },
     { mod: "6.S2", what: "Developed country: education for R&D (innovation) raises TFP", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R41-Q1", lvl: "22221222", topic: "ethics.1", name: "Reading 41 quiz 1", date: "2026-11-13", mins: 13.5, qs: [
+    { mod: "41.S4", what: "Client gift over the firm’s limit: return it and explain the policy", ok: 1 },
+    { mod: "41.S3", what: "ERISA fiduciary must diversify; concentrated portfolios aren’t a valid policy", ok: 1 },
+    { mod: "41.S2", what: "Knowing a posted quote is bogus = material nonpublic information", ok: 1 },
+    { mod: "41.S3", what: "Corporate governance and soft dollars fall under III(A) Loyalty, Prudence, and Care", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Directed brokerage benefits the client, not the firm (least accurate)", ok: 1 },
+    { mod: "41.S2", what: "Mosaic theory: the conclusion from nonmaterial pieces can be published", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Recommending without a reasonable inquiry into the client breaks III", ok: 1 },
+    { mod: "41.S2", what: "Draft press release with MNPI shown to an intern and a brother = violation", ok: 1 },
+  ] },
+  { id: "L2-R41-Q2", lvl: "2222122", topic: "ethics.1", name: "Reading 41 quiz 2", date: "2026-11-13", mins: 8.4, qs: [
+    { mod: "41.S3", what: "Proxy policy: index-fund proxies must be voted too", ok: 1 },
+    { mod: "41.S1", what: "Handing the illegal sign-off to a supervisor = assisting a violation", ok: 1 },
+    { mod: "41.S3", what: "Oversubscribed issue: prorate to all clients it suits", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "Least obligated: telling regulators (firewalls and silence are expected)", ok: 0, why: "gap" },
+    { mod: "40.S1", what: "Ethical standards are not precise; start with the applicable code", ok: 1 },
+    { mod: "41.S1", what: "Suspected misstatement: consult counsel, don’t go to the SEC yet", ok: 1 },
+    { mod: "41.S3", what: "A fair, disclosed formula may deviate from pro rata", ok: 1 },
+  ] },
+  { id: "L2-R41-Q3", lvl: "2111122222", topic: "ethics.1", name: "Reading 41 quiz 3", date: "2026-11-13", mins: 13.5, qs: [
+    { mod: "41.S5", what: "Newsletter without basis and promising superior returns: not a Fair Dealing breach", ok: 1 },
+    { mod: "41.S1", what: "Knowing of a violation and doing nothing can be participation", ok: 1 },
+    { mod: "41.S1", what: "Keeping files supports V(C) Record Retention, not I(B) independence", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "The Code doesn’t require reporting violations to regulators", ok: 1 },
+    { mod: "41.S2", what: "Mosaic theory", ok: 1 },
+    { mod: "41.S3", what: "Hot IPO steered to performance-fee accounts breaks fiduciary duty (and fair dealing)", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "A trustee must consider beneficiaries’ taxes", ok: 0, why: "flip" },
+    { mod: "41.S1", what: "Followed counsel and found no misstatement: no violation", ok: 1 },
+    { mod: "41.S1", what: "Releasing data you know is false breaks fundamental duties (I(A))", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "Copying others’ research without credit = I(C) plagiarism", ok: 1 },
+  ] },
+  { id: "L2-R41-Q4", lvl: "22222121", topic: "ethics.1", name: "Reading 41 quiz 4", date: "2026-11-13", mins: 13.6, qs: [
+    { mod: "41.S3", what: "Client-directed soft dollars are fine if the research benefits plan beneficiaries", ok: 1 },
+    { mod: "41.S3", what: "Promising consistent excess return is misleading", ok: 1 },
+    { mod: "41.S2", what: "False rumours to push a price = information-based manipulation", ok: 1 },
+    { mod: "41.S1", what: "Credit the model’s author; factual data from S&P needs no credit", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "Suspected illegal activity: consult counsel and disassociate", ok: 1 },
+    { mod: "41.S2", what: "Block trades to limit price impact = no manipulation", ok: 0, why: "gap" },
+    { mod: "41.S2", what: "MNPI from an insider not breaching duty still can’t be traded (least accurate)", ok: 1 },
+    { mod: "41.S3", what: "Least important proxy issue: electing internal auditors", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R41-Q5", lvl: "122222122", topic: "ethics.1", name: "Reading 41 quiz 5", date: "2026-11-13", mins: 11.9, qs: [
+    { mod: "41.S1", what: "Use outside research after checking it", ok: 1 },
+    { mod: "41.S2", what: "Firewalls are the common barrier against MNPI leaks", ok: 1 },
+    { mod: "41.S3", what: "Allocating by past IPO participation is improper", ok: 0, why: "gap" },
+    { mod: "41.S5", what: "Prospectus that hides the technical models misleads on the process", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "Reporting to CFA Institute isn’t required", ok: 1 },
+    { mod: "41.S3", what: "Confidentiality allows contacting both authorities and CFA Institute", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Preferential access to a hot issue to keep a client = Fair Dealing breach", ok: 1 },
+    { mod: "41.S4", what: "Gift rules: value limit and disclosure, not a ban on all entertainment", ok: 1 },
+    { mod: "41.S4", what: "Confidential settlement: say a legal agreement stops you, not why", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R41-Q6", lvl: "122222212", topic: "ethics.1", name: "Reading 41 quiz 6", date: "2026-11-13", mins: 9.1, qs: [
+    { mod: "41.S2", what: "Merely receiving MNPI isn’t punishable (NOT correct)", ok: 1 },
+    { mod: "41.S2", what: "Trustee buying on a found tender-offer memo = MNPI breach", ok: 1 },
+    { mod: "41.S3", what: "Proxies: vote carefully; pension proxies for beneficiaries, not the sponsor", ok: 1 },
+    { mod: "41.S3", what: "Sponsor stock in a pension plan: a prudent, diversified portion only", ok: 1 },
+    { mod: "41.S1", what: "Not required to report to regulators", ok: 1 },
+    { mod: "41.S3", what: "Outsourcing birthday cards may breach confidentiality", ok: 1 },
+    { mod: "41.S2", what: "CFA Institute doesn’t fine members (least accurate)", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "Reporting to regulators is not required (NOT correct)", ok: 0, why: "flip" },
+    { mod: "41.S2", what: "Mosaic theory definition", ok: 1 },
+  ] },
+  { id: "L2-R41-Q7", lvl: "222222222", topic: "ethics.1", name: "Reading 41 quiz 7", date: "2026-11-13", mins: 14.2, qs: [
+    { mod: "41.S2", what: "Mosaic conclusion can be published", ok: 1 },
+    { mod: "41.S1", what: "Colleague’s illegal gifts: disassociate and urge the firm to stop it", ok: 1 },
+    { mod: "41.S1", what: "Not knowing a new rule breaks I(A), even if remedied", ok: 1 },
+    { mod: "41.S3", what: "No need to send recommendations to clients they don’t suit", ok: 1 },
+    { mod: "41.S2", what: "Insider buyback is fine; tipping a brother breaks II(A)", ok: 1 },
+    { mod: "41.S2", what: "Overheard MNPI: refuse the client’s order", ok: 1 },
+    { mod: "41.S3", what: "Shifting off-the-run Treasuries to performance-fee accounts breaks fiduciary duty", ok: 1 },
+    { mod: "41.S1", what: "Taking no action on suspected fraud is least compliant", ok: 1 },
+    { mod: "41.S2", what: "Seeing executives meet isn’t MNPI", ok: 1 },
+  ] },
+  { id: "L2-R41-Q8", lvl: "2222212222", topic: "ethics.1", name: "Reading 41 quiz 8", date: "2026-11-13", mins: 12.7, qs: [
+    { mod: "41.S3", what: "Pro rata on indications: each gets m/n of what it asked for", ok: 0, why: "gap" },
+    { mod: "41.S1", what: "Report based on misappropriated information: seek company counsel", ok: 1 },
+    { mod: "41.S3", what: "New fund advertising its assets’ past returns as its own = misleading", ok: 1 },
+    { mod: "41.S2", what: "Underwriter’s analyst finds an omission: tell the supervisor first", ok: 1 },
+    { mod: "41.S3", what: "A list of only winning picks is misleading unless complete", ok: 1 },
+    { mod: "41.S1", what: "Follow the stricter of the law and the Code", ok: 1 },
+    { mod: "41.S3", what: "Brokerage belongs to the client", ok: 1 },
+    { mod: "41.S3", what: "Underfunded plan: no extra risk; the duty is to beneficiaries", ok: 0, why: "gap" },
+    { mod: "41.S2", what: "Mosaic: issue the report, keep a file", ok: 1 },
+    { mod: "41.S2", what: "Mosaic: issue the sell report, keep a file", ok: 1 },
+  ] },
+  { id: "L2-R41-Q9", lvl: "23222222", topic: "ethics.1", name: "Reading 41 quiz 9", date: "2026-11-13", mins: 9.5, qs: [
+    { mod: "41.S3", what: "Pension consultant follows the local-investment law and advises", ok: 1 },
+    { mod: "41.S3", what: "Pitching new ideas to an unknown prospect breaks fair dealing and suitability", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "A broker covering its own trading error is permissible", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Using a broker’s research: disclose to the client and use it for the client", ok: 1 },
+    { mod: "41.S3", what: "Brief presentations: supporting detail on request", ok: 1 },
+    { mod: "41.S1", what: "Company-paid travel: violation only if a reasonable drive away", ok: 1 },
+    { mod: "41.S1", what: "A rugby fight isn’t professional conduct", ok: 1 },
+    { mod: "41.S2", what: "A seen meeting is only restricting if known to be about a tender offer", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R41-Q10", lvl: "122222222", topic: "ethics.1", name: "Reading 41 quiz 10", date: "2026-11-13", mins: 16.4, qs: [
+    { mod: "41.S3", what: "Fair Dealing covers recommendations and investment action", ok: 1 },
+    { mod: "41.S1", what: "The Code sets a minimum standard", ok: 1 },
+    { mod: "40.S1", topic: "ethics.0", what: "Ignoring colleagues’ lack of rule knowledge breaks the Code (competence of others)", ok: 0, why: "gap" },
+    { mod: "41.S2", what: "Material = a reasonable investor would want to know", ok: 1 },
+    { mod: "41.S2", what: "A call for analysts isn’t public: both must wait for the press release", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "No composite: can’t give a hypothetical past return", ok: 1 },
+    { mod: "41.S3", what: "Unsuitable unsolicited trade: discuss updating the IPS", ok: 1 },
+    { mod: "41.S3", what: "Notifying clients largest-first breaks fair dealing even with consent", ok: 1 },
+    { mod: "41.S2", what: "With MNPI: encourage the company to release it; don’t disclose it yourself", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R41-Q11", lvl: "22122222", topic: "ethics.1", name: "Reading 41 quiz 11", date: "2026-11-13", mins: 10.6, qs: [
+    { mod: "41.S3", what: "Calling only the 30 biggest clients breaks fair dealing (no MNPI)", ok: 1 },
+    { mod: "41.S3", what: "One account’s 25% presented as expected return breaks III(D) and I(C)", ok: 1 },
+    { mod: "41.S1", what: "Reporting violations to regulators isn’t required", ok: 1 },
+    { mod: "41.S3", what: "Giving a client list to a charity breaks confidentiality; helping the PCP doesn’t", ok: 1 },
+    { mod: "41.S1", what: "Not required: report to the FASB or regulators", ok: 1 },
+    { mod: "41.S3", what: "Copying the new policy to the other client breaks suitability", ok: 1 },
+    { mod: "41.S2", what: "Takeover hint from the CEO: execute neither order", ok: 1 },
+    { mod: "41.S3", what: "Stating true past performance is allowed; guaranteeing returns isn’t", ok: 0, why: "flip" },
+  ] },
+  { id: "L2-R40-Q3", lvl: "111", topic: "ethics.0", name: "Reading 40 quiz 3", date: "2026-11-12", mins: 2.5, qs: [
+    { mod: "40.S1", what: "Code of Ethics: use reasonable care and independent judgment", ok: 0, why: "gap" },
+    { mod: "40.S1", what: "Code of Ethics: act with integrity, competence, diligence and respect", ok: 1 },
+    { mod: "40.S1", what: "The Code doesn’t name CFA Program candidates as a group", ok: 1 },
+  ] },
+  { id: "L2-R18-Q4", lvl: "1212321112", topic: "equity.1", name: "Reading 18 quiz 4", date: "2026-11-13", mins: 18.7, qs: [
+    { mod: "18.S2", what: "FCFF is a valuation model, not a way to find the discount rate", ok: 0, why: "gap" },
+    { mod: "18.S5", what: "ROE = g ÷ retention = 10% ÷ (1 − 1/3) = 15%", ok: 0, why: "calc" },
+    { mod: "18.S2", what: "DDMs are very sensitive to g and r", ok: 1 },
+    { mod: "18.S2", what: "Beta scales the equity risk premium", ok: 1 },
+    { mod: "18.S2", what: "P₂ = D₃ ÷ (r − g) = 2.0225 ÷ 0.0465 = $43.49", ok: 0, why: "calc" },
+    { mod: "18.S1", what: "Two-period DDM: $18.73", ok: 1 },
+    { mod: "18.S3", what: "Perpetual preferred: 7 ÷ 0.09 = $77.78", ok: 1 },
+    { mod: "18.S2", what: "Mature company → Gordon growth model", ok: 1 },
+    { mod: "18.S5", what: "SGR = ROE × retention = 30% × 2/3 = 20%", ok: 1 },
+    { mod: "18.S4", what: "H-model implied r = 12.7%", ok: 1 },
+  ] },
+  { id: "L2-R17-CASE2", lvl: "22233", topic: "equity.0", name: "Reading 17 case 2 (Anna Heller)", date: "2026-11-13", mins: 14.5, qs: [
+    { mod: "17.S1", what: "The harder intrinsic value is to estimate, the bigger the possible gap", ok: 0, why: "gap" },
+    { mod: "17.S1", what: "Valuation error $1.20; actual mispricing $0.15", ok: 1 },
+    { mod: "17.S1", what: "Gradual wind-down = orderly liquidation value", ok: 0, why: "gap" },
+    { mod: "17.S2", what: "Cost leadership = lowest cost base, judged by margins", ok: 0, why: "gap" },
+    { mod: "17.S2", what: "A smaller marketing budget is not one of Porter’s five forces", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-ETH-CASE1", lvl: "222222", topic: "ethics.1", name: "Ethics case 1 (Boswin and Acertado)", date: "2026-11-13", mins: 13.7, qs: [
+    { mod: "41.S4", what: "Taking the model needs the old employer’s permission (IV(A))", ok: 0, why: "gap" },
+    { mod: "41.S2", what: "Using the model at the new firm: least likely an MNPI breach", ok: 1 },
+    { mod: "41.S2", what: "Acting on the overheard elevator talk = MNPI breach", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Phone call with Boswin: least likely a suitability breach", ok: 1 },
+    { mod: "41.S5", what: "Boswin used her normal process: no violation", ok: 0, why: "gap" },
+    { mod: "41.S2", what: "Blogs and websites are public: no violation", ok: 1 },
   ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
