@@ -1816,6 +1816,8 @@ const CONTENT = {
               "Residual plots give a *first, informal* check of the assumptions; the formal tests (BP, BG, VIF) come later.",
               "*Residuals vs. predicted Y*: a patternless band around a horizontal line at 0 → residuals independent of the prediction, constant variance, no correlation.",
               "*Residuals vs. each X*: no directional pattern → residuals unrelated to the independent variables.",
+              "*Y vs. an X*: the points should follow a straight line; a curve means the *linearity* assumption fails (Quant case 1: RET vs. VIX).",
+              "*One X vs. another X*: a tight line means the X’s move together (*multicollinearity*); a shapeless cloud means they are independent.",
               "*Normal Q-Q plot*: plots standardized residuals against a normal distribution. Normal residuals lie *on the diagonal*. Only 5% should fall below −1.65 standard deviations. In Schweser’s office-rent example, several points beyond ±2 SD (one beyond −3) and points above the line in the right tail mean *fat tails and right skew*, so the residuals are not normal.",
             ] },
           { k: 'example', id: 's1-quiz1', title: 'Schweser module quiz 1.1 — Question 1',
@@ -21945,6 +21947,106 @@ const TUITION_MISSES = {
       remember: "R² = SSR ÷ SST = 100 ÷ 400 = 0.25. F = mean square regression ÷ mean square error = 100 ÷ 7.5 = 13.33.",
       tackle: ["F always uses the mean squares column: regression on top, error below."],
     },
+    // Logged 2026-11-15
+    {
+      module: "1.S4",
+      title: "Curved X–Y link = wrong variable form; mixing regimes = incorrect pooling",
+      at: ["Variable should be transformed", "Incorrectly pooling data"],
+      questions: [
+        { ref: "L2-R1-Q5 #1", ask: "X’s not linearly related to Y. Misspecified due to:", picked: "incorrect data pooling", answer: "incorrect variable form" },
+        { ref: "L2-R1-Q5 #2", ask: "Pooling samples over different economic environments causes:", picked: "multicollinearity", answer: "model misspecification" },
+      ],
+      trap: "The four misspecification types were mixed up with each other and with multicollinearity.",
+      fix: "Misspecification types: omitted variable, variable should be transformed (curved link = wrong form), inappropriate scaling, incorrect pooling (one regression over different regimes). Each is a misspecification.",
+      remember: "Misspecification types: omitted variable, variable should be transformed (curved link = wrong form), inappropriate scaling, incorrect pooling (one regression over different regimes). Each is a misspecification.",
+      tackle: ["Nonlinear → form. Different periods or regimes → pooling. Both are “model misspecification”."],
+    },
+    {
+      module: "1.S1",
+      title: "“NOT correct” about a coefficient: check the units",
+      at: ["s1-eg10"],
+      questions: [
+        { ref: "L2-R1-Q5 #5", ask: "Sales = 20.5 + 1.5 R&D + 2.5 ADV − 3.0 COMP (all $ millions). NOT correct:", picked: "R&D, ADV $1 m and 5 rivals → sales $9.5 m", answer: "$1 more R&D → sales +$1.5 million" },
+      ],
+      trap: "A correct statement was picked on a “NOT correct” question.",
+      fix: "A slope is “change in Y per one unit of X”, in each variable’s own units. X in millions → one unit = $1 million, not $1.",
+      remember: "A slope is “change in Y per one unit of X”, in each variable’s own units. X in millions → one unit = $1 million, not $1.",
+      tackle: ["On NOT questions, work out each option; the one that checks out is not the answer."],
+    },
+    {
+      module: "1.S8",
+      title: "One dummy per category plus an intercept = perfect multicollinearity",
+      at: ["How many dummies: n categories → n − 1"],
+      questions: [
+        { ref: "L2-R1-Q5 #6", ask: "Three performance groups, three dummies, plus an intercept. The equation suffers from:", picked: "serial correlation", answer: "multicollinearity" },
+      ],
+      trap: "The dummy-variable trap wasn’t recognised.",
+      fix: "n categories → n − 1 dummies. With all n, the dummies add up to 1 in every row, exactly like the intercept: perfect multicollinearity.",
+      remember: "n categories → n − 1 dummies. With all n, the dummies add up to 1 in every row, exactly like the intercept: perfect multicollinearity.",
+      tackle: ["Count the categories and the dummies. Equal counts with an intercept = trap."],
+    },
+    {
+      module: "1.S3",
+      title: "R² divides by the TOTAL sum of squares, not the error sum",
+      at: ["F-statistic for the overall model"],
+      questions: [
+        { ref: "L2-R1-Q5 #9", ask: "ANOVA: regression 20 (df 1), error 80 (df 40), total 100. R² and F?", picked: "R² 0.25, F 10", answer: "R² 0.20, F 10" },
+      ],
+      trap: "R² was worked out as regression ÷ error (20 ÷ 80).",
+      fix: "R² = regression SS ÷ total SS = 20 ÷ 100 = 0.20. F = MSR ÷ MSE = 20 ÷ 2 = 10.",
+      remember: "R² = regression SS ÷ total SS = 20 ÷ 100 = 0.20. F = MSR ÷ MSE = 20 ÷ 2 = 10.",
+      tackle: ["Write R² = RSS ÷ SST before touching the table."],
+    },
+    {
+      module: "1.S5",
+      title: "Given standard errors: work out t = coefficient ÷ SE for every X",
+      at: ["t-test on a coefficient"],
+      questions: [
+        { ref: "L2-R1-Q6-7 #1", ask: "POP 0.004 (0.005), INCOME 1.031 (0.337), ADV 2.002 (2.312); critical t 2.120. Significant:", picked: "INCOME and ADV", answer: "INCOME only" },
+      ],
+      trap: "The big ADV coefficient looked significant without dividing by its standard error.",
+      fix: "t = coefficient ÷ SE. POP 0.80, INCOME 3.06, ADV 0.87. Only |t| above 2.120 counts: INCOME.",
+      remember: "t = coefficient ÷ SE. POP 0.80, INCOME 3.06, ADV 0.87. Only |t| above 2.120 counts: INCOME.",
+      tackle: ["Brackets under coefficients = standard errors → divide before comparing."],
+    },
+    {
+      module: "1.S8",
+      title: "Logit: log-odds Y, maximum likelihood, logistic (not normal) residuals",
+      at: ["s8-logit"],
+      questions: [
+        { ref: "L2-R1-Q6-7 #6", ask: "Least accurate about logit models:", picked: "estimated by maximum likelihood", answer: "residuals are normally distributed" },
+      ],
+      trap: "A true statement (MLE) was picked as the false one.",
+      fix: "Logit: Y = log odds, coefficients by maximum likelihood, residuals logistic (like normal, fatter tails).",
+      remember: "Logit: Y = log odds, coefficients by maximum likelihood, residuals logistic (like normal, fatter tails).",
+      tackle: ["“Normal” in a logit statement is the red flag."],
+    },
+    {
+      module: "1.S1",
+      title: "Y continuous with several X’s → multiple linear regression; Y = 0/1 → logistic",
+      at: ["s1-uses"],
+      questions: [
+        { ref: "L2-QUANT-CASE1 #1", ask: "RET regressed on MRKT, HML and VIX. Type of regression:", picked: "logistic regression", answer: "multiple linear regression" },
+      ],
+      trap: "Logistic was picked for a continuous dependent variable.",
+      fix: "Look at Y first. Continuous (returns, sales) → linear; one X = simple, several = multiple. Yes/no (default, dividend increase) → logistic.",
+      remember: "Look at Y first. Continuous (returns, sales) → linear; one X = simple, several = multiple. Yes/no (default, dividend increase) → logistic.",
+      tackle: ["Ask: can Y take any value, or only 0 and 1?"],
+    },
+    {
+      module: "1.S1",
+      title: "Which chart checks which assumption",
+      at: ["Reading residual plots and the Q-Q plot (LOS 1.c)"],
+      questions: [
+        { ref: "L2-QUANT-CASE1 #3", ask: "Chart 1, RET vs VIX, is curved. Assumption at risk:", picked: "independence of independent variables", answer: "linearity" },
+        { ref: "L2-QUANT-CASE1 #4", ask: "Chart for homoskedasticity:", picked: "Chart 2 (RET vs MRKT)", answer: "Chart 4 (residuals vs predicted)" },
+        { ref: "L2-QUANT-CASE1 #5", ask: "Chart for independence of the X’s:", picked: "Chart 4 (residuals vs predicted)", answer: "Chart 3 (MRKT vs HML)" },
+      ],
+      trap: "Charts were matched to assumptions without checking what is on each axis.",
+      fix: "Y vs an X → linearity (a curve breaks it). Residuals vs predicted → constant variance (homoskedasticity) and no pattern. One X vs another X → independence of the X’s (multicollinearity).",
+      remember: "Y vs an X → linearity (a curve breaks it). Residuals vs predicted → constant variance (homoskedasticity) and no pattern. One X vs another X → independence of the X’s (multicollinearity).",
+      tackle: ["Read the axes first: Y, X or residuals?"],
+    },
   ],
   'fsa.0': [
     {
@@ -22516,6 +22618,31 @@ const TUITION_MISSES = {
       fix: "In P/B quotes the base currency is at the bottom. Forward > spot → the base buys more later → a premium (here 5 − 4 = 1.0).",
       remember: "In P/B quotes the base currency is at the bottom. Forward > spot → the base buys more later → a premium (here 5 − 4 = 1.0).",
       tackle: ["Find the base currency first, then compare forward with spot."],
+    },
+    // Logged 2026-11-15
+    {
+      module: "5.S4",
+      title: "Triangular arbitrage: buy the currency where it’s cheapest, sell where it’s dearest",
+      at: ["Bid or ask? Why and when for each leg"],
+      questions: [
+        { ref: "L2-ECO-CASE1 #2", ask: "Dealer CHF/BRL 0.2355/0.2358; interbank CHF/USD 0.9799/0.9801, BRL/USD 4.1699/4.1701. Recommendation:", picked: "buy BRL from the dealer, sell interbank", answer: "buy BRL interbank, sell to the dealer" },
+      ],
+      trap: "The direction was chosen without comparing the dealer’s bid with the interbank ask.",
+      fix: "Build the interbank cross: CHF/BRL 0.23498/0.23504. The dealer bids 0.2355, above the interbank ask, so buy BRL interbank and sell it to the dealer (+0.00046 CHF per BRL).",
+      remember: "Build the interbank cross: CHF/BRL 0.23498/0.23504. The dealer bids 0.2355, above the interbank ask, so buy BRL interbank and sell it to the dealer (+0.00046 CHF per BRL).",
+      tackle: ["Compare dealer bid with interbank ask, and dealer ask with interbank bid. Only one can be profitable."],
+    },
+    {
+      module: "5.S7",
+      title: "Covered and uncovered parity both hold → the forward rate is an unbiased forecast",
+      at: ["How forward rate parity ties covered and uncovered together"],
+      questions: [
+        { ref: "L2-ECO-CASE1 #5", ask: "Both covered and uncovered interest rate parity hold. Future spot rates are best forecast by:", picked: "inflation rate differentials", answer: "forward exchange rates" },
+      ],
+      trap: "The inflation route (PPP) was picked when the question was about interest rate parity.",
+      fix: "Covered parity: forward = spot adjusted for the interest gap. Uncovered: expected spot = spot adjusted for the same gap. Both hold → forward = expected spot (forward rate parity).",
+      remember: "Covered parity: forward = spot adjusted for the interest gap. Uncovered: expected spot = spot adjusted for the same gap. Both hold → forward = expected spot (forward rate parity).",
+      tackle: ["Interest parities → forward rate. Inflation → PPP."],
     },
   ],
   'econ.1': [
@@ -24293,6 +24420,158 @@ const TUITION_MISSES = {
       remember: "ARCH: the error variance depends on last period’s squared error. Test: regress squared residuals on lagged squared residuals. Fix: generalized least squares. The variance can then be predicted.",
       tackle: ["Serial correlation in AR → add a lag. ARCH → GLS."],
     },
+    // Logged 2026-11-15
+    {
+      module: "2.S3",
+      title: "Shorter time series = more stable coefficients",
+      at: ["s3-instab"],
+      questions: [
+        { ref: "L2-R2-Q2 #1", ask: "Which models are usually more stable?", picked: "longer time series", answer: "shorter time series" },
+      ],
+      trap: "Longer (more reliable) was taken to mean more stable.",
+      fix: "A longer series is more likely to span a change in the economy, so its coefficients shift. Shorter = more stable; longer = more statistical reliability.",
+      remember: "A longer series is more likely to span a change in the economy, so its coefficients shift. Shorter = more stable; longer = more statistical reliability.",
+      tackle: ["Stable ≠ reliable. Stability → shorter."],
+    },
+    {
+      module: "2.S2",
+      title: "Significant residual autocorrelation in an AR model → add a lag",
+      at: ["s2-steps"],
+      questions: [
+        { ref: "L2-R2-Q2 #5", ask: "AR(3) with significant residual autocorrelation. She needs to:", picked: "switch to an ARCH model", answer: "add another lag" },
+        { ref: "L2-R2-Q4 #8", ask: "AR(1): coefficients significant, residual autocorrelations at lags 1, 2, 9, 11 significant. Well specified?", picked: "yes, coefficients are significant", answer: "no, residual autocorrelations are significant" },
+        { ref: "L2-R2-Q4 #9", ask: "Which would make Popov change his AR(1) model?", picked: "Corr(eₜ, eₜ₋₁) not significant", answer: "Corr(eₜ, eₜ₋₂) significant" },
+      ],
+      trap: "The model was judged by its coefficients, and clean residuals were read as a problem.",
+      fix: "An AR model is judged by its residuals. Any significant residual autocorrelation (|t| above about 2) → add a lag and test again. Not significant = good.",
+      remember: "An AR model is judged by its residuals. Any significant residual autocorrelation (|t| above about 2) → add a lag and test again. Not significant = good.",
+      tackle: ["After an AR fit, look only at the residual autocorrelation t-stats."],
+    },
+    {
+      module: "2.S2",
+      title: "Covariance stationary: constant mean, variance and same-distance covariance",
+      at: ["s2-cs"],
+      questions: [
+        { ref: "L2-R2-Q2 #9", ask: "NOT a requirement for covariance stationarity:", picked: "covariance with its own lags is constant", answer: "a positive trend" },
+        { ref: "L2-R2-Q4 #7", ask: "Does NOT have to be true:", picked: "E[xₜ] = E[xₜ₊₁]", answer: "Cov(xₜ, xₜ₋₁) = Cov(xₜ, xₜ₋₂)" },
+      ],
+      trap: "A true requirement was picked on “not required” questions.",
+      fix: "Covariance stationary: the mean, the variance and the covariance at each distance stay the same over time. Lag-1 and lag-2 covariances can differ. A trend breaks stationarity.",
+      remember: "Covariance stationary: the mean, the variance and the covariance at each distance stay the same over time. Lag-1 and lag-2 covariances can differ. A trend breaks stationarity.",
+      tackle: ["Same distance must match; different distances can differ."],
+    },
+    {
+      module: "2.S1",
+      title: "Compound growth → log-linear; constant change per period → linear trend",
+      at: ["Factors That Determine Which Model Is Best"],
+      questions: [
+        { ref: "L2-R2-Q2 #10", ask: "Seven years of monthly book sales. Hart should use:", picked: "mean-reverting model", answer: "log-linear model (compound growth)" },
+        { ref: "L2-R2-Q6-8 #3", ask: "Average quarter-to-quarter growth in sales, most directly:", picked: "an AR(1) model", answer: "a linear trend model" },
+      ],
+      trap: "A model was chosen without asking what the question wants to measure.",
+      fix: "Sales grow at a rate → log-linear. “Average change per period” → linear trend, whose slope b₁ is that change. Mean-reverting models need a stationary series.",
+      remember: "Sales grow at a rate → log-linear. “Average change per period” → linear trend, whose slope b₁ is that change. Mean-reverting models need a stationary series.",
+      tackle: ["Growth rate → log. Change in amount → linear."],
+    },
+    {
+      module: "2.S3",
+      title: "RMSE: compare models out of sample; smallest RMSE wins",
+      at: ["s3-rmse"],
+      questions: [
+        { ref: "L2-R2-Q3 #1", ask: "B: “RMSE judges in-sample accuracy.” Y: “Largest RMSE is most accurate.”", picked: "B correct, Y incorrect", answer: "both incorrect" },
+      ],
+      trap: "The in-sample claim was accepted.",
+      fix: "RMSE is an error, so smaller is better, and it is used on out-of-sample forecasts.",
+      remember: "RMSE is an error, so smaller is better, and it is used on out-of-sample forecasts.",
+      tackle: ["RMSE → out of sample, lowest wins."],
+    },
+    {
+      module: "2.S3",
+      title: "Random walk: b₁ = 1, unit root, no long-run mean, uncorrelated errors",
+      at: ["Random walk: no mean-reverting level", "s3-unit"],
+      questions: [
+        { ref: "L2-R2-Q3 #2", ask: "Random walk without drift at 2.2. Least likely:", picked: "forecast for next period is 2.2", answer: "residuals are autocorrelated" },
+        { ref: "L2-R2-Q3 #4", ask: "An AR(1) model can test for a unit root, which exists if the slope:", picked: "is less than one", answer: "equals one" },
+        { ref: "L2-R2-Q6-8 #5", ask: "The process would NOT be a random walk if:", picked: "E(eₜ) = 0", answer: "the long-run mean is b₀ ÷ (1 − b₁)" },
+      ],
+      trap: "Three random-walk facts were mixed up: its forecast, its errors and its slope.",
+      fix: "Random walk: xₜ = xₜ₋₁ + εₜ, so b₁ = 1 (unit root). Forecast = today’s value. Errors are independent shocks (no autocorrelation). b₀ ÷ (1 − b₁) is undefined, so no long-run mean.",
+      remember: "Random walk: xₜ = xₜ₋₁ + εₜ, so b₁ = 1 (unit root). Forecast = today’s value. Errors are independent shocks (no autocorrelation). b₀ ÷ (1 − b₁) is undefined, so no long-run mean.",
+      tackle: ["Random walk ⇔ b₁ = 1 ⇔ no mean-reverting level."],
+    },
+    {
+      module: "2.S2",
+      title: "Durbin–Watson is not valid for AR models",
+      at: ["The chain rule of forecasting, and why two steps are less certain (LOS 2.d)"],
+      questions: [
+        { ref: "L2-R2-Q3 #6", ask: "AR(1) on first differences, DW 1.58, dₗ 1.55, dᵤ 1.62. Interpretation:", picked: "DW > dᵤ, reject no serial correlation", answer: "DW can’t be used with AR(1) models" },
+      ],
+      trap: "DW was applied to an AR model.",
+      fix: "DW is for trend and ordinary regressions. In an AR model a lagged Y is an X, so test residual autocorrelations with t-tests instead.",
+      remember: "DW is for trend and ordinary regressions. In an AR model a lagged Y is an X, so test residual autocorrelations with t-tests instead.",
+      tackle: ["AR model + DW in the question → “can’t be used”."],
+    },
+    {
+      module: "2.S3",
+      title: "Mean-reverting series: best prediction = b₀ ÷ (1 − b₁)",
+      at: ["s3-mrl"],
+      questions: [
+        { ref: "L2-R2-Q3 #7", ask: "Mean reverting, Yₜ₊₁ = 0.2 + 0.6Yₜ. Best prediction:", picked: "0.8", answer: "0.5" },
+      ],
+      trap: "The coefficients were added instead of finding the level.",
+      fix: "Mean-reverting level = b₀ ÷ (1 − b₁) = 0.2 ÷ 0.4 = 0.5. With no current value given, that level is the best prediction.",
+      remember: "Mean-reverting level = b₀ ÷ (1 − b₁) = 0.2 ÷ 0.4 = 0.5. With no current value given, that level is the best prediction.",
+      tackle: ["No Yₜ given → answer the mean-reverting level."],
+    },
+    {
+      module: "2.S4",
+      title: "Seasonal lags: a lag-12 term is seasonal, not AR(12); keep the significant ones",
+      at: ["s4-seasonal"],
+      questions: [
+        { ref: "L2-R2-Q4 #1", ask: "xₜ = b₀ + b₁xₜ₋₁ + b₂xₜ₋₂ + b₃xₜ₋₁₂ + εₜ is:", picked: "AR(12)", answer: "AR(2) with a seasonal lag" },
+        { ref: "L2-R2-Q3 #9", ask: "AR(1) + seasonal lag significant; second and third seasonal lags also significant. Best model:", picked: "AR(1) with no seasonal lags", answer: "AR(1) with 3 seasonal lags" },
+      ],
+      trap: "The seasonal term was counted as the model’s order, and significant seasonal lags were dropped.",
+      fix: "Order = number of consecutive lags (1, 2 → AR(2)). A lag-4 (quarterly) or lag-12 (monthly) term is a seasonal lag on top. Keep every lag that tests significant.",
+      remember: "Order = number of consecutive lags (1, 2 → AR(2)). A lag-4 (quarterly) or lag-12 (monthly) term is a seasonal lag on top. Keep every lag that tests significant.",
+      tackle: ["Count consecutive lags for the order; treat the far lag as seasonal."],
+    },
+    {
+      module: "2.S4",
+      title: "ARCH test: squared residuals on lagged squared residuals",
+      at: ["ARCH(1)"],
+      questions: [
+        { ref: "L2-R2-Q4 #6", ask: "To test for ARCH, regress:", picked: "squared x values on lagged squared x", answer: "squared residuals on lagged squared residuals" },
+      ],
+      trap: "The data were squared instead of the residuals.",
+      fix: "ARCH(1): ε̂²ₜ = a₀ + a₁ε̂²ₜ₋₁. Significant a₁ → the error variance depends on last period’s error.",
+      remember: "ARCH(1): ε̂²ₜ = a₀ + a₁ε̂²ₜ₋₁. Significant a₁ → the error variance depends on last period’s error.",
+      tackle: ["ARCH always uses residuals, squared."],
+    },
+    {
+      module: "2.S3",
+      title: "First differencing: model the change on both sides",
+      at: ["s3-fd"],
+      questions: [
+        { ref: "L2-R2-Q6-8 #6", ask: "Unit root found. First-differenced model:", picked: "Salesₜ = b₀ + b₁Salesₜ₋₁ + b₂Salesₜ₋₂ + εₜ", answer: "(Salesₜ − Salesₜ₋₁) = b₀ + b₁(Salesₜ₋₁ − Salesₜ₋₂) + εₜ" },
+      ],
+      trap: "Adding a lag of the level was taken for differencing.",
+      fix: "First differencing: yₜ = xₜ − xₜ₋₁, then fit yₜ = b₀ + b₁yₜ₋₁ + εₜ. Both sides are changes.",
+      remember: "First differencing: yₜ = xₜ − xₜ₋₁, then fit yₜ = b₀ + b₁yₜ₋₁ + εₜ. Both sides are changes.",
+      tackle: ["Look for “−” inside brackets on both sides."],
+    },
+    {
+      module: "2.S4",
+      title: "Differenced seasonal forecast: predict the change, then add it to the last level",
+      at: ["s4-fc"],
+      questions: [
+        { ref: "L2-R2-Q6-8 #7", ask: "ΔSales = 100 − 1.5ΔSalesₜ₋₁ + 1.2(Salesₜ₋₄ − Salesₜ₋₅); forecast 2000.3:", picked: "$730", answer: "$1,430" },
+      ],
+      trap: "The lags were counted from the wrong period.",
+      fix: "Count lags back from the forecast period T+1. Change = 100 − 1.5 × (1,000 − 900) + 1.2 × (1,400 − 1,000) = 430. Sales = 1,000 + 430 = 1,430.",
+      remember: "Count lags back from the forecast period T+1. Change = 100 − 1.5 × (1,000 − 900) + 1.2 × (1,400 − 1,000) = 430. Sales = 1,000 + 430 = 1,430.",
+      tackle: ["Write t = T+1 first, then list each lag’s period."],
+    },
   ],
   'pm.0': [
     {
@@ -24564,6 +24843,58 @@ const TUITION_MISSES = {
       fix: "Backtesting problems: survivorship bias, look-ahead bias, data snooping. The regression trio belongs to Reading 1.",
       remember: "Backtesting problems: survivorship bias, look-ahead bias, data snooping. The regression trio belongs to Reading 1.",
       tackle: ["Backtest = a test on history, so its problems are about the history data used."],
+    },
+  ],
+  'equity.4': [
+    // Logged 2026-11-15
+    {
+      module: "21.S3",
+      title: "Implied growth: g = r − B × (ROE − r) ÷ (V − B)",
+      at: ["s3-tellis"],
+      questions: [
+        { ref: "L2-R21-Q1 #5", ask: "P/B 4, ROE 12%, B $12, r 10%. Implied growth:", picked: "0.67%", answer: "9.33%" },
+      ],
+      trap: "The calculation stopped at the piece to subtract.",
+      fix: "V = P/B × B. Then g = r − B(ROE − r) ÷ (V − B) = 10% − 12 × 2% ÷ 36 = 10% − 0.67% = 9.33%.",
+      remember: "V = P/B × B. Then g = r − B(ROE − r) ÷ (V − B) = 10% − 12 × 2% ÷ 36 = 10% − 0.67% = 9.33%.",
+      tackle: ["Growth should be close to r here; a tiny g is a sign you stopped early."],
+    },
+    {
+      module: "21.S1",
+      title: "RI = NI minus shareholders’ opportunity cost; its multiple is P/B",
+      at: ["Equity value"],
+      questions: [
+        { ref: "L2-R21-Q1 #6", ask: "Residual income is defined as:", picked: "NI less a charge for capital investment", answer: "NI less shareholders’ opportunity cost" },
+        { ref: "L2-R21-Q1 #7", ask: "The RI model is most closely linked to:", picked: "P/E", answer: "P/B" },
+      ],
+      trap: "The equity charge was read as capex, and the earnings in RI pointed to P/E.",
+      fix: "RI = NI − beginning equity × cost of equity (the shareholders’ opportunity cost). Value = B₀ + PV(RI), so justified P/B = 1 + PV(RI) ÷ B₀.",
+      remember: "RI = NI − beginning equity × cost of equity (the shareholders’ opportunity cost). Value = B₀ + PV(RI), so justified P/B = 1 + PV(RI) ÷ B₀.",
+      tackle: ["RI starts from book value → P/B."],
+    },
+    {
+      module: "21.S5",
+      title: "DDM, FCFE and RI all discount forecasts; RI starts from book value",
+      at: ["s5-sw"],
+      questions: [
+        { ref: "L2-R21-Q1 #9", ask: "Least accurate about RI, DDM and FCFE:", picked: "all discount future cash flows or income at r", answer: "FCFE models use historical cash flows" },
+      ],
+      trap: "A true statement was picked as least accurate.",
+      fix: "All three models discount expected future amounts at the required return; with the same assumptions they give the same value. RI = book value + PV of future RI.",
+      remember: "All three models discount expected future amounts at the required return; with the same assumptions they give the same value. RI = book value + PV of future RI.",
+      tackle: ["Valuation models look forward; “historical” is the false word."],
+    },
+    {
+      module: "21.S5",
+      title: "RI works without dividends or positive FCF; fails when clean surplus breaks",
+      at: ["s5-when"],
+      questions: [
+        { ref: "L2-R21-Q1 #10", ask: "Happy Cow: no dividends, negative FCF. Glitter and Gold: steady, many charges to equity. RI suitable?", picked: "Happy Cow no; Glitter and Gold yes", answer: "Happy Cow yes; Glitter and Gold no" },
+      ],
+      trap: "The two cases were swapped.",
+      fix: "RI fits: no dividends, negative or volatile FCF, uncertain terminal value. RI fails: clean surplus violated (charges straight to equity), unreliable book values or ROE.",
+      remember: "RI fits: no dividends, negative or volatile FCF, uncertain terminal value. RI fails: clean surplus violated (charges straight to equity), unreliable book values or ROE.",
+      tackle: ["Charges against equity = dirty surplus = RI unsuitable."],
     },
   ],
 };
@@ -27976,6 +28307,295 @@ const TWIN_Q = {
   "L2-ETH-CASE1 #5": { lvl: 2, full: ["An analyst runs her usual screen on a stock, it falls below her threshold, and she drops it. She has:"],
     options: ["A) violated V(A) by not researching further", "B) not violated any Standard", "C) violated I(B)"], a: 1,
     why: "A normal process gives a reasonable basis; no recommendation was made." },
+  // Logged 2026-11-15: R1 quizzes 5 and 6–7, R2 quizzes 2, 3, 4 and 6–8, R21 quiz 1, Economics case 1, Quant case 1
+  "L2-R1-Q5 #1": { lvl: 1, full: ["A regression of house prices on floor area fits badly because price rises much faster than area for large houses. The most likely misspecification is:"],
+    options: ["A) incorrect pooling of data", "B) a variable that should be transformed (wrong functional form)", "C) an omitted variable"], a: 1,
+    why: "A curved link between X and Y means the variable should be transformed (e.g. logged)." },
+  "L2-R1-Q5 #2": { lvl: 1, full: ["An analyst runs one regression of bank lending on interest rates over 2000–2024, though rules changed sharply in 2010. The main problem is:"],
+    options: ["A) multicollinearity", "B) incorrectly pooled data, a misspecification", "C) heteroskedasticity only"], a: 1,
+    why: "One regression across two regimes = incorrect pooling. Run a regression per regime." },
+  "L2-R1-Q5 #5": { lvl: 2, full: ["Profit ($ millions) = 4.0 + 0.8 Staff (thousands) − 0.5 Rivals. Which statement is NOT correct?"],
+    options: ["A) With 10,000 staff and 6 rivals, profit is $9 million.", "B) One more rival cuts profit by $0.5 million.", "C) One more employee raises profit by $0.8 million."], a: 2,
+    why: "Staff is in thousands: one more *thousand* employees adds $0.8 m. A: 4 + 8 − 3 = 9 ✓." },
+  "L2-R1-Q5 #6": { lvl: 2, full: ["A regression of returns on an intercept and four quarterly dummies (Q1, Q2, Q3, Q4) will suffer from:"],
+    options: ["A) perfect multicollinearity", "B) serial correlation", "C) no problem"], a: 0,
+    why: "Four categories need three dummies. With four, they add to 1, the same as the intercept." },
+  "L2-R1-Q5 #9": { lvl: 2, full: ["ANOVA: regression SS 45 (df 3), error SS 105 (df 35), total 150. R² and F?"],
+    options: ["A) R² 0.30, F 5.0", "B) R² 0.43, F 5.0", "C) R² 0.30, F 15.0"], a: 0,
+    why: "R² = 45 ÷ 150 = 0.30. MSR = 45 ÷ 3 = 15; MSE = 105 ÷ 35 = 3; F = 15 ÷ 3 = 5.0." },
+  "L2-R1-Q6-7 #1": { lvl: 2, full: ["Coefficients (standard errors): X₁ 0.90 (0.30), X₂ 3.40 (2.00), X₃ −0.50 (0.20). Critical t = 2.05. Which are significant?"],
+    options: ["A) X₂ only", "B) X₁ and X₃", "C) X₁, X₂ and X₃"], a: 1,
+    why: "t: X₁ 3.0 ✓, X₂ 1.7 ✗, X₃ −2.5 (|2.5| > 2.05) ✓." },
+  "L2-R1-Q6-7 #6": { lvl: 1, full: ["Which statement about logistic regression is correct?"],
+    options: ["A) Its residuals are assumed normally distributed.", "B) It is estimated by ordinary least squares.", "C) Its dependent variable is the log odds of the event."], a: 2,
+    why: "Logit: Y = ln[P ÷ (1 − P)], maximum likelihood, logistic residuals." },
+  "L2-R2-Q2 #1": { lvl: 1, full: ["A country changed its exchange-rate regime five years ago. To model the currency, an analyst should most likely use:"],
+    options: ["A) the last five years only", "B) the full 30 years, for more data", "C) the full 30 years with more variables"], a: 0,
+    why: "A regime change shifts the coefficients; the shorter, post-change series is more stable." },
+  "L2-R2-Q2 #5": { lvl: 2, full: ["An AR(2) model’s residual autocorrelation at lag 3 has t = 2.9 (critical 2.0). The analyst should:"],
+    options: ["A) fit an AR(3) model and retest", "B) switch to an ARCH model", "C) keep the AR(2) model"], a: 0,
+    why: "Significant residual autocorrelation → add a lag, then check the residuals again." },
+  "L2-R2-Q2 #9": { lvl: 1, full: ["Which is required for a time series to be covariance stationary?"],
+    options: ["A) A rising mean", "B) A constant variance over time", "C) A unit root"], a: 1,
+    why: "Constant mean, constant variance, constant covariance at each lag." },
+  "L2-R2-Q2 #10": { lvl: 2, full: ["A retailer’s revenue has grown about 9% a year for 12 years. To model it with time, the analyst should use:"],
+    options: ["A) a linear trend model", "B) a log-linear trend model", "C) a mean-reverting AR(1) model"], a: 1,
+    why: "Growth at a constant rate = compound growth → log-linear." },
+  "L2-R2-Q3 #1": { lvl: 2, full: ["Model A: in-sample RMSE 2.1, out-of-sample 3.4. Model B: in-sample 2.6, out-of-sample 2.9. Which is more accurate for forecasting?"],
+    options: ["A) Model A, lower in-sample RMSE", "B) Model B, lower out-of-sample RMSE", "C) Model A, higher out-of-sample RMSE"], a: 1,
+    why: "Judge forecasts out of sample; lower RMSE wins." },
+  "L2-R2-Q3 #2": { lvl: 2, full: ["A stock index follows a random walk without drift and is at 4,000. Which is most likely?"],
+    options: ["A) Next period’s forecast is 4,000.", "B) The residuals are positively autocorrelated.", "C) The series has a mean-reverting level."], a: 0,
+    why: "Random walk: forecast = today’s value; errors are independent; no mean-reverting level." },
+  "L2-R2-Q3 #4": { lvl: 1, full: ["An AR(1) model gives b₁ = 1. The series:"],
+    options: ["A) is covariance stationary", "B) has a unit root", "C) has a mean-reverting level of b₀"], a: 1,
+    why: "b₁ = 1 = unit root = random walk, not stationary." },
+  "L2-R2-Q3 #6": { lvl: 2, full: ["An AR(2) model reports a Durbin–Watson statistic of 1.40 (dₗ 1.50). The analyst should:"],
+    options: ["A) reject no serial correlation", "B) ignore DW and test the residual autocorrelations with t-tests", "C) call the test inconclusive"], a: 1,
+    why: "DW is invalid when lagged Y is an X; use residual autocorrelation t-tests." },
+  "L2-R2-Q3 #7": { lvl: 2, full: ["A mean-reverting series follows Xₜ₊₁ = 1.5 + 0.7Xₜ. Its long-run best prediction is:"],
+    options: ["A) 2.2", "B) 5.0", "C) 1.05"], a: 1,
+    why: "1.5 ÷ (1 − 0.7) = 1.5 ÷ 0.3 = 5.0." },
+  "L2-R2-Q3 #9": { lvl: 2, full: ["Monthly data: AR(1) plus a lag-12 term are both significant; adding a lag-24 term, all three stay significant. Best model:"],
+    options: ["A) AR(1) with lag-12 and lag-24 terms", "B) AR(1) alone", "C) AR(24)"], a: 0,
+    why: "Keep every seasonal lag that is significant." },
+  "L2-R2-Q4 #1": { lvl: 1, full: ["xₜ = b₀ + b₁xₜ₋₁ + b₂xₜ₋₄ + εₜ on quarterly data is best described as:"],
+    options: ["A) AR(4)", "B) AR(1) with a seasonal lag", "C) AR(2)"], a: 1,
+    why: "One consecutive lag (lag 1) plus a seasonal lag-4 term." },
+  "L2-R2-Q4 #6": { lvl: 2, full: ["Residuals from an AR(1) are 0.5, −1.0, 2.0, −0.5. To test for ARCH(1), regress:"],
+    options: ["A) (1.0, 4.0, 0.25) on (0.25, 1.0, 4.0)", "B) (−1.0, 2.0, −0.5) on (0.5, −1.0, 2.0)", "C) the squared data on the lagged data"], a: 0,
+    why: "Square the residuals (0.25, 1, 4, 0.25), then regress each on the previous one." },
+  "L2-R2-Q4 #7": { lvl: 2, full: ["For a covariance-stationary series, which must hold?"],
+    options: ["A) Cov(xₜ, xₜ₋₃) = Cov(xₜ₊₅, xₜ₊₂)", "B) Cov(xₜ, xₜ₋₁) = Cov(xₜ, xₜ₋₃)", "C) E[xₜ] rises over time"], a: 0,
+    why: "Same distance (3 periods) → same covariance." },
+  "L2-R2-Q4 #8": { lvl: 3, full: ["An AR(1) model has a significant slope (t = 8.2). Its residual autocorrelations have t-stats −0.4, 0.9, 0.3 and 2.7 at lags 1–4 (critical 2.0). The model:"],
+    options: ["A) is well specified, the slope is significant", "B) is misspecified: lag 4 shows seasonality", "C) is well specified, lag 1 is not significant"], a: 1,
+    why: "Lag 4 is significant: add a seasonal lag." },
+  "L2-R2-Q4 #9": { lvl: 2, full: ["Which result would lead an analyst to keep an AR(1) model?"],
+    options: ["A) Corr(eₜ, eₜ₋₁) significantly different from zero", "B) No residual autocorrelation significantly different from zero", "C) Corr(eₜ, eₜ₋₃) significantly different from zero"], a: 1,
+    why: "Clean residuals = keep the model." },
+  "L2-R2-Q6-8 #3": { lvl: 1, full: ["To estimate the average monthly increase in website visits (in visits, not %), the most direct model is:"],
+    options: ["A) linear trend: visits = b₀ + b₁ × t", "B) AR(1)", "C) log-linear trend"], a: 0,
+    why: "The linear trend slope b₁ is the average change per period." },
+  "L2-R2-Q6-8 #5": { lvl: 2, full: ["For xₜ₊₁ = b₀ + b₁xₜ + eₜ, which shows the series is NOT a random walk?"],
+    options: ["A) b₁ = 0.6", "B) E(eₜ) = 0", "C) Var(eₜ) is constant"], a: 0,
+    why: "b₁ ≠ 1 → finite mean-reverting level b₀ ÷ (1 − b₁) → not a random walk." },
+  "L2-R2-Q6-8 #6": { lvl: 1, full: ["A price series has a unit root. The first-differenced model is:"],
+    options: ["A) Pₜ = b₀ + b₁Pₜ₋₁ + εₜ", "B) (Pₜ − Pₜ₋₁) = b₀ + b₁(Pₜ₋₁ − Pₜ₋₂) + εₜ", "C) Pₜ = b₀ + b₁Pₜ₋₂ + εₜ"], a: 1,
+    why: "Model the change on both sides." },
+  "L2-R2-Q6-8 #7": { lvl: 3, full: ["(Yₜ − Yₜ₋₁) = 20 + 0.5(Yₜ₋₁ − Yₜ₋₂) − 0.4(Yₜ₋₄ − Yₜ₋₅). Y_T = 500, Y_T−1 = 480, Y_T−2 = 470, Y_T−3 = 520, Y_T−4 = 450. Forecast Y_T+1:"],
+    options: ["A) 502", "B) 530", "C) 558"], a: 0,
+    why: "Change = 20 + 0.5 × 20 − 0.4 × (520 − 450) = 20 + 10 − 28 = 2. Y = 502." },
+  "L2-R21-Q1 #5": { lvl: 3, full: ["P/B 2.0, B $20, ROE 15%, r 11%. Implied growth?"],
+    options: ["A) 7.0%", "B) 4.0%", "C) 10.0%"], a: 0,
+    why: "V = 40. g = 0.11 − 20 × 0.04 ÷ 20 = 0.11 − 0.04 = 7.0%." },
+  "L2-R21-Q1 #6": { lvl: 1, full: ["The equity charge in residual income is:"],
+    options: ["A) beginning book equity × cost of equity", "B) capital expenditure for the year", "C) interest expense on debt"], a: 0,
+    why: "It is shareholders’ opportunity cost on the equity they supplied." },
+  "L2-R21-Q1 #7": { lvl: 1, full: ["Justified P/B = 1 + PV of future RI ÷ B₀. This shows the RI model is most directly tied to:"],
+    options: ["A) P/E", "B) P/B", "C) EV/EBITDA"], a: 1,
+    why: "RI value = book value + PV(RI)." },
+  "L2-R21-Q1 #9": { lvl: 2, full: ["Which statement about DDM, FCFE and RI models is correct?"],
+    options: ["A) FCFE models discount last year’s cash flows.", "B) All three discount expected future amounts at the required return.", "C) RI ignores book value."], a: 1,
+    why: "All are forward-looking; RI starts from book value." },
+  "L2-R21-Q1 #10": { lvl: 2, full: ["Firm X: pays no dividend, FCF negative for 5 years. Firm Y: regularly takes large items straight to equity. RI is suitable for:"],
+    options: ["A) X only", "B) Y only", "C) both"], a: 0,
+    why: "RI suits X; Y violates clean surplus." },
+  "L2-ECO-CASE1 #2": { lvl: 3, full: ["Dealer EUR/GBP 1.1630/1.1634. Interbank cross EUR/GBP 1.1640/1.1643. Arbitrage:"],
+    options: ["A) Buy GBP from the dealer at 1.1634, sell interbank at 1.1640", "B) Buy GBP interbank at 1.1643, sell to the dealer at 1.1630", "C) No arbitrage"], a: 0,
+    why: "Dealer ask 1.1634 < interbank bid 1.1640: buy cheap from the dealer, sell interbank (+0.0006 EUR per GBP)." },
+  "L2-ECO-CASE1 #5": { lvl: 2, full: ["If uncovered interest rate parity and covered interest rate parity both hold, then:"],
+    options: ["A) the forward rate equals the expected future spot rate", "B) real interest rates differ across countries", "C) PPP must fail"], a: 0,
+    why: "Both parities → forward rate parity: F = E(S)." },
+  "L2-QUANT-CASE1 #1": { lvl: 1, full: ["An analyst models whether a company defaults (1) or not (0) using leverage and coverage. The model should be:"],
+    options: ["A) multiple linear regression", "B) logistic regression", "C) simple linear regression"], a: 1,
+    why: "A 0/1 dependent variable → logistic regression." },
+  "L2-QUANT-CASE1 #3": { lvl: 2, full: ["A scatter of Y against X₂ shows a clear U-shape. Which assumption is at risk?"],
+    options: ["A) Linearity", "B) Independence of errors", "C) Normality of X₂"], a: 0,
+    why: "Y against an X bending into a curve breaks linearity." },
+  "L2-QUANT-CASE1 #4": { lvl: 2, full: ["Residuals plotted against predicted values fan out to the right. This suggests:"],
+    options: ["A) multicollinearity", "B) heteroskedasticity", "C) nonlinearity in X"], a: 1,
+    why: "Spread growing with the prediction = non-constant variance." },
+  "L2-QUANT-CASE1 #5": { lvl: 2, full: ["To check whether two independent variables are highly correlated, the most useful chart is:"],
+    options: ["A) residuals vs predicted values", "B) one independent variable plotted against the other", "C) a normal Q-Q plot"], a: 1,
+    why: "X vs X shows multicollinearity." },
+  // Mock 2 Session 1 (every question has a twin: misses show in Review at once, right ones once ticked)
+  "L2-MOCK2-S1 #1": { lvl: 1, full: ["Which economic driver matters most for multi-family residential demand?"],
+    options: ["A) Industrial production", "B) Household formation and job growth", "C) Office-using employment"], a: 1,
+    why: "People forming households need somewhere to live: residential demand.",
+    rule: "Industrial ← retail sales, trade, supply chains. Residential/hotel ← households, income, consumer confidence. Office ← office jobs." },
+  "L2-MOCK2-S1 #2": { lvl: 2, full: ["An investor wants listed real estate exposure with high, tax-advantaged current income and doesn’t care about reinvestment. Best fit:"],
+    options: ["A) REIT", "B) REOC", "C) Direct ownership"], a: 0,
+    why: "REITs pay out most income and are tax-exempt at the entity level: the income choice.",
+    rule: "REIT = liquid + income (must pay out). REOC = liquid + growth (can reinvest). Direct = control, illiquid." },
+  "L2-MOCK2-S1 #3": { lvl: 3, full: ["A REIT has trailing NOI of 50, expected NOI growth 3%, cap rate 7%, cash 10, land 20, liabilities 300 and 40 shares. NAVPS ≈"],
+    options: ["A) $11.64", "B) $11.14", "C) $19.14"], a: 0,
+    why: "NOI₁ = 51.5; 51.5 ÷ 0.07 = 735.71; + 30 = 765.71; − 300 = 465.71; ÷ 40 = 11.64.",
+    rule: "NAVPS = [NOI₁ ÷ cap rate + other assets − liabilities] ÷ shares. Grow the NOI first." },
+  "L2-MOCK2-S1 #4": { lvl: 2, full: ["NI 200, depreciation 90, gain on sale of property 30, straight-line rent adjustment 10, maintenance capex 40. AFFO ="],
+    options: ["A) 210", "B) 270", "C) 330"], a: 0,
+    why: "FFO = 200 + 90 − 30 = 260. AFFO = 260 − 10 − 40 = 210.",
+    rule: "Losses added back, gains taken out for FFO; then subtract straight-line rent and maintenance capex for AFFO." },
+  "L2-MOCK2-S1 #5": { lvl: 2, full: ["Y = 1.5 + 0.8X₁ − 0.3X₂, where X₂’s t-stat is 1.1 (not significant). X₁ = 2, X₂ = 4. Predicted Y ="],
+    options: ["A) 1.90", "B) 3.10", "C) 1.60"], a: 0,
+    why: "1.5 + 1.6 − 1.2 = 1.90. Use every coefficient.",
+    rule: "Predictions use the full equation, intercept and insignificant terms included." },
+  "L2-MOCK2-S1 #6": { lvl: 2, full: ["BP regression: n = 50, R² = 0.12, 2 independent variables. χ² critical (2 df): 5.991 at 5%, 9.210 at 1%. Conclusion:"],
+    options: ["A) Reject at 5% and 1%", "B) Reject at 5% only", "C) Reject at neither"], a: 1,
+    why: "BP = 50 × 0.12 = 6.0: above 5.991, below 9.210.",
+    rule: "BP = n × R² (of the residual² regression), df = number of X’s." },
+  "L2-MOCK2-S1 #7": { lvl: 1, full: ["VIFs: X₁ 1.3, X₂ 7.2, X₃ 1.1. The analyst should:"],
+    options: ["A) conclude no multicollinearity", "B) investigate X₂ further", "C) drop all three"], a: 1,
+    why: "7.2 is above 5 (investigate) but below 10 (serious).",
+    rule: "VIF > 5 → investigate; > 10 → serious multicollinearity." },
+  "L2-MOCK2-S1 #8": { lvl: 2, full: ["An analyst has no labels and wants to see how stocks nest into groups at every level of similarity, without choosing a number of groups. Best technique:"],
+    options: ["A) k-means", "B) Hierarchical clustering", "C) CART"], a: 1,
+    why: "No set k, and a hierarchy of nested groups = hierarchical clustering.",
+    rule: "Labels → supervised (CART, KNN). No labels + set k → k-means. No labels + nested tree → hierarchical." },
+  "L2-MOCK2-S1 #9": { lvl: 2, full: ["A company pays an analyst’s first-class flight and five-star hotel for a site visit, plus a dinner. Which part is a problem under I(B)?"],
+    options: ["A) The dinner only", "B) The flight and hotel", "C) None of it"], a: 1,
+    why: "Travel and lodging should be paid by the analyst’s firm; ordinary meals are fine.",
+    rule: "I(B): pay your own travel and lodging; modest meals and entertainment are OK." },
+  "L2-MOCK2-S1 #10": { lvl: 2, full: ["An analyst’s model needs last quarter’s data, which the vendor will deliver in three days. Her manager wants the report today. She should:"],
+    options: ["A) publish today with old data", "B) wait for the data, then publish", "C) never publish, since the data were late"], a: 1,
+    why: "A reasonable basis comes first; a short wait for complete data is the diligent choice.",
+    rule: "V(A): no report without a reasonable, adequate basis; wait for the data if it’s coming." },
+  "L2-MOCK2-S1 #11": { lvl: 2, full: ["An analyst builds a trading app at weekends, never shows it to her employer and sells it to a rival fund. This most likely violates:"],
+    options: ["A) IV(A) Loyalty", "B) III(B) Fair Dealing", "C) No Standard"], a: 0,
+    why: "Selling to a competitor without telling the employer can harm it: a loyalty issue.",
+    rule: "IV(A): outside work is OK if it doesn’t compete and the employer is told." },
+  "L2-MOCK2-S1 #12": { lvl: 1, full: ["A client asks her adviser to introduce her to another of his clients who sells boats. The adviser shares the seller’s phone number without asking him. Confidentiality is breached for:"],
+    options: ["A) the buyer", "B) the seller", "C) both"], a: 1,
+    why: "The seller’s details went out without his consent.",
+    rule: "III(E): disclosure needs the consent of the client whose information is shared." },
+  "L2-MOCK2-S1 #13": { lvl: 1, full: ["Which feature most increases a bank’s exposure to a run?"],
+    options: ["A) Insured deposits", "B) Mostly uninsured, on-demand deposits", "C) Long-term bond funding"], a: 1,
+    why: "Uninsured money that can leave at once is what runs on.",
+    rule: "Bank runs feed on uninsured, short-term deposits; deposit insurance calms them." },
+  "L2-MOCK2-S1 #14": { lvl: 1, full: ["Which Basel III requirement makes sure a bank has enough high-quality liquid assets to survive a 30-day stress?"],
+    options: ["A) Minimum capital", "B) Minimum liquidity (LCR)", "C) Stable funding (NSFR)"], a: 1,
+    why: "30-day stress cash = LCR.",
+    rule: "Basel III: capital → absorbs losses (limits leverage); liquidity (LCR) → 30-day cash; stable funding (NSFR) → 1-year funding." },
+  "L2-MOCK2-S1 #15": { lvl: 2, full: ["Bank X: HQLA 300, 30-day outflow 250. Bank Y: HQLA 420, outflow 380. Higher LCR:"],
+    options: ["A) X (1.20)", "B) Y (1.11)", "C) Equal"], a: 0,
+    why: "300 ÷ 250 = 1.20; 420 ÷ 380 = 1.11.",
+    rule: "LCR = HQLA ÷ 30-day stressed net outflow; compare ratios, not sizes." },
+  "L2-MOCK2-S1 #16": { lvl: 2, full: ["Loss ratios / expense ratios: P 70% / 28%, Q 72% / 25%, R 69% / 30%. Most efficient underwriter:"],
+    options: ["A) P", "B) Q", "C) R"], a: 1,
+    why: "P 98%, Q 97%, R 99%: Q is lowest.",
+    rule: "Overall underwriting = combined ratio = loss ratio + expense ratio; lowest wins." },
+  "L2-MOCK2-S1 #17": { lvl: 3, full: ["A long forward was entered at F₀ = 102.00. Six months remain, r = 2%, and today’s forward for the same date is 105.00. Value to the long ≈"],
+    options: ["A) +2.97", "B) +3.00", "C) −2.97"], a: 0,
+    why: "(105 − 102) ÷ 1.02^0.5 = 3 ÷ 1.00995 = 2.97, a gain to the long.",
+    rule: "Forward value = (Fₜ − F₀) ÷ (1 + r)^(T−t) for the long; flip the sign for the short." },
+  "L2-MOCK2-S1 #18": { lvl: 2, full: ["An investor receives fixed and pays floating on a swap. Which pair of bond positions replicates it?"],
+    options: ["A) Long fixed-rate bond, short floating-rate bond", "B) Short fixed-rate bond, long floating-rate bond", "C) Long both"], a: 0,
+    why: "Receive fixed = long fixed bond; pay floating = short floater.",
+    rule: "Swap legs = bonds: receive a leg → long that bond; pay a leg → short it. To offset, flip both." },
+  "L2-MOCK2-S1 #19": { lvl: 2, full: ["Pay-fixed (2%), receive-equity swap, notional 10 m. The index falls 5% over the period. Net cash flow to the investor:"],
+    options: ["A) pays 700,000", "B) receives 300,000", "C) pays 200,000"], a: 0,
+    why: "She receives −5% (pays 500,000) and pays 2% (200,000): pays 700,000.",
+    rule: "Equity swap net = notional × (rate received − rate paid); a negative equity return is paid by the equity receiver." },
+  "L2-MOCK2-S1 #20": { lvl: 2, full: ["A firm swaps EUR 10 m for USD 11 m at the start of a currency swap (it pays EUR, receives USD). At maturity it pays:"],
+    options: ["A) USD 11 m", "B) EUR 10 m", "C) USD at the then-spot value of EUR 10 m"], a: 0,
+    why: "At maturity the initial exchange reverses at the same amounts.",
+    rule: "Currency swap notionals re-exchange at the original amounts, in reverse." },
+  "L2-MOCK2-S1 #21": { lvl: 3, full: ["Cash-free stock deal, 1 acquirer share for 4 target shares. Fund buys 40,000 target at $9 and shorts 10,000 acquirer at $40. Deal fails; target falls to $7, acquirer rises to $42. Payoff:"],
+    options: ["A) −$100,000", "B) −$80,000", "C) +$40,000"], a: 0,
+    why: "Target: (7 − 9) × 40,000 = −80,000. Acquirer short: (40 − 42) × 10,000 = −20,000. Total −100,000.",
+    rule: "Failed merger arb: work out each leg from entry price to exit price and add them." },
+  "L2-MOCK2-S1 #22": { lvl: 3, full: ["Convertible at 105% of $1,000 par, conversion ratio 50, coupon 4%; share price $23; borrow cost $0.50 and dividend $0.80 per share. One-year payoff per share:"],
+    options: ["A) $1.50", "B) $2.00", "C) $0.70"], a: 0,
+    why: "Conversion price 1,050 ÷ 50 = 21; gap 2.00; − 1.30 + coupon 40 ÷ 50 = 0.80 → 1.50.",
+    rule: "Convertible arb payoff = (share − conversion price) − borrow − dividend + coupon per share." },
+  "L2-MOCK2-S1 #23": { lvl: 2, full: ["Existing: Sharpe 0.50, max drawdown 20%. Fund X: Sharpe 0.60, drawdown 25%. Fund Y: Sharpe 0.55, drawdown 15%. Goal: better risk-adjusted return and less downside. Choose:"],
+    options: ["A) X", "B) Y", "C) Neither"], a: 1,
+    why: "Y improves Sharpe and cuts the drawdown; X fails the drawdown test.",
+    rule: "Screen every criterion: a fund must pass all of them, not just the best headline ratio." },
+  "L2-MOCK2-S1 #24": { lvl: 3, full: ["A fund-of-funds charges 1 and 10; its one underlying fund charges 2 and 20 and earns 22% gross. Incentive fees are on returns net of management fees. Investor’s net return:"],
+    options: ["A) 13.5%", "B) 15.0%", "C) 16.0%"], a: 0,
+    why: "Underlying: 20% × 20% = 4% → net 22 − 2 − 4 = 16%. FoF: 10% × (16 − 1) = 1.5% → 16 − 1 − 1.5 = 13.5%.",
+    rule: "Fund-of-funds: apply both fee layers in order; incentive fee on the return after the management fee." },
+  "L2-MOCK2-S1 #25": { lvl: 2, full: ["FCFF next year $5 m, growth 3%, WACC 8%, cost of equity 11%, debt $30 m. Equity value:"],
+    options: ["A) $70 m", "B) $100 m", "C) $32.5 m"], a: 0,
+    why: "Firm = 5 ÷ 0.05 = 100; equity = 100 − 30 = 70.",
+    rule: "FCFF ÷ (WACC − g) = firm value; subtract debt for equity. FCFE ÷ (r − g) = equity directly." },
+  "L2-MOCK2-S1 #26": { lvl: 1, full: ["A firm repays a large loan this year. All else equal, this year’s FCFE will most likely:"],
+    options: ["A) fall", "B) be unchanged", "C) rise"], a: 0,
+    why: "Net borrowing is negative (repayment), which reduces FCFE. FCFF is unaffected.",
+    rule: "Financing moves FCFE (net borrowing, interest), never FCFF." },
+  "L2-MOCK2-S1 #27": { lvl: 2, full: ["NI 100, depreciation 40, after-tax interest 15, FCInv 60, WCInv 10, net borrowing 20. FCFE ="],
+    options: ["A) 90", "B) 85", "C) 105"], a: 0,
+    why: "100 + 40 − 60 − 10 + 20 = 90.",
+    rule: "FCFE from NI: + NCC − FCInv − WCInv + net borrowing. Add back interest only for FCFF." },
+  "L2-MOCK2-S1 #28": { lvl: 3, full: ["FCFE: year 1 $10, year 2 $12, then growth 5% forever. r = 10%. Equity value:"],
+    options: ["A) $227.27", "B) $252.00", "C) $264.00"], a: 0,
+    why: "TV₂ = 12 × 1.05 ÷ 0.05 = 252. PV = 10 ÷ 1.1 + (12 + 252) ÷ 1.21 = 9.09 + 218.18 = 227.27.",
+    rule: "Two-stage: TV at the last explicit year uses next year’s cash flow; discount it with that year’s factor." },
+  "L2-MOCK2-S1 #29": { lvl: 3, full: ["A 2-year 5% annual bond. Risk-free discount factors 0.98 and 0.96. PVs of expected loss: 0.80 and 0.70. Fair value per 100:"],
+    options: ["A) 104.20", "B) 105.70", "C) 102.70"], a: 0,
+    why: "VND = 5 × 0.98 + 105 × 0.96 = 4.90 + 100.80 = 105.70; CVA = 0.80 + 0.70 = 1.50; 105.70 − 1.50 = 104.20.",
+    rule: "Fair value = VND (risk-free discounting) − CVA." },
+  "L2-MOCK2-S1 #30": { lvl: 2, full: ["Why is a risk-neutral probability of default usually higher than the historical default rate?"],
+    options: ["A) Spreads include a default risk premium and liquidity/tax effects", "B) Historical data overstate defaults", "C) Recovery rates are ignored in spreads"], a: 0,
+    why: "Both extra pieces in the spread push the implied POD up.",
+    rule: "Risk-neutral POD > historical: spreads hold a default-timing risk premium plus liquidity and tax effects." },
+  "L2-MOCK2-S1 #31": { lvl: 2, full: ["A securitisation backed by 12 large commercial property loans, each different. Approach:"],
+    options: ["A) Loan-by-loan", "B) Portfolio-based", "C) Statistics-based"], a: 0,
+    why: "Few, large, heterogeneous loans → analyse each one.",
+    rule: "Few large varied → loan-by-loan; many similar medium-term → portfolio; many similar short-term → statistics." },
+  "L2-MOCK2-S1 #32": { lvl: 2, full: ["CDS: standard coupon 5%, credit spread 3.5%, duration 5. Upfront premium for the protection buyer:"],
+    options: ["A) buyer pays 7.5%", "B) buyer receives 7.5%", "C) buyer pays 17.5%"], a: 1,
+    why: "(3.5% − 5%) × 5 = −7.5%: the coupon is too high, so the seller pays the buyer up front.",
+    rule: "Upfront ≈ (spread − coupon) × duration; negative means the protection buyer receives it." },
+  "L2-MOCK2-S1 #33": { lvl: 2, full: ["Annual mean 10%, annual σ 20%, 250 days. Daily 5% parametric VaR:"],
+    options: ["A) 2.05%", "B) 0.04%", "C) 1.26%"], a: 0,
+    why: "Mean 0.04%; σ = 20 ÷ 15.81 = 1.265%; 1.65 × 1.265 = 2.087 − 0.04 = 2.05%.",
+    rule: "Scale mean by T and σ by √T separately, then VaR = |μ − 1.65σ|." },
+  "L2-MOCK2-S1 #34": { lvl: 2, full: ["Which is an advantage of VaR?"],
+    options: ["A) It captures liquidity risk", "B) It allows risk to be compared across portfolios and desks", "C) It describes losses beyond the cutoff"], a: 1,
+    why: "Comparability is VaR’s strength; liquidity and tail losses are weaknesses.",
+    rule: "VaR limits: ignores liquidity, underestimates tail size and frequency, ignores losses past the cutoff." },
+  "L2-MOCK2-S1 #35": { lvl: 1, full: ["A manager wants to know how portfolio VaR changes if she adds 10% more to emerging markets. She needs:"],
+    options: ["A) conditional VaR", "B) incremental VaR", "C) relative VaR"], a: 1,
+    why: "A change in a position size → incremental VaR.",
+    rule: "CVaR = average loss beyond VaR; IVaR = VaR change from a position change; MVaR = per small unit." },
+  "L2-MOCK2-S1 #36": { lvl: 2, full: ["A backtest picks stocks using today’s index membership for every past year. The main problem is:"],
+    options: ["A) survivorship / look-ahead bias", "B) too many transaction costs", "C) data snooping only"], a: 0,
+    why: "Today’s list excludes firms that failed; that is hindsight.",
+    rule: "Backtests: point-in-time data, include costs, use the investor’s currency if unhedged." },
+  "L2-MOCK2-S1 #37": { lvl: 1, full: ["An adviser shows a composite that leaves out two accounts that closed after big losses. This violates:"],
+    options: ["A) III(D) Performance Presentation", "B) I(C) Misrepresentation only if intentional", "C) Nothing"], a: 0,
+    why: "Leaving out terminated accounts makes performance incomplete.",
+    rule: "III(D): include terminated accounts; disclose gross/net and prior-firm results." },
+  "L2-MOCK2-S1 #38": { lvl: 2, full: ["An adviser phones his top five clients about a new ‘buy’ rating an hour before the firm emails it to all clients. This:"],
+    options: ["A) violates Fair Dealing", "B) is fine because they are the biggest clients", "C) is fine if they don’t trade"], a: 0,
+    why: "Favoured clients got the change before the others.",
+    rule: "III(B): disseminate to all first; then personal follow-ups are fine." },
+  "L2-MOCK2-S1 #39": { lvl: 2, full: ["An adviser gets $500 from an outside accountant for every client he sends her. He must:"],
+    options: ["A) disclose it to his employer, clients and prospects", "B) disclose it only to his employer", "C) do nothing"], a: 0,
+    why: "Payment from a third party for referrals = a referral fee, disclosed to all.",
+    rule: "Referral fees come from outsiders and must be disclosed; your employer’s own bonus is not one." },
+  "L2-MOCK2-S1 #40": { lvl: 2, full: ["An adviser’s sister is a fee-paying client managed exactly like others. A suitable IPO is oversubscribed: 50% of requests are filled. Her request was 400 shares. She should get:"],
+    options: ["A) 0", "B) 200", "C) 400"], a: 1,
+    why: "A normal fee-paying family account shares pro rata like any client: 50% × 400.",
+    rule: "Oversubscribed issues: pro rata to suitable clients; family accounts outside normal terms get none." },
+  "L2-MOCK2-S1 #41": { lvl: 1, full: ["Under IFRS, a 50% joint venture is reported in the venturer’s balance sheet as:"],
+    options: ["A) a single investment line", "B) 50% of each asset and liability", "C) 100% of assets with NCI"], a: 0,
+    why: "Equity method: one line.",
+    rule: "Joint venture → equity method (one line), under both IFRS and US GAAP." },
+  "L2-MOCK2-S1 #42": { lvl: 3, full: ["An investor’s share is 40%. Investee EBT 5.0; plant fair value exceeds book by 4.0, remaining life 8 years. Investor’s share of EBT after the step-up:"],
+    options: ["A) 1.80", "B) 2.00", "C) 1.50"], a: 0,
+    why: "Extra depreciation 4 ÷ 8 = 0.5; (5.0 − 0.5) × 40% = 1.80.",
+    rule: "Step-up depreciation = (fair value − book) ÷ remaining life; take it off before applying the ownership %." },
+  "L2-MOCK2-S1 #43": { lvl: 1, full: ["M-scores: X −2.6, Y −1.6, Z −2.1. Most likely manipulator:"],
+    options: ["A) X", "B) Y", "C) Z"], a: 1,
+    why: "−1.6 is the highest (least negative).",
+    rule: "Beneish: higher M-score → higher probability of manipulation (above −1.78 is the warning zone)." },
+  "L2-MOCK2-S1 #44": { lvl: 2, full: ["Under IFRS, which classification choice inflates operating cash flow?"],
+    options: ["A) Interest paid in financing", "B) Interest paid in operating", "C) Interest received in investing"], a: 0,
+    why: "Moving an outflow out of operating raises CFO.",
+    rule: "Quality check: choices that push outflows out of CFO, or inflows into it, inflate CFO and lower quality." },
 };
 
 const TUITION_Q = {
@@ -32591,6 +33211,691 @@ const TUITION_Q = {
       "wrong": "Diligence would matter if she had *made* a recommendation without enough work. She made none."
     }
   },
+  "L2-R1-Q5 #1": {
+    "full": [
+      "A multiple regression model has included independent variables that are not linearly related to the dependent variable. The model is most likely misspecified due to:"
+    ],
+    "options": [
+      "incorrect data pooling.",
+      "incorrect variable scaling.",
+      "incorrect variable form."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "If an X has a curved (not straight-line) link with Y, it should have been *transformed* first (for example, taking its log). Leaving it as it is = the wrong *form* of the variable.",
+      "wrong": "Pooling is about mixing data from *different periods or regimes* in one regression. Nothing here says the data come from different environments."
+    }
+  },
+  "L2-R1-Q5 #2": {
+    "full": [
+      "When pooling the samples over multiple economic environments in a multiple regression model, which of the following errors is most likely to occur?"
+    ],
+    "options": [
+      "Multicollinearity.",
+      "Heteroskedasticity.",
+      "Model misspecification."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Throwing data from different economic environments into one regression is *incorrect pooling*, one of the four kinds of *model misspecification*. The fix is a separate regression for each period.",
+      "wrong": "Multicollinearity means two X’s move together. Pooling doesn’t make the X’s related; it makes one equation try to fit two different relationships."
+    }
+  },
+  "L2-R1-Q5 #5": {
+    "full": [
+      "Consider the following regression equation:",
+      "Sales = 20.5 + 1.5 R&D + 2.5 ADV – 3.0 COMP",
+      "where Sales is dollar sales in millions, R&D is research and development expenditures in millions, ADV is dollar amount spent on advertising in millions and COMP is the number of competitors in the industry.",
+      "Which of the following is NOT a correct interpretation of this regression information?"
+    ],
+    "options": [
+      "If R&D and advertising expenditures are $1 million each and there are 5 competitors, expected sales are $9.5 million.",
+      "One more competitor will mean $3 million less in sales (holding everything else constant).",
+      "If a company spends $1 more on R&D (holding everything else constant), sales are expected to increase by $1.5 million."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "R&D is measured in *millions*, so the slope 1.5 means: *$1 million* more R&D → $1.5 million more sales. Saying “$1 more” gets the units wrong, so that statement is the incorrect one.",
+      "wrong": "Your pick is a correct statement: 20.5 + 1.5 + 2.5 − 15 = 9.5. On a “NOT correct” question, a statement that checks out can’t be the answer.",
+      "steps": [
+        "Option A: Sales = 20.5 + 1.5 × 1 + 2.5 × 1 − 3.0 × 5 = 20.5 + 1.5 + 2.5 − 15 = *9.5* ✓ (correct statement)",
+        "Option C: X is in millions, so +1 unit of R&D = +$1 million, not +$1 → statement is wrong ✗"
+      ]
+    }
+  },
+  "L2-R1-Q5 #6": {
+    "full": [
+      "An analyst is trying to determine whether fund return performance is persistent. The analyst divides funds into three groups based on whether their return performance was in the top third (group 1), middle third (group 2), or bottom third (group 3) during the previous year. The manager then creates the following equation: R = a + b₁D₁ + b₂D₂ + b₃D₃ + ε, where R is return premium on the fund (the return minus the return on the S&P 500 benchmark) and Dᵢ is equal to 1 if the fund is in group i. Assuming no other information, this equation will suffer from:"
+    ],
+    "options": [
+      "multicollinearity.",
+      "heteroskedasticity.",
+      "serial correlation."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Every fund is in exactly one group, so D₁ + D₂ + D₃ = 1 for every row, the same as the intercept. That is *perfect multicollinearity*. Three groups need only *two* dummies.",
+      "wrong": "Serial correlation is about errors following each other over time. Nothing here is a time series; the problem is the dummy count."
+    }
+  },
+  "L2-R1-Q5 #9": {
+    "full": [
+      "May Jones estimated a regression that produced the following analysis of variance (ANOVA) table:",
+      "Source | Sum of squares | Degrees of freedom | Mean square",
+      "Regression | 20 | 1 | 20",
+      "Error | 80 | 40 | 2",
+      "Total | 100 | 41 |",
+      "The values of R² and the F-statistic for joint test of significance of all the slope coefficients are:"
+    ],
+    "options": [
+      "R² = 0.25 and F = 0.909.",
+      "R² = 0.20 and F = 10.",
+      "R² = 0.25 and F = 10."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "R² is the share of the *total* variation the regression explains: 20 ÷ 100 = 0.20. F = mean square regression ÷ mean square error = 20 ÷ 2 = 10.",
+      "wrong": "0.25 comes from dividing by the *error* sum of squares (20 ÷ 80). R² always divides by the *total* (100).",
+      "steps": [
+        "R² = RSS ÷ SST = 20 ÷ 100 = *0.20*",
+        "F = MSR ÷ MSE = 20 ÷ 2 = *10*",
+        "Trap: 20 ÷ 80 = 0.25 uses the error SS, not the total"
+      ]
+    }
+  },
+  "L2-R1-Q6-7 #1": {
+    "full": [
+      "Henry Hilton, CFA, is undertaking an analysis of the bicycle industry. He hypothesizes that bicycle sales (SALES) are a function of three factors: the population under 20 (POP), the level of disposable income (INCOME), and the number of dollars spent on advertising (ADV). All data are measured in millions of units. Hilton gathers data for the last 20 years and estimates the following equation (standard errors in parentheses):",
+      "SALES = α + 0.004 POP + 1.031 INCOME + 2.002 ADV",
+      "(0.005)  (0.337)  (2.312)",
+      "The critical t-statistic for a 95% confidence level is 2.120. Which of the independent variables is statistically different from zero at the 95% confidence level?"
+    ],
+    "options": [
+      "INCOME and ADV.",
+      "ADV only.",
+      "INCOME only."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "The numbers in brackets are *standard errors*, so work out t = coefficient ÷ SE for each. Only INCOME (3.06) is bigger than 2.120.",
+      "wrong": "ADV has a big coefficient (2.002), but its standard error is even bigger, so t = 0.87. A big coefficient is not the same as a significant one.",
+      "steps": [
+        "POP: t = 0.004 ÷ 0.005 = 0.80 < 2.120 ✗",
+        "INCOME: t = 1.031 ÷ 0.337 = *3.06* > 2.120 ✓",
+        "ADV: t = 2.002 ÷ 2.312 = 0.87 < 2.120 ✗"
+      ]
+    }
+  },
+  "L2-R1-Q6-7 #6": {
+    "full": [
+      "Which of the following is least accurate statement about logit models?"
+    ],
+    "options": [
+      "Logistic regression (logit) models use log odds as the dependent variable.",
+      "A logit model assumes that residuals have a normal distribution.",
+      "The coefficients of the logit model are estimated using the maximum likelihood estimation methodology."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "A logit model assumes the residuals follow a *logistic* distribution: like a normal one but with *fatter tails*. Saying “normal” is the wrong statement.",
+      "wrong": "Logit coefficients really are estimated by *maximum likelihood*, not least squares. That statement is true, so it can’t be the least accurate."
+    }
+  },
+  "L2-R2-Q2 #1": {
+    "full": [
+      "Which of the following statements regarding the instability of time-series models is most accurate? Models estimated with:"
+    ],
+    "options": [
+      "A) a greater number of independent variables are usually more stable than those with a smaller number.",
+      "B) shorter time series are usually more stable than those with longer time series.",
+      "C) longer time series are usually more stable than those with shorter time series."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "A long series is more likely to cross a change in the economy (new rules, a crisis), so its coefficients shift. A *shorter* series covers one regime and is usually *more stable*.",
+      "wrong": "Longer gives more data and more *statistical reliability*, but stability is a different thing: more years = more chance the relationship changed."
+    }
+  },
+  "L2-R2-Q2 #5": {
+    "full": [
+      "An analyst modeled the time series of annual earnings per share in the specialty department store industry as an AR(3) process. Upon examination of the residuals from this model, she found that there is a significant autocorrelation for the residuals of this model. This indicates that she needs to:"
+    ],
+    "options": [
+      "A) alter the model to an ARCH model.",
+      "B) revise the model to include at least another lag of the dependent variable.",
+      "C) switch models to a moving average model."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Autocorrelated residuals in an AR model mean the model is missing some memory of the past. The fix is to *add a lag*: AR(3) → AR(4), then check the residuals again.",
+      "wrong": "ARCH is about the *variance* of the errors (squared residuals) changing over time. Plain residual autocorrelation is the signal to add a lag, not to switch to ARCH."
+    }
+  },
+  "L2-R2-Q2 #9": {
+    "full": [
+      "Which of the following is NOT a requirement for a series to be covariance stationary? The:"
+    ],
+    "options": [
+      "A) covariance of the time series with itself (lead or lag) must be constant.",
+      "B) expected value of the time series is constant over time.",
+      "C) time series must have a positive trend."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Covariance stationary needs three things to stay constant: the *mean*, the *variance* and the *covariance with its own past*. A trend is the opposite: a trend means the mean keeps moving.",
+      "wrong": "A constant covariance with its own lags *is* one of the three requirements, so it can’t be the “NOT a requirement” answer."
+    }
+  },
+  "L2-R2-Q2 #10": {
+    "full": [
+      "Dianne Hart, CFA, is considering the purchase of an equity position in Book World, Inc, a leading seller of books in the United States. Hart has obtained monthly sales data for the past seven years, and has plotted the data points on a graph. Which of the following statements regarding Hart's analysis of the data time series of Book World's sales is most accurate? Hart should utilize a:"
+    ],
+    "options": [
+      "A) linear model to analyze the data because the mean appears to be constant.",
+      "B) log-linear model to analyze the data because it is likely to exhibit a compound growth trend.",
+      "C) mean-reverting model to analyze the data because the time series pattern is covariance stationary."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Company sales usually grow at a *rate* (a percentage) each year, i.e. compound growth. Compound growth calls for a *log-linear* model.",
+      "wrong": "Sales of a growing firm keep rising, so their mean is not constant and the series is *not* covariance stationary. A mean-reverting model doesn’t fit."
+    }
+  },
+  "L2-R2-Q3 #1": {
+    "full": [
+      "Frank Batchelder and Miriam Yenkin are analysts for Bishop Econometrics. Batchelder and Yenkin are discussing the models they use to forecast changes in China's GDP and how they can compare the forecasting accuracy of each model. Batchelder states, \"The root mean squared error (RMSE) criterion is typically used to evaluate the in-sample forecast accuracy of autoregressive models.\" Yenkin replies, \"If we use the RMSE criterion, the model with the largest RMSE is the one we should judge as the most accurate.\" With regard to their statements about using the RMSE criterion:"
+    ],
+    "options": [
+      "A) Batchelder is incorrect; Yenkin is incorrect.",
+      "B) Batchelder is incorrect; Yenkin is correct.",
+      "C) Batchelder is correct; Yenkin is incorrect."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "RMSE is used to compare models *out of sample* (on data they weren’t fitted to), so Batchelder is wrong. RMSE is an error measure, so *smaller* is better; Yenkin is wrong too.",
+      "wrong": "Batchelder said *in-sample*. The future is always out of sample, so that’s where RMSE is used."
+    }
+  },
+  "L2-R2-Q3 #2": {
+    "full": [
+      "David Brice, CFA, has tried to use an AR(1) model to predict a given exchange rate. Brice has concluded the exchange rate follows a random walk without a drift. The current value of the exchange rate is 2.2. Under these conditions, which of the following would be least likely?"
+    ],
+    "options": [
+      "A) The forecast for next period is 2.2.",
+      "B) The residuals of the forecasting model are autocorrelated.",
+      "C) The process is not covariance stationary."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "In a random walk, xₜ = xₜ₋₁ + εₜ, and each error is a *fresh, independent* shock. So the residuals are *not* autocorrelated: that statement is the unlikely one.",
+      "wrong": "With no drift, the best forecast is simply today’s value: 2.2. That is exactly what a random walk predicts, so it is likely, not unlikely."
+    }
+  },
+  "L2-R2-Q3 #4": {
+    "full": [
+      "An AR(1) autoregressive time series model:"
+    ],
+    "options": [
+      "A) cannot be used to test for a unit root.",
+      "B) can be used to test for a unit root, which exists if the slope coefficient equals one.",
+      "C) can be used to test for a unit root, which exists if the slope coefficient is less than one."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "A unit root means the slope b₁ *equals 1*: the series is a random walk and isn’t covariance stationary.",
+      "wrong": "A slope *below* 1 (in absolute value) is the *good* case: the series has a mean-reverting level and is stationary."
+    }
+  },
+  "L2-R2-Q3 #6": {
+    "full": [
+      "The regression results from fitting an AR(1) model to the first-differences in enrollment growth rates at a large university includes a Durbin-Watson statistic of 1.58. The number of quarterly observations in the time series is 60. At 5% significance, the critical values for the Durbin-Watson statistic are dₗ = 1.55 and dᵤ = 1.62. Which of the following is the most accurate interpretation of the DW statistic for the model?"
+    ],
+    "options": [
+      "A) Since dₗ < DW < dᵤ, the results of the DW test are inconclusive.",
+      "B) The Durbin-Watson statistic cannot be used with AR(1) models.",
+      "C) Since DW > dᵤ, the null hypothesis of no serial correlation is rejected."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "In an AR model a lagged Y is one of the X’s, and that makes the Durbin–Watson test invalid. For AR models you test the *residual autocorrelations with t-tests* instead.",
+      "wrong": "Besides the test not applying, the reading is wrong too: 1.58 is *below* dᵤ = 1.62, not above it."
+    }
+  },
+  "L2-R2-Q3 #7": {
+    "full": [
+      "Suppose that the time series designated as Y is mean reverting. If Yₜ₊₁ = 0.2 + 0.6 Yₜ, the best prediction of Yₜ₊₁ is:"
+    ],
+    "options": [
+      "A) 0.8.",
+      "B) 0.5.",
+      "C) 0.3."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "With no current value given, the best prediction for a mean-reverting series is its *mean-reverting level*: b₀ ÷ (1 − b₁) = 0.2 ÷ 0.4 = 0.5.",
+      "wrong": "0.8 just adds the two coefficients (0.2 + 0.6), as if Yₜ were 1. Nothing says Yₜ is 1.",
+      "steps": [
+        "Mean-reverting level = b₀ ÷ (1 − b₁) = 0.2 ÷ (1 − 0.6) = 0.2 ÷ 0.4 = *0.5*",
+        "Check: if Yₜ = 0.5, Yₜ₊₁ = 0.2 + 0.6 × 0.5 = 0.5 (it stays put) ✓"
+      ]
+    }
+  },
+  "L2-R2-Q3 #9": {
+    "full": [
+      "An analyst wants to model quarterly sales data using an autoregressive model. She has found that an AR(1) model with a seasonal lag has significant slope coefficients. She also finds that when a second and third seasonal lag are added to the model, all slope coefficients are significant too. Based on this, the best model to use would most likely be an:"
+    ],
+    "options": [
+      "A) AR(1) model with 3 seasonal lags.",
+      "B) AR(1) model with no seasonal lags.",
+      "C) ARCH(1)."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Each extra seasonal lag stayed *significant* when added, so each one adds real information. Keep the biggest model whose slopes are all significant: AR(1) with 3 seasonal lags.",
+      "wrong": "Dropping the seasonal lags throws away terms that tested significant, which leaves seasonality in the residuals."
+    }
+  },
+  "L2-R2-Q4 #1": {
+    "full": [
+      "The model xₜ = b₀ + b₁xₜ₋₁ + b₂xₜ₋₂ + b₃xₜ₋₁₂ + εₜ is an autoregressive model of type:"
+    ],
+    "options": [
+      "A) AR(12).",
+      "B) AR(2).",
+      "C) AR(1)."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The order counts the *consecutive* lags: xₜ₋₁ and xₜ₋₂ make it AR(2). The xₜ₋₁₂ term is a *seasonal* lag (same month last year) added on top; it doesn’t make the model AR(12).",
+      "wrong": "AR(12) would need all twelve lags, xₜ₋₁ through xₜ₋₁₂. Here lags 3 to 11 are missing."
+    }
+  },
+  "L2-R2-Q4 #6": {
+    "full": [
+      "The data below yields the following AR(1) specification: xₜ = 0.9 – 0.55xₜ₋₁ + Eₜ, and the indicated fitted values and residuals.",
+      "Time | xₜ | fitted values | residuals",
+      "1 | 1 | - | -",
+      "2 | -1 | 0.35 | -1.35",
+      "3 | 2 | 1.45 | 0.55",
+      "4 | -1 | -0.2 | -0.8",
+      "5 | 0 | 1.45 | -1.45",
+      "6 | 2 | 0.9 | 1.1",
+      "7 | 0 | -0.2 | 0.2",
+      "8 | 1 | 0.9 | 0.1",
+      "9 | 2 | 0.35 | 1.65",
+      "The following sets of data are ordered from earliest to latest. To test for ARCH, the researcher should regress:"
+    ],
+    "options": [
+      "A) (1.8225, 0.3025, 0.64, 2.1025, 1.21, 0.04, 0.01) on (0.3025, 0.64, 2.1025, 1.21, 0.04, 0.01, 2.7225).",
+      "B) (1, 4, 1, 0, 4, 0, 1, 4) on (1, 1, 4, 1, 0, 4, 0, 1)",
+      "C) (-1.35, 0.55, -0.8, -1.45, 1.1, 0.2, 0.1, 1.65) on (0.35, 1.45, -0.2, 1.45, 0.9, -0.2, 0.9, 0.35)"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "ARCH asks: does a big error today predict a big error tomorrow? So you square the *residuals* and regress them on their own lagged values. Option A is the only one built from squared residuals.",
+      "wrong": "Option B squares the *data* (xₜ), not the residuals. ARCH is about the error variance, so it must use residuals.",
+      "steps": [
+        "Squared residuals: (−1.35)² = 1.8225, 0.55² = 0.3025, (−0.8)² = 0.64, (−1.45)² = 2.1025, 1.1² = 1.21, 0.2² = 0.04, 0.1² = 0.01, 1.65² = 2.7225",
+        "Regress ε̂²ₜ on ε̂²ₜ₋₁: one list is the squared residuals, the other is the same list shifted by one period"
+      ]
+    }
+  },
+  "L2-R2-Q4 #7": {
+    "full": [
+      "To qualify as a covariance stationary process, which of the following does not have to be true?"
+    ],
+    "options": [
+      "A) Covariance(xₜ, xₜ₋₁) = Covariance(xₜ, xₜ₋₂).",
+      "B) E[xₜ] = E[xₜ₊₁].",
+      "C) Covariance(xₜ, xₜ₋₂) = Covariance(xₜ, xₜ₊₂)."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Covariance stationary needs the covariance at the *same distance* to be the same everywhere (2 back = 2 ahead). It does *not* need the lag-1 covariance to equal the lag-2 covariance; those are different distances.",
+      "wrong": "A constant mean (E[xₜ] = E[xₜ₊₁]) is a core requirement, so it does have to be true."
+    }
+  },
+  "L2-R2-Q4 #8": {
+    "full": [
+      "A monthly time series of changes in maintenance expenses (ΔExp) for an equipment rental company was fit to an AR(1) model over 100 months. The results of the regression and the first twelve lagged residual autocorrelations are shown in the tables below. Based on the information in these tables, does the model appear to be appropriately specified? (Assume a 5% level of significance.)",
+      "Regression Results for Maintenance Expense Changes — Model: ΔExpₜ = b₀ + b₁ΔExpₜ₋₁ + eₜ",
+      "Intercept: coefficient 1.3304, standard error 0.0089, t-statistic 112.2849, p-value < 0.0001",
+      "Lag-1: coefficient 0.1817, standard error 0.0061, t-statistic 30.0125, p-value < 0.0001",
+      "Lagged residual autocorrelations (lag: autocorrelation, t-statistic): 1: −0.239, −2.39 · 2: −0.278, −2.78 · 3: −0.045, −0.45 · 4: −0.033, −0.33 · 5: −0.180, −1.80 · 6: −0.110, −1.10 · 7: −0.018, −0.18 · 8: −0.033, −0.33 · 9: 0.261, 2.61 · 10: −0.060, −0.60 · 11: 0.212, 2.12 · 12: 0.022, 0.22"
+    ],
+    "options": [
+      "A) Yes, because most of the residual autocorrelations are negative.",
+      "B) Yes, because the intercept and the lag coefficient are significant.",
+      "C) No, because several of the residual autocorrelations are significant."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "An AR model is judged by its *residuals*: if they are still autocorrelated, the model is missing something. Critical t ≈ 1.98, and lags 1, 2, 9 and 11 beat it. So the model is *not* well specified.",
+      "wrong": "Significant coefficients only show the lag helps. They say nothing about whether the leftover errors are clean.",
+      "steps": [
+        "Critical t (5%, ~98 df) ≈ 1.98",
+        "|t| above 1.98: lag 1 (2.39), lag 2 (2.78), lag 9 (2.61), lag 11 (2.12) → significant autocorrelation → respecify (try AR(2))"
+      ]
+    }
+  },
+  "L2-R2-Q4 #9": {
+    "full": [
+      "Alexis Popov, CFA, has estimated the following specification: xₜ = b₀ + b₁ × xₜ₋₁ + eₜ. Which of the following would most likely lead Popov to want to change the model's specification?"
+    ],
+    "options": [
+      "A) b₀ < 0.",
+      "B) Correlation(eₜ, eₜ₋₂) is significantly different from zero.",
+      "C) Correlation(eₜ, eₜ₋₁) is not significantly different from zero."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "A *significant* residual autocorrelation (here at lag 2) is the warning sign: the AR(1) model misses something, so try AR(2).",
+      "wrong": "“*Not* significantly different from zero” is the result you *want*: clean residuals. It’s a reason to keep the model, not to change it."
+    }
+  },
+  "L2-R2-Q6-8 #3": {
+    "full": [
+      "Alexis Popov, CFA, wants to estimate how sales have grown from one quarter to the next on average. The most direct way for Popov to estimate this would be:"
+    ],
+    "options": [
+      "A) an AR(1) model.",
+      "B) an AR(1) model with a seasonal lag.",
+      "C) a linear trend model."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "In a linear trend model xₜ = b₀ + b₁ × t, the slope b₁ *is* the average change from one quarter to the next. That answers his question directly.",
+      "wrong": "An AR(1) model links this quarter to last quarter’s *level*; it doesn’t hand you an average quarterly change."
+    }
+  },
+  "L2-R2-Q6-8 #5": {
+    "full": [
+      "Given an AR(1) process represented by xₜ₊₁ = b₀ + b₁ × xₜ + eₜ, the process would not be a random walk if:"
+    ],
+    "options": [
+      "A) the long run mean is b₀ / (1-b₁).",
+      "B) E(eₜ)=0.",
+      "C) b₁ = 1."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A random walk has b₁ = 1, so b₀ ÷ (1 − b₁) divides by zero: it has *no* long-run mean. If the long-run mean exists, the series can’t be a random walk.",
+      "wrong": "E(eₜ) = 0 holds for a random walk too (every error averages zero), so it doesn’t rule one out."
+    }
+  },
+  "L2-R2-Q6-8 #6": {
+    "full": [
+      "Suppose that the following time-series model is found to have a unit root:",
+      "Salesₜ = b₀ + b₁ Salesₜ₋₁ + εₜ",
+      "What is the specification of the model if first differences are used?"
+    ],
+    "options": [
+      "A) (Salesₜ - Salesₜ₋₁)= b₀ + b₁ (Salesₜ₋₁ - Salesₜ₋₂) + εₜ.",
+      "B) Salesₜ = b₀ + b₁ Salesₜ₋₁ + b₂ Salesₜ₋₂ + εₜ.",
+      "C) Salesₜ = b₁ Salesₜ₋₁ + εₜ."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "First differencing means modelling the *change*: yₜ = Salesₜ − Salesₜ₋₁, regressed on last period’s change. Only option A uses changes on both sides.",
+      "wrong": "Option B just adds a second lag of the *level*. The unit root is still there; nothing has been differenced."
+    }
+  },
+  "L2-R2-Q6-8 #7": {
+    "full": [
+      "Consider the following estimated model:",
+      "(Salesₜ - Salesₜ₋₁)= 100 - 1.5 (Salesₜ₋₁ - Salesₜ₋₂) + 1.2 (Salesₜ₋₄ - Salesₜ₋₅) t=1,2,.. T",
+      "and Sales for the periods 1999.1 through 2000.2:",
+      "t | Period | Sales",
+      "T | 2000.2 | $1,000",
+      "T-1 | 2000.1 | $900",
+      "T-2 | 1999.4 | $1,200",
+      "T-3 | 1999.3 | $1,400",
+      "T-4 | 1999.2 | $1,000",
+      "T-5 | 1999.1 | $800",
+      "The forecasted Sales amount for 2000.3 is closest to:"
+    ],
+    "options": [
+      "A) $1,430.00",
+      "B) $730.00",
+      "C) $1,730.00"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "The model predicts the *change* in sales. For 2000.3 (period T+1): last change = 1,000 − 900; seasonal change = sales 4 and 5 quarters before T+1 = T−3 and T−4 = 1,400 − 1,000. Change = +430, so sales = 1,000 + 430 = $1,430.",
+      "wrong": "730 can’t come from the right lags: it would need sales to *fall* by 270. With T+1 as the forecast period, every lag counts back from T+1, not from T.",
+      "steps": [
+        "Forecast period = T+1 (2000.3)",
+        "Lag 1 change: Sales_T − Sales_T−1 = 1,000 − 900 = 100",
+        "Seasonal change: Sales_T−3 − Sales_T−4 = 1,400 − 1,000 = 400",
+        "Change = 100 − 1.5 × 100 + 1.2 × 400 = 100 − 150 + 480 = *430*",
+        "Sales(2000.3) = 1,000 + 430 = *$1,430*"
+      ]
+    }
+  },
+  "L2-R21-Q1 #5": {
+    "full": [
+      "An investor is considering the purchase of Microscopics, which has a price to book value (P/B) ratio of 4.00. Return on equity (ROE) is expected to be 12%, current book value per share is $12.00, and the cost of equity is 10%. What growth rate is implied by the current P/B rate?"
+    ],
+    "options": [
+      "A) 9.33%.",
+      "B) 0.67%.",
+      "C) 10.00%."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Price = 4 × 12 = $48. Rearranging the single-stage RI model: g = r − B × (ROE − r) ÷ (V − B) = 10% − 0.67% = 9.33%.",
+      "wrong": "0.67% is only the piece you *subtract* (12 × 2% ÷ 36). The answer is r minus that piece.",
+      "steps": [
+        "V = P/B × B = 4.00 × 12.00 = $48.00",
+        "B × (ROE − r) = 12 × (0.12 − 0.10) = 0.24",
+        "V − B = 48 − 12 = 36",
+        "0.24 ÷ 36 = 0.00667 (0.67%)",
+        "g = 0.10 − 0.00667 = *0.0933 = 9.33%*",
+        "Check: V = 12 + 0.24 ÷ (0.10 − 0.0933) = 12 + 36 = 48 ✓"
+      ]
+    }
+  },
+  "L2-R21-Q1 #6": {
+    "full": [
+      "Residual income is defined as:"
+    ],
+    "options": [
+      "A) net income less a charge that measures stockholders' opportunity cost in generating that income.",
+      "B) operating income plus depreciation and amortization.",
+      "C) net income less a charge for capital investment."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "RI = net income − (beginning equity × cost of equity). The charge is what shareholders could have earned elsewhere: their *opportunity cost*.",
+      "wrong": "“A charge for capital investment” sounds like capex. RI doesn’t deduct spending on assets; it deducts the *cost of the equity* used."
+    }
+  },
+  "L2-R21-Q1 #7": {
+    "full": [
+      "Among the various price multiples, the residual income model is most closely linked to which of the following?"
+    ],
+    "options": [
+      "A) Price to earnings (P/E).",
+      "B) Price to free cash flow (P/FCF).",
+      "C) Price to book value (P/B)."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "The RI model starts from *book value*: V = B₀ + PV of future RI. Divide by B₀ and you get the justified P/B = 1 + PV(RI) ÷ B₀.",
+      "wrong": "RI uses earnings, but the model is anchored on book value, so its natural multiple is P/B, not P/E."
+    }
+  },
+  "L2-R21-Q1 #9": {
+    "full": [
+      "Which of the following statements least accurately explains the relationship between the residual income (RI) model, the dividend discount model (DDM), and free cash flow to equity (FCFE):"
+    ],
+    "options": [
+      "A) All the models discount future cash flows or income at the required rate of return.",
+      "B) RI models use an equity value from the balance sheet plus the present value of expected future residual income.",
+      "C) FCFE models use historical cash flows."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "All three models value the *future*: they discount *forecast* cash flows or income. FCFE models use expected future cash flows, not historical ones. That’s the wrong statement.",
+      "wrong": "Your pick is true: DDM, FCFE and RI all discount future amounts at the required return, and with the same assumptions they give the same value."
+    }
+  },
+  "L2-R21-Q1 #10": {
+    "full": [
+      "Analyst Brett Melton, CFA, is looking at two companies. Happy Cow Dairies has volatile cash flows, and its free cash flow is often negative. The company pays no dividends. Glitter and Gold, a maker of girls' clothing, has a fairly steady stream of earnings and cash flows but takes a lot of charges against equity. Is the residual income model suitable for valuing the two companies?"
+    ],
+    "options": [
+      "Happy Cow Dairies: No; Glitter and Gold: Yes",
+      "Happy Cow Dairies: No; Glitter and Gold: No",
+      "Happy Cow Dairies: Yes; Glitter and Gold: No"
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "RI shines exactly where DDM and FCF models struggle: *no dividends, negative or volatile FCF* (Happy Cow). It fails when *clean surplus* is broken by charges taken straight to equity (Glitter and Gold).",
+      "wrong": "You swapped the two. Steady cash flows don’t help Glitter and Gold if its equity charges bypass the income statement."
+    }
+  },
+  "L2-ECO-CASE1 #2": {
+    "full": [
+      "Extract from the case: Mehmet considers a triangular arbitrage using a dealer’s CHF/BRL bid/offer quote of 0.2355/0.2358 and the interbank quotes in Exhibit 2: CHF/USD 0.9799/0.9801 and BRL/USD 4.1699/4.1701.",
+      "Based on Exhibit 2, the most appropriate recommendation regarding the triangular arbitrage trade is to:"
+    ],
+    "options": [
+      "decline the trade, because no arbitrage profits are possible.",
+      "execute the trade, buy BRL in the interbank market, and sell BRL to the dealer.",
+      "execute the trade, buy BRL from the dealer, and sell BRL in the interbank market."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "The interbank cross rate lets you *buy* BRL for at most 0.23504 CHF. The dealer will *buy* BRL from you at 0.2355. Buy cheap (interbank), sell dear (dealer): about 0.00046 CHF profit per BRL.",
+      "wrong": "Buying from the dealer costs his offer, 0.2358 CHF, and the interbank market would only pay 0.23498 for it: a loss on every BRL.",
+      "steps": [
+        "USD/BRL bid = 1 ÷ 4.1701 = 0.239802; USD/BRL ask = 1 ÷ 4.1699 = 0.239814",
+        "Interbank CHF/BRL bid = 0.9799 × 0.239802 = 0.23498",
+        "Interbank CHF/BRL ask = 0.9801 × 0.239814 = 0.23504",
+        "Dealer bid 0.2355 > interbank ask 0.23504 → buy BRL interbank, sell to the dealer",
+        "Profit = 0.2355 − 0.23504 = *0.00046 CHF per BRL*",
+        "Other way: buy from dealer at 0.2358, sell interbank at 0.23498 → −0.00082 (a loss)"
+      ]
+    }
+  },
+  "L2-ECO-CASE1 #5": {
+    "full": [
+      "Extract from the case: Smith tells the other trainees, “I believe that in the current environment both covered and uncovered interest rate parity conditions are in effect.”",
+      "If Smith's statement on parity conditions is correct, future spot exchange rates are most likely to be forecast by:"
+    ],
+    "options": [
+      "current spot rates.",
+      "forward exchange rates.",
+      "inflation rate differentials."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Covered parity sets the forward rate from the interest gap. Uncovered parity sets the *expected* spot from the same gap. If both hold, forward = expected future spot: the forward rate is an *unbiased forecast*.",
+      "wrong": "Inflation differentials forecast spot rates through *PPP* (and the Fisher link). Smith only said the two interest rate parities hold, which points to the forward rate."
+    }
+  },
+  "L2-QUANT-CASE1 #1": {
+    "full": [
+      "Extract from the case: you regress a portfolio’s monthly excess returns (RET) on the market excess return (MRKT), a value factor (HML) and the monthly percentage change in a volatility index (VIX): Ŷ_RET = –0.999 + 1.817X_MRKT + 0.489X_HML + 0.037X_VIX. Diagnostic charts: Chart 1 = RET vs. VIX, Chart 2 = RET vs. MRKT, Chart 3 = MRKT vs. HML, Chart 4 = residuals vs. predicted values.",
+      "Determine the type of regression model you should use."
+    ],
+    "options": [
+      "Logistic regression",
+      "Simple linear regression",
+      "Multiple linear regression"
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Excess return is a *continuous* number and there are *three* explanatory variables, so it’s a *multiple linear regression*.",
+      "wrong": "Logistic regression is for a *yes/no* (0 or 1) dependent variable, such as default or no default. A return isn’t yes/no."
+    }
+  },
+  "L2-QUANT-CASE1 #3": {
+    "full": [
+      "Extract from the case: you regress a portfolio’s monthly excess returns (RET) on the market excess return (MRKT), a value factor (HML) and the monthly percentage change in a volatility index (VIX): Ŷ_RET = –0.999 + 1.817X_MRKT + 0.489X_HML + 0.037X_VIX. Diagnostic charts: Chart 1 = RET vs. VIX, Chart 2 = RET vs. MRKT, Chart 3 = MRKT vs. HML, Chart 4 = residuals vs. predicted values.",
+      "Identify the regression assumption that may be violated based on Chart 1, RET vs. VIX."
+    ],
+    "options": [
+      "Independence of errors",
+      "Independence of independent variables",
+      "Linearity between dependent variable and explanatory variables"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Chart 1 plots Y (RET) against one X (VIX), and the points bend in a curve rather than a straight line. A Y-against-X chart checks *linearity*.",
+      "wrong": "Independence of the X’s would need a chart of one X against *another X* (like Chart 3). Chart 1 has Y on it."
+    }
+  },
+  "L2-QUANT-CASE1 #4": {
+    "full": [
+      "Extract from the case: you regress a portfolio’s monthly excess returns (RET) on the market excess return (MRKT), a value factor (HML) and the monthly percentage change in a volatility index (VIX): Ŷ_RET = –0.999 + 1.817X_MRKT + 0.489X_HML + 0.037X_VIX. Diagnostic charts: Chart 1 = RET vs. VIX, Chart 2 = RET vs. MRKT, Chart 3 = MRKT vs. HML, Chart 4 = residuals vs. predicted values.",
+      "Identify which chart, among Charts 2, 3, and 4, is most likely to be used to assess homoskedasticity."
+    ],
+    "options": [
+      "Chart 2",
+      "Chart 3",
+      "Chart 4"
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Homoskedasticity is about the *residuals* having the same spread everywhere. Only Chart 4 plots residuals (against predicted values): look for a band of even width.",
+      "wrong": "Chart 2 plots RET against MRKT. It shows the relationship, not the spread of the errors."
+    }
+  },
+  "L2-QUANT-CASE1 #5": {
+    "full": [
+      "Extract from the case: you regress a portfolio’s monthly excess returns (RET) on the market excess return (MRKT), a value factor (HML) and the monthly percentage change in a volatility index (VIX): Ŷ_RET = –0.999 + 1.817X_MRKT + 0.489X_HML + 0.037X_VIX. Diagnostic charts: Chart 1 = RET vs. VIX, Chart 2 = RET vs. MRKT, Chart 3 = MRKT vs. HML, Chart 4 = residuals vs. predicted values.",
+      "Identify which chart, among Charts 2, 3, and 4, is most likely to be used to assess independence of independent variables."
+    ],
+    "options": [
+      "Chart 2",
+      "Chart 3",
+      "Chart 4"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "To see whether two X’s move together, plot one X against the other: Chart 3, MRKT vs. HML. A tight line would mean multicollinearity.",
+      "wrong": "Chart 4 shows residuals vs. predicted values, which checks the *errors* (constant variance, no pattern), not the X’s."
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -33286,6 +34591,52 @@ const TESTS = [
     { set: 11, topic: 'fsa.2', mod: '9.S3', what: "Current rate method, foreign currency appreciating: a positive translation adjustment in equity (CTA)", ok: 0, why: 'flip' },
     { set: 11, topic: 'fsa.2', mod: '9.S4', what: "Temporal method, USD appreciating, translation loss → net monetary liability (debt used to buy PP&E)", ok: 1 },
   ] },
+  { id: 'L2-MOCK2-S1', mock: 2, sess: 1, lvl: '12322212222211223222332321233222221212221312', topic: 'alt.2', name: 'Mock 2 · Session 1', date: '2026-11-15', qs: [
+    { set: 1, topic: 'alt.1', mod: '31.S2', what: "Household formations drive residential and hotel demand, not industrial", ok: 1 },
+    { set: 1, topic: 'alt.1', mod: '31.S1', what: "Liquidity + growth: REOCs (listed, and free to reinvest)", ok: 0, why: 'gap' },
+    { set: 1, topic: 'alt.2', mod: '32.S2', what: "NAVPS = (NOI₁ ÷ cap rate + cash + land − liabilities) ÷ shares = $13.84", ok: 1 },
+    { set: 1, topic: 'alt.2', mod: '32.S2', what: "AFFO = NI + D&A + losses on sales − straight-line rent − maintenance capex = 460", ok: 1 },
+    { set: 2, topic: 'quant.0', mod: '1.S3', what: "Prediction uses every coefficient, significant or not: 2.72%", ok: 1 },
+    { set: 2, topic: 'quant.0', mod: '1.S5', what: "BP = n × R² = 36 × 0.238 = 8.57: reject at 5% (7.815), not at 1% (11.345)", ok: 1 },
+    { set: 2, topic: 'quant.0', mod: '1.S6', what: "VIFs near 1 (all below 5): no evidence of multicollinearity", ok: 1 },
+    { set: 2, topic: 'quant.2', mod: '3.S3', what: "Unsupervised grouping into a set number (5) of groups, linear data: k-means", ok: 0, why: 'gap' },
+    { set: 3, topic: 'ethics.1', mod: '41.S1', what: "Employer pays the room; a modest upgrade, meals and entertainment are fine (I(B))", ok: 0, why: 'flip' },
+    { set: 3, topic: 'ethics.1', mod: '41.S5', what: "Limited data isn’t a reasonable basis: wait for the updated research (V(A))", ok: 0, why: 'gap' },
+    { set: 3, topic: 'ethics.1', mod: '41.S4', what: "Model built on own time, offered to employer first, sale disclosed: no violation", ok: 1 },
+    { set: 3, topic: 'ethics.1', mod: '41.S3', what: "Sharing Client B’s details without consent breaks III(E) for Client B only", ok: 1 },
+    { set: 4, topic: 'fsa.3', mod: '10.S1', what: "Bank-run risk falls when deposits are insured", ok: 1 },
+    { set: 4, topic: 'fsa.3', mod: '10.S1', what: "Limiting leverage to absorb write-downs = minimum capital requirement", ok: 0, why: 'gap' },
+    { set: 4, topic: 'fsa.3', mod: '10.S4', what: "LCR = HQLA ÷ 30-day stressed outflow: Begonia 1.45 is highest", ok: 1 },
+    { set: 4, topic: 'fsa.3', mod: '10.S6', what: "Combined ratio = loss ratio + expense ratio: Company B lowest (96.1%)", ok: 1 },
+    { set: 5, topic: 'deriv.0', mod: '28.S3', what: "Short forward value = (F₀ − Fₜ) ÷ (1 + r)^0.5 = 11.49", ok: 1 },
+    { set: 5, topic: 'deriv.0', mod: '28.S6', what: "Offset pay-fixed: receive fixed = long 2-year fixed-rate bond (+ short 6-month floater)", ok: 0, why: 'flip' },
+    { set: 5, topic: 'deriv.0', mod: '28.S10', what: "Receive 1.4% fixed, pay 8% equity on $20 m: pay $1.32 m net", ok: 1 },
+    { set: 5, topic: 'deriv.0', mod: '28.S9', what: "Hedging a USD asset: receive USD at the start, pay USD 5.00 m back at expiry", ok: 1 },
+    { set: 6, topic: 'alt.3', mod: '33.S2', what: "Failed merger arb: +30,000 spread at setup, −120,000 on reversal = −90,000", ok: 0, why: 'calc' },
+    { set: 6, topic: 'alt.3', mod: '33.S2', what: "Convertible arb per share: 24 − 20 − borrow 2 − dividend 1 + coupon 1.20 = $2.20", ok: 0, why: 'calc' },
+    { set: 6, topic: 'alt.3', mod: '33.S4', what: "Only event-driven arb beats the 60/40 on Sharpe, Sortino and drawdown without fee layering", ok: 1 },
+    { set: 6, topic: 'alt.3', mod: '33.S3', what: "FoF net return: incentive fees on returns net of management fees at both layers = 10.26%", ok: 0, why: 'calc' },
+    { set: 7, topic: 'equity.2', mod: '19.S5', what: "FCFF discounted at WACC, minus debt: equity ≈ $49 m", ok: 1 },
+    { set: 7, topic: 'equity.2', mod: '19.S4', what: "More debt leaves FCFF unchanged (it only moves FCFE)", ok: 1 },
+    { set: 7, topic: 'equity.2', mod: '19.S4', what: "FCFE = NI + NCC − FCInv − WCInv + net borrowing = 215", ok: 1 },
+    { set: 7, topic: 'equity.2', mod: '19.S6', what: "Two-stage FCFE at r = 9.5%: PV of years 1–3 + TV₃ = 775.27 → $679 m", ok: 1 },
+    { set: 8, topic: 'fi.3', mod: '26.S1', what: "Fair value = VND (risk-free discounting) − CVA = 118.56 − 3.77 = 114.78", ok: 1 },
+    { set: 8, topic: 'fi.3', mod: '26.S1', what: "Risk-neutral vs historical POD: default risk premium and liquidity/tax in spreads (both right)", ok: 0, why: 'gap' },
+    { set: 8, topic: 'fi.3', mod: '26.S4', what: "Many similar, medium-term loans (granular, homogeneous) → portfolio-based approach", ok: 0, why: 'gap' },
+    { set: 8, topic: 'fi.4', mod: '27.S2', what: "Upfront premium ≈ (spread − coupon) × duration = (2.5% − 1%) × 4 = 6%", ok: 0, why: 'calc' },
+    { set: 9, topic: 'pm.4', mod: '38.S1', what: "Daily VaR = |12.5%/250 − 1.65 × 13.1%/√250| = 1.32%", ok: 0, why: 'calc' },
+    { set: 9, topic: 'pm.4', mod: '38.S2', what: "VaR limitation: ignores liquidity (it underestimates both the size and likelihood of extremes)", ok: 0, why: 'gap' },
+    { set: 9, topic: 'pm.4', mod: '38.S2', what: "Worry about losses beyond VaR → report conditional VaR (expected shortfall)", ok: 1 },
+    { set: 9, topic: 'pm.5', mod: '39.S1', what: "Backtest country choice with point-in-time data (avoid look-ahead bias)", ok: 0, why: 'gap' },
+    { set: 10, topic: 'ethics.1', mod: '41.S3', what: "Performance must include terminated accounts (III(D))", ok: 1 },
+    { set: 10, topic: 'ethics.1', mod: '41.S3', what: "Report sent to all first, then a follow-up; selling against the call on client instruction: no violation", ok: 1 },
+    { set: 10, topic: 'ethics.1', mod: '41.S4', what: "A bonus from his own employer isn’t a referral fee or outside pay: no disclosure needed", ok: 0, why: 'gap' },
+    { set: 10, topic: 'ethics.1', mod: '41.S3', what: "Oversubscribed IPO: no shares to a family account outside the normal fee structure", ok: 1 },
+    { set: 11, topic: 'fsa.0', mod: '7.S1', what: "Joint venture under IFRS: equity method, one line in investments", ok: 1 },
+    { set: 11, topic: 'fsa.0', mod: '7.S3', what: "Share of EBT less step-up depreciation: (3.5 − 6 ÷ 10) × 70% = €2.03 m", ok: 1 },
+    { set: 11, topic: 'fsa.4', mod: '11.S2', what: "Higher (less negative) M-score = more likely manipulator: Pickerel", ok: 0, why: 'flip' },
+    { set: 11, topic: 'fsa.4', mod: '11.S4', what: "Interest paid in CFO and interest received outside it = the most conservative CFO: Aspen", ok: 0, why: 'flip' },
+  ] },
   { id: "L2-R37-Q1", lvl: "2131123131", topic: "pm.3", name: "Reading 37 quiz 1", date: "2026-11-11", mins: 25.6, qs: [
     { mod: "37.S1", what: "APT expected return: 3% + 8%×2 + 12%×1 + 5%×1 = 36%", ok: 1 },
     { mod: "37.S1", what: "APT does not fix the number of factors (NOT question)", ok: 1 },
@@ -33602,6 +34953,97 @@ const TESTS = [
     { mod: "41.S5", what: "Boswin used her normal process: no violation", ok: 0, why: "gap" },
     { mod: "41.S2", what: "Blogs and websites are public: no violation", ok: 1 },
   ] },
+  { id: "L2-R1-Q5", lvl: "112222212", topic: "quant.0", name: "Reading 1 quiz 5", date: "2026-11-14", mins: 11.3, qs: [
+    { mod: "1.S4", what: "X not linearly related to Y = incorrect variable form", ok: 0, why: "gap" },
+    { mod: "1.S4", what: "Pooling across different economic environments = misspecification", ok: 0, why: "gap" },
+    { mod: "1.S3", what: "NOT correct: “sales are $8.25 m” (the prediction is $18.25 m)", ok: 1 },
+    { mod: "1.S5", what: "Residuals fit early, scatter later: heteroskedasticity", ok: 1 },
+    { mod: "1.S1", what: "NOT correct: “$1 more on R&D raises sales by $1.5 m” (units are millions)", ok: 0, why: "calc" },
+    { mod: "1.S8", what: "Three dummies for three groups plus an intercept = multicollinearity", ok: 0, why: "gap" },
+    { mod: "1.S1", what: "Writing the hypothesis as SALES = α + β₁POP + β₂INCOME + β₃ADV + ε", ok: 1 },
+    { mod: "1.S3", what: "F = MSR ÷ MSE = 20 ÷ 4 = 5", ok: 1 },
+    { mod: "1.S3", what: "ANOVA: R² = 20 ÷ 100 = 0.20 and F = 20 ÷ 2 = 10", ok: 0, why: "calc" },
+  ] },
+  { id: "L2-R1-Q6-7", lvl: "2222111", topic: "quant.0", name: "Reading 1 quiz 6–7", date: "2026-11-14", mins: 9.3, qs: [
+    { mod: "1.S5", what: "t = coefficient ÷ SE: only INCOME beats 2.120", ok: 0, why: "calc" },
+    { mod: "1.S8", what: "Three managers: two dummies measure the two changes", ok: 1 },
+    { mod: "1.S3", what: "Predicted sales = 10 + 6.25 + 4 − 20 + 320 = $320.25 m", ok: 1 },
+    { mod: "1.S1", what: "Significant at 2% only if p-value < 0.02: X3", ok: 1 },
+    { mod: "1.S5", what: "Breusch–Godfrey tests serial correlation, not heteroskedasticity", ok: 1 },
+    { mod: "1.S8", what: "Logit residuals are logistic, not normal (least accurate)", ok: 0, why: "gap" },
+    { mod: "2.S3", topic: "quant.1", what: "Dickey–Fuller uses a modified t-statistic", ok: 1 },
+  ] },
+  { id: "L2-R2-Q2", lvl: "1111121112", topic: "quant.1", name: "Reading 2 quiz 2", date: "2026-11-14", mins: 14.6, qs: [
+    { mod: "2.S3", what: "Shorter time series are usually more stable", ok: 0, why: "flip" },
+    { mod: "2.S3", what: "Nonstationarity: relationships are dynamic, coefficients vary over time", ok: 1 },
+    { mod: "2.S4", what: "Least accurate: seasonality makes forecasting impossible", ok: 1 },
+    { mod: "2.S1", what: "Steadily increasing growth rate → log-linear trend", ok: 1 },
+    { mod: "2.S2", what: "AR(3) with autocorrelated residuals → add another lag", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Unit root removed by first differencing", ok: 1 },
+    { mod: "2.S3", what: "Mean reversion: two-period forecast lies between 0.08 and 0.09", ok: 1 },
+    { mod: "2.S3", what: "Least accurate: AR(2) is the same as MA(2)", ok: 1 },
+    { mod: "2.S2", what: "NOT required for covariance stationarity: a positive trend", ok: 0, why: "gap" },
+    { mod: "2.S1", what: "Monthly sales with compound growth → log-linear model", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-R2-Q3", lvl: "2221122221", topic: "quant.1", name: "Reading 2 quiz 3", date: "2026-11-14", mins: 16.5, qs: [
+    { mod: "2.S3", what: "RMSE judges out-of-sample accuracy; smallest RMSE wins (both wrong)", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Random walk: residuals are not autocorrelated (least likely)", ok: 0, why: "gap" },
+    { mod: "2.S4", what: "Seasonal AR forecast: 93 − 0.5 × 66 + 0.1 × 72 = 67.20", ok: 1 },
+    { mod: "2.S3", what: "Unit root when the AR(1) slope equals one", ok: 0, why: "flip" },
+    { mod: "2.S4", what: "Quarterly seasonality: test the lag-4 residual autocorrelation", ok: 1 },
+    { mod: "2.S2", what: "Durbin–Watson can’t be used with AR models", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Mean-reverting series: best prediction = 0.2 ÷ (1 − 0.6) = 0.5", ok: 0, why: "gap" },
+    { mod: "2.S4", what: "Significant lag-4 residual autocorrelation = seasonality", ok: 1 },
+    { mod: "2.S4", what: "All seasonal lags significant → keep AR(1) with 3 seasonal lags", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "Predicting within the sample period = in-sample forecast", ok: 1 },
+  ] },
+  { id: "L2-R2-Q4", lvl: "122112232", topic: "quant.1", name: "Reading 2 quiz 4", date: "2026-11-14", mins: 8.3, qs: [
+    { mod: "2.S4", what: "Lags 1, 2 and 12 = AR(2) with a seasonal lag, not AR(12)", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "Chain rule: x₅₁ = 24.2, then x₅₂ = 27.22", ok: 1 },
+    { mod: "2.S3", what: "Mean-reverting level = 1.3304 ÷ (1 − 0.1817) = 1.6258", ok: 1 },
+    { mod: "2.S4", what: "Seasonally adjusted model: first differences with a seasonal lag", ok: 1 },
+    { mod: "2.S2", what: "Four lags of x = AR(4)", ok: 1 },
+    { mod: "2.S4", what: "ARCH test: regress squared residuals on lagged squared residuals", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "Need not hold: Cov(xₜ, xₜ₋₁) = Cov(xₜ, xₜ₋₂)", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "Significant residual autocorrelations → model not well specified", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "Significant Corr(eₜ, eₜ₋₂) → respecify (try AR(2))", ok: 0, why: "flip" },
+  ] },
+  { id: "L2-R2-Q6-8", lvl: "21122133", topic: "quant.1", name: "Reading 2 quiz 6–8", date: "2026-11-14", mins: 6.8, qs: [
+    { mod: "2.S1", what: "Log-linear forecast for t = 25: e^1.9 = 6.69", ok: 1 },
+    { mod: "2.S3", what: "Random walk with drift: xₜ = b₀ + xₜ₋₁ + εₜ", ok: 1 },
+    { mod: "2.S1", what: "Average change per quarter → linear trend model", ok: 0, why: "gap" },
+    { mod: "2.S2", what: "Forecast x₅₁ = −6.0 + 1.1 × 22 + 0.3 × 20 = 24.2", ok: 1 },
+    { mod: "2.S3", what: "Not a random walk if the long-run mean b₀ ÷ (1 − b₁) exists", ok: 0, why: "gap" },
+    { mod: "2.S3", what: "First-differenced model: (Salesₜ − Salesₜ₋₁) = b₀ + b₁(Salesₜ₋₁ − Salesₜ₋₂) + εₜ", ok: 0, why: "gap" },
+    { mod: "2.S4", what: "Differenced seasonal forecast: 1,000 + 430 = $1,430", ok: 0, why: "calc" },
+    { mod: "2.S2", what: "Chain rule on semiannual data: 34.05, then 34.36", ok: 1 },
+  ] },
+  { id: "L2-R21-Q1", lvl: "2112313122", topic: "equity.4", name: "Reading 21 quiz 1", date: "2026-11-14", mins: 24.9, qs: [
+    { mod: "21.S4", what: "Terminal value at year 5 = 17 ÷ 0.13 = £130.77", ok: 1 },
+    { mod: "21.S2", what: "EVA = NOPAT − charge for total capital", ok: 1 },
+    { mod: "21.S5", what: "RI reduces terminal-value dominance", ok: 1 },
+    { mod: "21.S1", what: "RI = 70.2 − 650 × 12% = −$7.8 m", ok: 1 },
+    { mod: "21.S3", what: "Implied growth from P/B 4: g = 10% − 12 × 2% ÷ 36 = 9.33%", ok: 0, why: "calc" },
+    { mod: "21.S1", what: "RI = NI less shareholders’ opportunity cost", ok: 0, why: "gap" },
+    { mod: "21.S3", what: "RI model is most closely linked to P/B", ok: 0, why: "gap" },
+    { mod: "21.S5", what: "Unreliable book values make RI unsuitable", ok: 1 },
+    { mod: "21.S5", what: "Least accurate: FCFE models use historical cash flows", ok: 0, why: "gap" },
+    { mod: "21.S5", what: "No dividends, negative FCF → RI works; charges against equity → RI fails", ok: 0, why: "flip" },
+  ] },
+  { id: "L2-ECO-CASE1", lvl: "33322", topic: "econ.0", name: "Economics case 1 (Smith and Mehmet, FX)", date: "2026-11-14", mins: 17.4, qs: [
+    { mod: "5.S6", what: "Forward premium = 79.5093 × (7.52% − 5.43%) ÷ 1.0543 = 1.576", ok: 1 },
+    { mod: "5.S4", what: "Dealer bids CHF/BRL above the interbank ask: buy BRL interbank, sell to the dealer", ok: 0, why: "flip" },
+    { mod: "5.S8", what: "Carry trade: 1.632% EUR return in USD − 0.80% funding = 0.83%", ok: 1 },
+    { mod: "5.S1", what: "Credit rating matters least for a spot trade’s spread", ok: 1 },
+    { mod: "5.S7", what: "Covered + uncovered parity hold → forward rate predicts the future spot", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-QUANT-CASE1", lvl: "11222", topic: "quant.0", name: "Quant case 1 (RET on MRKT, HML, VIX)", date: "2026-11-14", mins: 10.1, qs: [
+    { mod: "1.S1", what: "Continuous Y, three X’s → multiple linear regression", ok: 0, why: "gap" },
+    { mod: "1.S1", what: "VIX coefficient: 1% rise in X → 0.037% rise in Y, others constant", ok: 1 },
+    { mod: "1.S1", what: "Curved RET vs VIX chart → linearity assumption broken", ok: 0, why: "gap" },
+    { mod: "1.S5", what: "Residuals vs predicted (Chart 4) checks homoskedasticity", ok: 0, why: "gap" },
+    { mod: "1.S6", what: "X vs X scatter (Chart 3) checks independence of the X’s", ok: 0, why: "gap" },
+  ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
 // exhibits as tables; MOCK_Q each question (keyed "<test id> #<n>"): the stem and options as printed, my pick `p`,
@@ -33629,6 +35071,17 @@ const MOCK_SETS = {
   "L2-MOCK1-S2/9": {"title": "Fixed income · R26 credit — Mortale’s three bonds", "full": ["Giuseppe Mortale is a financial analyst at an investment fund. Mortale is analyzing the credit risk of publicly traded corporate and securitized debt. The current annual one-year and two-year zero-coupon default-free rates are 3.0% and 3.2%, respectively.", "Mortale first looks at Bond 1, a 4.5% annual coupon bond with one year to maturity and trading at par. It has just paid its annual coupon. Mortale estimates a probability of survival for the bond of 97.8%. In case of default, Mortale expects a recovery rate of 40% of the exposure.", "Bond 2 has three years to maturity and a modified duration of 2.6. The bond is rated BBB. Mortale expects the bond to be downgraded to a BB rating in one year, so he prepares the partial transition matrix in Exhibit 1.", {"title": "Exhibit 1 · Partial transition matrix (%)", "columns": ["From/To", "A and above", "BBB", "BB", "B and below"], "rows": [["BBB", "2.70", "87.00", "6.50", "3.80"], ["Credit spread", "n/a", "1.50%", "3.75%", "n/a"]]}, "Mortale next decides to build a reduced-form credit risk model to predict the credit rating change of Bond 2.", "Bond 3 was issued by a high-yield issuer that was recently acquired through a leveraged buyout. The credit term structure of Bond 3’s issuer is downward sloping. Mortale considers the market expectations implied by such a term structure."]},
   "L2-MOCK1-S2/10": {"title": "Derivatives · R28–R29 — Lagrange’s forwards, options and swap", "full": ["Marcus Lagrange is a fixed-income portfolio manager in South Africa. He is reviewing several current and potential derivative positions. All currency amounts are in South African rand (ZAR) and all calculations use an actual/365-day count convention.", "Lagrange evaluates a 6-month futures contract on a government bond that pays a 5% fixed annual coupon and trades at par. The current annual risk-free rate is 5% and the bond will pay a coupon three months prior to expiry of the futures contract. Lagrange considers the bond’s carry benefits and costs in the context of the carry arbitrage model.", "Three months ago, Lagrange purchased a corporate bond forward contract with six months to expiry at a price of 118 (percentage of par). The current forward price is 123, the annualized 3-month (91 day) discount rate is 4.62%, and the 6-month (183 day) discount rate is 4.87%. He determines the current value of the position.", "Lagrange wants to buy a European interest rate call option that, if exercised, will fix the interest rate he receives for six months starting three months from now. He decides to value this interest rate option using the Black model and determines the appropriate underlying rate to value the option.", "Lagrange holds a fixed-rate bond and is considering using an interest rate swap to hedge the cash flows. He uses the present value factors in Exhibit 1 to price a 4-year interest rate swap with annual resets.", {"title": "Exhibit 1", "columns": ["Maturity", "Present value factors"], "rows": [["1-year", "0.9524"], ["2-year", "0.9042"], ["3-year", "0.8562"], ["4-year", "0.8065"]]}]},
   "L2-MOCK1-S2/11": {"title": "FSA · R9 multinational operations — Bluesky and Greensea", "full": ["Pamela McKay is an equity analyst examining the consolidated financial statements ending 31 December for two competitors, Bluesky and Greensea. Both companies report in EUR in accordance with IFRS.", "Financial statement disclosures reveal that Bluesky imports a substantial amount of raw materials under 30-day credit terms and denominated in the exporter's currency. Bluesky does not hedge these transactions. These imports are from a country whose currency steadily depreciated against the EUR during the year.", "At the beginning of the period McKay is examining, Bluesky and Greensea each established small, wholly-owned subsidiaries in the US. Neither parent company has any other foreign subsidiaries. In McKay's review of each company's consolidated financial statements and related disclosures, she makes an observation: the two parent companies use different translation methods for their respective US subsidiaries. Bluesky uses the current rate method and Greensea uses the temporal method. McKay notes that the USD appreciated steadily relative to the EUR during the year.", "Both the management of Bluesky and the management of Greensea disclose that their respective US subsidiaries were profitable. McKay notes, however, that the consolidated financial statements for Greensea show a translation loss. She considers what these facts reveal about the financial statements of the two parent companies and the US subsidiaries."]},
+  "L2-MOCK2-S1/1": {"title": "Alternatives · R31–R32 real estate — Goat, Cruyff and Phonix", "full": ["Leo Goat is an investment consultant specializing in real estate investments. Goat is meeting with two of his institutional clients: Cruyff Trust and Phonix Investments.", "Cruyff Trust", "Cruyff wants to invest in industrial real estate. Goat analyzes how the following economic drivers impact the demand for industrial real estate.", "Driver A: Retail sales growth", "Driver B: Household formations", "Driver C: Changing supply routes", "For an income-producing industrial property, Cruyff is choosing among the following investment types: REITs, real estate operating companies (REOCs), direct investment in real estate. Cruyff's criteria when deciding which investment type to use are liquidity and maximum potential for growth opportunities.", "Phonix Investments", "Phonix is interested in investing in Bando Office REIT. To value Bando, Goat assumes an annual net operating income (NOI) growth rate of 2% and a capitalization rate of 6%. He calculates Bando's expected NAV per share using the financial data in Exhibit 1 (all amounts are in millions).", {"title": "Exhibit 1", "columns": ["Item", "$ millions"], "rows": [["NOI for last 12 months", "$180"], ["Cash and equivalents", "$24"], ["Land held for future development", "$90"], ["Total debt and other liabilities", "$130"], ["Shares outstanding", "220"]]}, "Finally, Phonix asks Goat to calculate the adjusted funds from operations (AFFO) for LIVA, an industrial REIT, using the financial data in Exhibit 2 (all amounts are in millions).", {"title": "Exhibit 2", "columns": ["Item", "$ millions"], "rows": [["Net income", "$400.0"], ["Depreciation and amortization", "$190.0"], ["Losses from sale of depreciable real estate", "$62.5"], ["Non-cash (straight-line) rent adjustment", "$52.5"], ["Recurring maintenance-type capital expenditures and leasing commissions", "$140.0"]]}]},
+  "L2-MOCK2-S1/2": {"title": "Quant · R1, R3 — Mave’s return regression and clustering", "full": ["Rick Mave is an analyst at a portfolio management firm. He has constructed a linear regression model to explain the monthly returns for a specific portfolio. Returns and percentage changes are in decimal form (i.e., 1% is represented as 0.01). The regression equation is expressed as:", "RETt = b0 + b1MKRt + b2VMEt + b3VIXt + εt,", "RETt = the portfolio return,", "MKRt = the market return,", "VMEt = the natural log of the trading volume on a large equity market index,", "VIXt = the percentage change in a volatility index, and", "εt = the error term.", "The output of the regression analysis is shown in Exhibit 1.", {"title": "Exhibit 1", "columns": ["", "Coefficient", "t-Statistic"], "rows": [["Intercept", "–0.768", "–1.853"], ["MKR", "1.242", "11.658"], ["VME", "0.031", "1.857"], ["VIX", "0.034", "2.033"]]}, "Mave uses the model to predict the portfolio return for the next month, based on the following forecast values: MKR = 0.012, VME = 25.130, and VIX = 0.036.", "To check for model misspecification, Mave carries out several tests. To test for conditional heteroskedasticity, Mave performs the regression for the Breusch–Pagan test. The results are shown in Exhibit 2. For a chi-square distribution with three degrees of freedom, the critical values at the 1% and 5% significance levels are 11.345 and 7.815, respectively.", {"title": "Exhibit 2 · Breusch–Pagan regression", "columns": ["", "Value"], "rows": [["Multiple R", "0.488"], ["R-squared", "0.238"], ["Adjusted R-squared", "0.167"], ["Observations", "36"]]}, "To test for multicollinearity, Mave computes the variance inflation factors (VIFs) for MKR, VME, and VIX as 1.044, 1.007, and 1.634, respectively.", "To gain additional insight into the portfolio's investments, Mave uses an unsupervised machine-learning technique to classify the stocks in the investment universe into five groups, each with similar characteristics. He does this using a dataset that consists of various financial and valuation parameters. He assumes that the data do not have non-linear characteristics."]},
+  "L2-MOCK2-S1/3": {"title": "Ethics · R41 — Bali at the airline conference", "full": ["Atul Bali, CFA, is an analyst at Aldebaran Partners, a broker-dealer, covering the airline industry.", "Bali plans to attend the Airline Industry Forum (AIF), an investor conference. For travel and lodging at the conference, Aldebaran pays for Bali's economy-class air ticket and for a standard hotel room. The conference sponsor, the Association of Airline Companies (AAC), offers Bali an upgrade to a similar-sized room on a higher floor that has a better view. AAC also offers to pay for all of Bali's meals and his attendance at planned entertainment events during the three days of the conference. Bali accepts the room upgrade and the paid meals and entertainment.", "To identify potential company failures, Aldebaran relies upon a research firm that uses quantitative models to forecast bankruptcy. Aldebaran conducts regular reviews on the firm to verify their research is sound. Bali notes that the quantitative model predicts that one of the airline operators presenting at the AIF will be bankrupt within a year. Bali identifies that some of the data used in the model are outdated. The research firm promises Bali an updated prediction within a week using new data. Bali wants to write his report on the distressed airline as soon as possible and conducts his own research using the limited data available to him. Bali's research leads him to believe the airline will not go bankrupt and he decides whether to issue a report with a \"Buy\" recommendation.", "During their personal time, Bali and his supervisor develop a portfolio optimization model. They back-test the model and use it to optimize their personal portfolios. They have been pleased with the results and decide to monetize their model. Accordingly, they take the model to Aldebaran's director of research, who reviews its technical parameters, but informs them that these types of models do not meet Aldebaran's needs. Bali and his supervisor then demonstrate the model for a firm managing pension assets. The asset manager makes a monetary offer to purchase the model. Both Bali and his supervisor accept the offer and disclose it to Aldebaran.", "Bali learns that Client A wants to make a substantial charitable donation. He knows from communicating with Client B, a charitable endowment, that it is raising funds to build housing for victims of a recent natural disaster. Client A asks Bali if he is aware of a suitable charity in need of funds and, if so, requests an introduction to such a charity. Bali emails Client B's contact information to Client A."]},
+  "L2-MOCK2-S1/4": {"title": "FSA · R10 financial institutions — Ali on banks and insurers", "full": ["Imran Ali is a research analyst at Winter River Funds covering financial institutions. He prepares a short presentation of his research for an introductory client meeting. Ali begins the meeting by discussing the characteristics of a bank. He notes the distinctive risk of failure when a bank fails to honor its liabilities and the contagion this can cause to the economy.", "Ali explains that due to the potential contagion effect on the rest of the economy, financial institutions are subject to heavy regulation. He mentions that one outcome of the Basel III framework is that banks are precluded from assuming too much financial leverage. As a result, banks are better able to withstand asset write-downs.", "Ali uses several indicators to determine the riskiness of a bank. In Exhibit 1, he prepares a sample of these indicators from three banks, Rose, Orchid, and Begonia, whose stocks are held by Winter River.", {"title": "Exhibit 1", "columns": ["", "Rose", "Orchid", "Begonia"], "rows": [["Total high quality liquid assets ($ billion)", "727", "548", "718"], ["Stressed 30-day net cash outflow ($ billion)", "518", "400", "495"]]}, "Ali then analyzes insurance companies with the primary source of profit from underwriting operations. Using the performance indicators in Exhibit 2, Ali compares Company A to its competitors, Company B and Company C.", {"title": "Exhibit 2", "columns": ["", "Company A", "Company B", "Company C"], "rows": [["Losses and loss adjustment expense (% of earned premiums)", "82.2%", "81.5%", "81.4%"], ["Underwriting expenses (% of earned premiums)", "14.4%", "14.6%", "14.9%"]]}]},
+  "L2-MOCK2-S1/5": {"title": "Derivatives · R28 — Tan’s forward and swaps", "full": ["Sharon Tan is a sophisticated investor who lives in Singapore and has both domestic and international investments.", "Equity Forward", "Tan has a significant long position in a non-dividend-paying stock (Stock A) that she must continue to hold. To hedge the downside risk, she sold a one-year forward contract on Stock A six months ago at the no-arbitrage price. Exhibit 1 provides information on the stock and the forward contract. All prices are in Singapore dollars (SGD) per share.", {"title": "Exhibit 1", "columns": ["Item", "Value"], "rows": [["Price of Stock A at initiation of one-year forward contract", "350.00"], ["Risk-free rate at initiation of one-year forward contract", "0.85%"], ["Current risk-free rate", "0.85%"], ["Current price of Stock A", "340.00"], ["Current price of a new six-month forward contract", "341.44"]]}, "Interest Rate Swap", "One year ago, Tan entered a 3-year interest rate swap in which she pays fixed and receives floating semi-annually. She now wants to offset this position with a new swap.", "Equity Index Swap", "Also one year ago, Tan entered a 2-year, receive-fixed, pay-equity swap on the S&P 500® index. The swap is being reset today. Selected terms of the swap are shown in Exhibit 2.", {"title": "Exhibit 2", "columns": ["Term", "Value"], "rows": [["Equity underlying", "S&P 500 index with reinvested dividends"], ["Notional amount", "USD 20,000,000"], ["Current underlying equity value", "USD 21,600,000"], ["Fixed swap rate at initiation", "1.40%"], ["Initial term", "2 years"], ["Remaining term", "1 year"], ["Reset", "Annual"]]}, "Currency Swap", "Tan recently invested USD 5 million and is concerned that the USD will depreciate against the SGD. To hedge this risk, she enters a fixed-for- fixed currency swap with notional amounts of SGD 6.75 million and USD 5 million that are exchanged at both initiation and expiration. The forward exchange rate with the same expiration as the swap is 1.2821 SGD per USD."]},
+  "L2-MOCK2-S1/6": {"title": "Alternatives · R33 hedge funds — MacKay, Bony and Grati", "full": ["Iain MacKay, an investment advisor, specializes in hedge fund investments. He is advising a family office client and an institutional client on hedge fund strategies.", "Bony Family Office", "The Bony Family Office is considering arbitrage strategies. MacKay first demonstrates a merger arbitrage strategy. Several months ago, Amass Inc. made an offer to acquire Tryme Ltd. in a stock-for-stock transaction, with one share of Amass stock exchanged for every two shares of Tryme. After the offer was announced, a hedge fund bought 30,000 shares of Tryme and sold short 15,000 shares of Amass. The acquisition was ultimately not completed and the stock prices of both Amass and Tryme reverted to their pre-announcement levels. Mackay calculates the Amass-Tryme merger arbitrage transaction payoff for the hedge fund based on the information in Exhibit 1.", {"title": "Exhibit 1", "columns": ["Item", "Price"], "rows": [["Amass share price (pre-announcement)", "$34"], ["Amass share price (post-announcement)", "$32"], ["Tryme share price (pre-announcement)", "$13"], ["Tryme share price (post-announcement)", "$15"]]}, "Next, MacKay demonstrates a convertible arbitrage strategy for the family office. MacKay believes that shares of Winfra Corporation are overvalued relative to its convertible bonds. He assumes a holding period of one year and uses the information in Exhibit 2 to calculate the payoff per share.", {"title": "Exhibit 2", "columns": ["Item", "Value"], "rows": [["Convertible price (% of par value of $1,000)", "110"], ["Annual coupon (%)", "6.60"], ["Remaining maturity (years)", "1"], ["Conversion ratio", "55"], ["Price per share (in $)", "24"], ["Annual cost of borrowing shares (in $ per share)", "2"], ["Annual share dividend (in $ per share)", "1"]]}, "Bony's existing portfolio is 60% equity and 40% debt. Its investment committee states that the main considerations for adding hedge fund investments to its portfolio are to:", "• Increase risk-adjusted returns", "• Limit downside risk", "• Avoid layering of fees", "MacKay assesses which hedge fund in Exhibit 3 he should recommend to meet all of these considerations.", {"title": "Exhibit 3", "columns": ["", "Sharpe ratio", "Sortino ratio", "Maximum drawdown"], "rows": [["Existing Bony portfolio", "0.65", "1.26", "14.80%"], ["Fund-of-funds", "0.77", "1.41", "10.71%"], ["Long/short equity", "0.75", "1.23", "18.03%"], ["Event-driven arbitrage", "0.67", "1.31", "13.15%"]]}, "Grati", "Grati, an institutional client of Mackay, has an existing investment in the Umbrella Fund, a fund-of-funds. Umbrella charges a 1% management fee and a 10% incentive fee. The fund consists of two equally weighted underlying hedge funds, Argo and Baker. Argo and Baker both charge a 2% management fee and a 20% incentive fee. Mackay calculates the net-of-fees return on Umbrella, assuming a scenario in which Argo and Baker generate a 1-year gross return of 15% and 20%, respectively."]},
+  "L2-MOCK2-S1/7": {"title": "Equity · R19 free cash flow — Masterson on Brixton, Hillbrow and Carlton", "full": ["Jane Masterson is an equity analyst for an investment bank. She uses free cash flow to value three companies.", "Brixton Corporation", "Masterson uses the following information to determine the total market value of Brixton Corporation's equity:", "Current FCFF is $2.66 million", "Market value of debt is $9.86 million", "Required return on equity is 10.86%", "WACC is 9.76%", "FCFF is expected to grow at a constant rate of 5% per year", "After completing the valuation, Masterson learns that Brixton may soon change its capital structure by issuing more debt. She considers the effect this will have on its future FCFF.", "Hillbrow, Inc.", "Masterson next values Hillbrow, Inc. using the information (in $ millions) in Exhibit 1 to calculate its FCFE.", {"title": "Exhibit 1 · Hillbrow ($ millions)", "columns": ["Item", "Value"], "rows": [["Net income available to common shareholders", "420"], ["Depreciation expense", "525"], ["Interest expense (after tax)", "74"], ["Increase in fixed capital investment", "700"], ["Increase in working capital investment", "78"], ["Increase in net borrowing", "48"]]}, "Carlton Corporation", "Finally, Masterson uses a two-stage FCFE model and the following information to value Carlton Corporation:", "FCFE is expected to be $30 million in Year 1, $36 million in Year 2, and $41 million in Year 3", "Required return on equity is 9.5%", "WACC is 9%", "FCFE is expected to grow at a constant annual rate of 4% after Year 3"]},
+  "L2-MOCK2-S1/8": {"title": "Fixed income · R26–R27 credit — Georgiou", "full": ["Philippe Georgiou works as a fixed income portfolio manager. He is currently assessing some investments as possible inclusions to his portfolio.", "Georgiou first looks at a 3-year, annual 6.75% coupon bond issued by Li-Ion Corp, an electric vehicle battery manufacturer. The bond has a yield to maturity of 1.656%. He uses the information in Exhibit 1 (presented in per 100 of par value) to determine the fair value of the bond.", {"title": "Exhibit 1 · per 100 of par", "columns": ["", "Exposure", "Discount factor", "PV of expected loss"], "rows": [["Year 0", "—", "—", "—"], ["Year 1", "119.1569", "0.9950", "1.3635"], ["Year 2", "112.9689", "0.9901", "1.2567"], ["Year 3", "106.7500", "0.9851", "1.1544"]]}, "Georgiou also estimates the risk-neutral probability of default of the bond. He observes that this risk-neutral probability of default is different than the actual probability of default based on historical data for companies with comparable credit risk. He believes that this difference is explained by:", "i) the default risk premium associated with the timing of possible default", "ii) the fact that the observed spread over the yield on a risk-free bond also includes liquidity and tax considerations in addition to credit risk.", "Next, Georgiou assesses an auto ABS issued by Clear Future, the financial services entity of an automotive company. The ABS is backed by a non-static pool of 40,000 of the firm's standard medium-term auto lease contracts covering zero emissions vehicles.", "Georgiou holds a 5-year senior, unsecured bond issued by EV Cars. The company is being investigated about the possible manipulation of carbon dioxide emissions tests. Georgiou decides to buy protection on EV Cars with a CDS contract which has a standardized coupon of 1%, a duration of 4 and trades at a credit spread of 250 bps."]},
+  "L2-MOCK2-S1/9": {"title": "Portfolio · R38–R39 — Lin on VaR and backtesting", "full": ["Lin Xiamen manages diversified portfolios for high-net-worth individuals. His portfolios have a client-specific target allocation to domestic equities and fixed-income investments. Lin reports the return and standard deviation for each client's portfolio, but wants to enhance his risk reporting by including measures of VaR. Lin reports the daily 5% parametric VaR based on 250 trading days per year. He estimates the following for a client's portfolio.", "• Annual expected return of 12.5%", "• Annual standard deviation of 13.1%", "• Annual 5% parametric VaR of 9.1%", "Lin understands that VaR is an important risk measure but intends to communicate its limitations to clients. Some of Lin's clients have expressed concerns about potential losses in the event of extreme market downturns.", "Lin considers a new strategy that includes adding non-domestic equities to portfolios. His primary investment goal is to generate a higher Sharpe ratio for each client's equity portfolio versus the portfolio being invested only in domestic equities. He notes that transaction costs for buying and selling non-domestic equities are similar to the transaction costs of domestic equities. Lin does not plan on hedging currency exposures because he expects those foreign currencies to appreciate. Lin plans to test the new strategy over an extended historical period."]},
+  "L2-MOCK2-S1/10": {"title": "Ethics · R41 — DeVriese at Thunderland", "full": ["Albert DeVriese, CFA, is an investment adviser at Thunderland, a private wealth management firm.", "DeVriese meets with Donna Maulbaum, a potential new client. During his initial presentation, DeVriese provides performance information for a weighted composite of the portfolios that he managed over the previous ten years. These ten years include five years during which he worked at Blue Lantern, another private wealth management firm. In his presentation, DeVriese explains that the performance information:", "• is stated gross of fees and before taxes;", "• excludes terminated accounts; and", "• includes the performance data from his time as an investment adviser at Blue Lantern.", "Maulbaum is impressed and transfers her portfolio to an account at Thunderland.", "A few weeks later, DeVriese receives a report from Thunderland's research department on GasExplorer, a publicly listed company. The report upgrades the firm's recommendation on GasExplorer from \"hold\" to \"strong buy.\" DeVriese distributes the report to all of his clients via e-mail. Since Maulbaum, who already owns some GasExplorer stock, mentioned that she might transfer additional funds, DeVriese meets with her to discuss the report and to encourage her to increase her holdings in the stock. Maulbaum states that she is not interested in acquiring more shares. Instead, Maulbaum wants to sell her holdings in GasExplorer immediately because she needs liquidity for the purchase of a vacation home. DeVriese documents the discussion and sells Maulbaum's GasExplorer shares, contrary to the \"strong buy\" recommendation.", "At the end of the month, DeVriese receives a payment of $1,000 from Thunderland as a bonus for bringing over Maulbaum's portfolio from a competitor. The bonus arrangement is in line with company policy, and DeVriese does not disclose the arrangement to Maulbaum at their initial meeting, nor upon receipt of the payment.", "DeVriese's brother is one of Thunderland's largest clients. As a family member, DeVriese's brother obtained an exception to firm policy,by he does not pay any management fees on his account. An upcoming IPO is suitable for DeVriese's brother as well as a number of other clients. DeVriese requests 10,000 shares in total and plans to allocate 1,000 shares to his brother and the remainder to the other clients. However, he only receives 6,000 shares from the IPO allocation."]},
+  "L2-MOCK2-S1/11": {"title": "FSA · R7, R11 — Booker on Aspen, Maple and cash flow quality", "full": ["Shanice Booker is an analyst at an equity fund and is reviewing the fund's holdings in the industrial sector. All of the companies report under IFRS.", "One of the companies, Aspen Co., recently announced two new investments. The first investment is a joint venture called Hemlock Ltd. Hemlock is expected to be profitable for both joint venture partners. Booker considers how including Hemlock will affect Aspen's financial statements.", "Aspen also purchased 70% of Maple Inc. Selected information on Maple's fixed assets at the time of acquisition is included below:", "• Fair value was estimated at €32 million, half of which is attributed to land and the other half is attributable to plant and equipment.", "• Plant and equipment had a carrying value of €10 million, a remaining useful life of 10 years, and no residual value.", "Both Maple and Aspen depreciate plant and equipment on a straight-line basis. Booker expects Maple to report earnings before tax of €3.5 million next year.", "Concerned about financial reporting quality, Booker uses the Beneish model to evaluate the likelihood of earnings manipulation. She considers the M-scores of Aspen and its two closest competitors, Pickerel and Sturgeon, in Exhibit 1.", {"title": "Exhibit 1 · Beneish M-scores", "columns": ["", "Current year", "Prior year"], "rows": [["Aspen", "–1.95", "–2.04"], ["Pickerel", "–1.31", "–1.29"], ["Sturgeon", "–2.22", "–1.74"]]}, "Booker also assesses the reporting quality of the companies' cash flow statements. She notes the following classification differences:", "Difference 1: Interest paid is an operating cash flow for Aspen but a financing cash flow for Pickerel and Sturgeon.", "Difference 2: Interest received is an operating cash flow for Sturgeon but an investing cash flow for Aspen and Pickerel."]},
 };
 const MOCK_Q = {
   "L2-MOCK1-S1 #1": {"set": 1, "stem": "Which of the following ratios is the most appropriate for Wang to use in comparing Tupelo and Grupo?", "options": ["Price to book", "Price to FCFE", "Price to earnings"], "p": 0, "a": 1, "logic": ["Accounting differences (US GAAP vs. IFRS) distort any multiple built on accounting numbers. P/B (book equity) and P/E (net income) are the most affected; multiples based on cash flow (P/CFO, P/FCFE) are the least affected, because cash is cash under either standard.", "So when two companies report under different standards, compare them on the cash-flow multiple: P/FCFE."], "traps": ["P/B rests on book value, which depends heavily on accounting choices (revaluation, impairment, capitalisation) that differ between IFRS and US GAAP.", "", "P/E rests on accounting earnings, which carry every recognition and measurement difference between the two standards."]},
@@ -33719,6 +35172,50 @@ const MOCK_Q = {
   "L2-MOCK1-S2 #42": {"set": 11, "stem": "The observation made by McKay is the direct result of each parent company's choice of its US subsidiary's:", "options": ["local currency.", "functional currency.", "presentation currency."], "p": 1, "a": 1, "logic": ["If the subsidiary’s functional currency is its local currency (USD), the parent uses the current rate method; if it is the parent’s presentation currency (EUR), the temporal method.", "So different methods mean the parents chose different functional currencies."], "traps": ["Both subsidiaries are in the US, so their local currency is the same.", "", "Both parents present in EUR, so presentation currency doesn’t differ."]},
   "L2-MOCK1-S2 #43": {"set": 11, "stem": "Regarding the profitability of its US subsidiary, the consolidated financial statements for Bluesky should show a:", "options": ["translation gain on the income statement.", "positive translation adjustment in shareholders' equity.", "negative translation adjustment in shareholders' equity."], "p": 2, "a": 1, "logic": ["Under the current rate method the exposure is the subsidiary’s net assets, and the translation result goes to equity (CTA), not the income statement.", "The subsidiary is profitable (net assets positive and growing) and the USD appreciated, so translated net assets rise: a positive translation adjustment."], "steps": ["Exposure = net assets > 0; USD ↑ → translated net assets ↑ → CTA positive"], "traps": ["The current rate method never puts translation results on the income statement.", "", "Direction flip: positive net assets in an appreciating currency give a *gain*, so a positive adjustment."]},
   "L2-MOCK1-S2 #44": {"set": 11, "stem": "Which of the following balance sheet characteristics of Greensea's US subsidiary would best explain the translation result in the consolidated income statement? Greensea's US subsidiary:", "options": ["is funded entirely by equity.", "has substantial amounts of cash.", "issued long-term debt to buy PP&E."], "p": 2, "a": 2, "logic": ["Under the temporal method only monetary items are exposed, and the remeasurement result goes to the income statement.", "A loss while the USD appreciated means the subsidiary had more monetary liabilities than monetary assets. Borrowing (monetary) to buy PP&E (non-monetary, held at historical rates) creates that net monetary liability."], "steps": ["Net monetary liability × USD ↑ → remeasurement loss"], "traps": ["All-equity funding leaves mostly monetary assets → a gain when the USD rises.", "Lots of cash is a net monetary asset → a gain when the USD rises.", ""]},
+  "L2-MOCK2-S1 #1": {"set": 1, "stem": "The demand for industrial real estate would be least impacted by:", "options": ["Driver A.", "Driver B.", "Driver C."], "p": 1, "a": 1, "logic": ["Each property type has its own demand drivers. Industrial (warehouses, distribution) follows *retail sales*, trade and *supply routes* (e-commerce moving stock closer to customers).", "Household formation drives demand for places people *live*: multi-family and hotels. It barely touches warehouses."], "traps": ["Retail sales growth fills warehouses and distribution centres: a core industrial driver.", "", "Changing supply routes (ports, e-commerce) are reshaping industrial demand: a big driver."]},
+  "L2-MOCK2-S1 #2": {"set": 1, "stem": "Which real estate investment type best meets Cruyff's criteria?", "options": ["REIT", "REOC", "Direct investment in real estate"], "p": 0, "a": 1, "logic": ["Criterion 1, liquidity: REITs and REOCs trade on exchanges; direct property is illiquid. So direct is out.", "Criterion 2, maximum growth: REITs must pay out most of their income, so they can’t retain earnings to reinvest. REOCs (taxable companies) can reinvest freely and develop or trade property.", "Only the REOC meets both."], "traps": ["A REIT is liquid but must distribute most income, which caps its growth.", "", "Direct property can chase growth but fails the liquidity test."]},
+  "L2-MOCK2-S1 #3": {"set": 1, "stem": "Bando Office REIT's expected NAV per share is closest to:", "options": ["$13.32.", "$13.84.", "$14.43."], "p": 1, "a": 1, "logic": ["Value the operating property by capitalising *next year’s* NOI, add the other assets at market value, subtract liabilities, divide by shares."], "steps": ["NOI next year = 180 × 1.02 = 183.6", "Value of operating real estate = 183.6 ÷ 0.06 = 3,060", "Gross asset value = 3,060 + cash 24 + land 90 = 3,174", "NAV = 3,174 − 130 = 3,044", "NAVPS = 3,044 ÷ 220 = *$13.84*"], "traps": ["$13.32 leaves out cash and land: (3,060 − 130) ÷ 220.", "", "$14.43 forgets to subtract the debt: 3,174 ÷ 220."]},
+  "L2-MOCK2-S1 #4": {"set": 1, "stem": "The AFFO (in millions) for the LIVA REIT is:", "options": ["$335", "$460", "$600"], "p": 1, "a": 1, "logic": ["FFO = net income + depreciation and amortisation + losses on sales of property (− gains).", "AFFO = FFO − non-cash (straight-line) rent − recurring maintenance capex and leasing commissions."], "steps": ["FFO = 400 + 190 + 62.5 = 652.5", "AFFO = 652.5 − 52.5 − 140 = *460*"], "traps": ["$335 subtracts the loss on sales instead of adding it back: 400 + 190 − 62.5 − 52.5 − 140.", "", "$600 stops at FFO less straight-line rent and skips the maintenance capex."]},
+  "L2-MOCK2-S1 #5": {"set": 2, "stem": "The predicted value of RET for the next month is closest to:", "options": ["1.49%.", "1.61%.", "2.72%."], "p": 2, "a": 2, "logic": ["To predict Y, plug the forecasts into the *whole* estimated equation, intercept included, even for coefficients that aren’t significant."], "steps": ["RET = −0.768 + 1.242(0.012) + 0.031(25.130) + 0.034(0.036)", "= −0.768 + 0.014904 + 0.779030 + 0.001224", "= 0.027158 ≈ *2.72%*"], "traps": ["1.49% keeps only the MKR term.", "1.61% keeps only the terms with |t| > 2, dropping the intercept and VME.", ""]},
+  "L2-MOCK2-S1 #6": {"set": 2, "stem": "Based on the results of the Breusch–Pagan test, Mave should:", "options": ["reject the null hypothesis of no conditional heteroskedasticity at both the 5% and 1% significance levels.", "reject the null hypothesis of no conditional heteroskedasticity at the 5% significance level but not at the 1% significance level.", "not reject the null hypothesis of no conditional heteroskedasticity at either the 5% or 1% significance levels."], "p": 1, "a": 1, "logic": ["BP = n × R² of the regression of squared residuals on the X’s, chi-square with k = 3 df. Compare it with each critical value."], "steps": ["BP = 36 × 0.238 = *8.568*", "5%: 8.568 > 7.815 → reject", "1%: 8.568 < 11.345 → don’t reject"], "traps": ["At 1% the statistic is below 11.345, so you can’t reject there.", "", "At 5% the statistic beats 7.815, so you must reject there."]},
+  "L2-MOCK2-S1 #7": {"set": 2, "stem": "Based on the variance inflation factors for each of the independent variables, Mave should conclude that:", "options": ["there is no evidence of multicollinearity.", "further investigation of certain independent variables is required.", "there is evidence of serious multicollinearity that requires correction."], "p": 0, "a": 0, "logic": ["VIF = 1 ÷ (1 − R²ⱼ). VIF of 1 = no correlation with the other X’s. Rule of thumb: above 5 → investigate; above 10 → serious.", "1.044, 1.007 and 1.634 are all far below 5."], "traps": ["", "Investigation starts only when a VIF passes 5.", "Serious multicollinearity needs a VIF above 10."]},
+  "L2-MOCK2-S1 #8": {"set": 2, "stem": "Which of the following machine-learning techniques would best meet Mave's objective for grouping stocks?", "options": ["K-means clustering", "Hierarchical clustering", "Classification and regression tree"], "p": 2, "a": 0, "logic": ["Three clues: *unsupervised* (no labels), a *fixed number* of groups (five), data without complex non-linear features.", "k-means partitions data into exactly k clusters chosen in advance. That matches all three."], "traps": ["", "Hierarchical clustering builds a tree of clusters and doesn’t start from a set number of groups.", "CART is *supervised*: it needs a labelled target to learn from. Mave has no labels."]},
+  "L2-MOCK2-S1 #9": {"set": 3, "stem": "By accepting the room upgrade and the meals and entertainment at the AIF conference, does Bali comply with the Standards?", "options": ["Yes", "No, with regard to the room upgrade", "No, with regard to the meals and entertainment"], "p": 2, "a": 0, "logic": ["I(B) bars gifts that could *reasonably be expected* to compromise independence. The key costs, airfare and hotel, are paid by his employer.", "A similar-sized room on a higher floor is trivial. Ordinary business meals and entertainment at a conference are allowed by I(B)."], "traps": ["", "The room is paid by Aldebaran; a better view on a similar room isn’t a meaningful benefit.", "Ordinary business-related meals and entertainment are explicitly allowed."]},
+  "L2-MOCK2-S1 #10": {"set": 3, "stem": "Regarding his report on the distressed airline, which of the following is Bali's best course of action to comply with the Standards?", "options": ["Publish his report based only on his own research", "Publish his report after the updated prediction from the research firm is received", "Refrain from publishing his report because of the conflicting results regarding possible bankruptcy"], "p": 0, "a": 1, "logic": ["V(A) needs a reasonable and adequate basis. Bali’s own work uses limited data; the vetted firm’s model used outdated data but an update is due in a week.", "Waiting a week for complete, current data is the diligent course. Then he can publish."], "traps": ["Research on limited data isn’t a reasonable basis, however urgent the report feels.", "", "Conflicting views don’t bar a report; he just needs a sound basis, which the update gives."]},
+  "L2-MOCK2-S1 #11": {"set": 3, "stem": "With regard to the development and sale of the portfolio optimization model, have either Bali or his supervisor violated the Standards?", "options": ["No", "Yes, only the supervisor has violated the Standards", "Yes, both Bali and the supervisor have violated the Standards"], "p": 0, "a": 0, "logic": ["IV(A) lets you do outside work if it doesn’t compete with or harm your employer and you tell the employer.", "They built the model on personal time, offered it to Aldebaran (which declined), and disclosed the sale. No breach."], "traps": ["", "The supervisor neither failed to supervise nor harmed the firm.", "Both acted openly; the employer turned the model down first."]},
+  "L2-MOCK2-S1 #12": {"set": 3, "stem": "By emailing Client A, Bali violated the Standard related to preservation of confidentiality for:", "options": ["Client A only.", "Client B only.", "both Client A and Client B."], "p": 1, "a": 1, "logic": ["III(E): keep client information confidential unless the client allows disclosure.", "Client A asked for the introduction, so it consented. Client B never agreed to have its details passed on."], "traps": ["Client A requested the introduction, which is permission.", "", "Only Client B’s information was disclosed without consent."]},
+  "L2-MOCK2-S1 #13": {"set": 4, "stem": "The distinctive risk discussed by Ali will most likely be reduced when:", "options": ["deposits are insured up to a stated limit.", "assets are made up primarily of mark-to-market assets.", "liabilities are made up primarily of deposits with maturity less than a year."], "p": 0, "a": 0, "logic": ["The risk is a *bank run*: depositors pull money because they fear the bank can’t pay. Deposit insurance removes that fear, so it reduces run risk."], "traps": ["", "Marking assets to market doesn’t change whether depositors fear losing their money.", "Short-term deposits make runs *easier*, not harder."]},
+  "L2-MOCK2-S1 #14": {"set": 4, "stem": "The Basel III provision that corresponds to the outcome mentioned by Ali is the:", "options": ["stable funding requirement.", "minimum capital requirement.", "minimum liquidity requirement."], "p": 0, "a": 1, "logic": ["Ali’s outcome: banks can’t take on too much leverage, so they can absorb asset write-downs.", "Basel III’s *minimum capital* requirement sets the share of risk-weighted assets funded with equity. Equity is the cushion that absorbs losses."], "traps": ["Stable funding is about having enough long-term funding for one-year liquidity needs, not leverage.", "", "Minimum liquidity (LCR) is about cash for a 30-day stress, not loss absorption."]},
+  "L2-MOCK2-S1 #15": {"set": 4, "stem": "Which bank has the highest Liquidity Coverage Ratio?", "options": ["Rose", "Orchid", "Begonia"], "p": 2, "a": 2, "logic": ["LCR = high-quality liquid assets ÷ expected net cash outflows over a 30-day stress. Higher = safer."], "steps": ["Rose = 727 ÷ 518 = 1.40", "Orchid = 548 ÷ 400 = 1.37", "Begonia = 718 ÷ 495 = *1.45*"], "traps": ["Rose has the most liquid assets but also bigger outflows: 1.40.", "Orchid has the smallest outflow but only 1.37.", ""]},
+  "L2-MOCK2-S1 #16": {"set": 4, "stem": "Which insurance company has the most efficient overall underwriting operation?", "options": ["Company A", "Company B", "Company C"], "p": 1, "a": 1, "logic": ["Overall underwriting efficiency = the *combined ratio* (losses and loss adjustment expense ratio + underwriting expense ratio). Lower is better."], "steps": ["A = 82.2% + 14.4% = 96.6%", "B = 81.5% + 14.6% = *96.1%*", "C = 81.4% + 14.9% = 96.3%"], "traps": ["A has the lowest expense ratio, but its combined ratio is the highest.", "", "C has the lowest loss ratio, but its combined ratio is above B’s."]},
+  "L2-MOCK2-S1 #17": {"set": 5, "stem": "The current value (in SGD per share) of the forward contract on Stock A is closest to:", "options": ["11.49.", "11.54", "11.59."], "p": 0, "a": 0, "logic": ["Value of a forward at time t = PV of the difference between the original forward price and today’s forward price for the same date.", "Tan is *short*, so she gains when the forward price falls."], "steps": ["F₀ = 350 × 1.0085 = 352.975", "Fₜ (six-month forward today) = 341.44", "Difference = 352.975 − 341.44 = 11.535", "Discount for the 0.5 year left: 11.535 ÷ 1.0085^0.5 = 11.535 ÷ 1.00424 = *11.49* (gain to the short)"], "traps": ["", "11.54 forgets to discount the difference to today.", "11.59 compounds the difference instead of discounting it."]},
+  "L2-MOCK2-S1 #18": {"set": 5, "stem": "To offset the existing interest rate swap, the new swap should have a leg that is equivalent to the cash flows of a:", "options": ["long position in a 2-year fixed-rate bond.", "short position in a floating-rate bond with a 2-year reset.", "long position in a floating-rate bond with a 6-month reset."], "p": 2, "a": 0, "logic": ["Existing swap: pay fixed, receive floating. The offset does the opposite: *receive fixed, pay floating*, for the 2 years left.", "Receive fixed = long a fixed-rate bond. Pay floating = short a floating-rate bond that resets every 6 months."], "traps": ["", "The floating leg resets semi-annually, so a 2-year reset is wrong.", "Long a floater = receiving floating, which is what Tan already does; it adds to her position instead of offsetting it."]},
+  "L2-MOCK2-S1 #19": {"set": 5, "stem": "At today’s reset of the equity index swap, Tan will:", "options": ["pay USD 1,320,000.", "pay USD 1,600,000.", "receive USD 1,600,000."], "p": 0, "a": 0, "logic": ["Tan receives fixed and pays the equity return. Net = notional × (fixed rate − equity return)."], "steps": ["Equity return = 21,600,000 ÷ 20,000,000 − 1 = 8%", "Fixed leg = 20,000,000 × 1.4% = 280,000 (received)", "Equity leg = 20,000,000 × 8% = 1,600,000 (paid)", "Net = 280,000 − 1,600,000 = *−1,320,000* → Tan pays USD 1.32 m"], "traps": ["", "1.6 m is the equity leg alone; it ignores the 280,000 fixed leg she receives.", "She *pays* the equity return, and the fixed leg is still ignored."]},
+  "L2-MOCK2-S1 #20": {"set": 5, "stem": "At expiration of the USD/SGD currency swap, Tan will pay a notional amount of:", "options": ["USD 5.00 million.", "USD 5.26 million.", "SGD 6.75 million."], "p": 0, "a": 0, "logic": ["Tan holds USD and fears USD weakness, so she swaps USD into SGD: at the start she pays SGD 6.75 m and receives USD 5 m; at the end it reverses.", "At expiry she pays back the USD notional, USD 5.00 m, and receives SGD 6.75 m. Notionals swap at the original amounts."], "traps": ["", "5.26 m divides SGD 6.75 m by the forward rate; the swap re-exchanges the original notionals, not a forward conversion.", "SGD 6.75 m is what she pays at *initiation*; at expiry she receives it."]},
+  "L2-MOCK2-S1 #21": {"set": 6, "stem": "Ignoring transaction costs, the hedge fund's payoff from the Amass-Tryme merger arbitrage transaction is:", "options": ["–$120,000.", "–$90,000.", "$30,000.00"], "p": 2, "a": 1, "logic": ["Merger arb: long the target, short the acquirer at the exchange ratio. If the deal fails, both prices go back to pre-announcement levels, and the trade loses.", "Count both legs from entry to exit."], "steps": ["Short 15,000 Amass at 32 → +480,000; buy back at 34 → −510,000; leg = −30,000", "Long 30,000 Tryme at 15 → −450,000; sell at 13 → +390,000; leg = −60,000", "Total = −30,000 − 60,000 = *−90,000*"], "traps": ["−120,000 counts only the exit values (390,000 − 510,000) and ignores the +30,000 spread at setup.", "", "+30,000 is the spread at setup, the payoff only if the deal completes. It failed."]},
+  "L2-MOCK2-S1 #22": {"set": 6, "stem": "The payoff per share of the convertible arbitrage strategy is:", "options": ["$2.20.", "$4.00.", "$5.80."], "p": 1, "a": 0, "logic": ["Buy the cheap convertible, short the dear shares. The gross gain is the gap between share price and conversion price, then carry: you pay the borrow cost and the dividend on the short, and you earn the coupon on the bond."], "steps": ["Bond price = 1,000 × 110% = 1,100; conversion price = 1,100 ÷ 55 = $20", "Gross gain = 24 − 20 = $4.00 per share", "Short costs = borrow 2 + dividend 1 = −$3.00", "Coupon = 6.6% × 1,000 = 66 ÷ 55 = +$1.20 per share", "Payoff = 4.00 − 3.00 + 1.20 = *$2.20*"], "traps": ["", "$4.00 ignores the carry: borrow cost, dividend paid and coupon earned.", "$5.80 flips the carry signs, adding the costs and subtracting the coupon."]},
+  "L2-MOCK2-S1 #23": {"set": 6, "stem": "Given Bony's investment committee considerations, which hedge fund should MacKay recommend?", "options": ["Fund-of-funds", "Long/short equity", "Event-driven arbitrage"], "p": 2, "a": 2, "logic": ["Check each fund against all three tests: higher Sharpe *and* Sortino than the existing portfolio (0.65, 1.26); a smaller maximum drawdown (14.80%); no fee layering.", "Event-driven: 0.67 > 0.65, 1.31 > 1.26, 13.15% < 14.80%, single layer of fees. It passes all three."], "traps": ["Fund-of-funds passes on the ratios but has two layers of fees.", "Long/short equity’s Sortino (1.23) is below 1.26 and its drawdown (18.03%) is larger.", ""]},
+  "L2-MOCK2-S1 #24": {"set": 6, "stem": "Based on Mackay's scenario, Umbrella's net-of-fees return is closest to:", "options": ["9.8%.", "10.3%.", "12.4%."], "p": 2, "a": 1, "logic": ["Work up the layers. Each underlying fund: take the management fee, charge the incentive fee on the return *after* the management fee. Then do the same at the fund-of-funds level."], "steps": ["Argo: incentive = 20% × (15% − 2%) = 2.6%; net = 15 − 2 − 2.6 = 10.4%", "Baker: incentive = 20% × (20% − 2%) = 3.6%; net = 20 − 2 − 3.6 = 14.4%", "Umbrella gross = 0.5 × 10.4% + 0.5 × 14.4% = 12.4%", "Umbrella incentive = 10% × (12.4% − 1%) = 1.14%; net = 12.4 − 1 − 1.14 = *10.26%*"], "traps": ["9.8% charges the incentive fees on gross returns, before taking out the management fee.", "", "12.4% is Umbrella’s gross return: the fund-of-funds’ own 1% + 10% fees were never taken."]},
+  "L2-MOCK2-S1 #25": {"set": 7, "stem": "The total market value (in $ millions) of Brixton's equity is closest to:", "options": ["38", "49", "59"], "p": 1, "a": 1, "logic": ["FCFF goes to all capital providers, so discount it at *WACC* to get firm value, then subtract debt for equity."], "steps": ["Firm value = 2.66 × 1.05 ÷ (0.0976 − 0.05) = 2.793 ÷ 0.0476 = 58.68", "Equity = 58.68 − 9.86 = *48.8 ≈ 49*"], "traps": ["38 discounts FCFF at the cost of equity (10.86%) instead of WACC.", "", "59 is firm value; debt wasn’t subtracted."]},
+  "L2-MOCK2-S1 #26": {"set": 7, "stem": "All else being equal, as a result of the change in its capital structure, Brixton's FCFF would most likely:", "options": ["decrease.", "remain the same.", "increase."], "p": 1, "a": 1, "logic": ["FCFF is cash flow *before* any payments to lenders, so how the firm is financed doesn’t change it.", "Leverage changes FCFE: new borrowing lifts FCFE in the year it’s raised, then after-tax interest lowers it."], "traps": ["FCFE, not FCFF, falls later with the interest cost.", "", "FCFE, not FCFF, rises in the year of the new borrowing."]},
+  "L2-MOCK2-S1 #27": {"set": 7, "stem": "Hillbrow's FCFE (in $ millions) is:", "options": ["215", "241", "289"], "p": 0, "a": 0, "logic": ["Starting from net income, FCFE adds non-cash charges, subtracts fixed and working capital investment, and adds net borrowing. Interest is already deducted in NI, so it isn’t added back."], "steps": ["FCFE = 420 + 525 − 700 − 78 + 48 = *215*"], "traps": ["", "241 is FCFF: it adds back after-tax interest (74) and drops net borrowing.", "289 adds both interest and net borrowing, mixing the two formulas."]},
+  "L2-MOCK2-S1 #28": {"set": 7, "stem": "Carlton's total value of equity (in $ millions) is closest to:", "options": ["628", "679", "748"], "p": 1, "a": 1, "logic": ["FCFE belongs to shareholders, so discount at the required return on equity (9.5%). Terminal value at year 3 uses FCFE₄ and is discounted 3 years, like FCFE₃."], "steps": ["TV₃ = 41 × 1.04 ÷ (0.095 − 0.04) = 42.64 ÷ 0.055 = 775.27", "PV = 30 ÷ 1.095 + 36 ÷ 1.095² + (41 + 775.27) ÷ 1.095³", "= 27.40 + 30.02 + 31.23 + 590.49 = *679.1*"], "traps": ["628 discounts the terminal value for 4 years instead of 3.", "", "748 discounts FCFE at WACC (9%), which belongs to FCFF."]},
+  "L2-MOCK2-S1 #29": {"set": 8, "stem": "The fair value (per 100 of par value) of the Li-Ion Corp bond is closest to:", "options": ["113.44.", "114.78.", "115.37."], "p": 1, "a": 1, "logic": ["Fair value of a risky bond = value if default-free (VND, discounted at *risk-free* factors) − CVA (sum of PVs of expected loss)."], "steps": ["VND = 6.75 × 0.9950 + 6.75 × 0.9901 + 106.75 × 0.9851 = 6.7163 + 6.6832 + 105.1594 = 118.5589", "CVA = 1.3635 + 1.2567 + 1.1544 = 3.7746", "Fair value = 118.5589 − 3.7746 = *114.78*"], "traps": ["113.44 discounts with the bond’s YTM instead of risk-free factors.", "", "115.37 uses the year-1 exposure (119.16) as if it were the VND."]},
+  "L2-MOCK2-S1 #30": {"set": 8, "stem": "Are Georgiou's beliefs regarding the explanation for the difference in the probability of default measures correct?", "options": ["Yes", "No, with regard to the default risk premium", "No, with regard to liquidity and tax considerations"], "p": 2, "a": 0, "logic": ["Risk-neutral POD is backed out of market spreads. It differs from historical POD for two reasons:", "(i) investors demand a premium for uncertainty over the *timing* of default, which historical rates don’t include; (ii) observed spreads also carry *liquidity and tax* effects, not just credit risk. Both of Georgiou’s reasons are right."], "traps": ["", "The default risk premium is one of the two standard reasons.", "Spreads in practice do include liquidity and tax effects; that is the second standard reason."]},
+  "L2-MOCK2-S1 #31": {"set": 8, "stem": "Which credit analysis approach would be most appropriate in assessing the Clear Future ABS?", "options": ["Loan-by-loan approach", "Portfolio-based approach", "Statistics-based approach"], "p": 0, "a": 1, "logic": ["Match the pool to the approach: few large, different loans (CMBS, project finance) → loan-by-loan; many small, similar *medium-term* loans → portfolio-based; many similar *short-term* loans (credit cards) → statistics-based.", "40,000 similar 5-year auto leases: granular, homogeneous, medium term → portfolio-based."], "traps": ["Loan-by-loan is for a few large, varied loans. 40,000 similar leases can’t sensibly be analysed one by one.", "", "Statistics-based fits *short-term* pools; these leases are medium term."]},
+  "L2-MOCK2-S1 #32": {"set": 8, "stem": "The upfront premium (as a percentage of notional) to buy CDS protection on EV Car is closest to:", "options": ["0.40%.", "4.00%.", "6.00%."], "p": 1, "a": 2, "logic": ["The buyer pays only the 1% standard coupon, but fair protection costs 2.5% a year. The buyer pays the shortfall up front: (spread − coupon) × duration."], "steps": ["Upfront ≈ (2.50% − 1.00%) × 4 = 1.50% × 4 = *6.00%*"], "traps": ["0.40% divides by duration instead of multiplying.", "4.00% is coupon × duration: it leaves out the credit spread.", ""]},
+  "L2-MOCK2-S1 #33": {"set": 9, "stem": "Based on Lin's estimates, the daily 5% parametric VaR of the client's portfolio is closest to:", "options": ["0.04%.", "0.58%.", "1.32%."], "p": 0, "a": 2, "logic": ["Rebuild VaR from daily inputs: daily mean = annual ÷ 250; daily σ = annual ÷ √250. 5% VaR = mean − 1.65σ."], "steps": ["Daily mean = 12.5% ÷ 250 = 0.05%", "Daily σ = 13.1% ÷ √250 = 13.1% ÷ 15.81 = 0.83%", "VaR = |0.05% − 1.65 × 0.83%| = |0.05% − 1.37%| = *1.32%*"], "traps": ["0.04% divides the annual VaR by 250, as if VaR scaled with time like a mean.", "0.58% divides annual VaR by √250, but the mean doesn’t scale with √T, so VaR can’t be scaled that way.", ""]},
+  "L2-MOCK2-S1 #34": {"set": 9, "stem": "A limitation that Lin should communicate to his clients is that the important risk measure he uses:", "options": ["fails to take into account the liquidity of assets.", "should not be used to compare risks across asset classes.", "is likely to underestimate the effect, but not the likelihood, of extreme market events."], "p": 2, "a": 0, "logic": ["VaR doesn’t capture *liquidity*: illiquid assets can’t be sold at model prices, especially in a crash, so VaR understates risk.", "VaR underestimates *both* the size and the likelihood of extreme events (normal tails are too thin, correlations jump in crises)."], "traps": ["", "Comparing risk across asset classes and units is an *advantage* of VaR.", "The “but not the likelihood” half is wrong: VaR understates the likelihood too."]},
+  "L2-MOCK2-S1 #35": {"set": 9, "stem": "To best address his clients' expressed concerns about potential losses, Lin should report:", "options": ["marginal VaR.", "conditional VaR.", "incremental VaR."], "p": 1, "a": 1, "logic": ["Clients fear *how bad* an extreme loss could be. CVaR (expected shortfall) = the average loss when the VaR cutoff is breached. It answers that directly."], "traps": ["Marginal VaR measures a tiny change in one position’s effect on VaR.", "", "Incremental VaR measures how VaR changes when a position size changes."]},
+  "L2-MOCK2-S1 #36": {"set": 9, "stem": "Regarding Lin's new strategy to generate higher Sharpe ratios for client portfolios, which of the following is most appropriate?", "options": ["Transaction costs should be ignored when testing the new strategy", "Using point-in-time data to determine the countries in which he should invest", "The Sharpe ratio should be computed using local currency returns and risk-free rates"], "p": 0, "a": 1, "logic": ["A backtest must only use what was known at each past date. Point-in-time data stop him picking countries with hindsight (look-ahead and survivorship bias)."], "traps": ["Transaction costs must always be included: many anomalies vanish once costs are counted, even when costs are similar across countries.", "", "He doesn’t hedge currency, so returns and the risk-free rate should be in the clients’ home currency."]},
+  "L2-MOCK2-S1 #37": {"set": 10, "stem": "When presenting his performance to Maulbaum, DeVriese violates the Standards concerning the treatment of:", "options": ["fees and taxes.", "terminated accounts.", "performance data from Blue Lantern."], "p": 1, "a": 1, "logic": ["III(D): performance must be fair, accurate and complete. Dropping terminated accounts removes (often poor) results and flatters the record."], "traps": ["Gross of fees and before tax is fine if disclosed, which he did.", "", "Prior-firm results may be shown with proper disclosure of where and his role."]},
+  "L2-MOCK2-S1 #38": {"set": 10, "stem": "Does DeVriese violate the Standards with his actions regarding the GasExplorer report?", "options": ["No", "Yes, by meeting with Maulbaum to discuss the report", "Yes, by selling Maulbaum's shares, contrary to the recommendation"], "p": 0, "a": 0, "logic": ["Fair dealing is about dissemination: he sent the report to *all* clients first. After that, discussing it with one client is fine.", "Selling for a documented client need (liquidity), after telling her of the upgrade, is acting on her instructions."], "traps": ["", "Follow-ups with individual clients are allowed once everyone has the report.", "Trades contrary to a recommendation are fine for documented client reasons, after informing the client."]},
+  "L2-MOCK2-S1 #39": {"set": 10, "stem": "Does DeVriese violate the Standards with regard to the bonus payment?", "options": ["No", "Yes, by not disclosing the payment to Maulbaum upon receipt", "Yes, by not disclosing the arrangement to Maulbaum at their initial meeting"], "p": 2, "a": 0, "logic": ["VI(C) referral fees cover pay from *others* for recommending services. IV(B) covers outside pay that competes with the employer.", "This bonus comes from his own employer under its policy. It is ordinary compensation; the Standards don’t require disclosing how you are paid."], "traps": ["", "No duty to disclose arises, at receipt or any other time.", "There was nothing to disclose at the first meeting either: it isn’t a referral fee."]},
+  "L2-MOCK2-S1 #40": {"set": 10, "stem": "To comply with the Standards, how many shares from the IPO should DeVriese allocate to his brother's account?", "options": ["zero", "600", "1,000"], "p": 0, "a": 0, "logic": ["Fair dealing: when an issue is oversubscribed, give up allocations to yourself and family to free shares for clients.", "Family accounts managed like other clients’ may share pro rata, but the brother pays no fees, so his account is outside the normal structure. He gets none."], "traps": ["", "600 (a pro rata 6,000 ÷ 10,000 × 1,000) would apply only if his account were treated like any other client’s.", "1,000 ignores the shortfall entirely."]},
+  "L2-MOCK2-S1 #41": {"set": 11, "stem": "The inclusion of Hemlock will increase Aspen's reported:", "options": ["investments.", "plant and equipment.", "non-controlling interests."], "p": 0, "a": 0, "logic": ["IFRS (and US GAAP) account for joint ventures with the *equity method*: a single line, investment in joint venture, on the balance sheet."], "traps": ["", "Hemlock’s plant would only appear in Aspen’s PP&E under consolidation.", "NCI arises only when a subsidiary is consolidated."]},
+  "L2-MOCK2-S1 #42": {"set": 11, "stem": "Based on Booker's expectations, how much will Maple contribute to Aspen's consolidated earnings before tax in the coming year?", "options": ["€1.85 million", "€2.03 million", "€2.45 million"], "p": 1, "a": 1, "logic": ["The fair value of plant exceeds its book value; that step-up is depreciated over the remaining life and reduces the earnings picked up.", "The key applies Aspen’s 70% to earnings after the extra depreciation."], "steps": ["Plant fair value = 32 ÷ 2 = 16; step-up = 16 − 10 = 6", "Extra depreciation = 6 ÷ 10 = 0.6 a year", "Adjusted EBT = 3.5 − 0.6 = 2.9", "70% share = 2.9 × 0.7 = *€2.03 m*"], "traps": ["€1.85 m takes the full 0.6 off Aspen’s 70% share; the step-up is shared 70/30 too.", "", "€2.45 m ignores the extra depreciation."], "note": "Strictly, a 70% subsidiary is consolidated in full, so consolidated EBT would include 100% (€2.9 m, with 30% then going to NCI). That isn’t an option; the key works with Aspen’s 70% share, so €2.03 m is the best answer offered."},
+  "L2-MOCK2-S1 #43": {"set": 11, "stem": "Based on their M-scores, which company has the highest probability of earnings manipulation?", "options": ["Aspen", "Pickerel", "Sturgeon"], "p": 0, "a": 1, "logic": ["Beneish M-score: the *higher* (less negative) the score, the greater the chance of manipulation.", "Pickerel is least negative in both years (−1.31, −1.29)."], "traps": ["Aspen’s scores are rising, but they are still below Pickerel’s in both years: level matters, not the trend.", "", "Sturgeon is the most negative now: least likely."]},
+  "L2-MOCK2-S1 #44": {"set": 11, "stem": "Which company most likely has the highest cash flow reporting quality?", "options": ["Aspen", "Pickerel", "Sturgeon"], "p": 2, "a": 0, "logic": ["Cash flow quality is lower when classification choices *inflate* operating cash flow.", "Aspen puts the outflow (interest paid) in operating and keeps the inflow (interest received) out of it: both choices *lower* CFO. That is the most conservative, highest-quality reporting."], "traps": ["", "Pickerel moves interest paid to financing, which lifts CFO.", "Sturgeon makes both choices that raise CFO: interest paid out of operating, interest received in it. Lowest quality."]},
 };
 // Every mock miss (a wrong answer or a guess) also becomes a weak-spot card in its session, built from MOCK_Q and
 // marked 🎯 Mock: it shows in the reading, highlights the notes MOCK_AT points to, and counts like any weak spot.
@@ -33811,6 +35308,50 @@ const MOCK_AT = {
   "L2-MOCK1-S2 #42": ["Different Types of Currency"],
   "L2-MOCK1-S2 #43": ["Accounting in Current Rate Method"],
   "L2-MOCK1-S2 #44": ["Scenario: Net Monetary Liability Exposure, Currency Appreciating"],
+  "L2-MOCK2-S1 #1": ["household formation"],
+  "L2-MOCK2-S1 #2": ["REOCs are taxable"],
+  "L2-MOCK2-S1 #3": ["Net Asset Value per Share (NAVPS)"],
+  "L2-MOCK2-S1 #4": ["FFO and AFFO"],
+  "L2-MOCK2-S1 #5": ["Predicting Y: use every coefficient (LOS 1.f)"],
+  "L2-MOCK2-S1 #6": ["Breusch–Pagan test"],
+  "L2-MOCK2-S1 #7": ["Variance inflation factor"],
+  "L2-MOCK2-S1 #8": ["k-means clustering"],
+  "L2-MOCK2-S1 #9": ["I(B) Independence and Objectivity"],
+  "L2-MOCK2-S1 #10": ["V(A) Diligence and Reasonable Basis"],
+  "L2-MOCK2-S1 #11": ["IV(A) Loyalty"],
+  "L2-MOCK2-S1 #12": ["III(E) Preservation of Confidentiality"],
+  "L2-MOCK2-S1 #13": ["deposit insurance"],
+  "L2-MOCK2-S1 #14": ["Basel III"],
+  "L2-MOCK2-S1 #15": ["Liquidity coverage ratio (LCR)"],
+  "L2-MOCK2-S1 #16": ["Combined Ratio"],
+  "L2-MOCK2-S1 #17": ["s3-val"],
+  "L2-MOCK2-S1 #18": ["floating-rate bond"],
+  "L2-MOCK2-S1 #19": ["Valuing equity swaps"],
+  "L2-MOCK2-S1 #20": ["notional"],
+  "L2-MOCK2-S1 #21": ["Merger arbitrage"],
+  "L2-MOCK2-S1 #22": ["Convertible bond arbitrage"],
+  "L2-MOCK2-S1 #23": ["Sortino"],
+  "L2-MOCK2-S1 #24": ["Fund-of-funds (FoF)"],
+  "L2-MOCK2-S1 #25": ["s5-kvw"],
+  "L2-MOCK2-S1 #26": ["s4-fin"],
+  "L2-MOCK2-S1 #27": ["net borrowing"],
+  "L2-MOCK2-S1 #28": ["s6-sioux"],
+  "L2-MOCK2-S1 #29": ["CVA"],
+  "L2-MOCK2-S1 #30": ["Risk-Neutral Probability of Default"],
+  "L2-MOCK2-S1 #31": ["granularity"],
+  "L2-MOCK2-S1 #32": ["Upfront premium"],
+  "L2-MOCK2-S1 #33": ["Parametric"],
+  "L2-MOCK2-S1 #34": ["s2-var-ad"],
+  "L2-MOCK2-S1 #35": ["Conditional VaR (CVaR)"],
+  "L2-MOCK2-S1 #36": ["point-in-time"],
+  "L2-MOCK2-S1 #37": ["III(D) Performance Presentation"],
+  "L2-MOCK2-S1 #38": ["III(B) Fair Dealing"],
+  "L2-MOCK2-S1 #39": ["IV(B) Additional Compensation Arrangements", "41.S6::VI(C) Referral Fees"],
+  "L2-MOCK2-S1 #40": ["III(B) Fair Dealing"],
+  "L2-MOCK2-S1 #41": ["Joint Ventures: Joint Control"],
+  "L2-MOCK2-S1 #42": ["Excess of Purchase Price over Book Value"],
+  "L2-MOCK2-S1 #43": ["Beneish M-score"],
+  "L2-MOCK2-S1 #44": ["interest paid"],
 };
 // A right answer ticked “Right for the wrong reason” gets a card too, so the cards are rebuilt from the ticks on
 // every render (withTicks is false only at load, before progress is read).
