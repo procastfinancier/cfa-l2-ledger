@@ -24691,11 +24691,62 @@ const TUITION_MISSES = {
       at: ["How Is Decision Independence Compromised?"],
       questions: [
         { ref: "L2-R35-Q1 #7", ask: "IC 0.20, 10 stocks monthly, bets correlated 0.45. Drop in IR?", picked: "22%", answer: "86%" },
+        { ref: "L2-R35-Q2 #1", ask: "Screened Russell 2000 bets each quarter: (1) screens make bets dependent; (2) quarterly bets are independent. How many right?", picked: "neither", answer: "only one (statement 1)" },
       ],
       trap: "The drop was guessed from the 0.45 instead of working out the new breadth.",
       fix: "Correlated bets: BR = N ÷ [1 + (N − 1) × r]. 120 bets with r = 0.45 → about 2 real bets, so the IR falls by 86%.",
       remember: "Correlated bets: BR = N ÷ [1 + (N − 1) × r]. 120 bets with r = 0.45 → about 2 real bets, so the IR falls by 86%.",
       tackle: ["Compute IR = IC × √BR twice (independent and correlated) and compare."],
+    },
+    // Logged 2026-11-17
+    {
+      module: "35.S4",
+      title: "TC links forecasts to actual weights; IC links forecasts to realised returns",
+      at: ["s4-terms"],
+      questions: [
+        { ref: "L2-R35-Q2 #3", ask: "Correlation between forecast active returns and actual risk-adjusted active weights:", picked: "information coefficient", answer: "transfer coefficient" },
+      ],
+      trap: "Both are correlations of the forecasts, and the second half of the definition was skipped.",
+      fix: "IC = corr(forecast, realised return): skill. TC = corr(forecast, actual weight): how much of the skill reaches the portfolio.",
+      remember: "IC = corr(forecast, realised return): skill. TC = corr(forecast, actual weight): how much of the skill reaches the portfolio.",
+      tackle: ["Read what the forecast is correlated with: returns → IC, weights → TC."],
+    },
+    {
+      module: "35.S4",
+      title: "Full fundamental law: IR = TC × IC × √BR (square root!)",
+      at: ["Fundamental law"],
+      questions: [
+        { ref: "L2-R35-Q2 #9", ask: "IC 0.05, 36 bets, TC 0.75. IR =", picked: "1.35", answer: "0.23" },
+        { ref: "L2-R35-Q2 #10", ask: "Quarterly sector rotation, 55% hit rate, spread σ 13.72% a quarter. Annual active return:", picked: "10.64%", answer: "5.48%" },
+      ],
+      trap: "Breadth was used without its square root, and the sector-rotation IC and risk weren’t built step by step.",
+      fix: "IR = TC × IC × √BR. Sector rotation: IC = 2p − 1; σ = risk of the sector spread; annualise σ × √n; active return = IC × √BR × σ.",
+      remember: "IR = TC × IC × √BR. Sector rotation: IC = 2p − 1; σ = risk of the sector spread; annualise σ × √n; active return = IC × √BR × σ.",
+      tackle: ["√ breadth always; for rotation, find IC from the hit rate first."],
+    },
+    {
+      module: "35.S3",
+      title: "Closet indexer: Sharpe ≈ benchmark’s; cash or leverage leave Sharpe unchanged",
+      at: ["s3-sr"],
+      questions: [
+        { ref: "L2-R35-Q2 #6", ask: "Least accurate:", picked: "Sharpe ratio unaffected by cash or leverage", answer: "a closet index fund has a low Sharpe ratio" },
+      ],
+      trap: "A true statement was picked on a “least accurate” question.",
+      fix: "A closet indexer’s Sharpe ratio is close to the benchmark’s (its IR is what’s poor). Cash or leverage don’t change a Sharpe ratio; they change the IR’s scale of active risk.",
+      remember: "A closet indexer’s Sharpe ratio is close to the benchmark’s (its IR is what’s poor). Cash or leverage don’t change a Sharpe ratio; they change the IR’s scale of active risk.",
+      tackle: ["Mark each option T or F before choosing."],
+    },
+    {
+      module: "35.S3",
+      title: "Total expected return = benchmark + IR × chosen active risk",
+      at: ["Expected active return for a chosen active risk"],
+      questions: [
+        { ref: "L2-R35-Q2 #8", ask: "Benchmark 11%, best IR 0.25, active risk 11%. Maximum expected portfolio return:", picked: "2.75%", answer: "13.75%" },
+      ],
+      trap: "The active return was given as the portfolio’s return.",
+      fix: "Pick the highest-IR manager; active return = IR × active risk; portfolio return = benchmark + active return.",
+      remember: "Pick the highest-IR manager; active return = IR × active risk; portfolio return = benchmark + active return.",
+      tackle: ["“Portfolio return” → add the benchmark."],
     },
   ],
   'pm.2': [
@@ -24722,6 +24773,19 @@ const TUITION_MISSES = {
       fix: "Bank issues an ETN and swaps: it receives the index return (paid on to ETN holders) and pays the swap fixed rate. It does this when its own borrowing rate is above the swap rate.",
       remember: "Bank issues an ETN and swaps: it receives the index return (paid on to ETN holders) and pays the swap fixed rate. It does this when its own borrowing rate is above the swap rate.",
       tackle: ["For any “why issue X” question, look for the cheaper-funding motive."],
+    },
+    // Logged 2026-11-17
+    {
+      module: "36.S2",
+      title: "Premiums/discounts come from timing gaps, stale prices and OTC holdings",
+      at: ["s2-sources"],
+      questions: [
+        { ref: "L2-R36-Q3-2 #2", ask: "ETF least likely to trade at a premium/discount when:", picked: "the ETF is infrequently traded", answer: "the underlying securities are exchange-traded" },
+      ],
+      trap: "A real cause (stale prices from infrequent trading) was picked on a “least likely” question.",
+      fix: "Gaps to NAV: timing differences (foreign markets), stale prices (thin trading), illiquid OTC holdings. Liquid, exchange-traded holdings keep the ETF near NAV.",
+      remember: "Gaps to NAV: timing differences (foreign markets), stale prices (thin trading), illiquid OTC holdings. Liquid, exchange-traded holdings keep the ETF near NAV.",
+      tackle: ["Least likely → the option that keeps prices live."],
     },
   ],
   'pm.3': [
@@ -24794,6 +24858,7 @@ const TUITION_MISSES = {
       at: ["s2-types"],
       questions: [
         { ref: "L2-R37-Q2 #6", ask: "Which of the following is an equilibrium-pricing model?", picked: "macroeconomic factor model", answer: "APT" },
+        { ref: "L2-R37-Q3 #9", ask: "APT has all of these EXCEPT it:", picked: "assumes returns are described by a factor model", answer: "assumes arbitrage opportunities are available" },
       ],
       trap: "Macro factor models use economic factors and look “theoretical”, so they sounded like the equilibrium model.",
       fix: "APT (like CAPM) comes from theory, so it is an equilibrium model. Macro and fundamental factor models pick factors that fit the data: ad hoc.",
@@ -24811,6 +24876,55 @@ const TUITION_MISSES = {
       fix: "Bet on a factor = sensitivity 1. Hedge it away = sensitivity 0. A negative sensitivity is a bet the other way.",
       remember: "Bet on a factor = sensitivity 1. Hedge it away = sensitivity 0. A negative sensitivity is a bet the other way.",
       tackle: ["Read “hedge away” as “make it disappear”: zero."],
+    },
+    // Logged 2026-11-17
+    {
+      module: "37.S2",
+      title: "Macro model return: intercept + Σ b × surprise + ε (surprise = actual − expected)",
+      at: ["s2-mt"],
+      questions: [
+        { ref: "L2-R37-Q4-3 #1", ask: "Stonebrook: 0.11 + 1.0F_Int + 1.2F_Un, surprises 0.002 and 0.004, ε = −1%. Return:", picked: "12.00%", answer: "10.68%" },
+      ],
+      trap: "The return wasn’t built term by term from the surprises and the unexplained part.",
+      fix: "R = a + b₁(actual₁ − expected₁) + b₂(actual₂ − expected₂) + ε. With no surprises the return is just a.",
+      remember: "R = a + b₁(actual₁ − expected₁) + b₂(actual₂ − expected₂) + ε. With no surprises the return is just a.",
+      tackle: ["Write every term, signs included."],
+    },
+    {
+      module: "37.S2",
+      title: "Fundamental factors = company traits; business cycle = macro",
+      at: ["s2-macro-fund"],
+      questions: [
+        { ref: "L2-R37-Q3 #1", ask: "Least appropriate for a fundamental factor model:", picked: "management tenure and qualifications", answer: "companies’ position in the business cycle" },
+      ],
+      trap: "Management data felt soft, so it looked out of place; the macro variable was the real misfit.",
+      fix: "Fundamental: P/E, size, payout, ratings, management. Macroeconomic: business cycle, rates, inflation, GDP surprises. Statistical: factors found in the data.",
+      remember: "Fundamental: P/E, size, payout, ratings, management. Macroeconomic: business cycle, rates, inflation, GDP surprises. Statistical: factors found in the data.",
+      tackle: ["Ask: is it a trait of the firm or of the economy?"],
+    },
+    {
+      module: "37.S3",
+      title: "Information ratio = mean active return ÷ SD of active return",
+      at: ["Active return, active risk and the IR"],
+      questions: [
+        { ref: "L2-R37-Q3 #3", ask: "Active return per unit of active risk:", picked: "Sharpe ratio (same formula)", answer: "information ratio" },
+      ],
+      trap: "The formula was read correctly, but the name wasn’t checked.",
+      fix: "IR: return over the benchmark ÷ tracking error. Sharpe: return over the risk-free rate ÷ total risk.",
+      remember: "IR: return over the benchmark ÷ tracking error. Sharpe: return over the risk-free rate ÷ total risk.",
+      tackle: ["Benchmark → IR. Risk-free → Sharpe."],
+    },
+    {
+      module: "37.S4",
+      title: "Investors with low exposure to a risk earn its premium by holding more of it",
+      at: ["Benefits of multiple risk dimensions (LOS 37.f)"],
+      questions: [
+        { ref: "L2-R37-Q3 #5", ask: "Low recession exposure investor earns a premium by holding:", picked: "more market risk", answer: "more of the recession factor" },
+      ],
+      trap: "The answer reached for the market premium instead of the separate factor.",
+      fix: "Multifactor view: each factor has its own premium. If you don’t mind a risk the average investor fears, tilt towards it and collect the premium.",
+      remember: "Multifactor view: each factor has its own premium. If you don’t mind a risk the average investor fears, tilt towards it and collect the premium.",
+      tackle: ["Name the factor in the question and tilt towards it."],
     },
   ],
   'pm.5': [
@@ -28806,6 +28920,220 @@ const TWIN_Q = {
   "L2-R39-Q2-6 #5": { lvl: 1, full: ["In a walk-forward (rolling window) backtest, after testing on 2019, the next step is to:"],
     options: ["A) retrain on a window that now includes 2019, then test on 2020", "B) retest 2019 with new parameters", "C) split the full sample into two halves"], a: 0,
     why: "The window rolls forward: tested data joins the training window." },
+  // Mock 3 Session 1 (every question has a twin: misses show in Review at once, right ones once ticked)
+  "L2-MOCK3-S1 #1": { lvl: 2, full: ["Spot rates: 1-yr 2.0%, 3-yr 3.0%. The 2-year rate one year forward ≈"],
+    options: ["A) 3.50%", "B) 4.00%", "C) 3.00%"], a: 0,
+    why: "1.03³ = 1.092727; ÷ 1.02 = 1.071301; √ = 1.035036 → 3.50%.",
+    rule: "f(A,B): (1 + z_{A+B})^{A+B} ÷ (1 + z_A)^A, then take the B-th root." },
+  "L2-MOCK3-S1 #2": { lvl: 2, full: ["Spot rates 2%, 3%. A 2-year 5% annual bond, par 100, is worth ≈"],
+    options: ["A) 103.87", "B) 105.83", "C) 105.00"], a: 0,
+    why: "5 ÷ 1.02 = 4.902; 105 ÷ 1.0609 = 98.973; total 103.87. (105.83 discounts both at 2%.)",
+    rule: "Arbitrage-free price = Σ CFₜ ÷ (1 + zₜ)ᵗ, each at its own spot rate." },
+  "L2-MOCK3-S1 #3": { lvl: 3, full: ["Spot rates: 1-yr 2%, 2-yr 3%. A 3-year 4% annual par bond. The 3-year spot rate ≈"],
+    options: ["A) 4.06%", "B) 4.00%", "C) 3.50%"], a: 0,
+    why: "0.04 ÷ 1.02 = 0.039216; 0.04 ÷ 1.03² = 0.037704; 1 − 0.076920 = 0.923080; 1.04 ÷ 0.923080 = 1.126663; cube root = 1.04055 → 4.06%.",
+    rule: "Bootstrapping: price = 1; subtract the PV of the known coupons; solve the last cash flow for its spot rate." },
+  "L2-MOCK3-S1 #4": { lvl: 2, full: ["Tree: year 0 4%; year 1 6% (up) and 4.5% (down). A 2-year 5% annual bond, par 100, is worth ≈"],
+    options: ["A) 100.74", "B) 95.93", "C) 104.77"], a: 0,
+    why: "Up 105 ÷ 1.06 = 99.057; down 105 ÷ 1.045 = 100.478; average 99.768; (5 + 99.768) ÷ 1.04 = 100.74. (95.93 forgets the year-1 coupon.)",
+    rule: "Backward induction: node value = [coupon + average of next nodes] ÷ (1 + node rate)." },
+  "L2-MOCK3-S1 #5": { lvl: 2, full: ["Y = 2.1 + 0.45X₁ − 1.2X₂; t-stats 0.9, 4.1, −3.0; critical t 2.0; R² 0.55. Which is correct?"],
+    options: ["A) The intercept is significant", "B) A one-unit rise in X₂ lowers Y by 1.2, holding X₁ constant", "C) 45% of Y’s variation is explained"], a: 1,
+    why: "|−3.0| > 2.0 so X₂ is significant; intercept t 0.9 is not; R² 0.55 = 55% explained.",
+    rule: "Slope = effect of one unit of X holding the others constant; significance from |t| vs critical t; R² = explained share." },
+  "L2-MOCK3-S1 #6": { lvl: 1, full: ["A Breusch–Pagan test rejects homoskedasticity. The simplest fix is to:"],
+    options: ["A) add lagged Y", "B) use robust (White) standard errors", "C) drop a variable"], a: 1,
+    why: "Robust standard errors correct the inference.",
+    rule: "Conditional heteroskedasticity → robust SEs. Serial correlation → Newey–West SEs. Multicollinearity → drop/combine variables." },
+  "L2-MOCK3-S1 #7": { lvl: 1, full: ["VIFs: X₁ 1.8, X₂ 7.4, X₃ 12.6. Which statement is right?"],
+    options: ["A) Only X₃ needs attention", "B) X₂ warrants investigation and X₃ shows serious multicollinearity", "C) None matter"], a: 1,
+    why: "> 5 investigate, > 10 serious.",
+    rule: "VIF = 1 ÷ (1 − R²ⱼ). > 5 investigate; > 10 serious." },
+  "L2-MOCK3-S1 #8": { lvl: 2, full: ["An analyst needs a supervised classifier for non-linear data whose decisions she can explain to a committee as a flowchart. Best choice:"],
+    options: ["A) Penalized regression (LASSO)", "B) CART", "C) Hierarchical clustering"], a: 1,
+    why: "A tree is a flowchart of if–then splits and handles non-linearity.",
+    rule: "Interpretable + non-linear + labelled → CART. Linear boundary → SVM. No labels → clustering." },
+  "L2-MOCK3-S1 #9": { lvl: 1, full: ["Two strategies with equal mean and volatility. X: skew −1.2, kurtosis 6. Y: skew +0.3, kurtosis 3.5. A risk-averse investor prefers:"],
+    options: ["A) X", "B) Y", "C) Indifferent"], a: 1,
+    why: "Positive skew and thinner tails are preferred.",
+    rule: "Risk-averse: + skew good, − skew bad; high kurtosis (fat tails) bad." },
+  "L2-MOCK3-S1 #10": { lvl: 1, full: ["A manager wants to know how much portfolio VaR changes if she sells her entire 15% stake in one stock. She should use:"],
+    options: ["A) marginal VaR", "B) incremental VaR", "C) conditional VaR"], a: 1,
+    why: "A specific, sizeable position change → incremental VaR.",
+    rule: "Incremental VaR = VaR(after change) − VaR(before). Marginal = per tiny change. Relative = vs benchmark. CVaR = average beyond VaR." },
+  "L2-MOCK3-S1 #11": { lvl: 1, full: ["A main limitation of hypothetical stress scenarios is that they:"],
+    options: ["A) must assume normal returns", "B) give no probability for the scenario", "C) can only replay past crises"], a: 1,
+    why: "Made-up scenarios can be extreme and non-normal, but have no probability.",
+    rule: "Hypothetical scenarios: + any shock size, + no normality; − no probability, − co-movements may be wrong." },
+  "L2-MOCK3-S1 #12": { lvl: 1, full: ["To see how an option book responds to a 1% move in the underlying alone, use:"],
+    options: ["A) delta (a sensitivity measure)", "B) a historical scenario", "C) CVaR"], a: 0,
+    why: "One factor, small change → sensitivity measure.",
+    rule: "One factor → sensitivity. Many factors together → scenario. Tail loss size → VaR/CVaR." },
+  "L2-MOCK3-S1 #13": { lvl: 3, full: ["6-month long oil futures: entered at 80, near contract now 84, next contract 82, collateral yields 4% a year. Total return ≈"],
+    options: ["A) 9.38%", "B) 11.38%", "C) 7.00%"], a: 0,
+    why: "Price 5.00% + roll (84 − 82) ÷ 84 = 2.38% + collateral 2.00% = 9.38%.",
+    rule: "Total = price + roll + collateral, all for the holding period. Roll = (near − far) ÷ near." },
+  "L2-MOCK3-S1 #14": { lvl: 1, full: ["Near-month copper 3.90, next month 3.80. The market is in:"],
+    options: ["A) contango", "B) backwardation", "C) neither"], a: 1,
+    why: "Near above far = backwardation; rolling earns a positive roll return.",
+    rule: "Near > far = backwardation (+ roll). Near < far = contango (− roll). Calendar spread = near − far." },
+  "L2-MOCK3-S1 #15": { lvl: 2, full: ["Under the hedging pressure hypothesis, if commodity *consumers* hedge more than producers, the futures curve is most likely:"],
+    options: ["A) in backwardation", "B) in contango", "C) flat"], a: 1,
+    why: "Consumers buy forward, pushing futures above spot → contango.",
+    rule: "Insurance theory: producers hedge → backwardation. Hedging pressure: whichever side hedges more sets the slope." },
+  "L2-MOCK3-S1 #16": { lvl: 1, full: ["A fund goes long every commodity whose 12-month return is positive and short every one whose return is negative. This is:"],
+    options: ["A) cross-sectional momentum", "B) time-series momentum", "C) relative value arbitrage"], a: 1,
+    why: "Each asset judged on its own trend → time-series momentum.",
+    rule: "TSM: each asset vs its own past (can be net long/short). CSM: rank assets vs each other (≈ market-neutral)." },
+  "L2-MOCK3-S1 #17": { lvl: 1, full: ["A manager sells a nondiscretionary client’s bond before a downgrade, unable to reach him, and the client later thanks her. She has:"],
+    options: ["A) complied, since the client approved later", "B) violated III(A) by trading without authority", "C) violated III(C) Suitability"], a: 1,
+    why: "Later approval doesn’t cure trading without authority.",
+    rule: "Nondiscretionary = client approves first. Good outcome ≠ compliance." },
+  "L2-MOCK3-S1 #18": { lvl: 2, full: ["Orders: A $40,000, B $20,000, C $20,000. Only $60,000 allocated. Fair allocation to A ="],
+    options: ["A) $20,000", "B) $30,000", "C) $40,000"], a: 1,
+    why: "40 ÷ 80 × 60,000 = 30,000.",
+    rule: "III(B): pro rata by order size; family fee-paying accounts are treated like other clients." },
+  "L2-MOCK3-S1 #19": { lvl: 1, full: ["A manager shows a composite of only her currently active accounts. Under III(D) this is:"],
+    options: ["A) fine", "B) misleading: terminated accounts should be included", "C) fine if gross of fees"], a: 1,
+    why: "Dropping terminated accounts creates survivorship bias.",
+    rule: "III(D): composites of all similar accounts incl. terminated ones; say gross/net of fees." },
+  "L2-MOCK3-S1 #20": { lvl: 1, full: ["After the exam a candidate posts: “There was a lot of swap valuation this year.” This:"],
+    options: ["A) is fine, it’s general", "B) violates VII(A)", "C) violates I(D)"], a: 1,
+    why: "Broad tested topic areas are confidential.",
+    rule: "VII(A): no tested topics/formulas/questions shared; opinions about CFA Institute are allowed." },
+  "L2-MOCK3-S1 #21": { lvl: 3, full: ["One-factor APT: Portfolio X E(R) 9% with β 0.8; Portfolio Y E(R) 13% with β 1.6. The factor risk premium is:"],
+    options: ["A) 5.0%", "B) 4.0%", "C) 8.1%"], a: 0,
+    why: "λ = (13 − 9) ÷ (1.6 − 0.8) = 5%. R_F = 9 − 0.8 × 5 = 5%.",
+    rule: "APT from two portfolios: subtract to get λ = ΔE(R) ÷ Δβ; then R_F = E(R) − λβ. Read which unknown the question wants." },
+  "L2-MOCK3-S1 #22": { lvl: 3, full: ["R = 0.04 + 1.5F_GDP + 0.5F_INF. GDP: actual 2%, predicted 2.5%. Actual inflation 3%. Return was 3.6%. Predicted inflation ="],
+    options: ["A) 3.70%", "B) 2.30%", "C) 2.20%"], a: 1,
+    why: "0.036 = 0.04 + 1.5 × (−0.005) + 0.5 × (0.03 − x) = 0.0475 − 0.5x → 0.5x = 0.0115 → x = 2.30%.",
+    rule: "Surprise = actual − predicted; plug every term in, then solve." },
+  "L2-MOCK3-S1 #23": { lvl: 2, full: ["ETF: annual fee 0.40%, round-trip commission 0.10%, round-trip spread 0.20%. Cost of holding for 3 months ≈"],
+    options: ["A) 0.40%", "B) 0.70%", "C) 0.18%"], a: 0,
+    why: "0.40 × 0.25 = 0.10; + 0.10 + 0.20 = 0.40%.",
+    rule: "ETF holding cost = annual fee × (months ÷ 12) + round-trip commission + round-trip spread." },
+  "L2-MOCK3-S1 #24": { lvl: 1, full: ["An ETF trades at 50.40 while its NAV is 50.00. The AP will most likely:"],
+    options: ["A) buy ETF shares and redeem them", "B) deliver the creation basket and sell the new ETF shares", "C) do nothing"], a: 1,
+    why: "Premium → create: buy the basket, swap for ETF shares, sell the ETF.",
+    rule: "Premium → creation (basket in, ETF out). Discount → redemption (ETF in, basket out)." },
+  "L2-MOCK3-S1 #25": { lvl: 1, full: ["Which is NOT covered within the CAMELS framework?"],
+    options: ["A) Concentration of funding", "B) Government support and ownership", "C) Loan loss reserves"], a: 1,
+    why: "Government support is an ‘other factor’ outside CAMELS; funding concentration is L, loan losses A.",
+    rule: "Outside CAMELS: government support, culture, competition, off-balance-sheet items, segment/currency exposure, risk disclosures." },
+  "L2-MOCK3-S1 #26": { lvl: 2, full: ["A bank’s Tier 1 ratio is below minimum while total capital is fine. Which action helps most?"],
+    options: ["A) Issue subordinated debt", "B) Issue common shares", "C) Increase deposits"], a: 1,
+    why: "Common shares add CET1 (and Tier 1); sub debt is Tier 2 only.",
+    rule: "CET1 = common stock + retained earnings + AOCI − intangibles/DTAs. Raise it by issuing shares or retaining earnings." },
+  "L2-MOCK3-S1 #27": { lvl: 1, full: ["A bank’s provision-to-net-charge-off ratio has fallen from 1.1 to 0.7. Its provisioning is becoming:"],
+    options: ["A) more conservative", "B) more aggressive", "C) unchanged"], a: 1,
+    why: "Below 1 = provisions less than write-offs: reserves run down.",
+    rule: "Provision ÷ net charge-offs: > 1 conservative, ≈ 1 neutral, < 1 aggressive." },
+  "L2-MOCK3-S1 #28": { lvl: 1, full: ["Which shift in a bank’s income mix most improves earnings sustainability?"],
+    options: ["A) More trading income", "B) More fee and service income", "C) More gains on securities sales"], a: 1,
+    why: "Service and net interest income are recurring.",
+    rule: "Bank earnings sustainability: net interest + service income good; trading income volatile." },
+  "L2-MOCK3-S1 #29": { lvl: 2, full: ["30% stake bought for $2,000,000. Investee earns $400,000 and pays $100,000 dividends. Year-end carrying value ="],
+    options: ["A) $2,090,000", "B) $2,120,000", "C) $2,030,000"], a: 0,
+    why: "2,000,000 + 120,000 − 30,000 = 2,090,000.",
+    rule: "Equity method: + share of income, − share of dividends." },
+  "L2-MOCK3-S1 #30": { lvl: 1, full: ["Segment X: 30% of assets, 40% of capex. Segment Y: 50% of assets, 40% of capex. Which is being grown?"],
+    options: ["A) X", "B) Y", "C) Both"], a: 0,
+    why: "X: 40 ÷ 30 = 1.33 > 1.",
+    rule: "Capex share ÷ asset share > 1 = growth allocation." },
+  "L2-MOCK3-S1 #31": { lvl: 1, full: ["A company’s Beneish M-score rises from −2.6 to −1.5. This suggests:"],
+    options: ["A) lower probability of manipulation", "B) higher probability of manipulation", "C) lower bankruptcy risk"], a: 1,
+    why: "Less negative M = more likely manipulator (−1.78 is a common cut-off).",
+    rule: "M-score: higher = worse. Z-score: lower = worse." },
+  "L2-MOCK3-S1 #32": { lvl: 1, full: ["Balance-sheet accruals ratio over three years: 4%, −1%, −6%. Compared with the first year, earnings quality is now:"],
+    options: ["A) better", "B) worse", "C) the same"], a: 1,
+    why: "Absolute values 4 → 1 → 6: the latest is the largest, so quality is worse.",
+    rule: "Accruals ratios: compare absolute values; bigger = lower earnings quality." },
+  "L2-MOCK3-S1 #33": { lvl: 2, full: ["Price $45, last EPS $3.00, EPS to grow 10% next year, r = 10%. PVGO ="],
+    options: ["A) $12", "B) $15", "C) $33"], a: 0,
+    why: "E₁ = 3.30; 3.30 ÷ 0.10 = 33; 45 − 33 = 12.",
+    rule: "PVGO = P₀ − E₁ ÷ r. Always grow E₀ to E₁ first." },
+  "L2-MOCK3-S1 #34": { lvl: 2, full: ["Payout 30%, margin 6%, turnover 1.5, assets ÷ equity 2.0. g ="],
+    options: ["A) 12.6%", "B) 5.4%", "C) 18.0%"], a: 0,
+    why: "ROE = 6% × 1.5 × 2 = 18%; g = 0.7 × 18% = 12.6%.",
+    rule: "PRAT: g = retention × margin × turnover × (assets ÷ equity)." },
+  "L2-MOCK3-S1 #35": { lvl: 2, full: ["B₀ = 25, ROE 15%, r = 10%, g = 5%, price 52. Single-stage RI says the stock is:"],
+    options: ["A) fairly valued (V = 50)", "B) undervalued", "C) overvalued by 20%+"], a: 0,
+    why: "V = 25 + (0.05 ÷ 0.05) × 25 = 50; 52 is within 10%.",
+    rule: "Single-stage RI: V₀ = B₀ + B₀(ROE − r) ÷ (r − g)." },
+  "L2-MOCK3-S1 #36": { lvl: 2, full: ["A firm reports large OCI *gains* every year that are expected to continue. For an RI model the analyst should:"],
+    options: ["A) raise net income only", "B) raise both NI and book value", "C) lower book value only"], a: 0,
+    why: "Book value already includes the gains; NI misses them.",
+    rule: "Clean surplus fix: put recurring OCI items into net income; book value is already right." },
+  "L2-MOCK3-S1 #37": { lvl: 1, full: ["Target EPS $4. Peer trading P/E 10; recent deal P/E 15; target’s own P/E 11. Comparable-transaction value ="],
+    options: ["A) $40", "B) $44", "C) $60"], a: 2,
+    why: "Deal multiple × EPS = 15 × 4 = 60.",
+    rule: "CTA = deal multiple × target metric (premium built in). CCA = trading multiple, then add a premium." },
+  "L2-MOCK3-S1 #38": { lvl: 2, full: ["Target pre-tax 80; revenue synergies 20; cost savings 10; extra interest 30; tax 20%. Pro forma NI increase ="],
+    options: ["A) 64", "B) 80", "C) 48"], a: 0,
+    why: "80 + 20 + 10 − 30 = 80; × 0.8 = 64.",
+    rule: "Pro forma NI = (target EBT + synergies − new D&A − new interest) × (1 − t)." },
+  "L2-MOCK3-S1 #39": { lvl: 1, full: ["A parent wants to separate a unit without paying tax on a sale and doesn’t need cash. Best fit:"],
+    options: ["A) divestiture", "B) spin-off", "C) equity carve-out"], a: 1,
+    why: "A spin-off distributes shares; no sale proceeds.",
+    rule: "Need cash + give up control → sale. No cash needed → spin-off. Some cash, keep control → carve-out." },
+  "L2-MOCK3-S1 #40": { lvl: 3, full: ["DY 2%, P/E expected to rise 0.5%/yr, real EPS growth 3%, net buybacks 1% a year (shares fall), nominal yield 5%, real yield 2.5%. ERP ≈"],
+    options: ["A) 3.94%", "B) 1.94%", "C) 5.94%"], a: 0,
+    why: "i = 1.05 ÷ 1.025 − 1 = 2.44%. 2 + 0.5 + 2.44 + 3 + 1 − 5 = 3.94%.",
+    rule: "ERP = DY + ΔP/E + i + g − Δshares − r_f. Watch the sign of each change; inflation = (1 + nominal) ÷ (1 + real) − 1." },
+  "L2-MOCK3-S1 #41": { lvl: 3, full: ["Callable at 100 in one year. 2-year 3% bond. Tree: year 0 2%; year 1 3.5% (up), 2.3% (down). Value ≈"],
+    options: ["A) 100.74", "B) 101.08", "C) 97.80"], a: 0,
+    why: "Up 103 ÷ 1.035 = 99.52; down 103 ÷ 1.023 = 100.68 → called at 100. [3 + 0.5 × (99.52 + 100)] ÷ 1.02 = 102.76 ÷ 1.02 = 100.74. (101.08 ignores the call.)",
+    rule: "Callable: min(node value, call price) at each call date, then roll back." },
+  "L2-MOCK3-S1 #42": { lvl: 2, full: ["A putable bond’s market price is unchanged, but the analyst raises the volatility assumption. Its OAS will:"],
+    options: ["A) increase", "B) decrease", "C) not change"], a: 0,
+    why: "Higher vol → put worth more → model value up → bigger spread needed to bring it down to the price.",
+    rule: "Callable: σ ↑ → OAS ↓. Putable: σ ↑ → OAS ↑." },
+  "L2-MOCK3-S1 #43": { lvl: 1, full: ["A putable bond’s price rises 3.1 when rates fall 50 bp but drops only 0.6 when they rise 50 bp. Best risk measure:"],
+    options: ["A) modified duration", "B) one-sided durations", "C) Macaulay duration"], a: 1,
+    why: "Embedded options → asymmetric moves → one-sided durations.",
+    rule: "Options make price response asymmetric: use one-sided durations (down-duration < up for callables near the call price)." },
+  "L2-MOCK3-S1 #44": { lvl: 2, full: ["Protection on $20 m. Cheapest-to-deliver trades at 30; you hold a bond of the same issuer at 32. Cash settlement total value ="],
+    options: ["A) $20.0 m", "B) $20.4 m", "C) $14.0 m"], a: 1,
+    why: "14 m payout + sell own bond 6.4 m = 20.4 m.",
+    rule: "CDS payout = (1 − CTD price) × notional. Hold a bond worth more than CTD → prefer cash settlement." },
+  // Logged 2026-11-17: R35 quiz 2, R36 quiz 3–2, R37 quizzes 4–3 and 3
+  "L2-R35-Q2 #1": { lvl: 2, full: ["A manager screens 500 stocks each month for low P/B and buys those that pass. Which is true about breadth?"],
+    options: ["A) Breadth = 500 × 12 = 6,000 independent bets", "B) Breadth is far below 6,000: screened bets are alike and persist month to month", "C) Screens raise breadth"], a: 1,
+    why: "Similar stocks in one period, and the same picks over time, mean correlated bets." },
+  "L2-R35-Q2 #3": { lvl: 1, full: ["The correlation between a manager’s forecast active returns and the *realised* active returns is the:"],
+    options: ["A) transfer coefficient", "B) information coefficient", "C) information ratio"], a: 1,
+    why: "Realised returns → IC (skill). Actual weights → TC." },
+  "L2-R35-Q2 #6": { lvl: 2, full: ["Which statement is least accurate?"],
+    options: ["A) A closet indexer’s information ratio is usually low after fees", "B) Leverage changes a portfolio’s Sharpe ratio", "C) Mixing an active portfolio with its benchmark changes active risk"], a: 1,
+    why: "Cash or leverage doesn’t change the Sharpe ratio; the other two are true." },
+  "L2-R35-Q2 #8": { lvl: 2, full: ["Best IR among managers is 0.30. Benchmark return 8%. Target active risk 5%. The portfolio’s expected total return is:"],
+    options: ["A) 1.5%", "B) 9.5%", "C) 8.3%"], a: 1,
+    why: "Active = 0.30 × 5% = 1.5%; total = 8% + 1.5% = 9.5%." },
+  "L2-R35-Q2 #9": { lvl: 2, full: ["IC = 0.08, TC = 0.6, 25 independent bets a year. IR ="],
+    options: ["A) 1.20", "B) 0.24", "C) 0.40"], a: 1,
+    why: "0.6 × 0.08 × √25 = 0.6 × 0.08 × 5 = 0.24." },
+  "L2-R35-Q2 #10": { lvl: 3, full: ["Monthly sector bets right 54% of the time; spread volatility 4% a month. Expected annual active return ≈"],
+    options: ["A) 1.11%", "B) 3.84%", "C) 0.32%"], a: 1,
+    why: "IC = 2 × 0.54 − 1 = 0.08; annual σ = 4% × √12 = 13.86%; 0.08 × √12 × 13.86% = 0.08 × 3.464 × 13.86% = 3.84%." },
+  "L2-R36-Q3-2 #2": { lvl: 1, full: ["Which ETF is most likely to trade at a sizeable premium or discount to NAV?"],
+    options: ["A) A large-cap US equity ETF traded all day", "B) An ETF on Asian stocks trading during US hours", "C) An ETF holding T-bills"], a: 1,
+    why: "Time-zone gap: the NAV uses stale closing prices." },
+  "L2-R37-Q4-3 #1": { lvl: 2, full: ["R = 0.08 + 0.9F_GDP − 0.4F_INF + ε. GDP growth was 3.0% vs 2.5% expected; inflation 2.0% vs 2.4% expected; ε = +0.5%. Return ="],
+    options: ["A) 9.11%", "B) 8.61%", "C) 8.95%"], a: 0,
+    why: "0.08 + 0.9 × 0.005 − 0.4 × (−0.004) + 0.005 = 0.08 + 0.0045 + 0.0016 + 0.005 = 9.11%." },
+  "L2-R37-Q3 #1": { lvl: 1, full: ["Which factor belongs in a macroeconomic factor model rather than a fundamental one?"],
+    options: ["A) Book-to-market", "B) Unexpected change in industrial production", "C) Earnings growth"], a: 1,
+    why: "Economy-wide surprises → macro model." },
+  "L2-R37-Q3 #3": { lvl: 1, full: ["Active return per unit of active risk is the:"],
+    options: ["A) Sharpe ratio", "B) information ratio", "C) Treynor ratio"], a: 1,
+    why: "IR = mean active return ÷ tracking error." },
+  "L2-R37-Q3 #5": { lvl: 2, full: ["A retired investor with no job risk wants to earn a premium for a risk most investors fear in downturns. She should:"],
+    options: ["A) underweight the recession factor", "B) overweight the recession factor", "C) raise her market beta only"], a: 1,
+    why: "Take more of the risk others avoid → earn its premium." },
+  "L2-R37-Q3 #9": { lvl: 1, full: ["Which is an assumption of APT?"],
+    options: ["A) Arbitrage opportunities persist", "B) Asset returns follow a factor model", "C) Investors hold the market portfolio"], a: 1,
+    why: "APT: factor model, many assets, no arbitrage. No market portfolio needed." },
 };
 
 const TUITION_Q = {
@@ -34155,6 +34483,296 @@ const TUITION_Q = {
       "wrong": "“Repeated sampling from the same data” describes bootstrapping (or data snooping worries), not a rolling window, which moves forward through time."
     }
   },
+  "L2-R35-Q2 #1": {
+    "full": [
+      "An active manager makes quarterly bets on the stocks in the Russell 2000 index and uses the index as the benchmark. The manager claims a modest IC of 0.02 using a stock screening model. Sam Fox, CFA makes the following two statements:",
+      "The bets on the 2000 stocks in the index is not independent as the screens by definition introduce dependency in the decision process.",
+      "The quarterly bets are likely to be independent.",
+      "How many of Fox's statements are correct:"
+    ],
+    "options": [
+      "A) Neither statement is correct.",
+      "B) Both statements are correct.",
+      "C) Only one statement is correct."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Statement 1 is *true*: a screen passes stocks that look alike, so the bets are linked. Statement 2 is *false*: a stock that passes the screen this quarter will probably pass next quarter too, so the bets over time are linked as well. One right, one wrong.",
+      "wrong": "You marked both false. The first is right: screens create dependency between the bets in the same period."
+    }
+  },
+  "L2-R35-Q2 #3": {
+    "full": [
+      "Which of the following terms is the cross-sectional correlation between forecasted active returns and actual active weights adjusted for risk?"
+    ],
+    "options": [
+      "A) Information Coefficient",
+      "B) Transfer Coefficient",
+      "C) Breadth"
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "TC = correlation between what the manager *forecast* (risk-adjusted) and the *weights he actually held* (risk-adjusted). It measures how well forecasts become positions.",
+      "wrong": "IC is the correlation between forecast returns and *realised* returns: forecasting skill. The words “actual active weights” point to TC."
+    }
+  },
+  "L2-R35-Q2 #6": {
+    "full": [
+      "Which of the following statements is least accurate?"
+    ],
+    "options": [
+      "A) The Sharpe ratio of a portfolio is unaffected by addition of cash or leverage in the portfolio.",
+      "B) Investors can take active risk that is suitable for them by investing in a combination of actively managed portfolio and benchmark portfolio.",
+      "C) A closet index fund has a low Sharpe ratio."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "A closet index fund holds almost the benchmark, so its Sharpe ratio is *close to the benchmark’s*, not low. (What is low is its information ratio after fees.) That is the false statement.",
+      "wrong": "Your pick is true: adding cash or leverage moves return and risk in proportion, so the Sharpe ratio stays the same. On “least accurate”, mark each option T or F first."
+    }
+  },
+  "L2-R35-Q2 #8": {
+    "full": [
+      "Alisa Darent is evaluating several active portfolio managers with the same style and benchmark portfolio.",
+      {
+        "columns": [
+          "Manager",
+          "Active Return",
+          "Active Risk"
+        ],
+        "rows": [
+          [
+            "Alfred",
+            "3.00%",
+            "12.00%"
+          ],
+          [
+            "Brad",
+            "2.20%",
+            "11.00%"
+          ],
+          [
+            "Charles",
+            "2.00%",
+            "10.50%"
+          ]
+        ]
+      },
+      "Benchmark return is expected to be 11%. What will be the maximum expected return for Darent's portfolio assuming that she wants to limit her active risk to 11%?"
+    ],
+    "options": [
+      "A) 2.20%",
+      "B) 2.75%",
+      "C) 13.75%"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Pick the manager with the highest IR (Alfred, 0.25), scale to the 11% active-risk limit to get the active return, then *add the benchmark return*: the question asks for the portfolio’s total expected return.",
+      "wrong": "2.75% is only the active return. The portfolio return is benchmark + active = 11% + 2.75%.",
+      "steps": [
+        "IR: Alfred 3 ÷ 12 = 0.25 · Brad 2.2 ÷ 11 = 0.20 · Charles 2.0 ÷ 10.5 = 0.19",
+        "Active return = 0.25 × 11% = 2.75%",
+        "Expected return = 11% + 2.75% = *13.75%*"
+      ]
+    }
+  },
+  "L2-R35-Q2 #9": {
+    "full": [
+      "An active manager has an information coefficient of 0.05 and makes 36 independent bets per year. What is the manager's information ratio given a transfer coefficient of 0.75?"
+    ],
+    "options": [
+      "A) 0.23",
+      "B) 1.35",
+      "C) 0.45"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Full fundamental law: IR = TC × IC × √BR. The *square root* of breadth, not breadth itself.",
+      "wrong": "1.35 multiplies by 36 instead of √36 = 6.",
+      "steps": [
+        "√36 = 6",
+        "IR = 0.75 × 0.05 × 6 = *0.225 ≈ 0.23*"
+      ]
+    }
+  },
+  "L2-R35-Q2 #10": {
+    "full": [
+      "Charles Griffith makes quarterly bets between stocks of industrial and utility sectors. The historical correlation between the returns of the two sectors is -0.20 and Griffith's bets have been correct 55% of the time. Further information is as below:",
+      {
+        "columns": [
+          "Sector",
+          "E(R)",
+          "σ",
+          "Benchmark weight"
+        ],
+        "rows": [
+          [
+            "Industrial",
+            "12.00%",
+            "13.0%",
+            "80%"
+          ],
+          [
+            "Utility",
+            "5.2%",
+            "2.5%",
+            "20%"
+          ]
+        ]
+      },
+      "The expected annualized active return of Griffith's sector rotation strategy is closest to:"
+    ],
+    "options": [
+      "A) 13.72%",
+      "B) 10.64%",
+      "C) 5.48%"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Sector rotation: IC = 2 × (hit rate) − 1. The bet is long one sector, short the other, so its risk is the volatility of the *difference* of the two returns. Then expected active return = IC × √BR × σ (annual).",
+      "wrong": "10.64% doesn’t come from the fundamental law. Start from IC = 0.10 (not 0.55) and the spread’s risk, then annualise.",
+      "steps": [
+        "IC = 2 × 0.55 − 1 = 0.10",
+        "σ(spread) = √(0.13² + 0.025² − 2 × 0.13 × 0.025 × (−0.20)) = √(0.0169 + 0.000625 + 0.0013) = √0.018825 = 13.72% a quarter",
+        "Annual σ = 13.72% × √4 = 27.44%",
+        "Active return = 0.10 × √4 × 27.44% = 0.10 × 2 × 27.44% = *5.49% ≈ 5.48%*"
+      ]
+    }
+  },
+  "L2-R36-Q3-2 #2": {
+    "full": [
+      "An ETF is  least likely  to trade at a premium/discount to its NAV when:"
+    ],
+    "options": [
+      "A) there are timing differences between the capture of the ETF trade price and the price used to calculate it’s NAV.",
+      "B) the underlying securities are exchange-traded.",
+      "C) the ETF is infrequently traded."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Premiums and discounts come from *timing differences*, *stale prices* (infrequent trading) and underlying assets with no clean closing price (OTC bonds). Exchange-traded underlying securities have live prices, so they don’t cause a gap.",
+      "wrong": "Infrequent trading *does* cause gaps: the last ETF price goes stale while NAV moves. That is a cause, not the “least likely” one."
+    }
+  },
+  "L2-R37-Q4-3 #1": {
+    "full": [
+      "Assume you are considering forming a common stock portfolio consisting of 25% Stonebrook Corporation (Stone) and 75% Rockway Corporation (Rock). As expressed in the two-factor returns models presented below, both of these stocks' returns are affected by two common factors: surprises in interest rates and surprises in the unemployment rate.",
+      "R_Stone = 0.11 + 1.0F_Int + 1.2F_Un + ε_Stone",
+      "R_Rock = 0.13 + 0.8F_Int + 3.5F_Un + ε_Rock",
+      "Assume that at the beginning of the year, interest rates were expected to be 5.1% and unemployment was expected to be 6.8%. Further, assume that at the end of the year, interest rates were actually 5.3%, the actual unemployment rate was 7.2%, and there were no company-specific surprises in returns.",
+      {
+        "columns": [
+          "",
+          "Actual",
+          "Expected"
+        ],
+        "rows": [
+          [
+            "Interest rate",
+            "0.053",
+            "0.051"
+          ],
+          [
+            "Unemployment rate",
+            "0.072",
+            "0.068"
+          ]
+        ]
+      },
+      "What is the predicted return for Stonebrook if the return unexplained by the model was -1%?"
+    ],
+    "options": [
+      "A) 10.68%.",
+      "B) 1.40%.",
+      "C) 12.00%"
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "Return = expected return (intercept) + each sensitivity × each *surprise* + the unexplained part. Surprises are actual − expected.",
+      "wrong": "12.00% doesn’t follow from the model: it leaves out the −1% unexplained return and doesn’t use the small surprises (0.002 and 0.004).",
+      "steps": [
+        "Interest surprise = 0.053 − 0.051 = 0.002 · unemployment surprise = 0.072 − 0.068 = 0.004",
+        "R = 0.11 + 1.0 × 0.002 + 1.2 × 0.004 − 0.01 = 0.11 + 0.002 + 0.0048 − 0.01 = *0.1068 = 10.68%*"
+      ]
+    }
+  },
+  "L2-R37-Q3 #1": {
+    "full": [
+      "Summer Vista decides to develop a fundamental factor model. She establishes a proxy for the market portfolio, and then considers the importance of various factors in determining stock returns. She decides to use the following factors in her model:",
+      "Changes in payout ratios.",
+      "Credit rating changes.",
+      "Companies' position in the business cycle.",
+      "Management tenure and qualifications.",
+      "Which of the following factors is least appropriate for Vista's factor model?"
+    ],
+    "options": [
+      "A) Companies’ position in the business cycle.",
+      "B) Management tenure and qualifications.",
+      "C) Changes in payout ratios."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A *fundamental* model uses company characteristics (payout, ratings, management). The *business cycle* is an economy-wide variable: it belongs in a *macroeconomic* model.",
+      "wrong": "Management tenure and qualifications is company-specific data, so it fits a fundamental model."
+    }
+  },
+  "L2-R37-Q3 #3": {
+    "full": [
+      "Janice Barefoot, CFA, has managed a portfolio where she used the Dow Jones Industrial Average (DJIA) as a benchmark. In the past two years the average monthly return on her portfolio has been higher than that of the DJIA. To get a measure of active return per unit of active risk Barefoot should compute the:"
+    ],
+    "options": [
+      "A) Sharpe ratio, which is the standard deviation of the differences between the portfolio and benchmark returns divided into the average of those differences.",
+      "B) information ratio, which is the average excess portfolio return over the benchmark divided by the standard deviation of the differences between the portfolio and benchmark returns.",
+      "C) information ratio, which is the standard deviation of the differences between the portfolio and benchmark returns divided by the average of those differences."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Active return per unit of active risk is the *information ratio*: average (portfolio − benchmark) ÷ standard deviation of (portfolio − benchmark).",
+      "wrong": "The ratio described is right, but its name is wrong: the Sharpe ratio uses return *over the risk-free rate* and total risk, not return over a benchmark."
+    }
+  },
+  "L2-R37-Q3 #5": {
+    "full": [
+      "In the context of multi-factor models, investors with lower-than-average exposure to recession risk (e.g. those without labor income) can earn a risk premium for holding dimensions of risk unrelated to market movements by creating equity portfolios with:"
+    ],
+    "options": [
+      "A) greater-than-average market risk exposure.",
+      "B) greater-than-average exposure to the recession risk factor.",
+      "C) less-than-average exposure to the recession risk factor."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The market pays a premium for bearing recession risk because the average investor fears it. An investor who *doesn’t* care as much can collect that premium by tilting *towards* the recession factor.",
+      "wrong": "More market risk is the ordinary CAPM premium. The question asks about a dimension of risk *unrelated* to the market."
+    }
+  },
+  "L2-R37-Q3 #9": {
+    "full": [
+      "The Arbitrage Pricing Theory (APT) has all of the following characteristics EXCEPT it:"
+    ],
+    "options": [
+      "A) assumes that asset returns are described by a factor model.",
+      "B) is an equilibrium pricing model.",
+      "C) assumes that arbitrage opportunities are available to investors."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "APT assumes *no* arbitrage opportunities exist (any that appear are traded away). So “arbitrage opportunities are available” is the false statement.",
+      "wrong": "Your pick is true: APT does assume returns follow a factor model. On EXCEPT questions, look for the one statement that is false."
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -34942,6 +35560,52 @@ const TESTS = [
     { set: 11, topic: 'equity.4', mod: '21.S5', what: "RI needs clean surplus: IFRS pension remeasurement losses bypass NI (OCI) → adjust", ok: 0, why: 'gap' },
     { set: 11, topic: 'equity.4', mod: '21.S3', what: "Implied RI growth: g = r − B₀(ROE − r) ÷ (V₀ − B₀) = 6.1%", ok: 0, why: 'gap' },
   ] },
+  { id: 'L2-MOCK3-S1', mock: 3, sess: 1, lvl: '22322212222132222222332212212222223222133212', topic: 'fi.0', name: 'Mock 3 · Session 1', date: '2026-11-17', qs: [
+    { set: 1, topic: 'fi.0', mod: '23.S1', what: "f(1,2) = [(1.0534)³ ÷ 1.0302]^½ − 1 = 6.52%", ok: 1 },
+    { set: 1, topic: 'fi.0', mod: '23.S1', what: "Each coupon at its own spot rate: 3.106 + 2.929 + 88.288 = 94.32", ok: 1 },
+    { set: 1, topic: 'fi.0', mod: '23.S2', what: "Bootstrap: 1 = 0.0584 × Σ discount factors + 1.0584 ÷ (1 + z₄)⁴ → z₄ = 5.95%", ok: 1 },
+    { set: 1, topic: 'fi.1', mod: '24.S2', what: "Tree: year-1 nodes 110 ÷ 1.0928 and 110 ÷ 1.0687, average, plus coupon, ÷ 1.0758 = 103.92", ok: 1 },
+    { set: 2, topic: 'quant.0', mod: '1.S5', what: "GDP coefficient 3.225 (t = 3.135 > 2.15): +1% GDP → +3.225% ROE", ok: 1 },
+    { set: 2, topic: 'quant.0', mod: '1.S5', what: "Residual spread rising with LENDRATE = conditional heteroskedasticity → robust standard errors", ok: 1 },
+    { set: 2, topic: 'quant.0', mod: '1.S6', what: "All VIFs < 5 (max 2.513): no further multicollinearity check needed", ok: 1 },
+    { set: 2, topic: 'quant.2', mod: '3.S2', what: "Labelled, non-linear, easy to visualise → CART", ok: 0, why: 'gap' },
+    { set: 3, topic: 'pm.5', mod: '39.S1', what: "Risk-averse: same mean and SD, positive skew and lowest kurtosis → Strategy C", ok: 1 },
+    { set: 3, topic: 'pm.4', mod: '38.S2', what: "A 10% shift between maturities = a real position change → incremental VaR", ok: 0, why: 'gap' },
+    { set: 3, topic: 'pm.4', mod: '38.S3', what: "Hypothetical scenarios: free of the normality assumption, but can’t be given probabilities from history", ok: 0, why: 'gap' },
+    { set: 3, topic: 'pm.4', mod: '38.S3', what: "Response to a single change in one risk factor = sensitivity measure (duration, convexity)", ok: 1 },
+    { set: 4, topic: 'alt.0', mod: '30.S3', what: "Total return = price 1.66% + roll −1.36% + collateral 0.50% (2% ÷ 4) = 0.80%", ok: 0, why: 'calc' },
+    { set: 4, topic: 'alt.0', mod: '30.S2', what: "Aluminum: near 2,500 < far 2,750 = contango. Zinc: positive calendar spread = backwardation", ok: 0, why: 'gap' },
+    { set: 4, topic: 'alt.0', mod: '30.S2', what: "Insurance theory: producers hedge (sell forward) → futures below spot → downward-sloping curve", ok: 0, why: 'flip' },
+    { set: 4, topic: 'alt.3', mod: '33.S3', what: "Long the best risers, short the laggards within one asset class = cross-sectional momentum", ok: 0, why: 'gap' },
+    { set: 5, topic: 'ethics.1', mod: '41.S3', what: "Trading a nondiscretionary account without permission breaks III(A), even if it helps", ok: 1 },
+    { set: 5, topic: 'ethics.1', mod: '41.S3', what: "Oversubscribed issue: pro rata; grandmother is a regular fee-paying client → 20 ÷ 50 × 30,000 = $12,000", ok: 1 },
+    { set: 5, topic: 'ethics.1', mod: '41.S3', what: "Net-of-fee composite with terminated accounts clearly dated: meets III(D)", ok: 1 },
+    { set: 5, topic: 'ethics.1', mod: '41.S7', what: "Telling others which topics were tested breaks VII(A); criticising the curriculum publicly doesn’t", ok: 1 },
+    { set: 6, topic: 'pm.3', mod: '37.S1', what: "One-factor APT from P and Q: λ = (0.12 − 0.085) ÷ (1.14 − 0.65) = 7.14%; R_F = 3.86%", ok: 0, why: 'flip' },
+    { set: 6, topic: 'pm.3', mod: '37.S2', what: "0.0362 = 0.025 + 0.8(0.025 − INF_pred) + 1.2(0.006) → predicted inflation = 2.00%", ok: 1 },
+    { set: 6, topic: 'pm.2', mod: '36.S2', what: "6-month cost: fee 0.76% × ½ + commission 0.05% + spread 0.16% = 0.59%", ok: 0, why: 'calc' },
+    { set: 6, topic: 'pm.2', mod: '36.S1', what: "ETF at a discount (101 < NAV 102): AP buys ETF shares and redeems them for the basket", ok: 0, why: 'flip' },
+    { set: 7, topic: 'fsa.3', mod: '10.S5', what: "CAMELS misses off-balance-sheet items; internal controls (M) and maturity mismatch (L) are inside it", ok: 0, why: 'gap' },
+    { set: 7, topic: 'fsa.3', mod: '10.S2', what: "CET1 and Tier 1 below minimum: build common equity — cut the dividend; buybacks shrink it", ok: 0, why: 'gap' },
+    { set: 7, topic: 'fsa.3', mod: '10.S3', what: "Provision ÷ net charge-offs above 1 and rising (1.5 → 1.8) = conservative provisioning", ok: 0, why: 'flip' },
+    { set: 7, topic: 'fsa.3', mod: '10.S4', what: "Trading income share 7% → 9% → 12%: less sustainable earnings", ok: 1 },
+    { set: 8, topic: 'fsa.0', mod: '7.S3', what: "Equity method: 5,000,000 − 20% × 300,000 − 20% × 22,000 = £4,935,600", ok: 1 },
+    { set: 8, topic: 'fsa.5', mod: '12.S4', what: "Capex % ÷ assets %: Americas 27.6 ÷ 24.2 = 1.14 > 1 = growth allocation", ok: 1 },
+    { set: 8, topic: 'fsa.4', mod: '11.S2', what: "Falling M-score = less manipulation risk (good); falling Z-score = more distress (bad)", ok: 0, why: 'flip' },
+    { set: 8, topic: 'fsa.5', mod: '12.S5', what: "Judge accruals ratios by absolute size: cash-flow 2.5 → 2.2 → 1.8 improving; balance-sheet 1.6 → 1.6 → 1.9 worsening", ok: 0, why: 'flip' },
+    { set: 9, topic: 'equity.1', mod: '18.S3', what: "PVGO = P − E₁ ÷ r = 32 − (1.90 × 1.20) ÷ 0.12 = 32 − 19 = $13", ok: 0, why: 'calc' },
+    { set: 9, topic: 'equity.1', mod: '18.S5', what: "g = b × PM × TAT × leverage = 0.55 × 13.2% × 0.40 × 1.60 = 4.6%", ok: 1 },
+    { set: 9, topic: 'equity.4', mod: '21.S3', what: "V = 40 + (16% − 12%) ÷ (12% − 4%) × 40 = 60; price 64 is within 10% → fairly valued", ok: 1 },
+    { set: 9, topic: 'equity.4', mod: '21.S5', what: "OCI losses bypass NI: lower net income; book value already includes them", ok: 0, why: 'gap' },
+    { set: 10, topic: 'corp.3', mod: '16.S2', what: "Comparable transactions: 17.5 × $2.50 = $43.75 (premium included)", ok: 0, why: 'gap' },
+    { set: 10, topic: 'corp.3', mod: '16.S2', what: "Pre-tax change = 120 + 55 + 40 − 25 − 50 = 140; after 25% tax = 105", ok: 1 },
+    { set: 10, topic: 'corp.3', mod: '16.S1', what: "Most immediate cash + full control to a third party = divestiture (sale)", ok: 0, why: 'gap' },
+    { set: 10, topic: 'corp.2', mod: '15.S2', what: "Grinold–Kroner: 5.5% − 1.4% + 2.77% (1.040 ÷ 1.012 − 1) + 2.1% − 4.0% = 5.0%", ok: 0, why: 'calc' },
+    { set: 11, topic: 'fi.2', mod: '25.S2', what: "Callable: down node 100.58 → capped at 100; (2.2 + avg(99.80, 100)) ÷ 1.015 = 100.59", ok: 1 },
+    { set: 11, topic: 'fi.2', mod: '25.S4', what: "Higher volatility → call worth more → callable model value falls → OAS must fall", ok: 0, why: 'flip' },
+    { set: 11, topic: 'fi.2', mod: '25.S5', what: "Callable near par: price barely rises when rates fall → one-sided durations show the asymmetry", ok: 1 },
+    { set: 11, topic: 'fi.4', mod: '27.S1', what: "Cash settlement pays 1 − 40% (cheapest-to-deliver) = $6 m + sell Series B $4.5 m = $10.5 m > $10 m physical", ok: 1 },
+  ] },
   { id: "L2-R37-Q1", lvl: "2131123131", topic: "pm.3", name: "Reading 37 quiz 1", date: "2026-11-11", mins: 25.6, qs: [
     { mod: "37.S1", what: "APT expected return: 3% + 8%×2 + 12%×1 + 5%×1 = 36%", ok: 1 },
     { mod: "37.S1", what: "APT does not fix the number of factors (NOT question)", ok: 1 },
@@ -35357,6 +36021,39 @@ const TESTS = [
     { mod: "39.S1", what: "Rolling window: this period’s out-of-sample becomes next period’s in-sample", ok: 0, why: "gap" },
     { mod: "39.S1", what: "Least likely historical stress test: an assumed VIX above 55 (not a real period)", ok: 1 },
   ] },
+  { id: "L2-R35-Q2", lvl: "2213222232", topic: "pm.1", name: "Reading 35 quiz 2", date: "2026-11-16", mins: 18.9, qs: [
+    { mod: "35.S4", what: "Screens make bets dependent, and quarter-to-quarter bets are dependent too: only one statement right", ok: 0, why: "gap" },
+    { mod: "35.S4", what: "Breadth halved (160 → 80): IR falls by about 30% (√0.5 = 0.71)", ok: 1 },
+    { mod: "35.S4", what: "Correlation of forecast returns with risk-weighted active weights = transfer coefficient", ok: 0, why: "gap" },
+    { mod: "35.S1", what: "Active return = Σw_P R_P − Σw_B R_B = 9.10% − 9.90% = −0.80%", ok: 1 },
+    { mod: "35.S4", what: "IC ÷ 4 with breadth × 4 (√BR × 2): IR falls", ok: 1 },
+    { mod: "35.S3", what: "Least accurate: “a closet index fund has a low Sharpe ratio” (its SR ≈ the benchmark’s)", ok: 0, why: "flip" },
+    { mod: "35.S4", what: "Market timer (4 bets) needs a higher IC than a stock selector (200 bets) for the same IR", ok: 1 },
+    { mod: "35.S3", what: "Highest IR (Alfred 0.25) × 11% active risk = 2.75% active → total 11% + 2.75% = 13.75%", ok: 0, why: "gap" },
+    { mod: "35.S4", what: "IR = TC × IC × √BR = 0.75 × 0.05 × 6 = 0.225", ok: 0, why: "calc" },
+    { mod: "35.S4", what: "Sector rotation: IC 0.10 × √4 × annual σ 27.44% = 5.48%", ok: 0, why: "calc" },
+  ] },
+  { id: "L2-R36-Q3-2", lvl: "11", topic: "pm.2", name: "Reading 36 quiz 3–2", date: "2026-11-16", mins: 5.3, qs: [
+    { mod: "36.S3", what: "Equitizing a cash inflow = portfolio liquidity management", ok: 1 },
+    { mod: "36.S2", what: "Least likely to cause a premium/discount: exchange-traded underlying securities", ok: 0, why: "flip" },
+  ] },
+  { id: "L2-R37-Q4-3", lvl: "221", topic: "pm.3", name: "Reading 37 quiz 4–3", date: "2026-11-17", mins: 11.3, qs: [
+    { mod: "37.S2", what: "Return = a + b₁F₁ + b₂F₂ + ε = 0.11 + 0.002 + 0.0048 − 0.01 = 10.68%", ok: 0, why: "calc" },
+    { mod: "37.S2", what: "Portfolio sensitivity = 0.25 × 1.0 + 0.75 × 0.8 = 0.85", ok: 1 },
+    { mod: "37.S4", what: "Hedge 0.30 inflation exposure: 30% short in the inflation factor portfolio", ok: 1 },
+  ] },
+  { id: "L2-R37-Q3", lvl: "1212121112", topic: "pm.3", name: "Reading 37 quiz 3", date: "2026-11-17", mins: 21.1, qs: [
+    { mod: "37.S2", what: "Business-cycle position is a macro factor, not a fundamental one (least appropriate)", ok: 0, why: "gap" },
+    { mod: "37.S2", what: "Expected return = weighted intercepts = 0.6 × 20% + 0.4 × 15% = 18%", ok: 1 },
+    { mod: "37.S3", what: "IR = mean active return ÷ SD of active return", ok: 0, why: "gap" },
+    { mod: "37.S2", what: "Surprises in macro variables as factors = macroeconomic factor model", ok: 1 },
+    { mod: "37.S4", what: "Low recession exposure → earn a premium by holding more of the recession factor", ok: 0, why: "flip" },
+    { mod: "37.S2", what: "Macro: business cycle, rates, inflation · fundamental: size, P/E", ok: 1 },
+    { mod: "37.S2", what: "Expected return with no surprises = the intercept, 11%", ok: 1 },
+    { mod: "37.S4", what: "Torres swapped factor and tracking portfolios: No; No", ok: 1 },
+    { mod: "37.S1", what: "EXCEPT: APT assumes no arbitrage opportunities exist", ok: 0, why: "flip" },
+    { mod: "37.S4", what: "Enhanced indexing: match the index’s factor sensitivities", ok: 1 },
+  ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
 // exhibits as tables; MOCK_Q each question (keyed "<test id> #<n>"): the stem and options as printed, my pick `p`,
@@ -35406,6 +36103,17 @@ const MOCK_SETS = {
   "L2-MOCK2-S2/9": {"title": "Quant · R2–R3 — Mueller and Dorin on ARCH, AR(1) and ML", "full": ["Joanna Mueller, a senior quantitative analyst, and John Dorin, a junior colleague reporting to Mueller, are performing data analysis for asset allocation purposes.", "Mueller reviews Dorin's autoregressive model that uses the last 24 months of sales data for Sky Light Inc. After reviewing the data, Mueller suspects that autoregressive conditional heteroskedasticity (ARCH) is present. She tests for first-order ARCH by regressing the squared residuals on the squared residuals from the previous period and concludes that the Sky Light time-series model has ARCH(1) errors.", "Mueller uses a first-order autoregressive AR(1) model to predict unemployment in Country A based on the end-of-quarter unemployment rate (EOQRate) for the past 34 quarters. The current value of EOQRate is 4.36%. Exhibit 1 shows a summary of the regression results, where the rates used in the model have been stated in whole percentages (that is, 1 for 1%). For autocorrelation estimates, the critical value of the t- statistic is 2.035 at a 5% significance level.", {"title": "Exhibit 1", "columns": ["", "Coefficient", "Standard error", "t-Statistic"], "rows": [["R-squared", "0.6745", "", ""], ["Observations", "34", "", ""], ["Durbin–Watson", "2.4296 (d_l = 1.39 for N = 34)", "", ""], ["Intercept", "0.6078", "0.2428", "2.5032"], ["EOQRate t−1", "0.8215", "0.1008", "8.1433"]]}, {"title": "Exhibit 1 (cont.) · Autocorrelations of the residual", "columns": ["Lag", "Autocorrelation", "t-Statistic"], "rows": [["1", "–0.2503", "–1.4596"], ["2", "–0.0052", "–0.0305"], ["3", "–0.1233", "–0.7194"], ["4", "0.1090", "0.6361"]]}, "Dorin has developed a trained machine learning model that has a slight regularization hyperparameter (lambda). During the feature selection process, he eliminates noisy tokens and retains the ones with higher discriminatory power. After plotting a generic fitting curve, Mueller uses a grid search to determine the optimal regularization lambda, which is higher than Dorin's initial lambda."]},
   "L2-MOCK2-S2/10": {"title": "Fixed income · R24–R25 — Standish on Dirac’s bonds", "full": ["Mike Standish is a fixed income analyst analyzing straight bonds as well as bonds with embedded options.", "Standish develops the binomial interest rate tree shown in Exhibit 1 for US Treasury bonds, assuming an interest rate volatility of 20%. In the binomial tree, the branching from each node to a high or low states occurs with equal probabilities. He uses the tree to compute the two-year Treasury spot rate.", {"title": "Exhibit 1 · binomial interest rate tree", "columns": ["Year 0", "Year 1"], "rows": [["1.00%", "2.85% (up)"], ["", "1.91% (down)"]]}, "Next, Standish analyzes four annual-coupon corporate bonds issued by Dirac Inc., as shown in Exhibit 2. All bonds have a maturity of two years, a par value of $100, and pay a 3% annual coupon.", {"title": "Exhibit 2", "columns": ["Issue", "Bond characteristics"], "rows": [["Bond 1", "Putable at par one year from now"], ["Bond 2", "Callable at par one year from now"], ["Bond 3", "Option-free"], ["Bond 4", "Convertible into Dirac shares with a conversion rate of 2"]]}, "Standish determines that the OAS of Bond 1 is 120 bps. He then uses Exhibit 1 to determine the value of Bond 1 if interest rates were to increase.", "Standish next observes that the effective durations of Bond 1 and Bond 2 are equal. He then evaluates the durations of Bond 1, Bond 2, and Bond 3 under a scenario in which there is a large parallel upward shift in the yield curve, holding all else constant.", "Finally, Standish values Bond 4. He observes that Dirac's share price at issuance was $49.75 and the current share price is $50.28. He notes the arbitrage-free price of Bond 3 is $101.22."]},
   "L2-MOCK2-S2/11": {"title": "Equity · R18, R20, R21 — McLachlan on Cur-Ed and Vestgrom", "full": ["Suzy McLachlan is a portfolio manager evaluating two companies for possible investment.", "Cur-Ed", "Cur-Ed provides private school education in a major metropolitan area. McLachlan uses a required rate of return of 6.5% and the information in Exhibit 1 to calculate Cur-Ed’s justified forward P/E ratio. She also uses Exhibit 1 to determine why Cur-Ed’s sustainable dividend growth rate is below the industry average.", {"title": "Exhibit 1", "columns": ["", "Cur-Ed", "Industry average"], "rows": [["Payout ratio", "0.46", "0.48"], ["Financial leverage", "1.2", "1.1"], ["Total asset turnover", "1.4", "1.7"], ["Profit margin", "5.0%", "5.0%"]]}, "Vestgrom", "Vestgrom, an industrial company, reports under IFRS and has the following accounting characteristics reflected in its financial statements.", "Characteristic 1: It values inventory using the FIFO method.", "Characteristic 2: It recognized remeasurement losses from its defined benefit pension plan.", "Characteristic 3: It recognized translation gains from a subsidiary whose financial statements are translated using the temporal method.", "McLachlan determines what adjustments should be made to use a residual income model to value Vestgrom shares. After making all appropriate adjustments, McLachlan uses the data in Exhibit 2 to estimate its implied growth rate.", {"title": "Exhibit 2 · Vestgrom", "columns": ["Item", "Value"], "rows": [["ROE", "18.17%"], ["Cost of equity", "12.00%"], ["Payout ratio", "0.6"], ["Current share price", "$86.60"], ["Book value per share", "$42.45"]]}]},
+  "L2-MOCK3-S1/1": {"title": "Fixed income · R23–R24 — Corey on spot, forward and tree values", "full": ["Alexander Corey is an analyst at Tinker Asset Management, LLC. He is collecting data to estimate yields and bond values for Tinker’s bond portfolio. Corey starts by determining current default-free spot rates in Exhibit 1. All bonds held in the portfolio have a par value of 100.", {"title": "Exhibit 1", "columns": ["Maturity (years)", "Yield (%)"], "rows": [["1", "3.02"], ["2", "4.52"], ["3", "5.34"]]}, "Using the data in Exhibit 1, Corey derives a table of forward rates to use in his analysis.", "Corey also uses data in Exhibit 1 to value the following two annual-pay coupon, option-free bonds, both of which have a first payment in one year.", "Bond D: a 3.20% coupon, 3-year default-free bond", "Bond E: a 5.00% coupon, 4-year default-free bond", "To value Bond E, Corey determines the 4-year spot rate. He identifies a comparable 4-year bond with a YTM of 5.84% priced at par. He uses bootstrapping along with the rates in Exhibit 1 to calculate the 4-year spot rate.", "Finally, Corey is asked to value an emerging market bond, Bond G, and uses the binomial interest rate tree shown in Exhibit 2. Bond G is a 2- year, 10% annual-pay coupon option-free and default-free bond. Corey assumes the branching from each node occurs with equal probability.", {"title": "Exhibit 2 · binomial interest rate tree", "columns": ["Year 0", "Year 1"], "rows": [["7.58%", "9.28% (up)"], ["", "6.87% (down)"]]}]},
+  "L2-MOCK3-S1/2": {"title": "Quant · R1, R3 — Singh’s bank ROE regressions and ML model", "full": ["Anya Singh is an analyst with a central bank. She is developing a model to explain variations in the aggregate ROE for the banking sector using economic and fundamental factors. She collects annual data and estimates Model 1, a two-factor regression model, using the following equation:", "ROEt = b0 + b1GDPt + b2INFLt + εt where ROE is the aggregate ROE, GDP is the GDP growth rate, and INFL is the inflation rate. All variables are in % (1% is represented as 1.0).", "Singh presents the ANOVA results for Model 1 in Exhibit 1. She uses a critical t-value of 2.15 for hypothesis tests.", {"title": "Exhibit 1", "columns": ["", "Coefficient", "t-Statistic"], "rows": [["R²", "0.699", ""], ["Adjusted R²", "0.599", ""], ["Intercept", "–15.798", "–2.660"], ["GDP", "3.225", "3.135"], ["INFL", "0.784", "2.971"]]}, "Singh extends Model 1 into a three-factor regression model, Model 2, by adding NPL (non-performing loans as a % of all loans). She then extends Model 2 into a four-factor regression model, Model 3, by adding LENDRATE (average bank lending rate in %).", "Singh observes that the residuals from estimating Model 3 are more dispersed for observations that have a higher LENDRATE. She considers how to correct for this issue.", "Singh next tests for multicollinearity among the independent variables. The variance inflation factors (VIFs) for Model 3 are reported in Exhibit 2.", {"title": "Exhibit 2", "columns": ["Independent variable", "VIF"], "rows": [["GDP", "1.013"], ["INFL", "2.513"], ["NPL", "2.290"], ["LENDRATE", "1.490"]]}, "Separately, Singh is developing a machine-learning model to forecast ROE for individual banks by classifying them into 'high ROE' and 'low ROE' categories, based on the chosen set of variables. She sets the following criteria for the model:", "• It should be easy to interpret and visualize.", "• It should be appropriate for complex and non-linear data.", "• It should use all of the variables identified in Model 3 for training the algorithm."]},
+  "L2-MOCK3-S1/3": {"title": "Portfolio · R38–R39 — Guha on strategies, VaR and scenarios", "full": ["Sania Guha is a portfolio manager evaluating the exposures and investment performance of three new US large-cap equity strategies. Guha developed these strategies using five years of point-in-time data and monthly rebalancing. The results of Guha's evaluation are presented in Exhibit 1.", {"title": "Exhibit 1", "columns": ["", "Mean return", "Standard deviation", "Skewness", "Kurtosis"], "rows": [["Strategy A", "0.5%", "1.4%", "–2.5", "8.2"], ["Strategy B", "0.6%", "2.4%", "–1.5", "10.6"], ["Strategy C", "0.5%", "1.4%", "0.5", "4.0"]]}, "Guha also evaluates the risk exposure of Strategy D, a government bond portfolio that has 20% short-term maturities, 60% intermediate-term maturities, and 20% long-term maturities. Guha assesses how the VaR of Strategy D would change if she increases the long-term maturities allocation to 30% and decreases the intermediate-term allocation to 50%.", "Guha is concerned that risk exposures are often measured with the assumption that returns are normally distributed. She uses a hypothetical scenario analysis approach to examine the performance of Strategy D. As Guha reviews her results, one of her colleagues asks her which risk measure is best for examining how the performance of Strategy D responds to a single change to one of its underlying risk factors."]},
+  "L2-MOCK3-S1/4": {"title": "Alternatives · R30, R33 — Vogel on commodity futures", "full": ["Andreas Vogel is a portfolio manager for BlueHorizons, a multi-strategy hedge fund. BlueHorizons has a large allocation to commodities, with a concentration in base and precious metals.", "Three months ago, Vogel entered into a fully collateralized long position in near-term copper futures at a price of $3.62 per pound. He now wants to roll the whole position forward. The current prices for the near-term and farther-term futures contracts are $3.68 and $3.73 per pound, respectively. The position's collateral earns an annualized rate of 2.00%. Vogel calculates the 3-month total return on the futures trade.", "Vogel considers investing in aluminum and zinc futures. Vogel observes that the near-term futures price of aluminum is $2,500 per ton and the farther-term futures price is $2,750 per ton. Vogel is quoted a calendar spread of $185 per ton on the June (near-term)-September (farther-term) zinc contracts.", "Vogel next researches the iron ore futures market. His analysis concludes that the insurance theory explains the current pricing of iron ore futures.", "Vogel is looking for new investment opportunities in the precious metals market. He computes the last 6-month holding period returns for several metals in Exhibit 1. He believes that the relative outperformance of gold and silver versus platinum and palladium will continue. Vogel considers a relative value trade that would take long positions in gold and silver futures and short positions in platinum and palladium futures.", {"title": "Exhibit 1", "columns": ["Precious metal", "Return"], "rows": [["Gold", "5.5%"], ["Silver", "3.6%"], ["Platinum", "1.2%"], ["Palladium", "–0.8%"]]}]},
+  "L2-MOCK3-S1/5": {"title": "Ethics · R41 — Sakuragi at Taoyuan Bank", "full": ["Haru Sakuragi, CFA, is a private wealth manager at Taoyuan Bank, where she manages both discretionary and nondiscretionary accounts of high-net-worth clients. The bank has adopted the Standards.", "Sakuragi reviews her clients' IPS and analyzes their major investments, including Sashi Artificial Intelligence and other artificial intelligence software stocks. Based on her analysis, she concludes that Sashi should be replaced by a similar stock in the same industry. Unable to reach Client A, who has a nondiscretionary account, Sakuragi emails him the suggested trades and proceeds to execute them for him. Client A later approves the trades via email. Sakuragi's analysis proves accurate, saving her clients from incurring losses.", "Sakuragi manages a regular fee-paying account for her grandmother. Sakuragi determines that a new bond offering is appropriate for her grandmother and two other clients. One client requests an allocation of $10,000, while the other client and Sakuragi’s grandmother request $20,000 each. The minimum lot size is established at $5,000 and the issue is oversubscribed. Sakuragi is only allocated $30,000 of the new offering.", "Sakuragi prepares a presentation for a potential client who is considering opening a discretionary account. She presents the performance of the weighted composite of all similar discretionary accounts she manages, including terminated accounts, as part of the performance history. She indicates when the accounts were terminated and explains that the performance results are net of fees. Fees are not presented separately.", "One of Sakuragi's account managers, Takeshi Aka, has just received the news that he did not pass the CFA Level III exam. Disappointed, he complains to Sakuragi about the private wealth management topics that were tested on the exam because he thinks the questions were not fair. He also posts to a popular online forum for CFA candidates complaining about the curriculum and the exam, stating that they do not cover crucial topic areas."]},
+  "L2-MOCK3-S1/6": {"title": "Portfolio · R36–R37 — Rocco on APT, factor models and ETFs", "full": ["Maureen Rocco is a portfolio manager assisting two clients, Bright Minds Foundation and Max Degroom, with the selection of exchange traded funds (ETFs).", "Bright Minds Foundation", "Bright Minds is a perpetual foundation. It wants to add investments which have long-term exposure to economic factors for a part of its fixed income portfolio allocation.", "Rocco begins by illustrating Arbitrage Pricing Theory (APT), which forms the basis for many factor models, to the CIO of Bright Minds. She uses three well-diversified arbitrage free portfolios and one common factor as shown in Exhibit 1 to demonstrate how parameters are estimated in a one-factor APT model.", {"title": "Exhibit 1", "columns": ["Portfolio", "Expected return", "Factor sensitivity"], "rows": [["P", "0.0850", "0.65"], ["Q", "0.1200", "1.14"], ["R", "0.1036", "0.91"]]}, "Rocco has identified ETFX as a suitable investment for the foundation. ETFX is a well-diversified fixed income ETF based on a macroeconomic factor model that seeks long-term exposure to surprises in GDP growth and inflation.", "ETFX's factor return model is formulated as follows:", "RX = 0.025 + 0.8FINF + 1.2FGDP + εX", "where,", "RX is the return on ETFX, FINF represents surprise in inflation, and FGDP represents surprise in GDP growth, both measured by actual values minus predicted values. εX is the error term which is assumed to be zero.", "For last year, the fund had a return of 3.62%, while actual inflation was 2.5% and actual GDP growth was 3%. The predicted value of GDP growth for last year was 2.4%.", "Max Degroom", "Max Degroom is a US based wealthy individual client who is also an active trader. He is considering a short-term position in ETFZ, an ETF leveraged three times to the daily return of a widely used emerging market equity index. Rocco calculates the expected total cost of investing in ETFZ assuming a six-month holding period and the following information.", "Annual management fee of 0.76%", "Round-trip trading commission of 0.05%", "Bid-offer spread of 0.16% on purchase and sale", "Before purchasing ETFZ, Degroom asks Rocco to explain the role of the authorized participant (AP) in an ETF. He asks \"I observed, for short periods of time the price of another ETF was $101 and its NAV (fair value) was $102. Assuming minimal costs, what arbitrage actions would the AP make so that the two values converge?\""]},
+  "L2-MOCK3-S1/7": {"title": "FSA · R10 banks — Estrada’s CAMELS review", "full": ["Victor Estrada is a financial analyst with an investment management firm. He is responsible for the analysis of financial institutions and uses the CAMELS (Capital adequacy, Asset quality, Management capabilities, Earnings sufficiency, Liquidity position, and Sensitivity to market risk) approach to analyze a bank. The bank operates in a regulatory environment that follows Basel III requirements.", "To analyze the bank's capital adequacy, Estrada computes the capital ratios in Exhibit 1. He considers alternative capital sources that would allow the bank to achieve the objective of fully complying with regulatory capital requirements.", {"title": "Exhibit 1", "columns": ["", "Most recent year", "Regulatory requirement"], "rows": [["Common equity Tier 1 capital ratio", "3.5%", "4.5%"], ["Total Tier 1 capital ratio", "5.7%", "6.0%"], ["Total capital ratio", "8.3%", "8.0%"]]}, "To study the bank’s loan portfolio quality, Estrada analyzes its net loan charge-offs, which have been stable in the last three years. He also computes the ratio of provision for loan losses to net loan charge-offs, which went from 1.5 two years ago, to 1.6 one year ago, and 1.8 in the most recent year.", "Estrada evaluates the sustainability of the bank's earnings by reviewing its sources of income. He compiles information about the bank's income as a percentage of total income in Exhibit 2.", {"title": "Exhibit 2", "columns": ["", "Most recent year", "Prior year", "Two years ago"], "rows": [["Net interest income", "80%", "81%", "80%"], ["Net service income", "8%", "10%", "13%"], ["Net trading income", "12%", "9%", "7%"]]}]},
+  "L2-MOCK3-S1/8": {"title": "FSA · R7, R11, R12 — Fredrickson on Willow", "full": ["Rosina Fredrickson is a financial analyst evaluating Willow plc, a UK-based company that reports under IFRS.", "Fredrickson examines Cedar Ltd., a 20%-owned equity investment that Willow acquired on 1 January of the most recent year for £5.0 million. At the time of acquisition, the book values of all of Cedar's assets and liabilities were equal to their fair values. During the most recent year, Cedar incurred a net loss of £300,000, and declared and paid dividends of £22,000. Willow accounts for its investment in Cedar using the equity method.", "Fredrickson then evaluates Willow's geographic segment growth for the most recent year by compiling the information in Exhibit 1.", {"title": "Exhibit 1", "columns": ["Segment", "EBIT margin %", "% of total assets", "% of total capital expenditures"], "rows": [["Asia", "19.1", "27.6", "27.3"], ["Europe", "14.7", "48.2", "45.1"], ["Americas", "17.5", "24.2", "27.6"]]}, "Frederickson observes that during the past three years, Willow's M-scores (according to the Beneish model) and Z-scores (according to the Altman model) have both trended lower.", "As a final step in her analysis, Fredrickson calculates and evaluates the accruals ratios for Willow, as presented in Exhibit 2.", {"title": "Exhibit 2", "columns": ["", "Most recent year", "Prior year", "Two years ago"], "rows": [["Cash-flow-based accruals ratio", "1.8%", "–2.2%", "–2.5%"], ["Balance-sheet-based accruals ratio", "–1.9%", "–1.6%", "1.6%"]]}]},
+  "L2-MOCK3-S1/9": {"title": "Equity · R18, R21 — Silva on Companies A–D", "full": ["Sharmeen Silva is an analyst valuing several companies in her coverage universe.", "Silva first values Company A, a manufacturer of bakery products. She calculates the company's present value of growth opportunities, using the following information:", "• Company A's stock trades at $32.00 per share", "• EPS for the most recent year was $1.90 and is expected to grow by 20% this year", "• Required return on equity is 12%", "Silva next values Company B, a mature company with a stable dividend policy. She assumes that Company B's capital structure will remain constant throughout the investment horizon. Silva gathers information for the year just ended in Exhibit 1 and uses DuPont analysis to calculate Company B's sustainable growth rate.", {"title": "Exhibit 1 · Company B", "columns": ["Item", "Value"], "rows": [["Net profit margin", "13.2%"], ["Asset turnover ratio", "0.40"], ["D/E ratio", "0.60"], ["Financial leverage ratio", "1.60"], ["Dividend payout ratio", "45%"]]}, "Silva then values Company C, a utility company, using a single-stage residual income model. She gathers the following information about the company:", "• Current stock price is $64.00 per share", "• Current book value is $40.00 per share", "• Expected long-term ROE is 16%", "• Sustainable growth rate is 4%", "• Cost of equity is 12%", "Silva considers the stock to be fairly valued if the stock price is within 10% of her intrinsic value estimate.", "Silva uses the residual income model to value Company D, a technology company. She notices that Company D has reported significant negative other comprehensive income for the past several years as a result of foreign currency translation losses, and she expects this trend to persist in the future. Silva considers what adjustments to company D's reported financial statements are appropriate to apply the residual income model."]},
+  "L2-MOCK3-S1/10": {"title": "Corporate issuers · R15–R16 — Rachelle on Horley and Grafton", "full": ["Justine Rachelle is the chief financial officer of Grafton, a packaging company. Rachelle is evaluating a potential acquisition of Horley, a glass packaging company with exposure to high-growth markets. Horley reported EPS of $2.50 in the most recent year and currently has a P/E ratio of 14.0. Available market data show that comparable companies currently trade at an average P/E ratio of 12.0, and comparable transactions were recently completed at an average P/E ratio of 17.5. Rachelle estimates the fair takeover price for Horley.", "Rachelle analyzes the impact of the potential Horley acquisition on Grafton's earnings and builds pro forma financial statements. Rachelle plans to finance the acquisition with cash and new debt, and she expects Grafton's tax rate to remain at 25%. Rachelle forecasts income statement items (in $ millions) derived from synergies related to the merger, as shown in Exhibit 1. She uses this information to compute the pro forma increase in Grafton's net income following an acquisition of Horley.", {"title": "Exhibit 1 · $ millions", "columns": ["Item", "Value"], "rows": [["Horley's pre-tax earnings", "120"], ["Revenue synergies", "55"], ["Synergies due to cost savings", "40"], ["Increase in depreciation expense", "25"], ["Increase in interest expense", "50"]]}, "In conjunction with the potential acquisition, Rachelle has been asked to explore restructuring options for Grafton's existing metal packaging business line. She has two restructuring objectives: (1) improve liquidity by maximizing the immediate cash proceeds; and (2) transfer complete control of the business line to a third party.", "Rachelle believes an acquisition of Horley would improve Grafton's long-term earnings potential. She uses the Grinold–Kroner model to estimate the market's forward-looking equity risk premium. Rachelle observes that nominal risk-free government bonds yield 4.0% and inflation-protected risk-free government bonds with the same maturity yield 1.2%. She estimates that the broad equity market dividend yield will be 5.5%, the P/E ratio will decline by 1.4% per year, and real earnings will grow by 2.1% per year. Rachelle does not expect any change in the number of shares outstanding."]},
+  "L2-MOCK3-S1/11": {"title": "Fixed income · R25, R27 — Jamison on callable bonds and CDS", "full": ["Ken Jamison is a fixed income portfolio manager valuing several bonds. He assumes interest rate volatility of 20% and constructs the default-free binomial interest rate tree in Exhibit 1. In the tree, branching from each node to a high state or a low state occurs with equal probability. He first uses the tree to value Bond A, a default-free 2-year bond with an annual coupon of 2.20%. Bond A is callable at its par value of 100 in one year.", {"title": "Exhibit 1 · default-free binomial interest rate tree", "columns": ["Year 0", "Year 1"], "rows": [["1.50%", "2.40% (up)"], ["", "1.61% (down)"]]}, "To replace a maturing corporate issue in the portfolio, Jamison considers Bond B, which is callable at par in one year. Using the tree, he determines that the OAS for Bond B is currently 50 bps. Holding the market price constant, Jamison then assesses the effect on the OAS of a revised interest rate volatility assumption of 25%.", "Jamison’s portfolio includes Bond C, a corporate bond that is callable at par in one year. Bond C’s market price is 99.40. Jamison calculates that its price would be 99.80 following an instantaneous 50 bps downward parallel shift in the par yield curve, and 96.80 following a 50 bps upward parallel shift.", "Jamison owns $10 million of El-Car’s Series B senior bonds and has hedged the credit risk by purchasing $10 million notional of CDS protection. El-Car subsequently declares bankruptcy, which triggers its CDS contracts. El-Car has two senior bonds outstanding: Series A trades at 40% of par, and Series B trades at 45% of par."]},
 };
 const MOCK_Q = {
   "L2-MOCK1-S1 #1": {"set": 1, "stem": "Which of the following ratios is the most appropriate for Wang to use in comparing Tupelo and Grupo?", "options": ["Price to book", "Price to FCFE", "Price to earnings"], "p": 0, "a": 1, "logic": ["Accounting differences (US GAAP vs. IFRS) distort any multiple built on accounting numbers. P/B (book equity) and P/E (net income) are the most affected; multiples based on cash flow (P/CFO, P/FCFE) are the least affected, because cash is cash under either standard.", "So when two companies report under different standards, compare them on the cash-flow multiple: P/FCFE."], "traps": ["P/B rests on book value, which depends heavily on accounting choices (revaluation, impairment, capitalisation) that differ between IFRS and US GAAP.", "", "P/E rests on accounting earnings, which carry every recognition and measurement difference between the two standards."]},
@@ -35584,6 +36292,50 @@ const MOCK_Q = {
   "L2-MOCK2-S2 #42": {"set": 11, "stem": "Which of the following best explains why Cur-Ed’s sustainable dividend growth rate is below the industry average?", "options": ["Payout ratio", "Financial leverage", "Total asset turnover"], "p": 1, "a": 2, "logic": ["g = retention × profit margin × asset turnover × leverage. Find the factor that is *worse* for Cur-Ed.", "Retention 0.54 vs 0.52: better. Leverage 1.2 vs 1.1: better. Margin: equal. Asset turnover 1.4 vs 1.7: worse → it causes the lower growth."], "steps": ["Cur-Ed: 0.54 × 5% × 1.4 × 1.2 = 4.54%", "Industry: 0.52 × 5% × 1.7 × 1.1 = 4.86%"], "traps": ["A lower payout means higher retention → higher growth.", "Wrong way: higher leverage raises ROE and growth.", ""]},
   "L2-MOCK2-S2 #43": {"set": 11, "stem": "To value Vestgrom using the residual income model, McLachlan should make an adjustment as a result of:", "options": ["Characteristic 1.", "Characteristic 2.", "Characteristic 3."], "p": 2, "a": 1, "logic": ["The RI model needs *clean surplus*: all changes in book value except owner transactions pass through net income.", "Under IFRS, defined benefit remeasurements go to OCI and never through NI → clean surplus breaks → adjust.", "Temporal-method translation gains already go through NI; FIFO inventory is already near current value."], "traps": ["FIFO inventory is already close to current value; no adjustment.", "", "Temporal-method gains/losses are in net income, so clean surplus holds."]},
   "L2-MOCK2-S2 #44": {"set": 11, "stem": "Based on a single-stage residual income model, the implied growth rate of Vestgrom’s residual income is closest to:", "options": ["6.1%.", "7.3%.", "9.0%."], "p": 1, "a": 0, "logic": ["Single-stage RI: V₀ = B₀ + (ROE − r) × B₀ ÷ (r − g). Solve for g.", "This is the growth of residual income, not the sustainable growth rate b × ROE."], "steps": ["V₀ − B₀ = 86.60 − 42.45 = 44.15", "(ROE − r) × B₀ = (0.1817 − 0.12) × 42.45 = 0.0617 × 42.45 = 2.6192", "r − g = 2.6192 ÷ 44.15 = 0.0593", "g = 0.12 − 0.0593 = 0.0607 ≈ *6.1%*"], "traps": ["", "7.3% is the sustainable growth rate b × ROE = 0.4 × 18.17%; the question asks for RI growth implied by the price.", "9.0% divides by V₀ instead of (V₀ − B₀)."]},
+  "L2-MOCK3-S1 #1": {"set": 1, "stem": "The 2-year forward rate one year from now is closest to:", "options": ["3.78%.", "4.55%.", "6.52%."], "p": 2, "a": 2, "logic": ["A 2-year rate starting in year 1 ends in year 3: (1 + z₃)³ = (1 + z₁) × (1 + f)²."], "steps": ["(1.0534)³ = 1.168907", "1.168907 ÷ 1.0302 = 1.134641", "√1.134641 = 1.065195", "f = *6.52%*"], "traps": ["3.78% compounds the 3-year rate for only 2 years.", "4.55% takes the square root of the ratio of the rates, not of the compounded values.", ""]},
+  "L2-MOCK3-S1 #2": {"set": 1, "stem": "The arbitrage-free value of Bond D is closest to:", "options": ["93.76.", "94.21.", "94.32."], "p": 2, "a": 2, "logic": ["Arbitrage-free value: discount each cash flow at the spot rate for its own date."], "steps": ["3.2 ÷ 1.0302 = 3.1062", "3.2 ÷ 1.0452² = 3.2 ÷ 1.092443 = 2.9292", "103.2 ÷ 1.0534³ = 103.2 ÷ 1.168907 = 88.2876", "Value = 3.1062 + 2.9292 + 88.2876 = *94.32*"], "traps": ["93.76 adds all cash flows at year 3 and discounts them once.", "94.21 discounts every cash flow at the 3-year spot rate (that’s a YTM-style shortcut).", ""]},
+  "L2-MOCK3-S1 #3": {"set": 1, "stem": "Based on the YTM of the comparable 4-year par bond, the 4-year spot rate is closest to:", "options": ["5.60%.", "5.95%.", "7.35%."], "p": 1, "a": 1, "logic": ["A par bond is priced at 1 (100%): its coupons, discounted at the known spot rates, plus the last cash flow at the unknown z₄, must add up to 1."], "steps": ["0.0584 ÷ 1.0302 = 0.056688", "0.0584 ÷ 1.0452² = 0.053458", "0.0584 ÷ 1.0534³ = 0.049961", "1 − 0.160107 = 0.839893", "(1 + z₄)⁴ = 1.0584 ÷ 0.839893 = 1.260163", "z₄ = 1.260163^(1/4) − 1 = *5.95%*"], "traps": ["5.60% is a geometric average of the 3-year spot rate and the par rate, not bootstrapping.", "", "7.35% treats the par rate as the 4-year spot rate and finds a 1-year forward."]},
+  "L2-MOCK3-S1 #4": {"set": 1, "stem": "The price of Bond G is closest to:", "options": ["95.31.", "103.92.", "104.61."], "p": 1, "a": 1, "logic": ["Backward induction: value at each year-1 node = (100 + 10) ÷ (1 + node rate). Average the two nodes, add the year-1 coupon, discount at the year-0 rate."], "steps": ["Up: 110 ÷ 1.0928 = 100.659", "Down: 110 ÷ 1.0687 = 102.929", "(10 + 0.5 × 100.659 + 0.5 × 102.929) ÷ 1.0758 = (10 + 101.794) ÷ 1.0758 = *103.92*"], "traps": ["95.31 leaves the final coupon out of the year-2 cash flow.", "", "104.61 doesn’t discount the final coupon at the second-period rate."]},
+  "L2-MOCK3-S1 #5": {"set": 2, "stem": "Based on the regression results for Model 1:", "options": ["the intercept is not statistically significant.", "a 1% increase in GDP will lead to an expected increase of 3.225% in ROE.", "30.1% of the variation in the dependent variable is explained by the independent variables."], "p": 1, "a": 1, "logic": ["Each slope is the change in Y for a one-unit change in that X, holding the others constant. GDP’s t of 3.135 beats 2.15, so the 3.225 effect is significant.", "The intercept’s |t| = 2.66 > 2.15 → significant. R² = 0.699 → 69.9% explained, not 30.1%."], "traps": ["|−2.660| > 2.15, so the intercept *is* significant.", "", "30.1% is 1 − R², the unexplained part."]},
+  "L2-MOCK3-S1 #6": {"set": 2, "stem": "Based on her observation about the residuals from Model 3, Singh should:", "options": ["increase the sample size.", "compute robust standard errors.", "exclude influential data points from the analysis."], "p": 1, "a": 1, "logic": ["Errors that get wider as an X rises = *conditional* heteroskedasticity. Coefficients stay unbiased, but standard errors (so t-tests) are wrong.", "The fix: robust (White-corrected) standard errors."], "traps": ["A bigger sample doesn’t remove heteroskedasticity.", "", "Influential points are a different issue; dropping them doesn’t fix error variance tied to an X."]},
+  "L2-MOCK3-S1 #7": {"set": 2, "stem": "Do any of the VIF values for Model 3 warrant further investigation of multicollinearity?", "options": ["No", "Yes, the VIFs for INFL and NPL", "Yes, the VIFs for GDP and LENDRATE"], "p": 0, "a": 0, "logic": ["VIF > 5 → investigate; VIF > 10 → serious multicollinearity. The highest here is 2.513."], "traps": ["", "2.513 and 2.290 are well under 5 (that answer uses a cut-off of 2).", "These are the *lowest* VIFs."]},
+  "L2-MOCK3-S1 #8": {"set": 2, "stem": "Based on Singh's criteria, which of the following is the most suitable machine-learning model to classify the banks?", "options": ["K-means clustering", "Support vector machine (SVM)", "Classification and regression tree (CART)"], "p": 1, "a": 2, "logic": ["Classifying banks into high/low ROE using known inputs = labelled data → supervised learning (rules out k-means).", "Needs to handle non-linear data *and* be easy to interpret and visualise: a decision tree (CART) does both."], "traps": ["K-means is unsupervised: no labels, so it can’t learn ‘high/low ROE’ from training data.", "SVM is a linear classifier; non-linear SVMs get complex and hard to interpret.", ""]},
+  "L2-MOCK3-S1 #9": {"set": 3, "stem": "Which large-cap equity strategy offers the most attractive statistical properties for a risk-averse investor?", "options": ["Strategy A", "Strategy B", "Strategy C"], "p": 2, "a": 2, "logic": ["A risk-averse investor wants positive skew (more upside surprises) and low kurtosis (fewer extreme outcomes).", "A and C have the same mean (0.5%) and SD (1.4%); C has skew +0.5 and kurtosis 4.0 vs A’s −2.5 and 8.2."], "traps": ["Negative skew and fat tails: bigger chance of large losses.", "Negative skew and the highest kurtosis (10.6); its extra 0.1% return comes with far more risk.", ""]},
+  "L2-MOCK3-S1 #10": {"set": 3, "stem": "The effect of the proposed maturities allocation change for Strategy D would be best measured using:", "options": ["relative VaR.", "marginal VaR.", "incremental VaR."], "p": 1, "a": 2, "logic": ["Incremental VaR = VaR after a specific change in a position − VaR before. It suits a sizeable change, like moving 10% from intermediate to long bonds.", "Marginal VaR is the effect of a *tiny* change (a derivative). Relative VaR measures risk against a benchmark."], "traps": ["There is no benchmark in the case; relative VaR is ex ante tracking risk.", "Marginal VaR is for an infinitesimal change, not a 10% move.", ""]},
+  "L2-MOCK3-S1 #11": {"set": 3, "stem": "An advantage of the approach that Guha uses when examining the performance of Strategy D is that the approach:", "options": ["can be designed to overcome any assumption of normal distributions.", "correctly specifies asset co-movement and the magnitude of movements.", "uses historical data to assign probabilities to movements in markets and risk factors."], "p": 2, "a": 0, "logic": ["Hypothetical scenario analysis lets the analyst choose any shock (1, 10 or 1,000 standard deviations), so it isn’t tied to a normal distribution.", "Because the scenario is made up, history can’t say how likely it is, and the co-movements may be wrong."], "traps": ["", "That is a *weakness*: hypothetical scenarios may get co-movements and sizes wrong.", "A made-up scenario has no historical probability attached; that would be historical simulation."]},
+  "L2-MOCK3-S1 #12": {"set": 3, "stem": "For her colleague's question regarding which risk measure is best for examining the performance of Strategy D, Guha's answer should be:", "options": ["VaR.", "Scenario risk measures.", "Sensitivity risk measures."], "p": 2, "a": 2, "logic": ["Sensitivity measures (duration, convexity, beta, delta) show how value changes for a change in *one* risk factor. For a bond portfolio: duration and convexity."], "traps": ["VaR gives a loss size and probability, not which factor drives it.", "Scenarios move many factors at once.", ""]},
+  "L2-MOCK3-S1 #13": {"set": 4, "stem": "The 3-month total return on Vogel's copper futures trade is closest to:", "options": ["0.80%.", "2.30%.", "3.52%."], "p": 1, "a": 0, "logic": ["Total return on a collateralised futures position = price return + roll return + collateral return, all for the *same period*.", "The collateral earns 2% a year, so only a quarter of that over 3 months."], "steps": ["Price return = (3.68 − 3.62) ÷ 3.62 = 1.66%", "Roll return = (3.68 − 3.73) ÷ 3.68 = −1.36% (contango)", "Collateral = 2.00% ÷ 4 = 0.50%", "Total = 1.66% − 1.36% + 0.50% = *0.80%*"], "traps": ["", "2.30% adds the full-year collateral yield (2%) to a 3-month return.", "3.52% gives the roll return the wrong sign (+1.36%)."]},
+  "L2-MOCK3-S1 #14": {"set": 4, "stem": "Are the aluminum and zinc markets both in backwardation?", "options": ["Yes", "No, only zinc is in backwardation", "No, only aluminum is in backwardation"], "p": 0, "a": 1, "logic": ["Backwardation: near-term price *above* farther-term. Contango: near-term *below*.", "Aluminum: 2,500 (near) < 2,750 (far) → contango. Zinc: a positive calendar spread (near − far = +185) → backwardation."], "traps": ["Aluminum’s near price is below its far price: that is contango.", "", "Wrong way round: aluminum is the one in contango."]},
+  "L2-MOCK3-S1 #15": {"set": 4, "stem": "Which of the following would be most consistent with Vogel's conclusion about the iron ore futures market?", "options": ["The futures curve for iron ore is downward sloping", "The futures curve for iron ore is downward sloping", "Iron ore suppliers are less interested in hedging in the forward market than are iron ore buyers"], "p": 2, "a": 0, "logic": ["Keynes’s insurance theory: producers are naturally long the commodity and sell forward to lock in prices. To attract speculators, futures prices sit *below* spot → backwardation, a downward-sloping curve.", "So under this theory *suppliers* are the keen hedgers."], "traps": ["", "Printed the same as A in the PDF; its explanation shows it was meant to describe the theory of storage giving an upward (contango) curve, which contradicts the insurance theory.", "Wrong way: the insurance theory says suppliers are *more* eager to hedge than buyers."], "note": "The platform printed options A and B with identical text. B’s explanation is about an upward-sloping (contango) curve from the theory of storage."},
+  "L2-MOCK3-S1 #16": {"set": 4, "stem": "Vogel's relative value trade in precious metals is most likely part of a:", "options": ["global macro strategy.", "time-series momentum strategy.", "cross-sectional momentum strategy."], "p": 1, "a": 2, "logic": ["Cross-sectional momentum ranks assets *against each other* within an asset class: long the strongest, short the weakest, so roughly market-neutral.", "Time-series momentum looks at each asset’s *own* trend: long if it is rising, short if falling. Platinum rose 1.2% yet he shorts it, so this is relative, not absolute."], "traps": ["Global macro is top-down across asset classes, not a ranking of metals.", "Under time-series momentum he would be long platinum (its trend is up).", ""]},
+  "L2-MOCK3-S1 #17": {"set": 5, "stem": "Does Sakuragi violate the Standards when placing the Sashi trades for Client A?", "options": ["No", "Yes, the Standard relating to suitability", "Yes, the Standard relating to loyalty, prudence, and care"], "p": 2, "a": 2, "logic": ["III(A): follow the client’s investment parameters. A nondiscretionary account means she needs the client’s approval *before* trading.", "The trades were suitable and helped, but acting without permission is the violation."], "traps": ["Trading without permission is a violation even when it works out.", "The trades fit the IPS; suitability wasn’t breached.", ""]},
+  "L2-MOCK3-S1 #18": {"set": 5, "stem": "According to the Standards, how much of the bond offering should Sakuragi allocate to her grandmother's account?", "options": ["$0", "$10,000", "$12,000"], "p": 2, "a": 2, "logic": ["III(B) Fair Dealing: allocate an oversubscribed issue pro rata to the orders.", "Family accounts managed like any other fee-paying client are treated like other clients (and a grandmother isn’t immediate family)."], "steps": ["Total orders = 10,000 + 20,000 + 20,000 = 50,000", "Grandmother = 20,000 ÷ 50,000 × 30,000 = *$12,000*"], "traps": ["Excluding her would be unfair to a regular fee-paying client.", "$10,000 splits equally instead of pro rata.", ""]},
+  "L2-MOCK3-S1 #19": {"set": 5, "stem": "Does Sakuragi violate the Standards when preparing the presentation for the prospective client?", "options": ["No", "Yes, with respect to fees", "Yes, with respect to terminated accounts"], "p": 0, "a": 0, "logic": ["III(D): performance must be fair, accurate and complete. Including terminated accounts (with dates) and stating results are net of fees meets it."], "traps": ["", "Disclosing that results are net of fees is enough; fees needn’t be shown separately.", "Including terminated accounts with clear dates is recommended."]},
+  "L2-MOCK3-S1 #20": {"set": 5, "stem": "Regarding the CFA exam, Aka has violated the Standards because of:", "options": ["his conversation with Sakuragi only.", "his complaint in the online forum only.", "both his conversation with Sakuragi and his complaint in the online forum."], "p": 0, "a": 0, "logic": ["VII(A): candidates may not reveal broad topics or formulas tested (or not tested). Telling Sakuragi which wealth-management topics appeared breaks this.", "Complaining about the curriculum and exam in general is allowed: opinions about CFA Institute aren’t restricted."], "traps": ["", "Criticising the curriculum and saying topics are missing isn’t confidential information.", "Only the conversation reveals tested topics."]},
+  "L2-MOCK3-S1 #21": {"set": 6, "stem": "In Rocco's APT model illustration, the estimate of the factor risk premium is closest to:", "options": ["3.86%.", "7.14%.", "13.08%."], "p": 0, "a": 1, "logic": ["E(R) = R_F + λβ. Two portfolios give two equations; subtract one from the other to remove R_F and solve for λ.", "The question asks for λ (the factor risk premium), not R_F."], "steps": ["0.120 − 0.085 = (1.14 − 0.65) × λ", "0.035 = 0.49λ → λ = *7.14%*", "R_F = 0.085 − 0.65 × 0.0714 = 3.86%"], "traps": ["3.86% is the risk-free rate, the other unknown.", "", "13.08% ignores the risk-free rate (0.085 ÷ 0.65)."]},
+  "L2-MOCK3-S1 #22": {"set": 6, "stem": "Based on ETFX's factor return model, the equilibrium predicted value for inflation for last year was closest to:", "options": ["1.75%", "2.00%", "4.80%"], "p": 1, "a": 1, "logic": ["Each factor is a surprise = actual − predicted. Put in what you know and solve for predicted inflation."], "steps": ["GDP surprise = 0.03 − 0.024 = 0.006 → 1.2 × 0.006 = 0.0072", "0.0362 = 0.025 + 0.8 × (0.025 − x) + 0.0072", "0.0362 = 0.0522 − 0.8x", "0.8x = 0.016 → x = *2.00%*"], "traps": ["1.75% swaps the actual GDP and inflation numbers.", "", "4.80% flips the surprise to predicted − actual."]},
+  "L2-MOCK3-S1 #23": {"set": 6, "stem": "Excluding the compounding effect, the expected total cost for investing in ETFZ for Rocco's assumed holding period is closest to:", "options": ["0.49%.", "0.59%.", "0.97%."], "p": 2, "a": 1, "logic": ["Holding cost = management fee × holding period + round-trip trading costs (commission and spread). Only the *annual* fee is scaled; trading costs are paid once per round trip."], "steps": ["Fee for 6 months = 0.76% × 0.5 = 0.38%", "Round-trip commission = 0.05% · spread (buy and sell) = 0.16%", "Total = 0.38% + 0.05% + 0.16% = *0.59%*"], "traps": ["0.49% halves the trading costs too; they are paid once regardless of holding period.", "", "0.97% charges the full annual fee for a 6-month hold."]},
+  "L2-MOCK3-S1 #24": {"set": 6, "stem": "Based on Degroom's observations regarding the difference between ETF pricing and its NAV, the AP's arbitrage actions would include:", "options": ["shorting the ETF.", "delivering ETF shares to the sponsor for redemption.", "delivering creation basket shares to the ETF sponsor."], "p": 2, "a": 1, "logic": ["The ETF is cheap versus its holdings. The AP *buys* the cheap ETF shares (101), *redeems* them with the sponsor for the basket, and sells the basket (102).", "Creation (delivering the basket, receiving ETF shares) is for an ETF trading at a *premium*."], "traps": ["Shorting the cheap side is the wrong direction.", "", "Creation is the premium trade: it would buy the basket at 102 and get ETF shares worth 101."]},
+  "L2-MOCK3-S1 #25": {"set": 7, "stem": "The approach Estrada uses to analyze the bank fails to consider:", "options": ["off-balance-sheet items.", "the quality of internal controls.", "contractual maturity mismatches."], "p": 2, "a": 0, "logic": ["CAMELS covers capital, assets, management, earnings, liquidity, sensitivity. Things *outside* it include government support, culture, competition, *off-balance-sheet items*, segment and currency exposure.", "Contractual maturity mismatch is a Basel III liquidity metric, so it sits under L."], "traps": ["", "Internal controls are part of M (management).", "Maturity mismatch is part of L (liquidity)."]},
+  "L2-MOCK3-S1 #26": {"set": 7, "stem": "Which of the following actions would help bring the bank into regulatory compliance?", "options": ["Repurchase shares", "Eliminate its dividend", "Raise additional term deposits"], "p": 0, "a": 1, "logic": ["The bank fails CET1 (3.5% < 4.5%) and Tier 1 (5.7% < 6.0%). Both need more *common equity*.", "Eliminating the dividend keeps earnings as retained earnings → CET1 rises → all three ratios rise."], "traps": ["A buyback *reduces* common equity: the ratios get worse.", "", "Deposits are liabilities, not capital."]},
+  "L2-MOCK3-S1 #27": {"set": 7, "stem": "The ratio used by Estrada to evaluate loan portfolio quality indicates that the bank's loan provisions are most likely:", "options": ["conservative.", "neutral.", "aggressive."], "p": 2, "a": 0, "logic": ["Provision for loan losses ÷ net charge-offs > 1 means the bank adds more to the allowance than it writes off: building reserves = conservative.", "Rising from 1.5 to 1.8 with stable charge-offs → increasingly conservative."], "traps": ["", "Neutral would be a ratio near 1.", "Wrong way: aggressive (under-reserving) would be a ratio below 1."]},
+  "L2-MOCK3-S1 #28": {"set": 7, "stem": "Based on the bank's income sources, the sustainability of earnings over the past three years has:", "options": ["deteriorated.", "remained stable.", "improved."], "p": 0, "a": 0, "logic": ["Trading income is the most volatile source; net interest and service income are steadier.", "Trading’s share rose from 7% to 12% while service income fell → earnings quality deteriorated."], "traps": ["", "The mix shifted towards volatile trading income.", "It moved the other way."]},
+  "L2-MOCK3-S1 #29": {"set": 8, "stem": "The carrying value of Willow's investment in Cedar at the end of the most recent year is:", "options": ["£4,935,600.", "£4,940,000.", "£4,944,400."], "p": 0, "a": 0, "logic": ["Equity method: cost + share of profit (− share of loss) − share of dividends received."], "steps": ["Share of loss = 20% × 300,000 = 60,000", "Dividends received = 20% × 22,000 = 4,400", "5,000,000 − 60,000 − 4,400 = *£4,935,600*"], "traps": ["", "Ignores the dividend, which reduces the investment.", "Adds the dividend instead of subtracting it."]},
+  "L2-MOCK3-S1 #30": {"set": 8, "stem": "Based on the geographic segment analysis, which segment is receiving a growth allocation of capital?", "options": ["Asia", "Europe", "Americas"], "p": 2, "a": 2, "logic": ["Compare each segment’s share of capex to its share of assets. A ratio above 1 means it is getting more than its share: it is being grown."], "steps": ["Asia 27.3 ÷ 27.6 = 0.99", "Europe 45.1 ÷ 48.2 = 0.94", "Americas 27.6 ÷ 24.2 = *1.14*"], "traps": ["0.99: slightly below its share.", "0.94: below its share; shrinking over time.", ""]},
+  "L2-MOCK3-S1 #31": {"set": 8, "stem": "A deterioration in the quality of Willow's financial reports is most likely indicated by the trend in:", "options": ["its M-scores only.", "its Z-scores only.", "both its M-scores and its Z-scores."], "p": 2, "a": 1, "logic": ["Beneish M-score: *higher* (less negative) = more likely manipulation. Lower M is good news.", "Altman Z-score: *lower* = more bankruptcy risk. Lower Z is bad news. Only the Z trend is a warning."], "traps": ["A lower M-score means less manipulation risk.", "", "The two scores read in opposite directions; a falling M-score is reassuring."]},
+  "L2-MOCK3-S1 #32": {"set": 8, "stem": "Willow's accruals ratio information demonstrates improvement in:", "options": ["its cash-flow-based accruals ratios only.", "its balance-sheet-based accruals ratios only.", "both its cash-flow-based accruals ratio and its balance-sheet-based accruals ratio."], "p": 1, "a": 0, "logic": ["A smaller *absolute* accruals ratio = more earnings backed by cash = better quality. The sign doesn’t matter; the size does."], "steps": ["Cash-flow-based |ratio|: 2.5 → 2.2 → 1.8 (falling = improving)", "Balance-sheet-based |ratio|: 1.6 → 1.6 → 1.9 (rising = worsening)"], "traps": ["", "The balance-sheet ratio became more negative (−1.9), so its absolute size rose: worse, not better.", "Only the cash-flow ratio improved."]},
+  "L2-MOCK3-S1 #33": {"set": 9, "stem": "The present value of growth opportunities implied by Company A's current stock price is closest to:", "options": ["$13 per share.", "$16 per share.", "$19 per share."], "p": 1, "a": 0, "logic": ["P₀ = E₁ ÷ r + PVGO. The no-growth value uses *next year’s* earnings, E₁."], "steps": ["E₁ = 1.90 × 1.20 = 2.28", "No-growth value = 2.28 ÷ 0.12 = 19.00", "PVGO = 32 − 19 = *$13*"], "traps": ["", "$16 uses last year’s EPS (1.90 ÷ 0.12 = 15.83).", "$19 is the no-growth value, not the PVGO."]},
+  "L2-MOCK3-S1 #34": {"set": 9, "stem": "Company B's sustainable growth rate is closest to:", "options": ["1.7%.", "3.8%.", "4.6%."], "p": 2, "a": 2, "logic": ["Sustainable growth = retention × ROE, with ROE from DuPont: margin × turnover × leverage (assets ÷ equity)."], "steps": ["b = 1 − 0.45 = 0.55", "ROE = 13.2% × 0.40 × 1.60 = 8.448%", "g = 0.55 × 8.448% = *4.65% ≈ 4.6%*"], "traps": ["1.7% uses D/E (0.60) as the leverage term.", "3.8% uses the payout (0.45) instead of retention.", ""]},
+  "L2-MOCK3-S1 #35": {"set": 9, "stem": "Using the single-stage residual income model, Silva should consider Company C's stock to be:", "options": ["undervalued.", "fairly valued.", "overvalued."], "p": 1, "a": 1, "logic": ["Single-stage RI: V₀ = B₀ + (ROE − r) ÷ (r − g) × B₀. Compare the price with a ±10% band around V₀."], "steps": ["(0.16 − 0.12) ÷ (0.12 − 0.04) = 0.04 ÷ 0.08 = 0.5", "V₀ = 40 + 0.5 × 40 = 60", "Band = 54 to 66; price 64 is inside → *fairly valued*"], "traps": ["Using g instead of r in the numerator gives 100 and a false ‘undervalued’.", "", "Using r instead of r − g in the denominator gives 53.33 and a false ‘overvalued’."]},
+  "L2-MOCK3-S1 #36": {"set": 9, "stem": "Based on the model used by Silva, which of the following adjustments to Company D's reported financial statements is most appropriate?", "options": ["Upward adjustment to both net income and book value", "Downward adjustment to both net income and book value", "Downward adjustment to net income and no adjustment to book value"], "p": 1, "a": 2, "logic": ["Clean surplus breaks when losses go straight to equity (OCI). Book value already reflects them, so it’s right.", "Net income is overstated because the losses skipped it → adjust NI down, leave book value alone."], "traps": ["Both directions wrong: the losses lower income, and book value needs no change.", "Book value already contains the OCI losses; cutting it again double-counts.", ""]},
+  "L2-MOCK3-S1 #37": {"set": 10, "stem": "Based on an analysis of comparable transactions, the fair takeover price (per share) for Horley is:", "options": ["$30.00.", "$35.00.", "$43.75."], "p": 1, "a": 2, "logic": ["Comparable transaction analysis applies the multiples paid in recent deals, which already include a takeover premium."], "steps": ["17.5 × 2.50 = *$43.75*"], "traps": ["$30.00 uses trading peers (12×): that’s comparable company analysis with no premium.", "$35.00 is Horley’s own current price (14×).", ""]},
+  "L2-MOCK3-S1 #38": {"set": 10, "stem": "If the acquisition of Horley is completed, the increase (in $ millions) in Grafton's pro forma net income is:", "options": ["45", "105.", "140"], "p": 1, "a": 1, "logic": ["Add the target’s pre-tax earnings and both kinds of synergies (cost savings *add* to profit), subtract new depreciation and interest, then tax."], "steps": ["120 + 55 + 40 − 25 − 50 = 140", "Tax = 140 × 25% = 35", "Net income increase = 140 − 35 = *105*"], "traps": ["45 subtracts the cost synergies instead of adding them.", "", "140 ignores taxes."]},
+  "L2-MOCK3-S1 #39": {"set": 10, "stem": "Rachelle's restructuring objectives for the metal packaging business line would be best achieved through a:", "options": ["spin off.", "divestiture.", "dividend recapitalization."], "p": 0, "a": 1, "logic": ["A sale (divestiture) brings cash now and hands control to the buyer.", "A spin-off gives the unit’s shares to existing shareholders: control leaves, but little or no cash comes in."], "traps": ["A spin-off transfers control but raises little cash for the parent.", "", "A dividend recap changes the capital structure; it neither raises cash from the unit nor transfers control."]},
+  "L2-MOCK3-S1 #40": {"set": 10, "stem": "Using the Grinold–Kroner model, the market's equity risk premium is closest to:", "options": ["3.4%.", "5.0%.", "7.8%."], "p": 2, "a": 1, "logic": ["ERP = DY + ΔP/E + i + g + ΔS − r_f. Expected inflation comes from the nominal and real bond yields.", "The P/E is expected to *fall* 1.4% a year, so ΔP/E is −1.4%."], "steps": ["i = 1.040 ÷ 1.012 − 1 = 2.77%", "ERP = 5.5% − 1.4% + 2.77% + 2.1% + 0% − 4.0% = *4.97% ≈ 5.0%*"], "traps": ["3.4% uses the real yield (1.2%) as inflation.", "", "7.8% adds +1.4% for the P/E change, but the P/E is declining."]},
+  "L2-MOCK3-S1 #41": {"set": 11, "stem": "The value of Bond A is closest to:", "options": ["99.51.", "100.59.", "100.88."], "p": 1, "a": 1, "logic": ["Backward induction; at each node where value > call price, replace it with 100 (the issuer calls)."], "steps": ["Up: 102.2 ÷ 1.024 = 99.80 (not called)", "Down: 102.2 ÷ 1.0161 = 100.58 → called at 100", "Today: [2.2 + 0.5 × (99.80 + 100)] ÷ 1.015 = 102.10 ÷ 1.015 = *100.59*"], "traps": ["99.51 leaves out the year-1 coupon when the bond is called.", "", "100.88 ignores the call."]},
+  "L2-MOCK3-S1 #42": {"set": 11, "stem": "Under Jamison’s revised interest rate volatility assumption, the OAS for Bond B would:", "options": ["decrease.", "not change.", "increase."], "p": 2, "a": 0, "logic": ["Callable value = straight value − call value. More volatility → the call is worth more → model value falls.", "The market price is fixed, so a smaller spread is needed to bring the model value back up to it: OAS falls."], "traps": ["", "The model value changes with volatility, so the OAS must too.", "Wrong way: for a *callable* bond higher volatility lowers the OAS (for a putable, it raises it)."]},
+  "L2-MOCK3-S1 #43": {"set": 11, "stem": "The interest rate sensitivity of Bond C is best described by:", "options": ["modified duration.", "one-sided duration.", "two-sided effective duration."], "p": 1, "a": 1, "logic": ["Bond C: +0.40 when rates fall 50 bp, −2.60 when they rise 50 bp. The response is lopsided because of the call.", "One-sided (up and down) durations capture that; the two-sided average hides it, and modified duration ignores the option."], "traps": ["Modified duration assumes cash flows don’t change with rates; a callable’s do.", "", "Averaging the two shifts hides the asymmetry."]},
+  "L2-MOCK3-S1 #44": {"set": 11, "stem": "With respect to the CDS contract on El-Car, Jamison should:", "options": ["prefer cash settlement.", "prefer physical settlement.", "be indifferent between cash settlement and physical settlement."], "p": 0, "a": 0, "logic": ["The payout is set by the *cheapest-to-deliver* bond (Series A at 40%). Jamison holds Series B, worth 45%."], "steps": ["Cash: (1 − 0.40) × 10 m = 6.0 m, plus sell his Series B for 4.5 m → 10.5 m", "Physical: deliver Series B, receive par 10.0 m", "Cash settlement wins by $0.5 m"], "traps": ["", "Physical gives only par (10 m).", "The payoffs differ because his bond is worth more than the cheapest-to-deliver."]},
 };
 // Every mock miss (a wrong answer or a guess) also becomes a weak-spot card in its session, built from MOCK_Q and
 // marked 🎯 Mock: it shows in the reading, highlights the notes MOCK_AT points to, and counts like any weak spot.
@@ -35764,6 +36516,50 @@ const MOCK_AT = {
   "L2-MOCK2-S2 #42": ["s5-prat"],
   "L2-MOCK2-S2 #43": ["s5-oci"],
   "L2-MOCK2-S2 #44": ["s3-tellis"],
+  "L2-MOCK3-S1 #1": ["s1-fwd"],
+  "L2-MOCK3-S1 #2": ["Each cash flow at its own spot rate"],
+  "L2-MOCK3-S1 #3": ["s2-boot"],
+  "L2-MOCK3-S1 #4": ["s2-tree"],
+  "L2-MOCK3-S1 #5": ["t-test on a coefficient"],
+  "L2-MOCK3-S1 #6": ["Correcting Heteroskedasticity"],
+  "L2-MOCK3-S1 #7": ["s6-vif"],
+  "L2-MOCK3-S1 #8": ["s2-cart"],
+  "L2-MOCK3-S1 #9": ["Metrics and visuals (LOS 39.c)"],
+  "L2-MOCK3-S1 #10": ["Incremental VaR"],
+  "L2-MOCK3-S1 #11": ["s3-sens-scen"],
+  "L2-MOCK3-S1 #12": ["s3-use"],
+  "L2-MOCK3-S1 #13": ["Total return on a fully collateralized long futures position"],
+  "L2-MOCK3-S1 #14": ["Basis and calendar spread"],
+  "L2-MOCK3-S1 #15": ["1. Insurance Theory (Keynes)"],
+  "L2-MOCK3-S1 #16": ["Managed futures"],
+  "L2-MOCK3-S1 #17": ["s3-a-g"],
+  "L2-MOCK3-S1 #18": ["s3-b-g"],
+  "L2-MOCK3-S1 #19": ["s3-d-g"],
+  "L2-MOCK3-S1 #20": ["s7-a-g"],
+  "L2-MOCK3-S1 #21": ["s1-ex2"],
+  "L2-MOCK3-S1 #22": ["s2-mt"],
+  "L2-MOCK3-S1 #23": ["s2-costs"],
+  "L2-MOCK3-S1 #24": ["s1-ap"],
+  "L2-MOCK3-S1 #25": ["s5-other"],
+  "L2-MOCK3-S1 #26": ["s2-tiers"],
+  "L2-MOCK3-S1 #27": ["s3-llp"],
+  "L2-MOCK3-S1 #28": ["s4-sources"],
+  "L2-MOCK3-S1 #29": ["s3-div"],
+  "L2-MOCK3-S1 #30": ["s4-ratio"],
+  "L2-MOCK3-S1 #31": ["s2-altman"],
+  "L2-MOCK3-S1 #32": ["s5-quality"],
+  "L2-MOCK3-S1 #33": ["s3-pvgo"],
+  "L2-MOCK3-S1 #34": ["s5-prat"],
+  "L2-MOCK3-S1 #35": ["s3-ss"],
+  "L2-MOCK3-S1 #36": ["s5-oci"],
+  "L2-MOCK3-S1 #37": ["s2-cta"],
+  "L2-MOCK3-S1 #38": ["s2-proforma"],
+  "L2-MOCK3-S1 #39": ["s1-divest"],
+  "L2-MOCK3-S1 #40": ["s2-ke"],
+  "L2-MOCK3-S1 #41": ["s2-cp"],
+  "L2-MOCK3-S1 #42": ["OAS: when it is added, and the volatility trap"],
+  "L2-MOCK3-S1 #43": ["s5-onesided"],
+  "L2-MOCK3-S1 #44": ["s1-settle"],
 };
 // The part of a mock vignette each question draws on: indices into MOCK_SETS["<id>/<set>"].full (paragraphs and
 // exhibits). A mock-miss card in the notes shows these above the question, like the case extract on a tuition card.
@@ -35944,6 +36740,50 @@ const MOCK_CTX = {
   "L2-MOCK2-S2 #42": [2, 3],
   "L2-MOCK2-S2 #43": [5, 6, 7, 8, 9],
   "L2-MOCK2-S2 #44": [9, 10],
+  "L2-MOCK3-S1 #1": [1, 2],
+  "L2-MOCK3-S1 #2": [1, 3, 4],
+  "L2-MOCK3-S1 #3": [1, 5, 6],
+  "L2-MOCK3-S1 #4": [7, 8],
+  "L2-MOCK3-S1 #5": [1, 2, 3],
+  "L2-MOCK3-S1 #6": [5],
+  "L2-MOCK3-S1 #7": [4, 6, 7],
+  "L2-MOCK3-S1 #8": [8, 9, 10, 11],
+  "L2-MOCK3-S1 #9": [0, 1],
+  "L2-MOCK3-S1 #10": [2],
+  "L2-MOCK3-S1 #11": [3],
+  "L2-MOCK3-S1 #12": [3],
+  "L2-MOCK3-S1 #13": [1],
+  "L2-MOCK3-S1 #14": [2],
+  "L2-MOCK3-S1 #15": [3],
+  "L2-MOCK3-S1 #16": [4, 5],
+  "L2-MOCK3-S1 #17": [1],
+  "L2-MOCK3-S1 #18": [2],
+  "L2-MOCK3-S1 #19": [3],
+  "L2-MOCK3-S1 #20": [4],
+  "L2-MOCK3-S1 #21": [3, 4],
+  "L2-MOCK3-S1 #22": [5, 6, 7, 8, 9, 10],
+  "L2-MOCK3-S1 #23": [12, 13, 14, 15],
+  "L2-MOCK3-S1 #24": [16],
+  "L2-MOCK3-S1 #25": [0],
+  "L2-MOCK3-S1 #26": [1, 2],
+  "L2-MOCK3-S1 #27": [3],
+  "L2-MOCK3-S1 #28": [4, 5],
+  "L2-MOCK3-S1 #29": [1],
+  "L2-MOCK3-S1 #30": [2, 3],
+  "L2-MOCK3-S1 #31": [4],
+  "L2-MOCK3-S1 #32": [5, 6],
+  "L2-MOCK3-S1 #33": [1, 2, 3, 4],
+  "L2-MOCK3-S1 #34": [5, 6],
+  "L2-MOCK3-S1 #35": [7, 8, 9, 10, 11, 12, 13],
+  "L2-MOCK3-S1 #36": [14],
+  "L2-MOCK3-S1 #37": [0],
+  "L2-MOCK3-S1 #38": [1, 2],
+  "L2-MOCK3-S1 #39": [3],
+  "L2-MOCK3-S1 #40": [4],
+  "L2-MOCK3-S1 #41": [0, 1],
+  "L2-MOCK3-S1 #42": [1, 2],
+  "L2-MOCK3-S1 #43": [3],
+  "L2-MOCK3-S1 #44": [4],
 };
 // A right answer ticked “Right for the wrong reason” gets a card too, so the cards are rebuilt from the ticks on
 // every render (withTicks is false only at load, before progress is read).
