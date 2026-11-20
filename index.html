@@ -22064,6 +22064,7 @@ const TUITION_MISSES = {
       questions: [
         { ref: 'L2-R7-Q3 #6', ask: 'Acme buys 3% of Bandy, becomes its single largest shareholder and gets a board seat. Method?', picked: 'Acquisition method', answer: 'Equity method' },
         { ref: 'L2-R7-Q1 #7', ask: 'IFRS: an investor owns 39% of the voting shares but has no part in policy making and no board seat. Classification?', picked: 'Investment in associates', answer: 'Investment in financial assets' },
+        { ref: "L2-FSA-CASE5 #4", ask: "15% stake, board seat, takes part in policy-making:", picked: "controlling", answer: "significant influence" },
       ],
       trap: "'Single largest shareholder' sounds like being in charge, so it pulls you toward the method used for control. But being the biggest of many small holders gives no power over the investee, and one board seat out of many is a sign of influence, not control.",
       fix: "Ask in order. 1) Is there CONTROL — a voting majority, or power through dual-class votes, contracts or VIE economics? Then consolidate (acquisition method). 2) If not, is there SIGNIFICANT INFLUENCE — any of B-T-P-M-IT (board seat, say in policy, technology dependency, material transactions, shared managers)? Then equity method, even below 20%. 3) Neither → financial asset under IFRS 9.",
@@ -22117,6 +22118,7 @@ const TUITION_MISSES = {
       questions: [
         { ref: 'L2-R7-Q3 #5', ask: 'Which method reports the highest net income — equity or acquisition?', picked: 'Acquisition method', answer: 'Both report the same net income' },
         { ref: 'L2-R7-Q4 #4', ask: 'A pays $100k cash for 50% of T (US GAAP, FV = book). A has $1,000k assets; T has $160k assets, $30k liabilities. Total assets under equity / acquisition method?', picked: '$1,060,000 / $1,095,000', answer: '$1,000,000 / $1,130,000' },
+        { ref: "L2-FSA-CASE3 #5", ask: "Net income, stake held constant, will be:", picked: "highest under significant influence", answer: "independent of the method" },
       ],
       trap: "Consolidation adds 100% of the subsidiary, so it feels like every number, net income included, must be bigger. On the balance sheet it went the other way: $1,060,000 looks like T's $60k of current assets were added under the equity method, where none of T's assets ever appear. $1,095,000 used partial goodwill, which US GAAP doesn't allow.",
       fix: "Think in two layers. NET INCOME attributable to the parent is the same under both: the acquisition method adds 100% of revenue and expenses, then takes out the NCI's share. EVERYTHING ELSE is bigger under the acquisition method: revenue, expenses, assets, liabilities, and total equity (because NCI is included). The equity method shows one line on each statement; paying cash just swaps cash for 'Investment in T', so total assets don't change.",
@@ -22151,6 +22153,8 @@ const TUITION_MISSES = {
       at: ["US GAAP: full goodwill only", "Goodwill at 100%, then full vs. partial"],
       questions: [
         { ref: 'L2-R7-Q4 #6', ask: "Alpha owns 70% of Beta. Compared with partial goodwill, Alpha's debt-to-equity under full goodwill is:", picked: 'The same', answer: 'Lower' },
+        { ref: "L2-FSA-CASE2 #4", ask: "D/E is highest under:", picked: "full goodwill", answer: "partial goodwill (smaller equity)" },
+        { ref: "L2-FSA-CASE5 #7", ask: "NCI under partial goodwill (20%, identifiable net assets $1.5 bn, firm worth $2 bn):", picked: "$400 m (20% × $2 bn)", answer: "$300 m (20% × $1.5 bn)" },
       ],
       trap: "Goodwill is an asset and debt doesn't move, so it's tempting to call the ratio unchanged. But the extra goodwill under the full method is matched by a bigger NCI, and NCI is part of equity — so the denominator grows.",
       fix: "Full goodwill adds the NCI's share of goodwill to BOTH sides: assets (more goodwill) and equity (NCI at fair value). Liabilities and net income don't change. So under full goodwill, total assets and equity are higher → debt-to-equity, ROA and ROE are all lower. Partial goodwill gives the reverse.",
@@ -22247,6 +22251,57 @@ const TUITION_MISSES = {
       fix: "Carrying value = cost + share of NI − share of dividends. Cash return = dividends received ÷ cost. Both can be true at once.",
       remember: "Carrying value = cost + share of NI − share of dividends. Cash return = dividends received ÷ cost. Both can be true at once.",
       tackle: ["Check each claim on its own basis: book vs cash."],
+    },
+    // Logged 2026-11-20
+    {
+      module: "7.S2",
+      title: "Debt interest income = coupon ± amortization, whatever the bucket; a premium pulls it below the coupon",
+      at: ["s2-midland"],
+      questions: [
+        { ref: "L2-FSA-CASE1 #3", ask: "Dumas (bought at par) reclassified from amortized cost to FVPL: interest income is", picked: "higher", answer: "the same" },
+        { ref: "L2-FSA-CASE1 #5", ask: "Which par value (cost unchanged) would lower interest income?", picked: "Dumas €55,000 (cost 50,000)", answer: "Cathay €37,000 (cost 40,000)" },
+      ],
+      trap: "The fair value gain was counted as interest, and par above cost was read as a premium.",
+      fix: "Interest income = coupon ± amortization, the same in every IFRS 9 bucket. Cost > par = premium → income below the coupon. Cost < par = discount → income above it.",
+      remember: "Interest income = coupon ± amortization, the same in every IFRS 9 bucket. Cost > par = premium → income below the coupon. Cost < par = discount → income above it.",
+      tackle: ["Compare cost with par before anything else."],
+    },
+    {
+      module: "7.S3",
+      title: "Equity-method goodwill = price − your share of FAIR value, not book value",
+      at: ["s3-excess"],
+      questions: [
+        { ref: "L2-FSA-CASE5 #3", ask: "15% of Rainer for $300 m (book 1,340, fair value 1,600):", picked: "$99 m (excess over book)", answer: "$60 m" },
+      ],
+      trap: "The whole excess over book was called goodwill.",
+      fix: "Goodwill = price − share of fair value of net assets. Excess over book = step-ups (depreciated) + goodwill (not amortized).",
+      remember: "Goodwill = price − share of fair value of net assets. Excess over book = step-ups (depreciated) + goodwill (not amortized).",
+      tackle: ["Take out the step-up first; goodwill is what’s left."],
+    },
+    {
+      module: "7.S8",
+      title: "Equity method: $0 of the JV’s revenue or assets; proportionate: your % of each line",
+      at: ["s8-mech"],
+      questions: [
+        { ref: "L2-FSA-CASE4 #2", ask: "JV revenue on BetterCare’s statements (equity method):", picked: "$715 (50% × 1,430)", answer: "$0" },
+        { ref: "L2-FSA-CASE4 #4", ask: "JV assets on Supreme’s statements (proportionate, 50%):", picked: "$1,500 (all of it)", answer: "$750" },
+      ],
+      trap: "Each company’s method was swapped or the share was left out.",
+      fix: "Equity method: one line of profit; JV revenue, assets and debt don’t appear. Proportionate: your % of every line. Full consolidation: 100%. Net income and equity are the same under all three.",
+      remember: "Equity method: one line of profit; JV revenue, assets and debt don’t appear. Proportionate: your % of every line. Full consolidation: 100%. Net income and equity are the same under all three.",
+      tackle: ["Name the company’s method first, then pick 0%, your % or 100%."],
+    },
+    {
+      module: "7.S9",
+      title: "Consolidating an SPE: the balance sheet looks as if you borrowed directly",
+      at: ["s9-ex-spe"],
+      questions: [
+        { ref: "L2-FSA-CASE5 #2", ask: "Blanca (assets 100) + SPE borrowing $40 m to buy its $50 m receivables, consolidated:", picked: "$50 m (SPE alone)", answer: "$140 m" },
+      ],
+      trap: "The SPE’s own balance sheet was given instead of the consolidated one.",
+      fix: "Consolidated: receivables stay, cash rises by the new debt, liabilities rise by the same. Total assets = old total + new borrowing.",
+      remember: "Consolidated: receivables stay, cash rises by the new debt, liabilities rise by the same. Total assets = old total + new borrowing.",
+      tackle: ["Old total assets + SPE debt = consolidated total."],
     },
   ],
   'fsa.1': [
@@ -23409,6 +23464,7 @@ const TUITION_MISSES = {
       at: ["IV(A) Loyalty", "s4-a-leave"],
       questions: [
         { ref: 'L2-R42-Q1 #1', ask: 'Smith, still at Alpha (clients over $10m), solicits on his own time small clients Alpha rejected, for his new firm. Under IV(A) this is:', picked: 'Unacceptable: no activities to go into business while still employed', answer: 'Acceptable: he is not competing with his employer' },
+        { ref: "L2-ETHICS-TEST #26", ask: "Bringing committed current clients to a new firm, with the bonus disclosed:", picked: "eligible if disclosed", answer: "not eligible: soliciting current clients is banned" },
       ],
       trap: 'The rule you remembered (“no soliciting before you leave”) is about the employer’s own clients. These are clients Alpha refused, so nothing is taken from Alpha. The blanket “no activities at all” option overstates the rule: preparing to compete is allowed.',
       fix: 'IV(A) forbids harming the employer: soliciting its clients before leaving, taking client lists or records, misusing confidential information. It allows preparation on your own time that doesn’t interfere with the job (registering a firm, renting an office) and work that doesn’t compete with the employer.',
@@ -23519,6 +23575,7 @@ const TUITION_MISSES = {
         { ref: "L2-R41-Q1 #4", ask: "Corporate governance and soft dollars are mainly under:", picked: "Disclosure of Conflicts", answer: "Loyalty, Prudence, and Care" },
         { ref: "L2-R41-Q4 #8", ask: "Least important proxy issue:", picked: "takeover defences", answer: "electing internal auditors" },
         { ref: "L2-R41-Q9 #3", ask: "Broker pays for its own trading error in the fund’s account:", picked: "violates fiduciary duty", answer: "permissible" },
+        { ref: "L2-ETHICS-TEST #13", ask: "Independent proxy vote; best-execution broker whose research helps other accounts:", picked: "violated by directing trades", answer: "no violation" },
       ],
       trap: "Each of these sounded like a separate rule, but they all sit inside III(A).",
       fix: "Brokerage and proxies are client assets: use them for the client (III(A)). Important proxy issues: pay plans, takeover defences; routine ones: internal auditors. A broker fixing its own mistake at no cost to the client is fine.",
@@ -23546,6 +23603,7 @@ const TUITION_MISSES = {
       at: ["s3-d-g"],
       questions: [
         { ref: "L2-R41-Q11 #8", ask: "Which is in accordance with III(D)?", picked: "implying he can guarantee a return", answer: "stating his past performance as long as it is fact" },
+        { ref: "L2-ETHICS-TEST #15", ask: "“Treasuries have near-zero default risk” and “you will earn 10% a year”:", picked: "only the first violates", answer: "only the second violates" },
       ],
       trap: "The question asked which action is allowed; the forbidden one was picked.",
       fix: "You may state accurate past performance. You may not guarantee returns, imply past results will repeat, or cherry-pick.",
@@ -23558,6 +23616,7 @@ const TUITION_MISSES = {
       at: ["s3-e-g"],
       questions: [
         { ref: "L2-R41-Q5 #6", ask: "Client probably acting illegally. The analyst may NOT:", picked: "contact CFA Institute", answer: "no exceptions in this list: both are allowed" },
+        { ref: "L2-ETHICS-TEST #38", ask: "Mentioning a charity’s campaign in the client newsletter:", picked: "violated: no approval from the charity", answer: "no violation" },
       ],
       trap: "Telling CFA Institute felt like a breach of confidentiality.",
       fix: "Keep client information confidential, except: illegal activity (you may tell authorities) and CFA Institute’s Professional Conduct Program, which keeps it confidential.",
@@ -23589,6 +23648,43 @@ const TUITION_MISSES = {
       fix: "Diligence applies to recommendations you make; using your normal model and threshold is a reasonable basis. Investors must be told the real selection process; a disclosed 40% outside coffee is fine.",
       remember: "Diligence applies to recommendations you make; using your normal model and threshold is a reasonable basis. Investors must be told the real selection process; a disclosed 40% outside coffee is fine.",
       tackle: ["Look for what was hidden or misstated, not for what was disclosed."],
+    },
+    // Logged 2026-11-20
+    {
+      module: "41.S5",
+      title: "V(B): an uncertain forecast stated as certain mixes fact and opinion",
+      at: ["s5-b-g"],
+      questions: [
+        { ref: "L2-ETHICS-TEST #9", ask: "“The dividend will increase by $1.50” when it depends on a bill that may fail:", picked: "violation: relied on uncertain government action", answer: "violation: didn’t separate fact from opinion" },
+      ],
+      trap: "The basis (a forecast of government action) was blamed instead of the wording.",
+      fix: "You may base a call on uncertain events, government action included. You may not state the outcome as fact: say “we expect”, not “will”.",
+      remember: "You may base a call on uncertain events, government action included. You may not state the outcome as fact: say “we expect”, not “will”.",
+      tackle: ["Look at the wording: “will” about an uncertain event = fact vs opinion."],
+    },
+    {
+      module: "41.S1",
+      title: "I(B): a host may pay conference costs; lavish extras like golf are out",
+      at: ["s1-ib-g"],
+      questions: [
+        { ref: "L2-ETHICS-TEST #29", ask: "Keynote for a manager his fund uses: least likely to violate I(B):", picked: "accept the entire package", answer: "accept only conference-related expenses" },
+      ],
+      trap: "The whole package was seen as a normal speaker deal.",
+      fix: "Best practice: pay your own way. If not, accept only modest, conference-related costs. Free team places and exclusive golf from a business partner are out.",
+      remember: "Best practice: pay your own way. If not, accept only modest, conference-related costs. Free team places and exclusive golf from a business partner are out.",
+      tackle: ["“Least likely to violate” = take the least."],
+    },
+    {
+      module: "41.S3",
+      title: "III(D): team results must be shown as a team’s, even with permission",
+      at: ["s3-d-g"],
+      questions: [
+        { ref: "L2-ETHICS-TEST #37", ask: "Ex-team manager shows the fund’s full record as his own success (firm approved):", picked: "no violation", answer: "violation: claimed the team’s performance" },
+      ],
+      trap: "The firm’s permission was taken as covering everything.",
+      fix: "Permission lets you use the numbers. III(D) still needs fair and complete: say it was a team and, ideally, show your own part.",
+      remember: "Permission lets you use the numbers. III(D) still needs fair and complete: say it was a team and, ideally, show your own part.",
+      tackle: ["Ask whose result it is, not only whether you may use it."],
     },
   ],
   'fsa.3': [
@@ -25769,7 +25865,7 @@ const MINDMAP = {
             from: ['s2-fvoci', 's2-fvoci-eq'], wk: ['FVOCI equity'] },
           { id: 'midland', t: 'One bond, three buckets', tag: 'Same interest income; only the fair value gain moves',
             info: ['Midland: interest $9,621 in every case; the $1,670 gain goes nowhere (AC), to P&L (FVPL) or to OCI (FVOCI).'],
-            from: ['s2-midland'] },
+            from: ['s2-midland'], wk: ["Debt interest income"] },
         ] },
         { id: 'reclass', mod: '7.S2', t: 'Reclassification', tag: 'Equity never; debt only on a business model change',
           info: ['Remeasure to fair value at the switch; the gap goes to the income statement.', 'A business model change is rare and portfolio-level (exiting a line of lending), never a distress event.', 'Equity is locked in to stop gains-to-P&L, losses-to-OCI cherry-picking.'],
@@ -25792,7 +25888,7 @@ const MINDMAP = {
         ] },
         { id: 'excess', mod: '7.S3', t: 'Paying above book value', tag: 'Fair-value step-up, then goodwill, all inside one line',
           info: ['Extra depreciation on the step-up reduces the investor’s income pickup only.', 'Red/Blue: $80,000 + $28,500 − $18,000 = $90,500.'],
-          from: ['s3-excess', 's3-stepup', 's3-ex-red'], links: [['gw', 'Under consolidation goodwill gets its own line']] },
+          from: ['s3-excess', 's3-stepup', 's3-ex-red'], wk: ["Equity-method goodwill"], links: [['gw', 'Under consolidation goodwill gets its own line']] },
         { id: 'imp', mod: '7.S4', t: 'Impairment', tag: 'US GAAP: other-than-temporary, no reversal · IFRS: loss event, reversal allowed',
           from: ['s4-impair'], links: [['gwimp', 'Goodwill impairment never reverses under either']] },
         { id: 'updown', mod: '7.S4', t: 'Upstream and downstream sales', tag: 'Defer profit × % unsold × ownership %',
@@ -25835,13 +25931,13 @@ const MINDMAP = {
           from: ['s8-ifrs', 's8-gaap'], wk: ['Joint venture = equity method'] },
         { id: 'propc', mod: '7.S8', t: 'Proportionate consolidation', tag: 'Your % of every line; no NCI',
           info: ['Fixes both equity-method distortions: debt and revenue come onto the statements; NI, EPS and ROE unchanged.', 'P/S: current assets $52,800 vs $56,000 (acquisition) and $40,000 (equity).'],
-          from: ['s8-mech', 's8-cmp', 's8-ratios'] },
+          from: ['s8-mech', 's8-cmp', 's8-ratios'], wk: ["Equity method: $0"] },
         { id: 'three', mod: '7.S8', t: 'The three methods side by side', tag: 'Same NI; acquisition biggest on everything, equity higher by NCI',
           info: [{ columns: ['', 'Equity', 'Proportionate', 'Acquisition'], rows: [['Net income', 'Same', 'Same', 'Same'], ['Equity', 'Same', 'Same', 'Higher (NCI)'], ['Assets, liabilities, revenue', 'Lowest', 'Middle', 'Highest'], ['ROE', 'Same', 'Same', 'Lowest'], ['Net margin', 'Highest', 'Lower', 'Lower']] }],
           from: ['s8-three'] },
         { id: 'spe', mod: '7.S9', t: 'Why SPEs exist', tag: 'Off-balance-sheet funding and risk isolation',
           info: ['Selling receivables to an SPE that borrows looks like no debt, until consolidation puts it back.'],
-          from: ['s9-why', 's9-ex-spe'] },
+          from: ['s9-why', 's9-ex-spe'], wk: ["Consolidating an SPE"] },
         { id: 'vie', mod: '7.S9', t: 'VIEs: follow the losses, not the votes', tag: 'Power + significant economics = primary beneficiary → consolidate',
           info: ['Built so no one held a voting majority, so the voting test failed.', 'Power from managing or servicing; economics from guarantees or first-loss pieces, even with 0% equity.', 'IFRS 10: one control model for every entity.'],
           from: ['s9-old', 's9-vie', 's9-zero'], wk: ['SPEs / VIEs', 'What an SPE MUST have'] },
@@ -27597,31 +27693,31 @@ const MINDMAP = {
     branches: [
       { id: 'b1', mod: '41.S1–41.S2', tone: 'teal', t: 'I–II: Professionalism and markets', tag: 'Your own conduct and the market’s integrity', c: [
         { id: 'ia', mod: '41.S1', t: 'I(A) Knowledge of the Law', tag: 'Follow the stricter; dissociate from violations',
-          from: ['I(A) Knowledge of the Law'] },
+          from: ['I(A) Knowledge of the Law'], wk: ["I(A): don’t take part"] },
         { id: 'ib', mod: '41.S1', t: 'I(B) Independence and Objectivity', tag: 'Modest gifts OK; pay your own travel; no hot IPOs',
-          from: ['I(B) Independence and Objectivity'] },
+          from: ['I(B) Independence and Objectivity'], wk: ["I(B): a host may pay"] },
         { id: 'ic', mod: '41.S1', t: 'I(C) Misrepresentation', tag: 'No guarantees, no plagiarism; stop known errors',
-          from: ['I(C) Misrepresentation'] },
+          from: ['I(C) Misrepresentation'], wk: ["Credit the author"] },
         { id: 'idie', mod: '41.S1', t: 'I(D) Misconduct · I(E) Competence', tag: 'Dishonesty that reflects on the profession; keep skills current',
           from: ['I(D) Misconduct', 'I(E) Competence'] },
         { id: 'iia', mod: '41.S2', t: 'II(A) Material Nonpublic Information', tag: 'Don’t act or cause others to act; mosaic theory is fine',
-          from: ['II(A) Material Nonpublic Information'] },
+          from: ['II(A) Material Nonpublic Information'], wk: ["What is public", "Holding MNPI"] },
         { id: 'iib', mod: '41.S2', t: 'II(B) Market Manipulation', tag: 'No price distortion or fake volume',
-          from: ['II(B) Market Manipulation'] },
+          from: ['II(B) Market Manipulation'], wk: ["Market manipulation means"] },
       ] },
       { id: 'b2', mod: '41.S3–41.S4', tone: 'violet', t: 'III–IV: Clients and employers', tag: 'Who you owe, in what order', c: [
         { id: 'iiia', mod: '41.S3', t: 'III(A) Loyalty, Prudence, and Care', tag: 'Client first; soft dollars must benefit the client',
-          from: ['III(A) Loyalty, Prudence, and Care'] },
+          from: ['III(A) Loyalty, Prudence, and Care'], wk: ["III(A): your duty", "III(A) also covers"] },
         { id: 'iiib', mod: '41.S3', t: 'III(B) Fair Dealing', tag: 'Fairly, not equally; allocate hot issues pro rata',
-          from: ['III(B) Fair Dealing'] },
+          from: ['III(B) Fair Dealing'], wk: ["III(B) fair allocation"] },
         { id: 'iiic', mod: '41.S3', t: 'III(C) Suitability', tag: 'Written IPS; judge the whole portfolio',
           from: ['III(C) Suitability'] },
         { id: 'iiid', mod: '41.S3', t: 'III(D) Performance Presentation', tag: 'Fair, accurate, complete; label simulations',
-          from: ['III(D) Performance Presentation'] },
+          from: ['III(D) Performance Presentation'], wk: ["III(D): true past", "III(D): team results"] },
         { id: 'iiie', mod: '41.S3', t: 'III(E) Preservation of Confidentiality', tag: 'Current, former, prospective clients; illegal activity to authorities',
-          from: ['III(E) Preservation of Confidentiality'] },
+          from: ['III(E) Preservation of Confidentiality'], wk: ["III(E) confidentiality"] },
         { id: 'iva', mod: '41.S4', t: 'IV(A) Loyalty', tag: 'Prepare to leave, don’t solicit or take client lists before',
-          from: ['IV(A) Loyalty'], wk: ['IV(A): you may prepare'] },
+          from: ['IV(A) Loyalty'], wk: ['IV(A): you may prepare', "IV(A): work you did"] },
         { id: 'ivb', mod: '41.S4', t: 'IV(B) Additional Compensation Arrangements', tag: 'Written consent for pay that competes with the employer',
           from: ['IV(B) Additional Compensation Arrangements'] },
         { id: 'ivc', mod: '41.S4', t: 'IV(C) Responsibilities of Supervisors', tag: 'Prevent and detect; fix inadequate compliance',
@@ -27629,11 +27725,11 @@ const MINDMAP = {
       ] },
       { id: 'b3', mod: '41.S5–41.S7', tone: 'amber', t: 'V–VII: Analysis, conflicts, the designation', tag: 'Doing the work, disclosing, representing CFA', c: [
         { id: 'va', mod: '41.S5', t: 'V(A) Diligence and Reasonable Basis', tag: 'Thorough, independent, supportable',
-          from: ['V(A) Diligence and Reasonable Basis'] },
+          from: ['V(A) Diligence and Reasonable Basis'], wk: ["V(A): a normal"] },
         { id: 'vb', mod: '41.S5', t: 'V(B) Communication with Clients', tag: 'Process, risks, fact vs. opinion, changes',
-          from: ['V(B) Communication with Clients and Prospective Clients'] },
+          from: ['V(B) Communication with Clients and Prospective Clients'], wk: ["V(B): an uncertain"] },
         { id: 'vc', mod: '41.S5', t: 'V(C) Record Retention', tag: 'Firm’s property; seven years if no other rule',
-          from: ['V(C) Record Retention'], wk: ['After giving a recommendation'] },
+          from: ['V(C) Record Retention'], wk: ['After giving a recommendation', "Keeping files"] },
         { id: 'via', mod: '41.S6', t: 'VI(A) Avoid or Disclose Conflicts', tag: 'Full, fair, plain-language disclosure',
           from: ['VI(A) Avoid or Disclose Conflicts'] },
         { id: 'vib', mod: '41.S6', t: 'VI(B) Priority of Transactions', tag: 'Clients, then employer, then you',
@@ -29455,6 +29551,58 @@ const TWIN_Q = {
   "L2-R13-CASE1 #3": { lvl: 1, full: ["Which is one of the six factors that affect a company’s dividend policy?"],
     options: ["A) Clientele effect", "B) Financial flexibility", "C) Bird-in-the-hand"], a: 1,
     why: "Six: investment opportunities, earnings volatility, financial flexibility, taxes, flotation costs, legal/contractual limits." },
+  // Logged 2026-11-20: Ethics case 2, Ethics test, FSA cases 1–5
+  "L2-ETHICS-TEST #9": { lvl: 2, full: ["An analyst writes: “Earnings will rise 20% next year because the new tariff will be cut,” although the tariff cut is still being debated. The analyst most likely violated the Standards by:"],
+    options: ["A) using material nonpublic information", "B) failing to separate fact from opinion", "C) basing the forecast on future government action"], a: 1,
+    why: "The cut is uncertain; writing it as certain mixes fact and opinion. Using government forecasts is allowed." },
+  "L2-ETHICS-TEST #13": { lvl: 2, full: ["A manager uses a broker with the lowest commissions and best execution, which also provides research that helps only the manager’s other accounts. This is:"],
+    options: ["A) a breach, because the research doesn’t help the paying account", "B) not a breach", "C) a breach unless each client approves"], a: 1,
+    why: "Best execution at lowest cost means the client pays nothing extra; research can help other accounts." },
+  "L2-ETHICS-TEST #15": { lvl: 1, full: ["An adviser tells clients: “Investment-grade municipal bonds have historically had low default rates” and “This fund will return 8% a year for the next five years.” Which statement violates the Standards?"],
+    options: ["A) The first only", "B) The second only", "C) Both"], a: 1,
+    why: "A promised return is a misrepresentation; a true historical fact is fine." },
+  "L2-ETHICS-TEST #26": { lvl: 2, full: ["While still employed, an adviser tells several of her clients she is leaving and asks them to move their accounts with her, disclosing that she will receive a signing bonus. She has:"],
+    options: ["A) not violated the Standards, because she disclosed the bonus", "B) violated IV(A) by soliciting her employer’s clients", "C) not violated the Standards if she resigns within a week"], a: 1,
+    why: "Soliciting your employer’s clients before leaving breaks IV(A); disclosure doesn’t fix it." },
+  "L2-ETHICS-TEST #29": { lvl: 1, full: ["A company invites an analyst to an on-site visit and offers to pay for the flight, a luxury resort weekend and a spa package. The best course under I(B) is to:"],
+    options: ["A) accept everything and write an objective report", "B) pay her own travel and decline the extras", "C) accept everything and disclose it in the report"], a: 1,
+    why: "Paying your own way is best practice; lavish extras can never be accepted." },
+  "L2-ETHICS-TEST #37": { lvl: 1, full: ["A manager who co-ran a fund with three colleagues shows the fund’s full track record to prospective employers as his own, with the old firm’s permission. He has:"],
+    options: ["A) not violated the Standards", "B) violated III(D) by not disclosing it was a team record", "C) violated the Standards by using his former firm’s data"], a: 1,
+    why: "Permission covers the data; presenting a team record as his alone isn’t fair or complete." },
+  "L2-ETHICS-TEST #38": { lvl: 1, full: ["An adviser on a charity’s board mentions its annual appeal in her quarterly letter to clients. She gives the charity no client names. She has:"],
+    options: ["A) not violated the Standards", "B) breached confidentiality", "C) violated the Standards by not asking the charity first"], a: 0,
+    why: "No client information was shared, so III(E) isn’t breached." },
+  "L2-FSA-CASE1 #3": { lvl: 1, full: ["A firm holds a bond bought at par as amortized cost. If it were reclassified as FVPL, its interest income would be:"],
+    options: ["A) higher", "B) lower", "C) the same"], a: 2,
+    why: "Interest income is the coupon plus amortization; at par there’s none, in any bucket." },
+  "L2-FSA-CASE1 #5": { lvl: 2, full: ["Three bonds: X cost 60, par 64; Y cost 52, par 50; Z cost 30, par 30. Which has interest income below its coupon?"],
+    options: ["A) X", "B) Y", "C) Z"], a: 1,
+    why: "Y cost 52 > par 50 = premium; amortizing a premium lowers interest income." },
+  "L2-FSA-CASE2 #4": { lvl: 2, full: ["After acquiring 70% of a subsidiary, a parent’s debt-to-equity ratio is lowest under:"],
+    options: ["A) partial goodwill", "B) full goodwill", "C) either, they are equal"], a: 1,
+    why: "Same debt; full goodwill has more goodwill and NCI, so more equity and lower D/E." },
+  "L2-FSA-CASE3 #5": { lvl: 1, full: ["A parent owns 40% of an investee. Its net income will be:"],
+    options: ["A) higher under the equity method", "B) higher under consolidation", "C) the same under either method"], a: 2,
+    why: "One-line equity pickup and consolidation give the same net income." },
+  "L2-FSA-CASE4 #2": { lvl: 1, full: ["A 40% JV partner uses the equity method. The JV’s revenue is $800 m. How much JV revenue appears in the partner’s revenue?"],
+    options: ["A) $0", "B) $320 m", "C) $800 m"], a: 0,
+    why: "The equity method shows only a one-line share of profit, no revenue." },
+  "L2-FSA-CASE4 #4": { lvl: 1, full: ["A 40% JV partner uses proportionate consolidation. JV total assets are $900 m. JV assets on the partner’s balance sheet:"],
+    options: ["A) $0", "B) $360 m", "C) $900 m"], a: 1,
+    why: "Proportionate: 40% × 900 = $360 m." },
+  "L2-FSA-CASE5 #2": { lvl: 2, full: ["Firm with total assets 200 (cash 40, receivables 80, other 80) sets up an SPE: invests 20, SPE borrows 60, buys all 80 of receivables. Consolidated total assets:"],
+    options: ["A) 200", "B) 260", "C) 280"], a: 1,
+    why: "Cash 40 − 20 + 80 = 100; receivables 80 (in SPE); other 80 → 260 = 200 + 60 new debt." },
+  "L2-FSA-CASE5 #3": { lvl: 2, full: ["An investor pays $500 m for 25% of a company with book net assets $1,600 m and fair value net assets $1,800 m. Goodwill is:"],
+    options: ["A) $50 m", "B) $100 m", "C) $500 m"], a: 0,
+    why: "25% × 1,600 = 400; excess 100; step-up 25% × 200 = 50; goodwill 100 − 50 = $50 m." },
+  "L2-FSA-CASE5 #4": { lvl: 1, full: ["An investor holds 12% of a company, has two board seats and helps set dividend policy. Its influence is best described as:"],
+    options: ["A) passive", "B) significant", "C) control"], a: 1,
+    why: "Board seats and policy participation show significant influence below 20%." },
+  "L2-FSA-CASE5 #7": { lvl: 2, full: ["A parent buys 75%. Fair value of the whole subsidiary is $800 m; identifiable net assets are $600 m. NCI under partial goodwill:"],
+    options: ["A) $150 m", "B) $200 m", "C) $600 m"], a: 0,
+    why: "Partial: 25% × 600 = $150 m (full would be 25% × 800 = $200 m)." },
 };
 
 const TUITION_Q = {
@@ -35337,6 +35485,348 @@ const TUITION_Q = {
       "wrong": "Taxes *are* one of the six factors."
     }
   },
+  "L2-ETHICS-TEST #9": {
+    "full": [
+      "Scott works for a regional brokerage firm. He estimates that Walkton Industries will increase its dividend by US$1.50 a share during the next year. He realizes that this increase is contingent on pending legislation that would, if enacted, give Walkton a substantial tax break. The US representative for Walkton’s home district has told Scott that, although she is lobbying hard for the bill and prospects for its passage are favorable, concern of the US Congress over the federal deficit could cause the tax bill to be voted down. Walkton Industries has not made any statements about a change in dividend policy. Scott writes in his research report, “We expect Walkton’s stock price to rise by at least US$8.00 a share by the end of the year because the dividend will increase by US$1.50 a share. Investors buying the stock at the current time should expect to realize a total return of at least 15% on the stock.” According to the Standards:"
+    ],
+    "options": [
+      "Scott violated the Standards because he used material inside information.",
+      "Scott violated the Standards because he failed to separate opinion from fact.",
+      "Scott violated the Standards by basing his research on uncertain predictions of future government action."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Scott wrote “the dividend *will* increase” when the rise depends on a bill that may fail. That is his opinion written as a fact, which breaks V(B).",
+      "wrong": "Basing a forecast partly on uncertain future events, government action included, is allowed. What’s not allowed is presenting the guess as certain."
+    }
+  },
+  "L2-ETHICS-TEST #13": {
+    "full": [
+      "One of the discretionary accounts managed by Farnsworth is the Jones Corporation employee profit-sharing plan. Jones, the company president, recently asked Farnsworth to vote the shares in the profit-sharing plan in favor of the slate of directors nominated by Jones Corporation and against the directors sponsored by a dissident stockholder group. Farnsworth does not want to lose this account because he directs all the account’s trades to a brokerage firm that provides Farnsworth with useful information about tax-free investments. Although this information is not of value in managing the Jones Corporation account, it does help in managing several other accounts. The brokerage firm providing this information also offers the lowest commissions for trades and provides best execution. Farnsworth investigates the director issue, concludes that the management-nominated slate is better for the long-run performance of the company than the dissident group’s slate, and votes accordingly. Farnsworth:"
+    ],
+    "options": [
+      "Violated the Standards in voting the shares in the manner requested by Jones but not in directing trades to the brokerage firm.",
+      "Did not violate the Standards in voting the shares in the manner requested by Jones or in directing trades to the brokerage firm.",
+      "Violated the Standards in directing trades to the brokerage firm but not in voting the shares as requested by Jones."
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "The broker gives the lowest commissions and best execution, so the plan pays nothing extra. Research that helps other accounts is fine. He also checked the vote himself before voting, so neither act breaks III(A).",
+      "wrong": "Soft-dollar research doesn’t have to help the account that paid for it. The breach would be paying *more* than best execution to get it."
+    }
+  },
+  "L2-ETHICS-TEST #15": {
+    "full": [
+      "Grey recommends the purchase of a mutual fund that invests solely in long-term US Treasury bonds. He makes the following statements to his clients:",
+      "I. “The payment of the bonds is guaranteed by the US government; therefore, the default risk of the bonds is virtually zero.”",
+      "II. “If you invest in the mutual fund, you will earn a 10% rate of return each year for the next several years based on historical performance of the market.”",
+      "Did Grey’s statements violate the CFA Institute Code and Standards?"
+    ],
+    "options": [
+      "Neither statement violated the Code and Standards.",
+      "Only statement I violated the Code and Standards.",
+      "Only statement II violated the Code and Standards."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Statement II promises a 10% return every year. That is a guarantee of an uncertain outcome, so it breaks I(C). Statement I is a true fact about Treasuries.",
+      "wrong": "Saying US-government-backed bonds have almost no default risk is accurate, not misleading. The bonds’ *price* risk isn’t what statement I is about."
+    }
+  },
+  "L2-ETHICS-TEST #26": {
+    "full": [
+      "A former hedge fund manager, Jackman, has decided to launch a new private wealth management firm. From his prior experiences, he believes the new firm needs to achieve US$1 million in assets under management in the first year. Jackman offers a $10,000 incentive to any adviser who joins his firm with the minimum of $200,000 in committed investments. Jackman places notice of the opening on several industry web portals and career search sites. Which of the following is correct according to the Code and Standards?"
+    ],
+    "options": [
+      "A member or candidate is eligible for the new position and incentive if he or she can arrange for enough current clients to switch to the new firm and if the member or candidate discloses the incentive fee.",
+      "A member or candidate may not accept employment with the new firm because Jackman’s incentive offer violates the Code and Standards.",
+      "A member or candidate is not eligible for the new position unless he or she is currently unemployed because soliciting the clients of the member’s or candidate’s current employer is prohibited."
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Lining up your employer’s clients to move with you while you still work there is soliciting. IV(A) bans that outright, so only someone who isn’t employed could take the offer without a breach.",
+      "wrong": "Disclosing the $10,000 incentive doesn’t fix solicitation; disclosure can’t make a banned act allowed. The offer itself isn’t a violation, so B is wrong too."
+    }
+  },
+  "L2-ETHICS-TEST #29": {
+    "full": [
+      "Long has been asked to be the keynote speaker at an upcoming investment conference. The event is being hosted by one of the third-party investment managers currently used by his pension fund. The manager offers to cover all conference and travel costs for Long and make the conference registrations free for three additional members of his investment management team. To ensure that the conference obtains the best speakers, the host firm has arranged for an exclusive golf outing for the day following the conference on a local championship-caliber course. Which of the following is least likely to violate Standard I(B)?"
+    ],
+    "options": [
+      "Long may accept only the offer to have his conference-related expenses paid by the host firm.",
+      "Long may accept the offer to have his conference-related expenses paid and may attend the exclusive golf outing at the expense of the hosting firm.",
+      "Long may accept the entire package of incentives offered to speak at this conference."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "A speaker can let the host cover conference-related costs without losing independence. Free places for his team and an exclusive golf day are extras from a manager his fund pays, and they could sway him.",
+      "wrong": "“Least likely to violate” means the safest choice, which is taking the least. The whole package adds gifts beyond what’s needed to speak."
+    }
+  },
+  "L2-ETHICS-TEST #37": {
+    "full": [
+      "Paper was recently terminated as one of a team of five managers of an equity fund. The fund had two value-focused managers and terminated one of them to reduce costs. In a letter sent to prospective employers, Paper presents, with written permission of the firm, the performance history of the fund to demonstrate his past success."
+    ],
+    "options": [
+      "Paper did not violate the Code and Standards.",
+      "Paper violated the Code and Standards by claiming the performance of the entire fund as his own.",
+      "Paper violated the Code and Standards by including the historical results of his prior employer."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "The fund’s record belongs to a team of five. Showing it as his own success, without saying it was a team, is not fair and complete, so it breaks III(D).",
+      "wrong": "Written permission covers using the firm’s numbers (so C is wrong). It doesn’t make it fair to present a team result as his alone."
+    }
+  },
+  "L2-ETHICS-TEST #38": {
+    "full": [
+      "Townsend was recently appointed to the board of directors of a youth golf program that is the local chapter of a national not-for-profit organization. The program is beginning a new fund-raising campaign to expand the number of annual scholarships it provides. Townsend believes many of her clients make annual donations to charity. The next week in her regular newsletter to all clients, she includes a small section discussing the fund-raising campaign and her position on the organization’s board."
+    ],
+    "options": [
+      "Townsend did not violate the Code and Standards.",
+      "Townsend violated the Code and Standards by soliciting donations from her clients through the newsletter.",
+      "Townsend violated the Code and Standards by not getting approval of the organization before soliciting her clients."
+    ],
+    "p": 2,
+    "a": 0,
+    "easy": {
+      "right": "She gave no client information to the charity; she only wrote about the campaign in her own newsletter. So nothing confidential left her hands and III(E) isn’t broken.",
+      "wrong": "No Standard needs the charity’s approval before she mentions it. The breach would have been handing over her client list for a mail-out."
+    }
+  },
+  "L2-FSA-CASE1 #3": {
+    "full": [
+      "Burton Howard, CFA, is an equity analyst with Maplewood Securities. Howard is preparing a research report on Confabulated Materials, SA, a publicly traded company based in France that complies with IFRS 9. As part of his analysis, Howard has assembled data gathered from the financial statement footnotes of Confabulated’s 2018 Annual Report and from discussions with company management. Howard is concerned about the effect of this information on Confabulated’s future earnings.",
+      "Information about Confabulated’s investment portfolio for the years ended 31 December 2017 and 2018 is presented in Exhibit 1. As part of his research, Howard is considering the possible effect on reported income of Confabulated’s accounting classification for fixed income investments.",
+      "Exhibit 1: Confabulated’s Investment Portfolio (€ Thousands). Bugle AG — FVPL; cost €25,000; market value 31 Dec 2017 29,000; 31 Dec 2018 28,000. Cathay Corp — FVOCI; cost €40,000; 38,000; 37,000. Dumas SA — Amortized cost; cost €50,000; 54,000; 55,000. * All securities were acquired at par value.",
+      "Compared to Confabulated’s reported interest income in 2018, if Dumas had been classified as FVPL, the interest income would have been:"
+    ],
+    "options": [
+      "lower",
+      "the same",
+      "higher"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Interest income is the coupon plus any premium or discount amortization. That doesn’t depend on the bucket. Dumas was bought at par, so there’s nothing to amortize and income equals the coupon either way.",
+      "wrong": "Moving to FVPL adds the €1,000 *fair value gain* to profit, not to interest income. Interest income and the fair value change are separate lines."
+    }
+  },
+  "L2-FSA-CASE1 #5": {
+    "full": [
+      "Burton Howard, CFA, is an equity analyst with Maplewood Securities. Howard is preparing a research report on Confabulated Materials, SA, a publicly traded company based in France that complies with IFRS 9. As part of his analysis, Howard has assembled data gathered from the financial statement footnotes of Confabulated’s 2018 Annual Report and from discussions with company management. Howard is concerned about the effect of this information on Confabulated’s future earnings.",
+      "Information about Confabulated’s investment portfolio for the years ended 31 December 2017 and 2018 is presented in Exhibit 1. As part of his research, Howard is considering the possible effect on reported income of Confabulated’s accounting classification for fixed income investments.",
+      "Exhibit 1: Confabulated’s Investment Portfolio (€ Thousands). Bugle AG — FVPL; cost €25,000; market value 31 Dec 2017 29,000; 31 Dec 2018 28,000. Cathay Corp — FVOCI; cost €40,000; 38,000; 37,000. Dumas SA — Amortized cost; cost €50,000; 54,000; 55,000. * All securities were acquired at par value.",
+      "Confabulated’s reported interest income would be lower if the cost was the same but the par value (in € thousands) of:"
+    ],
+    "options": [
+      "Bugle was €28,000",
+      "Cathay was €37,000",
+      "Dumas was €55,000"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Paying more than par (cost €40,000 for €37,000 par) is a premium. Amortizing a premium makes interest income *smaller* than the coupon received.",
+      "wrong": "Dumas at €55,000 par with €50,000 cost is a *discount*. Amortizing a discount *adds* to interest income, so it goes up, not down. Bugle is a discount as well.",
+      "steps": [
+        "Premium or discount? Compare cost with par.",
+        "Bugle: cost 25,000 < par 28,000 → discount → income ↑",
+        "Cathay: cost 40,000 > par 37,000 → premium → income ↓",
+        "Dumas: cost 50,000 < par 55,000 → discount → income ↑",
+        "Only Cathay lowers interest income"
+      ]
+    }
+  },
+  "L2-FSA-CASE2 #4": {
+    "full": [
+      "Cinnamon, Inc. is a diversified manufacturing company headquartered in the United Kingdom. It complies with IFRS. In 2017, Cinnamon held a 19 percent passive equity ownership interest in Cambridge Processing. In December 2017, Cinnamon announced that it would be increasing its ownership interest to 50 percent effective 1 January 2018 through a cash purchase. Cinnamon and Cambridge have no intercompany transactions.",
+      "At 31 December 2018, assuming control and recognition of goodwill, Cinnamon’s reported debt to equity ratio will most likely be highest if it accounts for its investment in Cambridge using the:"
+    ],
+    "options": [
+      "equity method",
+      "full goodwill method",
+      "partial goodwill method"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Debt is the same under full and partial goodwill. Partial goodwill books less goodwill and a smaller NCI, so equity is smaller. Same debt ÷ smaller equity = higher D/E.",
+      "wrong": "Full goodwill makes *both* goodwill and NCI bigger, so equity is bigger and D/E is lower. The equity method isn’t allowed once Cinnamon has control."
+    }
+  },
+  "L2-FSA-CASE3 #5": {
+    "full": [
+      "Zimt, AG is a consumer products manufacturer headquartered in Austria. It complies with IFRS. In 2017, Zimt held a 10 percent passive stake in Oxbow Limited. In December 2017, Zimt announced that it would be increasing its ownership to 50 percent effective 1 January 2018.",
+      "Franz Gelblum, an analyst following both Zimt and Oxbow, is curious how the increased stake will affect Zimt’s consolidated financial statements. Because Gelblum is uncertain how the company will account for the increased stake, he uses his existing forecasts for both companies’ financial statements to compare various alternative outcomes.",
+      "Based on Gelblum’s estimates, and holding the size of Zimt’s ownership stake in Oxbow constant, Zimt’s net income in 2018 will most likely be:"
+    ],
+    "options": [
+      "highest if Zimt is deemed to have control of Oxbow",
+      "highest if Zimt is deemed to have significant influence over Oxbow",
+      "independent of the accounting method used for the investment in Oxbow"
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "Net income comes out the same under every method. The equity method puts Zimt’s share of Oxbow’s profit on one line; consolidation spreads it across revenue and expenses and takes out the NCI share. The bottom line matches.",
+      "wrong": "The equity method gives a higher *margin* (same profit, less revenue), not more profit. Don’t mix up margin with net income."
+    }
+  },
+  "L2-FSA-CASE4 #2": {
+    "full": [
+      "BetterCare Hospitals, Inc. operates a chain of hospitals throughout the United States. The company has been expanding by acquiring local hospitals. Its largest acquisition, that of Statewide Medical, was made in 2001 under the pooling of interests method. BetterCare complies with US GAAP.",
+      "BetterCare is currently forming a 50/50 joint venture with Supreme Healthcare under which the companies will share control of several hospitals. BetterCare plans to use the equity method to account for the joint venture. Supreme Healthcare complies with IFRS and will use the proportionate consolidation method to account for the joint venture.",
+      "Erik Ohalin is an equity analyst who covers both companies. He has estimated the joint venture’s financial information for 2018 in order to prepare his estimates of each company’s earnings and financial performance. This information is presented in Exhibit 1.",
+      "Exhibit 1: Selected Financial Statement Forecasts for Joint Venture ($ Millions), 2018: Revenue 1,430; Operating income 128; Net income 62; Total assets (31 December) 1,500; Shareholders’ equity 740.",
+      "Based on Ohalin’s estimates, the amount of joint venture revenue (in $ millions) included on BetterCare’s consolidated 2018 financial statements should be closest to:"
+    ],
+    "options": [
+      "$0",
+      "$715",
+      "$1430"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "BetterCare uses the *equity method*. That shows only its share of the JV’s profit, on one line. None of the JV’s revenue reaches BetterCare’s revenue line.",
+      "wrong": "$715 (50% × 1,430) is what *proportionate consolidation* would show. That’s Supreme’s method, not BetterCare’s.",
+      "steps": [
+        "Equity method → no JV revenue, assets or liabilities",
+        "BetterCare’s JV revenue = $0",
+        "(Supreme, proportionate: 50% × 1,430 = $715)"
+      ]
+    }
+  },
+  "L2-FSA-CASE4 #4": {
+    "full": [
+      "BetterCare Hospitals, Inc. operates a chain of hospitals throughout the United States. The company has been expanding by acquiring local hospitals. Its largest acquisition, that of Statewide Medical, was made in 2001 under the pooling of interests method. BetterCare complies with US GAAP.",
+      "BetterCare is currently forming a 50/50 joint venture with Supreme Healthcare under which the companies will share control of several hospitals. BetterCare plans to use the equity method to account for the joint venture. Supreme Healthcare complies with IFRS and will use the proportionate consolidation method to account for the joint venture.",
+      "Erik Ohalin is an equity analyst who covers both companies. He has estimated the joint venture’s financial information for 2018 in order to prepare his estimates of each company’s earnings and financial performance. This information is presented in Exhibit 1.",
+      "Exhibit 1: Selected Financial Statement Forecasts for Joint Venture ($ Millions), 2018: Revenue 1,430; Operating income 128; Net income 62; Total assets (31 December) 1,500; Shareholders’ equity 740.",
+      "Based on Ohalin’s estimates, the amount of the joint venture’s 31 December 2018 total assets (in $ millions) that will be included on Supreme Healthcare’s consolidated financial statements will be closest to:"
+    ],
+    "options": [
+      "$0",
+      "$750",
+      "$1500"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Proportionate consolidation brings in *your share* of every line, here 50%. 50% × $1,500 = $750.",
+      "wrong": "$1,500 is the whole JV, which only full consolidation (control) would show. Supreme shares control, so it takes half.",
+      "steps": [
+        "Supreme uses proportionate consolidation, with a 50% share",
+        "JV total assets = $1,500",
+        "50% × 1,500 = $750"
+      ]
+    }
+  },
+  "L2-FSA-CASE5 #2": {
+    "full": [
+      "John Thronen is an analyst in the research department of an international securities firm. Thronen is preparing a research report on Topmaker, Inc., a publicly-traded company that complies with IFRS. Thronen reviews two of Topmaker’s recent transactions relating to investments in Blanco Co. and Rainer Co.",
+      "Investment in Blanca Co.",
+      "On 1 January 2016, Topmaker invested $11 million in Blanca Co. debt securities (with a 5.0% stated coupon rate on par value, payable each 31 December). The par value of the securities is $10 million, and the market interest rate in effect when the bonds were purchased was 4.0%. Topmaker designates the investment as held-to-maturity. On 31 December 2016, the fair value of the securities was $12 million.",
+      "Blanca Co. plans to raise $40 million in capital by borrowing against its financial receivables. Blanca plans to create a special purpose entity (SPE), invest $10 million in the SPE, have the SPE borrow $40 million, and then use the total funds to purchase $50 million of receivables from Blanca. Blanca meets the definition of control and plans to consolidate the SPE. Blanca’s current balance sheet is presented in Exhibit 1.",
+      "Exhibit 1: Blanca Co. Balance Sheet at 31 December 2016 ($ millions): Cash 20; Accounts receivable 50; Other assets 30; Total assets 100. Current liabilities 25; Noncurrent liabilities 30; Shareholders’ equity 45; Total liabilities and equity 100.",
+      "Based on Exhibit 1 and Blanca’s plans to borrow against its financial receivables, the new consolidated balance sheet will show total assets of:"
+    ],
+    "options": [
+      "$50 million",
+      "$140 million",
+      "$150 million"
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Once the SPE is consolidated, the receivables never really left. Cash goes up by the $40 m the SPE borrowed, debt goes up by $40 m, and total assets become $140 m. It looks just like borrowing directly.",
+      "wrong": "$50 m is only the SPE’s own balance sheet (the receivables). The question asks for Blanca *consolidated* with the SPE.",
+      "steps": [
+        "Blanca cash: 20 − 10 (invest in SPE) + 50 (sale of receivables) = 60",
+        "Receivables: sold (−50), but the consolidated SPE holds them (+50) → 50",
+        "Other assets: 30",
+        "Total assets = 60 + 50 + 30 = $140 m",
+        "Check: liabilities 25 + (30 + 40) + equity 45 = 140"
+      ]
+    }
+  },
+  "L2-FSA-CASE5 #3": {
+    "full": [
+      "John Thronen is an analyst in the research department of an international securities firm. Thronen is preparing a research report on Topmaker, Inc., a publicly-traded company that complies with IFRS. Thronen reviews two of Topmaker’s recent transactions relating to investments in Blanco Co. and Rainer Co.",
+      "Investment in Rainer Co.",
+      "On 1 January 2016, Topmaker acquired a 15% equity interest with voting power in Rainer Co. for $300 million. Exhibit 2 presents selected financial information for Rainer on the acquisition date. Thronen notes that the plant and equipment are depreciated on a straight-line basis and have 10 years of remaining life. Topmaker has representation on Rainer’s board of directors and participates in the associate’s policy-making process.",
+      "Exhibit 2: Selected Financial Data for Rainer Co., 1 January 2018 (Acquisition Date) ($ millions). Book value / fair value: Current assets 270 / 270; Plant and equipment 2,900 / 3,160; Total assets 3,170 / 3,430; Liabilities 1,830 / 1,830; Net assets 1,340 / 1,600.",
+      "Based on Exhibit 2, Topmaker’s investment in Rainer resulted in goodwill of:"
+    ],
+    "options": [
+      "$21 million",
+      "$60 million",
+      "$99 million"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "Goodwill is what’s left after the fair-value step-up. Of the $99 m paid over book, $39 m is Topmaker’s share of the plant uplift, so goodwill is $60 m.",
+      "wrong": "$99 m is the whole excess over *book* value. Part of it is paid for plant worth more than its book value, and that part isn’t goodwill.",
+      "steps": [
+        "Share of book value: 15% × 1,340 = 201",
+        "Excess paid: 300 − 201 = 99",
+        "Plant step-up: 15% × (3,160 − 2,900) = 15% × 260 = 39",
+        "Goodwill: 99 − 39 = $60 m",
+        "Shortcut: 300 − 15% × 1,600 (fair value net assets) = 300 − 240 = 60"
+      ]
+    }
+  },
+  "L2-FSA-CASE5 #4": {
+    "full": [
+      "John Thronen is an analyst in the research department of an international securities firm. Thronen is preparing a research report on Topmaker, Inc., a publicly-traded company that complies with IFRS. Thronen reviews two of Topmaker’s recent transactions relating to investments in Blanco Co. and Rainer Co.",
+      "Investment in Rainer Co.",
+      "On 1 January 2016, Topmaker acquired a 15% equity interest with voting power in Rainer Co. for $300 million. Exhibit 2 presents selected financial information for Rainer on the acquisition date. Thronen notes that the plant and equipment are depreciated on a straight-line basis and have 10 years of remaining life. Topmaker has representation on Rainer’s board of directors and participates in the associate’s policy-making process.",
+      "Topmaker’s influence on Rainer’s business activities can be best described as:"
+    ],
+    "options": [
+      "significant",
+      "controlling",
+      "shared control"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A board seat and a part in policy-making are the classic signs of significant influence, even at only 15%. Nothing says Topmaker can direct Rainer, so it isn’t control.",
+      "wrong": "Control needs power to direct the company, usually over 50% of the votes. Taking part in decisions is influence, not control."
+    }
+  },
+  "L2-FSA-CASE5 #7": {
+    "full": [
+      "John Thronen is an analyst in the research department of an international securities firm. Thronen is preparing a research report on Topmaker, Inc., a publicly-traded company that complies with IFRS. Thronen reviews two of Topmaker’s recent transactions relating to investments in Blanco Co. and Rainer Co.",
+      "Finally, Topmaker announces its plan to increase its ownership interest in Rainer to 80% effective 1 January 2018 and will account for the investment in Rainer using the partial goodwill method. Thronen estimates that the fair market value of the Rainer’s shares on the expected date of exchange is $2 billion with the identifiable assets valued at $1.5 billion.",
+      "Based on Thronen’s value estimates on the acquisition date of 1 January 2018, the estimated value of the minority interest related to Rainer will be:"
+    ],
+    "options": [
+      "$300 million",
+      "$400 million",
+      "$500 million"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Partial goodwill measures the minority (NCI) at its share of the *identifiable net assets*. 20% × $1.5 bn = $300 m.",
+      "wrong": "$400 m (20% × the $2 bn value of the whole company) is the *full* goodwill measure. That NCI includes its share of goodwill.",
+      "steps": [
+        "NCI share = 100% − 80% = 20%",
+        "Partial goodwill: NCI = 20% × identifiable net assets $1.5 bn = $300 m",
+        "(Full goodwill: 20% × fair value $2 bn = $400 m)"
+      ]
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -36710,6 +37200,92 @@ const TESTS = [
     { mod: "13.S4", what: "Phasing up to a 70% payout = target payout ratio policy", ok: 1 },
     { mod: "13.S2", what: "Not among the six factors: clientele effect", ok: 0, why: "gap" },
     { mod: "13.S3", what: "Double taxation: effective rate above 35%", ok: 1 },
+  ] },
+  { id: "L2-ETHICS-CASE2", lvl: "22122", topic: "ethics.1", name: "Ethics case 2 (Apfelbaum)", date: "2026-11-19", mins: 8.0, qs: [
+    { mod: "41.S5", what: "Using a predecessor’s reports as a guide, with his own analysis: no violation", ok: 1 },
+    { mod: "41.S5", what: "Dropping a non-critical analysis from an internal report: no V(A)/V(C) breach", ok: 1 },
+    { mod: "41.S5", what: "Grohl still has a reasonable basis without the multi-factor section", ok: 1 },
+    { mod: "41.S5", what: "Group report listing all names: fine if the consensus has a reasonable basis", ok: 1 },
+    { mod: "41.S3", what: "Quoting a rating service’s returns without checking them breaches III(D)", ok: 1 },
+  ] },
+  { id: "L2-ETHICS-TEST", lvl: "11211112211121221111222221222221211121", topic: "ethics.1", name: "Ethics test (Standards I–VII)", date: "2026-11-20", mins: 65.5, qs: [
+    { mod: "41.S3", what: "Client buy order against a new sell call: tell the client first", ok: 1 },
+    { mod: "41.S3", what: "Client commissions can’t pay the manager’s operating expenses", ok: 1 },
+    { mod: "41.S6", what: "Research on an investment-banking client: write it and disclose the ties", ok: 1 },
+    { mod: "41.S6", what: "Personal trades must be reported to the employer, regulation or not", ok: 1 },
+    { mod: "41.S3", what: "Don’t send the endowment’s financials to an alumnus", ok: 1 },
+    { mod: "41.S5", what: "Another analyst’s lunchtime opinion is no reasonable basis", ok: 1 },
+    { mod: "41.S1", what: "Pressure to upgrade: restricted list, factual information only", ok: 1 },
+    { mod: "41.S7", what: "“CFA Level II” on a card violates VII(B); listing levels passed is fine", ok: 1 },
+    { mod: "41.S5", what: "Stating a law-dependent dividend rise as certain mixes fact and opinion", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Fair dealing: shorten the time from decision to dissemination", ok: 1 },
+    { mod: "41.S2", what: "Mosaic: material public + nonmaterial nonpublic information", ok: 1 },
+    { mod: "41.S4", what: "Client bonus for performance: get the employer’s permission first", ok: 1 },
+    { mod: "41.S3", what: "Independent proxy vote and best-execution broker with research: no violation", ok: 0, why: "flip" },
+    { mod: "41.S3", what: "Know the client’s needs before recommending anything", ok: 1 },
+    { mod: "41.S1", what: "Promising a 10% return each year is the violation, not the Treasury default point", ok: 0, why: "flip" },
+    { mod: "41.S3", what: "Hiding personal trades and taking better prices than clients", ok: 1 },
+    { mod: "41.S1", what: "Where no stricter law applies, the Code and Standards govern", ok: 1 },
+    { mod: "41.S1", what: "Company visit: best to pay your own travel", ok: 1 },
+    { mod: "41.S4", what: "Competing independent practice needs written employer consent", ok: 1 },
+    { mod: "41.S6", what: "Employer’s large own-account stake must be disclosed", ok: 1 },
+    { mod: "41.S1", what: "An average driven by one client’s lucky trade misrepresents the record", ok: 1 },
+    { mod: "41.S2", what: "Firewalls between investment banking and brokerage", ok: 1 },
+    { mod: "41.S3", what: "Pension duty is owed to participants and beneficiaries", ok: 1 },
+    { mod: "41.S6", what: "Referral fee disclosure lets clients judge partiality", ok: 1 },
+    { mod: "41.S6", what: "Selling personal shares against a buy call: fine once the firm knows", ok: 1 },
+    { mod: "41.S4", what: "Joining with “committed clients”: only someone not soliciting current clients qualifies", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Execution-only trades at normal fees are fine for no-soft-dollar accounts", ok: 1 },
+    { mod: "41.S3", what: "CFA Program fees aren’t research: can’t use soft dollars", ok: 1 },
+    { mod: "41.S1", what: "Speaker may take conference-related costs only, not the golf outing", ok: 0, why: "gap" },
+    { mod: "41.S2", what: "Overheard merger: put the names on the restricted list", ok: 1 },
+    { mod: "41.S2", what: "Huge personal buy order to lift the price = manipulation", ok: 1 },
+    { mod: "41.S3", what: "Bending the composite policy to catch one month’s gain breaches III(D)", ok: 1 },
+    { mod: "41.S5", what: "Files kept at home belong to the former employer", ok: 1 },
+    { mod: "41.S7", what: "Can’t claim to have finished the program before results", ok: 1 },
+    { mod: "41.S2", what: "Buying the sector ETF on a CFO’s tip is still MNPI", ok: 1 },
+    { mod: "41.S7", what: "Naming topics tested on the exam breaches VII(A)", ok: 1 },
+    { mod: "41.S3", what: "Showing a team fund’s record as your own breaches III(D)", ok: 0, why: "gap" },
+    { mod: "41.S3", what: "Mentioning a charity in the client newsletter is no confidentiality breach", ok: 0, why: "flip" },
+  ] },
+  { id: "L2-FSA-CASE1", lvl: "121222", topic: "fsa.0", name: "FSA case 1 (Confabulated)", date: "2026-11-20", mins: 12.8, qs: [
+    { mod: "7.S2", what: "Carrying value: 28,000 + 37,000 + 50,000 = €115,000", ok: 1 },
+    { mod: "7.S2", what: "Reclassifying Dumas to FVPL raises carrying value (55,000 vs 50,000)", ok: 1 },
+    { mod: "7.S2", what: "Interest income is the same under FVPL or amortized cost (bought at par)", ok: 0, why: "gap" },
+    { mod: "7.S2", what: "Dumas as FVPL: EBT €1,000 higher (unrealized gain)", ok: 1 },
+    { mod: "7.S2", what: "Par below cost (Cathay €37,000) → premium → lower interest income", ok: 0, why: "calc" },
+    { mod: "7.S9", what: "SPE run for the sponsor’s benefit is consolidated under IFRS", ok: 1 },
+  ] },
+  { id: "L2-FSA-CASE2", lvl: "11221", topic: "fsa.0", name: "FSA case 2 (Cinnamon)", date: "2026-11-20", mins: 9.4, qs: [
+    { mod: "7.S5", what: "Control → acquisition method", ok: 1 },
+    { mod: "7.S5", what: "Equity highest under control (NCI added)", ok: 1 },
+    { mod: "7.S5", what: "Net margin highest under the equity method", ok: 1 },
+    { mod: "7.S7", what: "D/E highest under partial goodwill (smaller equity)", ok: 0, why: "flip" },
+    { mod: "7.S5", what: "Consolidating a lower-margin sub lowers operating margin", ok: 1 },
+  ] },
+  { id: "L2-FSA-CASE3", lvl: "12221", topic: "fsa.0", name: "FSA case 3 (Zimt)", date: "2026-11-20", mins: 14.4, qs: [
+    { mod: "7.S5", what: "Total assets highest under control", ok: 1 },
+    { mod: "7.S3", what: "Equity-method NI = 75 + 0.5 × 68 = €109", ok: 1 },
+    { mod: "7.S8", what: "Proportionate liabilities = 686 + 0.5 × 577 = €975", ok: 1 },
+    { mod: "7.S5", what: "Consolidated sales = 1,700 + 1,350 = €3,050", ok: 1 },
+    { mod: "7.S5", what: "Net income is the same under every method", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-FSA-CASE4", lvl: "212112", topic: "fsa.0", name: "FSA case 4 (BetterCare)", date: "2026-11-20", mins: 15.2, qs: [
+    { mod: "7.S9", what: "Pooling (book values) left equity lower than acquisition accounting", ok: 1 },
+    { mod: "7.S8", what: "Equity method: $0 of JV revenue on BetterCare’s statements", ok: 0, why: "gap" },
+    { mod: "7.S8", what: "JV net income is the same under equity and proportionate methods", ok: 1 },
+    { mod: "7.S8", what: "Proportionate consolidation: 50% × 1,500 = $750 of JV assets", ok: 0, why: "gap" },
+    { mod: "7.S8", what: "Shareholders’ equity is the same under either method", ok: 1 },
+    { mod: "7.S9", what: "Consolidated SPE: no extra revenue from selling it receivables", ok: 1 },
+  ] },
+  { id: "L2-FSA-CASE5", lvl: "2221222", topic: "fsa.0", name: "FSA case 5 (Topmaker)", date: "2026-11-20", mins: 26.9, qs: [
+    { mod: "7.S2", what: "HTM premium bond: 11 − (0.50 − 0.44) = $10.94 m", ok: 1 },
+    { mod: "7.S9", what: "Consolidating the SPE: total assets 60 + 50 + 30 = $140 m", ok: 0, why: "calc" },
+    { mod: "7.S3", what: "Equity-method goodwill = 300 − 201 − 39 = $60 m", ok: 0, why: "calc" },
+    { mod: "7.S1", what: "15% with a board seat and policy role = significant influence", ok: 0, why: "flip" },
+    { mod: "7.S3", what: "Carrying value = 300 + 54 − 33 − 3.9 = $317 m", ok: 1 },
+    { mod: "7.S7", what: "IFRS impairment = 15,200 − 14,900 = $300 m", ok: 1 },
+    { mod: "7.S7", what: "Partial goodwill NCI = 20% × $1.5 bn identifiable net assets = $300 m", ok: 0, why: "gap" },
   ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
