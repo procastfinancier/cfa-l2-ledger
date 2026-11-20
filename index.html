@@ -24173,6 +24173,7 @@ const TUITION_MISSES = {
       questions: [
         { ref: 'L2-R20-Q2 #5', ask: 'Leading P/E 12.75, 5-year consensus growth 8.5%. PEG?', picked: '150.00', answer: '1.50' },
         { ref: 'L2-R20-Q1 #10', ask: '“PEG gives meaningful results for all equities, regardless of the growth rate.” Correct?', picked: 'Yes, because the computation of the PEG ratio does include the rate of expected dividend growth', answer: 'No, because the PEG ratio generates highly questionable results for low-growth companies' },
+        { ref: "L2-EQ-CASE1 #6", ask: "Delite PEG 18.71 ÷ 12.41 = 1.51 vs peers 1.31–1.74, sector 1.52:", picked: "overvalued", answer: "fairly valued" },
       ],
       trap: '150 comes from dividing by 0.085. And PEG divides by growth, so it is only as good as g: low g makes it unreliable, zero g undefined, negative g meaningless.',
       fix: 'PEG = P/E ÷ g with g in percent: 12.75 ÷ 8.5 = 1.50. A “works for every stock” claim about PEG is false.',
@@ -24246,6 +24247,80 @@ const TUITION_MISSES = {
       trap: 'SUE scales the surprise by the *standard deviation* of past surprises, not by the surprise itself.',
       fix: 'SUE = (reported − expected EPS) ÷ SD of past surprises. A small SD makes the same surprise a bigger SUE, so it means more.',
       tackle: ['Read SUE like a z-score: the same miss stands out more when misses are usually small.'],
+    },
+    // Logged 2026-11-21
+    {
+      module: "20.S2",
+      title: "Trailing P/E = last year’s EPS; forward P/E = next year’s, and use it after a big acquisition",
+      at: ["s2-pe"],
+      questions: [
+        { ref: "L2-EQ-CASE1 #1", ask: "Most appropriate P/E for Delite after a major acquisition:", picked: "19.04 (trailing)", answer: "18.71 (forward: 65.50 ÷ 3.50)" },
+        { ref: "L2-EQ-CASE2 #1", ask: "Trailing P/E for Centralino:", picked: "8.3 (50 ÷ 6.00, forward)", answer: "8.9 (50 ÷ 5.64)" },
+      ],
+      trap: "The two P/Es were swapped: trailing chosen after an acquisition, forward given when trailing was asked.",
+      fix: "Trailing = price ÷ last four quarters’ EPS. Forward (leading) = price ÷ next year’s EPS. A big acquisition or divestiture makes trailing EPS stale, so use forward.",
+      remember: "Trailing = price ÷ last four quarters’ EPS. Forward (leading) = price ÷ next year’s EPS. A big acquisition or divestiture makes trailing EPS stale, so use forward.",
+      tackle: ["Find the word: trailing → actual EPS; leading/forward → estimate."],
+    },
+    {
+      module: "20.S2",
+      title: "P/S: price per share ÷ sales PER SHARE",
+      at: ["s2-ps"],
+      questions: [
+        { ref: "L2-EQ-CASE1 #2", ask: "You Fix It P/S (price $37.23, sales $67.44 bn, 1.639 bn shares):", picked: "0.55 (37.23 ÷ 67.44)", answer: "0.90 (37.23 ÷ 41.15)" },
+      ],
+      trap: "Total sales were used against a per-share price.",
+      fix: "Divide total sales by shares first: 67.44 ÷ 1.6388 = $41.15; then P/S = 37.23 ÷ 41.15 = 0.90.",
+      remember: "Divide total sales by shares first: 67.44 ÷ 1.6388 = $41.15; then P/S = 37.23 ÷ 41.15 = 0.90.",
+      tackle: ["Same units top and bottom: both per share or both total."],
+    },
+    {
+      module: "20.S4",
+      title: "Justified forward P/E = (D1 ÷ E1) ÷ (r − g): both from next year",
+      at: ["s4-pe-ex"],
+      questions: [
+        { ref: "L2-EQ-CASE2 #2", ask: "Justified forward P/E (D1 2.91, E1 6.00, r 15%, g 6%):", picked: "5.7 (2.91 ÷ 5.64)", answer: "5.4 (2.91 ÷ 6.00 ÷ 0.09)" },
+      ],
+      trap: "Next year’s dividend was put over last year’s EPS.",
+      fix: "Leading: payout = D1 ÷ E1, both next year. Trailing: (D0 × (1 + g) ÷ E0) ÷ (r − g).",
+      remember: "Leading: payout = D1 ÷ E1, both next year. Trailing: (D0 × (1 + g) ÷ E0) ÷ (r − g).",
+      tackle: ["Match the years: D1 with E1, D0 with E0."],
+    },
+    {
+      module: "20.S5",
+      title: "EV = common + preferred + debt − cash (all market values)",
+      at: ["s5-ev"],
+      questions: [
+        { ref: "L2-EQ-CASE2 #4", ask: "Centralino EV/sales (preferred 16 m × €5.25):", picked: "0.74 (preferred left out)", answer: "0.77 (EV 2,446)" },
+      ],
+      trap: "Preferred stock was left out of EV.",
+      fix: "EV = market value of common + preferred + debt − cash and short-term investments. 2,097 + 84 + 367 − 102 = 2,446.",
+      remember: "EV = market value of common + preferred + debt − cash and short-term investments. 2,097 + 84 + 367 − 102 = 2,446.",
+      tackle: ["Tick off each claim: common, preferred, debt, then subtract cash."],
+    },
+    {
+      module: "20.S3",
+      title: "Normalized EPS, average ROE method = average cycle ROE × CURRENT BVPS",
+      at: ["s3-def"],
+      questions: [
+        { ref: "L2-EQ-CASE2 #6", ask: "Centralino normalized EPS (ROE 2016–19, BVPS €22.48):", picked: "€3.21 (latest ROE 14.21%)", answer: "€2.94 (13.1% × 22.48)" },
+      ],
+      trap: "The latest ROE was used instead of the cycle average.",
+      fix: "Average ROE method: mean ROE over the full cycle × current BVPS (common equity only, preferred out). Historical method: mean EPS over the cycle.",
+      remember: "Average ROE method: mean ROE over the full cycle × current BVPS (common equity only, preferred out). Historical method: mean EPS over the cycle.",
+      tackle: ["Average first, then multiply by today’s BVPS."],
+    },
+    {
+      module: "20.S6",
+      title: "Harmonic mean damps LARGE outliers (not small ones); the median damps both",
+      at: ["Comparables method, PEG example and averaging multiples"],
+      questions: [
+        { ref: "L2-EQ-CASE1 #7", ask: "Damp large outliers (Tasty 44.10) but not small ones near zero:", picked: "arithmetic mean", answer: "harmonic mean" },
+      ],
+      trap: "The arithmetic mean was picked, which is the one large outliers pull up.",
+      fix: "Arithmetic mean: pulled up by large P/Es. Harmonic mean (average of E/P, inverted): large P/Es count little, small ones count more. Median: ignores outliers at both ends.",
+      remember: "Arithmetic mean: pulled up by large P/Es. Harmonic mean (average of E/P, inverted): large P/Es count little, small ones count more. Median: ignores outliers at both ends.",
+      tackle: ["“Large but not small” = harmonic; “both” = median."],
     },
   ],
   'alt.0': [
@@ -26473,23 +26548,23 @@ const MINDMAP = {
     branches: [
       { id: 'b1', mod: '20.S1–20.S3', tone: 'teal', t: 'Multiples and their uses', tag: 'Which multiple, and its weak spots', c: [
         { id: 'two', mod: '20.S1', t: 'Fundamentals vs. comparables', tag: 'Justified from a model vs. benchmark from peers',
-          from: ['s1-rel', 's1-two', 's1-comtronics', 's1-mk'], wk: ['Justified = warranted'] },
+          from: ['s1-rel', 's1-two', 's1-comtronics', 's1-mk'], wk: ['Justified = warranted', "Harmonic mean damps"] },
         { id: 'pe', mod: '20.S2', t: 'P/E', tag: 'Earnings power; useless with negative EPS',
-          from: ['s2-pe'], wk: ['Weighted harmonic mean P/E'] },
+          from: ['s2-pe'], wk: ['Weighted harmonic mean P/E', "Trailing P/E = last"] },
         { id: 'pb', mod: '20.S2', t: 'P/B', tag: 'Positive even with losses; suits banks',
           from: ['s2-pb'] },
         { id: 'ps', mod: '20.S2', t: 'P/S', tag: 'Works for distressed firms; ignores costs',
-          from: ['s2-ps'] },
+          from: ['s2-ps'], wk: ["P/S: price per share"] },
         { id: 'pcf', mod: '20.S2', t: 'P/CF', tag: 'Harder to manipulate; several CF definitions',
           from: ['s2-cfdef', 's2-pcf'] },
         { id: 'dy', mod: '20.S2', t: 'Dividend yield', tag: 'Part of total return; ignores capital gains',
           from: ['s2-dy'] },
         { id: 'norm', mod: '20.S3', t: 'Underlying and normalised earnings', tag: 'Historical average EPS or average ROE × current BVPS',
-          from: ['s3-def', 'Two methods of normalized earnings'] },
+          from: ['s3-def', 'Two methods of normalized earnings'], wk: ["Normalized EPS, average ROE"] },
       ] },
       { id: 'b2', mod: '20.S4–20.S5', tone: 'violet', t: 'Justified multiples', tag: 'Every one comes from the Gordon model', c: [
         { id: 'jpe', mod: '20.S4', t: 'Justified P/E', tag: '(1 − b) ÷ (kₑ − g): g up, kₑ down → P/E up',
-          from: ['Justified P/E', 's4-pe-f'] },
+          from: ['Justified P/E', 's4-pe-f'], wk: ["Justified forward P/E"] },
         { id: 'jpb', mod: '20.S4', t: 'Justified P/B', tag: '(ROE − g) ÷ (kₑ − g)',
           from: ['s4-pb-d', 's4-pb-f'], wk: ['P/B rises with ROE'] },
         { id: 'jps', mod: '20.S4', t: 'Justified P/S', tag: 'Margin × (1 − b)(1 + g) ÷ (kₑ − g)',
@@ -26497,7 +26572,7 @@ const MINDMAP = {
         { id: 'jpcf', mod: '20.S5', t: 'Justified P/CF and dividend yield', tag: 'P/CF inverse to kₑ; yield direct to kₑ',
           from: ['Justified P/CF', 's5-pcf', 'DPS/MPS and'] },
         { id: 'ev', mod: '20.S5', t: 'EV/EBITDA', tag: 'Leverage-neutral; good for capital-heavy firms',
-          from: ['s5-ev', 's5-ev-uses'] },
+          from: ['s5-ev', 's5-ev-uses'], wk: ["EV = common"] },
       ] },
       { id: 'b3', mod: '20.S6', tone: 'amber', t: 'Market-level tools', tag: 'Predictions, benchmarks and momentum', c: [
         { id: 'pred', t: 'Predicted P/E', tag: 'Regress P/E on fundamentals',
@@ -29603,6 +29678,31 @@ const TWIN_Q = {
   "L2-FSA-CASE5 #7": { lvl: 2, full: ["A parent buys 75%. Fair value of the whole subsidiary is $800 m; identifiable net assets are $600 m. NCI under partial goodwill:"],
     options: ["A) $150 m", "B) $200 m", "C) $600 m"], a: 0,
     why: "Partial: 25% × 600 = $150 m (full would be 25% × 800 = $200 m)." },
+  // Logged 2026-11-21: Equity cases 1–2 (R20)
+  "L2-EQ-CASE1 #1": { lvl: 1, full: ["A company just sold a division that made up 30% of its profit. Price $40; last year’s EPS $2.50; next year’s estimated EPS $2.00. The most appropriate P/E is:"],
+    options: ["A) 16.0", "B) 20.0", "C) 18.0"], a: 1,
+    why: "After a big divestiture use forward EPS: 40 ÷ 2.00 = 20.0." },
+  "L2-EQ-CASE1 #2": { lvl: 1, full: ["Price $24; sales $9.6 bn; 800 m shares. P/S is closest to:"],
+    options: ["A) 2.5", "B) 2.0", "C) 0.25"], a: 1,
+    why: "Sales per share = 9.6 bn ÷ 0.8 bn = 12; P/S = 24 ÷ 12 = 2.0." },
+  "L2-EQ-CASE1 #6": { lvl: 2, full: ["Stock: forward P/E 21, growth 14%. Peers’ PEGs 1.3, 1.6; sector 1.5. The stock is:"],
+    options: ["A) overvalued", "B) undervalued", "C) fairly valued"], a: 2,
+    why: "PEG = 21 ÷ 14 = 1.5, equal to the sector: fairly valued." },
+  "L2-EQ-CASE1 #7": { lvl: 1, full: ["Peer P/Es are 9, 11, 12 and 60. Which average reduces the pull of the 60 but not of small P/Es?"],
+    options: ["A) Arithmetic mean", "B) Harmonic mean", "C) Median"], a: 1,
+    why: "The harmonic mean averages 1/P/E, so large P/Es weigh little." },
+  "L2-EQ-CASE2 #1": { lvl: 1, full: ["Price €30; last year’s EPS €2.40; next year’s estimate €2.73. Trailing P/E:"],
+    options: ["A) 11.0", "B) 12.5", "C) 13.6"], a: 1,
+    why: "Trailing uses last year’s EPS: 30 ÷ 2.40 = 12.5." },
+  "L2-EQ-CASE2 #2": { lvl: 2, full: ["Next year: DPS 1.20, EPS 3.00. r = 12%, g = 4%. Justified forward P/E:"],
+    options: ["A) 5.0", "B) 5.4", "C) 4.6"], a: 0,
+    why: "Payout 1.20 ÷ 3.00 = 0.40; 0.40 ÷ 0.08 = 5.0." },
+  "L2-EQ-CASE2 #4": { lvl: 2, full: ["Common 1,500 (market), preferred 100 (market), debt 400, cash 200, sales 2,000. EV/sales:"],
+    options: ["A) 0.85", "B) 0.90", "C) 1.00"], a: 1,
+    why: "EV = 1,500 + 100 + 400 − 200 = 1,800; 1,800 ÷ 2,000 = 0.90." },
+  "L2-EQ-CASE2 #6": { lvl: 2, full: ["ROE over a full cycle: 10%, 14%, 12%, 16%. Current BVPS $25. Normalized EPS by the average ROE method:"],
+    options: ["A) $3.25", "B) $4.00", "C) $3.00"], a: 0,
+    why: "Average ROE 13% × 25 = $3.25." },
 };
 
 const TUITION_Q = {
@@ -35827,6 +35927,200 @@ const TUITION_Q = {
       ]
     }
   },
+  "L2-EQ-CASE1 #1": {
+    "full": [
+      "Mark Cannan is updating research reports on two well-established consumer companies before first quarter 2021 earnings reports are released. His supervisor, Sharolyn Ritter, has asked Cannan to use market-based valuations when updating the reports.",
+      "Delite Beverage is a manufacturer and distributor of soft drinks and recently acquired a major water bottling company in order to offer a broader product line. The acquisition will have a significant impact on Delite’s future results. You Fix It is a US retail distributor of products for home improvement, primarily for those consumers who choose to do the work themselves. The home improvement industry is cyclical; the industry was adversely affected by the recent downturn in the economy, the level of foreclosures, and slow home sales. Although sales and earnings at You Fix It weakened, same store sales are beginning to improve as consumers undertake more home improvement projects. Poor performing stores were closed, resulting in significant restructuring charges in 2020.",
+      "Exhibit 1: Select Financial Data (Delite Beverage / You Fix It): 2020 EPS $3.44 / $1.77; 2021 estimated EPS $3.50 / $1.99; Book value per share end of year $62.05 / $11.64; Current share price $65.50 / $37.23; Sales (billions) $32.13 / $67.44; Free cash flow per share $2.68 / $0.21; Shares outstanding end of year 2,322,034,000 / 1,638,821,000.",
+      "Based on the information in Exhibit 1, the most appropriate price-to-earnings ratio to use in the valuation of Delite is closest to:"
+    ],
+    "options": [
+      "18.71.",
+      "19.04.",
+      "24.44."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Delite just made an acquisition that will change its results a lot. Last year’s EPS doesn’t include it, so use next year’s estimate: the forward P/E.",
+      "wrong": "19.04 is the *trailing* P/E (65.50 ÷ 3.44). Trailing is the default, but not after a big acquisition or divestiture.",
+      "steps": [
+        "Big acquisition → forward (leading) P/E",
+        "Forward P/E = price ÷ 2021 estimated EPS",
+        "= 65.50 ÷ 3.50 = 18.71"
+      ]
+    }
+  },
+  "L2-EQ-CASE1 #2": {
+    "full": [
+      "Mark Cannan is updating research reports on two well-established consumer companies before first quarter 2021 earnings reports are released. His supervisor, Sharolyn Ritter, has asked Cannan to use market-based valuations when updating the reports.",
+      "Delite Beverage is a manufacturer and distributor of soft drinks and recently acquired a major water bottling company in order to offer a broader product line. The acquisition will have a significant impact on Delite’s future results. You Fix It is a US retail distributor of products for home improvement, primarily for those consumers who choose to do the work themselves. The home improvement industry is cyclical; the industry was adversely affected by the recent downturn in the economy, the level of foreclosures, and slow home sales. Although sales and earnings at You Fix It weakened, same store sales are beginning to improve as consumers undertake more home improvement projects. Poor performing stores were closed, resulting in significant restructuring charges in 2020.",
+      "Exhibit 1: Select Financial Data (Delite Beverage / You Fix It): 2020 EPS $3.44 / $1.77; 2021 estimated EPS $3.50 / $1.99; Book value per share end of year $62.05 / $11.64; Current share price $65.50 / $37.23; Sales (billions) $32.13 / $67.44; Free cash flow per share $2.68 / $0.21; Shares outstanding end of year 2,322,034,000 / 1,638,821,000.",
+      "Based on the information in Exhibit 1, the price-to-sales ratio for You Fix It is closest to:"
+    ],
+    "options": [
+      "0.28.",
+      "0.55.",
+      "0.90."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "P/S compares the share price with sales *per share*. First turn total sales into sales per share, then divide.",
+      "wrong": "0.55 is 37.23 ÷ 67.44: a per-share price divided by total sales in billions. The units don’t match.",
+      "steps": [
+        "Sales per share = 67.44 bn ÷ 1.638821 bn shares = $41.15",
+        "P/S = 37.23 ÷ 41.15 = 0.90"
+      ]
+    }
+  },
+  "L2-EQ-CASE1 #6": {
+    "full": [
+      "Mark Cannan is updating research reports on two well-established consumer companies before first quarter 2021 earnings reports are released. His supervisor, Sharolyn Ritter, has asked Cannan to use market-based valuations when updating the reports.",
+      "Delite Beverage is a manufacturer and distributor of soft drinks and recently acquired a major water bottling company in order to offer a broader product line. The acquisition will have a significant impact on Delite’s future results. You Fix It is a US retail distributor of products for home improvement, primarily for those consumers who choose to do the work themselves. The home improvement industry is cyclical; the industry was adversely affected by the recent downturn in the economy, the level of foreclosures, and slow home sales. Although sales and earnings at You Fix It weakened, same store sales are beginning to improve as consumers undertake more home improvement projects. Poor performing stores were closed, resulting in significant restructuring charges in 2020.",
+      "Exhibit 1: Select Financial Data (Delite Beverage / You Fix It): 2020 EPS $3.44 / $1.77; 2021 estimated EPS $3.50 / $1.99; Book value per share end of year $62.05 / $11.64; Current share price $65.50 / $37.23; Sales (billions) $32.13 / $67.44; Free cash flow per share $2.68 / $0.21; Shares outstanding end of year 2,322,034,000 / 1,638,821,000.",
+      "Exhibit 2: Beverage Sector Data (Forward P/E / Earnings Growth): Delite – / 12.41%; Fresh Iced Tea Company 16.59 / 9.52%; Nonutter Soda 15.64 / 11.94%; Tasty Root Beer 44.10 / 20%; Beverage sector average 16.40 / 10.80%.",
+      "Based on the information in Exhibits 1 and 2, Cannan would most likely conclude that Delite’s shares are:"
+    ],
+    "options": [
+      "overvalued.",
+      "undervalued.",
+      "fairly valued"
+    ],
+    "p": 0,
+    "a": 2,
+    "easy": {
+      "right": "Delite’s PEG of 1.51 sits between its peers (1.31 and 1.74) and almost on the sector’s 1.52. A PEG in line with the group means fairly valued.",
+      "wrong": "Overvalued would need a PEG clearly *above* the group. A forward P/E of 18.71 looks high, but PEG adjusts for Delite’s faster growth (12.41%).",
+      "steps": [
+        "Delite P/E = 65.50 ÷ 3.50 = 18.71",
+        "Delite PEG = 18.71 ÷ 12.41 = 1.51",
+        "Fresh Iced Tea = 16.59 ÷ 9.52 = 1.74; Nonutter = 15.64 ÷ 11.94 = 1.31",
+        "Sector = 16.40 ÷ 10.80 = 1.52",
+        "1.51 ≈ 1.52 → fairly valued"
+      ]
+    }
+  },
+  "L2-EQ-CASE1 #7": {
+    "full": [
+      "Mark Cannan is updating research reports on two well-established consumer companies before first quarter 2021 earnings reports are released. His supervisor, Sharolyn Ritter, has asked Cannan to use market-based valuations when updating the reports.",
+      "Exhibit 2: Beverage Sector Data (Forward P/E / Earnings Growth): Delite – / 12.41%; Fresh Iced Tea Company 16.59 / 9.52%; Nonutter Soda 15.64 / 11.94%; Tasty Root Beer 44.10 / 20%; Beverage sector average 16.40 / 10.80%.",
+      "After providing Ritter his answer, Cannan is concerned about the inclusion of Tasty Root Beer in the comparables analysis. Specifically, Cannan says to Ritter:",
+      "“I feel we should mitigate the effect of large outliers but not the impact of small outliers (i.e., those close to zero) when calculating the beverage sector P/E. What measure of central tendency would you suggest we use to address this concern?”",
+      "The measure of central tendency that Ritter will most likely recommend is the:"
+    ],
+    "options": [
+      "median",
+      "harmonic mean",
+      "arithmetic mean"
+    ],
+    "p": 2,
+    "a": 1,
+    "easy": {
+      "right": "The harmonic mean averages 1/P/E, so a huge P/E like 44.10 counts for little. Small P/Es get *more* weight, which is exactly “damp large outliers, not small ones”.",
+      "wrong": "The arithmetic mean is the one *pulled up* by large outliers, which is Cannan’s problem. The median ignores outliers at both ends, not only the large ones."
+    }
+  },
+  "L2-EQ-CASE2 #1": {
+    "full": [
+      "Andrea Risso is a junior analyst with AquistareFianco, an independent equity research firm. Risso’s supervisor asks her to update, as of 1 January 2020, a quarterly research report for Centralino S.p.A., a telecommunications company headquartered in Italy. On that date, Centralino’s common share price is €50 and its preferred shares trade for €5.25 per share.",
+      "Risso gathers information on Centralino. Exhibit 1 presents earnings and dividend data, and Exhibit 2 presents balance sheet data. Net sales were €3.182 billion in 2019. Risso estimates a required return of 15% for Centralino and forecasts growth in dividends of 6% into perpetuity.",
+      "Exhibit 1: Earnings and Dividends for Centralino, 2016 / 2017 / 2018 / 2019 / 2020(E): EPS (€) 4.93 / 5.25 / 4.46 / 5.64 / 6.00; DPS (€) 2.45 / 2.60 / 2.60 / 2.75 / 2.91; ROE 13.01% / 13.71% / 11.58% / 14.21% / 14.96%. Note: The data for 2016–2019 are actual and for 2020 are estimated.",
+      "Based on Exhibit 1, the trailing P/E for Centralino as of 1 January 2020, ignoring any business-cycle influence, is closest to:"
+    ],
+    "options": [
+      "8.3.",
+      "8.9.",
+      "9.9."
+    ],
+    "p": 0,
+    "a": 1,
+    "easy": {
+      "right": "Trailing means the *last* four quarters: 2019 EPS of €5.64. €50 ÷ 5.64 = 8.9.",
+      "wrong": "8.3 uses the 2020 *estimate* (50 ÷ 6.00). That is the forward P/E.",
+      "steps": [
+        "Trailing EPS = 2019 actual = €5.64",
+        "Trailing P/E = 50 ÷ 5.64 = 8.9"
+      ]
+    }
+  },
+  "L2-EQ-CASE2 #2": {
+    "full": [
+      "Andrea Risso is a junior analyst with AquistareFianco, an independent equity research firm. Risso’s supervisor asks her to update, as of 1 January 2020, a quarterly research report for Centralino S.p.A., a telecommunications company headquartered in Italy. On that date, Centralino’s common share price is €50 and its preferred shares trade for €5.25 per share.",
+      "Risso gathers information on Centralino. Exhibit 1 presents earnings and dividend data, and Exhibit 2 presents balance sheet data. Net sales were €3.182 billion in 2019. Risso estimates a required return of 15% for Centralino and forecasts growth in dividends of 6% into perpetuity.",
+      "Exhibit 1: Earnings and Dividends for Centralino, 2016 / 2017 / 2018 / 2019 / 2020(E): EPS (€) 4.93 / 5.25 / 4.46 / 5.64 / 6.00; DPS (€) 2.45 / 2.60 / 2.60 / 2.75 / 2.91; ROE 13.01% / 13.71% / 11.58% / 14.21% / 14.96%. Note: The data for 2016–2019 are actual and for 2020 are estimated.",
+      "Based on Exhibit 1 and Risso’s estimates of return and dividend growth, Centralino’s justified forward P/E based on the Gordon growth dividend discount model is closest to:"
+    ],
+    "options": [
+      "5.4.",
+      "5.7.",
+      "1"
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "A forward P/E uses next year’s numbers on top *and* bottom: payout = D1 ÷ E1 = 2.91 ÷ 6.00. Then divide by r − g.",
+      "wrong": "5.7 mixes years: 2020 dividend over 2019 EPS (2.91 ÷ 5.64). Leading P/E needs the 2020 EPS too.",
+      "steps": [
+        "Payout = D1 ÷ E1 = 2.91 ÷ 6.00 = 0.485",
+        "r − g = 0.15 − 0.06 = 0.09",
+        "Justified forward P/E = 0.485 ÷ 0.09 = 5.4"
+      ]
+    }
+  },
+  "L2-EQ-CASE2 #4": {
+    "full": [
+      "Andrea Risso is a junior analyst with AquistareFianco, an independent equity research firm. Risso’s supervisor asks her to update, as of 1 January 2020, a quarterly research report for Centralino S.p.A., a telecommunications company headquartered in Italy. On that date, Centralino’s common share price is €50 and its preferred shares trade for €5.25 per share.",
+      "Risso gathers information on Centralino. Exhibit 1 presents earnings and dividend data, and Exhibit 2 presents balance sheet data. Net sales were €3.182 billion in 2019. Risso estimates a required return of 15% for Centralino and forecasts growth in dividends of 6% into perpetuity.",
+      "Exhibit 2: Summary Balance Sheet for Centralino, 31 December 2019 (€ millions): Cash and cash equivalents 102; Accounts receivable 305; Inventory 333; Total current assets 740; Property and equipment, net 913; Total assets 1,653. Current liabilities 259; Long-term debt 367; Total liabilities 626; Preferred shares 80; Common shares 826; Retained earnings 121; Total shareholders’ equity 1,027; Total liabilities and shareholders’ equity 1,653. Notes: The market value of long-term debt is equal to its book value. Shares outstanding are 41.94 million common shares and 16.00 million preferred shares.",
+      "Based on Exhibit 2, the multiple of enterprise value to sales for Centralino as of 31 December 2019 is closest to:"
+    ],
+    "options": [
+      "0.67.",
+      "0.74.",
+      "0.77."
+    ],
+    "p": 1,
+    "a": 2,
+    "easy": {
+      "right": "EV is everyone’s claim on the business: common equity + preferred + debt − cash, all at market value. Preferred is €5.25 × 16 m = €84 m.",
+      "wrong": "0.74 leaves the preferred shares out of EV. Preferred holders are capital providers too, so they belong in it.",
+      "steps": [
+        "Common = 50 × 41.94 m = 2,097",
+        "Preferred = 5.25 × 16.00 m = 84",
+        "EV = 2,097 + 84 + 367 − 102 = 2,446",
+        "EV/sales = 2,446 ÷ 3,182 = 0.77"
+      ]
+    }
+  },
+  "L2-EQ-CASE2 #6": {
+    "full": [
+      "Andrea Risso is a junior analyst with AquistareFianco, an independent equity research firm. Risso’s supervisor asks her to update, as of 1 January 2020, a quarterly research report for Centralino S.p.A., a telecommunications company headquartered in Italy. On that date, Centralino’s common share price is €50 and its preferred shares trade for €5.25 per share.",
+      "Risso gathers information on Centralino. Exhibit 1 presents earnings and dividend data, and Exhibit 2 presents balance sheet data. Net sales were €3.182 billion in 2019. Risso estimates a required return of 15% for Centralino and forecasts growth in dividends of 6% into perpetuity.",
+      "Exhibit 1: Earnings and Dividends for Centralino, 2016 / 2017 / 2018 / 2019 / 2020(E): EPS (€) 4.93 / 5.25 / 4.46 / 5.64 / 6.00; DPS (€) 2.45 / 2.60 / 2.60 / 2.75 / 2.91; ROE 13.01% / 13.71% / 11.58% / 14.21% / 14.96%. Note: The data for 2016–2019 are actual and for 2020 are estimated.",
+      "Exhibit 2: Summary Balance Sheet for Centralino, 31 December 2019 (€ millions): Cash and cash equivalents 102; Accounts receivable 305; Inventory 333; Total current assets 740; Property and equipment, net 913; Total assets 1,653. Current liabilities 259; Long-term debt 367; Total liabilities 626; Preferred shares 80; Common shares 826; Retained earnings 121; Total shareholders’ equity 1,027; Total liabilities and shareholders’ equity 1,653. Notes: The market value of long-term debt is equal to its book value. Shares outstanding are 41.94 million common shares and 16.00 million preferred shares.",
+      "Risso also wants to calculate normalized EPS using the average return on equity method. She determines that the 2016–19 time period in Exhibit 1 represents a full business cycle for Centralino.",
+      "Based on Exhibits 1 and 2, the normalized earnings per share for Centralino as calculated by Risso should be closest to:"
+    ],
+    "options": [
+      "€2.94.",
+      "€3.21.",
+      "€5.07."
+    ],
+    "p": 1,
+    "a": 0,
+    "easy": {
+      "right": "Average ROE method: the *average* ROE over the cycle × the *current* book value per share. Book value is for common shareholders only, so take preferred out.",
+      "wrong": "€3.21 uses only the latest ROE (14.21%), not the cycle average. €5.07 is the average EPS, which is the other method.",
+      "steps": [
+        "Average ROE 2016–19 = (13.01 + 13.71 + 11.58 + 14.21) ÷ 4 = 13.1%",
+        "Common equity = 1,027 − 84 (preferred at market) = 943",
+        "BVPS = 943 ÷ 41.94 = €22.48",
+        "Normalized EPS = 0.131 × 22.48 = €2.94",
+        "(With book preferred 80: 947 ÷ 41.94 = 22.58 → €2.96, still closest to €2.94)"
+      ]
+    }
+  },
 };
 // Tests I've taken (tuition reading quizzes, mocks), question by question. Claude fills this in from the
 // result PDF in Written Notes/<subject>/Test Result. Each question names the session it tests (`mod`),
@@ -37286,6 +37580,23 @@ const TESTS = [
     { mod: "7.S3", what: "Carrying value = 300 + 54 − 33 − 3.9 = $317 m", ok: 1 },
     { mod: "7.S7", what: "IFRS impairment = 15,200 − 14,900 = $300 m", ok: 1 },
     { mod: "7.S7", what: "Partial goodwill NCI = 20% × $1.5 bn identifiable net assets = $300 m", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-EQ-CASE1", lvl: "2212222", topic: "equity.3", name: "Equity case 1 (Delite / You Fix It)", date: "2026-11-20", mins: 21.3, qs: [
+    { mod: "20.S2", what: "After a big acquisition use forward P/E: 65.50 ÷ 3.50 = 18.71", ok: 0, why: "gap" },
+    { mod: "20.S2", what: "P/S = 37.23 ÷ (67.44 bn ÷ 1.6388 bn = 41.15) = 0.90", ok: 0, why: "calc" },
+    { mod: "20.S3", what: "Cyclical company → P/E on normalized earnings", ok: 1 },
+    { mod: "20.S2", what: "P/E beats P/S because earnings reflect financial leverage", ok: 1 },
+    { mod: "20.S2", what: "Cash flow after interest, with working capital and noncash items = FCFE", ok: 1 },
+    { mod: "20.S6", what: "PEG 18.71 ÷ 12.41 = 1.51 vs sector 1.52 → fairly valued", ok: 0, why: "calc" },
+    { mod: "20.S6", what: "Damp large outliers, not small ones → harmonic mean", ok: 0, why: "gap" },
+  ] },
+  { id: "L2-EQ-CASE2", lvl: "122222", topic: "equity.3", name: "Equity case 2 (Centralino)", date: "2026-11-20", mins: 28.5, qs: [
+    { mod: "20.S2", what: "Trailing P/E = 50 ÷ 5.64 (2019 EPS) = 8.9", ok: 0, why: "gap" },
+    { mod: "20.S4", what: "Justified forward P/E = (2.91 ÷ 6.00) ÷ (0.15 − 0.06) = 5.4", ok: 0, why: "calc" },
+    { mod: "20.S2", what: "P/B = 50 ÷ ((1,027 − 80) ÷ 41.94 = 22.58) = 2.2", ok: 1 },
+    { mod: "20.S5", what: "EV/sales = (2,097 + 84 + 367 − 102 = 2,446) ÷ 3,182 = 0.77", ok: 0, why: "calc" },
+    { mod: "20.S6", what: "Harmonic mean peer P/E 5.5 < forward P/E 8.3 → overvalued", ok: 1 },
+    { mod: "20.S3", what: "Normalized EPS = average ROE 13.1% × BVPS 22.48 = €2.94", ok: 0, why: "calc" },
   ] },
 ];
 // Mock exams, for the 🎯 Mock analysis review. MOCK_SETS holds each item set’s vignette word for word, with its
