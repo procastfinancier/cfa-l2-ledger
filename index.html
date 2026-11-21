@@ -336,6 +336,24 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .weak-text { font-size: 12.5px; color: var(--ink); line-height: 1.55; }
   .weak-text ol { margin: 0; padding-left: 18px; }
   .weak-text li { margin-bottom: 4px; }
+  /* 🎲 Practice questions (GUESS_Q): violet, so they never read as a mistake card */
+  .gq-card { border: 1px solid var(--violet); background: var(--violet-bg); border-radius: 8px; padding: 10px 12px; margin: 8px 0 10px; }
+  .gq-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 6px; }
+  .gq-tag { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--violet); text-transform: uppercase; letter-spacing: 0.05em; }
+  .gq-src { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+  .gq-q { font-size: 13px; color: var(--ink); line-height: 1.5; margin-bottom: 4px; }
+  .gq-opts { list-style: none; margin: 4px 0; padding: 0; }
+  .gq-opts li { margin: 0 0 4px; }
+  .gq-opt { display: flex; gap: 8px; width: 100%; text-align: left; font: 13px var(--sans); line-height: 1.45; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; cursor: pointer; }
+  .gq-opt:hover, .gq-opt:focus-visible { border-color: var(--violet); }
+  .gq-opt b { flex: 0 0 14px; }
+  .gq-card.gq-done .gq-opt { cursor: default; }
+  .gq-card.gq-done .gq-opt.right { color: var(--teal); background: var(--teal-bg); border-color: var(--teal); font-weight: 600; }
+  .gq-card.gq-done .gq-opt.picked:not(.right) { color: var(--rose); background: var(--rose-bg); border-color: var(--rose); font-weight: 600; }
+  .gq-ans { display: none; margin-top: 6px; }
+  .gq-card.gq-done .gq-ans { display: block; }
+  .gq-card.gq-done .gq-show { display: none; }
+  .gq-sec { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--violet); text-transform: uppercase; letter-spacing: 0.05em; margin: 8px 0 3px; }
   .wk-easy { margin: 8px 0 2px; padding: 8px 10px; border-left: 3px solid var(--teal); background: var(--teal-bg); border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.55; }
   .wk-easy p { margin: 0 0 6px; }
   .wk-easy p:last-child { margin-bottom: 0; }
@@ -21753,6 +21771,93 @@ const GAPS = {
   'ethics.1': {},
   'ethics.2': {},
 };
+// 🎲 Practice questions picked from the "Guessed qizes" tuition PDFs (2026-11-21): the user's own answers
+// there were guesses, so nothing here is a test result — they never feed TESTS, weak-spot cards, twins or
+// the ⭐ exam-day set. One question per idea, chosen against the user's past misses. `at` is a noteFind
+// target ('MOD::sub-heading or text'); the card sits straight after that part of the notes.
+const GUESS_Q = {
+  'quant.0': [
+    { at: '1.S3::F-Test for Overall Model Fit', src: 'L2-R1-CASE12 #2', q: 'A regression of sales on 3 independent variables (n = 180) has SST = 368.7 and SSE = 140.3. Critical F (3, 176) at 5% = 2.66. The most appropriate decision on H₀: all slope coefficients = 0 is to:', opts: ['fail to reject H₀, because F is smaller than 2.66', 'reject H₀, because F is larger than the critical value of 3.19', 'reject H₀, because F is larger than the critical value of 2.66'], a: 2,
+      steps: ['RSS = SST − SSE = 368.7 − 140.3 = 228.4', 'MSR = RSS ÷ k = 228.4 ÷ 3 = 76.13', 'MSE = SSE ÷ (n − k − 1) = 140.3 ÷ 176 = 0.797', 'F = MSR ÷ MSE = 76.13 ÷ 0.797 = 95.5', '95.5 > 2.66 → reject H₀: at least one slope is not zero'],
+      trap: 'The table gives SST and SSE, not RSS: get RSS by subtraction first. Critical F uses df (k, n − k − 1) = (3, 176), not (1, …).', why: 'Your ANOVA misses: R² = SSR ÷ SST and F = MSR ÷ MSE.' },
+    { at: '1.P::Variance and Analysis of Variance (ANOVA)', src: 'L2-R1-CASE18 #1', q: 'Regression sum of squares (RSS) = 126.00; sum of squared errors (SSE) = 267.00. The percentage of the total variation in quarterly stock returns explained by the independent variables is closest to:', opts: ['47%', '42%', '32%'], a: 2,
+      steps: ['SST = RSS + SSE = 126 + 267 = 393', 'R² = RSS ÷ SST = 126 ÷ 393 = 0.32 → 32%'],
+      trap: '47% is RSS ÷ SSE (126 ÷ 267). R² always divides by the TOTAL sum of squares.', why: 'Your card: R² divides by the TOTAL sum of squares, not the error sum.' },
+    { at: '1.P::Variance and Analysis of Variance (ANOVA)', src: 'L2-R1-CASE17 #3', q: 'A simple regression of a stock’s return on its industry index return has a standard error of estimate of 15.1 and a correlation coefficient of 0.849. The percentage of the variation in the stock return explained by the index return is closest to:', opts: ['63.2%', '72.1%', '84.9%'], a: 1,
+      steps: ['Simple regression (one X): R² = r²', 'R² = 0.849² = 0.721 → 72.1%'],
+      trap: '84.9% is r itself. The reverse of your miss: there you needed r = √R²; here square r to get R².', why: 'Your card: R² is not the correlation — r = √R² in simple regression.' },
+    { at: '1.S5::Detecting Heteroskedasticity', src: 'L2-R1-CASE21 #5', q: 'A regression of sales on 2 independent variables uses n = 123 observations. Regressing the squared residuals on the independent variables gives R² = 11%. Critical χ² at 5%: 3.84 (1 df), 5.99 (2 df). Which conclusion is most accurate?', opts: ['With a test statistic of 0.22, we cannot reject the null of no conditional heteroskedasticity', 'Because the critical value is 3.84, we reject the null of no conditional heteroskedasticity', 'With a test statistic of 13.53, we can conclude conditional heteroskedasticity is present'], a: 2,
+      steps: ['Breusch–Pagan statistic = n × R² (of the residual regression) = 123 × 0.11 = 13.53', 'df = k = number of independent variables = 2 → critical χ² = 5.99', '13.53 > 5.99 → reject H₀ → conditional heteroskedasticity is present'],
+      trap: 'df is k (2), not 1 — so the critical value is 5.99, not 3.84. 0.22 comes from using 2 × 0.11 instead of n × R².', why: 'Your miss: BP = n × R² (you had 60 × 0.2² wrong).' },
+    { at: '1.S6::Detecting Serial Correlation', src: 'L2-R1-CASE16 #1', q: 'Which of the following tests is least likely to be used to detect autocorrelation (serial correlation)?', opts: ['Breusch–Pagan', 'Durbin–Watson', 'Breusch–Godfrey'], a: 0,
+      steps: ['Durbin–Watson and Breusch–Godfrey test for serial correlation', 'Breusch–Pagan tests for (conditional) heteroskedasticity → least likely'],
+      trap: 'Two “Breusch” tests: Pagan = heteroskedasticity (P for “plot of variance”), Godfrey = serial correlation (G for “gaps in time”).', why: 'You flipped this exact pair before (least likely serial-correlation test: BP).' },
+    { at: '1.S5::Effect of Heteroskedasticity on Regression Analysis', src: 'L2-R1-CASE1 #1', q: 'The variance of the error term is correlated with the values of the independent variables (financial data). The most likely effect on statistical inference is a:', opts: ['Type I error, by incorrectly failing to reject H₀ that the coefficients are zero', 'Type II error, by incorrectly failing to reject H₀ that the coefficients are zero', 'Type I error, by incorrectly rejecting H₀ that the coefficients are zero'], a: 2,
+      steps: ['Variance of error linked to X = conditional heteroskedasticity', 'In financial data it makes standard errors too SMALL → t-stats too LARGE', 'Too-large t → you reject H₀ when you should not → Type I error (false significance)'],
+      trap: 'Option A pairs “Type I” with “failing to reject” — that combination is impossible. Type I = wrongly rejecting.', why: 'Heteroskedasticity is in your R1 weak list; this is the consequence side.' },
+    { at: '1.S6::2. Serial Correlation', src: 'L2-R1-CASE7 #6', q: 'In a multiple regression (not an AR model), the residuals show positive serial correlation. The most likely effect is that:', opts: ['standard errors are too high, but the coefficient estimates are consistent', 'standard errors are too low, but the coefficient estimates are consistent', 'standard errors are not affected, but the coefficient estimates are inconsistent'], a: 1,
+      steps: ['Positive serial correlation with no lagged Y as an X → coefficients stay consistent', 'Standard errors are understated → t-stats too high → too many Type I errors'],
+      trap: 'Coefficients become inconsistent only if a lagged dependent variable is an X (e.g. an AR model).', why: 'Serial correlation is one of your repeat R1 misses.' },
+    { at: '1.S1::Assumptions of Multiple Linear Regression', src: 'L2-R1-CASE19 #3', q: 'Which of the following is least likely an assumption of multiple linear regression?', opts: ['There is no linear relationship between the independent variables', 'The error term is normally distributed', 'The dependent variable is not serially correlated'], a: 2,
+      steps: ['Assumptions are about the ERRORS (residuals): no serial correlation, constant variance, normal', 'The dependent variable itself may be serially correlated → C is not an assumption'],
+      trap: 'C sounds right because “no serial correlation” is an assumption — but of the residuals, not of Y.', why: 'Your least-likely misses on assumptions (picked a true statement).' },
+    { at: '1.S4::Misspecification', src: 'L2-R1-CASE22 #2', q: 'Which of the following misspecifications is most likely to cause serial correlation in the residuals?', opts: ['Improper variable scaling', 'Data improperly pooled', 'Improper variable form'], a: 1,
+      steps: ['Serial correlation comes from: omitted variables and improper data pooling', 'Improper scaling → multicollinearity or heteroskedasticity', 'Improper form → heteroskedasticity'],
+      trap: 'Learn the map: Omitted → bias + SC + H; Form → H; Scaling → MC + H; Pooling → SC + H.', why: 'Your miss: pooling across different regimes = misspecification.' },
+    { at: '1.S8::Example — Quarterly EPS with dummy variables', src: 'L2-R1-CASE25 #1', q: 'An analyst regresses daily returns on four dummy variables (Monday, Tuesday, Wednesday, Thursday) plus an intercept. What does the intercept most likely represent?', opts: ['Nothing — only the independent variables drive returns', 'The return on a particular trading day (Friday)', 'The drift of a random walk'], a: 1,
+      steps: ['5 categories → n − 1 = 4 dummies; the left-out category is the base case', 'With all dummies = 0, Y = intercept → the intercept is Friday’s mean return', 'Each dummy coefficient = that day’s return MINUS Friday’s'],
+      trap: 'Adding a 5th dummy with an intercept = perfect multicollinearity.', why: 'Your cards: n categories → n − 1 dummies; one per category + intercept = perfect multicollinearity.' },
+    { at: '1.S1::p-Value', src: 'L2-R1-CASE7 #2', q: 'S = 1.76 + 0.23H − 0.08M, where S = sales ($ thousands) and H = housing starts (thousands). The p-value of H is 0.017. At 5%, the housing-starts coefficient is:', opts: ['different from zero; sales rise by $23 for every 100 housing starts', 'not different from zero; sales rise by $0 for every 100 housing starts', 'different from zero; sales rise by $100 for every 23 housing starts'], a: 0,
+      steps: ['p = 0.017 < 0.05 → reject H₀ → significant', 'Slope 0.23: +1 (thousand starts) → +0.23 ($ thousand sales) = +$230 per 1,000 starts', 'Scale down: +$23 per 100 housing starts'],
+      trap: 'Units! Both variables are in thousands, so the ratio holds: $0.23 per housing start = $23 per 100.', why: 'Your card: “NOT correct” about a coefficient — check the units.' },
+    { at: '1.P::Shortcomings of the Linear Regression: Log Transformations', src: 'L2-R1-CASE10 #1', q: 'Excess return = 0.043 − 0.027 × ln(no. of analysts) + 0.006 × ln(market value). NGR has 2 analysts and a market value of $47 million. If its analyst coverage doubled to 4, the change in the forecast would be closest to:', opts: ['−0.055', '−0.035', '−0.019'], a: 2,
+      steps: ['Only the analyst term changes, so change = −0.027 × [ln(4) − ln(2)]', 'ln(4) − ln(2) = ln(4 ÷ 2) = ln 2 = 0.6931', 'Change = −0.027 × 0.6931 = −0.0187 ≈ −0.019', 'Check: 0.043 + ln(2)(−0.027) + ln(47,000,000)(0.006) = 0.1303 → with ln(4): 0.1116 → 0.1116 − 0.1303 = −0.0187'],
+      trap: 'Don’t multiply −0.027 by the change in analysts (2) — the X is ln(analysts), so use the change in the log.', why: 'Prediction with transformed variables — not yet tested in your log.' },
+  ],
+  'quant.1': [
+    { at: '2.S4::Autoregressive Conditional Heteroskedasticity (ARCH)', src: 'L2-R2-Q5 #5', q: 'An ARCH(1) model of the residuals from an AR model is estimated as ε̂ₜ² = 0.25 + 0.60 ε̂ₜ₋₁² + μₜ. If the residual at time t is 0.9, the forecast variance for t + 1 is:', opts: ['0.736', '0.850', '0.790'], a: 0,
+      steps: ['σ²ₜ₊₁ = a₀ + a₁ × ε̂ₜ²', 'ε̂ₜ² = 0.9² = 0.81', 'σ²ₜ₊₁ = 0.25 + 0.60 × 0.81 = 0.25 + 0.486 = 0.736'],
+      trap: 'Square the residual first: 0.25 + 0.60 × 0.9 = 0.79 is the trap answer.', why: 'Your cards: ARCH test = squared residuals on lagged squared residuals.' },
+    { at: '2.S4::Autoregressive Conditional Heteroskedasticity (ARCH)', src: 'L2-R2-Q5 #7', q: 'An AR(2) model of monthly data has residuals that show a significant ARCH process. The best solution is to:', opts: ['re-estimate the model with generalized least squares', 're-estimate the model using only an AR(1) specification', 're-estimate the model using a seasonal lag'], a: 0,
+      steps: ['ARCH = conditional heteroskedasticity → standard errors are unreliable', 'Fix: generalized least squares (GLS)', 'Changing lags fixes serial correlation, not ARCH'],
+      trap: 'Adding/removing lags is the fix for residual autocorrelation — not for ARCH.', why: 'Your card: ARCH is fixed with GLS, not by adding a lag.' },
+    { at: '2.S2::Steps for Detecting Serial Correlation in AR Models', src: 'L2-R2-CASE7 #1', q: 'An AR(2) model (64 observations) reports a Durbin–Watson statistic and these residual autocorrelations (standard error 0.129 for each): lag 1 = 0.015, lag 2 = −0.101, lag 3 = −0.007, lag 4 = 0.095. Critical t ≈ 2.00. The model is:', opts: ['properly specified, because there is no evidence of autocorrelation in the residuals', 'properly specified, because the Durbin–Watson statistic is not significant', 'not properly specified, because the residuals are autocorrelated and DW is not significant'], a: 0,
+      steps: ['DW is NOT valid for AR models → ignore it', 't = autocorrelation ÷ standard error (0.129)', 'Lag 1: 0.015 ÷ 0.129 = 0.12; lag 2: −0.101 ÷ 0.129 = −0.78; lag 3: −0.007 ÷ 0.129 = −0.05; lag 4: 0.095 ÷ 0.129 = 0.74', 'All |t| < 2.00 → no residual autocorrelation → properly specified'],
+      trap: 'B reaches the right conclusion for the wrong reason — DW can’t be used once a lagged Y is on the right-hand side.', why: 'Your card: Durbin–Watson is not valid for AR models.' },
+    { at: '2.S3::Example — Mean-reverting level', src: 'L2-R2-CASE2 #2', q: 'An AR(1) model is estimated as yₜ = −0.9 − 0.23 yₜ₋₁ + εₜ. The mean-reverting level is closest to:', opts: ['0.77', '−0.73', '1.16'], a: 1,
+      steps: ['Mean-reverting level = b₀ ÷ (1 − b₁)', '= −0.9 ÷ [1 − (−0.23)] = −0.9 ÷ 1.23 = −0.73'],
+      trap: 'b₁ is negative, so 1 − b₁ = 1.23 (not 0.77). Keep both signs.', why: 'Your miss: mean-reverting series → best prediction = b₀ ÷ (1 − b₁).' },
+    { at: '2.S2::Example — Forecasting', src: 'L2-R2-CASE10 #6', q: 'AR(1): Salesₜ = 0.4563 + 0.6874 × Salesₜ₋₁ (sales in $bn). Sales in 20X1 = 1.05. The annualized growth rate between 20X1 and 20X3 is closest to:', opts: ['11%', '12%', '10%'], a: 2,
+      steps: ['20X2 = 0.4563 + 0.6874 × 1.05 = 0.4563 + 0.7218 = 1.18', '20X3 = 0.4563 + 0.6874 × 1.18 = 0.4563 + 0.8111 = 1.27 (chain rule: use the forecast, not an actual)', 'Annualized growth = (1.27 ÷ 1.05)^(1/2) − 1 = (1.2095)^0.5 − 1 = 9.98% ≈ 10%'],
+      trap: 'Two years → take the square root. (1.27 ÷ 1.05) − 1 ≈ 21% is total, not annual.', why: 'Multi-period (chain-rule) forecasts from your AR notes.' },
+    { at: '2.S3::Dickey–Fuller Test', src: 'L2-R2-CASE10 #3', q: 'The Dickey–Fuller test uses H₀: g = 0 (where g = b₁ − 1) with revised critical t-values. Rejecting the null means:', opts: ['there is a unit root and the model cannot be used in its current form', 'there is a unit root, but the model can be used if covariance stationary', 'there is no unit root'], a: 2,
+      steps: ['g = b₁ − 1, so g = 0 ⇔ b₁ = 1 ⇔ unit root', 'H₀ of DF = unit root', 'Reject H₀ → no unit root → series is covariance stationary'],
+      trap: 'The null is the unit root. Rejecting it is the good news.', why: 'Your miss: unit root when the AR(1) slope equals one (flipped).' },
+    { at: '2.S4::Cointegration', src: 'L2-R2-CASE8 #5', q: 'Foreclosure share (Y) has a unit root. You can most reliably regress Y on the change in interest rates (ΔINT) if:', opts: ['ΔINT has a unit root and is cointegrated with Y', 'ΔINT does not have a unit root', 'ΔINT has a unit root and is not cointegrated with Y'], a: 0,
+      steps: ['Neither has a unit root → OK', 'Only one has a unit root → errors nonstationary → unreliable (case B)', 'Both have unit roots, not cointegrated → unreliable (case C)', 'Both have unit roots AND are cointegrated → errors stationary → reliable (case A)'],
+      trap: 'B sounds safe (“no unit root”), but Y already has one — mixing one unit root with none breaks the regression.', why: 'Two-series regression rules: 4 cases, only 2 are usable.' },
+    { at: '2.S1::Log-Linear Trend Models', src: 'L2-R2-CASE5 #4', q: 'A log-linear trend model of quarterly sales gives ln(Sales) = 2.9803 + 0.1371t, estimated over t = 1 to 12. The forecast of sales ($ millions) for the first out-of-sample quarter is:', opts: ['$117.0 million', '$121.2 million', '$109.4 million'], a: 0,
+      steps: ['First out-of-sample period: t = 13', 'ln(Sales) = 2.9803 + 0.1371 × 13 = 2.9803 + 1.7823 = 4.7626', 'Sales = e^4.7626 = 117.0'],
+      trap: 'Remember the last step: the model forecasts ln(sales), so take e^x.', why: 'Your card: compound growth → log-linear.' },
+    { at: '2.S3::In-Sample and Out-of-Sample Forecasts', src: 'L2-R2-CASE10 #5', q: 'When using root mean squared error (RMSE) to evaluate a model’s predictive power, the most appropriate approach is to:', opts: ['use the model with the lowest RMSE calculated on in-sample data', 'use the model with the lowest RMSE calculated on out-of-sample data', 'use the model with the highest RMSE calculated on in-sample data'], a: 1,
+      steps: ['RMSE is an error measure → lower is better', 'Predictive power is judged on data not used to fit the model → out-of-sample'],
+      trap: 'You missed both halves of this before (lowest AND out-of-sample).', why: 'Your card: RMSE — compare out of sample; smallest wins.' },
+    { at: '2.S4::Correcting Seasonality: AR(1) with a Seasonal Lag', src: 'L2-R2-CASE2 #3', q: 'Quarterly change in warranty expense: yₜ = −0.7 − 0.07 yₜ₋₁ + 0.83 yₜ₋₄. The change was 24 in 2004 Q4 and 17 in 2004 Q1; the expense level in 2004 Q4 was $53 million. Expected warranty expense in 2005 Q1 is closest to:', opts: ['$60 million', '$65 million', '$51 million'], a: 1,
+      steps: ['For 2005 Q1: yₜ₋₁ = 2004 Q4 change = 24; yₜ₋₄ = 2004 Q1 change = 17', 'ŷ = −0.7 − 0.07 × 24 + 0.83 × 17 = −0.7 − 1.68 + 14.11 = 11.73', 'Model is in changes → level = 53 + 11.73 = $64.73 m ≈ $65 m'],
+      trap: 'The model predicts the CHANGE. Add it to the last level.', why: 'Your miss: differenced seasonal forecast — predict the change, then add to the last level.' },
+    { at: '2.S1::Limitations of Trend Models', src: 'L2-R2-CASE2 #1', q: 'A linear trend model has a slope t-statistic of 1.37. Supervisors would not want to use the trend model for all of the following reasons EXCEPT:', opts: ['it is a linear trend model, and log-linear models are always superior', 'it gives no insight into the underlying dynamics of the dependent variable', 'the slope coefficient is not significant'], a: 0,
+      steps: ['B is a real limitation: a time trend only describes movement, not causes', 'C is real: t = 1.37 < ~2 → slope not significant', 'A is false: log-linear is better only for constant growth RATES — not “always”'],
+      trap: 'EXCEPT question: pick the false statement. “Always” is the tell.', why: 'Your least-accurate misses on trend models.' },
+  ],
+  'quant.3': [
+    { at: '4.S3::Measuring Performance: Error Analysis', src: 'L2-R4-Case 1 #2', q: 'Confusion matrix (N = 474), positive = default: predicted default & actual default (TP) = 307; predicted default & no default (FP) = 31; predicted no default & actual default (FN) = 23; predicted no default & no default (TN) = 113. The analyst worries the model says “no default” when the bond defaults. The model’s recall is closest to:', opts: ['93%', '83%', '73%'], a: 0,
+      steps: ['The worry = false negatives → recall', 'Recall = TP ÷ (TP + FN) = 307 ÷ (307 + 23) = 307 ÷ 330 = 0.930 → 93%', '(Precision would be TP ÷ (TP + FP) = 307 ÷ 338 = 0.908)'],
+      trap: 'Recall divides by what was ACTUALLY positive; precision by what you PREDICTED positive.', why: 'Your card: precision ÷ predicted, recall ÷ actual — you mixed them before.' },
+    { at: '4.S3::Measuring Performance: Error Analysis', src: 'L2-R4-Case 1 #3', q: 'Using the same matrix (TP 307, FP 31, FN 23, TN 113), the model’s F1 score is closest to:', opts: ['82%', '92%', '72%'], a: 1,
+      steps: ['P = 307 ÷ 338 = 0.9083; R = 307 ÷ 330 = 0.9303', 'F1 = (2 × P × R) ÷ (P + R) = (2 × 0.9083 × 0.9303) ÷ (0.9083 + 0.9303)', '= 1.6900 ÷ 1.8386 = 0.919 → 92%', '(Accuracy = (307 + 113) ÷ 474 = 88.6% — a different measure)'],
+      trap: 'F1 is the harmonic mean of P and R, not accuracy.', why: 'Mock miss: F1 = 2PR ÷ (P + R), not accuracy.' },
+  ],
+};
 // Tuition weak spots: questions the user got wrong in external tuition tests, diagnosed and
 // grouped by the misconception behind them — one entry per concept, not per question. `module`
 // places the card inside that module's group in the notes accordion. Rendered rose, visually
@@ -42940,6 +43045,43 @@ function wkPlace(topic, m) {
   }
   return { mod: m.module, anchor: '' };
 }
+// 🎲 Practice question placement: after the last block its `at` covers (a sub-heading covers its whole
+// sub-section), skipping folded module quizzes; '' = top of the session.
+function gqPlace(topic, g) {
+  const { mod, hit } = noteFind(topic, '', g.at), s = ((CONTENT[topic] && CONTENT[topic].flow) || []).find(x => x.module === mod);
+  if (!s) return { mod: '', anchor: '' };
+  const anchors = exAnchors(topic, mod), ok = hit.filter(h => { const i = anchors.indexOf(h); return i >= 0 && !qzIsBlock(s.blocks[i]); });
+  return { mod, anchor: ok.length ? ok[ok.length - 1] : '' };
+}
+// Tap an option to answer: the card then marks the right one (and your pick) and opens the working.
+// Nothing is saved — these questions are practice only.
+function gqCardHtml(topic, g, gi) {
+  const id = 'gq-' + topic + '-' + gi;
+  return `
+    <div class="gq-card" data-gq="${escapeHtml(id)}">
+      <div class="gq-bar"><span class="gq-tag">🎲 Practice question</span><span class="gq-src">${escapeHtml(g.src)}</span></div>
+      <div class="gq-q">${escapeHtml(g.q)}</div>
+      <ul class="gq-opts">${g.opts.map((o, i) => `<li><button type="button" class="gq-opt${i === g.a ? ' right' : ''}" data-gqi="${i}"><b>${'ABC'[i]}</b><span>${escapeHtml(o)}</span></button></li>`).join('')}</ul>
+      <button type="button" class="rv-check-link gq-show" data-gqi="-1" data-new="f-guess-q">Show answer ▸</button>
+      <div class="gq-ans">
+        <div class="gq-sec">Working</div>
+        <div class="weak-text"><ol>${g.steps.map(t => '<li>' + escapeHtml(t) + '</li>').join('')}</ol></div>
+        <div class="gq-sec">Trap</div><div class="weak-text">${escapeHtml(g.trap)}</div>
+        <div class="gq-sec">Why this one</div><div class="weak-text">${escapeHtml(g.why)}</div>
+      </div>
+    </div>`;
+}
+function gqInit() {
+  document.addEventListener('click', e => {
+    const t = e.target.closest && e.target.closest('[data-gqi]');
+    if (!t) return;
+    const card = t.closest('.gq-card');
+    if (!card || card.classList.contains('gq-done')) return;
+    e.preventDefault();
+    if (t.classList.contains('gq-opt')) t.classList.add('picked');
+    card.classList.add('gq-done');
+  });
+}
 // The ⚠ tag on a highlighted block: one button per weak spot that points at it.
 function wkSpotTags(list) {
   return (list || []).map(m => {
@@ -43001,7 +43143,7 @@ function nwUnseenIn(topic) {
 function nwStyle() {
   const ids = {};
   document.querySelectorAll('[data-new]').forEach(el => { ids[el.getAttribute('data-new')] = 1; });
-  ['f-chart-focus', 'f-mock-sess', 'f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart', 'f-mock-tracker'].forEach(id => { ids[id] = 1; });
+  ['f-chart-focus', 'f-mock-sess', 'f-weak-star', 'f-expand-all', 'f-reading-mode', 'f-trim', 'f-test-fold', 'f-sub-star', 'f-quiz-fold', 'f-test-log', 'f-plan', 'f-weak-hide', 'f-test-filter', 'f-got', 'f-show-got', 'f-all-stars', 'f-podcasts', 'f-pod-reading', 'f-pod-session', 'f-review-list', 'f-test-levels', 'f-dia-fill', 'f-mocks', 'f-mock-review', 'f-mock-chart', 'f-mock-tracker', 'f-guess-q'].forEach(id => { ids[id] = 1; });
   let st = document.getElementById('nwStyle');
   if (!st) { st = document.createElement('style'); st.id = 'nwStyle'; document.head.appendChild(st); }
   st.textContent = Object.keys(ids).filter(id => !nwSeen(id)).map(id => `[data-new="${id}"]::after`).join(',\n') +
@@ -43944,6 +44086,8 @@ function renderFlow(key) {
     const hasF = exFormulas(key, s.module).length, hasN = exNotes(key, s.module).length;
     const top = [], after = {};
     misses.forEach(m => { const w = wkPlace(key, m); if (w.mod !== s.module) return; if (w.anchor) (after[w.anchor] = after[w.anchor] || []).push(m); else top.push(m); });
+    const gqAfter = {}, gqTop = [];
+    (GUESS_Q[key] || []).forEach((g, gi) => { const w = gqPlace(key, g); if (w.mod !== s.module) return; if (w.anchor) (gqAfter[w.anchor] = gqAfter[w.anchor] || []).push([g, gi]); else gqTop.push([g, gi]); });
     return `${safeHtml(() => pdSessionHtml(key, s.module))}
     <section class="nb-session" data-group="${escapeHtml(s.module)}">
       <div class="nb-session-head">
@@ -43954,9 +44098,9 @@ function renderFlow(key) {
         ${safeHtml(() => tlChipHtml(tl.find(x => x.mod === s.module)))}${safeHtml(() => mkChipHtml(key, s.module))}
         ${stBtn(stKey(key, s.module, 'section'), 'section', false, 'sess')}
       </div>
-      ${top.map(m => renderWeakCard(m, key)).join('')}
+      ${top.map(m => renderWeakCard(m, key)).join('')}${gqTop.map(([g, gi]) => gqCardHtml(key, g, gi)).join('')}
       ${qzFold(s.blocks, (b, i) => {
-        const cards = (after[anchors[i]] || []).map(m => renderWeakCard(m, key)).join('');
+        const cards = (after[anchors[i]] || []).map(m => renderWeakCard(m, key)).join('') + (gqAfter[anchors[i]] || []).map(([g, gi]) => gqCardHtml(key, g, gi)).join('');
         const nw = b.new && !nwSeen(nwContentId(key, s.module, anchors[i])) ? nwContentId(key, s.module, anchors[i]) : '';
         const nwAttr = nw ? ` data-newc="${escapeHtml(nw)}"` : '';
         const wkc = spots[s.module + '|' + anchors[i]] ? ' nb-wk' : '', wk = spots['tag|' + s.module + '|' + anchors[i]];
@@ -46602,6 +46746,7 @@ plInit();
 nwInit();
 qzInit();
 wkInit();
+gqInit();
 mmInit();
 aiInit();
 pdInit();
