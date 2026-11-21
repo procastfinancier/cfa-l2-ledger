@@ -240,6 +240,7 @@ try { var t = localStorage.getItem('ledgerTheme'); if (t === 'dark' || t === 'li
   .wk-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 7px; }
   .wk-bar .miss-tag { margin-bottom: 0; }
   .wk-star .st-btn { margin: 0; }
+  .wk-folded { font-family: var(--mono); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faint); border: 1px solid var(--line); border-radius: 8px; padding: 1px 6px; }
   /* 🧭 Mind map */
   .mm-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; width: 100%; margin: 0 0 14px; padding: 10px 14px; font: 13.5px var(--sans); color: var(--ink); text-align: left; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--violet); border-radius: 10px; cursor: pointer; }
   .mm-jump:hover, .mm-jump:focus-visible { border-color: var(--violet); }
@@ -43643,11 +43644,30 @@ function accChipHtml(qs) {
 // One tuition weak spot: the questions it cost, why the wrong pick felt right, the correct
 // logic, and a step-by-step way to tackle that question type. ☆ adds it to the exam-day set.
 function wkKey(topic, m) { return stKey(topic, m.module, 'w:' + exHash(m.title)); }
+// Final-revision trim for Ethics (2026-11-21, the user's choice): only these cards — one per Standard missed
+// repeatedly across tests and mocks — stay open. Every other Ethics card starts folded to its title line
+// (Show ▸ opens it); nothing is removed. Matched by title prefix.
+const ETH_KEEP = [
+  'The Code is six broad duties',
+  'I(A): don’t take part in a violation',
+  'What is public: mosaic conclusions',
+  'Holding MNPI',
+  'III(A): your duty is to the beneficiaries',
+  'III(A) also covers soft dollars',
+  'III(B) fair allocation',
+  'III(D): true past results',
+  'IV(A): you may prepare to leave',
+  'V(A): a normal, reasonable process',
+  'After giving a recommendation, V(C)',
+  'Free tax prep from the accountant',
+];
+function wkMinor(topic, m) { return /^ethics\./.test(topic) && !ETH_KEEP.some(p => (m.title || '').indexOf(p) === 0); }
 function renderWeakCard(m, topic) {
   if (!m._at) wkSpots(topic);
+  const minor = wkMinor(topic, m);
   return `
-    <div class="weak-card wk" data-wkid="${wkId(m)}">
-      <div class="wk-bar">${m.mock ? `<span class="miss-tag mock-tag">🎯 Mock miss · ${escapeHtml(m.mock)}</span>` : '<span class="miss-tag">Tuition weak spot</span>'}<span class="wk-star" data-new="f-weak-star">${stBtn(wkKey(topic, m), 'Weak spot', false, 'line')}</span><span class="wk-mini">${escapeHtml(m.title)}</span>
+    <div class="weak-card wk${minor && !wkHide ? ' wk-flip' : ''}" data-wkid="${wkId(m)}">
+      <div class="wk-bar">${m.mock ? `<span class="miss-tag mock-tag">🎯 Mock miss · ${escapeHtml(m.mock)}</span>` : '<span class="miss-tag">Tuition weak spot</span>'}${minor ? '<span class="wk-folded" title="Folded for final revision: not one of the Ethics standards you miss repeatedly">Folded</span>' : ''}<span class="wk-star" data-new="f-weak-star">${stBtn(wkKey(topic, m), 'Weak spot', false, 'line')}</span><span class="wk-mini">${escapeHtml(m.title)}</span>
         <button type="button" class="rv-check-link wk-b-show" data-wk="open">Show ▸</button>
         <button type="button" class="rv-check-link wk-b-hide" data-wk="open" data-new="f-weak-hide">Hide ▴</button>
         <button type="button" class="rv-check-link wk-b-hideall" data-wk="hideall">Hide all weak spots</button>
